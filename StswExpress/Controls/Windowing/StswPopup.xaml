@@ -32,7 +32,7 @@
                        CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
-            <se:StswDirectionView x:Name="PART_ScrollViewer"
+            <se:StswDirectionView x:Name="PART_ScrollView"
                                   BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                   Focusable="False"
                                   HorizontalScrollBarVisibility="Disabled"
@@ -51,7 +51,7 @@
                        CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
-            <se:StswScrollView x:Name="PART_ScrollViewer"
+            <se:StswScrollView x:Name="PART_ScrollView"
                                AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"

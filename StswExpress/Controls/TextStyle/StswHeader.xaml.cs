@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control functioning as header for multiple other controls like buttons, expanders and more.
 /// </summary>

@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Used for color manipulation and conversion based on the provided parameters.
 /// Examples: 'B-70% S50%', 'A50% B50% S0%'

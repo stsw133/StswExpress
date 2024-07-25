@@ -24,7 +24,7 @@
             <se:StswDecimalBox Format="0" Margin="0 0 0 3" Value="{Binding ShowDuration}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="{Binding ShowDuration}">
+        <se:StswText HorizontalAlignment="Center" Padding="5" Text=". . . . ." ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="{Binding ShowDuration}">
             <se:StswText.ToolTip>
                 <se:StswToolTip IsMoveable="{Binding IsMoveable}">
                     <se:StswText TextWrapping="Wrap" Width="300">

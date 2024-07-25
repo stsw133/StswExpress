@@ -151,7 +151,7 @@
                               Placement="Bottom"
                               PlacementTarget="{Binding ElementName=PART_MainBorder}"
                               PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
-                              ScrollType="DirectionViewer">
+                              ScrollType="DirectionView">
                     <Grid RenderOptions.ClearTypeHint="Enabled">
                         <ItemsPresenter x:Name="ItemsPresenter"
                                         Grid.IsSharedSizeScope="True"
@@ -353,7 +353,7 @@
                               IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                               Placement="Right"
                               PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
-                              ScrollType="DirectionViewer">
+                              ScrollType="DirectionView">
                     <Grid RenderOptions.ClearTypeHint="Enabled">
                         <ItemsPresenter x:Name="ItemsPresenter"
                                         Grid.IsSharedSizeScope="True"

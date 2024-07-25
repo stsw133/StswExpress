@@ -6,8 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control behaving like content dialog with various properties for customization.
 /// </summary>

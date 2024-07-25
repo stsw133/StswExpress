@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides functionality for managing database connections and methods to import and export them.
 /// </summary>

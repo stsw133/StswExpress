@@ -57,6 +57,15 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     }
     private AddressModel? _address;
 
+    /// DefaultDiscount
+    [StswExport(nameof(DefaultDiscount))]
+    public decimal DefaultDiscount
+    {
+        get => _defaultDiscount;
+        set => SetProperty(ref _defaultDiscount, value);
+    }
+    private decimal _defaultDiscount;
+
     /// IsArchival
     [StswExport("Is archival")]
     public bool IsArchival

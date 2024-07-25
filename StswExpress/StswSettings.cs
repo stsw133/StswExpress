@@ -2,7 +2,6 @@
 using System.Globalization;
 
 namespace StswExpress;
-
 public sealed partial class StswSettings
 {
     public StswSettings()

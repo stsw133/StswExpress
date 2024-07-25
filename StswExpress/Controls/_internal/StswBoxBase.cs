@@ -1,9 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StswExpress;
+
+/// <summary>
+/// 
+/// </summary>
 public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswBoxBase()
@@ -102,7 +107,6 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
             typeof(StswBoxBase)
         );
 
-    /*
     /// <summary>
     /// Gets or sets the text value of the control.
     /// </summary>
@@ -115,7 +119,6 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         get => base.Text;
         internal set => base.Text = value;
     }
-    */
     #endregion
 
     #region Style properties
@@ -150,6 +153,21 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswBoxBase)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between box and function buttons.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswBoxBase)
         );
     #endregion

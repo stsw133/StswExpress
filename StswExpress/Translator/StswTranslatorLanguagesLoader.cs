@@ -2,8 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>

@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>

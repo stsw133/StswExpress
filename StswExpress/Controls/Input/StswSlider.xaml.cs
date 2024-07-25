@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that lets the user select from a range of values by moving a Thumb control along a track.
 /// </summary>

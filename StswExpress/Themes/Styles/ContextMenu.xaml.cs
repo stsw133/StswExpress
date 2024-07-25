@@ -2,7 +2,6 @@
 using System.Windows;
 
 namespace StswExpress;
-
 partial class ContextMenu
 {
     public ContextMenu()

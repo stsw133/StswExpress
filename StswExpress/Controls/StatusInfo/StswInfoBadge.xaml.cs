@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that can be customized to display a number, icon, or a simple dot.
 /// </summary>
@@ -36,15 +36,15 @@ public class StswInfoBadge : Control, IStswCornerControl
     /// </returns>
     public static string SeparateByThousands(int number)
     {
-        if (number.Between(0, 999))
+        if (Math.Abs(number).Between(0, 999))
             return $"{number}";
 
         number /= 1000;
-        if (number.Between(0, 999))
+        if (Math.Abs(number).Between(0, 999))
             return $"{number}k";
 
         number /= 1000;
-        if (number.Between(0, 999))
+        if (Math.Abs(number).Between(0, 999))
             return $"{number}M";
 
         number /= 1000;

@@ -2,8 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Data model for chart items.
 /// </summary>

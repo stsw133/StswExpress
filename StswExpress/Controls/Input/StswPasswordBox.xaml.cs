@@ -4,8 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to enter a secured password.
 /// </summary>

@@ -41,7 +41,7 @@
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
                         <!-- items -->
-                        <se:StswScrollView x:Name="PART_ScrollViewer" DockPanel.Dock="Top"
+                        <se:StswScrollView x:Name="PART_ScrollView" DockPanel.Dock="Top"
                                            AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"

@@ -11,13 +11,12 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <!-- <Setter Property="SeparatorThickness" Value="2"/> -->
+        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         
-        <!-- <Setter Property="Increment" Value="1"/> -->
-        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -50,7 +49,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                              BorderThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"
+                                              BorderThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
@@ -124,20 +123,13 @@
 
     <Style TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
-        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
     </Style>
-<!--
+    <!--
     <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
-        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
     </Style>
-
     <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
-        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
     </Style>
--->
+    -->
 </ResourceDictionary>

@@ -15,14 +15,27 @@
             Represents a custom outlined text control with various text formatting options.
         </local:ControlsBase.Description>
         <!-- properties -->
-
+        <local:ControlsBase.Properties>
+            <!-- Fill -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Fill, Type={x:Type se:StswOutlinedText}}"/>
+            <se:StswColorBox Margin="0 0 0 3" SelectedColor="{Binding Fill}"/>
+            <!-- FontSize -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FontSize, Type={x:Type se:StswOutlinedText}}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Minimum="1" Value="{Binding FontSize}"/>
+            <!-- Stroke -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Stroke, Type={x:Type se:StswOutlinedText}}"/>
+            <se:StswColorBox Margin="0 0 0 3" SelectedColor="{Binding Stroke}"/>
+            <!-- StrokeThickness -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StrokeThickness, Type={x:Type se:StswOutlinedText}}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding StrokeThickness}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswOutlinedText Fill="{DynamicResource StswColor.Primary}"
-                             FontSize="30"
+        <se:StswOutlinedText Fill="{Binding Fill, Converter={x:Static se:StswColorConverter.Instance}}"
+                             FontSize="{Binding FontSize}"
                              IsEnabled="{Binding IsEnabled}"
                              Margin="5"
-                             Stroke="{DynamicResource StswText.Static.Foreground}"
-                             StrokeThickness="2"
+                             Stroke="{Binding Stroke, Converter={x:Static se:StswColorConverter.Instance}}"
+                             StrokeThickness="{Binding StrokeThickness}"
                              Text="Lorem ipsum dolor sit amet..."
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"/>

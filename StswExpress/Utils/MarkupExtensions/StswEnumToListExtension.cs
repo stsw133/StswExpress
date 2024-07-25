@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A markup extension that converts an enum type into a list of selection items.
 /// </summary>

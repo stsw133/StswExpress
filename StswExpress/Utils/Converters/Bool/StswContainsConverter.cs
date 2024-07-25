@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Checks if the value parameter contains the converter parameter.
 /// Use '!' at the beginning of the converter parameter to invert the output value.

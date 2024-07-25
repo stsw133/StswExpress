@@ -5,8 +5,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom popup control with additional functionality and customization options.
 /// </summary>

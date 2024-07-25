@@ -9,8 +9,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control for displaying a system tray icon with various properties for customization.
 /// </summary>

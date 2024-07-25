@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Defines properties for enabling corner clipping and specifying corner radius in controls
 /// that implement the <see cref="StswBorder"/> control to clip content within the border area.

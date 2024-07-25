@@ -8,8 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Shell;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>

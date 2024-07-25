@@ -6,8 +6,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a color selector control that provides a selection of standard and theme colors.
 /// </summary>

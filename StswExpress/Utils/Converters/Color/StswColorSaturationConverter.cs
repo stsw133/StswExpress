@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Takes a color value as input and changes its saturation based on the provided parameters:
 /// Use nothing or '%' at the end of the converter parameter to increase the saturation of the output color.

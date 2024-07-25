@@ -22,6 +22,9 @@
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <!-- Orientation -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSlider}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
             <!-- SelectionStart -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionStart, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionStart}"/>
@@ -39,6 +42,7 @@
                        Margin="5"
                        Maximum="{Binding Maximum}"
                        Minimum="{Binding Minimum}"
+                       Orientation="{Binding Orientation}"
                        SelectionEnd="{Binding SelectionEnd}"
                        SelectionStart="{Binding SelectionStart}"
                        TickFrequency="{Binding TickFrequency}"

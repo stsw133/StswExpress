@@ -1,5 +1,4 @@
-﻿namespace StswExpress;
-
+﻿namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>

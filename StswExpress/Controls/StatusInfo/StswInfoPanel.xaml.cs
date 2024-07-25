@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace StswExpress;
 
@@ -17,8 +19,6 @@ public class StswInfoPanel : ListBox, IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? _buttonCopyToClipboard;
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -26,8 +26,22 @@ public class StswInfoPanel : ListBox, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (GetTemplateChild("PART_ButtonCopyAllToClipboard") is ButtonBase btnCopyAllToClipboard)
+            btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
         if (GetTemplateChild("PART_ButtonCloseAll") is ButtonBase btnCloseAll)
             btnCloseAll.Click += PART_ButtonCloseAll_Click;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        var sb = new StringBuilder();
+        foreach (var infoBar in StswFn.FindVisualChildren<StswInfoBar>(this))
+            sb.AppendLine($"{infoBar.Title}{Environment.NewLine}{infoBar.Text}");
+
+        Clipboard.SetText(sb.ToString());
     }
 
     /// <summary>
@@ -73,8 +87,19 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsMinimized),
             typeof(bool?),
-            typeof(StswInfoPanel)
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(bool?),
+                FrameworkPropertyMetadataOptions.None,
+                OnIsMinimizedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    public static void OnIsMinimizedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswInfoPanel stsw)
+        {
+            foreach (var infoBar in StswFn.FindVisualChildren<StswInfoBar>(stsw))
+                infoBar.IsMinimized = (bool?)e.NewValue;
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control panel is visible or not.

@@ -6,8 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Converter to translate a the binding textID (in CurrentLanguage or if specified in LanguageID).
 /// If translation doesn't exist return DefaultText.

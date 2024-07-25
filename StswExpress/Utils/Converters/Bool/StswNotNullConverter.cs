@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Checks if the value parameter is not null.
 /// <br/>

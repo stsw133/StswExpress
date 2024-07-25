@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
 /// </summary>

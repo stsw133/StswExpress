@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A XAML markup extension that allows for the inline instantiation of a specified class type.
 /// </summary>

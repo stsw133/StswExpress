@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides a way to use inline delegate-based multi-value converters in XAML.
 /// </summary>

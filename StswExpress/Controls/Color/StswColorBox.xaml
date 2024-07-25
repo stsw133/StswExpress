@@ -20,7 +20,7 @@
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         
         <Setter Property="IsAlphaEnabled" Value="True"/>
-        <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>

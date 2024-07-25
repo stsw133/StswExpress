@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides a simple way to write log messages to a file.
 /// </summary>

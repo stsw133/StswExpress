@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control representing that the app is loading content or performing another process that the user needs to wait on.
 /// </summary>

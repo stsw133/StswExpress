@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to select a single option from a group of mutually exclusive options.
 /// </summary>

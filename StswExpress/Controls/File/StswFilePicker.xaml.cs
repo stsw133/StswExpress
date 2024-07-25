@@ -11,8 +11,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// A control that allows users to select file or directory path with additional features.
 /// </summary>
@@ -311,21 +310,6 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(IsFileSizeVisible),
             typeof(bool),
-            typeof(StswFilePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
             typeof(StswFilePicker)
         );
     #endregion

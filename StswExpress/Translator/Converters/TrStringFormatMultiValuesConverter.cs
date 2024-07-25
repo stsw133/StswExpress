@@ -6,8 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>

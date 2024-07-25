@@ -13,7 +13,9 @@ public class StswWindowContext : ControlsContext
     {
         var window = new StswWindow()
         {
+            Owner = StswApp.StswWindow,
             Title = "New window",
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
             Height = 450,
             Width = 750
         };

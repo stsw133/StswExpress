@@ -3,9 +3,8 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows;
-using System.ComponentModel;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Compares the value parameter to the converter parameter.
 /// Use '!' at the beginning of the converter parameter to invert the output value.

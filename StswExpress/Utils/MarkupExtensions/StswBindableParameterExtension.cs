@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A XAML markup extension that supports bindable parameters in multi-bindings.
 /// </summary>

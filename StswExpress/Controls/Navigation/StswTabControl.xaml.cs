@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="TabControl"/> class with additional functionality.
 /// </summary>

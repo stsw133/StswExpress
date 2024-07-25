@@ -67,7 +67,7 @@
                                       Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                       Placement="Center"
                                       PlacementTarget="{Binding ElementName=PART_MainBorder}"
-                                      ScrollType="DirectionViewer"
+                                      ScrollType="DirectionView"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       StaysOpen="False">
                             <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>

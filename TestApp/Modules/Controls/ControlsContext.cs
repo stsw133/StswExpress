@@ -23,7 +23,8 @@ public class ControlsContext : StswObservableObject
         try
         {
             var style = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
-            ThisControlSetters = GetAllSetters(style).OfType<Setter>().ToList();
+            if (style != null)
+                ThisControlSetters = GetAllSetters(style).OfType<Setter>().ToList();
         }
         catch { }
 

@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Represents a query to be executed against a SQL database.
 /// </summary>

@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a collection of items in a vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.

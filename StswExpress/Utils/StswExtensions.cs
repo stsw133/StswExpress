@@ -21,7 +21,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Collection of extension methods for various types and objects. These methods simplify common tasks and provide additional functionality beyond what is available in the standard WPF API.
 /// </summary>
@@ -47,12 +47,8 @@ public static class StswExtensions
     /// <param name="start">The start of the range.</param>
     /// <param name="end">The end of the range.</param>
     /// <returns><see langword="true"/> if the value is between the start and end values; otherwise, <see langword="false"/>.</returns>
-    public static bool Between<T>(this T value, T start, T end)
+    public static bool Between<T>(this T? value, T? start, T? end)
     {
-        ArgumentNullException.ThrowIfNull(value);
-        ArgumentNullException.ThrowIfNull(start);
-        ArgumentNullException.ThrowIfNull(end);
-
         var comparer = Comparer<T>.Default;
         return comparer.Compare(value, start) >= 0 && comparer.Compare(value, end) <= 0;
     }

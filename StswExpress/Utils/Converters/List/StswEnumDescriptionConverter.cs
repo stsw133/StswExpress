@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A converter that converts an enumeration value to its description, using the <see cref="DescriptionAttribute"/>.
 /// If no description is found, it returns the enumeration value as a string.

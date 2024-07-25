@@ -5,8 +5,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// A control that allows users to select and display time.
 /// </summary>
@@ -353,22 +352,5 @@ public class StswTimePicker : StswBoxBase
             else stsw.SelectedTime = new TimeSpan(0, 0, stsw.SelectedTimeS);
         }
     }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswTimePicker)
-        );
     #endregion
 }

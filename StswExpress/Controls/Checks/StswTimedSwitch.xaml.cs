@@ -3,8 +3,7 @@ using System.Windows;
 using System.Timers;
 using System;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that manages the display of different content for a specified duration when the timer is enabled.
 /// </summary>

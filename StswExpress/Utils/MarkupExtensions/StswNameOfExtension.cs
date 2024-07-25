@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A XAML markup extension that retrieves the name of a specified property or field as a string.
 /// </summary>

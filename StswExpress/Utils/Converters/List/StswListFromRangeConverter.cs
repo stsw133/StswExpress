@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Converts a range specified by the parameter to a list of integers for data binding purposes.
 /// The converter expects the parameter to be a string representing a range in the format "start-end" or "end" (e.g., "2-5" or "3").

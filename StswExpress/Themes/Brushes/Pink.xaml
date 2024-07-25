@@ -295,7 +295,8 @@
     <SolidColorBrush x:Key="StswRating.MouseOver.Border" Color="#423"/>
     <SolidColorBrush x:Key="StswRating.Checked.Background" Color="#f688ad"/>
     <SolidColorBrush x:Key="StswRating.Checked.Border" Color="#D55"/>
-    
+
+    <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#ECD"/>
     <LinearGradientBrush x:Key="StswSlider.Static.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>
@@ -307,19 +308,19 @@
     <SolidColorBrush x:Key="StswSlider.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswSlider.Range.Static.Background" Color="#f688ad"/>
     <SolidColorBrush x:Key="StswSlider.Range.Disabled.Background" Color="#fbc6d8"/>
-    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="#ECD"/>
+    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="#f9b8ce"/>
     <LinearGradientBrush x:Key="StswSlider.Thumb.Static.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>
         <GradientStop Color="#C69" Offset="0.5"/>
         <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Background" Color="#DBC"/>
+    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Background" Color="#f2a6bf"/>
     <LinearGradientBrush x:Key="StswSlider.Thumb.MouseOver.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#C44" Offset="0"/>
         <GradientStop Color="#B58" Offset="0.5"/>
         <GradientStop Color="#C44" Offset="1"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Background" Color="#CAB"/>
+    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Background" Color="#ec799f"/>
     <LinearGradientBrush x:Key="StswSlider.Thumb.Dragging.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#B33" Offset="0"/>
         <GradientStop Color="#A47" Offset="0.5"/>

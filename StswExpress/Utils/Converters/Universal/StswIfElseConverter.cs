@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Takes in an input value and a set of parameters in the form of a string separated by a tilde (~) character.
 /// The first part is the condition to evaluate against the input value,

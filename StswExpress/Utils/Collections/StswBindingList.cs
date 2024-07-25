@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// An extension of <see cref="BindingList{T}"/> that adds tracking of changes to the collection items' states.
 /// </summary>

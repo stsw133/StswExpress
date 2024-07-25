@@ -3,8 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>

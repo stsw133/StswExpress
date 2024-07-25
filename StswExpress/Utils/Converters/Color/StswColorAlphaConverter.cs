@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Takes a color value as input and changes its alpha based on the provided parameters:
 /// Use nothing at the beginning of the converter parameter to set the alpha of the output color.

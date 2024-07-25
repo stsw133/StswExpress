@@ -6,8 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom outlined text control with various text formatting options.
 /// </summary>

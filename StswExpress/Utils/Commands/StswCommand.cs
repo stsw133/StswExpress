@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A command implementation (with parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
 /// </summary>

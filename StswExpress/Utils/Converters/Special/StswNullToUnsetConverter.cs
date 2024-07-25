@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides a way to convert <see langword="null"/> values to <see cref="DependencyProperty.UnsetValue"/>.
 /// </summary>

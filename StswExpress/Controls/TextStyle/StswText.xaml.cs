@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that is displaying a text.
 /// </summary>

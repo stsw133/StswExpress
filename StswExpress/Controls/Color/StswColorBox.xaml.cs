@@ -5,8 +5,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
 /// </summary>
@@ -112,22 +111,5 @@ public class StswColorBox : StswBoxBase
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswColorBox)
-        );
     #endregion
 }

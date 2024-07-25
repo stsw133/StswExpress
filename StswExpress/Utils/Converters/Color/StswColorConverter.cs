@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Converts color values between different types, including <see cref="Color"/>, <see cref="System.Drawing.Color"/>, <see cref="SolidColorBrush"/>, and HTML color strings.
 /// </summary>
@@ -54,6 +55,9 @@ public class StswColorConverter : MarkupExtension, IValueConverter
     /// <returns>The converted <see cref="Color"/>.</returns>
     internal static Color GetColorFromValue(object? value)
     {
+        if (value == DependencyProperty.UnsetValue)
+            return Colors.Transparent;
+
         return value switch
         {
             Color c => c,

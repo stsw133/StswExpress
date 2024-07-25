@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A custom MarkupExtension that allows creating a list of values from a comma-separated string for XAML.
 /// </summary>

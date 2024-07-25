@@ -20,7 +20,7 @@
         
         <Setter Property="IsShiftingEnabled" Value="False"/>
         <Setter Property="PathType" Value="File"/>
-        <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus}"/>
+        <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -125,7 +125,7 @@
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
-                        <Trigger Property="Text" Value="{x:Null}">
+                        <Trigger Property="Text" Value="">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">

@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
 /// </summary>

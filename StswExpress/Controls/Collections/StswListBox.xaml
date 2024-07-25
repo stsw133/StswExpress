@@ -37,7 +37,7 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollView x:Name="PART_ScrollViewer"
+                        <se:StswScrollView x:Name="PART_ScrollView"
                                            AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"

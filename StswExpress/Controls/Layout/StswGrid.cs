@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on the child elements.
 /// </remarks>

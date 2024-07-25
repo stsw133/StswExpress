@@ -21,7 +21,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
             <!-- IsMinimized -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMinimized, Type={x:Type se:StswInfoBar}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized}" IsThreeState="True"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized, Mode=TwoWay}" IsThreeState="True"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBar}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
@@ -29,7 +29,7 @@
         <!-- content -->
         <se:StswInfoBar IsClosable="{Binding IsClosable}"
                         IsEnabled="{Binding IsEnabled}"
-                        IsMinimized="{Binding IsMinimized}"
+                        IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
                         Margin="5"
                         Text="{Binding Text}"
                         Title="{Binding Title}"

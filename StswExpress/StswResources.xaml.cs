@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A class for merging all StswExpress's resource dictionaries.
 /// </summary>

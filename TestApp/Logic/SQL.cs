@@ -6,6 +6,8 @@ namespace TestApp;
 
 internal static class SQL
 {
+    //private static StswDatabaseModel DbMain = new() { Server = "", Database = "", Login = "", Password = "" };
+
     static SQL()
     {
         if (StswDatabases.Current == null)
@@ -28,6 +30,7 @@ internal static class SQL
                     PostCode varchar(10),
                     City varchar(30),
                     Street varchar(60),
+                    DefaultDiscount decimal(5,2),
                     IsArchival bit,
                     CreateDT datetime,
                     Pdf varbinary(max)
@@ -44,6 +47,7 @@ internal static class SQL
                 a.PostCode [{nameof(ContractorModel.Address)}/{nameof(AddressModel.PostCode)}],
                 a.City [{nameof(ContractorModel.Address)}/{nameof(AddressModel.City)}],
                 a.Street [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Street)}],
+                a.DefaultDiscount [{nameof(ContractorModel.DefaultDiscount)}],
                 a.IsArchival [{nameof(ContractorModel.IsArchival)}],
                 a.CreateDT [{nameof(ContractorModel.CreateDT)}]
             from dbo.StswExpressTEST_Contractors a with(nolock)

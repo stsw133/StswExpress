@@ -7,8 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
 /// </summary>

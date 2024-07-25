@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>

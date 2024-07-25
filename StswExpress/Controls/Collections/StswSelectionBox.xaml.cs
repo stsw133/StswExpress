@@ -9,8 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.

@@ -4,8 +4,7 @@ using System.Windows;
 using System.Linq;
 using System.Windows.Input;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom border control that enable user to zoom and move content.
 /// </summary>

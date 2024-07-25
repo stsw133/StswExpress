@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides utility methods for mathematical calculations including infix to postfix conversion and postfix evaluation.
 /// </summary>

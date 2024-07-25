@@ -8,8 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
@@ -20,14 +19,6 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
     }
-
-    #region Helpers
-    private static bool TryParse(string text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
-    private static T Add(T a, T b) => a + b;
-    private static T Subtract(T a, T b) => a - b;
-    private static bool IsZero(T value) => value == T.Zero;
-    private static int Compare(T a, T b) => a.CompareTo(b);
-    #endregion
 
     #region Events & methods
     /// <summary>
@@ -52,6 +43,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
+    private static bool TryParse(string? text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+    private static T Add(T a, T b) => a + b;
+    private static T Subtract(T a, T b) => a - b;
+    private static bool IsZero(T value) => value == T.Zero;
+    private static int Compare(T a, T b) => a.CompareTo(b);
+
     /// <summary>
     /// Handles the click event for the "Up" button, incrementing the numeric value.
     /// </summary>
@@ -59,9 +56,10 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// <param name="e">The event arguments</param>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
-        if (TryParse(Text, out var result))
-            Value = result;
-        Value = Add(Value.GetValueOrDefault(), Increment);
+        var result = Value;
+        if (TryParse(Text, out var res))
+            result = res;
+        Value = Add(result.GetValueOrDefault(), Increment);
     }
 
     /// <summary>
@@ -71,9 +69,10 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// <param name="e">The event arguments</param>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
-        if (TryParse(Text, out var result))
-            Value = result;
-        Value = Subtract(Value.GetValueOrDefault(), Increment);
+        var result = Value;
+        if (TryParse(Text, out var res))
+            result = res;
+        Value = Subtract(result.GetValueOrDefault(), Increment);
     }
 
     /// <summary>
@@ -84,8 +83,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && !IsZero(Increment) && TryParse(Text, out var result))
+        if (IsKeyboardFocused == true && !IsReadOnly && !IsZero(Increment) && TryParse(Text, out var res))
         {
+            var result = res;
             if (e.Delta > 0)
                 result = Add(result, Increment);
             else //if (e.Delta < 0)
@@ -99,11 +99,13 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// <summary>
     /// 
     /// </summary>
-    private T MinMaxValidate(T newValue)
+    private T? MinMaxValidate(T? newValue)
     {
-        if (Minimum.HasValue && Compare(newValue, Minimum.Value) < 0)
+        if (newValue == null)
+            return newValue;
+        if (Minimum.HasValue && Compare(newValue.GetValueOrDefault(), Minimum.Value) < 0)
             newValue = Minimum.Value;
-        if (Maximum.HasValue && Compare(newValue, Maximum.Value) > 0)
+        if (Maximum.HasValue && Compare(newValue.GetValueOrDefault(), Maximum.Value) > 0)
             newValue = Maximum.Value;
         return newValue;
     }
@@ -120,6 +122,14 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             result = null;
         else if (TryParse(Text, out var res))
             result = res;
+        else
+        {
+            try
+            {
+                result = T.CreateChecked(StswFn.Evaluate(Text));
+            }
+            catch { }
+        }
 
         if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)
         {
@@ -196,7 +206,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         if (obj is StswNumberBoxBase<T> stsw)
         {
-            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
+            if (!stsw.Value.Between(stsw.Minimum, stsw.Maximum))
+                stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
         }
     }
 
@@ -222,7 +233,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     public T? Value
     {
         get => (T?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, MinMaxValidate(value.GetValueOrDefault()));
+        set => SetValue(ValueProperty, value);
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
@@ -231,7 +242,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             typeof(StswNumberBoxBase<T>),
             new FrameworkPropertyMetadata(default(T?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnValueChanged, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -240,23 +251,15 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             stsw.ValueChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
-    /// </summary>
-    public double SeparatorThickness
+    private static object? OnValueChanging(DependencyObject obj, object? baseValue)
     {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
+        if (obj is StswNumberBoxBase<T> stsw)
+        {
+            var newValue = (T?)baseValue;
+            return stsw.MinMaxValidate(newValue);
+        }
+        return baseValue;
     }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswNumberBoxBase<T>)
-        );
     #endregion
 }
 

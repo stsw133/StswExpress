@@ -25,7 +25,7 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswHeader Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswFilePicker Grid.Row="1" Margin="5 0 5 5" PathType="Directory" Text="{Binding DirectoryPath}"/>
+                        <se:StswFilePicker Grid.Row="1" Margin="5 0 5 5" PathType="Directory" SelectedPath="{Binding DirectoryPath}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     

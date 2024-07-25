@@ -72,7 +72,11 @@
                             </StackPanel>
                         </Grid>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="{x:Null}">
+                            <Setter Property="Padding" Value="5 0 0 0" TargetName="PART_Header"/>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswWindow.Inactive.Foreground}" TargetName="PART_Header"/>
@@ -91,7 +95,7 @@
                         <DataTrigger Binding="{Binding Fullscreen, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="True">
                             <Setter Property="Text" Value="⛶" TargetName="PART_ButtonRestoreText"/>
                             <Setter Property="ToolTip" Value="{se:Tr StswWindow.DisableFullscreen}" TargetName="PART_ButtonRestore"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Header"/>
+                            <!-- <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Header"/> -->
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

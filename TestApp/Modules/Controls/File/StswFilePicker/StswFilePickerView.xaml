@@ -46,7 +46,7 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswFilePicker.SubControls>
-                <se:StswSubButton Command="{Binding ClearCommand}"
+                <se:StswSubButton Command="{x:Static se:StswCommands.ClearText}"
                                   IconData="{x:Static se:StswIcons.Close}"
                                   Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswFilePicker.SubControls>

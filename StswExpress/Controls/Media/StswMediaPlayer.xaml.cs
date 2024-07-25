@@ -8,8 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control to display media element with additional features such as management panel.
 /// </summary>

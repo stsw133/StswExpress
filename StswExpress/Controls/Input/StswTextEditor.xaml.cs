@@ -11,8 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>

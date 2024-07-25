@@ -6,8 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control used for automatically selecting input box based on its value type.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type are automatically bound to selected items.

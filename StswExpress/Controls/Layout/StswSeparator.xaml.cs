@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that can be used to visually divide content in a user interface.
 /// </summary>

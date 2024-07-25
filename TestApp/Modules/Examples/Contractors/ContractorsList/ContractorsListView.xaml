@@ -51,7 +51,7 @@
             <TextBlock Margin="3" VerticalAlignment="Center">
                 <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
-                <Run Text="{Binding ListContractors.Unchanged, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text="{Binding ListContractors.Unchanged, Mode=OneWay}" FontWeight="Bold" Foreground="Gray"/>
                 <Run Text=" unchanged rows, "/>
                 <Run Text="{Binding ListContractors.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=" added rows, "/>
@@ -134,6 +134,18 @@
                         <se:StswFilterBox Header="Street" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Street"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+
+                <!-- DefaultDiscount -->
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <se:StswFilterBox Header="Default discount" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="a.DefaultDiscount"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <se:StswDecimalBox se:StswControl.IsBorderless="True" Padding="0" SeparatorThickness="1" Value="{Binding DefaultDiscount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
                 <!-- IsArchival -->
                 <DataGridTemplateColumn>

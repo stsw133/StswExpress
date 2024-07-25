@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Takes a color value as input and changes its brightness based on the provided parameters:
 /// Use nothing or '+' at the beginning of the converter parameter to increase the brightness of the output color.

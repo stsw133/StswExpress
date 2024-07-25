@@ -2,8 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a collection of options in a horizontal or vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.

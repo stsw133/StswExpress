@@ -21,7 +21,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
             <!-- IsMinimized -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMinimized, Type={x:Type se:StswInfoPanel}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized}" IsThreeState="True"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized, Mode=TwoWay}" IsThreeState="True"/>
             <!-- ShowControlPanel -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowControlPanel, Type={x:Type se:StswInfoPanel}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowControlPanel}"/>
@@ -37,7 +37,7 @@
         <!-- content -->
         <se:StswInfoPanel IsClosable="{Binding IsClosable}"
                           IsEnabled="{Binding IsEnabled}"
-                          IsMinimized="{Binding IsMinimized}"
+                          IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
                           ItemsSource="{Binding ItemsSource}"
                           Margin="5"
                           ShowControlPanel="{Binding ShowControlPanel}"

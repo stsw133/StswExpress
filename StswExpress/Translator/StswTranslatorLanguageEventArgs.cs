@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>

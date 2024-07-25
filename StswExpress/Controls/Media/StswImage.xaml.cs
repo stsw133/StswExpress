@@ -6,8 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control to display image with additional features such as context menu options.
 /// </summary>

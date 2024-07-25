@@ -4,8 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents an information bar control that can display a description, title, and type information, with an optional close button.
 /// </summary>
@@ -17,8 +16,6 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? _buttonCopyToClipboard;
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -27,19 +24,14 @@ public class StswInfoBar : Control, IStswCornerControl
         base.OnApplyTemplate();
 
         if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase btnCopyToClipboard)
-        {
             btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
-            _buttonCopyToClipboard = btnCopyToClipboard;
-        }
         if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
             btnClose.Click += PART_ButtonClose_Click;
     }
 
     /// <summary>
-    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
+    /// 
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText($"{Title}{Environment.NewLine}{Text}");

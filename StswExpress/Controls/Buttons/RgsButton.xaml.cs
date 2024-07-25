@@ -10,6 +10,9 @@ using System.Windows.Shapes;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
 public class RgsButton : Button
 {
     #region Private

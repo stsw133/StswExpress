@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a container for a group of controls with an optional header.
 /// </summary>

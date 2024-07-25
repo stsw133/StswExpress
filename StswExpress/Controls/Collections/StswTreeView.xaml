@@ -37,7 +37,7 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollView x:Name="PART_ScrollViewer"
+                        <se:StswScrollView x:Name="PART_ScrollView"
                                            AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
@@ -62,7 +62,7 @@
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
                         <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
-                            <Setter Property="CanContentScroll" Value="True" TargetName="PART_ScrollViewer"/>
+                            <Setter Property="CanContentScroll" Value="True" TargetName="PART_ScrollView"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>

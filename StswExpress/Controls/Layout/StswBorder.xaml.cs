@@ -3,8 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom border control that applies clipping to its child element with rounded corners.
 /// </summary>

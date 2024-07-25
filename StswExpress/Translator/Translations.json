@@ -175,6 +175,10 @@
     "en": "Close all",
     "pl": "Zamknij wszystkie"
   },
+  "StswInfoPanel.CopyAllToClipboard": {
+    "en": "Copy all to clipboard",
+    "pl": "Kopiuj wszystkie do schowka"
+  },
   "StswInfoPanel.MinimizeAll": {
     "en": "Minimize all",
     "pl": "Minimalizuj wszystkie"

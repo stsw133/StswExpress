@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Converts <see cref="bool"/> to the targetType.
 /// Use '!' at the beginning of the converter parameter to reverse the output value.

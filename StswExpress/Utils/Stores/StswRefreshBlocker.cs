@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Provides a mechanism to defer an action until the object is disposed.
 /// </summary>

@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollBar"/> class with additional functionality.
 /// </summary>

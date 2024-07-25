@@ -6,8 +6,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>

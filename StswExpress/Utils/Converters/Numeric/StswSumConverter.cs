@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Allows the user to sum up the values of a specified property of each item in a collection or a <see cref="DataTable"/>.
 /// </summary>

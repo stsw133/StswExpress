@@ -6,8 +6,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a panel control that functions as a sub control and displays an icon. 
 /// It can expand to show additional sub controls when the mouse is over an icon.

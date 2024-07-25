@@ -258,7 +258,7 @@
                         <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
                         <se:StswComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{se:StswEnumToList local:ContractorType}" Margin="5 0 5 5" SelectedValue="{Binding Values[EnumDescription]}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswTextBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="False"
                                         Text="{se:StswBindableParameter Values[EnumDescription], Mode=TwoWay, Converter={x:Static se:StswEnumDescriptionConverter.Instance}, ConverterParameter={Binding Parameters[EnumDescription]}}"/>
                     </se:StswGrid>
                     -->
@@ -272,7 +272,7 @@
                         <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
                         <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ListFromRange]}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswComboBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswComboBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="False"
                                          ItemsSource="{se:StswBindableParameter Values[ListFromRange], Mode=TwoWay, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter={Binding Parameters[ListFromRange]}}"/>
                     </se:StswGrid>
                 </StackPanel>

@@ -8,8 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
 /// </summary>
@@ -120,7 +119,7 @@ public class StswRatingControl : Control, IStswIconControl
             ExpandDirection.Down => position.Y / ActualHeight,
             ExpandDirection.Left => (ActualWidth - position.X) / ActualWidth,
             ExpandDirection.Right => position.X / ActualWidth,
-            ExpandDirection.Up => (Items.Count - position.Y / ActualHeight),
+            ExpandDirection.Up => (ActualHeight - position.Y) / ActualHeight,
             _ => 0
         };
         Placeholder = Convert.ToInt32(Math.Round(percentage * Items.Count + 0.4));

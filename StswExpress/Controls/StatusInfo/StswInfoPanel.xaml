@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="1"/>
@@ -45,48 +45,70 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
-                            <!-- control panel -->
-                            <StackPanel x:Name="PART_ControlPanel"
-                                        DockPanel.Dock="Top"
-                                        Margin="{TemplateBinding Padding}"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Top">
-                                <!-- filters -->
-                                <!--
-                                <se:StswDatePicker se:StswControl.IsBorderless="True"/>
-                                <se:StswDatePicker se:StswControl.IsBorderless="True"/>
-                                <se:StswTextBox se:StswControl.IsBorderless="True"/>
-                                -->
-                                <!-- export button -->
-                                <!--
-                                <se:StswSubButton x:Name="PART_ButtonExport"
-                                                  IconData="{x:Static se:StswIcons.Export}"
-                                                  Margin="3 0 0 0">
-                                    <se:StswSubButton.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.Export}"/>
-                                    </se:StswSubButton.ToolTip>
-                                </se:StswSubButton>
-                                -->
-                                <!-- minimize all button -->
-                                <se:StswSubCheck x:Name="PART_ButtonMinimizeAll"
-                                                 IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
-                                                 IconChecked="{x:Static se:StswIcons.ChevronDown}"
-                                                 IsChecked="{Binding IsMinimized, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 Margin="3 0 0 0">
-                                    <se:StswSubCheck.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.MinimizeAll}"/>
-                                    </se:StswSubCheck.ToolTip>
-                                </se:StswSubCheck>
-                                <!-- close all button -->
-                                <se:StswSubButton x:Name="PART_ButtonCloseAll"
-                                                  IconData="{x:Static se:StswIcons.Close}"
-                                                  Margin="3 0 0 0"
-                                                  Visibility="Collapsed">
-                                    <se:StswSubButton.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.CloseAll}"/>
-                                    </se:StswSubButton.ToolTip>
-                                </se:StswSubButton>
-                            </StackPanel>
+                            <DockPanel DockPanel.Dock="Top" Background="{DynamicResource StswPanel.Static.Background}">
+                                <!-- control panel -->
+                                <StackPanel x:Name="PART_ControlPanel"
+                                            DockPanel.Dock="Right"
+                                            Margin="{TemplateBinding Padding}"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top">
+                                    <!-- filters -->
+                                    <!--
+                                    <se:StswDatePicker se:StswControl.IsBorderless="True"/>
+                                    <se:StswDatePicker se:StswControl.IsBorderless="True"/>
+                                    <se:StswTextBox se:StswControl.IsBorderless="True"/>
+                                    -->
+                                    <!-- export button -->
+                                    <!--
+                                    <se:StswSubButton x:Name="PART_ButtonExport"
+                                                      IconData="{x:Static se:StswIcons.Export}"
+                                                      Margin="3 0 0 0">
+                                        <se:StswSubButton.ToolTip>
+                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.Export}"/>
+                                        </se:StswSubButton.ToolTip>
+                                    </se:StswSubButton>
+                                    -->
+                                    <!-- copy button -->
+                                    <se:StswSubButton x:Name="PART_ButtonCopyAllToClipboard"
+                                                      IconData="{x:Static se:StswIcons.ContentCopy}"
+                                                      Margin="3 0 0 0">
+                                        <se:StswSubButton.ToolTip>
+                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.CopyAllToClipboard}"/>
+                                        </se:StswSubButton.ToolTip>
+                                        <se:StswSubButton.Triggers>
+                                            <EventTrigger RoutedEvent="Button.Click">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IconData" Duration="0:0:2">
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static se:StswIcons.Check}"/>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:2" Value="{x:Static se:StswIcons.ContentCopy}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </se:StswSubButton.Triggers>
+                                    </se:StswSubButton>
+                                    <!-- minimize all button -->
+                                    <se:StswSubCheck x:Name="PART_ButtonMinimizeAll"
+                                                     IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
+                                                     IconChecked="{x:Static se:StswIcons.ChevronDown}"
+                                                     IsChecked="{Binding IsMinimized, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Margin="3 0 0 0">
+                                        <se:StswSubCheck.ToolTip>
+                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.MinimizeAll}"/>
+                                        </se:StswSubCheck.ToolTip>
+                                    </se:StswSubCheck>
+                                    <!-- close all button -->
+                                    <se:StswSubButton x:Name="PART_ButtonCloseAll"
+                                                      IconData="{x:Static se:StswIcons.Close}"
+                                                      Margin="3 0 0 0"
+                                                      Visibility="Collapsed">
+                                        <se:StswSubButton.ToolTip>
+                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.CloseAll}"/>
+                                        </se:StswSubButton.ToolTip>
+                                    </se:StswSubButton>
+                                </StackPanel>
+                            </DockPanel>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"
                                               DockPanel.Dock="Top"
@@ -95,7 +117,7 @@
                                               Orientation="Horizontal"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- items panel -->
-                            <se:StswScrollView x:Name="PART_ScrollViewer"
+                            <se:StswScrollView x:Name="PART_ScrollView"
                                                AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"

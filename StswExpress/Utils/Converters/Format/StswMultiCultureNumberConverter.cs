@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// Converts a numeric value into a string with a decimal separator that is appropriate for a given culture.
 /// </summary>

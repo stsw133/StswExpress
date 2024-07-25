@@ -6,8 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Translator's most important class.
 /// For Translate something just type Translator.Tr(...).

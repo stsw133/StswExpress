@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="TabItem"/> class with additional functionality.
 /// </summary>

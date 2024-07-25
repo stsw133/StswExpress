@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a custom window bar control with additional functionality and customization options.
 /// </summary>

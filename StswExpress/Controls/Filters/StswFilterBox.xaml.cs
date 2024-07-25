@@ -10,8 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// A control used for filtering data in a <see cref="StswDataGrid"/>.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.

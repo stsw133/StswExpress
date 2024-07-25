@@ -8,8 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a navigation control that allows managing multiple contexts and navigation elements.
 /// </summary>

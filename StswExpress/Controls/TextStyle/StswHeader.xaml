@@ -33,18 +33,16 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <DockPanel Margin="{TemplateBinding Padding}">
+                        <DockPanel Margin="{TemplateBinding Padding}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
-                                            Margin="0 -1"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            Margin="0 -1"/>
                             <!-- content -->
                             <ContentPresenter x:Name="PART_Content"
-                                              Focusable="False"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                              Focusable="False"/>
                         </DockPanel>
                     </se:StswBorder>
                     

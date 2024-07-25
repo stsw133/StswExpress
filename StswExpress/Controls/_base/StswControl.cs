@@ -2,6 +2,10 @@
 using System.Windows.Controls;
 
 namespace StswExpress;
+
+/// <summary>
+/// 
+/// </summary>
 public static class StswControl
 {
     /// <summary>

@@ -5,8 +5,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace StswExpress;
-
+namespace StswExpress;
+/// <summary>
+/// 
+/// </summary>
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     static StswToggleSwitch()

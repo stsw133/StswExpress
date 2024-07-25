@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
 /// <summary>
 /// A converter that compares a numeric value to a specified threshold and determines if it is
 /// greater than, less than, greater than or equal to, or less than or equal to the threshold.

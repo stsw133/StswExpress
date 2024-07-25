@@ -9,8 +9,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a customizable content dialog control for displaying various types of content.
 /// </summary>

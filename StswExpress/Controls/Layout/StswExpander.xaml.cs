@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace StswExpress;
-
+namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a header and allows the user to collapse or expand content.
 /// </summary>
