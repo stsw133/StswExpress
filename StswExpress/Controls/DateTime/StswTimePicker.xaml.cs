@@ -89,13 +89,12 @@ public class StswTimePicker : StswBoxBase
     /// </summary>
     private TimeSpan? MinMaxValidate(TimeSpan? newValue)
     {
-        if (newValue.HasValue)
-        {
-            if (Minimum.HasValue && newValue < Minimum)
-                newValue = Minimum;
-            if (Maximum.HasValue && newValue > Maximum)
-                newValue = Maximum;
-        }
+        if (newValue == null)
+            return newValue;
+        if (Minimum.HasValue && newValue < Minimum)
+            newValue = Minimum;
+        if (Maximum.HasValue && newValue > Maximum)
+            newValue = Maximum;
         return newValue;
     }
 
@@ -116,7 +115,7 @@ public class StswTimePicker : StswBoxBase
 
         if (result != SelectedTime || alwaysUpdate)
         {
-            Text = result?.ToString(Format);
+            SelectedTime = result;
 
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
@@ -205,7 +204,8 @@ public class StswTimePicker : StswBoxBase
     {
         if (obj is StswTimePicker stsw)
         {
-            stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
+            if (!stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
+                stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
         }
     }
 
@@ -231,7 +231,7 @@ public class StswTimePicker : StswBoxBase
     public TimeSpan? SelectedTime
     {
         get => (TimeSpan?)GetValue(SelectedTimeProperty);
-        set => SetValue(SelectedTimeProperty, MinMaxValidate(value));
+        set => SetValue(SelectedTimeProperty, value);
     }
     public static readonly DependencyProperty SelectedTimeProperty
         = DependencyProperty.Register(
@@ -240,7 +240,7 @@ public class StswTimePicker : StswBoxBase
             typeof(StswTimePicker),
             new FrameworkPropertyMetadata(default(TimeSpan?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedTimeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedTimeChanged, OnSelectedTimeChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -260,6 +260,13 @@ public class StswTimePicker : StswBoxBase
                 stsw.SelectedTimeChanged?.Invoke(stsw, EventArgs.Empty);
             }
         }
+    }
+    private static object? OnSelectedTimeChanging(DependencyObject obj, object? baseValue)
+    {
+        if (obj is StswTimePicker stsw)
+            return stsw.MinMaxValidate((TimeSpan?)baseValue);
+
+        return baseValue;
     }
     private bool isTimeChanging;
 

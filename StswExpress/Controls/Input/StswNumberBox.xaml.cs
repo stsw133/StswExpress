@@ -133,7 +133,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
         if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)
         {
-            Text = result?.ToString();
+            Value = result;
 
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
@@ -254,10 +254,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     private static object? OnValueChanging(DependencyObject obj, object? baseValue)
     {
         if (obj is StswNumberBoxBase<T> stsw)
-        {
-            var newValue = (T?)baseValue;
-            return stsw.MinMaxValidate(newValue);
-        }
+            return stsw.MinMaxValidate((T?)baseValue);
+        
         return baseValue;
     }
     #endregion

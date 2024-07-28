@@ -5,7 +5,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A control that allows users to select and display date.
 /// </summary>
@@ -93,13 +94,12 @@ public class StswDatePicker : StswBoxBase
     /// </summary>
     private DateTime? MinMaxValidate(DateTime? newValue)
     {
-        if (newValue.HasValue)
-        {
-            if (Minimum.HasValue && newValue < Minimum)
-                newValue = Minimum;
-            if (Maximum.HasValue && newValue > Maximum)
-                newValue = Maximum;
-        }
+        if (newValue == null)
+            return newValue;
+        if (Minimum.HasValue && newValue < Minimum)
+            newValue = Minimum;
+        if (Maximum.HasValue && newValue > Maximum)
+            newValue = Maximum;
         return newValue;
     }
 
@@ -120,7 +120,7 @@ public class StswDatePicker : StswBoxBase
 
         if (result != SelectedDate || alwaysUpdate)
         {
-            Text = result?.ToString(Format);
+            SelectedDate = result;
 
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
@@ -209,7 +209,8 @@ public class StswDatePicker : StswBoxBase
     {
         if (obj is StswDatePicker stsw)
         {
-            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
+            if (!stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
+                stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
         }
     }
 
@@ -235,7 +236,7 @@ public class StswDatePicker : StswBoxBase
     public DateTime? SelectedDate
     {
         get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, MinMaxValidate(value));
+        set => SetValue(SelectedDateProperty, value);
     }
     public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(
@@ -244,7 +245,7 @@ public class StswDatePicker : StswBoxBase
             typeof(StswDatePicker),
             new FrameworkPropertyMetadata(default(DateTime?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedDateChanged, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -252,6 +253,13 @@ public class StswDatePicker : StswBoxBase
         {
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
+    }
+    private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)
+    {
+        if (obj is StswDatePicker stsw)
+            return stsw.MinMaxValidate((DateTime?)baseValue);
+
+        return baseValue;
     }
     #endregion
 }

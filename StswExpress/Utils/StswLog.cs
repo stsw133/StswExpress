@@ -20,9 +20,9 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Specifies the path to the directory where the archived log files will be saved.
+    /// Specifies the configuration settings.
     /// </summary>
-    public static StswLogConfig Config { get; set; } = new();
+    public static StswLogConfig Config { get; } = new();
 
     /// <summary>
     /// Automatically archives log files based on the configuration settings.
