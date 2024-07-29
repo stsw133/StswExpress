@@ -285,61 +285,7 @@ public static class StswExtensions
                 throw new NotSupportedException("Failed to clone binding");
         }
     }
-    /*
-    /// <summary>
-    /// Creates a deep copy of the specified object.
-    /// </summary>
-    /// <param name="o">The object to copy.</param>
-    /// <returns>A deep copy of the specified object.</returns>
-    public static T? Copy<T>(this T o)
-    {
-        if (o == null) return default;
-
-        var type = o.GetType();
-
-        if (o is ICloneable cloneable)
-        {
-            return (T)cloneable.Clone();
-        }
-        else if (type == typeof(ItemCollection))
-        {
-            /// Handling specifically for ItemCollection
-            /// Note: This assumes the method caller handles the ItemCollection manually if needed,
-            /// as there's no good way to clone or directly instantiate a new ItemCollection.
-            return o;
-        }
-        else
-        {
-            var target = Activator.CreateInstance<T>();
-            foreach (var pi in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                if (!pi.CanWrite || pi.GetIndexParameters().Length > 0)
-                    continue;
-
-                var value = pi.GetValue(o);
-                if (IsListType(pi.PropertyType, out var innerType))
-                {
-                    var listType = typeof(List<>).MakeGenericType(innerType!);
-                    var list = (IList?)Activator.CreateInstance(listType);
-                    if (value is IList oldList)
-                        foreach (var item in oldList)
-                            list?.Add(item.Copy());
-                    pi.SetValue(target, list);
-                }
-                else if (pi.PropertyType.IsValueType || pi.PropertyType.IsEnum || pi.PropertyType == typeof(string))
-                {
-                    pi.SetValue(target, value); 
-                }
-                else
-                {
-                    pi.SetValue(target, value.Copy());
-                }
-            }
-
-            return target;
-        }
-    }
-    */
+    
     /// <summary>
     /// Creates a deep copy of the specified object.
     /// </summary>
@@ -582,7 +528,7 @@ public static class StswExtensions
     /// <typeparam name="T">The type of objects in the collection.</typeparam>
     /// <param name="value">The enumerable to convert.</param>
     /// <returns>The converted <see cref="ObservableCollection{T}"/>.</returns>
-    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new(value);
 
     /// <summary>
     /// Converts a <see cref="Type"/> to a <see cref="SqlDbType"/>.
@@ -620,15 +566,7 @@ public static class StswExtensions
     /// <typeparam name="T">The type of objects in the list.</typeparam>
     /// <param name="value">The enumerable to convert.</param>
     /// <returns>The converted <see cref="StswBindingList{T}"/>.</returns>
-    public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
-
-    /// <summary>
-    /// Converts an <see cref="IList{T}"/> to a <see cref="StswBindingList{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of objects in the list.</typeparam>
-    /// <param name="value">The list to convert.</param>
-    /// <returns>The converted <see cref="StswBindingList{T}"/>.</returns>
-    public static StswBindingList<T> ToStswBindingList<T>(this IList<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
+    public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
 
     /// <summary>
     /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswDictionary{TKey, TValue}"/>.
@@ -637,7 +575,7 @@ public static class StswExtensions
     /// <typeparam name="T2">The type of the dictionary values.</typeparam>
     /// <param name="value">The dictionary to convert.</param>
     /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
-    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
+    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new(value);
     #endregion
 
     #region Color extensions

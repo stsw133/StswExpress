@@ -47,7 +47,7 @@ public class StswColorBox : StswBoxBase
 
         if (result != SelectedColor || alwaysUpdate)
         {
-            Text = result.ToString();
+            SelectedColor = result;
 
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))

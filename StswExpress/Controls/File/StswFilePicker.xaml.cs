@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A control that allows users to select file or directory path with additional features.
 /// </summary>

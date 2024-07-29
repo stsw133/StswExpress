@@ -231,7 +231,7 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
-    public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null) => Send(to, subject, body, attachments, BCC, ReplyTo);
+    public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments) => Send(to, subject, body, attachments, BCC, ReplyTo);
 
     /// <summary>
     /// Sends an email using the SMTP protocol without attachments.

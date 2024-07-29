@@ -455,111 +455,6 @@ public static partial class StswFn
 
         return newIndex;
     }
-    /*
-    /// <summary>
-    /// Attempts to calculate a result from the provided mathematical expression using the order of operations.
-    /// </summary>
-    /// <param name="expression">The mathematical expression to evaluate.</param>
-    /// <param name="result">The result of the evaluated expression.</param>
-    /// <param name="culture">The culture info to use for parsing numbers (optional).</param>
-    /// <returns>True if the calculation was successful, otherwise false.</returns>
-    /// <remarks>
-    /// This method is obsolete. Use <see cref="Evaluate"/> instead.
-    /// </remarks>
-    [Obsolete($"Use \"{nameof(Evaluate)}\" instead!")]
-    public static bool TryCalculateString(string expression, out decimal result, CultureInfo? culture = null)
-    {
-        try
-        {
-            culture ??= CultureInfo.CurrentCulture;
-
-            /// remove unnecessary characters and replace NumberDecimalSeparator and NegativeSign
-            expression = expression
-                .Replace(Environment.NewLine, string.Empty)
-                .Replace("\t", string.Empty)
-                .Replace(" ", string.Empty)
-                .Replace(culture.NumberFormat.NumberDecimalSeparator, ".")
-                .Replace(culture.NumberFormat.NegativeSign, "-");
-
-            /// find first and last number
-            int i1, i2;
-            int findFirstAndLastIndex(char[] signs)
-            {
-                var iSign = (expression[0] == '-' ? "_" + expression[1..] : expression).IndexOfAny(signs);
-                i1 = iSign;
-                while (i1 > 0
-                        && (char.IsDigit(expression[i1 - 1])
-                         || expression[i1 - 1] == '.'
-                         || (expression[i1 - 1] == '-' && (i1 < 2 || !char.IsDigit(expression[i1 - 2]))))
-                      )
-                    i1--;
-
-                i2 = iSign;
-                do { i2++; } while (i2 == expression.Length - 1
-                                || (i2 < expression.Length && (char.IsDigit(expression[i2]) || expression[i2] == '.' || (!char.IsDigit(expression[i2 - 1]) && expression[i2] == '-'))));
-
-                return iSign;
-            }
-            /// replace
-            decimal value;
-            void expressionReplace()
-            {
-                var addPlusSign = i1 > 0 && char.IsDigit(expression[i1 - 1]);
-                expression = expression.Remove(i1, i2 - i1);
-                expression = expression.Insert(i1, $"{(value > 0 && addPlusSign ? "+" : string.Empty)}{value}");
-            }
-
-            /// do some math:
-            /// first ( )
-            while (expression.Any(x => x.In('(', ')')))
-            {
-                /// indexes
-                i2 = expression.IndexOf(')') + 1;
-                i1 = expression[..i2].LastIndexOf('(');
-
-                /// result
-                var part0 = expression[i1..i2];
-                TryCalculateString(part0[1..^1], out value);
-                expressionReplace();
-            }
-            /// next ^
-            while (expression[1..].Any(x => x.In('^')))
-            {
-                var iSign = findFirstAndLastIndex(['^']);
-                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
-                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
-                value = Convert.ToDecimal(Math.Pow(Convert.ToDouble(number1), Convert.ToDouble(number2)));
-                expressionReplace();
-            }
-            /// next * /
-            while (expression[1..].Any(x => x.In('*', '/')))
-            {
-                var iSign = findFirstAndLastIndex(['*', '/']);
-                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
-                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
-                value = expression[iSign] == '*' ? number1 * number2 : number1 / number2;
-                expressionReplace();
-            }
-            /// next + -
-            while (expression[1..].Any(x => x.In('+', '-')))
-            {
-                var iSign = findFirstAndLastIndex(['+', '-']);
-                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
-                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
-                value = expression[iSign] == '+' ? number1 + number2 : number1 - number2;
-                expressionReplace();
-            }
-
-            result = Convert.ToDecimal(expression, CultureInfo.InvariantCulture);
-            return true;
-        }
-        catch
-        {
-            result = 0;
-            return false;
-        }
-    }
-    */
     #endregion
 
     #region Serialization functions
@@ -639,15 +534,13 @@ public static partial class StswFn
 
         try
         {
-            using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
-            {
-                var registryValueObject = key?.GetValue("AppsUseLightTheme");
-                if (registryValueObject == null)
-                    return theme;
+            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            var registryValueObject = key?.GetValue("AppsUseLightTheme");
+            if (registryValueObject == null)
+                return theme;
 
-                var registryValue = (int)registryValueObject;
-                theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
-            }
+            var registryValue = (int)registryValueObject;
+            theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
         }
         catch
         {
@@ -721,17 +614,6 @@ public static partial class StswFn
     #endregion
 
     #region Universal functions
-    /// <summary>
-    /// Opens the context menu of a <see cref="FrameworkElement"/> at its current position.
-    /// </summary>
-    /// <param name="element">The <see cref="FrameworkElement"/> whose context menu will be opened.</param>
-    [Obsolete("This method will be removed in future versions.")]
-    public static void OpenContextMenu(FrameworkElement element)
-    {
-        element.ContextMenu.PlacementTarget = element;
-        element.ContextMenu.IsOpen = true;
-    }
-
     /// <summary>
     /// Removes a <see cref="FrameworkElement"/> from its parent container.
     /// </summary>
