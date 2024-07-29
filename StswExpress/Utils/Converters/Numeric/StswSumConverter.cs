@@ -55,7 +55,7 @@ public class StswSumConverter : MarkupExtension, IValueConverter
                                             : 0);
         }
 
-        return result.ConvertTo(targetType);
+        return result;
     }
 
     /// <summary>

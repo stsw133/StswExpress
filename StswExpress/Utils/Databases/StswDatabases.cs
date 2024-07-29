@@ -65,12 +65,12 @@ public static class StswDatabases
         using var stream = new StreamWriter(FilePath);
         foreach (var db in Collection)
             stream.WriteLine(string.Join('|', 
-                    StswSecurity.Encrypt(db.Name),
-                    StswSecurity.Encrypt(db.Server),
+                    StswSecurity.Encrypt(db.Name ?? string.Empty),
+                    StswSecurity.Encrypt(db.Server ?? string.Empty),
                     StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty),
-                    StswSecurity.Encrypt(db.Database),
-                    StswSecurity.Encrypt(db.Login),
-                    StswSecurity.Encrypt(db.Password)
+                    StswSecurity.Encrypt(db.Database ?? string.Empty),
+                    StswSecurity.Encrypt(db.Login ?? string.Empty),
+                    StswSecurity.Encrypt(db.Password ?? string.Empty)
                 ));
     }
 }
@@ -80,17 +80,38 @@ public static class StswDatabases
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
-    internal SqlTransaction? SqlTransaction;
+    public StswDatabaseModel()
+    {
+
+    }
+    public StswDatabaseModel(string? name = null, string? server = null, int? port = null, string? database = null, string? login = null, string? password = null)
+    {
+        Name = name;
+        Server = server;
+        Port = port;
+        Database = database;
+        Login = login;
+        Password = password;
+    }
+    public StswDatabaseModel(SqlConnection sqlConn)
+    {
+        Server = sqlConn.DataSource;
+        Database = sqlConn.Database;
+
+        var builder = new SqlConnectionStringBuilder(sqlConn.ConnectionString);
+        Login = builder.UserID;
+        Password = builder.Password;
+    }
 
     /// <summary>
     /// Gets or sets the name of the database connection.
     /// </summary>
-    public string Name
+    public string? Name
     {
         get => _name;
         set => SetProperty(ref _name, value);
     }
-    private string _name = string.Empty;
+    private string? _name;
 
     /// <summary>
     /// Gets or sets the type of the database.
@@ -105,12 +126,12 @@ public class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets the server address of the database.
     /// </summary>
-    public string Server
+    public string? Server
     {
         get => _server;
         set => SetProperty(ref _server, value);
     }
-    private string _server = string.Empty;
+    private string? _server;
 
     /// <summary>
     /// Gets or sets the port number of the database.
@@ -125,42 +146,42 @@ public class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets the database name.
     /// </summary>
-    public string Database
+    public string? Database
     {
         get => _database;
         set => SetProperty(ref _database, value);
     }
-    private string _database = string.Empty;
+    private string? _database;
 
     /// <summary>
     /// Gets or sets the login name for the database.
     /// </summary>
-    public string Login
+    public string? Login
     {
         get => _login;
         set => SetProperty(ref _login, value);
     }
-    private string _login = string.Empty;
+    private string? _login;
 
     /// <summary>
     /// Gets or sets the password for the database.
     /// </summary>
-    public string Password
+    public string? Password
     {
         get => _password;
         set => SetProperty(ref _password, value);
     }
-    private string _password = string.Empty;
+    private string? _password;
 
     /// <summary>
     /// Gets or sets the version of the database.
     /// </summary>
-    public string Version
+    public string? Version
     {
         get => _version;
         set => SetProperty(ref _version, value);
     }
-    private string _version = string.Empty;
+    private string? _version;
 
     /// <summary>
     /// Constructs the connection string based on the model's properties.
@@ -168,8 +189,8 @@ public class StswDatabaseModel : StswObservableObject
     /// <returns>The database connection string.</returns>
     public string GetConnString() => Type switch
     {
-        StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-        StswDatabaseType.MySQL => $"Server={Server};{(Port > 0 ? $"Port={Port}" : string.Empty)};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
+        StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+        StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
         StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
         _ => throw new Exception("This type of database management system is not supported!")
     };
@@ -186,15 +207,19 @@ public class StswDatabaseModel : StswObservableObject
     }
 
     /// <summary>
+    /// Keeps the <see cref="System.Data.SqlClient.SqlTransaction"/> that has begun.
+    /// </summary>
+    internal SqlTransaction? SqlTransaction;
+
+    /// <summary>
     /// Begins a new SQL transaction.
     /// </summary>
-    /// <returns>A <see cref="System.Data.SqlClient.SqlTransaction"/>.</returns>
-    public SqlTransaction BeginTransaction()
+    public void BeginTransaction()
     {
         if (SqlTransaction != null)
             throw new Exception("SqlTransaction has been already started.");
+
         SqlTransaction = OpenedConnection().BeginTransaction();
-        return SqlTransaction;
     }
 
     /// <summary>
@@ -204,8 +229,9 @@ public class StswDatabaseModel : StswObservableObject
     {
         if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
-        SqlTransaction.Commit();
-        SqlTransaction = null;
+
+        using (SqlTransaction)
+            SqlTransaction.Commit();
     }
 
     /// <summary>
@@ -215,8 +241,9 @@ public class StswDatabaseModel : StswObservableObject
     {
         if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
-        SqlTransaction.Rollback();
-        SqlTransaction = null;
+
+        using (SqlTransaction)
+            SqlTransaction.Rollback();
     }
 
     /// <summary>

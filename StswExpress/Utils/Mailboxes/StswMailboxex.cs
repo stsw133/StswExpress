@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Collections.ObjectModel;
 
-namespace StswExpress;
+namespace StswExpress.Utils.Mailboxes;
 /// <summary>
 /// Provides functionality for managing email configurations and methods to import and export them.
 /// </summary>

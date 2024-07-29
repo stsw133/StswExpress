@@ -6,8 +6,6 @@ namespace TestApp;
 
 internal static class SQL
 {
-    //private static StswDatabaseModel DbMain = new() { Server = "", Database = "", Login = "", Password = "" };
-
     static SQL()
     {
         if (StswDatabases.Current == null)
