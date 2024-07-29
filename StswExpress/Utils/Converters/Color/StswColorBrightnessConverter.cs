@@ -78,7 +78,7 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
     /// <param name="pmrVal">The brightness adjustment value.</param>
     /// <param name="isPercent">Indicates whether the adjustment value is in percent.</param>
     /// <returns>The color with adjusted brightness.</returns>
-    private static Color AdjustBrightness(Color color, double pmrVal, bool isPercent)
+    public static Color AdjustBrightness(Color color, double pmrVal, bool isPercent)
     {
         double r = color.R, g = color.G, b = color.B;
 

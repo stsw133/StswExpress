@@ -38,7 +38,16 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var color = StswColorConverter.GetColorFromValue(value);
-        var adjustments = ParseParameter(parameter?.ToString() ?? string.Empty);
+
+        var adjustments = new Dictionary<char, string>();
+        var regex = new Regex(@"([A-Za-z])([^A-Za-z]*)");
+
+        foreach (var match in regex.Matches(parameter?.ToString() ?? string.Empty).Cast<Match>())
+        {
+            var key = match.Groups[1].Value[0];
+            var val = match.Groups[2].Value.Trim();
+            adjustments[key] = val;
+        }
 
         if (adjustments.TryGetValue('A', out var a) && StswColorAlphaConverter.Instance.Convert(color, typeof(Color), a, culture) is Color colorA)
             color = colorA;
@@ -59,25 +68,4 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
     /// <param name="culture">The culture to use in the converter.</param>
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
-
-    /// <summary>
-    /// Parses the parameter string into a dictionary of adjustments.
-    /// </summary>
-    /// <param name="parameter">The parameter string.</param>
-    /// <returns>A dictionary containing the adjustments for alpha, brightness, and saturation.</returns>
-    private static Dictionary<char, string> ParseParameter(string parameter)
-    {
-        var dictionary = new Dictionary<char, string>();
-        var regex = new Regex(@"([A-Za-z])([^A-Za-z]*)");
-        var matches = regex.Matches(parameter);
-
-        foreach (var match in matches.Cast<Match>())
-        {
-            var key = match.Groups[1].Value[0];
-            var val = match.Groups[2].Value.Trim();
-            dictionary[key] = val;
-        }
-
-        return dictionary;
-    }
 }

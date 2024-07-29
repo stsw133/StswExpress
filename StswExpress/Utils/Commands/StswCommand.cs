@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -23,6 +24,11 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
     }
 
     /// <summary>
+    /// Raises the <see cref="CanExecuteChanged"/> event.
+    /// </summary>
+    public void UpdateCanExecute() => Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
+
+    /// <summary>
     /// Defines the method that determines whether the command can execute in its current state.
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
@@ -35,6 +41,9 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
     public void Execute(object? parameter)
     {
+        if (!CanExecute(parameter))
+            return;
+
         IsBusy = true;
         try
         {

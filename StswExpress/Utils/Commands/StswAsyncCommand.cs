@@ -12,7 +12,7 @@ namespace StswExpress;
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
 public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
-    private readonly Func<T?, Task> _execute = execute;
+    private readonly Func<T?, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
 
     /// <summary>

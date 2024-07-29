@@ -52,7 +52,7 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var dynamicResource = new DynamicResourceExtension(ResourceKey);
-        bindingProxy = new StswBindingProxy(dynamicResource.ProvideValue(null));
+        bindingProxy = new StswBindingProxy() { Proxy = dynamicResource.ProvideValue(null) };
 
         var dynamicResourceBinding = new Binding()
         {
@@ -113,7 +113,6 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 
         if (dynamicResourceBindingResult == null)
             dynamicResourceBindingResult = TargetNullValue;
-
         else if (targetType == typeof(string) && StringFormat != null)
             dynamicResourceBindingResult = string.Format(StringFormat, dynamicResourceBindingResult);
 

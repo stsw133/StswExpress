@@ -69,10 +69,9 @@ public class StswQuery
     /// <summary>
     /// Executes the query and returns a scalar value.
     /// </summary>
-    /// <typeparam name="T">The type of the scalar value to return.</typeparam>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
+    /// <typeparam name="TModel">The type of the model used for the query parameters.</typeparam>
+    /// <param name="model">The model used for the query parameters.</param>
     /// <returns>The scalar value.</returns>
     public TResult ExecuteScalar<TResult, TModel>(TModel? model) where TModel : class
     {
@@ -88,10 +87,9 @@ public class StswQuery
     /// <summary>
     /// Executes the query and returns a scalar value or default if the query fails.
     /// </summary>
-    /// <typeparam name="T">The type of the scalar value to return.</typeparam>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
+    /// <typeparam name="TModel">The type of the model used for the query parameters.</typeparam>
+    /// <param name="model">The model used for the query parameters.</param>
     /// <returns>The scalar value or default.</returns>
     public TResult? TryExecuteScalar<TResult, TModel>(TModel? model) where TModel : class
     {
@@ -108,9 +106,8 @@ public class StswQuery
     /// <summary>
     /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
     /// </summary>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <typeparam name="TModel">The type of the model used for the query parameters.</typeparam>
+    /// <param name="model">The model used for the query parameters.</param>
     /// <returns>A <see cref="SqlDataReader"/>.</returns>
     public SqlDataReader? ExecuteReader<TResult>(TResult? model) where TResult : class
     {
@@ -126,9 +123,8 @@ public class StswQuery
     /// <summary>
     /// Executes the query and returns the number of rows affected.
     /// </summary>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <typeparam name="T">The type of the model used for the query parameters.</typeparam>
+    /// <param name="models">The models used for the query parameters.</param>
     /// <returns>The number of rows affected.</returns>
     public int? ExecuteNonQuery<T>(IEnumerable<T?>? models) where T : class
     {
@@ -136,7 +132,6 @@ public class StswQuery
             return default;
 
         var result = 0;
-        
         var sqlTran = _sqlTransaction ?? (models?.Count() > 1 ? _sqlConnection?.BeginTransaction() : null);
         using var sqlCmd = new SqlCommand(Query, _sqlConnection, sqlTran);
         foreach (var model in models ?? [null])
@@ -157,10 +152,9 @@ public class StswQuery
     /// <summary>
     /// Executes the query and returns a collection of results.
     /// </summary>
-    /// <typeparam name="T">The type of the results.</typeparam>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <typeparam name="TResult">The type of the results.</typeparam>
+    /// <typeparam name="TModel">The type of the model used for the query parameters.</typeparam>
+    /// <param name="model">The model used for the query parameters.</param>
     /// <returns>A collection of results.</returns>
     public IEnumerable<TResult> Get<TResult, TModel>(TModel? model) where TModel : class where TResult : class, new()
     {
@@ -179,14 +173,12 @@ public class StswQuery
     /// <summary>
     /// Executes the query and updates the database with the specified input collection.
     /// </summary>
-    /// <typeparam name="T">The type of the items in the input collection.</typeparam>
+    /// <typeparam name="TModel">The type of the items in the input collection.</typeparam>
     /// <param name="input">The input collection.</param>
     /// <param name="idProp">The property name of the ID.</param>
     /// <param name="inclusionMode">The inclusion mode.</param>
     /// <param name="inclusionProps">The properties to include or exclude based on the inclusion mode.</param>
     /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
     public void Set<TModel>(StswBindingList<TModel> input, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null) where TModel : IStswCollectionItem, new()
     {
         if (!PrepareConnection())
@@ -202,78 +194,68 @@ public class StswQuery
         var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
 
         /// func
-        using (var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction())
-        {
-            /// insert
-            var query = $"insert into {Query} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
-            foreach (var item in input.GetItemsByState(StswItemState.Added))
-                using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                {
-                    sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                    PrepareParameters(sqlCmd, sqlParameters, objProps, item);
-                    sqlCmd.ExecuteNonQuery();
-                }
-            /// update
-            query = $"update {Query} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
-            foreach (var item in input.GetItemsByState(StswItemState.Modified))
-                using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                {
-                    sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                    PrepareParameters(sqlCmd, sqlParameters, objProps, item);
-                    sqlCmd.ExecuteNonQuery();
-                }
-            /// delete
-            query = $"delete from {Query} where {idProp}=@{idProp}";
-            foreach (var item in input.GetItemsByState(StswItemState.Deleted))
-                using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                {
-                    sqlCmd.Parameters.AddWithValue($"@{idProp}", objProps.First(x => x.Name == idProp).GetValue(item));
-                    sqlCmd.ExecuteNonQuery();
-                }
+        using var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction();
+        
+        var insertQuery = $"insert into {Query} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
+        foreach (var item in input.GetItemsByState(StswItemState.Added))
+            using (var sqlCmd = new SqlCommand(insertQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                sqlCmd.ExecuteNonQuery();
+            }
+        
+        var updateQuery = $"update {Query} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
+        foreach (var item in input.GetItemsByState(StswItemState.Modified))
+            using (var sqlCmd = new SqlCommand(updateQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                sqlCmd.ExecuteNonQuery();
+            }
+        
+        var deleteQuery = $"delete from {Query} where {idProp}=@{idProp}";
+        foreach (var item in input.GetItemsByState(StswItemState.Deleted))
+            using (var sqlCmd = new SqlCommand(deleteQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddWithValue("@" + idProp, objProps.First(x => x.Name == idProp).GetValue(item));
+                sqlCmd.ExecuteNonQuery();
+            }
 
-            /// if one-time transaction
-            if (_sqlTransaction == null)
-                sqlTran?.Commit();
-        }
+        /// commit only if one-time transaction
+        if (_sqlTransaction == null)
+            sqlTran?.Commit();
     }
 
     /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
-    /// <typeparam name="T">The type of the items to insert.</typeparam>
+    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
     /// <param name="items">The collection of items to insert.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
-    public void BulkInsert<T>(IEnumerable<T> items)
+    public void BulkInsert<TModel>(IEnumerable<TModel> items)
     {
         if (!PrepareConnection())
             return;
 
-        using (var bulkCopy = new SqlBulkCopy(_sqlConnection, SqlBulkCopyOptions.Default, _sqlTransaction))
-        {
-            bulkCopy.DestinationTableName = Query;
-            var dataTable = items.ToDataTable();
-            bulkCopy.WriteToServer(dataTable);
-        }
+        using var bulkCopy = new SqlBulkCopy(_sqlConnection, SqlBulkCopyOptions.Default, _sqlTransaction);
+        bulkCopy.DestinationTableName = Query;
+        var dataTable = items.ToDataTable();
+        bulkCopy.WriteToServer(dataTable);
     }
 
     /// <summary>
     /// Executes a stored procedure with parameters.
     /// </summary>
     /// <param name="sqlParameters">The SQL parameters to use.</param>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
     /// <returns>The number of rows affected.</returns>
     public int? ExecuteStoredProcedure(IEnumerable<SqlParameter>? sqlParameters = null)
     {
         if (!PrepareConnection())
             return default;
 
-        using (var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction) { CommandType = CommandType.StoredProcedure })
-        {
-            PrepareParameters(sqlCmd, sqlParameters);
-            return sqlCmd.ExecuteNonQuery();
-        }
+        using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction) { CommandType = CommandType.StoredProcedure };
+        PrepareParameters(sqlCmd, sqlParameters);
+        return sqlCmd.ExecuteNonQuery();
     }
 
     /// <summary>
@@ -284,34 +266,17 @@ public class StswQuery
     public static string LessSpaceQuery(string query)
     {
         var regex = new Regex(@"('([^']*)')|([^']+)");
-        var matches = regex.Matches(query);
-        var parts = new List<(string text, bool isInApostrophes)>();
+        var parts = regex.Matches(query)
+                         .Cast<Match>()
+                         .Select(match => match.Groups[2].Success ? (match.Groups[2].Value, true) : (match.Groups[3].Value, false))
+                         .ToList();
 
-        foreach (Match match in matches)
-        {
-            if (match.Groups[2].Success)
-                parts.Add((match.Groups[2].Value, true));
-            else
-                parts.Add((match.Groups[3].Value, false));
-        }
-
-        query = string.Empty;
-        foreach (var (text, isInApostrophes) in parts)
-        {
-            if (!isInApostrophes)
-                query += StswFn.RemoveConsecutiveText(text.Replace("\t", " "), " ");
-            else
-                query += $"'{text}'";
-        }
-
-        return query;
+        return parts.Aggregate(string.Empty, (current, part) => current + (part.Item2 ? $"'{part.Value}'" : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")));
     }
 
     /// <summary>
     /// Prepares the SQL connection and transaction.
     /// </summary>
-    /// <param name="sqlConnection">The SQL connection to use.</param>
-    /// <param name="sqlTransaction">The SQL transaction to use.</param>
     /// <returns>true if the connection is successfully prepared; otherwise, false.</returns>
     protected bool PrepareConnection()
     {
@@ -349,20 +314,15 @@ public class StswQuery
     /// Prepares the SQL command with the specified parameters.
     /// </summary>
     /// <param name="sqlCommand">The SQL command to prepare.</param>
-    /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
+    /// <param name="model">The model used for the query parameters.</param>
     protected void PrepareParameters(SqlCommand sqlCommand, object? model)
     {
         sqlCommand.Parameters.Clear();
         if (model != null)
         {
-            IList<SqlParameter>? sqlParameters = [];
-
-            if (model is IEnumerable<SqlParameter> parameters)
-                foreach (var parameter in parameters)
-                    sqlParameters.Add(parameter);
-            else
-                foreach (var prop in model.GetType().GetProperties())
-                    sqlParameters.Add(new SqlParameter($"@{prop.Name}", prop.GetValue(model)));
+            var sqlParameters = model is IEnumerable<SqlParameter> parameters
+                ? parameters.ToList()
+                : model.GetType().GetProperties().Select(prop => new SqlParameter("@" + prop.Name, prop.GetValue(model) ?? DBNull.Value)).ToList();
 
             foreach (var parameter in sqlParameters)
             {
@@ -377,39 +337,41 @@ public class StswQuery
     /// <summary>
     /// Prepares the SQL command with the specified parameters and properties.
     /// </summary>
-    /// <typeparam name="T">The type of the item containing the properties.</typeparam>
+    /// <typeparam name="TModel">The type of the item containing the properties.</typeparam>
     /// <param name="sqlCommand">The SQL command to prepare.</param>
     /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
     /// <param name="propertyInfos">The properties to add as parameters.</param>
     /// <param name="item">The item containing the properties.</param>
-    protected void PrepareParameters<T>(SqlCommand sqlCommand, object? model, IEnumerable<PropertyInfo>? propertyInfos, T? item)
+    protected void PrepareParameters<TModel>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, TModel? item)
     {
         /// add parameters
-        PrepareParameters(sqlCommand, model);
+        PrepareParameters(sqlCommand, sqlParameters);
 
         /// add properties as parameters
-        if (propertyInfos != null)
+        if (propertyInfos != null && item != null)
+        {
             foreach (var prop in propertyInfos)
             {
-                if (!sqlCommand.Parameters.Contains($"@{prop.Name}"))
+                if (!sqlCommand.Parameters.Contains("@" + prop.Name))
                 {
                     var value = prop.GetValue(item);
                     if (value == null)
                     {
-                        sqlCommand.Parameters.Add($"@{prop.Name}", prop.PropertyType.InferSqlDbType()!.Value).Value = DBNull.Value;
+                        sqlCommand.Parameters.Add("@" + prop.Name, prop.PropertyType.InferSqlDbType()!.Value).Value = DBNull.Value;
                     }
                     else if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
                     {
                         if (type == typeof(byte))
-                            sqlCommand.Parameters.AddWithValue($"@{prop.Name}", (byte[])value);
+                            sqlCommand.Parameters.AddWithValue("@" + prop.Name, (byte[])value);
                         else
-                            sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)value);
+                            sqlCommand.ParametersAddList("@" + prop.Name, (IList?)value);
                     }
                     else
                     {
-                        sqlCommand.Parameters.AddWithValue($"@{prop.Name}", value ?? DBNull.Value);
+                        sqlCommand.Parameters.AddWithValue("@" + prop.Name, value ?? DBNull.Value);
                     }
                 }
             }
+        }
     }
 }

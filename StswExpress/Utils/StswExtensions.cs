@@ -365,43 +365,6 @@ public static class StswExtensions
     /// <summary>
     /// Converts an <see cref="object"/> to a specified type.
     /// </summary>
-    /// <typeparam name="T">The type to convert to.</typeparam>
-    /// <param name="o">The object to convert.</param>
-    /// <returns>The converted <see cref="object"/> of type <see cref="{T}"/>.</returns>
-    public static T? ConvertTo<T>(this object o)
-    {
-        if (o == null || o == DBNull.Value)
-            return default;
-
-        var targetType = typeof(T);
-        var underlyingType = Nullable.GetUnderlyingType(targetType);
-
-        if (targetType.IsEnum)
-        {
-            if (Enum.GetUnderlyingType(targetType) == o.GetType())
-                return (T)Enum.ToObject(targetType, o);
-
-            if (Enum.TryParse(targetType, o.ToString(), out object? result))
-                return (T?)result;
-
-            return default;
-        }
-
-        try
-        {
-            return (T)(underlyingType == null
-                ? Convert.ChangeType(o, targetType, CultureInfo.InvariantCulture)
-                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture));
-        }
-        catch
-        {
-            return default;
-        }
-    }
-
-    /// <summary>
-    /// Converts an <see cref="object"/> to a specified type.
-    /// </summary>
     /// <param name="o">The object to convert.</param>
     /// <param name="t">The type to convert to.</param>
     /// <returns>The converted <see cref="object"/> of the specified type.</returns>
@@ -435,6 +398,14 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Converts an <see cref="object"/> to a specified type.
+    /// </summary>
+    /// <typeparam name="T">The type to convert to.</typeparam>
+    /// <param name="o">The object to convert.</param>
+    /// <returns>The converted <see cref="object"/> of type <see cref="{T}"/>.</returns>
+    public static T? ConvertTo<T>(this object o) => o.ConvertTo(typeof(T)) is T tResult ? tResult : default;
+
+    /// <summary>
     /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects to map to.</typeparam>
@@ -442,10 +413,13 @@ public static class StswExtensions
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<T> MapTo<T>(this DataTable dt) where T : class, new()
     {
-        var objProps = typeof(T).GetProperties().ToList();
-        var mappings = dt.Columns.Cast<DataColumn>()
-                                 .Select(x => objProps.FindIndex(y => y.Name.Equals(StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")), StringComparison.CurrentCultureIgnoreCase)))
-                                 .ToArray();
+        var objProps = typeof(T).GetProperties();
+        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+            .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+            .ToArray();
+        var mappings = normalizedColumnNames
+            .Select(x => Array.FindIndex(objProps, prop => prop.Name.Equals(x, StringComparison.CurrentCultureIgnoreCase)))
+            .ToArray();
 
         foreach (var row in dt.AsEnumerable())
         {
@@ -456,22 +430,115 @@ public static class StswExtensions
                 if (mappings[i] < 0)
                     continue;
 
-                try
+                var propertyInfo = objProps[mappings[i]];
+                if (propertyInfo != null)
                 {
-                    var propertyInfo = objProps[mappings[i]];
-
-                    if (propertyInfo != null && propertyInfo.PropertyType != typeof(object))
-                        propertyInfo?.SetValue(obj, row[i].ConvertTo(propertyInfo.PropertyType), null);
-                    else
-                        propertyInfo?.SetValue(obj, row[i], null);
-                }
-                catch
-                {
-                    continue;
+                    try
+                    {
+                        var value = row[i] == DBNull.Value ? null : row[i];
+                        propertyInfo.SetValue(obj, value?.ConvertTo(propertyInfo.PropertyType), null);
+                    }
+                    catch
+                    {
+                        // Optionally, log the exception or handle it as needed
+                        continue;
+                    }
                 }
             }
 
             yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/> and supports nested class property mappings.
+    /// </summary>
+    /// <typeparam name="T">The type of objects to map to.</typeparam>
+    /// <param name="dt">The DataTable to map.</param>
+    /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
+    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
+    public static IEnumerable<T> MapToIncludingNested<T>(this DataTable dt, char delimiter = '/') where T : class, new()
+    {
+        var objProps = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+            .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+            .ToArray();
+        var mappings = normalizedColumnNames
+            .Select(col => new {
+                ColumnName = col,
+                PropertyInfo = GetNestedProperty(typeof(T), col.Split(delimiter))
+            })
+            .Where(x => x.PropertyInfo != null)
+            .ToArray();
+
+        foreach (var row in dt.AsEnumerable())
+        {
+            var obj = new T();
+            foreach (var map in mappings)
+            {
+                try
+                {
+                    SetNestedPropertyValue(obj, map.PropertyInfo!, row[map.ColumnName]);
+                }
+                catch
+                {
+                    // Optionally, log the exception or handle it as needed
+                    continue;
+                }
+            }
+            yield return obj;
+        }
+
+        /// <summary>
+        /// Gets the property information for a nested property using the specified property path.
+        /// </summary>
+        /// <param name="type">The type that contains the nested property.</param>
+        /// <param name="propertyPath">The path to the nested property.</param>
+        /// <returns>The <see cref="PropertyInfo"/> for the nested property.</returns>
+        static PropertyInfo? GetNestedProperty(Type type, string[] propertyPath, char delimiter = '/')
+        {
+            PropertyInfo? propertyInfo = null;
+            foreach (var propertyName in propertyPath)
+            {
+                propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+                if (propertyInfo == null) break;
+                type = propertyInfo.PropertyType;
+            }
+            return propertyInfo;
+        }
+
+        /// <summary>
+        /// Sets the value of a nested property.
+        /// </summary>
+        /// <param name="obj">The object that contains the nested property.</param>
+        /// <param name="propertyInfo">The <see cref="PropertyInfo"/> for the nested property.</param>
+        /// <param name="value">The value to set.</param>
+        static void SetNestedPropertyValue(object obj, PropertyInfo propertyInfo, object value, char delimiter = '/')
+        {
+            var propertyPath = propertyInfo.Name.Split('/');
+            for (int i = 0; i < propertyPath.Length - 1; i++)
+            {
+                var propertyName = propertyPath[i];
+                var nestedProperty = obj!.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+                if (nestedProperty != null)
+                {
+                    var nestedObj = nestedProperty.GetValue(obj) ?? Activator.CreateInstance(nestedProperty.PropertyType);
+                    nestedProperty.SetValue(obj, nestedObj);
+                    obj = nestedObj!;
+                }
+            }
+            var finalProperty = obj.GetType().GetProperty(propertyPath.Last(), BindingFlags.Public | BindingFlags.Instance);
+            if (finalProperty != null)
+            {
+                if (finalProperty.PropertyType != typeof(object))
+                {
+                    finalProperty.SetValue(obj, Convert.ChangeType(value, finalProperty.PropertyType, CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    finalProperty.SetValue(obj, value);
+                }
+            }
         }
     }
 
@@ -604,13 +671,6 @@ public static class StswExtensions
 
         return result;
     }
-
-    /// <summary>
-    /// Converts a <see cref="SolidColorBrush"/> to a <see cref="Color"/>.
-    /// </summary>
-    /// <param name="value">The <see cref="SolidColorBrush"/> to convert.</param>
-    /// <returns>The converted <see cref="Color"/>.</returns>
-    public static Color ToColor(this SolidColorBrush value) => value.Color;
 
     /// <summary>
     /// Converts a <see cref="Color"/> to a <see cref="System.Drawing.Color"/>.
@@ -816,7 +876,6 @@ public static class StswExtensions
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
         ArgumentNullException.ThrowIfNull(sqlCommand);
-
         if (string.IsNullOrEmpty(parameterName))
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
 
@@ -826,10 +885,16 @@ public static class StswExtensions
             return;
         }
 
-        IList<SqlParameter> addParameters = [];
+        var parameterNames = new StringBuilder();
         for (var i = 0; i < list?.Count; i++)
-            addParameters.Add(sqlCommand.Parameters.AddWithValue(parameterName + i, list[i]));
-        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", string.Join(",", addParameters.Select(x => x.ParameterName)), RegexOptions.IgnoreCase);
+        {
+            var paramName = $"{parameterName}{i}";
+            sqlCommand.Parameters.AddWithValue(paramName, list[i]);
+            if (i > 0) parameterNames.Append(',');
+            parameterNames.Append(paramName);
+        }
+
+        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", parameterNames.ToString(), RegexOptions.IgnoreCase);
     }
     #endregion
 
@@ -843,6 +908,9 @@ public static class StswExtensions
     {
         if (string.IsNullOrEmpty(text))
             return text;
+
+        if (text.Length == 1)
+            return char.ToUpper(text[0]).ToString();
 
         return $"{char.ToUpper(text[0])}{text[1..].ToLower()}";
     }

@@ -49,8 +49,7 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
             pmr = pmr[1..];
 
         /// result
-        var result = val == pmr;
-        result ^= isReversed;
+        var result = (val == pmr) ^ isReversed;
 
         if (targetType == typeof(Visibility))
             return result ? Visibility.Visible : Visibility.Collapsed;

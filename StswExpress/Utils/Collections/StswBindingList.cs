@@ -12,7 +12,6 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
 {
     public StswBindingList() : base() => Initialize();
     public StswBindingList(IEnumerable<T> items) : base(items.ToList()) => Initialize();
-    public StswBindingList(IList<T> items) : base(items) => Initialize();
 
     /// <summary>
     /// Initializes the list by setting up item states.

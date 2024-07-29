@@ -68,7 +68,7 @@ public class StswColorSaturationConverter : MarkupExtension, IValueConverter
     /// <param name="color">The original color.</param>
     /// <param name="pmrVal">The saturation adjustment value.</param>
     /// <returns>The color with adjusted saturation.</returns>
-    private static Color AdjustSaturation(Color color, double pmrVal)
+    public static Color AdjustSaturation(Color color, double pmrVal)
     {
         double r = color.R, g = color.G, b = color.B;
         double avg = (r + g + b) / 3;
