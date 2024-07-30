@@ -45,7 +45,6 @@
                                    IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
                                    IsBusy="{TemplateBinding IsBusy}"
                                    IsContentVisible="{TemplateBinding IsContentVisible}"
-                                   IsHighlighted="{TemplateBinding IsChecked}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -60,10 +59,26 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="IconFill" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsChecked" Value="False"/>
+                            </MultiTrigger.Conditions>
                             <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                        </Trigger>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,5 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace StswExpress;
 /// <summary>
@@ -28,6 +36,7 @@ public class StswDatabaseModel : StswObservableObject
         Password = builder.Password;
     }
 
+    #region Main properties
     /// <summary>
     /// Gets or sets the name of the database connection.
     /// </summary>
@@ -119,7 +128,9 @@ public class StswDatabaseModel : StswObservableObject
         StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
         _ => throw new Exception("This type of database management system is not supported!")
     };
+    #endregion
 
+    #region Query methods
     /// <summary>
     /// Opens a new SQL connection using the connection string.
     /// </summary>
@@ -132,19 +143,14 @@ public class StswDatabaseModel : StswObservableObject
     }
 
     /// <summary>
-    /// Keeps the <see cref="System.Data.SqlClient.SqlTransaction"/> that has begun.
-    /// </summary>
-    internal SqlTransaction? SqlTransaction;
-
-    /// <summary>
     /// Begins a new SQL transaction.
     /// </summary>
     public void BeginTransaction()
     {
-        if (SqlTransaction != null)
+        if (_sqlTransaction != null)
             throw new Exception("SqlTransaction has been already started.");
 
-        SqlTransaction = OpenedConnection().BeginTransaction();
+        _sqlTransaction = OpenedConnection().BeginTransaction();
     }
 
     /// <summary>
@@ -152,11 +158,11 @@ public class StswDatabaseModel : StswObservableObject
     /// </summary>
     public void CommitTransaction()
     {
-        if (SqlTransaction == null)
+        if (_sqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
 
-        using (SqlTransaction)
-            SqlTransaction.Commit();
+        using (_sqlTransaction)
+            _sqlTransaction.Commit();
     }
 
     /// <summary>
@@ -164,17 +170,355 @@ public class StswDatabaseModel : StswObservableObject
     /// </summary>
     public void RollbackTransaction()
     {
-        if (SqlTransaction == null)
+        if (_sqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
 
-        using (SqlTransaction)
-            SqlTransaction.Rollback();
+        using (_sqlTransaction)
+            _sqlTransaction.Rollback();
     }
 
     /// <summary>
-    /// Creates a new <see cref="StswQuery"/> using the current database connection.
+    /// Gets or sets a value indicating whether to make less space in the query.
+    /// </summary>
+    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.AlwaysMakeLessSpaceQuery;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to return if in designer mode.
+    /// </summary>
+    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.AlwaysReturnIfInDesignerMode;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to return if no database is available.
+    /// </summary>
+    public bool ReturnIfNoDatabase { get; set; } = StswDatabases.AlwaysReturnIfNoDatabase;
+
+    /// <summary>
+    /// Executes the query and returns the number of rows affected.
     /// </summary>
     /// <param name="query">The SQL query string.</param>
-    /// <returns>A new <see cref="StswQuery"/> instance.</returns>
-    public StswQuery Query(string query) => new(query, this);
+    /// <param name="parameters">The models used for the query parameters.</param>
+    /// <returns>The number of rows affected.</returns>
+    public int? ExecuteNonQuery(string query, object? parameters = null)
+    {
+        if (!PrepareConnection())
+            return default;
+
+        IEnumerable<object?> models;
+        if (parameters is IEnumerable<SqlParameter>)
+            models = [parameters];
+        else if (parameters is IEnumerable<object?> enumerable)
+            models = enumerable;
+        else
+            models = [parameters];
+
+        var result = 0;
+        var sqlTran = _sqlTransaction ?? (models?.Count() > 1 ? _sqlConnection?.BeginTransaction() : null);
+        using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, sqlTran);
+        foreach (var model in models!)
+        {
+            PrepareParameters(sqlCmd, model);
+            result += sqlCmd.ExecuteNonQuery();
+        }
+
+        /// commit only if one-time transaction
+        if (_sqlTransaction == null)
+            sqlTran?.Commit();
+
+        return result;
+    }
+
+    /// <summary>
+    /// Executes the query and returns a scalar value.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <returns>The scalar value.</returns>
+    public TResult ExecuteScalar<TResult>(string query, object? parameters = null)
+    {
+        if (!PrepareConnection())
+            return default!;
+
+        using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        PrepareParameters(sqlCmd, parameters);
+        return sqlCmd.ExecuteScalar().ConvertTo<TResult>()!;
+    }
+
+    /// <summary>
+    /// Executes the query and returns a scalar value or default if the query fails.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <returns>The scalar value or default.</returns>
+    public TResult? TryExecuteScalar<TResult>(string query, object? parameters = null)
+    {
+        if (!PrepareConnection())
+            return default;
+
+        using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        PrepareParameters(sqlCmd, parameters);
+        using var sqlDR = sqlCmd.ExecuteReader();
+        return sqlDR.Read() ? sqlDR[0].ConvertTo<TResult>() : default;
+    }
+
+    /// <summary>
+    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
+    /// </summary>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <returns>A <see cref="SqlDataReader"/>.</returns>
+    public SqlDataReader? ExecuteReader(string query, object? parameters = null)
+    {
+        if (!PrepareConnection())
+            return default;
+
+        var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        PrepareParameters(sqlCmd, parameters);
+        return sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
+    }
+
+    /// <summary>
+    /// Executes the query and returns a collection of results.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the results.</typeparam>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <returns>A collection of results.</returns>
+    public IEnumerable<TResult> Get<TResult>(string query, object? parameters = null) where TResult : class, new()
+    {
+        if (!PrepareConnection())
+            return default!;
+
+        using var sqlDA = new SqlDataAdapter(PrepareQuery(query), _sqlConnection);
+        PrepareParameters(sqlDA.SelectCommand, parameters);
+
+        var dt = new DataTable();
+        sqlDA.Fill(dt);
+        return dt.MapToIncludingNested<TResult>();
+    }
+
+    /// <summary>
+    /// Executes the query and updates the database with the specified input collection.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the items in the input collection.</typeparam>
+    /// <param name="input">The input collection.</param>
+    /// <param name="tableName">The name of the database table.</param>
+    /// <param name="idProp">The property name of the ID.</param>
+    /// <param name="inclusionMode">The inclusion mode.</param>
+    /// <param name="inclusionProps">The properties to include or exclude based on the inclusion mode.</param>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    public void Set<TModel>(StswBindingList<TModel> input, string tableName, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null) where TModel : IStswCollectionItem, new()
+    {
+        if (!PrepareConnection())
+            return;
+
+        /// prepare parameters
+        inclusionProps ??= [];
+        sqlParameters ??= [];
+
+        var objProps = inclusionMode == StswInclusionMode.Include
+            ? typeof(TModel).GetProperties().Where(x => x.Name.In(inclusionProps))
+            : typeof(TModel).GetProperties().Where(x => !x.Name.In(inclusionProps.Union(input.IgnoredProperties)));
+        var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
+
+        /// func
+        using var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction();
+
+        var insertQuery = $"insert into {tableName} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
+        foreach (var item in input.GetItemsByState(StswItemState.Added))
+            using (var sqlCmd = new SqlCommand(insertQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                sqlCmd.ExecuteNonQuery();
+            }
+
+        var updateQuery = $"update {tableName} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
+        foreach (var item in input.GetItemsByState(StswItemState.Modified))
+            using (var sqlCmd = new SqlCommand(updateQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                sqlCmd.ExecuteNonQuery();
+            }
+
+        var deleteQuery = $"delete from {tableName} where {idProp}=@{idProp}";
+        foreach (var item in input.GetItemsByState(StswItemState.Deleted))
+            using (var sqlCmd = new SqlCommand(deleteQuery, _sqlConnection, sqlTran))
+            {
+                sqlCmd.Parameters.AddWithValue("@" + idProp, objProps.First(x => x.Name == idProp).GetValue(item));
+                sqlCmd.ExecuteNonQuery();
+            }
+
+        /// commit only if one-time transaction
+        if (_sqlTransaction == null)
+            sqlTran?.Commit();
+    }
+
+    /// <summary>
+    /// Performs a bulk insert operation to improve performance when inserting large datasets.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
+    /// <param name="items">The collection of items to insert.</param>
+    /// <param name="tableName">The name of the database table.</param>
+    public void BulkInsert<TModel>(IEnumerable<TModel> items, string tableName)
+    {
+        if (!PrepareConnection())
+            return;
+
+        using var bulkCopy = new SqlBulkCopy(_sqlConnection, SqlBulkCopyOptions.Default, _sqlTransaction);
+        bulkCopy.DestinationTableName = tableName;
+        var dataTable = items.ToDataTable();
+        bulkCopy.WriteToServer(dataTable);
+    }
+
+    /// <summary>
+    /// Executes a stored procedure with parameters.
+    /// </summary>
+    /// <param name="procName">The name of the stored procedure.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <returns>The number of rows affected.</returns>
+    public int? ExecuteStoredProcedure(string procName, object? parameters = null)
+    {
+        if (!PrepareConnection())
+            return default;
+
+        using var sqlCmd = new SqlCommand(procName, _sqlConnection, _sqlTransaction) { CommandType = CommandType.StoredProcedure };
+        PrepareParameters(sqlCmd, parameters);
+        return sqlCmd.ExecuteNonQuery();
+    }
+    #endregion
+
+    #region Query helpers
+    /// <summary>
+    /// Reduces the amount of space in the query by removing unnecessary whitespace.
+    /// </summary>
+    /// <param name="query">The SQL query to process.</param>
+    /// <returns>The processed SQL query.</returns>
+    public static string LessSpaceQuery(string query)
+    {
+        var regex = new Regex(@"('([^']*)')|([^']+)");
+        var parts = regex.Matches(query)
+                         .Cast<Match>()
+                         .Select(match => match.Groups[2].Success ? (match.Groups[2].Value, true) : (match.Groups[3].Value, false))
+                         .ToList();
+
+        return parts.Aggregate(string.Empty, (current, part) => current + (part.Item2 ? $"'{part.Value}'" : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")));
+    }
+
+    /// <summary>
+    /// Prepares the SQL connection and transaction.
+    /// </summary>
+    /// <returns>true if the connection is successfully prepared; otherwise, false.</returns>
+    protected bool PrepareConnection()
+    {
+        var isInDesignMode = false;
+        if (ReturnIfInDesignerMode)
+            Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject()));
+        if (isInDesignMode)
+            return false;
+
+        if (_sqlTransaction != null)
+            _sqlConnection = _sqlTransaction.Connection;
+        else
+            _sqlConnection = OpenedConnection();
+
+        if (_sqlConnection == null)
+        {
+            if (ReturnIfNoDatabase)
+                return false;
+            throw new InvalidOperationException("Connection could not be prepared.");
+        }
+        if (_sqlConnection?.State != ConnectionState.Open)
+            _sqlConnection?.Open();
+
+        return true;
+    }
+    private SqlConnection? _sqlConnection;
+    private SqlTransaction? _sqlTransaction;
+
+    /// <summary>
+    /// Prepares the SQL command with the specified parameters.
+    /// </summary>
+    /// <param name="sqlCommand">The SQL command to prepare.</param>
+    /// <param name="model">The model used for the query parameters.</param>
+    public static void PrepareParameters(SqlCommand sqlCommand, object? model)
+    {
+        sqlCommand.Parameters.Clear();
+        if (model != null)
+        {
+            var sqlParameters = model is IEnumerable<SqlParameter> parameters
+                ? parameters.ToList()
+                : model.GetType().GetProperties().Select(prop => new SqlParameter("@" + prop.Name, prop.GetValue(model) ?? DBNull.Value)).ToList();
+
+            foreach (var parameter in sqlParameters)
+            {
+                if (parameter.Value.GetType().IsListType(out var type) && type?.IsValueType == true)
+                    sqlCommand.ParametersAddList(parameter.ParameterName, (IList?)parameter.Value);
+                else
+                    sqlCommand.Parameters.Add(parameter);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Prepares the SQL command with the specified parameters and properties.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the item containing the properties.</typeparam>
+    /// <param name="sqlCommand">The SQL command to prepare.</param>
+    /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
+    /// <param name="propertyInfos">The properties to add as parameters.</param>
+    /// <param name="item">The item containing the properties.</param>
+    protected void PrepareParameters<TModel>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, TModel? item)
+    {
+        /// add parameters
+        PrepareParameters(sqlCommand, sqlParameters);
+
+        /// add properties as parameters
+        if (propertyInfos != null && item != null)
+        {
+            foreach (var prop in propertyInfos)
+            {
+                if (!sqlCommand.Parameters.Contains("@" + prop.Name))
+                {
+                    var value = prop.GetValue(item);
+                    if (value == null)
+                    {
+                        sqlCommand.Parameters.Add("@" + prop.Name, prop.PropertyType.InferSqlDbType()!.Value).Value = DBNull.Value;
+                    }
+                    else if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
+                    {
+                        if (type == typeof(byte))
+                            sqlCommand.Parameters.AddWithValue("@" + prop.Name, (byte[])value);
+                        else
+                            sqlCommand.ParametersAddList("@" + prop.Name, (IList?)value);
+                    }
+                    else
+                    {
+                        sqlCommand.Parameters.AddWithValue("@" + prop.Name, value ?? DBNull.Value);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Prepares the SQL query for execution.
+    /// </summary>
+    /// <param name="query">The SQL query to prepare.</param>
+    /// <returns>The prepared SQL query.</returns>
+    protected string PrepareQuery(string query) => MakeLessSpaceQuery ? LessSpaceQuery(query) : query;
+    #endregion
+
+    ~StswDatabaseModel()
+    {
+        _sqlTransaction?.Rollback();
+        _sqlTransaction?.Dispose();
+        _sqlTransaction = null;
+
+        _sqlConnection?.Close();
+        _sqlConnection?.Dispose();
+        _sqlConnection = null;
+    }
 }

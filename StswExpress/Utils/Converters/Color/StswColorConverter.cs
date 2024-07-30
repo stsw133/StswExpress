@@ -78,7 +78,9 @@ public class StswColorConverter : MarkupExtension, IValueConverter
         return targetType switch
         {
             Type t when t == typeof(Color) => color,
+            Type t when t == typeof(Color?) => color,
             Type t when t == typeof(System.Drawing.Color) => System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B),
+            Type t when t == typeof(System.Drawing.Color?) => System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B),
             Type t when t == typeof(Brush) || t == typeof(SolidColorBrush) => new SolidColorBrush(color),
             _ => color.ToString()
         };

@@ -67,7 +67,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private decimal _defaultDiscount;
 
     /// IsArchival
-    [StswExport("Is archival")]
+    [StswExport("Is archival", "yes~no")]
     public bool IsArchival
     {
         get => _isArchival;

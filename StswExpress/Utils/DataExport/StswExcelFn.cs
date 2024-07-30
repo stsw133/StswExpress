@@ -3,18 +3,23 @@ using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 
 namespace StswExpress;
 /// <summary>
-/// Provides a method for exporting data to various file formats.
+/// Provides methods for exporting data to Excel files.
 /// </summary>
 public static class StswExcelFn
 {
     /// <summary>
-    /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
+    /// Exports a collection of data sheets to an Excel file.
     /// </summary>
+    /// <param name="sheetsWithData">A dictionary containing sheet names and their respective data collections.</param>
+    /// <param name="filePath">The path to save the exported file. If null, a SaveFileDialog will be shown.</param>
+    /// <param name="openFile">Specifies whether to open the file after exporting.</param>
+    /// <param name="additionalParameters">Additional parameters for the export operation.</param>
     public static void ExportTo(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile, StswExportParameters? additionalParameters = null)
     {
         if (filePath == null)
@@ -22,10 +27,11 @@ public static class StswExcelFn
             var dialog = new SaveFileDialog()
             {
                 AddExtension = true,
-                DefaultExt = "xlsx",
+                DefaultExt = additionalParameters?.FileDialogDefaultExt ?? "xlsx",
                 FileName = additionalParameters?.RecommendedFileName ?? string.Empty,
-                Filter = "Excel file (*.xlsx)|*.xlsx"
+                Filter = additionalParameters?.FileDialogFilter ?? "Excel file (*.xlsx)|*.xlsx"
             };
+
             if (dialog.ShowDialog() == true)
                 filePath = dialog.FileName;
             else return;
@@ -37,8 +43,8 @@ public static class StswExcelFn
             foreach (var sheet in sheetsWithData)
             {
                 var ws = wb.AddWorksheet(sheet.Key);
+                var elementType = StswBaseDataHandler.GetElementType(sheet.Value);
 
-                var elementType = GetElementType(sheet.Value);
                 if (elementType != null)
                 {
                     /// properties
@@ -54,36 +60,51 @@ public static class StswExcelFn
                         .Select(p => p.Property)
                         .ToList();
 
-                    int row = 0;
-
-                    /// headers + elements
+                    /// set headers
                     for (int col = 0; col < properties.Count; col++)
                     {
                         var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
+                        ws.Cell(1, col + 1).Value = attribute?.ColumnName ?? properties[col].Name;
+                    }
 
-                        row = 1;
-                        ws.Cell(row, col + 1).Value = attribute?.ColumnName ?? properties[col].Name;
-
-                        /// elements
-                        foreach (var item in sheet.Value)
+                    /// set data
+                    var row = 2;
+                    foreach (var item in sheet.Value)
+                    {
+                        for (int col = 0; col < properties.Count; col++)
                         {
-                            ++row;
-
                             var value = properties[col].GetValue(item);
-                            if (properties[col].PropertyType.IsNumericType())
-                                ws.Cell(row, col + 1).SetValue(Convert.ToDecimal(value));
-                            else if (properties[col].PropertyType.In(typeof(DateTime), typeof(DateTime?)))
-                                ws.Cell(row, col + 1).SetValue(Convert.ToDateTime(value));
-                            else
-                                ws.Cell(row, col + 1).SetValue(Convert.ToString(value));
+                            var cell = ws.Cell(row, col + 1);
+                            var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
 
-                            if (attribute?.ColumnFormat != null)
-                                ws.Cell(row, col + 1).Style.NumberFormat.Format = attribute.ColumnFormat;
+                            if (properties[col].PropertyType.IsNumericType())
+                            {
+                                if (attribute?.ColumnFormat != null)
+                                    cell.SetValue(Convert.ToDecimal(value).ToString(attribute.ColumnFormat));
+                                else
+                                    cell.SetValue(Convert.ToDecimal(value));
+                            }
+                            else if (properties[col].PropertyType.In(typeof(DateTime), typeof(DateTime?)))
+                            {
+                                if (attribute?.ColumnFormat != null)
+                                    cell.SetValue(Convert.ToDateTime(value).ToString(attribute.ColumnFormat));
+                                else
+                                    cell.SetValue(Convert.ToDateTime(value));
+                            }
+                            else if (properties[col].PropertyType == typeof(bool) || properties[col].PropertyType == typeof(bool?))
+                            {
+                                cell.SetValue(StswBaseDataHandler.FormatBool(value, attribute?.ColumnFormat));
+                            }
+                            else
+                            {
+                                cell.SetValue(value?.ToString());
+                            }
                         }
+                        row++;
                     }
 
                     /// table and auto column width
-                    var table = ws.Range(1, 1, row, properties.Count).CreateTable();
+                    var table = ws.Range(1, 1, row - 1, properties.Count).CreateTable();
                     ws.Columns().AdjustToContents();
                 }
             }
@@ -91,69 +112,88 @@ public static class StswExcelFn
             /// save
             wb.SaveAs(filePath);
         }
+
         if (openFile)
             StswFn.OpenFile(filePath);
     }
+
     /// <summary>
-    /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
+    /// Exports a single data sheet to an Excel file.
     /// </summary>
-    public static void ExportTo((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile, StswExportParameters? parameters = null)
+    /// <param name="sheetName">The name of the sheet to be created in the Excel file.</param>
+    /// <param name="sheetData">The data collection to be exported.</param>
+    /// <param name="filePath">The path to save the exported file. If null, a SaveFileDialog will be shown.</param>
+    /// <param name="openFile">Specifies whether to open the file after exporting.</param>
+    /// <param name="parameters">Additional parameters for the export operation.</param>
+    public static void ExportTo(string sheetName, IEnumerable sheetData, string? filePath, bool openFile, StswExportParameters? parameters = null)
     {
-        var dict = new Dictionary<string, IEnumerable>
-        {
-            { sheetWithData.name, sheetWithData.data }
-        };
-        ExportTo(dict, filePath, openFile, parameters);
+        var sheetsWithData = new Dictionary<string, IEnumerable> { { sheetName, sheetData } };
+        ExportTo(sheetsWithData, filePath, openFile, parameters);
     }
 
     /// <summary>
-    /// Gets type of IEnumerable.
+    /// Imports data from an Excel file into a collection of objects.
     /// </summary>
-    private static Type? GetElementType(IEnumerable enumerable)
+    /// <typeparam name="T">The type of objects to import the data into.</typeparam>
+    /// <param name="filePath">The path to the Excel file to import from. If null, an OpenFileDialog will be shown.</param>
+    /// <param name="sheetName">The name of the sheet to import data from. If null, the first sheet will be used.</param>
+    /// <param name="additionalParameters">Additional parameters for the import operation.</param>
+    /// <returns>A list of objects of type T populated with data from the Excel file.</returns>
+    public static List<T> ImportFrom<T>(string? filePath = null, string? sheetName = null, StswExportParameters? additionalParameters = null) where T : new()
     {
-        var enumerableType = enumerable.GetType();
-        if (enumerableType.IsGenericType)
+        if (filePath == null)
         {
-            var typeArgs = enumerableType.GetGenericArguments();
-            if (typeArgs.Length > 0)
-                return typeArgs[0];
+            var dialog = new OpenFileDialog
+            {
+                DefaultExt = additionalParameters?.FileDialogDefaultExt ?? "xlsx",
+                Filter = additionalParameters?.FileDialogFilter ?? "Excel file (*.xlsx)|*.xlsx"
+            };
+
+            if (dialog.ShowDialog() == true)
+                filePath = dialog.FileName;
+            else return [];
         }
-        return null;
+
+        var result = new List<T>();
+
+        using (var wb = new XLWorkbook(filePath))
+        {
+            var ws = sheetName == null ? wb.Worksheets.First() : wb.Worksheets.Worksheet(sheetName);
+            var properties = typeof(T).GetProperties().Where(p => !p.GetCustomAttributes<StswExportAttribute>().Any(a => a.IsColumnIgnored)).ToList();
+            var headerRow = ws.FirstRowUsed();
+            var columnMapping = new Dictionary<int, PropertyInfo>();
+
+            foreach (var cell in headerRow.CellsUsed())
+            {
+                var header = cell.GetString();
+                var property = properties.FirstOrDefault(p =>
+                    p.Name.Equals(header, StringComparison.OrdinalIgnoreCase) ||
+                    p.GetCustomAttributes<StswExportAttribute>().Any(a => a.ColumnName?.Equals(header, StringComparison.OrdinalIgnoreCase) == true)
+                );
+
+                if (property != null)
+                    columnMapping[cell.Address.ColumnNumber] = property;
+            }
+
+            var dataRows = ws.RowsUsed().Skip(1);
+            foreach (var dataRow in dataRows)
+            {
+                var obj = new T();
+
+                foreach (var kvp in columnMapping)
+                {
+                    var cell = dataRow.Cell(kvp.Key);
+                    var property = kvp.Value;
+                    var attribute = property.GetCustomAttribute<StswExportAttribute>();
+                    var value = StswBaseDataHandler.ConvertCellValue(cell, property.PropertyType, attribute?.ColumnFormat);
+
+                    property.SetValue(obj, value);
+                }
+
+                result.Add(obj);
+            }
+        }
+
+        return result;
     }
-}
-
-/// <summary>
-/// A class that is a attribute used for <see cref="StswExcelFn"/> function to control exporting behavior for specific properties.
-/// </summary>
-[AttributeUsage(AttributeTargets.Property)]
-public class StswExportAttribute(string? columnName = null, string? columnFormat = null, bool isColumnIgnored = false, int order = 0) : Attribute
-{
-    /// <summary>
-    /// Gets or sets the custom name to be used as the column header in the exported Excel file.
-    /// </summary>
-    public string? ColumnName { get; set; } = columnName;
-
-    /// <summary>
-    /// Gets or sets the custom format string to be used for formatting the property's value in the exported Excel file.
-    /// </summary>
-    public string? ColumnFormat { get; set; } = columnFormat;
-
-    /// <summary>
-    /// Gets or sets a flag indicating whether to ignore exporting the property as a column in the Excel file.
-    /// </summary>
-    public bool IsColumnIgnored { get; set; } = isColumnIgnored;
-
-    /// <summary>
-    /// Gets or sets the order in which the column should appear in the exported Excel file.
-    /// </summary>
-    public int Order { get; set; } = order;
-}
-
-/// <summary>
-/// A class for additional export parameters such as default name of file.
-/// </summary>
-public class StswExportParameters
-{
-    public bool IncludeNonAttributed { get; set; } = false;
-    public string RecommendedFileName { get; set; } = string.Empty;
 }

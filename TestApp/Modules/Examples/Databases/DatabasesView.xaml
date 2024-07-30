@@ -4,11 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-             xmlns:local="clr-namespace:TestApp"
+             xmlns:local="clr-namespace:TestApp" d:DataContext="{d:DesignInstance Type=local:DatabasesContext}"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
-    <d:UserControl.DataContext>
-        <local:DatabasesContext/>
-    </d:UserControl.DataContext>
 
     <DockPanel>
         <DockPanel>
@@ -52,24 +49,12 @@
                 </StackPanel>
             </se:StswDirectionView>
             <!-- list -->
-            <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Source={x:Static se:StswDatabases.Collection}}" SelectedItem="{Binding SelectedDatabase}"/>
+            <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding AllDatabases}" SelectedItem="{Binding SelectedDatabase}"/>
         </DockPanel>
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
         <!-- selected database model -->
         <se:StswScrollView IsDynamic="True" Padding="3">
-            <StackPanel DataContext="{Binding SelectedDatabase}">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type StackPanel}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Count, Mode=OneWay, Source={x:Static se:StswDatabases.Collection}}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Resources>
+            <StackPanel DataContext="{Binding SelectedDatabase}" IsEnabled="{Binding Converter={x:Static se:StswNotNullConverter.Instance}}">
                 
                 <!-- name -->
                 <StackPanel DockPanel.Dock="Top" Margin="3">
@@ -111,6 +96,7 @@
                         </se:StswPasswordBox.SubControls>
                     </se:StswPasswordBox>
                 </StackPanel>
+                
             </StackPanel>
         </se:StswScrollView>
     </DockPanel>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -163,74 +162,4 @@ public static class StswLog
     /// </summary>
     /// <param name="text">The text to log.</param>
     public static void Write(string text) => Write(null, text);
-}
-
-/// <summary>
-/// Configuration settings for the <see cref="StswLog"/> class.
-/// </summary>
-[EditorBrowsable(EditorBrowsableState.Never)]
-public class StswLogConfig()
-{
-    /// <summary>
-    /// Indicates whether to archive the full month's log files.
-    /// </summary>
-    public bool ArchiveFullMonth = true;
-
-    /// <summary>
-    /// Specifies the number of days to keep logs before archiving them.
-    /// </summary>
-    public int ArchiveUpToLastDays = 90;
-
-    /// <summary>
-    /// Specifies the number of days after which logs should be archived.
-    /// </summary>
-    public int ArchiveWhenDaysOver = 120;
-
-    /*
-    /// <summary>
-    /// Specifies the file size threshold for archiving logs (in bytes).
-    /// </summary>
-    public int? ArchiveWhenSizeOver = 1024 * 1024 * 10;
-    */
-
-    /// <summary>
-    /// Specifies the path to the directory where the archived log files will be saved.
-    /// </summary>
-    public string ArchiveDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "archive");
-
-    /// <summary>
-    /// Specifies the path to the directory where the log files will be saved.
-    /// </summary>
-    public string LogDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-
-    /// <summary>
-    /// Log types to include DEBUG mode. Any type that is not in this list will be skipped.
-    /// </summary>
-    public IEnumerable<StswInfoType> LogTypes_DEBUG { get; set; } = Enum.GetValues(typeof(StswInfoType)).Cast<StswInfoType>();
-
-    /// <summary>
-    /// Log types to include RELEASE mode. Any type that is not in this list will be skipped.
-    /// </summary>
-    public IEnumerable<StswInfoType> LogTypes_RELEASE { get; set; } = Enum.GetValues(typeof(StswInfoType)).Cast<StswInfoType>().Except([StswInfoType.Debug]);
-}
-
-/// <summary>
-/// Represents a log item with a type and text.
-/// </summary>
-public struct StswLogItem(StswInfoType? type, string text)
-{
-    /// <summary>
-    /// The date and time of the log entry.
-    /// </summary>
-    public DateTime DateTime { get; set; } = DateTime.Now;
-
-    /// <summary>
-    /// The text of the log entry.
-    /// </summary>
-    public string? Text { get; set; } = text;
-
-    /// <summary>
-    /// The type of the log entry.
-    /// </summary>
-    public StswInfoType? Type { get; set; } = type;
 }

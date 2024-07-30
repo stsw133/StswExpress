@@ -92,7 +92,7 @@
                                               Orientation="Horizontal"/>
                             <se:StswExpander x:Name="PART_Details" DockPanel.Dock="Bottom" se:StswControl.IsBorderless="True" Padding="0">
                                 <se:StswExpander.Header>
-                                    <se:StswHeader Content="Pokaż szczegóły" IconData="{x:Static se:StswIcons.DotsHorizontal}" Padding="6">
+                                    <se:StswHeader x:Name="PART_DetailsHeader" Content="Pokaż szczegóły" IconData="{x:Static se:StswIcons.DotsHorizontal}" Padding="6">
                                         <se:StswHeader.LayoutTransform>
                                             <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
                                         </se:StswHeader.LayoutTransform>

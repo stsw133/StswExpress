@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 
 namespace StswExpress;
@@ -8,28 +8,23 @@ namespace StswExpress;
 /// </summary>
 public static class StswDatabases
 {
+    #region Import & export
     /// <summary>
-    /// The collection that contains all declared database connections for the application.
+    /// Gets or sets the default instance of the database connection that is currently in use by the application in case only a single one is needed.
     /// </summary>
-    public static ObservableCollection<StswDatabaseModel> Collection { get; set; } = [];
+    public static StswDatabaseModel? Default { get; set; }
 
     /// <summary>
-    /// Default instance of the database connection that is currently in use by the application. 
-    /// </summary>
-    public static StswDatabaseModel? Current { get; set; }
-
-    /// <summary>
-    /// Specifies the location of the file where database connections are stored.
+    /// Gets or sets the location of the file where database connections are stored.
     /// </summary>
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
 
     /// <summary>
-    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="Collection"/>.
+    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in a collection.
     /// </summary>
-    public static void ImportList()
+    /// <returns>An enumerable collection of <see cref="StswDatabaseModel"/> objects representing the imported database connections.</returns>
+    public static IEnumerable<StswDatabaseModel> ImportList()
     {
-        Collection.Clear();
-
         if (!File.Exists(FilePath))
         {
             new FileInfo(FilePath)?.Directory?.Create();
@@ -43,7 +38,7 @@ public static class StswDatabases
             if (line != null)
             {
                 var data = line.Split('|');
-                Collection.Add(new()
+                yield return new()
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
@@ -51,7 +46,7 @@ public static class StswDatabases
                     Database = StswSecurity.Decrypt(data[3]),
                     Login = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5])
-                });
+                };
             }
         }
     }
@@ -59,17 +54,36 @@ public static class StswDatabases
     /// <summary>
     /// Writes database connections to a file specified by <see cref="FilePath"/>.
     /// </summary>
-    public static void ExportList()
+    /// <param name="collection">The collection of <see cref="StswDatabaseModel"/> objects representing the database connections to be exported.</param>
+    public static void ExportList(IEnumerable<StswDatabaseModel> collection)
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var db in Collection)
+        foreach (var item in collection)
             stream.WriteLine(string.Join('|', 
-                    StswSecurity.Encrypt(db.Name ?? string.Empty),
-                    StswSecurity.Encrypt(db.Server ?? string.Empty),
-                    StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty),
-                    StswSecurity.Encrypt(db.Database ?? string.Empty),
-                    StswSecurity.Encrypt(db.Login ?? string.Empty),
-                    StswSecurity.Encrypt(db.Password ?? string.Empty)
+                    StswSecurity.Encrypt(item.Name ?? string.Empty),
+                    StswSecurity.Encrypt(item.Server ?? string.Empty),
+                    StswSecurity.Encrypt(item.Port?.ToString() ?? string.Empty),
+                    StswSecurity.Encrypt(item.Database ?? string.Empty),
+                    StswSecurity.Encrypt(item.Login ?? string.Empty),
+                    StswSecurity.Encrypt(item.Password ?? string.Empty)
                 ));
     }
+    #endregion
+
+    #region Query config
+    /// <summary>
+    /// Gets or sets a value indicating whether to always make less space in the query.
+    /// </summary>
+    public static bool AlwaysMakeLessSpaceQuery { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to always return if in designer mode.
+    /// </summary>
+    public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to always return if no database is available.
+    /// </summary>
+    public static bool AlwaysReturnIfNoDatabase { get; set; } = false;
+    #endregion
 }

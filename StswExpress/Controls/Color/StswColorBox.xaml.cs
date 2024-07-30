@@ -29,7 +29,7 @@ public class StswColorBox : StswBoxBase
     /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
-        var result = SelectedColor;
+        var result = SelectedColor ?? default;
 
         if (string.IsNullOrEmpty(Text))
             result = default;
@@ -90,19 +90,19 @@ public class StswColorBox : StswBoxBase
     /// <summary>
     /// Gets or sets the selected color in the control.
     /// </summary>
-    public Color SelectedColor
+    public Color? SelectedColor
     {
-        get => (Color)GetValue(SelectedColorProperty);
+        get => (Color?)GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
     }
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
-            typeof(Color),
+            typeof(Color?),
             typeof(StswColorBox),
-            new FrameworkPropertyMetadata(default(Color),
+            new FrameworkPropertyMetadata(default(Color?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorChanged, OnSelectedColorChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -110,6 +110,13 @@ public class StswColorBox : StswBoxBase
         {
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
         }
+    }
+    private static object OnSelectedColorChanging(DependencyObject d, object baseValue)
+    {
+        if (baseValue == null)
+            return default(Color);
+
+        return baseValue;
     }
     #endregion
 }

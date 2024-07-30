@@ -112,23 +112,9 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
                         </MultiTrigger>
-                        <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}"/>
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsHighlighted" Value="False"/>
-                            </MultiTrigger.Conditions>
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsHighlighted" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_Content"/>
-                        </MultiTrigger>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

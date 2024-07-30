@@ -30,20 +30,17 @@
             <!-- IsContentVisible -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
-            <!-- IsHighlighted -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsHighlighted, Type={x:Type se:StswHeader}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsHighlighted}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswHeader}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswHeader Content="Lorem ipsum dolor sit amet..." IconData="{x:Static se:StswIcons.Cake}"
+        <se:StswHeader Content="Lorem ipsum dolor sit amet..."
+                       IconData="{x:Static se:StswIcons.Cake}"
                        IconScale="{Binding IconScale}"
                        IsBusy="{Binding IsBusy}"
                        IsContentVisible="{Binding IsContentVisible}"
                        IsEnabled="{Binding IsEnabled}"
-                       IsHighlighted="{Binding IsHighlighted}"
                        Margin="5"
                        Orientation="{Binding Orientation}"
                        HorizontalAlignment="{Binding HorizontalAlignment}"

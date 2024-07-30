@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Collections.ObjectModel;
 
 namespace StswExpress;
 /// <summary>
@@ -8,28 +8,23 @@ namespace StswExpress;
 /// </summary>
 public static class StswMailboxex
 {
+    #region Import & export
     /// <summary>
-    /// The dictionary that contains all declared email configurations for application.
+    /// Gets or sets the default instance of email configuration that is currently in use by the application in case only a single one is needed.
     /// </summary>
-    public static ObservableCollection<StswMailboxModel> Collection { get; set; } = [];
+    public static StswMailboxModel? Default { get; set; }
 
     /// <summary>
-    /// Default instance of email configuration (that is currently in use by application). 
-    /// </summary>
-    public static StswMailboxModel? Current { get; set; }
-
-    /// <summary>
-    /// Specifies the location of the file where email configurations are stored.
+    /// Gets or sets the location of the file where email configurations are stored.
     /// </summary>
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
 
     /// <summary>
-    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in <see cref="Collection"/>.
+    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in a collection.
     /// </summary>
-    public static void ImportList()
+    /// <returns>An enumerable collection of <see cref="StswMailboxModel"/> objects representing the imported email configurations.</returns>
+    public static IEnumerable<StswMailboxModel> ImportList()
     {
-        Collection.Clear();
-
         if (!File.Exists(FilePath))
         {
             new FileInfo(FilePath)?.Directory?.Create();
@@ -43,7 +38,7 @@ public static class StswMailboxex
             if (line != null)
             {
                 var data = line.Split('|');
-                Collection.Add(new StswMailboxModel()
+                yield return new StswMailboxModel()
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Host = StswSecurity.Decrypt(data[1]),
@@ -53,7 +48,7 @@ public static class StswMailboxex
                     Password = StswSecurity.Decrypt(data[5]),
                     Domain = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) ? s2 : null,
                     EnableSSL = StswSecurity.Decrypt(data[7]) is string s3 && !string.IsNullOrEmpty(s3) && Convert.ToBoolean(s3)
-                });
+                };
             }
         }
     }
@@ -61,18 +56,20 @@ public static class StswMailboxex
     /// <summary>
     /// Writes email configurations to a file specified by <see cref="FilePath"/>.
     /// </summary>
-    public static void ExportList()
+    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects representing the email configurations to be exported.</param>
+    public static void ExportList(IEnumerable<StswMailboxModel> collection)
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var mc in Collection)
-            stream.WriteLine(StswSecurity.Encrypt(mc.Name ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Host ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Port.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Address ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Username ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Password ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.Domain ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(mc.EnableSSL.ToString() ?? string.Empty)
+        foreach (var item in collection)
+            stream.WriteLine(StswSecurity.Encrypt(item.Name ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Host ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Port.ToString() ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Address ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Username ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Password ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Domain ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.EnableSSL.ToString() ?? string.Empty)
                 );
     }
+    #endregion
 }
