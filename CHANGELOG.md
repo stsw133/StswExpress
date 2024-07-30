@@ -407,7 +407,67 @@
 # **0.1.0**
 2023-08-19
 
-Info not prepared yet...
+### New functionality:
+
+* New controls: **StswCalendar**, **StswColorBox**, **StswColorPicker**, **StswColorSelector**, **StswComponentButton**, **StswComponentCheck**, **StswComponentPanel**, **StswComponentRebutton**, **StswContentDialog**, **StswDropButton**, **StswExpander**, **StswGroupBox**, **StswListBox**, **StswLogPanel**, **StswNotifyIcon**, **StswRadioBox**, **StswRatingControl**, **StswScrollBar**, **StswScrollViewer**, **StswSelectionBox**, **StswSplitButton**, **StswTabControl**, **StswTabItem**, **StswText**, **StswTextEditor, StswTruncateLabel**.
+* New converters: **StswEnumToListConverter**, **StswModuloConverter**.
+  New converters splitted from **StswColorConverter**: **StswColorAlphaConverter**, **StswColorGeneratorConverter**, **StswColorSaturationConverter**.
+* New extensions: **PadLeft**, **PadRight**, **FromAhsl**, **FromHsl**, **ToHsl**, **FromAhsv**, **FromHsv**, **ToHsv**, **ToColor**, **ToDrawingColor**, **ToMediaColor**, **ToHtml**, **Clone**.
+* New functions: **CalculateString**, **FindVisualAncestor**, **GetParent**.
+* New item classes: **StswCollectionItem **(with "ItemState" property and "ShowDetails" property), **StswLogItem**.
+* New icons.
+* New class: **StswApp**.
+* New **StswCommand** that can pass parameter.
+* Some Stsw controls now have a new event that invokes when their main property has been changed.
+* **StswNumericBox **has new "Format" property.
+* **StswIcon **and **StswHeader **now have "Stroke" property and "StrokeThickness" property.
+* **StswNavigation **now has "ItemsWidth" property so it can have constant width for items panel.
+* **StswComboBox**'s text box can have placeholder now.
+
+### Changed functionality:
+
+* GUI scaling has been upgraded - now it finally uses "ScaleTransform" on **StswWindow** instead of spamming **StswMultiplyConverter **on "FontSize" in every control's style.
+* All Stsw controls use dynamic resources to manage brushes instead of having style properties.
+* **StswCheckBox **has smaller icon.
+* **StswCalendarPicker **renamed to **StswDatePicker**.
+* **StswTextBox**, **StswNumericBox**, **StswDateBox **no longer have clear button. **StswPasswordBox **no longer has show password button.
+* Improvements for conveters. Additionally, each converter will be created only once first time it is referenced to.
+* **StswSimpleModel **name reverted to **StswComboBoxModel**.
+* **StswHeader **no longer has "SubTexts" property since the same effect can be achieved by declaring controls as its content.
+* Some functional improvements in **StswNavigation **and **StswNavigationElement **(renamed from **StswNavigationButton **and now can function as both: button and expander).
+* **StswDataGrid **shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".
+* **StswNavigationElement **can take "GroupName" from **StswNavigation**.
+* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent **controls. Additionally, components will no longer be disabled when control is in read only mode.
+* **StswDatePicker **and **StswColorBox **now have function button with Press click mode.
+* **StswLoadingCircle **changes its opacity when disabled instead of fill color (similarly to **StswIcon **and **StswImage**).
+* **StswImage **has different method for paste image from clipboard.
+* **StswSeparator **now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.
+* **StswComboBox **and **StswComboView **can be opened in read only mode (but selection can not be changed).
+* **StswNumericBox **and **StswDatePicker **refreshes "Value"/"SelectedDate" property before incrementing.
+* **StswFilter **has been reworked. Clearing and getting filters data is moved from **StswFilter **to **StswDataGrid**.
+* Improvements for **StswPasswordBox**, **StswWindow**'s title bar, **StswCollection**.
+* Stsw control styles moved to resource dictionaries.
+* Corner radius for all Stsw controls changed from 9 to 10. **StswDataGrid**'s header cell's border thickness changed from 0.5 to 1.
+* **ClippingBorder **renamed into **StswClippingBorder**. Every main border in Stsw controls that uses "CornerRadius" property is a **ClippingBorder **now.
+* **OutlinedTextBlock **has been renamed into **StswOutlinedText**.
+* Some Stsw controls now have visible checked state while being disabled (for example buttons and checks).
+* **StswTextBox **now refreshes after Enter click (that also fixes its behaviour in **StswFilter**).
+* **StswExport **now takes only properties that have export attribute.
+
+### Bugfixes:
+
+* Bugfix for converters when decimal separator is not set to dot.
+* Stsw buttons now have grids in templates between "ClippingBorder" and "ContentPresenter" so content should be clipped properly now.
+* **StswWindow **now properly works with fullscreen mode.
+* Bugfix for menu option that set default window size.
+* Bugfixes for **StswCalendar**. Additionally **StswCalendar **now works with first days of week other than "Monday" and properly shows last possible day to choose (9999-12-31).
+* Bugfixes for **StswDataGrid**'s special column.
+* Bugfix for Stsw buttons' border colors.
+* **StswDatePicker **and **StswNumericBox **now properly display formatted text after binding failure.
+* Bugfix for "Minimum" property and "Maximum" property in **StswDatePicker **and **StswNumericBox **- new value is validated before being assigned instead of corrected after being assigned.
+* Bugfixes for "IconScale" property in a few controls.
+* Many other small bugfixes.
+
 
 # **One year edition**
 2023-03-01
