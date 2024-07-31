@@ -5,14 +5,27 @@ using System.Windows;
 
 namespace StswExpress;
 /// <summary>
-/// A class for merging all StswExpress's resource dictionaries.
+/// Represents a class for merging all <see cref="StswExpress"/> resource dictionaries.
 /// </summary>
 public partial class StswResources
 {
+    static StswResources()
+    {
+        AvailableThemes = Enum.GetValues(typeof(StswTheme)).Cast<StswTheme>().ToObservableCollection();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StswResources"/> class.
+    /// </summary>
     public StswResources()
     {
         InitializeComponent();
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StswResources"/> class with a specified theme.
+    /// </summary>
+    /// <param name="theme">The theme to apply to the application.</param>
     public StswResources(StswTheme theme)
     {
         InitializeComponent();
@@ -20,22 +33,21 @@ public partial class StswResources
     }
 
     /// <summary>
-    /// 
+    /// Gets the instance of the <see cref="StswResources"/> class from the application's merged dictionaries.
     /// </summary>
+    /// <returns>An instance of the <see cref="StswResources"/> class if found; otherwise, null.</returns>
     public static StswResources? GetInstance()
     {
-        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources dict)
-            return dict;
-        return null;
+        return Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) as StswResources;
     }
 
     /// <summary>
-    /// List of themes available in <see cref="StswConfig"/> control.
+    /// Gets a list of available themes in the <see cref="StswConfig"/> control.
     /// </summary>
-    public static ObservableCollection<StswTheme> AvailableThemes = Enum.GetValues(typeof(StswTheme)).Cast<StswTheme>().ToObservableCollection();
+    public static ObservableCollection<StswTheme> AvailableThemes { get; }
 
     /// <summary>
-    /// Selected theme for application.
+    /// Gets or sets the selected theme for the application.
     /// </summary>
     public StswTheme Theme
     {
@@ -54,11 +66,15 @@ public partial class StswResources
     private StswTheme theme = StswTheme.Auto;
 
     /// <summary>
-    /// Method for selecting Theme.
+    /// Sets the specified theme by updating the resource dictionary.
     /// </summary>
+    /// <param name="theme">The theme to set.</param>
     private void SetTheme(StswTheme theme)
     {
-        MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
-        (Application.Current as StswApp)?.OnThemeChanged(this, theme);
+        if (MergedDictionaries.Count > 0)
+        {
+            MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
+            (Application.Current as StswApp)?.OnThemeChanged(this, theme);
+        }
     }
 }

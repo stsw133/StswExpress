@@ -12,13 +12,13 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom application class with additional functionality and customization options.
 /// </summary>
-[EditorBrowsable(EditorBrowsableState.Never)]
+//[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswApp : Application
 {
     /// <summary>
     /// Starting method that sets up various aspects of the application such as the theme, resources, commands, culture, and a callback for when the application exits.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments for the startup event.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
         /// close duplicated application
@@ -30,7 +30,7 @@ public class StswApp : Application
             {
                 Current.Shutdown();
 
-                if (otherInstances.FirstOrDefault(x => x.Id != Process.GetCurrentProcess().Id) is Process originalProcess)
+                if (otherInstances.FirstOrDefault(x => x.Id != Environment.ProcessId) is Process originalProcess)
                 {
                     if (originalProcess.MainWindowHandle != IntPtr.Zero)
                         SetForegroundWindow(originalProcess.MainWindowHandle);
@@ -79,22 +79,22 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// 
+    /// Method called when the theme is changed. Can be overridden to provide custom behavior.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The new theme.</param>
     public virtual void OnThemeChanged(object? sender, StswTheme e)
     {
         //;
     }
 
     /// <summary>
-    /// Current application's main StswWindow.
+    /// Gets the current application's main <see cref="StswWindow"/>.
     /// </summary>
     public static StswWindow StswWindow => (StswWindow)Current.MainWindow;
 
     /// <summary>
-    /// Gets or sets if running multiple instances of application is allowed or not.
+    /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
     /// </summary>
     public bool AllowMultipleInstances
     {
@@ -106,8 +106,6 @@ public class StswApp : Application
         }
     }
     private bool _allowMultipleInstances = true;
-
-
 
     [DllImport("user32.dll")]
     private static extern bool SetForegroundWindow(IntPtr hWnd);

@@ -33,8 +33,7 @@ public enum StswCalendarMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswNavigation.TabStripMode"/>,
-/// <see cref="StswSidePanel.ExpandMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
+/// Enumeration for <see cref="StswNavigation.TabStripMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
 /// </summary>
 public enum StswCompactibility
 {
@@ -128,7 +127,7 @@ public enum StswFilterMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswQuery.Set"/>.
+/// Enumeration for <see cref="StswDatabaseModel.Set"/>.
 /// </summary>
 public enum StswInclusionMode
 {

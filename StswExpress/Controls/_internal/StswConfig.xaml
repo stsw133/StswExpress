@@ -106,6 +106,14 @@
                             </UniformGrid>
                         </Grid>
                     </se:StswGroupBox>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Identifier.ShowConfigInDialog, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="se:StswControl.IsBorderless" Value="True" TargetName="PART_MainBorder"/>
+                            <Setter Property="Height" Value="auto" TargetName="PART_MainBorder"/>
+                            <Setter Property="Width" Value="auto" TargetName="PART_MainBorder"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

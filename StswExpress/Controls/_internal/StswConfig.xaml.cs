@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Shell;
 
 namespace StswExpress;
 
@@ -11,7 +12,7 @@ internal class StswConfig : Control, IStswCornerControl
 {
     internal StswConfig(object? identifier)
     {
-        this.identifier = identifier;
+        Identifier = identifier;
     }
     static StswConfig()
     {
@@ -44,7 +45,10 @@ internal class StswConfig : Control, IStswCornerControl
     /// <param name="result"></param>
     private void Close(bool? result)
     {
-        StswContentDialog.Close(identifier);
+        if (Identifier is StswWindow window && !window.ShowConfigInDialog)
+            Window.GetWindow(this).Close();
+        else
+            StswContentDialog.Close(Identifier);
 
         if (result == true)
             StswSettings.Default.Save();
@@ -64,10 +68,47 @@ internal class StswConfig : Control, IStswCornerControl
     /// <returns></returns>
     public static async void Show(object identifier)
     {
-        if (!StswContentDialog.GetInstance(identifier).IsOpen)
-            await StswContentDialog.Show(new StswConfig(identifier), identifier);
+        if (identifier is StswWindow window && !window.ShowConfigInDialog)
+        {
+            var config = new StswConfig(window);
+            var newWindow = new StswWindow()
+            {
+                Content = config,
+                Owner = window,
+                Height = window.ActualHeight * 0.9,
+                Width = window.ActualWidth * 0.9,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            newWindow.ApplyTemplate();
+            if (newWindow._windowBar != null)
+                ((Control)newWindow._windowBar.Parent).Visibility = Visibility.Collapsed;
+
+            WindowChrome.SetWindowChrome(newWindow, new());
+            newWindow.ShowDialog();
+        }
+        else
+        {
+            if (!StswContentDialog.GetInstance(identifier).IsOpen)
+                await StswContentDialog.Show(new StswConfig(identifier), identifier);
+        }
     }
-    private readonly object? identifier;
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Identifier which is used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswConfig)
+        );
     #endregion
 
     #region Style properties

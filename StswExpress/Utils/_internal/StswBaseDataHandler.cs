@@ -1,17 +1,21 @@
 ﻿using ClosedXML.Excel;
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Linq;
 
 namespace StswExpress;
 
+/// <summary>
+/// Provides a set of static methods for handling data conversion and processing within the <see cref="StswExpress"/> framework.
+/// </summary>
 internal static class StswBaseDataHandler
 {
     /// <summary>
-    /// 
+    /// Escapes a CSV value by enclosing it in double quotes if it contains a comma, double quote, or newline.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The CSV value to escape.</param>
+    /// <returns>The escaped CSV value.</returns>
     internal static string EscapeCsvValue(string? value)
     {
         if (string.IsNullOrEmpty(value))
@@ -93,28 +97,11 @@ internal static class StswBaseDataHandler
 
         var formatParts = format.Split('~');
         if (formatParts.Length == 1)
-        {
-            if (value == formatParts[0])
-                return true;
-            else
-                return false;
-        }
-        else if (formatParts.Length == 2)
-        {
-            if (value == formatParts[0])
-                return true;
-            if (value == formatParts[1])
-                return false;
-        }
-        else if (formatParts.Length == 3)
-        {
-            if (value == formatParts[0])
-                return true;
-            if (value == formatParts[1])
-                return false;
-            if (value == formatParts[2])
-                return null;
-        }
+            return value == formatParts[0];
+        if (formatParts.Length == 2)
+            return value == formatParts[0] ? true : value == formatParts[1] ? false : null;
+        if (formatParts.Length == 3)
+            return value == formatParts[0] ? true : value == formatParts[1] ? false : value == formatParts[2] ? null : null;
 
         return null;
     }
@@ -127,8 +114,12 @@ internal static class StswBaseDataHandler
     /// <returns>The converted DateTime value.</returns>
     internal static DateTime? ConvertStringToDateTime(string value, string? format)
     {
-        if (DateTime.TryParse(value, out var result))
-            return result;
+        if (string.IsNullOrEmpty(format))
+            return DateTime.TryParse(value, out var result) ? result : null;
+
+        if (DateTime.TryParseExact(value, format, null, DateTimeStyles.None, out var formattedResult))
+            return formattedResult;
+
         return null;
     }
 
@@ -137,19 +128,19 @@ internal static class StswBaseDataHandler
     /// </summary>
     /// <typeparam name="T">The numeric type to convert to.</typeparam>
     /// <param name="value">The string value to convert.</param>
-    /// <param name="format">The format string used for the export.</param>
+    /// <param name="format">The format string used for the export (not used in this implementation).</param>
     /// <returns>The converted numeric value.</returns>
     internal static T? ConvertStringToNumeric<T>(string value, string? format) where T : struct, IConvertible
     {
         if (string.IsNullOrEmpty(value))
             return null;
 
-        if (typeof(T) == typeof(int))
-            return int.TryParse(value, out var result) ? (T)(object)result : (T?)(object?)null;
-        if (typeof(T) == typeof(double))
-            return double.TryParse(value, out var result) ? (T)(object)result : (T?)(object?)null;
-        if (typeof(T) == typeof(decimal))
-            return decimal.TryParse(value, out var result) ? (T)(object)result : (T?)(object?)null;
+        if (typeof(T) == typeof(int) && int.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var intValue))
+            return (T)(object)intValue;
+        if (typeof(T) == typeof(double) && double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var doubleValue))
+            return (T)(object)doubleValue;
+        if (typeof(T) == typeof(decimal) && decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var decimalValue))
+            return (T)(object)decimalValue;
 
         return null;
     }
@@ -168,9 +159,6 @@ internal static class StswBaseDataHandler
         bool boolValue = Convert.ToBoolean(value);
         var formatParts = format?.Split('~') ?? [];
 
-        if (boolValue)
-            return formatParts.ElementAtOrDefault(0) ?? string.Empty;
-        else
-            return formatParts.ElementAtOrDefault(1) ?? string.Empty;
+        return formatParts.ElementAtOrDefault(boolValue ? 0 : 1) ?? string.Empty;
     }
 }

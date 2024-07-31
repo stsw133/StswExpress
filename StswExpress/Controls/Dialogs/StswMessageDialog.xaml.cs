@@ -46,7 +46,7 @@ public class StswMessageDialog : Control, IStswCornerControl
     /// <param name="e">The event arguments</param>
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
-        Clipboard.SetText(Details == null ? Content : $"{Content} {Details}");
+        Clipboard.SetText(Details == null ? Content : $"{Content}{Environment.NewLine}{Details}");
         if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
             stsw.IsChecked = true;
     }
@@ -207,6 +207,24 @@ public class StswMessageDialog : Control, IStswCornerControl
     public static readonly DependencyProperty IsOpenProperty
         = DependencyProperty.Register(
             nameof(IsOpen),
+            typeof(bool),
+            typeof(StswMessageDialog),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool ShowDetails
+    {
+        get => (bool)GetValue(ShowDetailsProperty);
+        set => SetValue(ShowDetailsProperty, value);
+    }
+    public static readonly DependencyProperty ShowDetailsProperty
+        = DependencyProperty.Register(
+            nameof(ShowDetails),
             typeof(bool),
             typeof(StswMessageDialog),
             new FrameworkPropertyMetadata(default(bool),

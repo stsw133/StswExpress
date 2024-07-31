@@ -41,7 +41,17 @@ public class StswLogConfig()
     /// <summary>
     /// Specifies the path to the directory where the log files will be saved.
     /// </summary>
-    public string LogDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+    public string LogDirectoryPath
+    {
+        get
+        {
+            if (!Directory.Exists(_logDirectoryPath))
+                Directory.CreateDirectory(_logDirectoryPath);
+            return _logDirectoryPath;
+        }
+        set => _logDirectoryPath = value;
+    }
+    private string _logDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
 
     /// <summary>
     /// Log types to include DEBUG mode. Any type that is not in this list will be skipped.

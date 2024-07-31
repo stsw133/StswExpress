@@ -4,16 +4,17 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Provides attached properties for customizing the appearance and behavior of controls.
 /// </summary>
 public static class StswControl
 {
     /// <summary>
-    /// 
+    /// Identifies the IsArrowless attached property.
+    /// When set to <see langword="true"/>, it hides the drop-down arrow by setting its visibility to <see cref="Visibility.Collapsed"/>.
     /// </summary>
     public static readonly DependencyProperty IsArrowlessProperty
         = DependencyProperty.RegisterAttached(
-            "IsArrowless",
+            nameof(IsArrowlessProperty)[..^8],
             typeof(bool),
             typeof(StswControl),
             new PropertyMetadata(false, OnIsArrowlessChanged)
@@ -35,7 +36,7 @@ public static class StswControl
     /// </summary>
     public static readonly DependencyProperty IsBorderlessProperty
         = DependencyProperty.RegisterAttached(
-            "IsBorderless",
+            nameof(IsBorderlessProperty)[..^8],
             typeof(bool),
             typeof(StswControl),
             new PropertyMetadata(false, OnIsBorderlessChanged)
@@ -56,11 +57,12 @@ public static class StswControl
     }
 
     /// <summary>
-    /// 
+    /// Identifies the SubControlsDock attached property.
+    /// Determines the docking position of sub-controls.
     /// </summary>
     public static readonly DependencyProperty SubControlsDockProperty
         = DependencyProperty.RegisterAttached(
-            "SubControlsDock",
+            nameof(SubControlsDockProperty)[..^8],
             typeof(Dock),
             typeof(StswControl),
             new PropertyMetadata(Dock.Right)

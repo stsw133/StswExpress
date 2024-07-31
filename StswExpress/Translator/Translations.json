@@ -203,6 +203,10 @@
     "en": " OK ",
     "pl": " OK "
   },
+  "StswMessageDialog.ShowDetails": {
+    "en": "Show details",
+    "pl": "Pokaż szczegóły"
+  },
   "StswMessageDialog.Yes": {
     "en": "Yes",
     "pl": "Tak"

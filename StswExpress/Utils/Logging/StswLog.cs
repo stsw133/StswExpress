@@ -28,7 +28,10 @@ public static class StswLog
     /// </summary>
     private static void AutoArchive()
     {
-        var oldestFileDT = new DirectoryInfo(Config.LogDirectoryPath).GetFileSystemInfos("*.log").OrderBy(x => x.CreationTime).First().CreationTime;
+        if (new DirectoryInfo(Config.LogDirectoryPath).GetFileSystemInfos("*.log").OrderBy(x => x.CreationTime).FirstOrDefault() is not FileSystemInfo oldestFileInfo)
+            return;
+
+        var oldestFileDT = oldestFileInfo.CreationTime;
         var dateNow = DateTime.Now.Date;
 
         if (Config.ArchiveFullMonth && (oldestFileDT.Year != dateNow.Year || oldestFileDT.Month != dateNow.Month))
@@ -56,12 +59,12 @@ public static class StswLog
         else
             archivePath = $"archive_{dateFrom:yyyy-MM-dd}_{dateTo:yyyy-MM-dd}.zip";
 
-        using (var archive = ZipFile.Open(Path.Combine(Config.ArchiveDirectoryPath, archivePath), ZipArchiveMode.Create))
-            foreach (var file in Directory.GetFiles(Config.LogDirectoryPath).Where(x => DateTime.ParseExact(Path.GetFileNameWithoutExtension(x).TrimStart("log_"), "yyyy-MM-dd", CultureInfo.InvariantCulture).Between(dateFrom.Date, dateTo.Date)))
-            {
-                archive.CreateEntryFromFile(file, Path.GetFileName(file));
-                File.Delete(file);
-            }
+        using var archive = ZipFile.Open(Path.Combine(Config.ArchiveDirectoryPath, archivePath), ZipArchiveMode.Create);
+        foreach (var file in Directory.GetFiles(Config.LogDirectoryPath).Where(x => DateTime.ParseExact(Path.GetFileNameWithoutExtension(x).TrimStart("log_"), "yyyy-MM-dd", CultureInfo.InvariantCulture).Between(dateFrom.Date, dateTo.Date)))
+        {
+            archive.CreateEntryFromFile(file, Path.GetFileName(file));
+            File.Delete(file);
+        }
     }
 
     /// <summary>
@@ -78,9 +81,6 @@ public static class StswLog
     /// <returns>A collection of log entries.</returns>
     public static IEnumerable<StswLogItem?> Import(DateTime dateFrom, DateTime dateTo)
     {
-        if (!Directory.Exists(Config.LogDirectoryPath))
-            yield return null;
-
         /// load all lines from log files
         List<string> allLogs = [];
 
@@ -140,8 +140,6 @@ public static class StswLog
         }
 
         /// CREATE DIRECTORY & CHECK ARCHIVE
-        if (!Directory.Exists(Config.LogDirectoryPath))
-            Directory.CreateDirectory(Config.LogDirectoryPath);
         /*
         if (Config.ArchiveWhenSizeOver != null && new FileInfo(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log")).Length > Config.ArchiveWhenSizeOver)
             Archive(DateTime.Now);

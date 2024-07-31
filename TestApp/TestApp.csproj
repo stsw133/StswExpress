@@ -39,9 +39,9 @@
     <None Remove="Resources\changelogs\changelog_0.8.0.rtf" />
     <None Remove="Resources\changelogs\changelog_0.8.1.rtf" />
     <None Remove="Resources\changelog_en.rtf" />
+    <None Remove="Resources\help_en.pdf" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\logo.png" />
-    <None Remove="Resources\manual_en.pdf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,7 +109,7 @@
     <EmbeddedResource Include="Resources\changelogs\changelog_0.7.1.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\manual_en.pdf">
+    <EmbeddedResource Include="Resources\help_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

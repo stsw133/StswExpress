@@ -27,7 +27,7 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    private StswWindowBar? _windowBar;
+    internal StswWindowBar? _windowBar;
     private WindowState preFullscreenState;
 
     /// <summary>
@@ -253,6 +253,22 @@ public class StswWindow : Window, IStswCornerControl
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the config will be shown in content dialog or separated window.
+    /// </summary>
+    public bool ShowConfigInDialog
+    {
+        get => (bool)GetValue(ShowConfigInDialogProperty);
+        set => SetValue(ShowConfigInDialogProperty, value);
+    }
+    public static readonly DependencyProperty ShowConfigInDialogProperty
+        = DependencyProperty.Register(
+            nameof(ShowConfigInDialog),
+            typeof(bool),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(true)
+        );
     #endregion
 
     #region Style properties

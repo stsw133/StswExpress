@@ -54,6 +54,7 @@
                                 </se:StswHeader>
                             </DockPanel>
                         </se:StswGroupBox.Header>
+                        
                         <DockPanel Background="{DynamicResource StswPanel.Static.Background}">
                             <!-- buttons -->
                             <UniformGrid DockPanel.Dock="Bottom"
@@ -85,57 +86,71 @@
                                     <se:StswHeader x:Name="PART_HeaderCancel" Content="{se:Tr StswMessageDialog.Cancel}"/>
                                 </se:StswButton>
                             </UniformGrid>
-                            <!-- details -->
-                            <se:StswSeparator DockPanel.Dock="Bottom"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                              BorderThickness="1"
-                                              Orientation="Horizontal"/>
-                            <se:StswExpander x:Name="PART_Details" DockPanel.Dock="Bottom" se:StswControl.IsBorderless="True" Padding="0">
-                                <se:StswExpander.Header>
-                                    <se:StswHeader x:Name="PART_DetailsHeader" Content="Pokaż szczegóły" IconData="{x:Static se:StswIcons.DotsHorizontal}" Padding="6">
-                                        <se:StswHeader.LayoutTransform>
-                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
-                                        </se:StswHeader.LayoutTransform>
-                                    </se:StswHeader>
-                                </se:StswExpander.Header>
-                                <se:StswTextBox se:StswControl.IsBorderless="True"
-                                                IsReadOnly="True"
-                                                MaxHeight="200"
-                                                Padding="{TemplateBinding Padding}"
-                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                Text="{TemplateBinding Details}"
-                                                TextWrapping="Wrap"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                                    <se:StswTextBox.LayoutTransform>
-                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
-                                    </se:StswTextBox.LayoutTransform>
-                                </se:StswTextBox>
-                            </se:StswExpander>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="Bottom"
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="1"
                                               Orientation="Horizontal"/>
-                            <!-- text -->
-                            <se:StswTextBox se:StswControl.IsBorderless="True"
-                                            IsReadOnly="True"
-                                            Padding="{TemplateBinding Padding}"
-                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                            Text="{TemplateBinding Content}"
-                                            TextWrapping="Wrap"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!-- details -->
+                            <se:StswScrollView IsDynamic="True">
+                                <DockPanel>
+                                    <StackPanel x:Name="PART_Details" DockPanel.Dock="Bottom" Margin="5" Orientation="Vertical">
+                                        <se:StswSubCheck x:Name="PART_DetailsCheck"
+                                                         BorderThickness="0 1"
+                                                         Content="{se:Tr StswMessageDialog.ShowDetails}"
+                                                         FontWeight="Medium"
+                                                         IconUnchecked="{x:Static se:StswIcons.ChevronDown}"
+                                                         IconChecked="{x:Static se:StswIcons.ChevronUp}"
+                                                         IsChecked="{Binding ShowDetails, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         Padding="5"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"/>
+                                        <se:StswTextBox x:Name="PART_DetailsText"
+                                                        BorderThickness="1"
+                                                        CornerRadius="0"
+                                                        IsReadOnly="True"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        ScrollViewer.CanContentScroll="False"
+                                                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                        Text="{TemplateBinding Details}"
+                                                        TextWrapping="Wrap"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
+                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        Visibility="Collapsed">
+                                            <se:StswTextBox.LayoutTransform>
+                                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                            </se:StswTextBox.LayoutTransform>
+                                        </se:StswTextBox>
+                                    </StackPanel>
+                                    <!-- text -->
+                                    <se:StswTextBox se:StswControl.IsBorderless="True"
+                                                    IsReadOnly="True"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    ScrollViewer.CanContentScroll="False"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                    Text="{TemplateBinding Content}"
+                                                    TextWrapping="Wrap"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </DockPanel>
+                            </se:StswScrollView>
                         </DockPanel>
                     </se:StswGroupBox>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="Details" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Details"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
                         </Trigger>
+                        <Trigger Property="ShowDetails" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_DetailsText"/>
+                        </Trigger>
+                        
                         <Trigger Property="Buttons" Value="OK">
                             <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_HeaderYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
@@ -166,58 +181,86 @@
                             <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="PART_HeaderCancel"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>
+                        
                         <Trigger Property="Image" Value="None">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Blockade">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Blockade.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Blockade.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Blockade.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Blockade.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Blockade.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Blockade.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Bug}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Error">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Fatal">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagram}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Information">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Question">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Question.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Question.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Success">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Warning">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_DetailsCheck"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
