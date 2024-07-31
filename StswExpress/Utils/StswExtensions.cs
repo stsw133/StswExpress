@@ -457,88 +457,19 @@ public static class StswExtensions
     /// <param name="dt">The DataTable to map.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T> MapToIncludingNested<T>(this DataTable dt, char delimiter = '/') where T : class, new()
+    public static IEnumerable<T> MapTo<T>(this DataTable dt, char delimiter) where T : class, new()
     {
-        var objProps = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
             .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
             .ToArray();
-        var mappings = normalizedColumnNames
-            .Select(col => new {
-                ColumnName = col,
-                PropertyInfo = GetNestedProperty(typeof(T), col.Split(delimiter))
-            })
-            .Where(x => x.PropertyInfo != null)
-            .ToArray();
+
+        var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
 
         foreach (var row in dt.AsEnumerable())
         {
             var obj = new T();
-            foreach (var map in mappings)
-            {
-                try
-                {
-                    SetNestedPropertyValue(obj, map.PropertyInfo!, row[map.ColumnName]);
-                }
-                catch
-                {
-                    // Optionally, log the exception or handle it as needed
-                    continue;
-                }
-            }
+            StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
             yield return obj;
-        }
-
-        /// <summary>
-        /// Gets the property information for a nested property using the specified property path.
-        /// </summary>
-        /// <param name="type">The type that contains the nested property.</param>
-        /// <param name="propertyPath">The path to the nested property.</param>
-        /// <returns>The <see cref="PropertyInfo"/> for the nested property.</returns>
-        static PropertyInfo? GetNestedProperty(Type type, string[] propertyPath, char delimiter = '/')
-        {
-            PropertyInfo? propertyInfo = null;
-            foreach (var propertyName in propertyPath)
-            {
-                propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-                if (propertyInfo == null) break;
-                type = propertyInfo.PropertyType;
-            }
-            return propertyInfo;
-        }
-
-        /// <summary>
-        /// Sets the value of a nested property.
-        /// </summary>
-        /// <param name="obj">The object that contains the nested property.</param>
-        /// <param name="propertyInfo">The <see cref="PropertyInfo"/> for the nested property.</param>
-        /// <param name="value">The value to set.</param>
-        static void SetNestedPropertyValue(object obj, PropertyInfo propertyInfo, object value, char delimiter = '/')
-        {
-            var propertyPath = propertyInfo.Name.Split('/');
-            for (int i = 0; i < propertyPath.Length - 1; i++)
-            {
-                var propertyName = propertyPath[i];
-                var nestedProperty = obj!.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-                if (nestedProperty != null)
-                {
-                    var nestedObj = nestedProperty.GetValue(obj) ?? Activator.CreateInstance(nestedProperty.PropertyType);
-                    nestedProperty.SetValue(obj, nestedObj);
-                    obj = nestedObj!;
-                }
-            }
-            var finalProperty = obj.GetType().GetProperty(propertyPath.Last(), BindingFlags.Public | BindingFlags.Instance);
-            if (finalProperty != null)
-            {
-                if (finalProperty.PropertyType != typeof(object))
-                {
-                    finalProperty.SetValue(obj, Convert.ChangeType(value, finalProperty.PropertyType, CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    finalProperty.SetValue(obj, value);
-                }
-            }
         }
     }
 

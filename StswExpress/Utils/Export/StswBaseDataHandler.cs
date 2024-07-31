@@ -4,8 +4,25 @@ using System.Collections;
 using System.Linq;
 
 namespace StswExpress;
+
 internal static class StswBaseDataHandler
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    internal static string EscapeCsvValue(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+            value = $"\"{value.Replace("\"", "\"\"")}\"";
+
+        return value;
+    }
+
     /// <summary>
     /// Gets the element type of an IEnumerable.
     /// </summary>

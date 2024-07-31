@@ -295,7 +295,7 @@ public class StswDatabaseModel : StswObservableObject
 
         var dt = new DataTable();
         sqlDA.Fill(dt);
-        return dt.MapToIncludingNested<TResult>();
+        return dt.MapTo<TResult>('/');
     }
 
     /// <summary>

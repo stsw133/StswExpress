@@ -24,6 +24,11 @@ public struct StswExportParameters
     public bool IncludeNonAttributed { get; set; } = false;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to open the file after exporting.
+    /// </summary>
+    public bool OpenFile { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets the recommended file name for the exported file.
     /// </summary>
     public string RecommendedFileName { get; set; } = string.Empty;

@@ -10,7 +10,7 @@
         <local:ContractorsContext/>
     </d:UserControl.DataContext>
 
-    <se:StswTabControl AreTabsVisible="True" BorderThickness="0 1 0 0" Margin="1" ItemsSource="{Binding Tabs}" SelectedIndex="0">
+    <se:StswTabControl AreTabsVisible="True" BorderThickness="0 1 0 0" Margin="1" ItemsSource="{Binding Tabs}">
         <se:StswTabControl.NewTabTemplate>
             <se:StswTabItemModel Icon="{x:Static se:StswIcons.AccountPlus}" Name="New contractor" Type="{x:Type local:ContractorsSingleContext}"/>
         </se:StswTabControl.NewTabTemplate>

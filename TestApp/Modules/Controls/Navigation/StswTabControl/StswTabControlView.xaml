@@ -32,7 +32,6 @@
                            ItemsSource="{Binding Items}"
                            Margin="5"
                            NewTabButtonVisibility="{Binding NewTabButtonVisibility}"
-                           SelectedIndex="0"
                            TabStripPlacement="{Binding TabStripPlacement}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
