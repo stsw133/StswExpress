@@ -7,7 +7,7 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// A markup extension used to translate text in XAML files.
 /// </summary>
 public class Tr : MarkupExtension
 {
@@ -16,8 +16,7 @@ public class Tr : MarkupExtension
     private string? defaultText = null;
 
     /// <summary>
-    /// Translate the current property in the current language.
-    /// Default TextID is "CurrentNamespace.CurrentClass.CurrentProperty".
+    /// Initializes a new instance of the <see cref="Tr"/> class.
     /// </summary>
     public Tr()
     {
@@ -25,20 +24,19 @@ public class Tr : MarkupExtension
     }
 
     /// <summary>
-    /// Translate the current property in the current language.
-    /// Default TextID is "CurrentNamespace.CurrentClass.CurrentProperty".
+    /// Initializes a new instance of the <see cref="Tr"/> class with a specified text ID.
     /// </summary>
-    /// <param name="textID">To force the use of a specific identifier</param>
+    /// <param name="textID">The text identifier to use for translation.</param>
     public Tr(string textID)
     {
         TextID = textID;
     }
 
     /// <summary>
-    /// Translate in the current language the given textID.
+    /// Initializes a new instance of the <see cref="Tr"/> class with a specified text ID and default text.
     /// </summary>
-    /// <param name="textID">To force the use of a specific identifier.</param>
-    /// <param name="defaultText">The text to return if no text correspond to textID in the current language.</param>
+    /// <param name="textID">The text identifier to use for translation.</param>
+    /// <param name="defaultText">The text to return if no translation corresponds to the text ID in the current language.</param>
     public Tr(string textID, string defaultText) : base()
     {
         TextID = textID;
@@ -46,13 +44,13 @@ public class Tr : MarkupExtension
     }
 
     /// <summary>
-    /// To force the use of a specific identifier.
+    /// Gets or sets the text identifier to use for translation.
     /// </summary>
     [ConstructorArgument("textID")]
     public virtual string? TextID { get; set; } = null;
 
     /// <summary>
-    /// Text to return if no text correspond to textID in the current language.
+    /// Gets or sets the text to return if no translation corresponds to the text ID in the current language.
     /// </summary>
     public string? DefaultText
     {
@@ -61,47 +59,46 @@ public class Tr : MarkupExtension
     }
 
     /// <summary>
-    /// Language ID in which to get the translation. To Specify if not CurrentLanguage.
+    /// Gets or sets the language ID in which to get the translation. Specify if not CurrentLanguage.
     /// </summary>
     public string? LanguageID { get; set; } = null;
 
     /// <summary>
-    /// If set to true, the text will automatically be updated when current language change (use Binding).
-    /// If not, the property must be updated manually (use single string value).
-    /// By default is set to true.
+    /// Gets or sets a value indicating whether the text will automatically be updated when the current language changes.
+    /// By default, it is set to true.
     /// </summary>
     public bool IsDynamic { get; set; } = true;
 
     /// <summary>
-    /// Provides a prefix to add at the begining of the translated text.
+    /// Gets or sets a prefix to add at the beginning of the translated text.
     /// </summary>
     public string Prefix { get; set; } = string.Empty;
 
     /// <summary>
-    /// Provides a suffix to add at the end of the translated text.
+    /// Gets or sets a suffix to add at the end of the translated text.
     /// </summary>
     public string Suffix { get; set; } = string.Empty;
 
     /// <summary>
-    /// Converter to apply on the translated text.
+    /// Gets or sets the converter to apply to the translated text.
     /// </summary>
     public IValueConverter? Converter { get; set; } = null;
 
     /// <summary>
-    /// The parameter to pass to the converter.
+    /// Gets or sets the parameter to pass to the converter.
     /// </summary>
     public object? ConverterParameter { get; set; } = null;
 
     /// <summary>
-    /// The culture to pass to the converter.
+    /// Gets or sets the culture to pass to the converter.
     /// </summary>
     public CultureInfo? ConverterCulture { get; set; } = null;
 
     /// <summary>
-    /// Translation In Xaml.
+    /// Translates text in XAML by providing the translated value.
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <returns>The translated text or binding object.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
@@ -175,46 +172,49 @@ public class Tr : MarkupExtension
 }
 
 /// <summary>
-/// To use an enum as ItemSource for ComboBox, ListBox... and translate the displayedText.
-/// Manage the language changes.
+/// A markup extension used to provide an item source for a ComboBox or ListBox by translating enum values.
+/// Manages language changes for dynamic translation updates.
 /// </summary>
 public class TrEnumAsItemSource : MarkupExtension
 {
     private DependencyObject? targetObject;
     private DependencyProperty? targetProperty;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TrEnumAsItemSource"/> class.
+    /// </summary>
     public TrEnumAsItemSource()
     {
 
     }
 
     /// <summary>
-    /// Type of enum to convert to a translated itemSource.
+    /// Gets or sets the type of enum to convert to a translated item source.
     /// </summary>
     [ConstructorArgument("enumType")]
     public Type? EnumType { get; set; }
 
     /// <summary>
-    /// Specify a string format from the enum value to calculate the TextID for the translation.
-    /// By default "EnumType{0}".
+    /// Gets or sets the string format from the enum value to calculate the TextID for the translation.
+    /// By default, it is "EnumType{0}".
     /// </summary>
     public string? TextIdStringFormat { get; set; } = null;
 
     /// <summary>
-    /// Provides a prefix to add at the begining of the translated text.
+    /// Gets or sets a prefix to add at the beginning of the translated text.
     /// </summary>
     public string Prefix { get; set; } = string.Empty;
 
     /// <summary>
-    /// Provides a suffix to add at the end of the translated text.
+    /// Gets or sets a suffix to add at the end of the translated text.
     /// </summary>
     public string Suffix { get; set; } = string.Empty;
 
     /// <summary>
-    /// 
+    /// Provides the translated item source for enum values.
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <returns>A collection of translated enum values.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
@@ -248,56 +248,58 @@ public class TrEnumAsItemSource : MarkupExtension
 }
 
 /// <summary>
-/// This class is used as ViewModel to bind to DependencyProperties.
-/// Is used by Tr MarkupExtension to dynamically update the translation when current language changed.
+/// Acts as a ViewModel to bind to DependencyProperties and update translations dynamically when the current language changes.
 /// </summary>
 public class TrData : StswObservableObject
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TrData"/> class and subscribes to language change events.
+    /// </summary>
     public TrData()
     {
         WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
-    /// To force the use of a specific identifier.
+    /// Gets or sets the text identifier to use for translation.
     /// </summary>
     public string? TextID { get; set; }
 
     /// <summary>
-    /// Text to return if no text correspond to textID in the current language.
+    /// Gets or sets the text to return if no translation corresponds to the text ID in the current language.
     /// </summary>
     public string? DefaultText { get; set; }
 
     /// <summary>
-    /// Language ID in which to get the translation. To Specify if not CurrentLanguage.
+    /// Gets or sets the language ID in which to get the translation. Specify if not CurrentLanguage.
     /// </summary>
     public string? LanguageID { get; set; }
 
     /// <summary>
-    /// Provides a prefix to add at the begining of the translated text.
+    /// Gets or sets a prefix to add at the beginning of the translated text.
     /// </summary>
     public string Prefix { get; set; } = string.Empty;
 
     /// <summary>
-    /// Provides a suffix to add at the end of the translated text.
+    /// Gets or sets a suffix to add at the end of the translated text.
     /// </summary>
     public string Suffix { get; set; } = string.Empty;
 
     /// <summary>
-    /// An optional object use as data that is represented by this translation.
-    /// (Example used for Enum values translation).
+    /// Gets or sets an optional object used as data that is represented by this translation.
+    /// For example, it can be used for enum values translation.
     /// </summary>
     public object? Data { get; set; }
 
     /// <summary>
-    /// Updates the binding when the current language changed (calls OnPropertyChanged).
+    /// Updates the binding when the current language changes by calling OnPropertyChanged.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event arguments containing information about the language change.</param>
     private void CurrentLanguageChanged(object? sender, TranslatorLanguageChangedEventArgs e) => NotifyPropertyChanged(nameof(TranslatedText));
 
     /// <summary>
-    /// 
+    /// Gets the translated text, including any specified prefix and suffix.
     /// </summary>
     public string TranslatedText => $"{Prefix}{StswTranslator.Tr(TextID, DefaultText, LanguageID)}{Suffix}";
 

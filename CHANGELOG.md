@@ -1,3 +1,55 @@
+# **0.9.0**
+2024-08-01
+
+### New functionality:
+
+* New converters: **StswCalculateConverter** (it replaces 3 other numeric converters: **StswAddConverter**, **StswModuloConverter** and **StswMultiplyConverter**).
+* New extension methods: **AddIfNotContains**, **DeepClone**, **GetInnermostException**, **GetPropertyValue**, **InferSqlDbType**, **IsInDebug**, **IsNullOrDefault**, **ParametersAddList**, **Replace** (for IList), **ToDataTable**, **ToUnixTimeSeconds**.
+* New function methods: **Evaluate** (it replaces **TryCalculateString**), **GetUniqueMonthsFromRange**, **IsFileInUse**.
+* New markup extensions: **StswBindableParameter**.
+* **StswDatabaseModel** has been extended to support executing SQL queries.
+* New extension method overload for **MapTo** that supports nested class property mappings.
+* New info type: **Fatal**.
+* New class for Store purposes named **StswRefreshBlocker**.
+* New static class for global commands (right now it contains 1 command for clearing text in boxes).
+* Possibility to run **StswConfig** in window instead of content dialog.
+
+### Changed functionality:
+
+* **StswNumericBox** reworked into **StswDecimalBox** using "INumber" interface. You can make **StswDoubleBox** or **StswIntegerBox** if needed by inheriting from **StswNumberBoxBase**.
+* Extended **StswLog** functionalities (for example auto-archiving).
+* Extended functionalities for **StswObservableObject**.
+* Extended functionalities for **StswSecurity**.
+* **StswExcelFn** has been renamed into **StswExport** and its functionalities has been extended. Now it also contains method for importing data from Excel and supports exporting and importing for a few new formats: CSV, JSON and XML.
+* Extended functionalities for **StswInfoBadge**, **StswInfoBar** and **StswInfoPanel** (for example bars can be minimized and its content copied).
+* **StswMailboxModel** supports default values for "BCC" and for "ReplyTo".
+* **StswWindowBar** is fully visible in fullscreen mode if mouse move over it, not only buttons on right top side.
+* **StswHeader** no longer have "IsHighlighted" property - it was moved to **StswSubRadio** because this is the only place where it is needed.
+* Changed template for **StswMessageDialog**.
+* **StswDatabases** and **StswMailboxes** no longer have "Collection" property. Also "Current" property has been renamed into "Default". Importing list now returns IEnumerable and exporting list now needs IEnumerable as argument.
+* Some color methods moved from **StswExtensions** to **StswFn**.
+* **Clone** extension method renamed into **TryClone**.
+  **RemoveBy** extension method renamed into **Remove**.
+* **StswTranslator** can cache translations and load translations from file asynchronously.
+* Changed logo for StswExpress NuGet package.
+
+### Bugfixes:
+
+* Improvements and bugfixes for converters.
+* Bugfix for **StswRatingControl** when "ExpandDirection" property was set to "Up".
+* Bugfix for displaying **StswInfoBadge** value when value was less than 0.
+* **StswHeader** has fixed alignment of icon and text when stretched.
+* Changed logic fo Stsw boxes when Enter key has been pressed and input is invalid.
+* **StswColorBox** can manage null value with converting it to default without binding failures.
+* Bugfix for **StswColorConverter** when target type is nullable.
+* Bugfix for **StswTabControl** initial selected index.
+
+# **0.8.2**
+2024-07-08
+
+### New functionality:
+* **StswMailboxModel** has additional property called "Domain". This property can be used for NetworkCredential in sending mail.
+
 # **0.8.1**
 2024-06-12
 
@@ -21,7 +73,7 @@
 
 ### Changed functionality:
 * **StswScrollViewer** renamed to **StswScrollView**.  
-**StswDirectionViewer** renamed to **StswDirectionView**.
+  **StswDirectionViewer** renamed to **StswDirectionView**.
 * **StswPopup** can change the type of contained scroll inside it between **ScrollView** and **DirectionView** using "ScrollType" property.
 * **StswMapTo** extension removes spaces from column names and normalizes diacritics in them for mapping purposes.
 * **IStswCollectionItem** no longer implements "ItemMessage" property and **StswDataGrid** no longer uses it in its special column.
@@ -32,8 +84,8 @@
 * **StswContextMenu** style uses **StswDirectionView** now.
 * **StswHeader** has changed margins in template to match other controls.
 * Stsw sub controls have bigger icon by default.
-* **NewExtension **renamed to **StswCreateInstanceExtension**.  
-**NameOfExtension **renamed to **StswNameOfExtension**.
+* **NewExtension** renamed to **StswCreateInstanceExtension**.  
+  **NameOfExtension** renamed to **StswNameOfExtension**.
 
 ### Bugfixes:
 * **StswWindow** can properly pass "Components" to **StswWindowBar** now.
@@ -299,7 +351,7 @@
 ### Changed functionality:
 
 * **StswCalendar** had mini-rework that should simplify its code with template and overall make it works better. **StswCalendar** also has new button to select today's date.
-* **StswDropButton**, **StswSplitButton**, **StswComboBox**, **StswSelectionBox** and all component buttons** have simplified template. **StswDataGrid** is finally using its own template. **StswDropButton** and **StswSplitButton** are derived from ItemsControl class.
+* **StswDropButton**, **StswSplitButton**, **StswComboBox**, **StswSelectionBox** and all component buttons have simplified template. **StswDataGrid** is finally using its own template. **StswDropButton** and **StswSplitButton** are derived from ItemsControl class.
 * "IsTabStop" property is set to false in propably all places in Stsw controls where it is needed.
 * **StswClippingBorder** has new property "DoClipping" that tells if should clip child's radius and rect.
 * **StswNumericBox** uses a decimal typed "Value" property instead of double typed "Value" property - it should fix the problem with odd numbers and precision.
@@ -414,60 +466,59 @@
   New converters splitted from **StswColorConverter**: **StswColorAlphaConverter**, **StswColorGeneratorConverter**, **StswColorSaturationConverter**.
 * New extensions: **PadLeft**, **PadRight**, **FromAhsl**, **FromHsl**, **ToHsl**, **FromAhsv**, **FromHsv**, **ToHsv**, **ToColor**, **ToDrawingColor**, **ToMediaColor**, **ToHtml**, **Clone**.
 * New functions: **CalculateString**, **FindVisualAncestor**, **GetParent**.
-* New item classes: **StswCollectionItem **(with "ItemState" property and "ShowDetails" property), **StswLogItem**.
+* New item classes: **StswCollectionItem** (with "ItemState" property and "ShowDetails" property), **StswLogItem**.
 * New icons.
 * New class: **StswApp**.
 * New **StswCommand** that can pass parameter.
 * Some Stsw controls now have a new event that invokes when their main property has been changed.
-* **StswNumericBox **has new "Format" property.
-* **StswIcon **and **StswHeader **now have "Stroke" property and "StrokeThickness" property.
-* **StswNavigation **now has "ItemsWidth" property so it can have constant width for items panel.
+* **StswNumericBox** has new "Format" property.
+* **StswIcon** and **StswHeader** now have "Stroke" property and "StrokeThickness" property.
+* **StswNavigation** now has "ItemsWidth" property so it can have constant width for items panel.
 * **StswComboBox**'s text box can have placeholder now.
 
 ### Changed functionality:
 
-* GUI scaling has been upgraded - now it finally uses "ScaleTransform" on **StswWindow** instead of spamming **StswMultiplyConverter **on "FontSize" in every control's style.
+* GUI scaling has been upgraded - now it finally uses "ScaleTransform" on **StswWindow** instead of spamming **StswMultiplyConverter** on "FontSize" in every control's style.
 * All Stsw controls use dynamic resources to manage brushes instead of having style properties.
-* **StswCheckBox **has smaller icon.
-* **StswCalendarPicker **renamed to **StswDatePicker**.
-* **StswTextBox**, **StswNumericBox**, **StswDateBox **no longer have clear button. **StswPasswordBox **no longer has show password button.
+* **StswCheckBox** has smaller icon.
+* **StswCalendarPicker** renamed to **StswDatePicker**.
+* **StswTextBox**, **StswNumericBox**, **StswDateBox** no longer have clear button. **StswPasswordBox** no longer has show password button.
 * Improvements for conveters. Additionally, each converter will be created only once first time it is referenced to.
-* **StswSimpleModel **name reverted to **StswComboBoxModel**.
-* **StswHeader **no longer has "SubTexts" property since the same effect can be achieved by declaring controls as its content.
-* Some functional improvements in **StswNavigation **and **StswNavigationElement **(renamed from **StswNavigationButton **and now can function as both: button and expander).
-* **StswDataGrid **shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".
-* **StswNavigationElement **can take "GroupName" from **StswNavigation**.
-* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent **controls. Additionally, components will no longer be disabled when control is in read only mode.
-* **StswDatePicker **and **StswColorBox **now have function button with Press click mode.
-* **StswLoadingCircle **changes its opacity when disabled instead of fill color (similarly to **StswIcon **and **StswImage**).
-* **StswImage **has different method for paste image from clipboard.
-* **StswSeparator **now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.
-* **StswComboBox **and **StswComboView **can be opened in read only mode (but selection can not be changed).
-* **StswNumericBox **and **StswDatePicker **refreshes "Value"/"SelectedDate" property before incrementing.
-* **StswFilter **has been reworked. Clearing and getting filters data is moved from **StswFilter **to **StswDataGrid**.
+* **StswSimpleModel** name reverted to **StswComboBoxModel**.
+* **StswHeader** no longer has "SubTexts" property since the same effect can be achieved by declaring controls as its content.
+* Some functional improvements in **StswNavigation** and **StswNavigationElement** (renamed from **StswNavigationButton** and now can function as both: button and expander).
+* **StswDataGrid** shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".
+* **StswNavigationElement** can take "GroupName" from **StswNavigation**.
+* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent** controls. Additionally, components will no longer be disabled when control is in read only mode.
+* **StswDatePicker** and **StswColorBox** now have function button with Press click mode.
+* **StswLoadingCircle** changes its opacity when disabled instead of fill color (similarly to **StswIcon** and **StswImage**).
+* **StswImage** has different method for paste image from clipboard.
+* **StswSeparator** now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.
+* **StswComboBox** and **StswComboView** can be opened in read only mode (but selection can not be changed).
+* **StswNumericBox** and **StswDatePicker** refreshes "Value"/"SelectedDate" property before incrementing.
+* **StswFilter** has been reworked. Clearing and getting filters data is moved from **StswFilter** to **StswDataGrid**.
 * Improvements for **StswPasswordBox**, **StswWindow**'s title bar, **StswCollection**.
 * Stsw control styles moved to resource dictionaries.
 * Corner radius for all Stsw controls changed from 9 to 10. **StswDataGrid**'s header cell's border thickness changed from 0.5 to 1.
-* **ClippingBorder **renamed into **StswClippingBorder**. Every main border in Stsw controls that uses "CornerRadius" property is a **ClippingBorder **now.
-* **OutlinedTextBlock **has been renamed into **StswOutlinedText**.
+* **ClippingBorder** renamed into **StswClippingBorder**. Every main border in Stsw controls that uses "CornerRadius" property is a **ClippingBorder** now.
+* **OutlinedTextBlock** has been renamed into **StswOutlinedText**.
 * Some Stsw controls now have visible checked state while being disabled (for example buttons and checks).
-* **StswTextBox **now refreshes after Enter click (that also fixes its behaviour in **StswFilter**).
-* **StswExport **now takes only properties that have export attribute.
+* **StswTextBox** now refreshes after Enter click (that also fixes its behaviour in **StswFilter**).
+* **StswExport** now takes only properties that have export attribute.
 
 ### Bugfixes:
 
 * Bugfix for converters when decimal separator is not set to dot.
 * Stsw buttons now have grids in templates between "ClippingBorder" and "ContentPresenter" so content should be clipped properly now.
-* **StswWindow **now properly works with fullscreen mode.
+* **StswWindow** now properly works with fullscreen mode.
 * Bugfix for menu option that set default window size.
-* Bugfixes for **StswCalendar**. Additionally **StswCalendar **now works with first days of week other than "Monday" and properly shows last possible day to choose (9999-12-31).
+* Bugfixes for **StswCalendar**. Additionally **StswCalendar** now works with first days of week other than "Monday" and properly shows last possible day to choose (9999-12-31).
 * Bugfixes for **StswDataGrid**'s special column.
 * Bugfix for Stsw buttons' border colors.
-* **StswDatePicker **and **StswNumericBox **now properly display formatted text after binding failure.
-* Bugfix for "Minimum" property and "Maximum" property in **StswDatePicker **and **StswNumericBox **- new value is validated before being assigned instead of corrected after being assigned.
+* **StswDatePicker** and **StswNumericBox** now properly display formatted text after binding failure.
+* Bugfix for "Minimum" property and "Maximum" property in **StswDatePicker** and **StswNumericBox** - new value is validated before being assigned instead of corrected after being assigned.
 * Bugfixes for "IconScale" property in a few controls.
 * Many other small bugfixes.
-
 
 # **One year edition**
 2023-03-01
@@ -497,7 +548,7 @@
 * **VM** renamed into **StswObservableObject**. **StswObservableObject** have method called "SetProperty" that can be used in simple way in property setters.
 * **StswDB** has been improved. Also the way **StswDB** and **StswMC** saves info into files is changed to keep every instance in one line.
 * **StswLog** now works differently - before it was splitting every 5 MB into new file, now it groups logs per day of creation and makes a new file for each day.
-* **MultiBox**'s functionality** is merged into **StswComboBox** (when "SelectionMode" property is set to "Multiple").
+* **MultiBox**'s functionality is merged into **StswComboBox** (when "SelectionMode" property is set to "Multiple").
 * Converter **conv\_Contains** no longer works only for IEnumerable. Converter **conv\_Compare** has simplified functionality.
 * Controls like **DataGridImage**, **ExtMenuItem** and **IconButton** have been removed. Methods like **AddCharBeforeUpperLetters** have been removed.
 * Converter **conv\_Size** has been renamed to **conv\_Multiply**. Extension method named **ToList** has been renamed to **AsList**. Method extension **GetVisualChild** renamed to **FindVisualChild**.

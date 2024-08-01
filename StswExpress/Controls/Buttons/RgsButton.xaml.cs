@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public class RgsButton : Button
 {
     #region Private

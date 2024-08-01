@@ -3,15 +3,15 @@ using System.ComponentModel;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Provides data for the event that occurs after the language has been changed in the translator.
 /// </summary>
 public class TranslatorLanguageChangedEventArgs : EventArgs
 {
     /// <summary>
-    /// Constructor.
+    /// Initializes a new instance of the <see cref="TranslatorLanguageChangedEventArgs"/> class.
     /// </summary>
-    /// <param name="oldLanguageId">Language ID before the change.</param>
-    /// <param name="newLanguageId">Language ID after the change.</param>
+    /// <param name="oldLanguageId">The language ID before the change.</param>
+    /// <param name="newLanguageId">The language ID after the change.</param>
     public TranslatorLanguageChangedEventArgs(string oldLanguageId, string newLanguageId)
     {
         OldLanguageId = oldLanguageId;
@@ -19,26 +19,26 @@ public class TranslatorLanguageChangedEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Language ID before the change.
+    /// Gets the language ID before the change.
     /// </summary>
     public string OldLanguageId { get; private set; }
 
     /// <summary>
-    /// Language ID after the change.
+    /// Gets the language ID after the change.
     /// </summary>
     public string NewLanguageId { get; private set; }
 }
 
 /// <summary>
-/// 
+/// Provides data for the event that occurs when the language is about to change in the translator.
 /// </summary>
 public class TranslatorLanguageChangingEventArgs : CancelEventArgs
 {
     /// <summary>
-    /// Constructor.
+    /// Initializes a new instance of the <see cref="TranslatorLanguageChangingEventArgs"/> class.
     /// </summary>
-    /// <param name="oldLanguageId">Language ID before the change.</param>
-    /// <param name="newLanguageId">Language ID after the change.</param>
+    /// <param name="oldLanguageId">The language ID before the change.</param>
+    /// <param name="newLanguageId">The language ID after the change.</param>
     public TranslatorLanguageChangingEventArgs(string oldLanguageId, string newLanguageId)
     {
         OldLanguageId = oldLanguageId;
@@ -46,12 +46,12 @@ public class TranslatorLanguageChangingEventArgs : CancelEventArgs
     }
 
     /// <summary>
-    /// Language ID before the change.
+    /// Gets the language ID before the change.
     /// </summary>
     public string OldLanguageId { get; private set; }
 
     /// <summary>
-    /// Language ID after the change.
+    /// Gets the language ID after the change.
     /// </summary>
     public string NewLanguageId { get; private set; }
 }

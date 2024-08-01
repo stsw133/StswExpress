@@ -1,10 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace StswExpress;
@@ -70,7 +70,7 @@ public class StswApp : Application
         }
 
         if (File.Exists(trFileName))
-            StswTranslatorLanguagesLoader.Instance.AddFile(trFileName);
+            Task.Run(() => StswTranslatorLanguagesLoader.Instance.AddFileAsync(trFileName));
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;

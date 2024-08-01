@@ -11,7 +11,7 @@ WPF .NET 6.0 library containing:
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **File:** StswFilePicker
   - **Filters:** StswFilterBox
-  - **Input:** StswAdaptiveBox, StswDecimalBox, StswDoubleBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
+  - **Input:** StswAdaptiveBox, StswDecimalBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
   - **Layout:** StswBorder, StswExpander, StswGrid, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaPlayer
   - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
@@ -20,7 +20,7 @@ WPF .NET 6.0 library containing:
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector
   - **TextStyle:** StswDropArrow, StswHeader, StswIcon, StswLabel, StswOutlinedText, StswSpinner, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
-- many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
+- many helpful classes like relay commands, converters, exporting data, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)
 
 Licencing:
