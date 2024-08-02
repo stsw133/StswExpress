@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
-public class StswDataGrid : DataGrid, IStswCornerControl
+public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     public ICommand ClearFiltersCommand { get; set; }
 
@@ -56,9 +56,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        if (newValue?.GetType()?.IsListType(out var innerType) == true)
-            UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
-
+        IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
@@ -310,7 +308,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     /// Gets or sets a value indicating whether the control uses selection items that implement
     /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
     /// </summary>
-    internal bool UsesSelectionItems
+    public bool UsesSelectionItems
     {
         get => (bool)GetValue(UsesSelectionItemsProperty);
         set => SetValue(UsesSelectionItemsProperty, value);

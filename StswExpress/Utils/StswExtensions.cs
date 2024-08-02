@@ -323,14 +323,14 @@ public static class StswExtensions
         ArgumentNullException.ThrowIfNull(type);
 
         innerType = null;
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>))
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             innerType = type.GetGenericArguments().Single();
             return true;
         }
 
         foreach (var i in type.GetInterfaces())
-            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>))
+            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 innerType = i.GetGenericArguments().Single();
                 return true;

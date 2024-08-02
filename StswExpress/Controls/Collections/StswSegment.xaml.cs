@@ -7,7 +7,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of options in a horizontal or vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswSegment : ListBox, IStswCornerControl
+public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswSegment()
     {
@@ -22,20 +22,7 @@ public class StswSegment : ListBox, IStswCornerControl
     /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        if (newValue?.GetType()?.IsListType(out var innerType) == true)
-        {
-            UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
-
-            /// StswComboItem short usage
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-            {
-                if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
-                    DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(SelectedValuePath))
-                    SelectedValuePath = nameof(StswComboItem.Value);
-            }
-        }
-
+        IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
@@ -46,8 +33,7 @@ public class StswSegment : ListBox, IStswCornerControl
     /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
-        if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
-            DisplayMemberPath = string.Empty;
+        IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
     #endregion
@@ -72,7 +58,7 @@ public class StswSegment : ListBox, IStswCornerControl
     /// Gets or sets a value indicating whether the control uses selection items that implement
     /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
     /// </summary>
-    internal bool UsesSelectionItems
+    public bool UsesSelectionItems
     {
         get => (bool)GetValue(UsesSelectionItemsProperty);
         set => SetValue(UsesSelectionItemsProperty, value);

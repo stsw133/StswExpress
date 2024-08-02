@@ -117,7 +117,7 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}" Value="True">
+                        <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                         </DataTrigger>
                     </Style.Triggers>

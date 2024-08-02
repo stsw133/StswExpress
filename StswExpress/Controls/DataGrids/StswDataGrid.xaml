@@ -198,7 +198,7 @@
             <Trigger Property="IsNewItem" Value="True">
                 <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
             </Trigger>
-            <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="True">
+            <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
                 <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
             </DataTrigger>
         </Style.Triggers>
