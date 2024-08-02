@@ -6,7 +6,8 @@ using System.Windows.Shell;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a config box behaving like content dialog.
+/// Represents a configuration dialog box that behaves like a content dialog.
+/// This control is used to manage application settings within a window or dialog context.
 /// </summary>
 internal class StswConfig : Control, IStswCornerControl
 {
@@ -30,19 +31,20 @@ internal class StswConfig : Control, IStswCornerControl
         /// Button: confirm
         if (GetTemplateChild("PART_ButtonConfirm") is ButtonBase btnConfirm)
             btnConfirm.Click += (_, _) => Close(true);
+
         /// Button: cancel
         if (GetTemplateChild("PART_ButtonCancel") is ButtonBase btnCancel)
             btnCancel.Click += (_, _) => Close(false);
 
-        /// iSize
+        /// Slider: iSize
         if (GetTemplateChild("PART_iSize") is Slider iSize)
             iSize.MouseLeave += (_, _) => StswSettings.Default.iSize = iSize.Value;
     }
 
     /// <summary>
-    /// 
+    /// Closes the configuration dialog and applies or discards changes based on user choice.
     /// </summary>
-    /// <param name="result"></param>
+    /// <param name="result">A boolean indicating whether changes should be saved (<see langword="true"/>) or discarded (<see langword="false"/>).</param>
     private void Close(bool? result)
     {
         if (Identifier is StswWindow window && !window.ShowConfigInDialog)
@@ -51,7 +53,9 @@ internal class StswConfig : Control, IStswCornerControl
             StswContentDialog.Close(Identifier);
 
         if (result == true)
+        {
             StswSettings.Default.Save();
+        }
         else
         {
             StswSettings.Default.Reload();
@@ -62,10 +66,10 @@ internal class StswConfig : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Displays the configuration dialog associated with the given identifier. 
+    /// Can be shown as a dialog within a window or a standalone window depending on configuration.
     /// </summary>
-    /// <param name="identifier"></param>
-    /// <returns></returns>
+    /// <param name="identifier">The identifier to determine the context where the dialog should be displayed.</param>
     public static async void Show(object identifier)
     {
         if (identifier is StswWindow window && !window.ShowConfigInDialog)
@@ -79,6 +83,7 @@ internal class StswConfig : Control, IStswCornerControl
                 Width = window.ActualWidth * 0.9,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
+
             newWindow.ApplyTemplate();
             if (newWindow._windowBar != null)
                 ((Control)newWindow._windowBar.Parent).Visibility = Visibility.Collapsed;
@@ -96,7 +101,8 @@ internal class StswConfig : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Identifier which is used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// Identifier used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// The identifier helps in deciding the window or dialog context for displaying the configuration UI.
     /// </summary>
     public object? Identifier
     {

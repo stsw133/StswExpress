@@ -7,7 +7,9 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Provides a base class for text-based input controls with enhanced features such as error handling,
+/// placeholder text, and sub-controls. This class serves as the foundation for custom text box controls
+/// with additional functionality and styling options.
 /// </summary>
 public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 {
@@ -18,10 +20,11 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the KeyDown event for the internal content host of the numeric box.
-    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
+    /// Handles the KeyDown event for the internal content host of the text box.
+    /// If the Enter key is pressed, it triggers the LostFocus event to update the main property value,
+    /// allowing for immediate processing of user input.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments associated with the KeyDown event.</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -30,9 +33,10 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
+    /// Handles the LostFocus event for the content of the text box, updating the main property value
+    /// and applying any necessary formatting based on the user input and current settings.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments associated with the LostFocus event.</param>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
         UpdateMainProperty(false);
@@ -40,15 +44,17 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Updates the main property associated with the selected value in the control based on user input.
+    /// Updates the main property associated with the control based on the current value entered by the user.
+    /// This method is responsible for ensuring that the value is properly validated and formatted.
     /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <param name="alwaysUpdate">A boolean value indicating whether to force the property update even if no changes were detected.</param>
     protected abstract void UpdateMainProperty(bool alwaysUpdate);
     #endregion
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
+    /// Gets or sets a read-only collection of validation errors to display in the tooltip of the <see cref="StswSubError"/>.
+    /// This collection provides detailed error messages when validation rules are violated.
     /// </summary>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
@@ -63,7 +69,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the text box
+    /// when there is at least one validation error. This property provides a visual indicator of input errors.
     /// </summary>
     public bool HasError
     {
@@ -78,7 +85,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text to display in the box when no value is provided.
+    /// Gets or sets the placeholder text to display in the text box when no value is provided by the user.
+    /// This text provides a hint about the expected input or format for the field.
     /// </summary>
     public string? Placeholder
     {
@@ -93,7 +101,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// Gets or sets the collection of sub-controls to be displayed within the text box control.
+    /// Sub-controls allow for additional buttons or input fields to be integrated into the control.
     /// </summary>
     public ObservableCollection<IStswSubControl> SubControls
     {
@@ -108,7 +117,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the text value of the control.
+    /// Gets or sets the text value of the control. This property is hidden from designers and editors
+    /// to prevent direct manipulation, and it is internally managed to ensure correct data handling.
     /// </summary>
     [Browsable(false)]
     //[Bindable(false)]
@@ -157,7 +167,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and function buttons.
+    /// Gets or sets the thickness of the separator between the text box and any function buttons.
+    /// This property allows customization of the visual separation between components within the control.
     /// </summary>
     public double SeparatorThickness
     {

@@ -305,7 +305,7 @@ public static partial class StswFn
         var process = new Process();
         process.StartInfo.FileName = path;
         process.StartInfo.UseShellExecute = true;
-        process.StartInfo.Verb = "open";
+        process.StartInfo.Verb = "open"; //TODO - second method with print instead
         process.Start();
     }
     #endregion

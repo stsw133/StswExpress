@@ -821,6 +821,7 @@ public static class StswExtensions
         {
             var paramName = $"{parameterName}{i}";
             sqlCommand.Parameters.AddWithValue(paramName, list[i]);
+            //TODO - AddWithValue -> Add (+ null handling)
             if (i > 0) parameterNames.Append(',');
             parameterNames.Append(paramName);
         }

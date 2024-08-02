@@ -21,6 +21,8 @@ public class StswApp : Application
     /// <param name="e">The event arguments for the startup event.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
+        //TODO - alternatively return info if run second time
+
         /// close duplicated application
         if (!AllowMultipleInstances)
         {
