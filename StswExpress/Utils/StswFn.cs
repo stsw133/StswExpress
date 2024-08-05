@@ -305,7 +305,20 @@ public static partial class StswFn
         var process = new Process();
         process.StartInfo.FileName = path;
         process.StartInfo.UseShellExecute = true;
-        process.StartInfo.Verb = "open"; //TODO - second method with print instead
+        process.StartInfo.Verb = "open";
+        process.Start();
+    }
+
+    /// <summary>
+    /// Prints a file in its associated application.
+    /// </summary>
+    /// <param name="path">The path to the file to be printed.</param>
+    public static void PrintFile(string path)
+    {
+        var process = new Process();
+        process.StartInfo.FileName = path;
+        process.StartInfo.UseShellExecute = true;
+        process.StartInfo.Verb = "print";
         process.Start();
     }
     #endregion

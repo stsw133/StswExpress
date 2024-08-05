@@ -43,7 +43,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Gets or sets a value indicating whether the items in control can be rearranged by drag and drop.
     /// </summary>
-    internal bool CanRearrange  //TODO - CanRearrange
+    internal bool CanRearrange  // TODO - CanRearrange
     {
         get => (bool)GetValue(CanRearrangeProperty);
         set => SetValue(CanRearrangeProperty, value);

@@ -313,33 +313,6 @@ public static class StswExtensions
     }
 
     /// <summary>
-    /// Checks if a type is a list type and retrieves the inner type if it is.
-    /// </summary>
-    /// <param name="type">The type to check.</param>
-    /// <param name="innerType">The inner type if the type is a list type.</param>
-    /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
-    internal static bool IsListType(this Type type, out Type? innerType)
-    {
-        ArgumentNullException.ThrowIfNull(type);
-
-        innerType = null;
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-        {
-            innerType = type.GetGenericArguments().Single();
-            return true;
-        }
-
-        foreach (var i in type.GetInterfaces())
-            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                innerType = i.GetGenericArguments().Single();
-                return true;
-            }
-
-        return false;
-    }
-
-    /// <summary>
     /// Attempts to clone each item in an <see cref="IEnumerable"/> and returns a new IEnumerable with the cloned items.
     /// </summary>
     /// <param name="source">The source enumerable to clone.</param>
@@ -736,6 +709,33 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Checks if a type is a list type and retrieves the inner type if it is.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <param name="innerType">The inner type if the type is a list type.</param>
+    /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
+    internal static bool IsListType(this Type type, out Type? innerType)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        innerType = null;
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            innerType = type.GetGenericArguments().Single();
+            return true;
+        }
+
+        foreach (var i in type.GetInterfaces())
+            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                innerType = i.GetGenericArguments().Single();
+                return true;
+            }
+
+        return false;
+    }
+
+    /// <summary>
     /// Removes all occurrences of the specified elements from an <see cref="IEnumerable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
@@ -810,7 +810,7 @@ public static class StswExtensions
         if (string.IsNullOrEmpty(parameterName))
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
 
-        if (list == null || list.Count == 0)
+        if (list == null || !IsListType(list.GetType(), out var innerType) || list.Count == 0)
         {
             sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", "NULL", RegexOptions.IgnoreCase);
             return;
@@ -820,8 +820,7 @@ public static class StswExtensions
         for (var i = 0; i < list?.Count; i++)
         {
             var paramName = $"{parameterName}{i}";
-            sqlCommand.Parameters.AddWithValue(paramName, list[i]);
-            //TODO - AddWithValue -> Add (+ null handling)
+            sqlCommand.Parameters.Add(paramName, innerType!.InferSqlDbType()!.Value).Value = list[i] ?? DBNull.Value;
             if (i > 0) parameterNames.Append(',');
             parameterNames.Append(paramName);
         }
