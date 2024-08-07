@@ -17,17 +17,17 @@
             <UniformGrid Rows="1" HorizontalAlignment="Left">
                 <se:StswSplitButton Command="{Binding RefreshCommand}" IsDropDownOpen="{Binding IsRefreshOpen}" Margin=" 0 0 6 0">
                     <se:StswSplitButton.Header>
-                        <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{DynamicResource StswColor.Neutral}" IsBusy="{Binding RefreshCommand.IsBusy}"/>
+                        <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{DynamicResource StswColor.Neutral}"/>
                     </se:StswSplitButton.Header>
                     <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClearCommand}">
-                        <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}" IsBusy="{Binding ClearCommand.IsBusy}"/>
+                        <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}"/>
                     </se:StswButton>
                 </se:StswSplitButton>
                 <se:StswButton Margin="0 0 6 0" Command="{Binding SaveCommand}">
-                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}" IsBusy="{Binding SaveCommand.IsBusy}"/>
+                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
                 </se:StswButton>
                 <se:StswButton Margin="0" Command="{Binding ExportCommand}">
-                    <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{DynamicResource StswColor.Positive}" IsBusy="{Binding ExportCommand.IsBusy}"/>
+                    <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{DynamicResource StswColor.Positive}"/>
                 </se:StswButton>
             </UniformGrid>
         </se:StswDirectionView>
@@ -36,16 +36,16 @@
         <DockPanel DockPanel.Dock="Bottom">
             <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding AddCommand}">
-                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding AddCommand.IsBusy}"/>
+                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding CloneCommand}">
-                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding CloneCommand.IsBusy}"/>
+                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding EditCommand}">
-                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding EditCommand.IsBusy}"/>
+                    <se:StswHeader IconFill="{DynamicResource StswColor.Positive}" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding DeleteCommand}">
-                    <se:StswHeader IconFill="{DynamicResource StswColor.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding DeleteCommand.IsBusy}"/>
+                    <se:StswHeader IconFill="{DynamicResource StswColor.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0"/>
                 </se:StswButton>
             </UniformGrid>
             <TextBlock Margin="3" VerticalAlignment="Center">

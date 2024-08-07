@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
-public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
+public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswCommand
 {
     private readonly Action<T?> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
@@ -61,7 +61,7 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
     public bool IsBusy
     {
         get => _isBusy;
-        private set => SetProperty(ref _isBusy, value);
+        set => SetProperty(ref _isBusy, value);
     }
     private bool _isBusy;
 }

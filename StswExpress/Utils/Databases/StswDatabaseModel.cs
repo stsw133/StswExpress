@@ -118,6 +118,16 @@ public class StswDatabaseModel : StswObservableObject
     private string? _version;
 
     /// <summary>
+    /// Gets or sets the default timeout for all commands associated with the database.
+    /// </summary>
+    public int? DefaultTimeout
+    {
+        get => _defaultTimeout;
+        set => SetProperty(ref _defaultTimeout, value);
+    }
+    private int? _defaultTimeout;
+
+    /// <summary>
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
@@ -197,8 +207,9 @@ public class StswDatabaseModel : StswObservableObject
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The models used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
-    public int? ExecuteNonQuery(string query, object? parameters = null)
+    public int? ExecuteNonQuery(string query, object? parameters = null, int? timeout = null)
     {
         if (!PrepareConnection())
             return default;
@@ -214,6 +225,7 @@ public class StswDatabaseModel : StswObservableObject
         var result = 0;
         var sqlTran = _sqlTransaction ?? (models?.Count() > 1 ? _sqlConnection?.BeginTransaction() : null);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, sqlTran);
+        sqlCmd.CommandTimeout = timeout ?? DefaultTimeout ?? sqlCmd.CommandTimeout;
         foreach (var model in models!)
         {
             PrepareParameters(sqlCmd, model);
@@ -233,13 +245,15 @@ public class StswDatabaseModel : StswObservableObject
     /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The scalar value.</returns>
-    public TResult ExecuteScalar<TResult>(string query, object? parameters = null)
+    public TResult ExecuteScalar<TResult>(string query, object? parameters = null, int? timeout = null)
     {
         if (!PrepareConnection())
             return default!;
 
         using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        sqlCmd.CommandTimeout = timeout ?? DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
         return sqlCmd.ExecuteScalar().ConvertTo<TResult>()!;
     }
@@ -250,13 +264,15 @@ public class StswDatabaseModel : StswObservableObject
     /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The scalar value or default.</returns>
-    public TResult? TryExecuteScalar<TResult>(string query, object? parameters = null)
+    public TResult? TryExecuteScalar<TResult>(string query, object? parameters = null, int? timeout = null)
     {
         if (!PrepareConnection())
             return default;
 
         using var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        sqlCmd.CommandTimeout = timeout ?? DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
         using var sqlDR = sqlCmd.ExecuteReader();
         return sqlDR.Read() ? sqlDR[0].ConvertTo<TResult>() : default;
@@ -267,13 +283,15 @@ public class StswDatabaseModel : StswObservableObject
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A <see cref="SqlDataReader"/>.</returns>
-    public SqlDataReader? ExecuteReader(string query, object? parameters = null)
+    public SqlDataReader? ExecuteReader(string query, object? parameters = null, int? timeout = null)
     {
         if (!PrepareConnection())
             return default;
 
         var sqlCmd = new SqlCommand(PrepareQuery(query), _sqlConnection, _sqlTransaction);
+        sqlCmd.CommandTimeout = timeout ?? DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
         return sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
     }
@@ -284,13 +302,15 @@ public class StswDatabaseModel : StswObservableObject
     /// <typeparam name="TResult">The type of the results.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A collection of results.</returns>
-    public IEnumerable<TResult> Get<TResult>(string query, object? parameters = null) where TResult : class, new()
+    public IEnumerable<TResult> Get<TResult>(string query, object? parameters = null, int? timeout = null) where TResult : class, new()
     {
         if (!PrepareConnection())
             return default!;
 
         using var sqlDA = new SqlDataAdapter(PrepareQuery(query), _sqlConnection);
+        sqlDA.SelectCommand.CommandTimeout = timeout ?? DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
         PrepareParameters(sqlDA.SelectCommand, parameters);
 
         var dt = new DataTable();
@@ -308,6 +328,7 @@ public class StswDatabaseModel : StswObservableObject
     /// <param name="inclusionMode">The inclusion mode.</param>
     /// <param name="inclusionProps">The properties to include or exclude based on the inclusion mode.</param>
     /// <param name="sqlParameters">The SQL parameters to use.</param>
+    [Obsolete($"This method should be replaced with multiple {nameof(ExecuteNonQuery)}")]
     public void Set<TModel>(StswBindingList<TModel> input, string tableName, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null) where TModel : IStswCollectionItem, new()
     {
         if (!PrepareConnection())
@@ -362,12 +383,14 @@ public class StswDatabaseModel : StswObservableObject
     /// <typeparam name="TModel">The type of the items to insert.</typeparam>
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
-    public void BulkInsert<TModel>(IEnumerable<TModel> items, string tableName)
+    /// <param name="timeout">The timeout used for the command.</param>
+    public void BulkInsert<TModel>(IEnumerable<TModel> items, string tableName, int? timeout = null)
     {
         if (!PrepareConnection())
             return;
 
         using var bulkCopy = new SqlBulkCopy(_sqlConnection, SqlBulkCopyOptions.Default, _sqlTransaction);
+        bulkCopy.BulkCopyTimeout = timeout ?? DefaultTimeout ?? bulkCopy.BulkCopyTimeout;
         bulkCopy.DestinationTableName = tableName;
         var dataTable = items.ToDataTable();
         bulkCopy.WriteToServer(dataTable);
@@ -378,13 +401,15 @@ public class StswDatabaseModel : StswObservableObject
     /// </summary>
     /// <param name="procName">The name of the stored procedure.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
-    public int? ExecuteStoredProcedure(string procName, object? parameters = null)
+    public int? ExecuteStoredProcedure(string procName, object? parameters = null, int? timeout = null)
     {
         if (!PrepareConnection())
             return default;
 
         using var sqlCmd = new SqlCommand(procName, _sqlConnection, _sqlTransaction) { CommandType = CommandType.StoredProcedure };
+        sqlCmd.CommandTimeout = timeout ?? DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
         return sqlCmd.ExecuteNonQuery();
     }

@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -12,6 +14,42 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
+
+    #region Events & methods
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        Loaded += OnLoaded;
+    }
+
+    /// <summary>
+    /// Handles the <see cref="FrameworkElement.Loaded"/> event for the control.
+    /// This method is called when the control is fully loaded and ensures that 
+    /// the <see cref="IsBusyProperty"/> is correctly bound to the <c>IsBusy</c> 
+    /// property of the command associated with the parent <see cref="ICommandSource"/>.
+    /// </summary>
+    /// <param name="sender">The source of the event, typically the control itself.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= OnLoaded;
+
+        if (GetBindingExpression(IsBusyProperty) == null
+            && Parent is ICommandSource btn
+            && btn.Command is IStswCommand cmd)
+        {
+            var binding = new Binding(nameof(cmd.IsBusy))
+            {
+                Source = cmd
+            };
+            BindingOperations.SetBinding(this, IsBusyProperty, binding);
+        }
+    }
+    #endregion
 
     #region Logic properties
     /// <summary>
