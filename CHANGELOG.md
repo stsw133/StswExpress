@@ -1,3 +1,22 @@
+# **0.9.1**
+2024-08-08
+
+### New functionality:
+
+* New class: **StswCollectionView** (to support using **StswBindingList** with **ICollectionView**).
+* **StswHeader** will automatically bind "IsBusy" if its parent is any Button and **IStswCommand** is assigned to it.
+* New function: **PrintFile**.
+
+### Changed functionality:
+
+* **StswDatabaseModel**'s query methods from now on can receive timeout as parameter.
+* Changed logo for StswExpress NuGet package.
+
+### Bugfixes:
+
+* All Stsw collection controls will properly set "UsesSelectionItems" property when their items source is ICollectionView. Just in case, setter for this property is also public now.
+* Extension **ParametersAddList** should properly handle null values and byte arrays now.
+
 # **0.9.0**
 2024-08-01
 
