@@ -29,7 +29,6 @@ public class StswDatabaseModel : StswObservableObject
         Password = builder.Password;
     }
 
-    #region Main properties
     /// <summary>
     /// Gets or sets the name of the database connection.
     /// </summary>
@@ -121,6 +120,16 @@ public class StswDatabaseModel : StswObservableObject
     private int? _defaultTimeout;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to make less space in the query.
+    /// </summary>
+    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.AlwaysMakeLessSpaceQuery;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to return if in designer mode.
+    /// </summary>
+    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.AlwaysReturnIfInDesignerMode;
+
+    /// <summary>
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
@@ -131,9 +140,7 @@ public class StswDatabaseModel : StswObservableObject
         StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
         _ => throw new Exception("This type of database management system is not supported!")
     };
-    #endregion
-
-    #region Query methods
+    
     /// <summary>
     /// Opens a new SQL connection using the connection string.
     /// </summary>
@@ -184,16 +191,6 @@ public class StswDatabaseModel : StswObservableObject
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to make less space in the query.
-    /// </summary>
-    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.AlwaysMakeLessSpaceQuery;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to return if in designer mode.
-    /// </summary>
-    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.AlwaysReturnIfInDesignerMode;
-
-    /// <summary>
     /// Checks if the query can be executed based on the current application state. 
     /// This method verifies if the application is running in design mode and returns a boolean value indicating 
     /// whether the query should proceed or not.
@@ -218,8 +215,7 @@ public class StswDatabaseModel : StswObservableObject
     /// <param name="query">The SQL query to prepare.</param>
     /// <returns>The prepared SQL query.</returns>
     internal string PrepareQuery(string query) => MakeLessSpaceQuery ? StswDatabaseHelper.LessSpaceQuery(query) : query;
-    #endregion
-
+    
     ~StswDatabaseModel()
     {
         Transaction?.Rollback();

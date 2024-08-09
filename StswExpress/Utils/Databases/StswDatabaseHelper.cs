@@ -15,6 +15,14 @@ namespace StswExpress;
 public static class StswDatabaseHelper
 {
     /// <summary>
+    /// Converts a <see cref="SqlConnection"/> into a <see cref="StswDatabaseModel"/> instance, 
+    /// allowing the use of methods designed for <see cref="StswDatabaseModel"/> on a <see cref="SqlConnection"/> object.
+    /// </summary>
+    /// <param name="connection">The <see cref="SqlConnection"/> to convert.</param>
+    /// <returns>A <see cref="StswDatabaseModel"/> instance that wraps the provided <see cref="SqlConnection"/>.</returns>
+    private static StswDatabaseModel AsDatabaseModel(this SqlConnection connection) => new(connection);
+
+    /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
     /// <typeparam name="TModel">The type of the items to insert.</typeparam>
@@ -22,16 +30,7 @@ public static class StswDatabaseHelper
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     public static void BulkInsert<TModel>(this SqlConnection connection, IEnumerable<TModel> items, string tableName, int? timeout = null)
-    {
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var bulkCopy = new SqlBulkCopy(sqlConn, SqlBulkCopyOptions.Default, null);
-        bulkCopy.BulkCopyTimeout = timeout ?? bulkCopy.BulkCopyTimeout;
-        bulkCopy.DestinationTableName = tableName;
-        var dataTable = items.ToDataTable();
-        bulkCopy.WriteToServer(dataTable);
-    }
+        => connection.AsDatabaseModel().BulkInsert(items, tableName, timeout);
 
     /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
@@ -45,43 +44,16 @@ public static class StswDatabaseHelper
         if (!model.CheckQueryConditions())
             return;
 
-        if (model.Transaction != null)
-            model.BulkInsertTransacted(items, tableName, timeout);
-        else
-            model.BulkInsertUntransacted(items, tableName, timeout);
-    }
+        using var factory = new StswSqlConnectionFactory(model, true);
 
-    /// <summary>
-    /// Performs a bulk insert operation to improve performance when inserting large datasets.
-    /// </summary>
-    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
-    /// <param name="items">The collection of items to insert.</param>
-    /// <param name="tableName">The name of the database table.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    internal static void BulkInsertTransacted<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null)
-    {
-        using var bulkCopy = new SqlBulkCopy(model.Transaction!.Connection, SqlBulkCopyOptions.Default, model.Transaction);
+        using var bulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);
         bulkCopy.BulkCopyTimeout = timeout ?? model.DefaultTimeout ?? bulkCopy.BulkCopyTimeout;
         bulkCopy.DestinationTableName = tableName;
-        var dataTable = items.ToDataTable();
-        bulkCopy.WriteToServer(dataTable);
-    }
 
-    /// <summary>
-    /// Performs a bulk insert operation to improve performance when inserting large datasets.
-    /// </summary>
-    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
-    /// <param name="items">The collection of items to insert.</param>
-    /// <param name="tableName">The name of the database table.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    internal static void BulkInsertUntransacted<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null)
-    {
-        using var sqlConn = model.OpenedConnection();
-        using var bulkCopy = new SqlBulkCopy(sqlConn, SqlBulkCopyOptions.Default, null);
-        bulkCopy.BulkCopyTimeout = timeout ?? model.DefaultTimeout ?? bulkCopy.BulkCopyTimeout;
-        bulkCopy.DestinationTableName = tableName;
         var dataTable = items.ToDataTable();
         bulkCopy.WriteToServer(dataTable);
+
+        factory.Commit();
     }
 
     /// <summary>
@@ -92,31 +64,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
     public static int? ExecuteNonQuery(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-    {
-        var models = parameters switch
-        {
-            IEnumerable<SqlParameter> => [parameters],
-            IEnumerable<object?> enumerable => enumerable,
-            _ => [parameters],
-        };
-
-        var result = 0;
-
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var sqlTran = models?.Count() > 1 ? sqlConn.BeginTransaction() : null;
-        using var sqlCmd = new SqlCommand(LessSpaceQuery(query), sqlConn, sqlTran);
-        sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        foreach (var model in models!)
-        {
-            PrepareParameters(sqlCmd, model);
-            result += sqlCmd.ExecuteNonQuery();
-        }
-        sqlTran?.Commit();
-
-        return result;
-    }
+        => connection.AsDatabaseModel().ExecuteNonQuery(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns the number of rows affected.
@@ -137,56 +85,19 @@ public static class StswDatabaseHelper
             _ => [parameters],
         };
 
-        if (model.Transaction != null)
-            return model.ExecuteNonQueryTransacted(query, models, timeout);
-        else
-            return model.ExecuteNonQueryUntransacted(query, models, timeout);
-    }
-    
-    /// <summary>
-    /// Executes the query and returns the number of rows affected.
-    /// </summary>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The models used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
-    internal static int ExecuteNonQueryTransacted(this StswDatabaseModel model, string query, IEnumerable<object?> parameters, int? timeout = null)
-    {
+        using var factory = new StswSqlConnectionFactory(model, models.Count() > 1);  // Używa transakcji tylko jeśli jest więcej niż jeden model
+        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), factory.Connection, factory.Transaction);
+        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
+
         var result = 0;
 
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), model.Transaction!.Connection, model.Transaction);
-        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
-        foreach (var parameter in parameters)
+        foreach (var modelParameters in models)
         {
-            PrepareParameters(sqlCmd, parameter);
+            PrepareParameters(sqlCmd, modelParameters);
             result += sqlCmd.ExecuteNonQuery();
         }
 
-        return result;
-    }
-
-    /// <summary>
-    /// Executes the query and returns the number of rows affected.
-    /// </summary>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The models used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
-    internal static int ExecuteNonQueryUntransacted(this StswDatabaseModel model, string query, IEnumerable<object?> parameters, int? timeout = null)
-    {
-        var result = 0;
-
-        using var sqlConn = model.OpenedConnection();
-        using var sqlTran = parameters.Count() > 1 ? sqlConn.BeginTransaction() : null;
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), sqlConn, sqlTran);
-        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
-        foreach (var parameter in parameters)
-        {
-            PrepareParameters(sqlCmd, parameter);
-            result += sqlCmd.ExecuteNonQuery();
-        }
-        sqlTran?.Commit();
-
+        factory.Commit();
         return result;
     }
 
@@ -198,15 +109,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A <see cref="SqlDataReader"/>.</returns>
     public static SqlDataReader? ExecuteReader(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var sqlCmd = new SqlCommand(LessSpaceQuery(query), sqlConn);
-        sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
-    }
+        => connection.AsDatabaseModel().ExecuteReader(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
@@ -220,43 +123,14 @@ public static class StswDatabaseHelper
         if (!model.CheckQueryConditions())
             return default;
 
-        if (model.Transaction != null)
-            return model.ExecuteReaderTransacted(query, parameters, timeout);
-        else
-            return model.ExecuteReaderUntransacted(query, parameters, timeout);
-    }
-
-    /// <summary>
-    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
-    /// </summary>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A <see cref="SqlDataReader"/>.</returns>
-    internal static SqlDataReader? ExecuteReaderTransacted(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), model.Transaction!.Connection, model.Transaction);
+        using var factory = new StswSqlConnectionFactory(model);
+        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteReader();
+
+        return factory.Transaction != null ? sqlCmd.ExecuteReader() : sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
     }
 
-    /// <summary>
-    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
-    /// </summary>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A <see cref="SqlDataReader"/>.</returns>
-    internal static SqlDataReader? ExecuteReaderUntransacted(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = model.OpenedConnection();
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), sqlConn);
-        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
-    }
-    
     /// <summary>
     /// Executes the query and returns a scalar value.
     /// </summary>
@@ -266,15 +140,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The scalar value.</returns>
     public static TResult? ExecuteScalar<TResult>(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var sqlCmd = new SqlCommand(LessSpaceQuery(query), sqlConn);
-        sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteScalar().ConvertTo<TResult?>();
-    }
+        => connection.AsDatabaseModel().ExecuteScalar<TResult>(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns a scalar value.
@@ -289,43 +155,13 @@ public static class StswDatabaseHelper
         if (!model.CheckQueryConditions())
             return default;
 
-        if (model.Transaction != null)
-            return model.ExecuteScalarTransacted<TResult?>(query, parameters, timeout);
-        else
-            return model.ExecuteScalarUntransacted<TResult?>(query, parameters, timeout);
-    }
-
-    /// <summary>
-    /// Executes the query and returns a scalar value.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The scalar value.</returns>
-    internal static TResult? ExecuteScalarTransacted<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), model.Transaction!.Connection, model.Transaction);
+        using var factory = new StswSqlConnectionFactory(model, false);
+        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteScalar().ConvertTo<TResult?>();
-    }
-
-    /// <summary>
-    /// Executes the query and returns a scalar value.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The scalar value.</returns>
-    internal static TResult? ExecuteScalarUntransacted<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = model.OpenedConnection();
-        using var sqlCmd = new SqlCommand(model.PrepareQuery(query), sqlConn);
-        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteScalar().ConvertTo<TResult?>();
+        var result = sqlCmd.ExecuteScalar().ConvertTo<TResult>();
+        factory.Commit();
+        return result;
     }
 
     /// <summary>
@@ -336,16 +172,8 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
     public static int? ExecuteStoredProcedure(this SqlConnection connection, string procName, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var sqlCmd = new SqlCommand(procName, sqlConn) { CommandType = CommandType.StoredProcedure };
-        sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteNonQuery();
-    }
-    
+        => connection.AsDatabaseModel().ExecuteStoredProcedure(procName, parameters, timeout);
+
     /// <summary>
     /// Executes a stored procedure with parameters.
     /// </summary>
@@ -358,41 +186,19 @@ public static class StswDatabaseHelper
         if (!model.CheckQueryConditions())
             return default;
 
-        if (model.Transaction != null)
-            return model.ExecuteStoredProcedureTransacted(procName, parameters, timeout);
-        else
-            return model.ExecuteStoredProcedureUntransacted(procName, parameters, timeout);
-    }
-
-    /// <summary>
-    /// Executes a stored procedure with parameters.
-    /// </summary>
-    /// <param name="procName">The name of the stored procedure.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
-    internal static int? ExecuteStoredProcedureTransacted(this StswDatabaseModel model, string procName, object? parameters = null, int? timeout = null)
-    {
-        using var sqlCmd = new SqlCommand(procName, model.Transaction!.Connection, model.Transaction) { CommandType = CommandType.StoredProcedure };
+        using var factory = new StswSqlConnectionFactory(model);
+        using var sqlCmd = new SqlCommand(procName, factory.Connection, factory.Transaction)
+        {
+            CommandType = CommandType.StoredProcedure,
+        };
         sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteNonQuery();
-    }
 
-    /// <summary>
-    /// Executes a stored procedure with parameters.
-    /// </summary>
-    /// <param name="procName">The name of the stored procedure.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
-    internal static int? ExecuteStoredProcedureUntransacted(this StswDatabaseModel model, string procName, object? parameters = null, int? timeout = null)
-    {
-        using var sqlConn = model.OpenedConnection();
-        using var sqlCmd = new SqlCommand(procName, sqlConn) { CommandType = CommandType.StoredProcedure };
-        sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
-        return sqlCmd.ExecuteNonQuery();
+
+        var result = sqlCmd.ExecuteNonQuery();
+
+        factory.Commit();
+        return result;
     }
 
     /// <summary>
@@ -404,18 +210,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A collection of results.</returns>
     public static IEnumerable<TResult> Get<TResult>(this SqlConnection connection, string query, object? parameters = null, int? timeout = null, char delimiter = '/') where TResult : class, new()
-    {
-        using var sqlConn = connection;
-        if (sqlConn.State != ConnectionState.Open)
-            sqlConn.Open();
-        using var sqlDA = new SqlDataAdapter(LessSpaceQuery(query), sqlConn);
-        sqlDA.SelectCommand.CommandTimeout = timeout ?? sqlDA.SelectCommand.CommandTimeout;
-        PrepareParameters(sqlDA.SelectCommand, parameters);
-
-        var dt = new DataTable();
-        sqlDA.Fill(dt);
-        return dt.MapTo<TResult>(delimiter);
-    }
+        => connection.AsDatabaseModel().Get<TResult>(query, parameters, timeout, delimiter);
 
     /// <summary>
     /// Executes the query and returns a collection of results.
@@ -430,50 +225,17 @@ public static class StswDatabaseHelper
         if (!model.CheckQueryConditions())
             return [];
 
-        if (model.Transaction != null)
-            return model.GetTransacted<TResult>(query, parameters, timeout).MapTo<TResult>(delimiter);
-        else
-            return model.GetUntransacted<TResult>(query, parameters, timeout).MapTo<TResult>(delimiter);
-    }
-
-    /// <summary>
-    /// Executes the query and returns a collection of results.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the results.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A collection of results.</returns>
-    internal static DataTable GetTransacted<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null) where TResult : class, new()
-    {
-        using var sqlDA = new SqlDataAdapter(model.PrepareQuery(query), model.Transaction!.Connection);
+        using var factory = new StswSqlConnectionFactory(model, false);
+        using var sqlDA = new SqlDataAdapter(model.PrepareQuery(query), factory.Connection);
         sqlDA.SelectCommand.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
-        sqlDA.SelectCommand.Transaction = model.Transaction;
+        sqlDA.SelectCommand.Transaction = factory.Transaction;
+
         PrepareParameters(sqlDA.SelectCommand, parameters);
 
-        var dt = new DataTable();
-        sqlDA.Fill(dt);
-        return dt;
-    }
-    
-    /// <summary>
-    /// Executes the query and returns a collection of results.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the results.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A collection of results.</returns>
-    internal static DataTable GetUntransacted<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null) where TResult : class, new()
-    {
-        using var sqlConn = model.OpenedConnection();
-        using var sqlDA = new SqlDataAdapter(model.PrepareQuery(query), sqlConn);
-        sqlDA.SelectCommand.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
-        PrepareParameters(sqlDA.SelectCommand, parameters);
+        var dataTable = new DataTable();
+        sqlDA.Fill(dataTable);
 
-        var dt = new DataTable();
-        sqlDA.Fill(dt);
-        return dt;
+        return dataTable.MapTo<TResult>(delimiter);
     }
 
     /// <summary>
