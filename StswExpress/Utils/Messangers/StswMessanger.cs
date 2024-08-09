@@ -14,7 +14,7 @@ public class StswMessanger
     /// Gets the singleton instance of the Messenger.
     /// </summary>
     public static StswMessanger Instance => _instance;
-    private static readonly StswMessanger _instance = new StswMessanger();
+    private static readonly StswMessanger _instance = new();
 
     /// <summary>
     /// Registers a callback to be invoked when a message of type TMessage is sent.

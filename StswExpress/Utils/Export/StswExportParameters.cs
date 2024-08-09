@@ -4,9 +4,7 @@
 /// </summary>
 public struct StswExportParameters
 {
-    public StswExportParameters()
-    {
-    }
+    public StswExportParameters() { }
 
     /// <summary>
     /// Gets or sets the default extension for the file dialog.

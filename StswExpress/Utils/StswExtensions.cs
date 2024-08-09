@@ -810,6 +810,8 @@ public static class StswExtensions
     /// <param name="list">The list of values to be added as parameters.</param>
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
+        // TODO - limit to max. 50 elements in list (to prevent idiocy)
+
         ArgumentNullException.ThrowIfNull(sqlCommand);
         if (string.IsNullOrEmpty(parameterName))
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));

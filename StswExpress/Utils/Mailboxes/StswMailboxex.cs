@@ -8,7 +8,6 @@ namespace StswExpress;
 /// </summary>
 public static class StswMailboxex
 {
-    #region Import & export
     /// <summary>
     /// Gets or sets the default instance of email configuration that is currently in use by the application in case only a single one is needed.
     /// </summary>
@@ -18,6 +17,25 @@ public static class StswMailboxex
     /// Gets or sets the location of the file where email configurations are stored.
     /// </summary>
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
+
+    /// <summary>
+    /// Writes email configurations to a file specified by <see cref="FilePath"/>.
+    /// </summary>
+    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects representing the email configurations to be exported.</param>
+    public static void ExportList(IEnumerable<StswMailboxModel> collection)
+    {
+        using var stream = new StreamWriter(FilePath);
+        foreach (var item in collection)
+            stream.WriteLine(StswSecurity.Encrypt(item.Name ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Host ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Port.ToString() ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Address ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Username ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Password ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.Domain ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(item.EnableSSL.ToString() ?? string.Empty)
+                );
+    }
 
     /// <summary>
     /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in a collection.
@@ -52,24 +70,4 @@ public static class StswMailboxex
             }
         }
     }
-
-    /// <summary>
-    /// Writes email configurations to a file specified by <see cref="FilePath"/>.
-    /// </summary>
-    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects representing the email configurations to be exported.</param>
-    public static void ExportList(IEnumerable<StswMailboxModel> collection)
-    {
-        using var stream = new StreamWriter(FilePath);
-        foreach (var item in collection)
-            stream.WriteLine(StswSecurity.Encrypt(item.Name ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Host ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Port.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Address ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Username ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Password ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Domain ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.EnableSSL.ToString() ?? string.Empty)
-                );
-    }
-    #endregion
 }

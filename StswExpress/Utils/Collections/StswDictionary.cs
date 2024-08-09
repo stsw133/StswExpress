@@ -13,52 +13,52 @@ namespace StswExpress;
 /// Custom implementation of a dictionary that is designed to raise events when its contents are modified, allowing for better integration with data binding.
 /// </summary>
 [XmlRoot("Dictionary")]
-public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerializable, INotifyCollectionChanged, INotifyPropertyChanged
+public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerializable, INotifyCollectionChanged, INotifyPropertyChanged where TKey : notnull
 {
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
     private const string KeysName = "Keys";
     private const string ValuesName = "Values";
 
-    private IDictionary<TKey, TValue> _Dictionary;
-    protected IDictionary<TKey, TValue> Dictionary => _Dictionary;
+    protected IDictionary<TKey, TValue> Dictionary => _dictionary;
+    private IDictionary<TKey, TValue> _dictionary;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class.
     /// </summary>
-    public StswDictionary() => _Dictionary = new Dictionary<TKey, TValue>();
+    public StswDictionary() => _dictionary = new Dictionary<TKey, TValue>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class with the specified dictionary.
     /// </summary>
     /// <param name="dictionary">The dictionary whose elements are copied to the new dictionary.</param>
-    public StswDictionary(IDictionary<TKey, TValue> dictionary) => _Dictionary = new Dictionary<TKey, TValue>(dictionary);
+    public StswDictionary(IDictionary<TKey, TValue> dictionary) => _dictionary = new Dictionary<TKey, TValue>(dictionary);
     
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class with the specified comparer.
     /// </summary>
     /// <param name="comparer">The comparer to use when comparing keys.</param>
-    public StswDictionary(IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(comparer);
+    public StswDictionary(IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(comparer);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class with the specified capacity.
     /// </summary>
     /// <param name="capacity">The initial number of elements that the dictionary can contain.</param>
-    public StswDictionary(int capacity) => _Dictionary = new Dictionary<TKey, TValue>(capacity);
+    public StswDictionary(int capacity) => _dictionary = new Dictionary<TKey, TValue>(capacity);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class with the specified dictionary and comparer.
     /// </summary>
     /// <param name="dictionary">The dictionary whose elements are copied to the new dictionary.</param>
     /// <param name="comparer">The comparer to use when comparing keys.</param>
-    public StswDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+    public StswDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDictionary{TKey, TValue}"/> class with the specified capacity and comparer.
     /// </summary>
     /// <param name="capacity">The initial number of elements that the dictionary can contain.</param>
     /// <param name="comparer">The comparer to use when comparing keys.</param>
-    public StswDictionary(int capacity, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+    public StswDictionary(int capacity, IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
 
     /// <summary>
     /// Adds an element with the provided key and value to the dictionary.
@@ -200,7 +200,7 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
                     foreach (var item in items) Dictionary.Add(item);
             }
             else
-                _Dictionary = new Dictionary<TKey, TValue>(items);
+                _dictionary = new Dictionary<TKey, TValue>(items);
 
             OnCollectionChanged(NotifyCollectionChangedAction.Add, items.ToArray());
         }

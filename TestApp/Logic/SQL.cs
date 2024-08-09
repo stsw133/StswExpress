@@ -67,7 +67,7 @@ internal static class SQL
         where ID=@ID", new { ID = id, File = file }) > 0;
 
     /// GetPdf
-    internal static byte[]? GetPdf(int id) => DbCurrent.TryExecuteScalar<byte[]>(@"
+    internal static byte[]? GetPdf(int id) => DbCurrent.ExecuteScalar<byte[]?>(@"
         select Pdf
         from dbo.StswExpressTEST_Contractors with(nolock)
         where ID=@ID", new { ID = id });

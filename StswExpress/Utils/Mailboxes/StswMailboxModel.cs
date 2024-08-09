@@ -9,10 +9,7 @@ namespace StswExpress;
 /// </summary>
 public class StswMailboxModel : StswObservableObject
 {
-    public StswMailboxModel()
-    {
-
-    }
+    public StswMailboxModel() { }
     public StswMailboxModel(string? host = null, string? address = null, string? username = null, string? password = null)
     {
         Host = host;

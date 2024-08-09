@@ -424,8 +424,8 @@ public static class StswExport
         }
 
         var serializer = new XmlSerializer(typeof(List<T>));
-        using (var reader = new StreamReader(filePath))
-            return (List<T>?)serializer.Deserialize(reader) ?? [];
+        using var reader = new StreamReader(filePath);
+        return (List<T>?)serializer.Deserialize(reader) ?? [];
     }
     #endregion
 }
