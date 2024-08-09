@@ -213,6 +213,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             typeof(ICommand),
             typeof(StswDataGrid)
         );
+    // TODO - double click row command
 
     /// <summary>
     /// Gets or sets the visibility mode for special column.

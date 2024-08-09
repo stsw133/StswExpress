@@ -173,6 +173,7 @@ public class StswDatabaseModel : StswObservableObject
 
         using (_sqlTransaction)
             _sqlTransaction.Commit();
+        _sqlTransaction = null;
     }
 
     /// <summary>
@@ -185,6 +186,7 @@ public class StswDatabaseModel : StswObservableObject
 
         using (_sqlTransaction)
             _sqlTransaction.Rollback();
+        _sqlTransaction = null;
     }
 
     /// <summary>
@@ -311,6 +313,7 @@ public class StswDatabaseModel : StswObservableObject
 
         using var sqlDA = new SqlDataAdapter(PrepareQuery(query), _sqlConnection);
         sqlDA.SelectCommand.CommandTimeout = timeout ?? DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
+        sqlDA.SelectCommand.Transaction = _sqlTransaction;
         PrepareParameters(sqlDA.SelectCommand, parameters);
 
         var dt = new DataTable();
@@ -438,12 +441,14 @@ public class StswDatabaseModel : StswObservableObject
     /// <returns>true if the connection is successfully prepared; otherwise, false.</returns>
     protected bool PrepareConnection()
     {
+        /// check if debug mode
         var isInDesignMode = false;
         if (ReturnIfInDesignerMode)
             Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject()));
         if (isInDesignMode)
             return false;
 
+        /// assign connection
         if (_sqlTransaction != null)
             _sqlConnection = _sqlTransaction.Connection;
         else

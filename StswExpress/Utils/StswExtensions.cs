@@ -719,6 +719,10 @@ public static class StswExtensions
         ArgumentNullException.ThrowIfNull(type);
 
         innerType = null;
+
+        if (type == typeof(string))
+            return false;
+
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             innerType = type.GetGenericArguments().Single();

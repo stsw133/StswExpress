@@ -38,9 +38,13 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
     {
         Loaded -= OnLoaded;
 
-        if (GetBindingExpression(IsBusyProperty) == null
-            && Parent is ICommandSource btn
-            && btn.Command is IStswCommand cmd)
+        ICommandSource? commandSource = null;
+        if (Parent is ICommandSource parentCommandSource)
+            commandSource = parentCommandSource;
+        else if (TemplatedParent is ICommandSource templatedParentCommandSource)
+            commandSource = templatedParentCommandSource;
+
+        if (GetBindingExpression(IsBusyProperty) == null && commandSource?.Command is IStswCommand cmd)
         {
             var binding = new Binding(nameof(cmd.IsBusy))
             {

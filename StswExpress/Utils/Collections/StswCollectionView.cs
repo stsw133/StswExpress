@@ -178,7 +178,7 @@ public class StswCollectionView<T> : ICollectionView where T : IStswCollectionIt
     /// Determines whether the specified item is part of the view.
     /// </summary>
     /// <param name="item">The item to check.</param>
-    /// <returns><c>true</c> if the item is part of the view; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the item is part of the view; otherwise, <see langword="false"/>.</returns>
     public bool Contains(object item) => _filteredItems.Contains((T)item);
 
     /// <summary>
@@ -191,38 +191,38 @@ public class StswCollectionView<T> : ICollectionView where T : IStswCollectionIt
     /// Moves the current item to the specified object.
     /// </summary>
     /// <param name="item">The item to set as the current item.</param>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentTo(object? item) => false;
 
     /// <summary>
     /// Moves the current item to the first item in the view.
     /// </summary>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentToFirst() => false;
 
     /// <summary>
     /// Moves the current item to the last item in the view.
     /// </summary>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentToLast() => false;
 
     /// <summary>
     /// Moves the current item to the next item in the view.
     /// </summary>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentToNext() => false;
 
     /// <summary>
     /// Moves the current item to the item at the specified index.
     /// </summary>
     /// <param name="position">The index to set as the current item.</param>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentToPosition(int position) => false;
 
     /// <summary>
     /// Moves the current item to the previous item in the view.
     /// </summary>
-    /// <returns><c>true</c> if the current item was set successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the current item was set successfully; otherwise, <see langword="false"/>.</returns>
     public bool MoveCurrentToPrevious() => false;
 
     /// <summary>
