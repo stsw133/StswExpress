@@ -12,7 +12,7 @@ internal class StswSqlConnectionFactory : IDisposable
 {
     private readonly SqlConnection _connection;
     private readonly SqlTransaction? _transaction;
-    private readonly bool _useTransaction;
+    private readonly bool? _useTransaction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswSqlConnectionFactory"/> class, opening a connection and optionally starting a transaction.
@@ -23,17 +23,19 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </param>
     public StswSqlConnectionFactory(StswDatabaseModel model, bool useTransaction = true)
     {
-        _useTransaction = useTransaction;
-
         if (model.Transaction != null)
         {
+            _useTransaction = null;
+
             _connection = model.Transaction.Connection;
             _transaction = model.Transaction;
         }
         else
         {
+            _useTransaction = useTransaction;
+
             _connection = model.OpenedConnection();
-            if (_useTransaction)
+            if (_useTransaction == true)
                 _transaction = _connection.BeginTransaction();
         }
     }
@@ -53,7 +55,7 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Commit()
     {
-        if (_useTransaction)
+        if (_useTransaction == true)
             _transaction?.Commit();
     }
 
@@ -62,7 +64,7 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Rollback()
     {
-        if (_useTransaction)
+        if (_useTransaction == true)
             _transaction?.Rollback();
     }
 
@@ -71,11 +73,14 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_useTransaction)
+        if (_useTransaction == true)
             _transaction?.Dispose();
 
-        if (_connection.State == ConnectionState.Open)
-            _connection.Close();
-        _connection.Dispose();
+        if (_useTransaction != null)
+        {
+            if (_connection.State == ConnectionState.Open)
+                _connection.Close();
+            _connection.Dispose();
+        }
     }
 }

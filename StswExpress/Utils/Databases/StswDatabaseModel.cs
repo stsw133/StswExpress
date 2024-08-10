@@ -172,8 +172,9 @@ public class StswDatabaseModel : StswObservableObject
         if (Transaction == null)
             throw new Exception("SqlTransaction has already ended.");
 
-        using (Transaction)
+        if (Transaction.Connection != null)
             Transaction.Commit();
+        Transaction.Dispose();
         Transaction = null;
     }
 
@@ -185,8 +186,9 @@ public class StswDatabaseModel : StswObservableObject
         if (Transaction == null)
             throw new Exception("SqlTransaction has already ended.");
 
-        using (Transaction)
+        if (Transaction.Connection != null)
             Transaction.Rollback();
+        Transaction.Dispose();
         Transaction = null;
     }
 
@@ -218,7 +220,8 @@ public class StswDatabaseModel : StswObservableObject
     
     ~StswDatabaseModel()
     {
-        Transaction?.Rollback();
+        if (Transaction?.Connection != null)
+            Transaction.Rollback();
         Transaction?.Dispose();
         Transaction = null;
     }

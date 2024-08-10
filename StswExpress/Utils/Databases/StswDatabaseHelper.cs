@@ -85,7 +85,7 @@ public static class StswDatabaseHelper
             _ => [parameters],
         };
 
-        using var factory = new StswSqlConnectionFactory(model, models.Count() > 1);  // Używa transakcji tylko jeśli jest więcej niż jeden model
+        using var factory = new StswSqlConnectionFactory(model, models.Count() > 1);
         using var sqlCmd = new SqlCommand(model.PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
 
@@ -159,7 +159,7 @@ public static class StswDatabaseHelper
         using var sqlCmd = new SqlCommand(model.PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
-        var result = sqlCmd.ExecuteScalar().ConvertTo<TResult>();
+        var result = sqlCmd.ExecuteScalar().ConvertTo<TResult?>();
         factory.Commit();
         return result;
     }

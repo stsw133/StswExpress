@@ -38,19 +38,22 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
     {
         Loaded -= OnLoaded;
 
-        ICommandSource? commandSource = null;
-        if (Parent is ICommandSource parentCommandSource)
-            commandSource = parentCommandSource;
-        else if (TemplatedParent is ICommandSource templatedParentCommandSource)
-            commandSource = templatedParentCommandSource;
-
-        if (GetBindingExpression(IsBusyProperty) == null && commandSource?.Command is IStswCommand cmd)
+        if (GetValue(IsBusyProperty) == null)
         {
-            var binding = new Binding(nameof(cmd.IsBusy))
+            ICommandSource? commandSource = null;
+            if (Parent is ICommandSource parentCommandSource)
+                commandSource = parentCommandSource;
+            else if (TemplatedParent is ICommandSource templatedParentCommandSource)
+                commandSource = templatedParentCommandSource;
+
+            if (/*GetBindingExpression(IsBusyProperty) == null &&*/ commandSource?.Command is IStswCommand cmd)
             {
-                Source = cmd
-            };
-            BindingOperations.SetBinding(this, IsBusyProperty, binding);
+                var binding = new Binding(nameof(cmd.IsBusy))
+                {
+                    Source = cmd
+                };
+                BindingOperations.SetBinding(this, IsBusyProperty, binding);
+            }
         }
     }
     #endregion
@@ -112,7 +115,7 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswHeader)
         );
 

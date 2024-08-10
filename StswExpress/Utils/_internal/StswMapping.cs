@@ -27,7 +27,7 @@ internal static class StswMapping
         visitedTypes.Add(type);
 
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .Where(x => x.CanWrite && !IsExcludedType(x.PropertyType)).ToArray();
+                        .Where(x => x.CanWrite /*&& !IsExcludedType(x.PropertyType)*/).ToArray();
         var propMappings = new Dictionary<string, PropertyInfo>();
 
         foreach (var prop in props)

@@ -346,7 +346,7 @@ public static class StswExtensions
         var underlyingType = Nullable.GetUnderlyingType(t);
 
         if (o == null || o == DBNull.Value)
-            return underlyingType == null ? default : Convert.ChangeType(null, t);
+            return underlyingType == null ? default : null;
 
         if (t.IsEnum || underlyingType?.IsEnum == true)
         {
