@@ -740,6 +740,28 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Applies a specified action to each element of the IList, allowing modification of 
+    /// individual properties within each element.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the IList.</typeparam>
+    /// <param name="list">The IList on which the action will be performed.</param>
+    /// <param name="modifier">An action that defines the modification to be applied to each element.</param>
+    /// <returns>The same IList after the modifications have been applied to its elements.</returns>
+    /// <remarks>
+    /// This method modifies the elements of the IList in-place, meaning that it does not 
+    /// create a new collection or new elements, but instead applies the provided action to 
+    /// each existing element in the IList. 
+    /// It is particularly useful when you need to update specific properties of objects 
+    /// within a collection without altering the entire object or creating a new collection.
+    /// </remarks>
+    public static IList<T> ModifyEach<T>(this IList<T> list, Action<T> modifier)
+    {
+        foreach (var item in list)
+            modifier(item);
+        return list;
+    }
+
+    /// <summary>
     /// Removes all occurrences of the specified elements from an <see cref="IEnumerable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>

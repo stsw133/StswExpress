@@ -10,18 +10,11 @@ using System.Text.RegularExpressions;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A static helper class that provides extension methods for performing common database operations 
+/// such as bulk inserts, executing queries, and handling stored procedures in a more efficient manner.
 /// </summary>
 public static class StswDatabaseHelper
 {
-    /// <summary>
-    /// Converts a <see cref="SqlConnection"/> into a <see cref="StswDatabaseModel"/> instance, 
-    /// allowing the use of methods designed for <see cref="StswDatabaseModel"/> on a <see cref="SqlConnection"/> object.
-    /// </summary>
-    /// <param name="connection">The <see cref="SqlConnection"/> to convert.</param>
-    /// <returns>A <see cref="StswDatabaseModel"/> instance that wraps the provided <see cref="SqlConnection"/>.</returns>
-    private static StswDatabaseModel AsDatabaseModel(this SqlConnection connection) => new(connection);
-
     /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
@@ -30,7 +23,7 @@ public static class StswDatabaseHelper
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     public static void BulkInsert<TModel>(this SqlConnection connection, IEnumerable<TModel> items, string tableName, int? timeout = null)
-        => connection.AsDatabaseModel().BulkInsert(items, tableName, timeout);
+        => new StswDatabaseModel(connection).BulkInsert(items, tableName, timeout);
 
     /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
@@ -64,7 +57,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
     public static int? ExecuteNonQuery(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-        => connection.AsDatabaseModel().ExecuteNonQuery(query, parameters, timeout);
+        => new StswDatabaseModel(connection).ExecuteNonQuery(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns the number of rows affected.
@@ -109,7 +102,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A <see cref="SqlDataReader"/>.</returns>
     public static SqlDataReader? ExecuteReader(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-        => connection.AsDatabaseModel().ExecuteReader(query, parameters, timeout);
+        => new StswDatabaseModel(connection).ExecuteReader(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
@@ -140,7 +133,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The scalar value.</returns>
     public static TResult? ExecuteScalar<TResult>(this SqlConnection connection, string query, object? parameters = null, int? timeout = null)
-        => connection.AsDatabaseModel().ExecuteScalar<TResult>(query, parameters, timeout);
+        => new StswDatabaseModel(connection).ExecuteScalar<TResult>(query, parameters, timeout);
 
     /// <summary>
     /// Executes the query and returns a scalar value.
@@ -172,7 +165,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
     public static int? ExecuteStoredProcedure(this SqlConnection connection, string procName, object? parameters = null, int? timeout = null)
-        => connection.AsDatabaseModel().ExecuteStoredProcedure(procName, parameters, timeout);
+        => new StswDatabaseModel(connection).ExecuteStoredProcedure(procName, parameters, timeout);
 
     /// <summary>
     /// Executes a stored procedure with parameters.
@@ -210,7 +203,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A collection of results.</returns>
     public static IEnumerable<TResult> Get<TResult>(this SqlConnection connection, string query, object? parameters = null, int? timeout = null, char delimiter = '/') where TResult : class, new()
-        => connection.AsDatabaseModel().Get<TResult>(query, parameters, timeout, delimiter);
+        => new StswDatabaseModel(connection).Get<TResult>(query, parameters, timeout, delimiter);
 
     /// <summary>
     /// Executes the query and returns a collection of results.
@@ -298,10 +291,11 @@ public static class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Reduces the amount of space in the query by removing unnecessary whitespace.
+    /// Reduces the amount of space in the given SQL query string by removing unnecessary whitespace 
+    /// while preserving the content within string literals.
     /// </summary>
-    /// <param name="query">The SQL query to process.</param>
-    /// <returns>The processed SQL query.</returns>
+    /// <param name="query">The SQL query to process and reduce unnecessary whitespace.</param>
+    /// <returns>The processed SQL query with reduced whitespace.</returns>
     public static string LessSpaceQuery(string query)
     {
         var regex = new Regex(@"('([^']*)')|([^']+)");
@@ -312,12 +306,14 @@ public static class StswDatabaseHelper
 
         return parts.Aggregate(string.Empty, (current, part) => current + (part.Item2 ? $"'{part.Value}'" : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")));
     }
-    
+
     /// <summary>
-    /// Prepares the SQL command with the specified parameters.
+    /// Prepares the specified SQL command by clearing existing parameters and adding new ones based on 
+    /// the provided model. The model can be an IEnumerable of SQL parameters, a dictionary, or an object 
+    /// whose properties will be used as parameters.
     /// </summary>
-    /// <param name="sqlCommand">The SQL command to prepare.</param>
-    /// <param name="model">The model used for the query parameters.</param>
+    /// <param name="sqlCommand">The SQL command to prepare with parameters.</param>
+    /// <param name="model">The model containing the values to be added as parameters.</param>
     internal static void PrepareParameters(SqlCommand sqlCommand, object? model)
     {
         sqlCommand.Parameters.Clear();
@@ -342,13 +338,14 @@ public static class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Prepares the SQL command with the specified parameters and properties.
+    /// Prepares the specified SQL command by adding SQL parameters and properties from the given item.
+    /// This method is marked as obsolete due to the obsolescence of the associated Set method.
     /// </summary>
     /// <typeparam name="TModel">The type of the item containing the properties.</typeparam>
-    /// <param name="sqlCommand">The SQL command to prepare.</param>
+    /// <param name="sqlCommand">The SQL command to prepare with parameters and properties.</param>
     /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
-    /// <param name="propertyInfos">The properties to add as parameters.</param>
-    /// <param name="item">The item containing the properties.</param>
+    /// <param name="propertyInfos">The properties of the item to add as parameters.</param>
+    /// <param name="item">The item containing the properties to add as parameters.</param>
     [Obsolete($"This method is obsolete because {nameof(Set)} method is obsolete.")]
     internal static void PrepareParameters<TModel>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, TModel? item)
     {
