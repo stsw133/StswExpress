@@ -1,3 +1,25 @@
+# **0.9.2**
+2024-08-11
+
+### New functionality:
+
+* New command classes: **StswCancellableAsyncCommand** and **StswPausableAsyncCommand**.
+* New class: **StswMessanger** (to support communication between ViewModels).
+* New extension method: **ModifyEach** (it is basically **ForEach** from "System.Linq" but it can return a modified list so it can be helpful with query methods from **StswDatabaseModel**).
+
+### Changed functionality:
+
+* **StswHeader** can automatically bind "IsBusy" property also if its TempatedParent is ICommandSource.
+* **StswDatabaseModel** query methods can also receive Dictionary type value as parameters now.
+* **IsListType** extension method no longer treats string as list type.
+
+### Bugfixes:
+
+* A lot of bugfixes for **StswDatabaseModel** (and its query methods that are now in **StswDatabaseHelper**).
+* Bugfix for **StswHeader** - it will set "IsBusy" property only if there is no default value set.
+* Bugfix to **ConvertTo** extension method so it can properly assign null value.
+* Bugfix for **MapTo** extension method (one with delimiter parameter) so it can again map system types including object type. This way it can support query method **Get** mapped to **StswComboItem**.
+
 # **0.9.1**
 2024-08-08
 
