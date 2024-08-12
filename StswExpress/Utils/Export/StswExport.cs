@@ -146,81 +146,77 @@ public static class StswExport
             else return;
         }
 
-        using (var wb = new XLWorkbook())
+        /// export
+        using var wb = new XLWorkbook();
+        foreach (var sheet in sheetsWithData)
         {
-            /// sheets
-            foreach (var sheet in sheetsWithData)
+            var ws = wb.AddWorksheet(sheet.Key);
+            var elementType = StswBaseDataHandler.GetElementType(sheet.Value);
+
+            if (elementType != null)
             {
-                var ws = wb.AddWorksheet(sheet.Key);
-                var elementType = StswBaseDataHandler.GetElementType(sheet.Value);
+                /// properties
+                var properties = elementType.GetProperties()
+                    .Select(p => new
+                    {
+                        Property = p,
+                        Attribute = p.GetCustomAttribute<StswExportAttribute>(),
+                        Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
+                    })
+                    .Where(p => p.Attribute?.IsColumnIgnored == false || (additionalParameters?.IncludeNonAttributed == true && p.Attribute?.IsColumnIgnored != true))
+                    .OrderBy(p => p.Order)
+                    .Select(p => p.Property)
+                    .ToList();
 
-                if (elementType != null)
+                /// set headers
+                for (int col = 0; col < properties.Count; col++)
                 {
-                    /// properties
-                    var properties = elementType.GetProperties()
-                        .Select(p => new
-                        {
-                            Property = p,
-                            Attribute = p.GetCustomAttribute<StswExportAttribute>(),
-                            Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
-                        })
-                        .Where(p => p.Attribute?.IsColumnIgnored == false || (additionalParameters?.IncludeNonAttributed == true && p.Attribute?.IsColumnIgnored != true))
-                        .OrderBy(p => p.Order)
-                        .Select(p => p.Property)
-                        .ToList();
+                    var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
+                    ws.Cell(1, col + 1).Value = attribute?.ColumnName ?? properties[col].Name;
+                }
 
-                    /// set headers
+                /// set data
+                var row = 2;
+                foreach (var item in sheet.Value)
+                {
                     for (int col = 0; col < properties.Count; col++)
                     {
+                        var value = properties[col].GetValue(item);
+                        var cell = ws.Cell(row, col + 1);
                         var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
-                        ws.Cell(1, col + 1).Value = attribute?.ColumnName ?? properties[col].Name;
-                    }
 
-                    /// set data
-                    var row = 2;
-                    foreach (var item in sheet.Value)
-                    {
-                        for (int col = 0; col < properties.Count; col++)
+                        if (properties[col].PropertyType.IsNumericType())
                         {
-                            var value = properties[col].GetValue(item);
-                            var cell = ws.Cell(row, col + 1);
-                            var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
-
-                            if (properties[col].PropertyType.IsNumericType())
-                            {
-                                if (attribute?.ColumnFormat != null)
-                                    cell.SetValue(Convert.ToDecimal(value).ToString(attribute.ColumnFormat));
-                                else
-                                    cell.SetValue(Convert.ToDecimal(value));
-                            }
-                            else if (properties[col].PropertyType.In(typeof(DateTime), typeof(DateTime?)))
-                            {
-                                if (attribute?.ColumnFormat != null)
-                                    cell.SetValue(Convert.ToDateTime(value).ToString(attribute.ColumnFormat));
-                                else
-                                    cell.SetValue(Convert.ToDateTime(value));
-                            }
-                            else if (properties[col].PropertyType == typeof(bool) || properties[col].PropertyType == typeof(bool?))
-                            {
-                                cell.SetValue(StswBaseDataHandler.FormatBool(value, attribute?.ColumnFormat));
-                            }
+                            if (attribute?.ColumnFormat != null)
+                                cell.SetValue(Convert.ToDecimal(value).ToString(attribute.ColumnFormat));
                             else
-                            {
-                                cell.SetValue(value?.ToString());
-                            }
+                                cell.SetValue(Convert.ToDecimal(value));
                         }
-                        row++;
+                        else if (properties[col].PropertyType.In(typeof(DateTime), typeof(DateTime?)))
+                        {
+                            if (attribute?.ColumnFormat != null)
+                                cell.SetValue(Convert.ToDateTime(value).ToString(attribute.ColumnFormat));
+                            else
+                                cell.SetValue(Convert.ToDateTime(value));
+                        }
+                        else if (properties[col].PropertyType == typeof(bool) || properties[col].PropertyType == typeof(bool?))
+                        {
+                            cell.SetValue(StswBaseDataHandler.FormatBool(value, attribute?.ColumnFormat));
+                        }
+                        else
+                        {
+                            cell.SetValue(value?.ToString());
+                        }
                     }
-
-                    /// table and auto column width
-                    var table = ws.Range(1, 1, row - 1, properties.Count).CreateTable();
-                    ws.Columns().AdjustToContents();
+                    row++;
                 }
-            }
 
-            /// save
-            wb.SaveAs(filePath);
+                /// table and auto column width
+                var table = ws.Range(1, 1, row - 1, properties.Count).CreateTable();
+                ws.Columns().AdjustToContents();
+            }
         }
+        wb.SaveAs(filePath);
 
         if (additionalParameters?.OpenFile == true)
             StswFn.OpenFile(filePath);
@@ -264,42 +260,40 @@ public static class StswExport
 
         var result = new List<T>();
 
-        using (var wb = new XLWorkbook(filePath))
+        using var wb = new XLWorkbook(filePath);
+        var ws = sheetName == null ? wb.Worksheets.First() : wb.Worksheets.Worksheet(sheetName);
+        var properties = typeof(T).GetProperties().Where(p => !p.GetCustomAttributes<StswExportAttribute>().Any(a => a.IsColumnIgnored)).ToList();
+        var headerRow = ws.FirstRowUsed();
+        var columnMapping = new Dictionary<int, PropertyInfo>();
+
+        foreach (var cell in headerRow.CellsUsed())
         {
-            var ws = sheetName == null ? wb.Worksheets.First() : wb.Worksheets.Worksheet(sheetName);
-            var properties = typeof(T).GetProperties().Where(p => !p.GetCustomAttributes<StswExportAttribute>().Any(a => a.IsColumnIgnored)).ToList();
-            var headerRow = ws.FirstRowUsed();
-            var columnMapping = new Dictionary<int, PropertyInfo>();
+            var header = cell.GetString();
+            var property = properties.FirstOrDefault(p =>
+                p.Name.Equals(header, StringComparison.OrdinalIgnoreCase) ||
+                p.GetCustomAttributes<StswExportAttribute>().Any(a => a.ColumnName?.Equals(header, StringComparison.OrdinalIgnoreCase) == true)
+            );
 
-            foreach (var cell in headerRow.CellsUsed())
+            if (property != null)
+                columnMapping[cell.Address.ColumnNumber] = property;
+        }
+
+        var dataRows = ws.RowsUsed().Skip(1);
+        foreach (var dataRow in dataRows)
+        {
+            var obj = new T();
+
+            foreach (var kvp in columnMapping)
             {
-                var header = cell.GetString();
-                var property = properties.FirstOrDefault(p =>
-                    p.Name.Equals(header, StringComparison.OrdinalIgnoreCase) ||
-                    p.GetCustomAttributes<StswExportAttribute>().Any(a => a.ColumnName?.Equals(header, StringComparison.OrdinalIgnoreCase) == true)
-                );
+                var cell = dataRow.Cell(kvp.Key);
+                var property = kvp.Value;
+                var attribute = property.GetCustomAttribute<StswExportAttribute>();
+                var value = StswBaseDataHandler.ConvertCellValue(cell, property.PropertyType, attribute?.ColumnFormat);
 
-                if (property != null)
-                    columnMapping[cell.Address.ColumnNumber] = property;
+                property.SetValue(obj, value);
             }
 
-            var dataRows = ws.RowsUsed().Skip(1);
-            foreach (var dataRow in dataRows)
-            {
-                var obj = new T();
-
-                foreach (var kvp in columnMapping)
-                {
-                    var cell = dataRow.Cell(kvp.Key);
-                    var property = kvp.Value;
-                    var attribute = property.GetCustomAttribute<StswExportAttribute>();
-                    var value = StswBaseDataHandler.ConvertCellValue(cell, property.PropertyType, attribute?.ColumnFormat);
-
-                    property.SetValue(obj, value);
-                }
-
-                result.Add(obj);
-            }
+            result.Add(obj);
         }
 
         return result;
