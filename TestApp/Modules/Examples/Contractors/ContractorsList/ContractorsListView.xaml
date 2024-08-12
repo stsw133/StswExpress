@@ -6,10 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
-    <d:UserControl.DataContext>
-        <local:ContractorsListContext/>
-    </d:UserControl.DataContext>
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:ContractorsListContext}">
 
     <DockPanel IsHitTestVisible="{Binding SaveCommand.IsBusy, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
         <!-- button panel -->

@@ -40,13 +40,13 @@ public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execu
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
     /// <returns><see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.</returns>
-    public bool CanExecute(object? parameter) => (_canExecute?.Invoke() ?? true) && !IsBusy;
+    public bool CanExecute(object? parameter = null) => (_canExecute?.Invoke() ?? true) && !IsBusy;
 
     /// <summary>
     /// Executes the command asynchronously with the specified parameter.
     /// </summary>
     /// <param name="parameter">The parameter to pass to the command.</param>
-    public async void Execute(object? parameter)
+    public async void Execute(object? parameter = null)
     {
         if (!CanExecute(parameter))
             return;

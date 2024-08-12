@@ -5,10 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
-    <d:UserControl.DataContext>
-        <local:StswTextBoxContext/>
-    </d:UserControl.DataContext>
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswTextBoxContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>

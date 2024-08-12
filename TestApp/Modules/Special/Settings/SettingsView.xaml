@@ -5,13 +5,10 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                xmlns:local="clr-namespace:TestApp"
-               mc:Ignorable="d" Height="360" Width="600"
-               Title="Settings" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner"
-               Icon="/StswExpress;component/Icons/32_settings.png">
-    <d:Window.DataContext>
-        <local:SettingsContext/>
-    </d:Window.DataContext>
-    
+               mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:SettingsContext}"
+               Height="360" Width="600" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner"
+               Title="Settings" Icon="/StswExpress;component/Icons/32_settings.png">
+
     <Grid>
         <TextBlock Text="Not implemented yet"/>
     </Grid>
