@@ -264,7 +264,7 @@ public static class StswDatabaseHelper
             using (var sqlCmd = new SqlCommand(insertQuery, sqlTran.Connection, sqlTran))
             {
                 sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                StswDatabaseHelper.PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
                 sqlCmd.ExecuteNonQuery();
             }
 
@@ -273,7 +273,7 @@ public static class StswDatabaseHelper
             using (var sqlCmd = new SqlCommand(updateQuery, sqlTran.Connection, sqlTran))
             {
                 sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                StswDatabaseHelper.PrepareParameters(sqlCmd, sqlParameters, objProps, item);
+                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
                 sqlCmd.ExecuteNonQuery();
             }
 
@@ -329,10 +329,17 @@ public static class StswDatabaseHelper
 
             foreach (var parameter in sqlParameters)
             {
-                if (parameter.Value.GetType().IsListType(out var type) && type?.IsValueType == true)
-                    sqlCommand.ParametersAddList(parameter.ParameterName, (IList?)parameter.Value);
+                if (parameter.Value.GetType().IsListType(out var type))
+                {
+                    if (type == typeof(byte))
+                        sqlCommand.Parameters.Add(parameter);
+                    else if (type?.IsValueType == true)
+                        sqlCommand.ParametersAddList(parameter.ParameterName, (IList?)parameter.Value);
+                }
                 else
+                {
                     sqlCommand.Parameters.Add(parameter);
+                }
             }
         }
     }

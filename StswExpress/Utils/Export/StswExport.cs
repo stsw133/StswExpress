@@ -224,6 +224,18 @@ public static class StswExport
 
         if (additionalParameters?.OpenFile == true)
             StswFn.OpenFile(filePath);
+
+        //TODO - memory stream type opening
+        /*
+        using (var memoryStream = new MemoryStream())
+        {
+            wb.SaveAs(memoryStream);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            var tempFilePath = Path.GetTempFileName() + ".xlsx";
+            File.WriteAllBytes(tempFilePath, memoryStream.ToArray());
+            StswFn.OpenFile(tempFilePath);
+        }
+        */
     }
 
     /// <summary>
