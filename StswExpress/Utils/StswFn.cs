@@ -330,7 +330,7 @@ public static partial class StswFn
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
     /// <param name="obj">The control for which to find the visual ancestor.</param>
     /// <returns>The first visual ancestor of the specified type, or null if no such ancestor exists.</returns>
-    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
+    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : class
     {
         var dependObj = obj;
         while (dependObj != null)
@@ -348,7 +348,7 @@ public static partial class StswFn
     /// <typeparam name="T">The type of the child to find.</typeparam>
     /// <param name="obj">The control for which to find the visual child.</param>
     /// <returns>The first visual child of the specified type, or null if no such child exists.</returns>
-    public static T? FindVisualChild<T>(DependencyObject obj) where T : Visual
+    public static T? FindVisualChild<T>(DependencyObject obj) where T : class
     {
         if (obj == null)
             return null;
@@ -373,7 +373,7 @@ public static partial class StswFn
     /// <typeparam name="T">The type of the children to find.</typeparam>
     /// <param name="obj">The control for which to find the visual children.</param>
     /// <returns>An enumerable collection of visual children of the specified type.</returns>
-    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : DependencyObject
+    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : class
     {
         if (obj == null)
             yield break;

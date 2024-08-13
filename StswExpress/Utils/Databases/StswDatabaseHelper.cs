@@ -230,7 +230,74 @@ public static class StswDatabaseHelper
 
         return dataTable.MapTo<TResult>(delimiter);
     }
+    /*
+    /// <summary>
+    /// Executes a multi-select SQL query and returns a collection of results, where each result set is mapped to a specified type.
+    /// </summary>
+    /// <param name="model">The database model containing connection and transaction information.</param>
+    /// <param name="query">The SQL query string containing multiple SELECT statements, separated by semicolons.</param>
+    /// <param name="resultTypes">A list of types corresponding to the result sets returned by each SELECT statement in the query.</param>
+    /// <param name="parameters">Optional parameters to be used in the SQL query.</param>
+    /// <param name="timeout">The timeout used for the SQL command. If not specified, the default timeout is used.</param>
+    /// <param name="delimiter">An optional delimiter used for mapping nested properties in the result sets. Defaults to '/' if not specified.</param>
+    /// <returns>
+    /// A collection of collections, where each inner collection contains objects mapped to the specified type corresponding to each SELECT statement.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">Thrown when the number of result types does not match the number of SELECT statements in the SQL command.</exception>
+    public static IEnumerable<IEnumerable<object>> GetMultiple(this SqlConnection connection, string query, IList<Type> resultTypes, object? parameters = null, int? timeout = null, char delimiter = '/')
+        => new StswDatabaseModel(connection).GetMultiple(query, resultTypes, parameters, timeout, delimiter);
 
+    /// <summary>
+    /// Executes a multi-select SQL query and returns a collection of results, where each result set is mapped to a specified type.
+    /// </summary>
+    /// <param name="model">The database model containing connection and transaction information.</param>
+    /// <param name="query">The SQL query string containing multiple SELECT statements, separated by semicolons.</param>
+    /// <param name="resultTypes">A list of types corresponding to the result sets returned by each SELECT statement in the query.</param>
+    /// <param name="parameters">Optional parameters to be used in the SQL query.</param>
+    /// <param name="timeout">The timeout used for the SQL command. If not specified, the default timeout is used.</param>
+    /// <param name="delimiter">An optional delimiter used for mapping nested properties in the result sets. Defaults to '/' if not specified.</param>
+    /// <returns>
+    /// A collection of collections, where each inner collection contains objects mapped to the specified type corresponding to each SELECT statement.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">Thrown when the number of result types does not match the number of SELECT statements in the SQL command.</exception>
+    public static IEnumerable<IEnumerable<object>> GetMultiple(this StswDatabaseModel model, string query, IList<Type> resultTypes, object? parameters = null, int? timeout = null, char delimiter = '/')
+    {
+        if (!model.CheckQueryConditions())
+            return [];
+
+        using var factory = new StswSqlConnectionFactory(model, false);
+        using var sqlDA = new SqlDataAdapter(model.PrepareQuery(query), factory.Connection);
+        sqlDA.SelectCommand.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
+        sqlDA.SelectCommand.Transaction = factory.Transaction;
+
+        PrepareParameters(sqlDA.SelectCommand, parameters);
+
+        var dataSet = new DataSet();
+        sqlDA.Fill(dataSet);
+
+        if (dataSet.Tables.Count != resultTypes.Count)
+            throw new InvalidOperationException("The number of result types does not match the number of queries in the SQL command.");
+
+        var results = new List<IEnumerable<object>>();
+
+        for (int i = 0; i < dataSet.Tables.Count; i++)
+        {
+            var table = dataSet.Tables[i];
+            var resultType = resultTypes[i];
+
+            var mapMethod = typeof(DataTableExtensions).GetMethod("MapTo", BindingFlags.Static | BindingFlags.Public)?.MakeGenericMethod(resultType);
+            if (mapMethod != null)
+            {
+                var mappedResult = mapMethod.Invoke(null, [table, delimiter]);
+                if (mappedResult != null)
+                    results.Add((IEnumerable<object>)mappedResult);
+            }
+        }
+
+        factory.Commit();
+        return results;
+    }
+    */
     /// <summary>
     /// Executes the query and updates the database with the specified input collection.
     /// </summary>

@@ -18,6 +18,13 @@ public interface IStswSelectionControl
     static readonly DependencyProperty? DisplayMemberPathProperty;
 
     /// <summary>
+    /// Gets or sets the collection used to generate the content of the control.
+    /// This property allows binding the control to a collection of items that will be displayed.
+    /// </summary>
+    IEnumerable ItemsSource { get; set; }
+    static readonly DependencyProperty? ItemsSourceProperty;
+
+    /// <summary>
     /// Gets or sets the template used to display each item in the control.
     /// This property allows customization of how each item appears in the control by specifying a <see cref="DataTemplate"/>.
     /// </summary>
