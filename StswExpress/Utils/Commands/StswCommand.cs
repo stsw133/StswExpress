@@ -33,13 +33,13 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
     /// <returns><see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.</returns>
-    public bool CanExecute(object? parameter) => _canExecute?.Invoke() ?? true;
+    public bool CanExecute(object? parameter = null) => _canExecute?.Invoke() ?? true;
 
     /// <summary>
     /// Defines the method to be called when the command is invoked.
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-    public void Execute(object? parameter)
+    public void Execute(object? parameter = null)
     {
         if (!CanExecute(parameter))
             return;
