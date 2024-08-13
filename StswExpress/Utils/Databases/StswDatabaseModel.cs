@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Data.SqlClient;
-using System.Windows;
 
 namespace StswExpress;
 /// <summary>
@@ -9,8 +7,6 @@ namespace StswExpress;
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
-    internal SqlTransaction? Transaction;
-
     public StswDatabaseModel() { }
     public StswDatabaseModel(string? server = null, string? database = null, string? login = null, string? password = null)
     {
@@ -122,12 +118,12 @@ public class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets a value indicating whether to make less space in the query.
     /// </summary>
-    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.AlwaysMakeLessSpaceQuery;
+    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.MakeLessSpaceQuery;
 
     /// <summary>
     /// Gets or sets a value indicating whether to return if in designer mode.
     /// </summary>
-    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.AlwaysReturnIfInDesignerMode;
+    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.ReturnIfInDesignerMode;
 
     /// <summary>
     /// Constructs the connection string based on the model's properties.
@@ -150,79 +146,5 @@ public class StswDatabaseModel : StswObservableObject
         var sqlConn = new SqlConnection(GetConnString());
         sqlConn.Open();
         return sqlConn;
-    }
-
-    /// <summary>
-    /// Begins a new SQL transaction. Throws an exception if a transaction is already active.
-    /// </summary>
-    public SqlTransaction BeginTransaction()
-    {
-        if (Transaction != null)
-            throw new Exception("SqlTransaction has been already started.");
-
-        Transaction = OpenedConnection().BeginTransaction();
-        return Transaction;
-    }
-
-    /// <summary>
-    /// Commits the current SQL transaction. If no transaction is active, throws an exception.
-    /// </summary>
-    public void CommitTransaction()
-    {
-        if (Transaction == null)
-            throw new Exception("SqlTransaction has already ended.");
-
-        if (Transaction.Connection != null)
-            Transaction.Commit();
-        Transaction.Dispose();
-        Transaction = null;
-    }
-
-    /// <summary>
-    /// Rolls back the current SQL transaction. If no transaction is active, throws an exception.
-    /// </summary>
-    public void RollbackTransaction()
-    {
-        if (Transaction == null)
-            throw new Exception("SqlTransaction has already ended.");
-
-        if (Transaction.Connection != null)
-            Transaction.Rollback();
-        Transaction.Dispose();
-        Transaction = null;
-    }
-
-    /// <summary>
-    /// Checks if the query can be executed based on the current application state. 
-    /// This method verifies if the application is running in design mode and returns a boolean value indicating 
-    /// whether the query should proceed or not.
-    /// </summary>
-    /// <returns>
-    /// Returns <see langword="false"/> if the application is in design mode and queries should not be executed, otherwise returns <see langword="true"/>.
-    /// </returns>
-    internal bool CheckQueryConditions()
-    {
-        var isInDesignMode = false;
-        if (ReturnIfInDesignerMode)
-            Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new()));
-        if (isInDesignMode)
-            return false;
-
-        return true;
-    }
-
-    /// <summary>
-    /// Prepares the SQL query for execution.
-    /// </summary>
-    /// <param name="query">The SQL query to prepare.</param>
-    /// <returns>The prepared SQL query.</returns>
-    internal string PrepareQuery(string query) => MakeLessSpaceQuery ? StswDatabaseHelper.LessSpaceQuery(query) : query;
-    
-    ~StswDatabaseModel()
-    {
-        if (Transaction?.Connection != null)
-            Transaction.Rollback();
-        Transaction?.Dispose();
-        Transaction = null;
     }
 }

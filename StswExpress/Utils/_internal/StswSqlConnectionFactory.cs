@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Data;
 
 namespace StswExpress;
 
@@ -10,53 +9,37 @@ namespace StswExpress;
 /// </summary>
 internal class StswSqlConnectionFactory : IDisposable
 {
-    private readonly SqlConnection _connection;
-    private readonly SqlTransaction? _transaction;
-    private readonly bool? _useTransaction;
+    private readonly bool _isExternalTransaction;
+    public SqlConnection Connection { get; }
+    public SqlTransaction? Transaction { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StswSqlConnectionFactory"/> class, opening a connection and optionally starting a transaction.
     /// </summary>
     /// <param name="model">The database model containing connection and transaction information.</param>
-    /// <param name="useTransaction">
-    /// If set to <see langword="true"/>, a new transaction is started if none exists. If <see langword="false"/>, no transaction is used.
-    /// </param>
-    public StswSqlConnectionFactory(StswDatabaseModel model, bool useTransaction = true)
+    public StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran = null, bool useTransaction = true)
     {
-        if (model.Transaction != null)
+        if (sqlTran != null)
         {
-            _useTransaction = null;
-
-            _connection = model.Transaction.Connection;
-            _transaction = model.Transaction;
+            Connection = sqlTran.Connection ?? throw new InvalidOperationException("External transaction is not associated with any connection.");
+            Transaction = sqlTran;
+            _isExternalTransaction = true;
         }
         else
         {
-            _useTransaction = useTransaction;
-
-            _connection = model.OpenedConnection();
-            if (_useTransaction == true)
-                _transaction = _connection.BeginTransaction();
+            Connection = sqlConn.Opened();
+            if (useTransaction)
+                Transaction = Connection.BeginTransaction();
         }
     }
-
-    /// <summary>
-    /// Gets the SQL connection managed by this factory.
-    /// </summary>
-    public SqlConnection Connection => _connection;
-
-    /// <summary>
-    /// Gets the SQL transaction managed by this factory, or <c>null</c> if no transaction is used.
-    /// </summary>
-    public SqlTransaction? Transaction => _transaction;
 
     /// <summary>
     /// Commits the current transaction if one is in use.
     /// </summary>
     public void Commit()
     {
-        if (_useTransaction == true)
-            _transaction?.Commit();
+        if (!_isExternalTransaction && Transaction != null)
+            Transaction?.Commit();
     }
 
     /// <summary>
@@ -64,8 +47,8 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Rollback()
     {
-        if (_useTransaction == true)
-            _transaction?.Rollback();
+        if (!_isExternalTransaction && Transaction != null)
+            Transaction?.Rollback();
     }
 
     /// <summary>
@@ -73,14 +56,10 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_useTransaction == true)
-            _transaction?.Dispose();
-
-        if (_useTransaction != null)
+        if (!_isExternalTransaction)
         {
-            if (_connection.State == ConnectionState.Open)
-                _connection.Close();
-            _connection.Dispose();
+            Transaction?.Dispose();
+            Connection.Dispose();
         }
     }
 }

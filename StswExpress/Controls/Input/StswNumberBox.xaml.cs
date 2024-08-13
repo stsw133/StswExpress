@@ -126,7 +126,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         {
             try
             {
-                result = T.CreateChecked(StswFn.Evaluate(Text));
+                result = T.CreateChecked(StswFn.Compute(Text));
             }
             catch { }
         }

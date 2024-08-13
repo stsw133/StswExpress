@@ -9,14 +9,19 @@ namespace StswExpress;
 public static class StswDatabases
 {
     /// <summary>
+    /// 
+    /// </summary>
+    public static char DelimiterForMapping { get; set; } = '/';
+    
+    /// <summary>
     /// Gets or sets a value indicating whether to always make less space in the query.
     /// </summary>
-    public static bool AlwaysMakeLessSpaceQuery { get; set; } = true;
+    public static bool MakeLessSpaceQuery { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether to always return if in designer mode.
     /// </summary>
-    public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
+    public static bool ReturnIfInDesignerMode { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the default instance of the database connection that is currently in use by the application in case only a single one is needed.

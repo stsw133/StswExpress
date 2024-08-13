@@ -439,7 +439,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
     /// <returns>The result of the evaluated expression as a double.</returns>
-    public static double Evaluate(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+    public static double Compute(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
 
     /// <summary>
     /// Shifts the selected index by the specified step, considering looping and boundary conditions.
