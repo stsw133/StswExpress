@@ -40,7 +40,7 @@ public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> ex
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
     /// <returns><see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.</returns>
-    public bool CanExecute(object? parameter = null) => (_canExecute?.Invoke() ?? true) && (!IsBusy || IsReusable);
+    public bool CanExecute(object? parameter = null) => (_canExecute?.Invoke() ?? true) && !IsBusy;
 
     /// <summary>
     /// Defines the method to be called when the command is invoked.
@@ -106,11 +106,6 @@ public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> ex
         set => SetProperty(ref _isBusy, value);
     }
     private bool _isBusy;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the command can be reused while it is still executing.
-    /// </summary>
-    public bool IsReusable;
 }
 
 /// <summary>
@@ -120,6 +115,4 @@ public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> ex
 /// <param name="onCancel">The action to execute when the command is canceled.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
 public class StswCancellableAsyncCommand(Func<CancellationToken, Task> execute, Action? onCancel = null, Func<bool>? canExecute = null)
-    : StswCancellableAsyncCommand<object>((_, token) => execute(token), onCancel, canExecute)
-{
-}
+    : StswCancellableAsyncCommand<object>((_, token) => execute(token), onCancel, canExecute);

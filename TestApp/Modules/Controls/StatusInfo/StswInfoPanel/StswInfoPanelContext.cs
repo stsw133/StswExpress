@@ -30,7 +30,7 @@ public class StswInfoPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task LoadFromFiles() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now).ToObservableCollection());
+    private async Task LoadFromFiles() => ItemsSource = (await StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now)).ToObservableCollection();
     #endregion
 
     /// IsClosable

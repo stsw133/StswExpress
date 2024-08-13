@@ -14,6 +14,7 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -80,7 +81,7 @@ public static partial class StswFn
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="lightness">The lightness component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSL values.</returns>
-    public static Color ColorFromAhsl(byte alpha, double hue, double saturation, double lightness)
+    public static Color ColorFromHsl(byte alpha, double hue, double saturation, double lightness)
     {
         var h = hue / 360.0;
         var c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
@@ -127,7 +128,7 @@ public static partial class StswFn
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="lightness">The lightness component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSL values with full opacity.</returns>
-    public static Color ColorFromHsl(double hue, double saturation, double lightness) => ColorFromAhsl(255, hue, saturation, lightness);
+    public static Color ColorFromHsl(double hue, double saturation, double lightness) => ColorFromHsl(255, hue, saturation, lightness);
 
     /// <summary>
     /// Converts a <see cref="Color"/> to its hue, saturation, and lightness (HSL) components.
@@ -153,7 +154,7 @@ public static partial class StswFn
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="value">The value component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSV values.</returns>
-    public static Color ColorFromAhsv(byte alpha, double hue, double saturation, double value)
+    public static Color ColorFromHsv(byte alpha, double hue, double saturation, double value)
     {
         var h = (int)Math.Floor(hue / 60) % 6;
         var f = hue / 60 - Math.Floor(hue / 60);
@@ -182,7 +183,7 @@ public static partial class StswFn
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="value">The value component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSV values with full opacity.</returns>
-    public static Color ColorFromHsv(double hue, double saturation, double value) => ColorFromAhsv(255, hue, saturation, value);
+    public static Color ColorFromHsv(double hue, double saturation, double value) => ColorFromHsv(255, hue, saturation, value);
 
     /// <summary>
     /// Converts a <see cref="Color"/> to its hue, saturation, and value (HSV) components.
@@ -627,6 +628,31 @@ public static partial class StswFn
     #endregion
 
     #region Universal functions
+    /// <summary>
+    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
+    /// </summary>
+    /// <param name="action">The action to execute.</param>
+    /// <param name="maxTries">The maximum number of tries.</param>
+    /// <param name="msInterval">The interval between tries in milliseconds.</param>
+    public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
+    {
+        while (maxTries > 0)
+        {
+            try
+            {
+                action.Invoke();
+                break;
+            }
+            catch
+            {
+                if (--maxTries == 0) throw;
+                Thread.Sleep(msInterval);
+            }
+        }
+    }
+    #endregion
+
+    #region UI functions
     /// <summary>
     /// Removes a <see cref="FrameworkElement"/> from its parent container.
     /// </summary>

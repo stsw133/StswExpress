@@ -50,13 +50,23 @@ public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute 
 
         try
         {
-            await _execute((T?)parameter);
+            await ExecuteAsync((T?)parameter);
         }
         finally
         {
             IsBusy = false;
             UpdateCanExecute();
         }
+    }
+
+    /// <summary>
+    /// Asynchronously executes the command with the specified parameter.
+    /// </summary>
+    /// <param name="parameter">The parameter to be passed to the command execution logic.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private Task ExecuteAsync(T? parameter)
+    {
+        return _execute(parameter);
     }
 
     /// <summary>
@@ -80,6 +90,4 @@ public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute 
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
-public class StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null) : StswAsyncCommand<object>(_ => execute(), canExecute)
-{
-}
+public class StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null) : StswAsyncCommand<object>(_ => execute(), canExecute);

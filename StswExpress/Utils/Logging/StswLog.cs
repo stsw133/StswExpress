@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace StswExpress;
 /// <summary>
@@ -13,6 +13,8 @@ namespace StswExpress;
 /// </summary>
 public static class StswLog
 {
+    private static int _failureCount = 0;
+
     static StswLog()
     {
         AutoArchive();
@@ -79,10 +81,9 @@ public static class StswLog
     /// <param name="dateFrom">The start date of the range.</param>
     /// <param name="dateTo">The end date of the range.</param>
     /// <returns>A collection of log entries.</returns>
-    public static IEnumerable<StswLogItem?> Import(DateTime dateFrom, DateTime dateTo)
+    public static async Task<IEnumerable<StswLogItem?>> Import(DateTime dateFrom, DateTime dateTo)
     {
-        /// load all lines from log files
-        List<string> allLogs = [];
+        var allLogs = new List<string>();
 
         for (DateTime i = dateFrom; i <= dateTo; i = i.AddDays(1))
         {
@@ -90,11 +91,11 @@ public static class StswLog
             if (!File.Exists(logFile))
                 continue;
 
-            var log = string.Empty;
-
             using var sr = new StreamReader(logFile);
+            var log = string.Empty;
             while (!sr.EndOfStream)
-                if (sr.ReadLine() is string l)
+            {
+                if (await sr.ReadLineAsync() is string l)
                 {
                     if (DateTime.TryParse(l[..19], out var _))
                     {
@@ -103,61 +104,126 @@ public static class StswLog
                     }
                     log += l + Environment.NewLine;
                 }
+            }
             allLogs.Add(log.TrimEnd(Environment.NewLine));
         }
 
-        /// check every line so log can be added to list
-        foreach (var log in allLogs.Where(x => x.Length > 0))
+        return allLogs.Where(x => x.Length > 0).Select(log =>
         {
             var descBeginsAt = log.Length >= 24 && log[20] == '|' && log[24] == '|' ? 26 : 22;
             var type = (StswInfoType)Enum.Parse(typeof(StswInfoType), Enum.GetNames(typeof(StswInfoType)).First(x => x.StartsWith(descBeginsAt == 26 ? log[22..23] : "N")));
-            if (DateTime.TryParse(log[..19], out var date))
-                yield return new StswLogItem(type, log[descBeginsAt..]) { DateTime = date };
+            return DateTime.TryParse(log[..19], out var date) ? new StswLogItem(type, log[descBeginsAt..]) { DateTime = date } : (StswLogItem?)null;
+        }).ToList();
+    }
+
+    /// <summary>
+    /// Writes a log entry to a file asynchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// Every log entry is written on a new line and starts with the current date and time, with a new file created each day.
+    /// </summary>
+    /// <param name="type">The type of log entry.</param>
+    /// <param name="text">The text to log.</param>
+    public static async Task WriteAsync(StswInfoType? type, string text)
+    {
+        if (Config.IsLoggingDisabled)
+            return;
+
+        if (!ShouldLog(type))
+            return;
+
+        /// CREATE DIRECTORY & CHECK ARCHIVE
+        // if (Config.ArchiveWhenSizeOver != null && new FileInfo(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log")).Length > Config.ArchiveWhenSizeOver)
+        //     Archive(DateTime.Now);
+
+        /// CREATE LOG
+        try
+        {
+            var log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type?.ToString().FirstOrDefault()} | {text}";
+
+            using var sw = new StreamWriter(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
+            await sw.WriteLineAsync(log);
+            _failureCount = 0;
+        }
+        catch (Exception ex)
+        {
+            HandleLoggingFailure(ex);
         }
     }
 
     /// <summary>
-    /// Writes a log entry to a file in the directory specified by <see cref="LogDirectoryPath"/>.
-    /// Every log entry is written in a new line and starts with current date and time with a new file created each day.
+    /// Writes a log entry to a file asynchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// This method is a shorthand for writing a simple text log entry without specifying a type.
+    /// </summary>
+    /// <param name="text">The text to log.</param>
+    public static Task WriteAsync(string text) => WriteAsync(null, text);
+
+    /// <summary>
+    /// Writes a log entry to a file synchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// Every log entry is written on a new line and starts with the current date and time, with a new file created each day.
     /// </summary>
     /// <param name="type">The type of log entry.</param>
     /// <param name="text">The text to log.</param>
     public static void Write(StswInfoType? type, string text)
     {
-        /// CONDITIONS
-        if (type != null)
-        {
-            if (Assembly.GetEntryAssembly()?.IsInDebug() == true)
-            {
-                if (!type.Value.In(Config.LogTypes_DEBUG))
-                    return;
-            }
-            else
-            {
-                if (!type.Value.In(Config.LogTypes_RELEASE))
-                    return;
-            }
-        }
+        if (Config.IsLoggingDisabled)
+            return;
+
+        if (!ShouldLog(type))
+            return;
 
         /// CREATE DIRECTORY & CHECK ARCHIVE
-        /*
-        if (Config.ArchiveWhenSizeOver != null && new FileInfo(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log")).Length > Config.ArchiveWhenSizeOver)
-            Archive(DateTime.Now);
-        */
-        /// CREATE LOG
-        var log = new StringBuilder(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        if (type != null)
-            log.Append($" | {type.Value.ToString().First()}");
-        log.Append($" | {text}");
+        // if (Config.ArchiveWhenSizeOver != null && new FileInfo(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log")).Length > Config.ArchiveWhenSizeOver)
+        //     Archive(DateTime.Now);
 
-        using var sw = new StreamWriter(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
-        sw.WriteLine(log);
+        /// CREATE LOG
+        try
+        {
+            var log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type?.ToString().FirstOrDefault()} | {text}";
+
+            using var sw = new StreamWriter(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
+            sw.WriteLine(log);
+            _failureCount = 0;
+        }
+        catch (Exception ex)
+        {
+            HandleLoggingFailure(ex);
+        }
     }
 
     /// <summary>
-    /// Writes a log entry to a file in the directory specified by <see cref="Config.LogDirectoryPath"/>.
-    /// Every log entry is written in a new line and starts with current date and time with a new file created each day.
+    /// Writes a log entry to a file synchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// This method is a shorthand for writing a simple text log entry without specifying a type.
     /// </summary>
     /// <param name="text">The text to log.</param>
     public static void Write(string text) => Write(null, text);
+
+    /// <summary>
+    /// Determines whether the log entry should be written based on the type of the log and the current configuration.
+    /// </summary>
+    /// <param name="type">The type of log entry.</param>
+    /// <returns><see langword="true"/> if the log entry should be written; otherwise, <see langword="false"/>.</returns>
+    private static bool ShouldLog(StswInfoType? type)
+    {
+        if (type == null)
+            return true;
+
+        if (Assembly.GetEntryAssembly()?.IsInDebug() == true)
+            return type.Value.In(Config.LogTypes_DEBUG);
+        else
+            return type.Value.In(Config.LogTypes_RELEASE);
+    }
+
+    /// <summary>
+    /// Handles failures that occur during the logging process. 
+    /// Increments the failure count, and if the number of failures exceeds the configured maximum, logging is disabled.
+    /// Additionally, a custom failure action can be invoked if configured.
+    /// </summary>
+    /// <param name="ex">The exception that occurred during the logging process.</param>
+    private static void HandleLoggingFailure(Exception ex)
+    {
+        _failureCount++;
+        if (_failureCount >= Config.MaxFailures)
+            Config.IsLoggingDisabled = true;
+
+        Config.OnLogFailure?.Invoke(ex);
+    }
 }

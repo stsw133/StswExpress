@@ -10,6 +10,8 @@ namespace StswExpress;
 /// </summary>
 public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T : IStswCollectionItem
 {
+    //TODO - handle changes in nested classes
+
     public StswBindingList() : base() => Initialize();
     public StswBindingList(IEnumerable<T> items) : base(items.ToList()) => Initialize();
 

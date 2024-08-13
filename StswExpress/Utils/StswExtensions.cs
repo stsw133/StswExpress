@@ -645,56 +645,6 @@ public static class StswExtensions
     }
     #endregion
 
-    #region Function extensions
-    /// <summary>
-    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
-    /// </summary>
-    /// <param name="action">The action to execute.</param>
-    /// <param name="maxTries">The maximum number of tries.</param>
-    /// <param name="msInterval">The interval between tries in milliseconds.</param>
-    public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
-    {
-        while (maxTries > 0)
-        {
-            try
-            {
-                action.Invoke();
-                break;
-            }
-            catch
-            {
-                if (--maxTries == 0) throw;
-                Thread.Sleep(msInterval);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Tries to execute a function multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
-    /// </summary>
-    /// <typeparam name="T">The return type of the function.</typeparam>
-    /// <param name="func">The function to execute.</param>
-    /// <param name="maxTries">The maximum number of tries.</param>
-    /// <param name="msInterval">The interval between tries in milliseconds.</param>
-    /// <returns>The result of the function if successful, or the default value of T if all tries fail.</returns>
-    public static T? TryMultipleTimes<T>(this Func<T> func, int maxTries = 5, int msInterval = 200)
-    {
-        while (maxTries > 0)
-        {
-            try
-            {
-                return func();
-            }
-            catch
-            {
-                if (--maxTries == 0) throw;
-                Thread.Sleep(msInterval);
-            }
-        }
-        return default;
-    }
-    #endregion
-
     #region List extensions
     /// <summary>
     /// Adds an item to a list if the list does not already contain the item.

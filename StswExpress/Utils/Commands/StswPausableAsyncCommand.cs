@@ -85,7 +85,6 @@ public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execu
         {
             token.ThrowIfCancellationRequested();
             await _execute(_items[_currentIndex], token);
-            await Task.Delay(100);
         }
 
         _currentIndex = 0;
@@ -121,3 +120,11 @@ public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execu
     }
     private bool _isBusy;
 }
+
+/// <summary>
+/// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
+/// </summary>
+/// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
+/// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
+public class StswPausableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
+    : StswPausableAsyncCommand<object>((_, token) => execute(token), canExecute);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -22,11 +21,6 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
         add => CommandManager.RequerySuggested += value;
         remove => CommandManager.RequerySuggested -= value;
     }
-
-    /// <summary>
-    /// Raises the <see cref="CanExecuteChanged"/> event.
-    /// </summary>
-    public void UpdateCanExecute() => Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
 
     /// <summary>
     /// Defines the method that determines whether the command can execute in its current state.
@@ -71,6 +65,4 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
-public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute)
-{
-}
+public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);

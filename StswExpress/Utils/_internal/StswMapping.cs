@@ -59,7 +59,7 @@ internal static class StswMapping
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties.</param>
     /// <returns>True if there are nested properties that match the column names, otherwise false.</returns>
-    private static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath)
+    internal static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath)
     {
         if (type.IsClass && type != typeof(string))
         {
@@ -107,7 +107,7 @@ internal static class StswMapping
     /// <param name="level">The current level in the property path.</param>
     /// <param name="value">The value to set on the property.</param>
     /// <param name="propCache">A dictionary of cached properties and their paths.</param>
-    private static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache)
+    internal static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache)
     {
         if (level == propPath.Length - 1)
         {

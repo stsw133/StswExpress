@@ -14,23 +14,23 @@ public class StswLogConfig()
     /// <summary>
     /// Indicates whether to archive the full month's log files.
     /// </summary>
-    public bool ArchiveFullMonth = true;
+    public bool ArchiveFullMonth { get; set; } = true;
 
     /// <summary>
     /// Specifies the number of days to keep logs before archiving them.
     /// </summary>
-    public int ArchiveUpToLastDays = 90;
+    public int ArchiveUpToLastDays { get; set; } = 90;
 
     /// <summary>
     /// Specifies the number of days after which logs should be archived.
     /// </summary>
-    public int ArchiveWhenDaysOver = 120;
+    public int ArchiveWhenDaysOver { get; set; } = 120;
 
     /*
     /// <summary>
     /// Specifies the file size threshold for archiving logs (in bytes).
     /// </summary>
-    public int? ArchiveWhenSizeOver = 1024 * 1024 * 10;
+    public int? ArchiveWhenSizeOver { get; set; } = 1024 * 1024 * 10;
     */
 
     /// <summary>
@@ -62,4 +62,19 @@ public class StswLogConfig()
     /// Log types to include RELEASE mode. Any type that is not in this list will be skipped.
     /// </summary>
     public IEnumerable<StswInfoType> LogTypes_RELEASE { get; set; } = Enum.GetValues(typeof(StswInfoType)).Cast<StswInfoType>().Except([StswInfoType.Debug]);
+
+    /// <summary>
+    /// Indicates whether logging is currently disabled.
+    /// </summary>
+    public bool IsLoggingDisabled { get; set; } = false;
+
+    /// <summary>
+    /// Specifies the maximum number of consecutive failures after which logging will be disabled.
+    /// </summary>
+    public int? MaxFailures { get; set; } = null;
+
+    /// <summary>
+    /// Defines a custom action to be executed when a logging error occurs.
+    /// </summary>
+    public Action<Exception>? OnLogFailure { get; set; }
 }
