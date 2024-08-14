@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
@@ -546,7 +545,7 @@ public static class StswExtensions
     /// <typeparam name="T2">The type of the dictionary values.</typeparam>
     /// <param name="value">The dictionary to convert.</param>
     /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
-    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new(value);
+    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) where T1 : notnull => new(value);
     #endregion
 
     #region Color extensions

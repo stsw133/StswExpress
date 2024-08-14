@@ -2,22 +2,22 @@
 
 namespace StswExpress;
 /// <summary>
-/// Represents a log item with a type and text.
+/// Represents an immutable log entry with a type, text, and a timestamp.
 /// </summary>
-public struct StswLogItem(StswInfoType? type, string text)
+public readonly struct StswLogItem(StswInfoType? type, string text, DateTime? dateTime = null)
 {
     /// <summary>
-    /// The date and time of the log entry.
+    /// Gets the date and time of the log entry.
     /// </summary>
-    public DateTime DateTime { get; set; } = DateTime.Now;
+    public DateTime DateTime { get; } = dateTime ?? DateTime.Now;
 
     /// <summary>
-    /// The text of the log entry.
+    /// Gets the text of the log entry.
     /// </summary>
-    public string? Text { get; set; } = text;
+    public string? Text { get; } = text;
 
     /// <summary>
-    /// The type of the log entry.
+    /// Gets the type of the log entry.
     /// </summary>
-    public StswInfoType? Type { get; set; } = type;
+    public StswInfoType? Type { get; } = type;
 }

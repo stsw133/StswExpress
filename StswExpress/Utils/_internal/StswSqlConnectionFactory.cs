@@ -21,7 +21,7 @@ internal class StswSqlConnectionFactory : IDisposable
     /// <param name="model">The database model containing connection and transaction information.</param>
     public StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran = null, bool useTransaction = true, bool? disposeConnection = null)
     {
-        _disposeConnection = disposeConnection ?? StswDatabases.AutoDisposeConnection;
+        _disposeConnection = disposeConnection ?? StswDatabases.Config.AutoDisposeConnection;
 
         if (sqlTran != null)
         {

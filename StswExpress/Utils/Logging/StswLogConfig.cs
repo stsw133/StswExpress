@@ -6,18 +6,18 @@ using System.Linq;
 
 namespace StswExpress;
 /// <summary>
-/// Configuration settings for the <see cref="StswLog"/> class.
+/// Configuration settings for the <see cref="StswLog"/> class, including options for archiving and log types.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class StswLogConfig()
 {
     /// <summary>
-    /// Indicates whether to archive the full month's log files.
+    /// Specifies whether to automatically archive logs for a full month.
     /// </summary>
     public bool ArchiveFullMonth { get; set; } = true;
 
     /// <summary>
-    /// Specifies the number of days to keep logs before archiving them.
+    /// Specifies the number of days to keep logs before considering them for archiving.
     /// </summary>
     public int ArchiveUpToLastDays { get; set; } = 90;
 
@@ -34,32 +34,22 @@ public class StswLogConfig()
     */
 
     /// <summary>
-    /// Specifies the path to the directory where the archived log files will be saved.
+    /// Specifies the path to the directory where archived log files will be stored.
     /// </summary>
     public string ArchiveDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "archive");
 
     /// <summary>
-    /// Specifies the path to the directory where the log files will be saved.
+    /// Specifies the path to the directory where active log files will be stored.
     /// </summary>
-    public string LogDirectoryPath
-    {
-        get
-        {
-            if (!Directory.Exists(_logDirectoryPath))
-                Directory.CreateDirectory(_logDirectoryPath);
-            return _logDirectoryPath;
-        }
-        set => _logDirectoryPath = value;
-    }
-    private string _logDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+    public string LogDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
 
     /// <summary>
-    /// Log types to include DEBUG mode. Any type that is not in this list will be skipped.
+    /// Specifies the log types to include in DEBUG mode. Any log type not in this list will be skipped.
     /// </summary>
     public IEnumerable<StswInfoType> LogTypes_DEBUG { get; set; } = Enum.GetValues(typeof(StswInfoType)).Cast<StswInfoType>();
 
     /// <summary>
-    /// Log types to include RELEASE mode. Any type that is not in this list will be skipped.
+    /// Specifies the log types to include in RELEASE mode. Any log type not in this list will be skipped.
     /// </summary>
     public IEnumerable<StswInfoType> LogTypes_RELEASE { get; set; } = Enum.GetValues(typeof(StswInfoType)).Cast<StswInfoType>().Except([StswInfoType.Debug]);
 
@@ -69,12 +59,12 @@ public class StswLogConfig()
     public bool IsLoggingDisabled { get; set; } = false;
 
     /// <summary>
-    /// Specifies the maximum number of consecutive failures after which logging will be disabled.
+    /// Specifies the maximum number of consecutive logging failures before logging is disabled.
     /// </summary>
-    public int? MaxFailures { get; set; } = null;
+    public int? MaxFailures { get; set; } = 3;
 
     /// <summary>
-    /// Defines a custom action to be executed when a logging error occurs.
+    /// Defines a custom action to execute when a logging error occurs.
     /// </summary>
     public Action<Exception>? OnLogFailure { get; set; }
 }

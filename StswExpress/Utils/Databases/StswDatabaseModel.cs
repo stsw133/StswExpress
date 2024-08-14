@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a model for database connection.
+/// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
@@ -116,35 +116,26 @@ public class StswDatabaseModel : StswObservableObject
     private int? _defaultTimeout;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to make less space in the query.
-    /// </summary>
-    public bool MakeLessSpaceQuery { get; set; } = StswDatabases.MakeLessSpaceQuery;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to return if in designer mode.
-    /// </summary>
-    public bool ReturnIfInDesignerMode { get; set; } = StswDatabases.ReturnIfInDesignerMode;
-
-    /// <summary>
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
-    public string GetConnString() => Type switch
+    public string GetConnString()
     {
-        StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-        StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
-        StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-        _ => throw new Exception("This type of database management system is not supported!")
-    };
-    
+        if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database) || string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            throw new InvalidOperationException("Connection details are incomplete.");
+
+        return Type switch
+        {
+            StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            _ => throw new Exception("This type of database management system is not supported!")
+        };
+    }
+
     /// <summary>
     /// Opens a new SQL connection using the connection string.
     /// </summary>
     /// <returns>An open <see cref="SqlConnection"/>.</returns>
-    public SqlConnection OpenedConnection()
-    {
-        var sqlConn = new SqlConnection(GetConnString());
-        sqlConn.Open();
-        return sqlConn;
-    }
+    public SqlConnection OpenedConnection() => new SqlConnection(GetConnString()).Opened();
 }

@@ -1,73 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace StswExpress;
 /// <summary>
-/// Provides functionality for managing email configurations and methods to import and export them.
+/// Provides functionality for managing email configurations, including methods for importing and exporting these configurations with encryption.
 /// </summary>
 public static class StswMailboxex
 {
     /// <summary>
-    /// Gets or sets the default instance of email configuration that is currently in use by the application in case only a single one is needed.
+    /// Gets the configuration settings for managing email configurations.
+    /// </summary>
+    public static StswMailboxesConfig Config { get; } = new();
+
+    /// <summary>
+    /// Gets or sets the default instance of the email configuration currently in use by the application, if only one is required.
     /// </summary>
     public static StswMailboxModel? Default { get; set; }
 
     /// <summary>
-    /// Gets or sets the location of the file where email configurations are stored.
+    /// Exports the specified collection of email configurations to an encrypted file.
     /// </summary>
-    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
-
-    /// <summary>
-    /// Writes email configurations to a file specified by <see cref="FilePath"/>.
-    /// </summary>
-    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects representing the email configurations to be exported.</param>
+    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects to export.</param>
     public static void ExportList(IEnumerable<StswMailboxModel> collection)
     {
-        using var stream = new StreamWriter(FilePath);
-        foreach (var item in collection)
-            stream.WriteLine(StswSecurity.Encrypt(item.Name ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Host ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Port.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Address ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Username ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Password ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.Domain ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(item.EnableSSL.ToString() ?? string.Empty)
-                );
+        var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
+        var encryptedData = StswSecurity.Encrypt(serializedData);
+        File.WriteAllText(Config.FilePath, encryptedData);
     }
 
     /// <summary>
-    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in a collection.
+    /// Asynchronously exports the specified collection of email configurations to an encrypted file.
     /// </summary>
-    /// <returns>An enumerable collection of <see cref="StswMailboxModel"/> objects representing the imported email configurations.</returns>
+    /// <param name="collection">The collection of <see cref="StswMailboxModel"/> objects to export.</param>
+    public static async Task ExportListAsync(IEnumerable<StswMailboxModel> collection)
+    {
+        var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
+        var encryptedData = StswSecurity.Encrypt(serializedData);
+        await File.WriteAllTextAsync(Config.FilePath, encryptedData);
+    }
+
+    /// <summary>
+    /// Imports and decrypts email configurations from a file, returning a collection of <see cref="StswMailboxModel"/> objects.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="StswMailboxModel"/> objects representing the imported configurations.</returns>
     public static IEnumerable<StswMailboxModel> ImportList()
     {
-        if (!File.Exists(FilePath))
+        if (!File.Exists(Config.FilePath))
         {
-            new FileInfo(FilePath)?.Directory?.Create();
-            File.Create(FilePath).Close();
+            Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
+            File.Create(Config.FilePath).Dispose();
+            return [];
         }
 
-        using var stream = new StreamReader(FilePath);
-        while (!stream.EndOfStream)
+        var encryptedData = File.ReadAllText(Config.FilePath);
+        var decryptedData = StswSecurity.Decrypt(encryptedData);
+        return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
+    }
+
+    /// <summary>
+    /// Asynchronously imports and decrypts email configurations from a file, returning a collection of <see cref="StswMailboxModel"/> objects.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation, with a result of an enumerable collection of <see cref="StswMailboxModel"/> objects.</returns>
+    public static async Task<IEnumerable<StswMailboxModel>> ImportListAsync()
+    {
+        if (!File.Exists(Config.FilePath))
         {
-            var line = stream.ReadLine();
-            if (line != null)
-            {
-                var data = line.Split('|');
-                yield return new StswMailboxModel()
-                {
-                    Name = StswSecurity.Decrypt(data[0]),
-                    Host = StswSecurity.Decrypt(data[1]),
-                    Port = StswSecurity.Decrypt(data[2]) is string s1 && !string.IsNullOrEmpty(s1) ? Convert.ToInt32(s1) : 0,
-                    Address = StswSecurity.Decrypt(data[3]),
-                    Username = StswSecurity.Decrypt(data[4]),
-                    Password = StswSecurity.Decrypt(data[5]),
-                    Domain = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) ? s2 : null,
-                    EnableSSL = StswSecurity.Decrypt(data[7]) is string s3 && !string.IsNullOrEmpty(s3) && Convert.ToBoolean(s3)
-                };
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
+            await File.Create(Config.FilePath).DisposeAsync();
+            return new List<StswMailboxModel>();
         }
+
+        var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
+        var decryptedData = StswSecurity.Decrypt(encryptedData);
+        return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
     }
 }

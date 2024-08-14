@@ -1,90 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace StswExpress;
 /// <summary>
-/// Provides functionality for managing database connections and methods to import and export them.
+/// Provides configuration settings for managing database connections, including methods for importing and exporting these connections with encryption.
 /// </summary>
 public static class StswDatabases
 {
     /// <summary>
-    /// 
+    /// Gets the configuration settings for managing database connections.
     /// </summary>
-    public static bool AutoDisposeConnection { get; set; } = true;
+    public static StswDatabasesConfig Config { get; } = new();
 
     /// <summary>
-    /// 
-    /// </summary>
-    public static char DelimiterForMapping { get; set; } = '/';
-    
-    /// <summary>
-    /// Gets or sets a value indicating whether to always make less space in the query.
-    /// </summary>
-    public static bool MakeLessSpaceQuery { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to always return if in designer mode.
-    /// </summary>
-    public static bool ReturnIfInDesignerMode { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets the default instance of the database connection that is currently in use by the application in case only a single one is needed.
+    /// Gets or sets the default instance of the database connection currently in use by the application, if only one is required.
     /// </summary>
     public static StswDatabaseModel? Default { get; set; }
 
     /// <summary>
-    /// Gets or sets the location of the file where database connections are stored.
+    /// Exports the specified collection of database connections to an encrypted file.
     /// </summary>
-    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
-
-    /// <summary>
-    /// Writes database connections to a file specified by <see cref="FilePath"/>.
-    /// </summary>
-    /// <param name="collection">The collection of <see cref="StswDatabaseModel"/> objects representing the database connections to be exported.</param>
+    /// <param name="collection">The collection of <see cref="StswDatabaseModel"/> objects to export.</param>
     public static void ExportList(IEnumerable<StswDatabaseModel> collection)
     {
-        using var stream = new StreamWriter(FilePath);
-        foreach (var item in collection)
-            stream.WriteLine(string.Join('|', 
-                    StswSecurity.Encrypt(item.Name ?? string.Empty),
-                    StswSecurity.Encrypt(item.Server ?? string.Empty),
-                    StswSecurity.Encrypt(item.Port?.ToString() ?? string.Empty),
-                    StswSecurity.Encrypt(item.Database ?? string.Empty),
-                    StswSecurity.Encrypt(item.Login ?? string.Empty),
-                    StswSecurity.Encrypt(item.Password ?? string.Empty)
-                ));
+        var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
+        var encryptedData = StswSecurity.Encrypt(serializedData);
+        File.WriteAllText(Config.FilePath, encryptedData);
     }
 
     /// <summary>
-    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in a collection.
+    /// Asynchronously exports the specified collection of database connections to an encrypted file.
     /// </summary>
-    /// <returns>An enumerable collection of <see cref="StswDatabaseModel"/> objects representing the imported database connections.</returns>
+    /// <param name="collection">The collection of <see cref="StswDatabaseModel"/> objects to export.</param>
+    public static async Task ExportListAsync(IEnumerable<StswDatabaseModel> collection)
+    {
+        var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
+        var encryptedData = StswSecurity.Encrypt(serializedData);
+        await File.WriteAllTextAsync(Config.FilePath, encryptedData);
+    }
+
+    /// <summary>
+    /// Imports and decrypts database connections from a file, returning a collection of <see cref="StswDatabaseModel"/> objects.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="StswDatabaseModel"/> objects representing the imported connections.</returns>
     public static IEnumerable<StswDatabaseModel> ImportList()
     {
-        if (!File.Exists(FilePath))
+        if (!File.Exists(Config.FilePath))
         {
-            new FileInfo(FilePath)?.Directory?.Create();
-            File.Create(FilePath).Close();
+            Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
+            File.Create(Config.FilePath).Dispose();
+            return [];
         }
 
-        using var stream = new StreamReader(FilePath);
-        while (!stream.EndOfStream)
+        var encryptedData = File.ReadAllText(Config.FilePath);
+        var decryptedData = StswSecurity.Decrypt(encryptedData);
+        return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
+    }
+
+    /// <summary>
+    /// Asynchronously imports and decrypts database connections from a file, returning a collection of <see cref="StswDatabaseModel"/> objects.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation, with a result of an enumerable collection of <see cref="StswDatabaseModel"/> objects.</returns>
+    public static async Task<IEnumerable<StswDatabaseModel>> ImportListAsync()
+    {
+        if (!File.Exists(Config.FilePath))
         {
-            var line = stream.ReadLine();
-            if (line != null)
-            {
-                var data = line.Split('|');
-                yield return new()
-                {
-                    Name = StswSecurity.Decrypt(data[0]),
-                    Server = StswSecurity.Decrypt(data[1]),
-                    Port = int.TryParse(StswSecurity.Decrypt(data[2]), out var port) ? port : null,
-                    Database = StswSecurity.Decrypt(data[3]),
-                    Login = StswSecurity.Decrypt(data[4]),
-                    Password = StswSecurity.Decrypt(data[5])
-                };
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
+            await File.Create(Config.FilePath).DisposeAsync();
+            return [];
         }
+
+        var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
+        var decryptedData = StswSecurity.Decrypt(encryptedData);
+        return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
     }
 }
