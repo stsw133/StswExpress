@@ -10,6 +10,8 @@ namespace StswExpress;
 internal class StswSqlConnectionFactory : IDisposable
 {
     private readonly bool _isExternalTransaction;
+    private readonly bool _disposeConnection;
+
     public SqlConnection Connection { get; }
     public SqlTransaction? Transaction { get; private set; }
 
@@ -17,8 +19,10 @@ internal class StswSqlConnectionFactory : IDisposable
     /// Initializes a new instance of the <see cref="StswSqlConnectionFactory"/> class, opening a connection and optionally starting a transaction.
     /// </summary>
     /// <param name="model">The database model containing connection and transaction information.</param>
-    public StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran = null, bool useTransaction = true)
+    public StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran = null, bool useTransaction = true, bool? disposeConnection = null)
     {
+        _disposeConnection = disposeConnection ?? StswDatabases.AutoDisposeConnection;
+
         if (sqlTran != null)
         {
             Connection = sqlTran.Connection ?? throw new InvalidOperationException("External transaction is not associated with any connection.");
@@ -56,7 +60,7 @@ internal class StswSqlConnectionFactory : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (!_isExternalTransaction)
+        if (_disposeConnection && !_isExternalTransaction)
         {
             Transaction?.Dispose();
             Connection.Dispose();

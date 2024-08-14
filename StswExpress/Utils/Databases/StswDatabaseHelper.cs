@@ -35,12 +35,12 @@ public static class StswDatabaseHelper
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    public static void BulkInsert<TModel>(this SqlConnection sqlConn, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static void BulkInsert<TModel>(this SqlConnection sqlConn, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return;
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
         using var bulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);
         bulkCopy.BulkCopyTimeout = timeout ?? bulkCopy.BulkCopyTimeout;
@@ -79,7 +79,7 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The models used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
-    public static int? ExecuteNonQuery(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static int? ExecuteNonQuery(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
@@ -91,7 +91,7 @@ public static class StswDatabaseHelper
             _ => [parameters],
         };
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, models.Count() > 1);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, models.Count() > 1, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
 
@@ -134,12 +134,12 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A <see cref="SqlDataReader"/>.</returns>
-    public static SqlDataReader? ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static SqlDataReader? ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
@@ -175,12 +175,12 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The scalar value.</returns>
-    public static TResult? ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static TResult? ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
         PrepareParameters(sqlCmd, parameters);
@@ -218,12 +218,12 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>The number of rows affected.</returns>
-    public static int? ExecuteStoredProcedure(this SqlConnection sqlConn, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static int? ExecuteStoredProcedure(this SqlConnection sqlConn, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
         using var sqlCmd = new SqlCommand(procName, factory.Connection, factory.Transaction)
         {
             CommandType = CommandType.StoredProcedure,
@@ -266,12 +266,12 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <returns>A collection of results.</returns>
-    public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : class, new()
+    public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TResult : class, new()
     {
         if (!CheckQueryConditions())
             return [];
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlDA = new SqlDataAdapter(PrepareQuery(query), factory.Connection);
         sqlDA.SelectCommand.CommandTimeout = timeout ?? sqlDA.SelectCommand.CommandTimeout;
         sqlDA.SelectCommand.Transaction = factory.Transaction;

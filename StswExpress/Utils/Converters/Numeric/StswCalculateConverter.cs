@@ -47,8 +47,8 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             return HandleThickness(value, pmr[0].ToString(), pmr[1..], culture);
         else if (targetType.In(typeof(GridLength), typeof(GridLength?)))
             return HandleGridLength(value, pmr[0].ToString(), pmr[1..], culture);
-        else if (double.TryParse(input, NumberStyles.Number, culture, out var val) && double.TryParse(pmr[1..], NumberStyles.Number, culture, out var num))
-            return Math.Round(StswCalculator.ApplyOperator(pmr[0].ToString(), val, num), 10).ConvertTo(targetType);
+        else if (value?.GetType()?.IsNumericType() == true && double.TryParse(pmr[1..], NumberStyles.Number, culture, out var num))
+            return Math.Round(StswCalculator.ApplyOperator(pmr[0].ToString(), System.Convert.ToDouble(value, culture), num), 10).ConvertTo(targetType);
         else
             return value;
     }

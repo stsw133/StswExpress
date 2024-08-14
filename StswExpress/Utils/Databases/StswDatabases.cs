@@ -11,6 +11,11 @@ public static class StswDatabases
     /// <summary>
     /// 
     /// </summary>
+    public static bool AutoDisposeConnection { get; set; } = true;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static char DelimiterForMapping { get; set; } = '/';
     
     /// <summary>
