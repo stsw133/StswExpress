@@ -158,13 +158,17 @@ public class StswMailboxModel : StswObservableObject
         mail.Subject = subject;
         mail.Body = body;
 
-        if (Assembly.GetExecutingAssembly().IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        {
             AddRecipients([StswMailboxex.Config.DebugEmailRecipient], mail.To.Add);
+        }
         else
+        {
             AddRecipients(to, mail.To.Add);
+            AddRecipients(bcc, mail.Bcc.Add);
+            AddRecipients(reply, mail.ReplyToList.Add);
+        }
         AddRecipients(attachments, x => mail.Attachments.Add(new Attachment(x)));
-        AddRecipients(bcc, mail.Bcc.Add);
-        AddRecipients(reply, mail.ReplyToList.Add);
 
         using var smtp = new SmtpClient(Host, Port.Value)
         {
@@ -224,13 +228,17 @@ public class StswMailboxModel : StswObservableObject
         mail.Subject = subject;
         mail.Body = body;
 
-        if (Assembly.GetExecutingAssembly().IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        {
             AddRecipients([StswMailboxex.Config.DebugEmailRecipient], mail.To.Add);
+        }
         else
+        {
             AddRecipients(to, mail.To.Add);
+            AddRecipients(bcc, mail.Bcc.Add);
+            AddRecipients(reply, mail.ReplyToList.Add);
+        }
         AddRecipients(attachments, x => mail.Attachments.Add(new Attachment(x)));
-        AddRecipients(bcc, mail.Bcc.Add);
-        AddRecipients(reply, mail.ReplyToList.Add);
 
         using var smtp = new SmtpClient(Host, Port.Value)
         {

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -26,17 +25,6 @@ namespace StswExpress;
 /// </summary>
 public static class StswExtensions
 {
-    #region Assembly extensions
-    /// <summary>
-    /// Determines whether the specified assembly was built in debug mode.
-    /// </summary>
-    /// <param name="assembly">The assembly to check.</param>
-    /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
-    public static bool IsInDebug(this Assembly assembly) => assembly == null
-            ? throw new ArgumentNullException(nameof(assembly))
-            : assembly.GetCustomAttributes<DebuggableAttribute>().Any();
-    #endregion
-
     #region Bool extensions
     /// <summary>
     /// Determines whether a value is between two other values (inclusive).
