@@ -93,7 +93,7 @@ public class StswColorPicker : Control
             if (x <= 0 || x >= grid.ActualWidth || y <= 0 || y >= grid.ActualHeight)
                 return;
 
-            SelectedColor = StswFn.ColorFromAhsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
+            SelectedColor = StswFn.ColorFromHsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
             
             if (_colorEllipse != null)
             {
@@ -313,7 +313,7 @@ public class StswColorPicker : Control
         if (obj is StswColorPicker stsw)
         {
             StswFn.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
-            stsw.SelectedColor = StswFn.ColorFromAhsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+            stsw.SelectedColor = StswFn.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
             stsw.blockColorEllipse = true;
         }
     }

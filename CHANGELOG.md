@@ -1,3 +1,22 @@
+# **0.9.3**
+2024-08-14
+
+### New functionality:
+* New global command: **SelectAll**.
+* **StswLog** has been extended (can write async and handle exceptions with defined action).
+
+### Changed functionality:
+* **StswDatabaseHelper**'s methods support transactions now, and are directly used on **SqlConnection** instead of **StswDatabaseModel**.
+* **StswDatabaseModel** simplified and no longer have methods to handle transactions.
+* **FindVisual**[...] methods can be used now to find interfaces and classes.
+* **TryMultipleTimes** is now function method instead of extension method.
+* **Evaluate** function method renamed into **Compute**.
+* **ColorFromAhsv** made into **ColorFromHsv**'s overload.
+  **ColorFromAhsl** made into **ColorFromHsl**'s overload.
+
+### Bugfixes:
+* **StswDatabaseHelper** and **StswSqlConnectionFactory** reworked to fix many bugs.
+
 # **0.9.2**
 2024-08-11
 
