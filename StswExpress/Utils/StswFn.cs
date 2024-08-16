@@ -50,6 +50,13 @@ public static partial class StswFn
     /// </summary>
     /// <returns>The copyright information, or null if it cannot be determined.</returns>
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
+
+    /// <summary>
+    /// Determines whether the entry assembly was built in debug mode.
+    /// </summary>
+    /// <param name="assembly">The assembly to check.</param>
+    /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
+    public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
     #endregion
 
     #region Bool functions

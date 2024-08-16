@@ -281,7 +281,7 @@ public static class StswDatabaseHelper
         var dataTable = new DataTable();
         sqlDA.Fill(dataTable);
 
-        return dataTable.MapTo<TResult>(StswDatabases.DelimiterForMapping);
+        return dataTable.MapTo<TResult>(StswDatabases.Config.DelimiterForMapping);
     }
 
     /// <summary>
@@ -427,7 +427,7 @@ public static class StswDatabaseHelper
     public static bool CheckQueryConditions()
     {
         var isInDesignMode = false;
-        if (StswDatabases.ReturnIfInDesignerMode)
+        if (StswDatabases.Config.ReturnIfInDesignerMode)
             Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new()));
         if (isInDesignMode)
             return false;
@@ -537,5 +537,5 @@ public static class StswDatabaseHelper
     /// </summary>
     /// <param name="query">The SQL query to prepare.</param>
     /// <returns>The prepared SQL query.</returns>
-    private static string PrepareQuery(string query) => StswDatabases.MakeLessSpaceQuery ? LessSpaceQuery(query) : query;
+    private static string PrepareQuery(string query) => StswDatabases.Config.MakeLessSpaceQuery ? LessSpaceQuery(query) : query;
 }

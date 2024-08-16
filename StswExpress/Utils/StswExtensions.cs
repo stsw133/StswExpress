@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
@@ -27,17 +25,6 @@ namespace StswExpress;
 /// </summary>
 public static class StswExtensions
 {
-    #region Assembly extensions
-    /// <summary>
-    /// Determines whether the specified assembly was built in debug mode.
-    /// </summary>
-    /// <param name="assembly">The assembly to check.</param>
-    /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
-    public static bool IsInDebug(this Assembly assembly) => assembly == null
-            ? throw new ArgumentNullException(nameof(assembly))
-            : assembly.GetCustomAttributes<DebuggableAttribute>().Any();
-    #endregion
-
     #region Bool extensions
     /// <summary>
     /// Determines whether a value is between two other values (inclusive).
@@ -546,7 +533,7 @@ public static class StswExtensions
     /// <typeparam name="T2">The type of the dictionary values.</typeparam>
     /// <param name="value">The dictionary to convert.</param>
     /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
-    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new(value);
+    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) where T1 : notnull => new(value);
     #endregion
 
     #region Color extensions
