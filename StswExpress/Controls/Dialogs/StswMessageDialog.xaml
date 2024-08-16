@@ -95,9 +95,8 @@
                             <!-- details -->
                             <se:StswScrollView IsDynamic="True">
                                 <DockPanel>
-                                    <StackPanel x:Name="PART_Details" DockPanel.Dock="Bottom" Margin="5" Orientation="Vertical">
-                                        <se:StswSubCheck x:Name="PART_DetailsCheck"
-                                                         BorderThickness="0 1"
+                                    <StackPanel x:Name="PART_Details" DockPanel.Dock="Bottom" Orientation="Vertical">
+                                        <se:StswSubCheck BorderThickness="0 1 0 0"
                                                          Content="{se:Tr StswMessageDialog.ShowDetails}"
                                                          FontWeight="Medium"
                                                          IconUnchecked="{x:Static se:StswIcons.ChevronDown}"
@@ -186,81 +185,54 @@
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Blockade">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Blockade.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Blockade.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Blockade.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Blockade.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Blockade.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Blockade.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Bug}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Error">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Fatal">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagram}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Information">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Question">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Question.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Question.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Success">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Warning">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_DetailsCheck"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_DetailsCheck"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

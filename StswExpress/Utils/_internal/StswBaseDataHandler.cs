@@ -161,4 +161,43 @@ internal static class StswBaseDataHandler
 
         return formatParts.ElementAtOrDefault(boolValue ? 0 : 1) ?? string.Empty;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="borderStyle"></param>
+    /// <returns></returns>
+    internal static string GetBorderWidth(XLBorderStyleValues borderStyle)
+    {
+        return borderStyle == XLBorderStyleValues.Thin ? "1px" :
+               borderStyle == XLBorderStyleValues.Medium ? "2px" :
+               borderStyle == XLBorderStyleValues.Thick ? "3px" : "0px";
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="borderStyle"></param>
+    /// <returns></returns>
+    internal static string GetBorderStyle(XLBorderStyleValues borderStyle)
+    {
+        return borderStyle == XLBorderStyleValues.None ? "none" :
+               borderStyle == XLBorderStyleValues.Dotted ? "dotted" :
+               borderStyle == XLBorderStyleValues.Dashed ? "dashed" :
+               borderStyle == XLBorderStyleValues.Double ? "double" : "solid";
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="color"></param>
+    /// <returns></returns>
+    internal static string ColorToHex(XLColor color)
+    {
+        if (color == XLColor.NoColor || color == XLColor.FromIndex(64))
+            return "#000000";
+
+        var c = color.Color;
+        return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+    }
 }

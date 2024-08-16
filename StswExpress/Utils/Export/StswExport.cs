@@ -7,6 +7,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
@@ -309,6 +310,68 @@ public static class StswExport
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="worksheet"></param>
+    /// <returns></returns>
+    public static string ExportToHtml(this IXLWorksheet worksheet)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("<table style='border-collapse:collapse;'>");
+
+        var usedRange = worksheet.RangeUsed();
+        var firstColumn = usedRange.FirstColumnUsed().ColumnNumber();
+        var lastColumn = usedRange.LastColumnUsed().ColumnNumber();
+
+        foreach (var row in worksheet.RowsUsed())
+        {
+            sb.AppendLine("<tr>");
+
+            for (int colIndex = firstColumn; colIndex <= lastColumn; colIndex++)
+            {
+                var cell = row.Cell(colIndex);
+
+                if (cell.IsMerged() && !cell.Address.Equals(cell.MergedRange().FirstCell().Address))
+                    continue;
+
+                var font = cell.Style.Font;
+                var alignment = cell.Style.Alignment;
+                var border = cell.Style.Border;
+                var isMerged = cell.IsMerged();
+
+                var style = new StringBuilder();
+
+                if (font.Bold) style.Append("font-weight:bold;");
+                if (font.Italic) style.Append("font-style:italic;");
+                if (font.FontColor.HasValue)
+                    style.Append($"color:{StswBaseDataHandler.ColorToHex(font.FontColor)};");
+                style.Append($"font-size:{font.FontSize}px;");
+
+                var textAlign = alignment.Horizontal.ToString().ToLower();
+
+                if (cell.DataType == XLDataType.Number)
+                    textAlign = "right";
+
+                style.Append($"text-align:{textAlign};");
+                style.Append($"vertical-align:{alignment.Vertical.ToString().ToLower()};");
+
+                style.Append($"border:{StswBaseDataHandler.GetBorderWidth(border.TopBorder)} {StswBaseDataHandler.GetBorderStyle(border.TopBorder)} {StswBaseDataHandler.ColorToHex(border.TopBorderColor)};");
+
+                var colSpan = isMerged ? cell.MergedRange().ColumnCount() : 1;
+                var rowSpan = isMerged ? cell.MergedRange().RowCount() : 1;
+
+                sb.AppendFormat("<td style='{0}' colspan='{1}' rowspan='{2}'>", style.ToString(), colSpan, rowSpan);
+                sb.Append(cell.GetValue<string>());
+                sb.AppendLine("</td>");
+            }
+            sb.AppendLine("</tr>");
+        }
+
+        sb.AppendLine("</table>");
+        return sb.ToString();
     }
     #endregion
 
