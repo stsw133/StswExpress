@@ -55,7 +55,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswSubRadio)
         );
 

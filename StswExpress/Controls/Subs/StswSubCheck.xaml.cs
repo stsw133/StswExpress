@@ -25,7 +25,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswSubCheck)
         );
 

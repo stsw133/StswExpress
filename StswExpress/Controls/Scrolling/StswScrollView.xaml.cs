@@ -159,7 +159,7 @@ public class StswScrollView : ScrollViewer
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.RegisterAttached(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswScrollView),
             new PropertyMetadata(false)
         );

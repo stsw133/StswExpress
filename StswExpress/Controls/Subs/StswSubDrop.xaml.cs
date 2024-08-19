@@ -117,7 +117,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswSubDrop)
         );
 

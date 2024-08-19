@@ -63,6 +63,7 @@
                                      IconScale="{TemplateBinding IconScale}"
                                      IconStroke="{TemplateBinding IconStroke}"
                                      IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                     IsBusy="{TemplateBinding IsBusy}"
                                      IsChecked="{TemplateBinding IsChecked}"
                                      IsHitTestVisible="False"
                                      IsReadOnly="True"/>

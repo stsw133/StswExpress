@@ -89,7 +89,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswSubSelector)
         );
 
