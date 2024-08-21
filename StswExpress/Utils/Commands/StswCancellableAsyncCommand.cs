@@ -11,12 +11,10 @@ namespace StswExpress;
 /// </summary>
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
-/// <param name="onCancel">The action to execute when the command is canceled.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
-public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> execute, Action? onCancel = null, Func<bool>? canExecute = null) : StswObservableObject, IStswCommand
+public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswCommand
 {
     private readonly Func<T?, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-    private readonly Action? _onCancel = onCancel;
     private readonly Func<bool>? _canExecute = canExecute;
     private CancellationTokenSource? _cancellationTokenSource;
     private Task? _executionTask;
@@ -63,7 +61,7 @@ public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> ex
         }
         catch (OperationCanceledException)
         {
-            _onCancel?.Invoke();
+            // The command was canceled
         }
         finally
         {
@@ -112,7 +110,6 @@ public class StswCancellableAsyncCommand<T>(Func<T?, CancellationToken, Task> ex
 /// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
-/// <param name="onCancel">The action to execute when the command is canceled.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is null.</param>
-public class StswCancellableAsyncCommand(Func<CancellationToken, Task> execute, Action? onCancel = null, Func<bool>? canExecute = null)
-    : StswCancellableAsyncCommand<object>((_, token) => execute(token), onCancel, canExecute);
+public class StswCancellableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
+    : StswCancellableAsyncCommand<object>((_, token) => execute(token), canExecute);
