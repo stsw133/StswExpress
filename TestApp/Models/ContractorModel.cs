@@ -27,7 +27,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     public byte[]? Icon
     {
         get => _icon;
-        set => SetProperty(ref _icon, value, () => IconSource ??= value?.ToBitmapImage());
+        set => SetProperty(ref _icon, value, () => IconSource ??= StswFn.ToBitmapImage(value));
     }
     private byte[]? _icon;
 

@@ -9,22 +9,21 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
-public static partial class StswFn
+public static class StswFn
 {
     #region Assembly functions
     /// <summary>
@@ -57,26 +56,6 @@ public static partial class StswFn
     /// <param name="assembly">The assembly to check.</param>
     /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
     public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
-    #endregion
-
-    #region Bool functions
-    /// <summary>
-    /// Determines whether the specified element is part of the specified <see cref="Popup"/> control.
-    /// </summary>
-    /// <param name="popup">The Popup control to check against.</param>
-    /// <param name="element">The element to check.</param>
-    /// <returns>True if the element is part of the Popup control; otherwise, false.</returns>
-    public static bool IsChildOfPopup(Popup popup, DependencyObject element)
-    {
-        var parent = VisualTreeHelper.GetParent(element);
-        while (parent != null)
-        {
-            if (parent == popup)
-                return true;
-            parent = VisualTreeHelper.GetParent(parent);
-        }
-        return false;
-    }
     #endregion
 
     #region Color functions
@@ -249,6 +228,59 @@ public static partial class StswFn
     }
     #endregion
 
+    #region Convert functions
+    /// <summary>
+    /// Converts a byte array to a <see cref="BitmapImage"/>.
+    /// </summary>
+    /// <param name="value">The byte array to convert.</param>
+    /// <returns>The converted <see cref="BitmapImage"/>, or null if the byte array is empty.</returns>
+    public static BitmapImage? ToBitmapImage(byte[]? value)
+    {
+        if (value == null || value.Length == 0)
+            return null;
+
+        var result = new BitmapImage();
+        using (var mem = new MemoryStream(value))
+        {
+            mem.Position = 0;
+            result.BeginInit();
+            result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+            result.CacheOption = BitmapCacheOption.OnLoad;
+            result.UriSource = null;
+            result.StreamSource = mem;
+            result.EndInit();
+        }
+        result.Freeze();
+
+        return result;
+    }
+
+    /// <summary>
+    /// Converts a <see cref="DataTable"/> to a CSV (Comma-Separated Values) string.
+    /// </summary>
+    /// <param name="table">The DataTable to convert.</param>
+    /// <returns>A string representing the DataTable in CSV format, with columns separated by commas and rows separated by new lines.</returns>
+    /// <remarks>
+    /// This method is useful for exporting data from a DataTable to a CSV file or for serializing table data in a portable text format.
+    /// </remarks>
+    public static string ToCsv(DataTable table)
+    {
+        var sb = new StringBuilder();
+
+        var columnNames = table.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+        sb.AppendLine(string.Join(",", columnNames));
+
+        foreach (DataRow row in table.Rows)
+        {
+            var fields = row.ItemArray.Select(x => x?.ToString());
+            sb.AppendLine(string.Join(",", fields));
+        }
+
+        return sb.ToString();
+    }
+
+    #endregion
+
     #region DateTime functions
     /// <summary>
     /// Generates a list of unique year and month tuples within a specified date range.
@@ -301,8 +333,8 @@ public static partial class StswFn
     /// <summary>
     /// Moves a file to the recycle bin.
     /// </summary>
-    /// <param name="filePath">The path to the file to be moved to the recycle bin.</param>
-    public static void MoveToRecycleBin(string filePath) => FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+    /// <param name="path">The path to the file to be moved to the recycle bin.</param>
+    public static void MoveToRecycleBin(string path) => FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 
     /// <summary>
     /// Opens a file in its associated application.
@@ -510,68 +542,6 @@ public static partial class StswFn
     }
     #endregion
 
-    #region Special functions
-    /// <summary>
-    /// Determines the user that owns the specified process.
-    /// </summary>
-    /// <param name="process">The process whose owner is to be determined.</param>
-    /// <returns>The username of the owner of the process, or null if it cannot be determined.</returns>
-    public static string? GetProcessUser(Process process)
-    {
-        var processHandle = IntPtr.Zero;
-        try
-        {
-            OpenProcessToken(process.Handle, 8, out processHandle);
-            var wi = new WindowsIdentity(processHandle);
-            var user = wi.Name;
-            return user.Contains('\\') ? user[(user.IndexOf('\\') + 1)..] : user;
-        }
-        catch
-        {
-            return null;
-        }
-        finally
-        {
-            if (processHandle != IntPtr.Zero)
-                CloseHandle(processHandle);
-        }
-    }
-
-    [LibraryImport("advapi32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
-
-    [LibraryImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool CloseHandle(IntPtr hObject);
-
-    /// <summary>
-    /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
-    /// </summary>
-    /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
-    public static StswTheme GetWindowsTheme()
-    {
-        var theme = StswTheme.Light;
-
-        try
-        {
-            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            var registryValueObject = key?.GetValue("AppsUseLightTheme");
-            if (registryValueObject == null)
-                return theme;
-
-            var registryValue = (int)registryValueObject;
-            theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
-        }
-        catch
-        {
-            /// default to light theme in case of exception
-        }
-
-        return theme;
-    }
-    #endregion
-
     #region Text functions
     /// <summary>
     /// Converts diacritics in a string to their ASCII substitutes.
@@ -660,6 +630,50 @@ public static partial class StswFn
     #endregion
 
     #region UI functions
+    /// <summary>
+    /// Determines whether the specified element is part of the specified <see cref="Popup"/> control.
+    /// </summary>
+    /// <param name="popup">The Popup control to check against.</param>
+    /// <param name="element">The element to check.</param>
+    /// <returns>True if the element is part of the Popup control; otherwise, false.</returns>
+    public static bool IsChildOfPopup(Popup popup, DependencyObject element)
+    {
+        var parent = VisualTreeHelper.GetParent(element);
+        while (parent != null)
+        {
+            if (parent == popup)
+                return true;
+            parent = VisualTreeHelper.GetParent(parent);
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
+    /// </summary>
+    /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
+    public static StswTheme GetWindowsTheme()
+    {
+        var theme = StswTheme.Light;
+
+        try
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            var registryValueObject = key?.GetValue("AppsUseLightTheme");
+            if (registryValueObject == null)
+                return theme;
+
+            var registryValue = (int)registryValueObject;
+            theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
+        }
+        catch
+        {
+            /// default to light theme in case of exception
+        }
+
+        return theme;
+    }
+
     /// <summary>
     /// Removes a <see cref="FrameworkElement"/> from its parent container.
     /// </summary>

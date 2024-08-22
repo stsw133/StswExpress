@@ -138,8 +138,8 @@
             <se:StswNavigationElement Header="Text &amp; style" IconData="{x:Static se:StswIcons.Text}">
                 <se:StswNavigationElement Header="StswDropArrow" ContextNamespace="TestApp.StswDropArrowContext"/>
                 <se:StswNavigationElement Header="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
+                <se:StswNavigationElement Header="StswHeaderContainer" ContextNamespace="TestApp.StswHeaderContainerContext"/>
                 <se:StswNavigationElement Header="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
-                <se:StswNavigationElement Header="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
                 <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
                 <se:StswNavigationElement Header="StswText" ContextNamespace="TestApp.StswTextContext"/>

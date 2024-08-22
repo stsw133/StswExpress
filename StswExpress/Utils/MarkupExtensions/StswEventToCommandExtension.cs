@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswEventToCommandExtension : MarkupExtension
+internal class StswEventToCommandExtension : MarkupExtension
 {
     //TODO - gimme some code
 

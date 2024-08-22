@@ -270,11 +270,11 @@
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswHeaderContainerContext}">
+                <local:StswHeaderContainerView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswIconContext}">
                 <local:StswIconView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLabelContext}">
-                <local:StswLabelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>

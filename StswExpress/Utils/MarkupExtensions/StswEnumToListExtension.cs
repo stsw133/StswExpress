@@ -36,14 +36,12 @@ public class StswEnumToListExtension : MarkupExtension
     /// <returns>A list of selection items created from the enum type.</returns>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        return Enum.GetNames(_type)
-                   .Select(name => new StswSelectionItem
+        return Enum.GetValues(_type)
+                   .Cast<Enum>()
+                   .Select(value => new StswSelectionItem
                    {
-                       Display = _type.GetField(name)?
-                                      .GetCustomAttributes(typeof(DescriptionAttribute), false)
-                                      .Cast<DescriptionAttribute>()
-                                      .FirstOrDefault()?.Description ?? name,
-                       Value = Enum.Parse(_type, name)
+                       Display = value.GetDescription(),
+                       Value = value
                    })
                    .ToList();
     }

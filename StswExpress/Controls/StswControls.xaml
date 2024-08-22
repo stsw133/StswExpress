@@ -97,8 +97,8 @@
 
         <ResourceDictionary Source="TextStyle/StswDropArrow.xaml"/>
         <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswHeaderContainer.xaml"/>
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>
         <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>
         <ResourceDictionary Source="TextStyle/StswSpinner.xaml"/>
         <ResourceDictionary Source="TextStyle/StswText.xaml"/>

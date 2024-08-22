@@ -25,7 +25,7 @@ public class StswApp : Application
         if (!AllowMultipleInstances)
         {
             var thisProcessName = Process.GetCurrentProcess().ProcessName;
-            var otherInstances = Process.GetProcesses().Where(x => x.ProcessName == thisProcessName && StswFn.GetProcessUser(x) == Environment.UserName);
+            var otherInstances = Process.GetProcesses().Where(x => x.ProcessName == thisProcessName && x.GetUser() == Environment.UserName);
             if (otherInstances.Count() > 1)
             {
                 Current.Shutdown();

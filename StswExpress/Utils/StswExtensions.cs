@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -23,154 +26,8 @@ namespace StswExpress;
 /// <summary>
 /// Collection of extension methods for various types and objects. These methods simplify common tasks and provide additional functionality beyond what is available in the standard WPF API.
 /// </summary>
-public static class StswExtensions
+public static partial class StswExtensions
 {
-    #region Bool extensions
-    /// <summary>
-    /// Determines whether a value is between two other values (inclusive).
-    /// </summary>
-    /// <typeparam name="T">The type of the value to compare.</typeparam>
-    /// <param name="value">The value to check.</param>
-    /// <param name="start">The start of the range.</param>
-    /// <param name="end">The end of the range.</param>
-    /// <returns><see langword="true"/> if the value is between the start and end values; otherwise, <see langword="false"/>.</returns>
-    public static bool Between<T>(this T? value, T? start, T? end)
-    {
-        var comparer = Comparer<T>.Default;
-        return comparer.Compare(value, start) >= 0 && comparer.Compare(value, end) <= 0;
-    }
-
-    /// <summary>
-    /// Determines whether a value is contained in a collection.
-    /// </summary>
-    /// <typeparam name="T">The type of the value to check.</typeparam>
-    /// <param name="value">The value to check for.</param>
-    /// <param name="collection">The collection to check in.</param>
-    /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
-    public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
-            ? throw new ArgumentNullException(nameof(collection))
-            : collection.Contains(value);
-
-    /// <summary>
-    /// Determines whether a value is contained in a parameters.
-    /// </summary>
-    /// <typeparam name="T">The type of the value to check.</typeparam>
-    /// <param name="value">The value to check for.</param>
-    /// <param name="parameters">The parameters to check in.</param>
-    /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
-    public static bool In<T>(this T value, params T[] parameters) => parameters == null
-            ? throw new ArgumentNullException(nameof(parameters))
-            : parameters.Contains(value);
-
-    /// <summary>
-    /// Checks if the given value is null, the default value for its type, or an empty object.
-    /// </summary>
-    /// <typeparam name="T">The type of the value to check.</typeparam>
-    /// <param name="value">The value to check.</param>
-    /// <param name="checkProperties">If true, checks if the properties of the object are null or default; otherwise, only checks if the object itself is null or default.</param>
-    /// <returns>True if the value is null, the default value for its type, or an empty object; otherwise, false.</returns>
-    public static bool IsNullOrDefault<T>(this T value, bool checkProperties = false)
-    {
-        if (value == null || Convert.IsDBNull(value))
-            return true;
-
-        var type = typeof(T);
-        if (Nullable.GetUnderlyingType(type) is Type underlyingType)
-        {
-            if (underlyingType.IsEnum)
-                return false;
-
-            var defaultValue = Activator.CreateInstance(underlyingType);
-            return EqualityComparer<T>.Default.Equals(value, (T?)defaultValue);
-        }
-
-        if (type.IsEnum)
-            return false;
-
-        if (type.IsValueType)
-        {
-            if (type == typeof(bool))
-                return EqualityComparer<T>.Default.Equals(value, (T)(object)false);
-            else if (type.IsPrimitive)
-                return EqualityComparer<T>.Default.Equals(value, default);
-        }
-        else
-        {
-            if (value is string str)
-                return string.IsNullOrEmpty(str);
-
-            if (value is IEnumerable enumerable)
-                return !enumerable.GetEnumerator().MoveNext();
-
-            if (value is object obj)
-                return obj.Equals(default);
-
-            if (checkProperties)
-            {
-                var properties = value.GetType().GetProperties();
-                if (properties.All(p => p.GetValue(value).IsNullOrDefault(true)))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Determines whether a type is a numeric type.
-    /// </summary>
-    /// <param name="type">The type to check.</param>
-    /// <returns><see langword="true"/> if the type is numeric; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNumericType(this Type type)
-    {
-        ArgumentNullException.ThrowIfNull(type);
-
-        var numericTypes = new HashSet<Type>
-        {
-            typeof(sbyte), typeof(byte),
-            typeof(short), typeof(ushort),
-            typeof(int), typeof(uint),
-            typeof(long), typeof(ulong),
-            typeof(float), typeof(double),
-            typeof(decimal), typeof(nint),
-            typeof(nuint)
-        };
-
-        return numericTypes.Contains(type) ||
-               (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && numericTypes.Contains(Nullable.GetUnderlyingType(type)!));
-    }
-    #endregion
-
-    #region Byte[] extensions
-    /// <summary>
-    /// Converts an <see cref="ImageSource"/> to a byte array.
-    /// </summary>
-    /// <param name="value">The <see cref="ImageSource"/> to convert.</param>
-    /// <returns>A byte array representing the image.</returns>
-    public static byte[] ToBytes(this ImageSource value)
-    {
-        ArgumentNullException.ThrowIfNull(value);
-
-        if (value is not BitmapSource bitmapSource)
-            throw new ArgumentException("Value must be a BitmapSource.", nameof(value));
-
-        var encoder = new PngBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-        using var memoryStream = new MemoryStream();
-        encoder.Save(memoryStream);
-        return memoryStream.ToArray();
-    }
-
-    /// <summary>
-    /// Converts a <see cref="SecureString"/> to a byte array.
-    /// </summary>
-    /// <param name="value">The <see cref="SecureString"/> to convert.</param>
-    /// <returns>A byte array representing the secure string.</returns>
-    public static byte[] ToBytes(this SecureString value) => value == null
-            ? throw new ArgumentNullException(nameof(value))
-            : Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, value).Password);
-    #endregion
-
     #region Clone extensions
     /// <summary>
     /// Clones a <see cref="BindingBase"/> object.
@@ -366,6 +223,42 @@ public static class StswExtensions
     public static T? ConvertTo<T>(this object o) => o.ConvertTo(typeof(T)) is T tResult ? tResult : default;
 
     /// <summary>
+    /// Converts a <see cref="Type"/> to a <see cref="SqlDbType"/>.
+    /// </summary>
+    /// <param name="type">The type to convert.</param>
+    /// <returns>The corresponding <see cref="SqlDbType"/>, or null if no matching type is found.</returns>
+    public static SqlDbType? InferSqlDbType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+
+        var typeMap = new Dictionary<Type, SqlDbType>
+        {
+            { typeof(byte), SqlDbType.TinyInt },
+            { typeof(sbyte), SqlDbType.TinyInt },
+            { typeof(short), SqlDbType.SmallInt },
+            { typeof(ushort), SqlDbType.SmallInt },
+            { typeof(int), SqlDbType.Int },
+            { typeof(uint), SqlDbType.Int },
+            { typeof(long), SqlDbType.BigInt },
+            { typeof(ulong), SqlDbType.BigInt },
+            { typeof(float), SqlDbType.Real },
+            { typeof(double), SqlDbType.Float },
+            { typeof(decimal), SqlDbType.Decimal },
+            { typeof(bool), SqlDbType.Bit },
+            { typeof(string), SqlDbType.NVarChar },
+            { typeof(char), SqlDbType.NChar },
+            { typeof(Guid), SqlDbType.UniqueIdentifier },
+            { typeof(DateTime), SqlDbType.DateTime },
+            { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
+            { typeof(byte[]), SqlDbType.VarBinary }
+        };
+
+        return typeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : null;
+    }
+
+    /// <summary>
     /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects to map to.</typeparam>
@@ -434,6 +327,47 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Converts an <see cref="ImageSource"/> to a byte array using the specified <see cref="BitmapEncoder"/>.
+    /// </summary>
+    /// <param name="value">The <see cref="ImageSource"/> to convert.</param>
+    /// <param name="encoder">The <see cref="BitmapEncoder"/> to use for encoding the image. If not specified, <see cref="PngBitmapEncoder"/> will be used by default.</param>
+    /// <returns>A byte array representing the encoded image.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when the <paramref name="value"/> is not a <see cref="BitmapSource"/>.</exception>
+    public static byte[] ToBytes(this ImageSource value, BitmapEncoder? encoder = null)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        if (value is not BitmapSource bitmapSource)
+            throw new ArgumentException("Value must be a BitmapSource.", nameof(value));
+
+        encoder ??= new PngBitmapEncoder();
+        encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+        using var memoryStream = new MemoryStream();
+        encoder.Save(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    /// <summary>
+    /// Converts a <see cref="SecureString"/> to a byte array.
+    /// </summary>
+    /// <param name="value">The <see cref="SecureString"/> to convert.</param>
+    /// <returns>A byte array representing the secure string.</returns>
+    public static byte[] ToBytes(this SecureString value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        var password = new NetworkCredential(string.Empty, value).Password;
+        var bytes = Encoding.UTF8.GetBytes(password);
+
+        for (int i = 0; i < password.Length; i++)
+            password = password.Remove(i, 1).Insert(i, "\0");
+
+        return bytes;
+    }
+
+    /// <summary>
     /// Converts a collection of items to a <see cref="DataTable"/>.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
@@ -456,6 +390,34 @@ public static class StswExtensions
         }
 
         return dataTable;
+    }
+
+    /// <summary>
+    /// Converts a collection to a dictionary, safely handling duplicate keys by ignoring subsequent duplicates.
+    /// </summary>
+    /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
+    /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+    /// <param name="source">The collection to convert.</param>
+    /// <param name="keySelector">A function to extract keys from the elements.</param>
+    /// <param name="valueSelector">A function to extract values from the elements.</param>
+    /// <returns>A dictionary containing keys and values selected from the collection, with duplicate keys safely ignored.</returns>
+    /// <remarks>
+    /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
+    /// </remarks>
+    public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TValue> valueSelector) where TKey : notnull
+    {
+        var dictionary = new Dictionary<TKey, TValue>();
+        foreach (var item in source)
+        {
+            var key = keySelector(item);
+            if (!dictionary.ContainsKey(key))
+                dictionary[key] = valueSelector(item);
+        }
+        return dictionary;
     }
 
     /// <summary>
@@ -489,36 +451,6 @@ public static class StswExtensions
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new(value);
 
     /// <summary>
-    /// Converts a <see cref="Type"/> to a <see cref="SqlDbType"/>.
-    /// </summary>
-    /// <param name="type">The type to convert.</param>
-    /// <returns>The corresponding <see cref="SqlDbType"/>, or null if no matching type is found.</returns>
-    public static SqlDbType? InferSqlDbType(this Type type)
-    {
-        ArgumentNullException.ThrowIfNull(type);
-
-        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
-        return underlyingType switch
-        {
-            { } t when t == typeof(byte) || t == typeof(sbyte) => SqlDbType.TinyInt,
-            { } t when t == typeof(short) || t == typeof(ushort) => SqlDbType.SmallInt,
-            { } t when t == typeof(int) || t == typeof(uint) => SqlDbType.Int,
-            { } t when t == typeof(long) || t == typeof(ulong) => SqlDbType.BigInt,
-            { } t when t == typeof(float) => SqlDbType.Real,
-            { } t when t == typeof(double) => SqlDbType.Float,
-            { } t when t == typeof(decimal) => SqlDbType.Decimal,
-            { } t when t == typeof(bool) => SqlDbType.Bit,
-            { } t when t == typeof(string) => SqlDbType.NVarChar,
-            { } t when t == typeof(char) => SqlDbType.NChar,
-            { } t when t == typeof(Guid) => SqlDbType.UniqueIdentifier,
-            { } t when t == typeof(DateTime) => SqlDbType.DateTime,
-            { } t when t == typeof(DateTimeOffset) => SqlDbType.DateTimeOffset,
-            { } t when t == typeof(byte[]) => SqlDbType.VarBinary,
-            _ => null
-        };
-    }
-
-    /// <summary>
     /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswBindingList{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects in the list.</typeparam>
@@ -538,32 +470,6 @@ public static class StswExtensions
 
     #region Color extensions
     /// <summary>
-    /// Converts a byte array to a <see cref="BitmapImage"/>.
-    /// </summary>
-    /// <param name="value">The byte array to convert.</param>
-    /// <returns>The converted <see cref="BitmapImage"/>, or null if the byte array is empty.</returns>
-    public static BitmapImage? ToBitmapImage(this byte[] value)
-    {
-        if (value.Length == 0)
-            return null;
-
-        var result = new BitmapImage();
-        using (var mem = new MemoryStream(value))
-        {
-            mem.Position = 0;
-            result.BeginInit();
-            result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-            result.CacheOption = BitmapCacheOption.OnLoad;
-            result.UriSource = null;
-            result.StreamSource = mem;
-            result.EndInit();
-        }
-        result.Freeze();
-
-        return result;
-    }
-
-    /// <summary>
     /// Converts a <see cref="Color"/> to a <see cref="System.Drawing.Color"/>.
     /// </summary>
     /// <param name="value">The <see cref="Color"/> to convert.</param>
@@ -571,21 +477,43 @@ public static class StswExtensions
     public static System.Drawing.Color ToDrawingColor(this Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
+    /// Converts a <see cref="Color"/> to a hexadecimal color string.
+    /// </summary>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hexadecimal color string representation of the color (e.g., "#RRGGBB" or "#AARRGGBB").</returns>
+    public static string ToHex(this Color color)
+    {
+        if (color.A < 255)
+            return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+        else
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+    }
+
+    /// <summary>
     /// Converts a <see cref="System.Drawing.Color"/> to a <see cref="Color"/>.
     /// </summary>
     /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>
     /// <returns>The converted <see cref="Color"/>.</returns>
     public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
-
-    /// <summary>
-    /// Converts a <see cref="Color"/> to an HTML color string.
-    /// </summary>
-    /// <param name="color">The color to convert.</param>
-    /// <returns>The HTML color string representation of the color.</returns>
-    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
     #endregion
 
     #region DateTime extensions
+    /// <summary>
+    /// Finds the next occurrence of a specified day of the week after a given date.
+    /// </summary>
+    /// <param name="from">The starting date.</param>
+    /// <param name="dayOfWeek">The day of the week to find.</param>
+    /// <returns>The next date that falls on the specified day of the week.</returns>
+    /// <remarks>
+    /// This method is useful for scheduling or finding specific days, such as the next Monday after a given date.
+    /// </remarks>
+    public static DateTime Next(this DateTime from, DayOfWeek dayOfWeek)
+    {
+        var start = (int)from.DayOfWeek;
+        var target = (int)dayOfWeek;
+        return from.AddDays((target - start + 7) % 7);
+    }
+
     /// <summary>
     /// Converts a <see cref="DateTime"/> to a Unix timestamp.
     /// </summary>
@@ -607,6 +535,22 @@ public static class StswExtensions
         if (memberInfo == null) return null;
 
         return memberInfo.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+    }
+
+    /// <summary>
+    /// Retrieves the description attribute from an enum value, if present.
+    /// </summary>
+    /// <typeparam name="T">The type of the enum.</typeparam>
+    /// <param name="value">The enum value.</param>
+    /// <returns>The description attribute of the enum value, or the enum value's name if no description is found.</returns>
+    /// <remarks>
+    /// This method is useful when you want to display user-friendly descriptions of enum values in the UI or logs.
+    /// </remarks>
+    public static string GetDescription(this Enum value)
+    {
+        var field = value.GetType().GetField(value.ToString());
+        var attribute = field?.GetCustomAttribute<DescriptionAttribute>();
+        return attribute?.Description ?? value.ToString();
     }
 
     /// <summary>
@@ -632,6 +576,21 @@ public static class StswExtensions
     }
     #endregion
 
+    #region Exception extensions
+    /// <summary>
+    /// Gets the innermost exception of an exception.
+    /// </summary>
+    /// <param name="ex">The exception from which to get the innermost exception.</param>
+    /// <returns>The innermost <see cref="Exception"/>.</returns>
+    public static Exception GetInnermostException(this Exception ex)
+    {
+        while (ex.InnerException != null)
+            ex = ex.InnerException;
+
+        return ex;
+    }
+    #endregion
+
     #region List extensions
     /// <summary>
     /// Adds an item to a list if the list does not already contain the item.
@@ -646,34 +605,29 @@ public static class StswExtensions
     }
 
     /// <summary>
-    /// Checks if a type is a list type and retrieves the inner type if it is.
+    /// Splits a collection into smaller batches of the specified size.
     /// </summary>
-    /// <param name="type">The type to check.</param>
-    /// <param name="innerType">The inner type if the type is a list type.</param>
-    /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
-    internal static bool IsListType(this Type type, out Type? innerType)
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
+    /// <param name="source">The collection to be split into batches.</param>
+    /// <param name="size">The size of each batch.</param>
+    /// <returns>An enumerable collection of batches, where each batch is a list containing the specified number of elements.</returns>
+    /// <remarks>
+    /// This method can be useful when processing large collections in smaller chunks, such as when paging through data or processing data in smaller, manageable parts.
+    /// </remarks>
+    public static IEnumerable<IList<T>> Batch<T>(this IEnumerable<T> source, int size)
     {
-        ArgumentNullException.ThrowIfNull(type);
-
-        innerType = null;
-
-        if (type == typeof(string))
-            return false;
-
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        var batch = new List<T>(size);
+        foreach (var item in source)
         {
-            innerType = type.GetGenericArguments().Single();
-            return true;
-        }
-
-        foreach (var i in type.GetInterfaces())
-            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            batch.Add(item);
+            if (batch.Count == size)
             {
-                innerType = i.GetGenericArguments().Single();
-                return true;
+                yield return batch;
+                batch = new(size);
             }
-
-        return false;
+        }
+        if (batch.Count != 0)
+            yield return batch;
     }
 
     /// <summary>
@@ -757,6 +711,236 @@ public static class StswExtensions
             if (EqualityComparer<T>.Default.Equals(source[i], oldValue))
                 source[i] = newValue;
     }
+
+    /// <summary>
+    /// Randomizes the order of elements in a list.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list to shuffle.</param>
+    /// <remarks>
+    /// This method can be useful in scenarios where random order is needed, such as randomizing test cases or mixing elements in non-deterministic processes.
+    /// </remarks>
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        var rng = new Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+    }
+    #endregion
+
+    #region Logical extensions
+    /// <summary>
+    /// Checks if a value is within a specified range, inclusive.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to compare.</typeparam>
+    /// <param name="value">The value to check.</param>
+    /// <param name="start">The start of the range.</param>
+    /// <param name="end">The end of the range.</param>
+    /// <param name="allowReversedOrder">If <see langword="true"/>, allows the range to be specified in reverse order (start can be greater than end).</param>
+    /// <returns><see langword="true"/> if the value is within the range; otherwise, <see langword="false"/>.</returns>
+    public static bool Between<T>(this T? value, T? start, T? end, bool allowReversedOrder = false)
+    {
+        var comparer = Comparer<T>.Default;
+
+        if (allowReversedOrder && comparer.Compare(start, end) > 0)
+            (end, start) = (start, end);
+
+        return comparer.Compare(value, start) >= 0 && comparer.Compare(value, end) <= 0;
+    }
+
+    /// <summary>
+    /// Determines whether a value is contained in a collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check for.</param>
+    /// <param name="collection">The collection to check in.</param>
+    /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
+            ? throw new ArgumentNullException(nameof(collection))
+            : collection.Contains(value);
+
+    /// <summary>
+    /// Determines whether a value is contained in a parameters.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check for.</param>
+    /// <param name="parameters">The parameters to check in.</param>
+    /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    public static bool In<T>(this T value, params T[] parameters) => parameters == null
+            ? throw new ArgumentNullException(nameof(parameters))
+            : parameters.Contains(value);
+
+    /// <summary>
+    /// Compares two objects of the same type by checking if all their public properties are equal.
+    /// </summary>
+    /// <typeparam name="T">The type of the objects to compare.</typeparam>
+    /// <param name="objA">The first object to compare.</param>
+    /// <param name="objB">The second object to compare.</param>
+    /// <returns>
+    /// <see langword="true"/> if both objects are either null or have identical public property values;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method performs a shallow comparison of the public properties of both objects. 
+    /// It compares the string representations of property values using the <see cref="object.ToString"/> method.
+    /// The method skips indexer properties during the comparison.
+    /// </remarks>
+    public static bool IsEqualSimply<T>(this T objA, T objB)
+    {
+        if (objA == null && objB == null)
+            return true;
+        else if (objA == null || objB == null)
+            return false;
+
+        foreach (var item in objA.GetType().GetProperties())
+            if (item.GetValue(objA)?.ToString() != item.GetValue(objB)?.ToString())
+                return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Checks if a type is a list type and retrieves the inner type if it is.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <param name="innerType">The inner type if the type is a list type.</param>
+    /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
+    internal static bool IsListType(this Type type, out Type? innerType)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        innerType = null;
+
+        if (type == typeof(string))
+            return false;
+
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            innerType = type.GetGenericArguments().Single();
+            return true;
+        }
+
+        foreach (var i in type.GetInterfaces())
+            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                innerType = i.GetGenericArguments().Single();
+                return true;
+            }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the given value is null, the default value for its type, or a value that indicates absence of meaningful data.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check.</param>
+    /// <returns><see langword="true"/> if the value is null, the default value for its type, or indicates absence of data; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault<T>(this T? value)
+    {
+        if (value == null || Convert.IsDBNull(value))
+            return true;
+
+        if (Nullable.GetUnderlyingType(typeof(T)) != null)
+            return EqualityComparer<T>.Default.Equals(value, (T?)Activator.CreateInstance(Nullable.GetUnderlyingType(typeof(T))!));
+
+        if (typeof(T) == typeof(bool))
+            return value == null;
+
+        if (typeof(T).IsEnum)
+            return value == null;
+
+        if (typeof(T) == typeof(string))
+            return string.IsNullOrEmpty(value as string);
+
+        if (EqualityComparer<T>.Default.Equals(value, default))
+            return true;
+
+        if (value is IEnumerable enumerable)
+            return !enumerable.GetEnumerator().MoveNext();
+
+        if (typeof(T).IsClass)
+            return value.IsEqualSimply((T?)Activator.CreateInstance(typeof(T)));
+
+        return EqualityComparer<T>.Default.Equals(value, default);
+    }
+
+    /// <summary>
+    /// Determines whether a type is a numeric type.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is numeric; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNumericType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        if (Nullable.GetUnderlyingType(type) is Type underlyingType)
+            type = underlyingType;
+
+        if (type == typeof(nint) || type == typeof(nuint))
+            return true;
+
+        switch (Type.GetTypeCode(type))
+        {
+            case TypeCode.Byte:
+            case TypeCode.SByte:
+            case TypeCode.UInt16:
+            case TypeCode.UInt32:
+            case TypeCode.UInt64:
+            case TypeCode.Int16:
+            case TypeCode.Int32:
+            case TypeCode.Int64:
+            case TypeCode.Decimal:
+            case TypeCode.Double:
+            case TypeCode.Single:
+                return true;
+            default:
+                return false;
+        }
+    }
+    #endregion
+
+    #region Process extensions
+    /// <summary>
+    /// Determines the user that owns the specified process.
+    /// </summary>
+    /// <param name="process">The process whose owner is to be determined.</param>
+    /// <returns>The username of the owner of the process, or null if it cannot be determined.</returns>
+    public static string? GetUser(this Process process)
+    {
+        var processHandle = IntPtr.Zero;
+        try
+        {
+            OpenProcessToken(process.Handle, 8, out processHandle);
+            var wi = new WindowsIdentity(processHandle);
+            var user = wi.Name;
+            return user.Contains('\\') ? user[(user.IndexOf('\\') + 1)..] : user;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            if (processHandle != IntPtr.Zero)
+                CloseHandle(processHandle);
+        }
+    }
+
+    [LibraryImport("advapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
+
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool CloseHandle(IntPtr hObject);
     #endregion
 
     #region Sql extensions
@@ -767,13 +951,16 @@ public static class StswExtensions
     /// <param name="sqlCommand">The <see cref="SqlCommand"/> object.</param>
     /// <param name="parameterName">The parameter name to be replaced in the SQL query.</param>
     /// <param name="list">The list of values to be added as parameters.</param>
+    /// <exception cref="ArgumentException">Thrown when the list contains more than 20 elements.</exception>
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
-        //TODO - limit to max. 50 elements in list (to prevent idiocy)
-
         ArgumentNullException.ThrowIfNull(sqlCommand);
         if (string.IsNullOrEmpty(parameterName))
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
+
+        const int maxListSize = 20;
+        if (list != null && list.Count > maxListSize)
+            throw new ArgumentException($"The list contains more than {maxListSize} elements, which exceeds the allowed limit.", nameof(list));
 
         if (list == null || !IsListType(list.GetType(), out var innerType) || list.Count == 0)
         {
@@ -782,7 +969,7 @@ public static class StswExtensions
         }
 
         var parameterNames = new StringBuilder();
-        for (var i = 0; i < list?.Count; i++)
+        for (var i = 0; i < list.Count; i++)
         {
             var paramName = $"{parameterName}{i}";
             sqlCommand.Parameters.Add(paramName, innerType!.InferSqlDbType()!.Value).Value = list[i] ?? DBNull.Value;
@@ -896,19 +1083,6 @@ public static class StswExtensions
     #endregion
 
     #region Universal extensions
-    /// <summary>
-    /// Gets the innermost exception of an exception.
-    /// </summary>
-    /// <param name="ex">The exception from which to get the innermost exception.</param>
-    /// <returns>The innermost <see cref="Exception"/>.</returns>
-    public static Exception GetInnermostException(this Exception ex)
-    {
-        while (ex.InnerException != null)
-            ex = ex.InnerException;
-
-        return ex;
-    }
-
     /// <summary>
     /// Gets the value of a property by name from an object.
     /// </summary>
