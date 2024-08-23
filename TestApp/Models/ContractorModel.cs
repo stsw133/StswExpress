@@ -50,12 +50,12 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Address
     [StswExport(nameof(Address))]
-    public AddressModel? Address
+    public AddressModel Address
     {
         get => _address;
         set => SetProperty(ref _address, value);
     }
-    private AddressModel? _address;
+    private AddressModel _address = new();
 
     /// DefaultDiscount
     [StswExport(nameof(DefaultDiscount))]

@@ -6,6 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
+[Obsolete("TODO!")]
 internal class StswEventToCommandExtension : MarkupExtension
 {
     //TODO - gimme some code

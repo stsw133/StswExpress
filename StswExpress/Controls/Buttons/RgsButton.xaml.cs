@@ -77,10 +77,13 @@ public class RgsButton : Button
     #endregion
 
     #region DP
+    /// <summary>
+    /// 
+    /// </summary>
     public ObservableCollection<UIElement> Ellipses
     {
-        get { return (ObservableCollection<UIElement>)GetValue(EllipsesProperty); }
-        set { SetValue(EllipsesProperty, value); }
+        get => (ObservableCollection<UIElement>)GetValue(EllipsesProperty);
+        set => SetValue(EllipsesProperty, value);
     }
     public static readonly DependencyProperty EllipsesProperty =
         DependencyProperty.Register(nameof(Ellipses), typeof(ObservableCollection<UIElement>), typeof(RgsButton), 

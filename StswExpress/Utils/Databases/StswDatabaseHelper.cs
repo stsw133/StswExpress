@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -32,9 +31,12 @@ public static class StswDatabaseHelper
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
     /// <typeparam name="TModel">The type of the items to insert.</typeparam>
+    /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     public static void BulkInsert<TModel>(this SqlConnection sqlConn, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -59,6 +61,7 @@ public static class StswDatabaseHelper
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
     public static void BulkInsert<TModel>(this SqlTransaction sqlTran, IEnumerable<TModel> items, string tableName, int? timeout = null)
         => sqlTran.Connection.BulkInsert(items, tableName, timeout, sqlTran);
 
@@ -69,71 +72,77 @@ public static class StswDatabaseHelper
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
     public static void BulkInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().BulkInsert(items, tableName, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns the number of rows affected.
+    /// Executes a non-query SQL command and returns the number of rows affected.
     /// </summary>
+    /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The models used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteNonQuery(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
 
-        var models = parameters switch
+        var parameterModels = parameters switch
         {
             IEnumerable<SqlParameter> => [parameters],
             IEnumerable<object?> enumerable => enumerable,
             _ => [parameters],
         };
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, models.Count() > 1, disposeConnection);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, parameterModels.Count() > 1, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
 
         var result = 0;
 
-        foreach (var modelParameters in models)
-        {
-            PrepareParameters(sqlCmd, modelParameters);
-            result += sqlCmd.ExecuteNonQuery();
-        }
+        foreach (var parameterModel in parameterModels)
+            result += sqlCmd.PrepareCommand(parameterModel).ExecuteNonQuery();
 
         factory.Commit();
         return result;
     }
 
     /// <summary>
-    /// Executes the query and returns the number of rows affected.
+    /// Executes a non-query SQL command and returns the number of rows affected.
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The models used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteNonQuery(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteNonQuery(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns the number of rows affected.
+    /// Executes a non-query SQL command and returns the number of rows affected.
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The models used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteNonQuery(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteNonQuery(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
+    /// Executes a SQL query and returns a <see cref="SqlDataReader"/> for advanced data handling.
     /// </summary>
+    /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A <see cref="SqlDataReader"/>.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
     public static SqlDataReader? ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -142,39 +151,44 @@ public static class StswDatabaseHelper
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
+        sqlCmd.PrepareCommand(parameters);
 
         return factory.Transaction != null ? sqlCmd.ExecuteReader() : sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
     }
 
     /// <summary>
-    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
+    /// Executes a SQL query and returns a <see cref="SqlDataReader"/> for advanced data handling.
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A <see cref="SqlDataReader"/>.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
     public static SqlDataReader? ExecuteReader(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteReader(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
+    /// Executes a SQL query and returns a <see cref="SqlDataReader"/> for advanced data handling.
     /// </summary>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A <see cref="SqlDataReader"/>.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
     public static SqlDataReader? ExecuteReader(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteReader(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a scalar value.
+    /// Executes a SQL query and returns a scalar value.
     /// </summary>
     /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
+    /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The scalar value.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     public static TResult? ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -183,89 +197,91 @@ public static class StswDatabaseHelper
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        PrepareParameters(sqlCmd, parameters);
-        var result = sqlCmd.ExecuteScalar().ConvertTo<TResult?>();
+        var result = sqlCmd.PrepareCommand(parameters).ExecuteScalar().ConvertTo<TResult?>();
         factory.Commit();
         return result;
     }
 
     /// <summary>
-    /// Executes the query and returns a scalar value.
+    /// Executes a SQL query and returns a scalar value.
     /// </summary>
     /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The scalar value.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     public static TResult? ExecuteScalar<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteScalar<TResult>(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a scalar value.
+    /// Executes a SQL query and returns a scalar value.
     /// </summary>
     /// <typeparam name="TResult">The type of the scalar value to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The scalar value.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     public static TResult? ExecuteScalar<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteScalar<TResult>(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes a stored procedure with parameters.
+    /// Executes a stored procedure with parameters and returns the number of rows affected.
     /// </summary>
-    /// <param name="procName">The name of the stored procedure.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="sqlConn">The SQL connection to use.</param>
+    /// <param name="procName">The name of the stored procedure to execute.</param>
+    /// <param name="parameters">The model used for the stored procedure parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteStoredProcedure(this SqlConnection sqlConn, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return default;
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
-        using var sqlCmd = new SqlCommand(procName, factory.Connection, factory.Transaction)
-        {
-            CommandType = CommandType.StoredProcedure,
-        };
+        using var sqlCmd = new SqlCommand(procName, factory.Connection, factory.Transaction) { CommandType = CommandType.StoredProcedure, };
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-
-        PrepareParameters(sqlCmd, parameters);
-
-        var result = sqlCmd.ExecuteNonQuery();
-
+        var result = sqlCmd.PrepareCommand(parameters).ExecuteNonQuery();
         factory.Commit();
         return result;
     }
 
     /// <summary>
-    /// Executes a stored procedure with parameters.
+    /// Executes a stored procedure with parameters and returns the number of rows affected.
     /// </summary>
-    /// <param name="procName">The name of the stored procedure.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="procName">The name of the stored procedure to execute.</param>
+    /// <param name="parameters">The model used for the stored procedure parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteStoredProcedure(this SqlTransaction sqlTran, string procName, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteStoredProcedure(procName, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes a stored procedure with parameters.
+    /// Executes a stored procedure with parameters and returns the number of rows affected.
     /// </summary>
-    /// <param name="procName">The name of the stored procedure.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="procName">The name of the stored procedure to execute.</param>
+    /// <param name="parameters">The model used for the stored procedure parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteStoredProcedure(this StswDatabaseModel model, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteStoredProcedure(procName, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a collection of results.
+    /// Executes a SQL query and returns a collection of results.
     /// </summary>
-    /// <typeparam name="TResult">The type of the results.</typeparam>
+    /// <typeparam name="TResult">The type of the results to return.</typeparam>
+    /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A collection of results.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
     public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TResult : class, new()
     {
         if (!CheckQueryConditions())
@@ -275,8 +291,7 @@ public static class StswDatabaseHelper
         using var sqlDA = new SqlDataAdapter(PrepareQuery(query), factory.Connection);
         sqlDA.SelectCommand.CommandTimeout = timeout ?? sqlDA.SelectCommand.CommandTimeout;
         sqlDA.SelectCommand.Transaction = factory.Transaction;
-
-        PrepareParameters(sqlDA.SelectCommand, parameters);
+        sqlDA.SelectCommand.PrepareCommand(parameters);
 
         var dataTable = new DataTable();
         sqlDA.Fill(dataTable);
@@ -285,24 +300,26 @@ public static class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Executes the query and returns a collection of results.
+    /// Executes a SQL query and returns a collection of results.
     /// </summary>
-    /// <typeparam name="TResult">The type of the results.</typeparam>
+    /// <typeparam name="TResult">The type of the results to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A collection of results.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
     public static IEnumerable<TResult> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null) where TResult : class, new()
         => sqlTran.Connection.Get<TResult>(query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes the query and returns a collection of results.
+    /// Executes a SQL query and returns a collection of results.
     /// </summary>
-    /// <typeparam name="TResult">The type of the results.</typeparam>
+    /// <typeparam name="TResult">The type of the results to return.</typeparam>
     /// <param name="query">The SQL query string.</param>
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
-    /// <returns>A collection of results.</returns>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
     public static IEnumerable<TResult> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : class, new()
         => model.OpenedConnection().Get<TResult>(query, parameters, timeout, sqlTran);
 
@@ -360,66 +377,92 @@ public static class StswDatabaseHelper
     */
 
     /// <summary>
-    /// Executes the query and updates the database with the specified input collection.
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
     /// </summary>
-    /// <typeparam name="TModel">The type of the items in the input collection.</typeparam>
-    /// <param name="input">The input collection.</param>
-    /// <param name="tableName">The name of the database table.</param>
-    /// <param name="idProp">The property name of the ID.</param>
-    /// <param name="inclusionMode">The inclusion mode.</param>
-    /// <param name="inclusionProps">The properties to include or exclude based on the inclusion mode.</param>
-    /// <param name="sqlParameters">The SQL parameters to use.</param>
-    [Obsolete($"This method should be replaced with multiple {nameof(ExecuteNonQuery)}")]
-    public static void Set<TModel>(this StswDatabaseModel model, StswBindingList<TModel> input, string tableName, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null) where TModel : IStswCollectionItem, new()
+    /// <typeparam name="TModel">The type of the items in the list.</typeparam>
+    /// <param name="sqlConn">The SQL connection to use.</param>
+    /// <param name="tableName">The name of the SQL table to modify.</param>
+    /// <param name="idColumns">The columns used as identifiers in the table.</param>
+    /// <param name="setColumns">The columns to be updated in the table.</param>
+    /// <param name="items">The list of items to insert, update, or delete.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <remarks>
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
+    /// </remarks>
+    public static void Set<TModel>(this SqlConnection sqlConn, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
     {
         if (!CheckQueryConditions())
             return;
 
-        /// prepare parameters
-        inclusionProps ??= [];
-        sqlParameters ??= [];
+        idColumns ??= ["ID"];
+        setColumns ??= typeof(TModel).GetProperties().Select(x => x.Name);
+        setColumns = setColumns.Except(items.IgnoredProperties);
 
-        var objProps = inclusionMode == StswInclusionMode.Include
-            ? typeof(TModel).GetProperties().Where(x => x.Name.In(inclusionProps))
-            : typeof(TModel).GetProperties().Where(x => !x.Name.In(inclusionProps.Union(input.IgnoredProperties)));
-        var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
-        /// func
-        using var sqlFactory = new StswSqlConnectionFactory(model.OpenedConnection(), null, true);
+        var insertQuery = $"insert into {tableName} ({string.Join(',', setColumns)}) values ({string.Join(',', setColumns.Select(x => "@" + x))})";
+        using (var sqlCmd = new SqlCommand(PrepareQuery(insertQuery), factory.Connection, factory.Transaction))
+        {
+            sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
+            foreach (var item in items.GetItemsByState(StswItemState.Added))
+                sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
+        }
+        
+        var updateQuery = $"update {tableName} set {string.Join(',', setColumns.Select(x => x + "=@" + x))} where {string.Join(',', idColumns.Select(x => x + "=@" + x))}";
+        using (var sqlCmd = new SqlCommand(PrepareQuery(updateQuery), factory.Connection, factory.Transaction))
+        {
+            sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
+            foreach (var item in items.GetItemsByState(StswItemState.Modified))
+                sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
+        }
+        
+        var deleteQuery = $"delete from {tableName} where {string.Join(',', idColumns.Select(x => x + "=@" + x))}";
+        using (var sqlCmd = new SqlCommand(PrepareQuery(deleteQuery), factory.Connection, factory.Transaction))
+        {
+            sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
+            foreach (var item in items.GetItemsByState(StswItemState.Deleted))
+                PrepareCommand(sqlCmd, GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
+        }
 
-        var insertQuery = $"insert into {tableName} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
-        foreach (var item in input.GetItemsByState(StswItemState.Added))
-            using (var sqlCmd = new SqlCommand(insertQuery, sqlFactory.Connection, sqlFactory.Transaction))
-            {
-                sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
-                sqlCmd.ExecuteNonQuery();
-            }
-
-        var updateQuery = $"update {tableName} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
-        foreach (var item in input.GetItemsByState(StswItemState.Modified))
-            using (var sqlCmd = new SqlCommand(updateQuery, sqlFactory.Connection, sqlFactory.Transaction))
-            {
-                sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                PrepareParameters(sqlCmd, sqlParameters, objProps, item);
-                sqlCmd.ExecuteNonQuery();
-            }
-
-        var deleteQuery = $"delete from {tableName} where {idProp}=@{idProp}";
-        foreach (var item in input.GetItemsByState(StswItemState.Deleted))
-            using (var sqlCmd = new SqlCommand(deleteQuery, sqlFactory.Connection, sqlFactory.Transaction))
-            {
-                sqlCmd.Parameters.AddWithValue("@" + idProp, objProps.First(x => x.Name == idProp).GetValue(item));
-                sqlCmd.ExecuteNonQuery();
-            }
-
-        sqlFactory.Commit();
+        factory.Commit();
     }
 
     /// <summary>
-    /// Checks if the query can be executed based on the current application state. 
-    /// This method verifies if the application is running in design mode and returns a boolean value indicating 
-    /// whether the query should proceed or not.
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the items in the list.</typeparam>
+    /// <param name="tableName">The name of the SQL table to modify.</param>
+    /// <param name="idColumns">The columns used as identifiers in the table.</param>
+    /// <param name="setColumns">The columns to be updated in the table.</param>
+    /// <param name="items">The list of items to insert, update, or delete.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <remarks>
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
+    /// </remarks>
+    public static void Set<TModel>(this SqlTransaction sqlTran, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null) where TModel : IStswCollectionItem, new()
+        => sqlTran.Connection.Set(tableName, idColumns, setColumns, items, timeout, sqlTran);
+
+    /// <summary>
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the items in the list.</typeparam>
+    /// <param name="tableName">The name of the SQL table to modify.</param>
+    /// <param name="idColumns">The columns used as identifiers in the table.</param>
+    /// <param name="setColumns">The columns to be updated in the table.</param>
+    /// <param name="items">The list of items to insert, update, or delete.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <remarks>
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
+    /// </remarks>
+    public static void Set<TModel>(this StswDatabaseModel model, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
+        => model.OpenedConnection().Set(tableName, idColumns, setColumns, items, timeout, sqlTran);
+
+    /// <summary>
+    /// Checks if the query can be executed based on the current application state.
     /// </summary>
     /// <returns>
     /// Returns <see langword="false"/> if the application is in design mode and queries should not be executed, otherwise returns <see langword="true"/>.
@@ -433,6 +476,28 @@ public static class StswDatabaseHelper
             return false;
 
         return true;
+    }
+
+    /// <summary>
+    /// Generates SQL parameters for the specified item based on the given column sets and item state.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the item.</typeparam>
+    /// <param name="item">The item to generate parameters for.</param>
+    /// <param name="setColumns">The set of columns to be updated.</param>
+    /// <param name="idColumns">The set of identifier columns.</param>
+    /// <param name="commandType">The state of the item (Added, Modified, Deleted).</param>
+    /// <returns>A collection of <see cref="SqlParameter"/> for the specified item.</returns>
+    private static IEnumerable<SqlParameter> GenerateSqlParameters<TModel>(TModel item, IEnumerable<string> setColumns, IEnumerable<string> idColumns, StswItemState commandType) where TModel : IStswCollectionItem, new()
+    {
+        var setColumnsSet = new HashSet<string>(setColumns);
+        var idColumnsSet = new HashSet<string>(idColumns);
+
+        return typeof(TModel).GetProperties()
+            .Where(x => (commandType == StswItemState.Added && setColumnsSet.Contains(x.Name)) ||
+                        (commandType == StswItemState.Modified && (setColumnsSet.Contains(x.Name) || idColumnsSet.Contains(x.Name))) ||
+                        (commandType == StswItemState.Deleted && idColumnsSet.Contains(x.Name)))
+            .Select(x => new SqlParameter("@" + x.Name, x.GetValue(item) ?? DBNull.Value)
+            { SqlDbType = x.PropertyType.InferSqlDbType() });
     }
 
     /// <summary>
@@ -459,7 +524,8 @@ public static class StswDatabaseHelper
     /// </summary>
     /// <param name="sqlCommand">The SQL command to prepare with parameters.</param>
     /// <param name="model">The model containing the values to be added as parameters.</param>
-    public static void PrepareParameters(SqlCommand sqlCommand, object? model)
+    /// <returns>The prepared <see cref="SqlCommand"/>.</returns>
+    private static SqlCommand PrepareCommand(this SqlCommand sqlCommand, object? model)
     {
         sqlCommand.Parameters.Clear();
 
@@ -474,7 +540,7 @@ public static class StswDatabaseHelper
 
             foreach (var parameter in sqlParameters)
             {
-                if (parameter.Value.GetType().IsListType(out var type))
+                if (parameter.Value?.GetType()?.IsListType(out var type) == true)
                 {
                     if (type == typeof(byte))
                         sqlCommand.Parameters.Add(parameter);
@@ -487,53 +553,12 @@ public static class StswDatabaseHelper
                 }
             }
         }
+
+        return sqlCommand;
     }
 
     /// <summary>
-    /// Prepares the specified SQL command by adding SQL parameters and properties from the given item.
-    /// This method is marked as obsolete due to the obsolescence of the associated Set method.
-    /// </summary>
-    /// <typeparam name="TModel">The type of the item containing the properties.</typeparam>
-    /// <param name="sqlCommand">The SQL command to prepare with parameters and properties.</param>
-    /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
-    /// <param name="propertyInfos">The properties of the item to add as parameters.</param>
-    /// <param name="item">The item containing the properties to add as parameters.</param>
-    [Obsolete($"This method is obsolete because {nameof(Set)} method is obsolete.")]
-    public static void PrepareParameters<TModel>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, TModel? item)
-    {
-        /// add parameters
-        PrepareParameters(sqlCommand, sqlParameters);
-
-        /// add properties as parameters
-        if (propertyInfos != null && item != null)
-        {
-            foreach (var prop in propertyInfos)
-            {
-                if (!sqlCommand.Parameters.Contains("@" + prop.Name))
-                {
-                    var value = prop.GetValue(item);
-                    if (value == null)
-                    {
-                        sqlCommand.Parameters.Add("@" + prop.Name, prop.PropertyType.InferSqlDbType()!.Value).Value = DBNull.Value;
-                    }
-                    else if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
-                    {
-                        if (type == typeof(byte))
-                            sqlCommand.Parameters.AddWithValue("@" + prop.Name, (byte[])value);
-                        else
-                            sqlCommand.ParametersAddList("@" + prop.Name, (IList?)value);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@" + prop.Name, value ?? DBNull.Value);
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Prepares the SQL query for execution.
+    /// Prepares the SQL query for execution by optionally removing unnecessary whitespace.
     /// </summary>
     /// <param name="query">The SQL query to prepare.</param>
     /// <returns>The prepared SQL query.</returns>

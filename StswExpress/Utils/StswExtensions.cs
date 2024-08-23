@@ -227,11 +227,11 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to convert.</param>
     /// <returns>The corresponding <see cref="SqlDbType"/>, or null if no matching type is found.</returns>
-    public static SqlDbType? InferSqlDbType(this Type type)
+    public static SqlDbType InferSqlDbType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? (type.IsEnum ? Enum.GetUnderlyingType(type) : type);
 
         var typeMap = new Dictionary<Type, SqlDbType>
         {
@@ -255,7 +255,7 @@ public static partial class StswExtensions
             { typeof(byte[]), SqlDbType.VarBinary }
         };
 
-        return typeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : null;
+        return typeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : SqlDbType.NVarChar;
     }
 
     /// <summary>
@@ -972,7 +972,7 @@ public static partial class StswExtensions
         for (var i = 0; i < list.Count; i++)
         {
             var paramName = $"{parameterName}{i}";
-            sqlCommand.Parameters.Add(paramName, innerType!.InferSqlDbType()!.Value).Value = list[i] ?? DBNull.Value;
+            sqlCommand.Parameters.Add(paramName, innerType!.InferSqlDbType()).Value = list[i] ?? DBNull.Value;
             if (i > 0) parameterNames.Append(',');
             parameterNames.Append(paramName);
         }
