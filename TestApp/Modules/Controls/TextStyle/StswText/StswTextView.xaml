@@ -16,6 +16,7 @@
         <!-- content -->
         <se:StswText IsEnabled="{Binding IsEnabled}"
                      Margin="5"
+                     TextTrimming="CharacterEllipsis"
                      TextWrapping="Wrap"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}">

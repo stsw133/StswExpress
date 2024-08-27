@@ -381,17 +381,17 @@ public static class StswDatabaseHelper
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
     /// <param name="sqlConn">The SQL connection to use.</param>
-    /// <param name="tableName">The name of the SQL table to modify.</param>
-    /// <param name="idColumns">The columns used as identifiers in the table.</param>
-    /// <param name="setColumns">The columns to be updated in the table.</param>
     /// <param name="items">The list of items to insert, update, or delete.</param>
+    /// <param name="tableName">The name of the SQL table to modify.</param>
+    /// <param name="setColumns">The columns to be updated in the table.</param>
+    /// <param name="idColumns">The columns used as identifiers in the table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this SqlConnection sqlConn, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
+    public static void Set<TModel>(this SqlConnection sqlConn, StswBindingList<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
     {
         if (!CheckQueryConditions())
             return;
@@ -433,33 +433,33 @@ public static class StswDatabaseHelper
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
-    /// <param name="tableName">The name of the SQL table to modify.</param>
-    /// <param name="idColumns">The columns used as identifiers in the table.</param>
-    /// <param name="setColumns">The columns to be updated in the table.</param>
     /// <param name="items">The list of items to insert, update, or delete.</param>
+    /// <param name="tableName">The name of the SQL table to modify.</param>
+    /// <param name="setColumns">The columns to be updated in the table.</param>
+    /// <param name="idColumns">The columns used as identifiers in the table.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this SqlTransaction sqlTran, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null) where TModel : IStswCollectionItem, new()
-        => sqlTran.Connection.Set(tableName, idColumns, setColumns, items, timeout, sqlTran);
+    public static void Set<TModel>(this SqlTransaction sqlTran, StswBindingList<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
+        => sqlTran.Connection.Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
     /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
+    /// <param name="items">The list of items to insert, update, or delete.</param>
     /// <param name="tableName">The name of the SQL table to modify.</param>
     /// <param name="idColumns">The columns used as identifiers in the table.</param>
     /// <param name="setColumns">The columns to be updated in the table.</param>
-    /// <param name="items">The list of items to insert, update, or delete.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswBindingList{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this StswDatabaseModel model, string tableName, IEnumerable<string>? idColumns, IEnumerable<string>? setColumns, StswBindingList<TModel> items, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
-        => model.OpenedConnection().Set(tableName, idColumns, setColumns, items, timeout, sqlTran);
+    public static void Set<TModel>(this StswDatabaseModel model, StswBindingList<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
+        => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
     /// <summary>
     /// Checks if the query can be executed based on the current application state.
@@ -534,10 +534,10 @@ public static class StswDatabaseHelper
             var sqlParameters = model switch
             {
                 IEnumerable<SqlParameter> paramList => paramList.ToList(),
-                IDictionary<string, object> dictionary => dictionary.Select(kvp => new SqlParameter("@" + kvp.Key, kvp.Value ?? DBNull.Value)).ToList(),
+                IDictionary<string, object> dictionary => dictionary.Select(x => new SqlParameter("@" + x.Key, x.Value ?? DBNull.Value)).ToList(),
                 _ => model.GetType().GetProperties().Select(x => new SqlParameter("@" + x.Name, x.GetValue(model) ?? DBNull.Value)).ToList()
             };
-
+            
             foreach (var parameter in sqlParameters)
             {
                 if (parameter.Value?.GetType()?.IsListType(out var type) == true)

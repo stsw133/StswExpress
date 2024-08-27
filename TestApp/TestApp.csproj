@@ -387,6 +387,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\StswDoubleBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\StswIntegerBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

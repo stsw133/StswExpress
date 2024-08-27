@@ -13,8 +13,17 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- HeaderFontWeight -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HeaderFontWeight"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding HeaderFontWeight}"/>
+            <!-- HeaderOrientation -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HeaderOrientation"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding HeaderOrientation}"/>
+            <!-- HeaderWidth -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HeaderWidth"/>
+            <local:StswDoubleBox Margin="0 0 0 3" Value="{Binding HeaderWidth}"/>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswHeaderContainer}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -22,51 +31,49 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswHeaderContainer}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswHeaderContainer}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
-            <!-- Orientation -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswHeader}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswHeaderContainer Header="Lorem ipsum dolor sit amet..."
-                                IconData="{x:Static se:StswIcons.Cake}"
-                                IconScale="{Binding IconScale}"
-                                IsBusy="{Binding IsBusy}"
-                                IsContentVisible="{Binding IsContentVisible}"
-                                IsEnabled="{Binding IsEnabled}"
-                                Margin="5"
-                                Orientation="{Binding Orientation}"
-                                HorizontalAlignment="{Binding HorizontalAlignment}"
-                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                VerticalAlignment="{Binding VerticalAlignment}"
-                                VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswText TextTrimming="CharacterEllipsis" TextWrapping="Wrap">
-                <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
-                <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
-                <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
-                <Run Text="Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."/>
-                <Run Text="Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."/>
-                <Run Text="In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Negative}"/>
-                <Run Text="Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus."/>
-                <Run Text="Vivamus elementum semper nisi. Aenean vulputate eleifend tellus."/>
-                <Run Text="Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim." FontWeight="Medium" Foreground="{DynamicResource StswColor.Neutral}"/>
-                <Run Text="Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus."/>
-                <Run Text="Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum."/>
-                <Run Text="Aenean imperdiet. Etiam ultricies nisi vel augue." FontWeight="Medium" Foreground="{DynamicResource StswColor.Modify}"/>
-                <Run Text="Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus."/>
-                <Run Text="Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."/>
-                <Run Text="Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem." FontWeight="Medium" Foreground="{DynamicResource StswColor.Structure}"/>
-                <Run Text="Maecenas nec odio et ante tincidunt tempus."/>
-                <Run Text="Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante."/>
-                <Run Text="Etiam sit amet orci eget eros faucibus tincidunt. Duis leo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Designer}"/>
-                <Run Text="Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna."/>
-                <Run Text="Sed consequat, leo eget bibendum sodales, augue velit cursus nunc..."/>
-            </se:StswText>
-        </se:StswHeaderContainer>
+        <StackPanel se:StswHeaderContainer.HeaderAlignment="{Binding HorizontalContentAlignment}"
+                    se:StswHeaderContainer.HeaderFontWeight="{Binding HeaderFontWeight}"
+                    se:StswHeaderContainer.HeaderOrientation="{Binding HeaderOrientation}"
+                    se:StswHeaderContainer.HeaderWidth="{Binding HeaderWidth}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Margin="5"
+                    HorizontalAlignment="{Binding HorizontalAlignment}"
+                    VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswHeaderContainer Header="Property 1:"
+                                    IconData="{x:Static se:StswIcons.Dice1}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsContentVisible="{Binding IsContentVisible}"
+                                    Margin="3"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswTextBox/>
+            </se:StswHeaderContainer>
+            <se:StswHeaderContainer Header="Optional property 2:"
+                                    IconData="{x:Static se:StswIcons.Dice2}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsContentVisible="{Binding IsContentVisible}"
+                                    Margin="3"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswTextBox/>
+            </se:StswHeaderContainer>
+            <se:StswHeaderContainer Header="Test property:"
+                                    IconData="{x:Static se:StswIcons.Dice3}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsContentVisible="{Binding IsContentVisible}"
+                                    Margin="3"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswTextBox/>
+            </se:StswHeaderContainer>
+        </StackPanel>
         <!-- status panel -->
         
     </local:ControlsBase>

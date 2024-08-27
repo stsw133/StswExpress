@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
@@ -19,13 +20,27 @@ public static class StswControl
             typeof(StswControl),
             new PropertyMetadata(false, OnIsArrowlessChanged)
         );
-    //public static bool GetIsArrowless(DependencyObject obj) => (bool)obj.GetValue(IsArrowlessProperty);
     public static void SetIsArrowless(DependencyObject obj, bool value) => obj.SetValue(IsArrowlessProperty, value);
     private static void OnIsArrowlessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is FrameworkElement stsw)
         {
-            stsw.Resources.Add("StswDropArrow.Visibility", (bool?)e.NewValue == true ? Visibility.Collapsed : Visibility.Visible);
+            stsw.ApplyTemplate();
+
+            void loadedHandler(object s, RoutedEventArgs args)
+            {
+                if (StswFn.FindVisualChild<StswDropArrow>(stsw) is StswDropArrow dropArrow)
+                    dropArrow.Visibility = (bool?)e.NewValue == true ? Visibility.Collapsed : Visibility.Visible;
+
+                stsw.Loaded -= loadedHandler;
+            }
+            stsw.Loaded += loadedHandler;
+
+            if (stsw.IsLoaded)
+            {
+                if (StswFn.FindVisualChild<StswDropArrow>(stsw) is StswDropArrow dropArrow)
+                    dropArrow.Visibility = (bool?)e.NewValue == true ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
     }
 
@@ -41,7 +56,6 @@ public static class StswControl
             typeof(StswControl),
             new PropertyMetadata(false, OnIsBorderlessChanged)
         );
-    //public static bool GetIsBorderless(DependencyObject obj) => (bool)obj.GetValue(IsBorderlessProperty);
     public static void SetIsBorderless(DependencyObject obj, bool value) => obj.SetValue(IsBorderlessProperty, value);
     private static void OnIsBorderlessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -52,6 +66,13 @@ public static class StswControl
                 stsw.BorderThickness = new(0);
                 stsw.CornerClipping = false;
                 stsw.CornerRadius = new(0);
+            }
+            else if (Application.Current.TryFindResource(obj.GetType()) is Style defaultStyle)
+            {
+                var setters = defaultStyle.Setters.OfType<Setter>();
+                stsw.BorderThickness = (Thickness?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.BorderThickness))?.Value ?? new(0);
+                stsw.CornerClipping = (bool?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerClipping))?.Value ?? false;
+                stsw.CornerRadius = (CornerRadius?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerRadius))?.Value ?? new(0);
             }
         }
     }

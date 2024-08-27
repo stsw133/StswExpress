@@ -365,6 +365,33 @@ public static class StswFn
 
     #region Finding functions
     /// <summary>
+    /// Finds the first logical child of a specific type for the given control.
+    /// </summary>
+    /// <typeparam name="T">The type of the child to find.</typeparam>
+    /// <param name="obj">The control for which to find the logical child.</param>
+    /// <returns>The first logical child of the specified type, or null if no such child exists.</returns>
+    public static T? FindLogicalChild<T>(DependencyObject obj) where T : class
+    {
+        if (obj == null)
+            return null;
+
+        foreach (var child in LogicalTreeHelper.GetChildren(obj))
+        {
+            if (child is DependencyObject depChild)
+            {
+                if (child is T result)
+                    return result;
+
+                var descendent = FindLogicalChild<T>(depChild);
+                if (descendent != null)
+                    return descendent;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Finds the first visual ancestor of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>

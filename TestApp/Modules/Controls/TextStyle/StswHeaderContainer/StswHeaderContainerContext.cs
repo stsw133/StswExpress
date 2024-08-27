@@ -13,11 +13,38 @@ public class StswHeaderContainerContext : ControlsContext
     {
         base.SetDefaults();
 
+        HeaderFontWeight = (FontWeight?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HeaderFontWeight)))?.Value ?? default;
+        HeaderOrientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HeaderOrientation)))?.Value ?? default;
+        HeaderWidth = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HeaderWidth)))?.Value ?? double.NaN;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
+
+    /// HeaderFontWeight
+    public FontWeight HeaderFontWeight
+    {
+        get => _headerFontWeight;
+        set => SetProperty(ref _headerFontWeight, value);
+    }
+    private FontWeight _headerFontWeight;
+
+    /// HeaderOrientation
+    public Orientation HeaderOrientation
+    {
+        get => _headerOrientation;
+        set => SetProperty(ref _headerOrientation, value);
+    }
+    private Orientation _headerOrientation;
+
+    /// HeaderWidth
+    public double HeaderWidth
+    {
+        get => _headerWidth;
+        set => SetProperty(ref _headerWidth, value);
+    }
+    private double _headerWidth;
 
     /// IconScale
     public GridLength IconScale

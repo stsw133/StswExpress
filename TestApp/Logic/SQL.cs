@@ -51,12 +51,12 @@ internal static class SQL
         order by a.Name", parameters);
 
     /// SetContractors
-    internal static void SetContractors(StswBindingList<ContractorModel> list) => DbCurrent.Set(
-        "dbo.StswExpressTEST_Contractors", null, typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
+    internal static void SetContractors(StswBindingList<ContractorModel> list) => DbCurrent.Set(list,
+        "dbo.StswExpressTEST_Contractors", typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
             nameof(ContractorModel.ID),
             nameof(ContractorModel.IconSource),
             nameof(ContractorModel.Address)
-        ]), list);
+        ]));
 
     /// DeleteContractor
     internal static void DeleteContractor(int id) => DbCurrent.ExecuteNonQuery(@"

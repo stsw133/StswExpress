@@ -11,7 +11,6 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="HeaderFontWeight" Value="Bold"/>
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsContentVisible" Value="True"/>
@@ -21,43 +20,41 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswHeaderContainer}">
-                    <se:StswBorder x:Name="PART_MainBorder"
-                                   Background="{TemplateBinding Background}"
-                                   BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}">
-                        <DockPanel Margin="{TemplateBinding Padding}">
-                            <!-- header -->
-                            <se:StswHeader x:Name="PART_Header"
-                                           Content="{TemplateBinding Header}"
-                                           ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                           Focusable="False"
-                                           FontWeight="{TemplateBinding HeaderFontWeight}"
-                                           IconData="{TemplateBinding IconData}"
-                                           IconFill="{TemplateBinding IconFill}"
-                                           IconScale="{TemplateBinding IconScale}"
-                                           IconSource="{TemplateBinding IconSource}"
-                                           IconStroke="{TemplateBinding IconStroke}"
-                                           IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                           IsBusy="{TemplateBinding IsBusy}"
-                                           IsContentVisible="{TemplateBinding IsContentVisible}"
-                                           Padding="0"
-                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <!-- content -->
-                            <ContentPresenter x:Name="PART_Content" Focusable="False"/>
-                        </DockPanel>
-                    </se:StswBorder>
+                    <DockPanel>
+                        <!-- header -->
+                        <se:StswHeader x:Name="PART_Header"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       Content="{TemplateBinding Header}"
+                                       ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                       ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                       ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                       CornerClipping="{TemplateBinding CornerClipping}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       Focusable="False"
+                                       IconData="{TemplateBinding IconData}"
+                                       IconFill="{TemplateBinding IconFill}"
+                                       IconScale="{TemplateBinding IconScale}"
+                                       IconSource="{TemplateBinding IconSource}"
+                                       IconStroke="{TemplateBinding IconStroke}"
+                                       IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                       IsBusy="{TemplateBinding IsBusy}"
+                                       IsContentVisible="{TemplateBinding IsContentVisible}"
+                                       Padding="{TemplateBinding Padding}"
+                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Width="{TemplateBinding HeaderWidth}"/>
+                        <!-- content -->
+                        <ContentPresenter x:Name="PART_Content" Focusable="False"/>
+                    </DockPanel>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">

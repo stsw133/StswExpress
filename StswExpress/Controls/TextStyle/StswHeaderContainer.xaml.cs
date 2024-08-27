@@ -1,12 +1,10 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control functioning as label.
+/// Represents a control that functions as a header container.
 /// </summary>
-[Obsolete("Experimental control!")]
 public class StswHeaderContainer : StswHeader, IStswCornerControl
 {
     static StswHeaderContainer()
@@ -16,7 +14,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the header of the control.
+    /// Gets or sets the content of the header.
     /// </summary>
     public object? Header
     {
@@ -31,7 +29,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the string format for the header content.
     /// </summary>
     public string? HeaderStringFormat
     {
@@ -46,7 +44,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the data template for the header content.
     /// </summary>
     public DataTemplate HeaderTemplate
     {
@@ -61,7 +59,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the data template selector for the header content.
     /// </summary>
     public DataTemplateSelector HeaderTemplateSelector
     {
@@ -78,18 +76,201 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the header.
     /// </summary>
-    public FontWeight HeaderFontWeight
-    {
-        get => (FontWeight)GetValue(HeaderFontWeightProperty);
-        set => SetValue(HeaderFontWeightProperty, value);
-    }
-    public static readonly DependencyProperty HeaderFontWeightProperty
-        = DependencyProperty.Register(
-            nameof(HeaderFontWeight),
-            typeof(FontWeight),
-            typeof(StswHeaderContainer)
+    public static readonly DependencyProperty HeaderAlignmentProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(HeaderAlignmentProperty)[..^8],
+            typeof(HorizontalAlignment?),
+            typeof(StswHeaderContainer),
+            new PropertyMetadata(default, OnHeaderAlignmentChanged)
         );
+    public static void SetHeaderAlignment(DependencyObject obj, HorizontalAlignment value) => obj.SetValue(HeaderAlignmentProperty, value);
+    private static void OnHeaderAlignmentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement element && e.NewValue is HorizontalAlignment alignment)
+        {
+            void Update()
+            {
+                if (element is StswHeaderContainer)
+                {
+                    element.ApplyTemplate();
+                    if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
+                        header.HorizontalContentAlignment = alignment;
+                }
+                else
+                {
+                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    {
+                        container.ApplyTemplate();
+                        if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)
+                            header.HorizontalContentAlignment = alignment;
+                    }
+                }
+            }
+
+            if (element.IsLoaded)
+            {
+                Update();
+            }
+            else
+            {
+                void loadedHandler(object s, RoutedEventArgs args)
+                {
+                    Update();
+                    element.Loaded -= loadedHandler;
+                }
+                element.Loaded += loadedHandler;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the font weight of the header.
+    /// </summary>
+    public static readonly DependencyProperty HeaderFontWeightProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(HeaderFontWeightProperty)[..^8],
+            typeof(FontWeight?),
+            typeof(StswHeaderContainer),
+            new PropertyMetadata(default, OnHeaderFontWeightChanged)
+        );
+    public static void SetHeaderFontWeight(DependencyObject obj, FontWeight value) => obj.SetValue(HeaderFontWeightProperty, value);
+    private static void OnHeaderFontWeightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement element && e.NewValue is FontWeight weight)
+        {
+            void Update()
+            {
+                if (element is StswHeaderContainer)
+                {
+                    element.ApplyTemplate();
+                    if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
+                        header.FontWeight = weight;
+                }
+                else
+                {
+                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    {
+                        container.ApplyTemplate();
+                        if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)
+                            header.FontWeight = weight;
+                    }
+                }
+            }
+
+            if (element.IsLoaded)
+            {
+                Update();
+            }
+            else
+            {
+                void loadedHandler(object s, RoutedEventArgs args)
+                {
+                    Update();
+                    element.Loaded -= loadedHandler;
+                }
+                element.Loaded += loadedHandler;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the orientation of the header.
+    /// </summary>
+    public static readonly DependencyProperty HeaderOrientationProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(HeaderOrientationProperty)[..^8],
+            typeof(Orientation?),
+            typeof(StswHeaderContainer),
+            new PropertyMetadata(default, OnHeaderOrientationChanged)
+        );
+    public static void SetHeaderOrientation(DependencyObject obj, Orientation value) => obj.SetValue(HeaderOrientationProperty, value);
+    private static void OnHeaderOrientationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement element && e.NewValue is Orientation orientation)
+        {
+            void Update()
+            {
+                if (element is StswHeaderContainer container)
+                {
+                    element.ApplyTemplate();
+                    container.Orientation = orientation;
+                }
+                else
+                {
+                    foreach (var headerContainer in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    {
+                        headerContainer.ApplyTemplate();
+                        headerContainer.Orientation = orientation;
+                    }
+                }
+            }
+
+            if (element.IsLoaded)
+            {
+                Update();
+            }
+            else
+            {
+                void loadedHandler(object s, RoutedEventArgs args)
+                {
+                    Update();
+                    element.Loaded -= loadedHandler;
+                }
+                element.Loaded += loadedHandler;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the width of the header.
+    /// </summary>
+    public static readonly DependencyProperty HeaderWidthProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(HeaderWidthProperty)[..^8],
+            typeof(double?),
+            typeof(StswHeaderContainer),
+            new PropertyMetadata(default, OnHeaderWidthChanged)
+        );
+    public static void SetHeaderWidth(DependencyObject obj, double value) => obj.SetValue(HeaderWidthProperty, value);
+    private static void OnHeaderWidthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement element && e.NewValue is double width)
+        {
+            void Update()
+            {
+                if (element is StswHeaderContainer)
+                {
+                    element.ApplyTemplate();
+                    if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
+                        header.Width = width;
+                }
+                else
+                {
+                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    {
+                        container.ApplyTemplate();
+                        if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)
+                            header.Width = width;
+                    }
+                }
+            }
+
+            if (element.IsLoaded)
+            {
+                Update();
+            }
+            else
+            {
+                void loadedHandler(object s, RoutedEventArgs args)
+                {
+                    Update();
+                    element.Loaded -= loadedHandler;
+                }
+                element.Loaded += loadedHandler;
+            }
+        }
+    }
     #endregion
 }
