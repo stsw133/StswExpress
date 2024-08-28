@@ -27,23 +27,23 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswDropButton.Header>
-                <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
+                <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswDropButton.Header>
 
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">
-                <se:StswHeader Content="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
+                <se:StswLabel Content="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
             </se:StswButton>
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="2" CornerRadius="0">
-                <se:StswHeader Content="Option 2" IconData="{x:Static se:StswIcons.Dice2}"/>
+                <se:StswLabel Content="Option 2" IconData="{x:Static se:StswIcons.Dice2}"/>
             </se:StswButton>
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="3" CornerRadius="0">
-                <se:StswHeader Content="Option 3" IconData="{x:Static se:StswIcons.Dice3}"/>
+                <se:StswLabel Content="Option 3" IconData="{x:Static se:StswIcons.Dice3}"/>
             </se:StswButton>
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="4" CornerRadius="0">
-                <se:StswHeader Content="Option 4" IconData="{x:Static se:StswIcons.Dice4}"/>
+                <se:StswLabel Content="Option 4" IconData="{x:Static se:StswIcons.Dice4}"/>
             </se:StswButton>
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="5" CornerRadius="0">
-                <se:StswHeader Content="Option 5" IconData="{x:Static se:StswIcons.Dice5}"/>
+                <se:StswLabel Content="Option 5" IconData="{x:Static se:StswIcons.Dice5}"/>
             </se:StswButton>
             
             <se:StswDropButton.Resources>

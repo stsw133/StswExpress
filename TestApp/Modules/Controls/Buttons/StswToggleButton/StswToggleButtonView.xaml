@@ -21,7 +21,7 @@
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
+            <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
         </se:StswToggleButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

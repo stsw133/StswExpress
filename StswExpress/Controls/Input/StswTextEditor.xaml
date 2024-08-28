@@ -427,10 +427,10 @@
                                                     </se:StswDropButton.Header>
 
                                                     <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleBullets" Focusable="False" HorizontalContentAlignment="Left">
-                                                        <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
+                                                        <se:StswLabel Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
                                                     </se:StswButton>
                                                     <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleNumbering" Focusable="False" HorizontalContentAlignment="Left">
-                                                        <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
+                                                        <se:StswLabel Content="{se:Tr StswTextEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
                                                     </se:StswButton>
                                                 </se:StswDropButton>
                                                 

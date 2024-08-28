@@ -20,25 +20,25 @@
         <!-- content -->
         <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
+                <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{DynamicResource StswColor.Positive}"/>
+                <se:StswLabel Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{DynamicResource StswColor.Positive}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{DynamicResource StswColor.Negative}"/>
+                <se:StswLabel Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{DynamicResource StswColor.Negative}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{DynamicResource StswColor.Neutral}"/>
+                <se:StswLabel Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{DynamicResource StswColor.Neutral}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
+                <se:StswLabel Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
+                <se:StswLabel Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
             </se:StswButton>
             <se:StswButton Command="{Binding OnClickCommand}">
-                <se:StswHeader Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{DynamicResource StswColor.Designer}"/>
+                <se:StswLabel Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{DynamicResource StswColor.Designer}"/>
             </se:StswButton>
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswButton}">

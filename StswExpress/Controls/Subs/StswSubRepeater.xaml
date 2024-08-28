@@ -28,27 +28,28 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubRepeater}">
-                    <se:StswHeader x:Name="PART_MainBorder"
-                                   Background="{TemplateBinding Background}"
-                                   BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
-                                   Content="{TemplateBinding Content}"
-                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                   ContentTemplate="{TemplateBinding ContentTemplate}"
-                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                   CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   IconData="{TemplateBinding IconData}"
-                                   IconFill="{TemplateBinding IconFill}"
-                                   IconScale="{TemplateBinding IconScale}"
-                                   IconStroke="{TemplateBinding IconStroke}"
-                                   IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                   IsBusy="{TemplateBinding IsBusy}"
-                                   IsContentVisible="{TemplateBinding IsContentVisible}"
-                                   Orientation="{TemplateBinding Orientation}"
-                                   Padding="{TemplateBinding Padding}"
-                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    <se:StswLabel x:Name="PART_MainBorder"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                  CornerClipping="{TemplateBinding CornerClipping}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  IconData="{TemplateBinding IconData}"
+                                  IconFill="{TemplateBinding IconFill}"
+                                  IconScale="{TemplateBinding IconScale}"
+                                  IconStroke="{TemplateBinding IconStroke}"
+                                  IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                  IsBusy="{TemplateBinding IsBusy}"
+                                  IsContentVisible="{TemplateBinding IsContentVisible}"
+                                  Orientation="{TemplateBinding Orientation}"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Opacity" Value="0.6"/>

@@ -54,19 +54,19 @@
                                                  Template="{DynamicResource StswNavigationToggleButtonTemplate}">
                                 <DockPanel>
                                     <se:StswDropArrow x:Name="PART_Arrow" DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
-                                    <se:StswHeader x:Name="PART_Header"
-                                                   Content="{TemplateBinding Header}"
-                                                   ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                                   ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                                   IconData="{TemplateBinding IconData}"
-                                                   IconFill="{TemplateBinding IconFill}"
-                                                   IconScale="{TemplateBinding IconScale}"
-                                                   IconSource="{TemplateBinding IconSource}"
-                                                   IconStroke="{TemplateBinding IconStroke}"
-                                                   IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                                   IsBusy="{TemplateBinding IsBusy}"
-                                                   SnapsToDevicePixels="True"/>
+                                    <se:StswLabel x:Name="PART_Header"
+                                                  Content="{TemplateBinding Header}"
+                                                  ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                                  IconData="{TemplateBinding IconData}"
+                                                  IconFill="{TemplateBinding IconFill}"
+                                                  IconScale="{TemplateBinding IconScale}"
+                                                  IconSource="{TemplateBinding IconSource}"
+                                                  IconStroke="{TemplateBinding IconStroke}"
+                                                  IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                                  IsBusy="{TemplateBinding IsBusy}"
+                                                  SnapsToDevicePixels="True"/>
                                 </DockPanel>
                             </se:StswToggleButton>
                             <!-- separator -->

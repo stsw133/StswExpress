@@ -186,7 +186,7 @@
     <Compile Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubHeader\StswSubHeaderView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubLabel\StswSubLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml.cs">
@@ -208,6 +208,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml.cs">
@@ -435,7 +438,7 @@
     <Page Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubHeader\StswSubHeaderView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubLabel\StswSubLabelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml">
@@ -457,6 +460,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml">

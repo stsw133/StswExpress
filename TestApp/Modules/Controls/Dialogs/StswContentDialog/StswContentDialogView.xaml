@@ -27,7 +27,7 @@
                 </se:StswGroupBox.Header>
                 <DockPanel>
                     <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center" Margin="5">
-                        <se:StswHeader Content="Close " IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
+                        <se:StswLabel Content="Close " IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
                     </se:StswButton>
                     <se:StswText Margin="3" TextWrapping="Wrap">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>

@@ -251,8 +251,8 @@
             <DataTemplate DataType="{x:Type local:StswSubDropContext}">
                 <local:StswSubDropView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswSubHeaderContext}">
-                <local:StswSubHeaderView/>
+            <DataTemplate DataType="{x:Type local:StswSubLabelContext}">
+                <local:StswSubLabelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSubRadioContext}">
                 <local:StswSubRadioView/>
@@ -271,11 +271,14 @@
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswHeaderContainerContext}">
-                <local:StswHeaderContainerView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswIconContext}">
                 <local:StswIconView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelContext}">
+                <local:StswLabelView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelContainerContext}">
+                <local:StswLabelContainerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>

@@ -49,7 +49,7 @@
                                         </Style>
                                     </Rectangle.Style>
                                 </Rectangle>
-                                <se:StswHeader Content="{se:Tr StswColorSelector.Auto}"/>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"/>
                             </DockPanel>
                         </se:StswButton>
                         <!-- theme colors -->

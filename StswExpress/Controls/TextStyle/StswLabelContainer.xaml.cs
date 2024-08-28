@@ -3,13 +3,13 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a header container.
+/// Represents a control that functions as a label container.
 /// </summary>
-public class StswHeaderContainer : StswHeader, IStswCornerControl
+public class StswLabelContainer : StswLabel, IStswCornerControl
 {
-    static StswHeaderContainer()
+    static StswLabelContainer()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeaderContainer), new FrameworkPropertyMetadata(typeof(StswHeaderContainer)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLabelContainer), new FrameworkPropertyMetadata(typeof(StswLabelContainer)));
     }
 
     #region Logic properties
@@ -25,7 +25,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
-            typeof(StswHeaderContainer)
+            typeof(StswLabelContainer)
         );
 
     /// <summary>
@@ -40,7 +40,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HeaderStringFormat),
             typeof(string),
-            typeof(StswHeaderContainer)
+            typeof(StswLabelContainer)
         );
 
     /// <summary>
@@ -55,7 +55,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HeaderTemplate),
             typeof(DataTemplate),
-            typeof(StswHeaderContainer)
+            typeof(StswLabelContainer)
         );
 
     /// <summary>
@@ -70,7 +70,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HeaderTemplateSelector),
             typeof(DataTemplateSelector),
-            typeof(StswHeaderContainer)
+            typeof(StswLabelContainer)
         );
     #endregion
 
@@ -82,7 +82,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.RegisterAttached(
             nameof(HeaderAlignmentProperty)[..^8],
             typeof(HorizontalAlignment?),
-            typeof(StswHeaderContainer),
+            typeof(StswLabelContainer),
             new PropertyMetadata(default, OnHeaderAlignmentChanged)
         );
     public static void SetHeaderAlignment(DependencyObject obj, HorizontalAlignment value) => obj.SetValue(HeaderAlignmentProperty, value);
@@ -92,7 +92,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         {
             void Update()
             {
-                if (element is StswHeaderContainer)
+                if (element is StswLabelContainer)
                 {
                     element.ApplyTemplate();
                     if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
@@ -100,7 +100,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
                 }
                 else
                 {
-                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    foreach (var container in StswFn.FindVisualChildren<StswLabelContainer>(element))
                     {
                         container.ApplyTemplate();
                         if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)
@@ -132,7 +132,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.RegisterAttached(
             nameof(HeaderFontWeightProperty)[..^8],
             typeof(FontWeight?),
-            typeof(StswHeaderContainer),
+            typeof(StswLabelContainer),
             new PropertyMetadata(default, OnHeaderFontWeightChanged)
         );
     public static void SetHeaderFontWeight(DependencyObject obj, FontWeight value) => obj.SetValue(HeaderFontWeightProperty, value);
@@ -142,7 +142,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         {
             void Update()
             {
-                if (element is StswHeaderContainer)
+                if (element is StswLabelContainer)
                 {
                     element.ApplyTemplate();
                     if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
@@ -150,7 +150,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
                 }
                 else
                 {
-                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    foreach (var container in StswFn.FindVisualChildren<StswLabelContainer>(element))
                     {
                         container.ApplyTemplate();
                         if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)
@@ -182,7 +182,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.RegisterAttached(
             nameof(HeaderOrientationProperty)[..^8],
             typeof(Orientation?),
-            typeof(StswHeaderContainer),
+            typeof(StswLabelContainer),
             new PropertyMetadata(default, OnHeaderOrientationChanged)
         );
     public static void SetHeaderOrientation(DependencyObject obj, Orientation value) => obj.SetValue(HeaderOrientationProperty, value);
@@ -192,14 +192,14 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         {
             void Update()
             {
-                if (element is StswHeaderContainer container)
+                if (element is StswLabelContainer container)
                 {
                     element.ApplyTemplate();
                     container.Orientation = orientation;
                 }
                 else
                 {
-                    foreach (var headerContainer in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    foreach (var headerContainer in StswFn.FindVisualChildren<StswLabelContainer>(element))
                     {
                         headerContainer.ApplyTemplate();
                         headerContainer.Orientation = orientation;
@@ -230,7 +230,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         = DependencyProperty.RegisterAttached(
             nameof(HeaderWidthProperty)[..^8],
             typeof(double?),
-            typeof(StswHeaderContainer),
+            typeof(StswLabelContainer),
             new PropertyMetadata(default, OnHeaderWidthChanged)
         );
     public static void SetHeaderWidth(DependencyObject obj, double value) => obj.SetValue(HeaderWidthProperty, value);
@@ -240,7 +240,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
         {
             void Update()
             {
-                if (element is StswHeaderContainer)
+                if (element is StswLabelContainer)
                 {
                     element.ApplyTemplate();
                     if (StswFn.FindVisualChild<StswHeader>(element) is StswHeader header)
@@ -248,7 +248,7 @@ public class StswHeaderContainer : StswHeader, IStswCornerControl
                 }
                 else
                 {
-                    foreach (var container in StswFn.FindVisualChildren<StswHeaderContainer>(element))
+                    foreach (var container in StswFn.FindVisualChildren<StswLabelContainer>(element))
                     {
                         container.ApplyTemplate();
                         if (StswFn.FindVisualChild<StswHeader>(container) is StswHeader header)

@@ -105,7 +105,7 @@
                                                             Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                             Visibility="Collapsed">
                                                 <se:StswTextBox.SubControls>
-                                                    <se:StswSubHeader IconData="{x:Static se:StswIcons.Magnify}" Opacity="0.6"/>
+                                                    <se:StswSubLabel IconData="{x:Static se:StswIcons.Magnify}" Opacity="0.6"/>
                                                 </se:StswTextBox.SubControls>
                                             </se:StswTextBox>
                                             <se:StswSeparator x:Name="PART_FilterSeparator" DockPanel.Dock="Top"

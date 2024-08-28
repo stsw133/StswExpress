@@ -34,27 +34,27 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubSelector}">
                     <Grid>
-                        <se:StswHeader x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       Content="{TemplateBinding Content}"
-                                       ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                       ContentTemplate="{TemplateBinding ContentTemplate}"
-                                       ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                       CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       IconData="{TemplateBinding IconData}"
-                                       IconFill="{TemplateBinding IconFill}"
-                                       IconScale="{TemplateBinding IconScale}"
-                                       IconStroke="{TemplateBinding IconStroke}"
-                                       IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                       IsBusy="{TemplateBinding IsBusy}"
-                                       IsContentVisible="{TemplateBinding IsContentVisible}"
-                                       Orientation="{TemplateBinding Orientation}"
-                                       Padding="{TemplateBinding Padding}"
-                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <se:StswLabel x:Name="PART_MainBorder"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                      CornerClipping="{TemplateBinding CornerClipping}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      IconData="{TemplateBinding IconData}"
+                                      IconFill="{TemplateBinding IconFill}"
+                                      IconScale="{TemplateBinding IconScale}"
+                                      IconStroke="{TemplateBinding IconStroke}"
+                                      IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                      IsBusy="{TemplateBinding IsBusy}"
+                                      IsContentVisible="{TemplateBinding IsContentVisible}"
+                                      Orientation="{TemplateBinding Orientation}"
+                                      Padding="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <!-- popup -->
                         <se:StswPopup x:Name="PART_Popup"
                                       Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
@@ -73,6 +73,7 @@
                             <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
                         </se:StswPopup>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Opacity" Value="0.6"/>

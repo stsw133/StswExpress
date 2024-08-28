@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswSubRadio}">
+    <Style TargetType="{x:Type se:StswSubLabel}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswText.Static.Foreground}"/>
@@ -17,7 +17,7 @@
         <Setter Property="IsContentVisible" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -27,7 +27,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswSubRadio}">
+                <ControlTemplate TargetType="{x:Type se:StswSubLabel}">
                     <se:StswLabel x:Name="PART_MainBorder"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
@@ -51,35 +51,9 @@
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity" Value="0.6"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Opacity" Value="0.4"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="IconFill" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsChecked" Value="False"/>
-                            </MultiTrigger.Conditions>
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsChecked" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

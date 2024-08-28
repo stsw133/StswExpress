@@ -136,10 +136,10 @@
                                 <!--
                                 <se:StswTimedSwitch>
                                     <se:StswTimedSwitch.TimedContent> -->
-                                        <se:StswHeader Content="{Binding Source.LocalPath, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Bottom"/>
+                                        <se:StswLabel Content="{Binding Source.LocalPath, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      FontSize="10"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Bottom"/>
                                     <!-- </se:StswTimedSwitch.TimedContent>
                                 </se:StswTimedSwitch> -->
                             </Grid>

@@ -16,7 +16,7 @@
         <!-- content -->
         <se:StswGrid AutoLayoutMode="IncrementColumns" ColumnWidths="{se:StswMakeList '*,auto'}">
             <DockPanel Margin="5">
-                <se:StswHeader DockPanel.Dock="Top" Content="Bar menu:"/>
+                <se:StswLabel DockPanel.Dock="Top" Content="Bar menu:"/>
                 <se:StswMenu IsEnabled="{Binding IsEnabled}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
@@ -52,12 +52,12 @@
                 </se:StswMenu>
             </DockPanel>
             <DockPanel Margin="5">
-                <se:StswHeader DockPanel.Dock="Top" Content="Context menu:"/>
+                <se:StswLabel DockPanel.Dock="Top" Content="Context menu:"/>
                 <se:StswButton Command="{Binding OnClickCommand}"
                                CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                IsEnabled="{Binding IsEnabled}"
                                VerticalAlignment="Top">
-                    <se:StswHeader Content="Sample button with context menu" IconData="{x:Static se:StswIcons.Menu}"/>
+                    <se:StswLabel Content="Sample button with context menu" IconData="{x:Static se:StswIcons.Menu}"/>
                     <se:StswButton.ContextMenu>
                         <ContextMenu Style="{DynamicResource StswContextMenuStyle}">
                             <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>

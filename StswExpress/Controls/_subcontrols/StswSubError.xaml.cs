@@ -9,7 +9,7 @@ namespace StswExpress;
 /// Represents a sub control displaying error icon.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public class StswSubError : StswSubHeader
+public class StswSubError : StswSubLabel
 {
     static StswSubError()
     {

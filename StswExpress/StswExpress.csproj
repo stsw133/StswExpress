@@ -176,6 +176,10 @@
     <Page Update="Controls\StatusInfo\StswProgressRing.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\TextStyle\StswLabel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\TextStyle\StswText.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -254,10 +258,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Buttons\StswToggleButton.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\TextStyle\StswHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

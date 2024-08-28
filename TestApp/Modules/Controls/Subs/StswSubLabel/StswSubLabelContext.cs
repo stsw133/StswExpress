@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace TestApp;
 
-public class StswSubHeaderContext : ControlsContext
+public class StswSubLabelContext : ControlsContext
 {
     public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
     public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));

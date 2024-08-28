@@ -19,7 +19,7 @@
                          se:StswPopup.CornerRadius="0">
             <se:StswComboBox.ItemTemplate>
                 <DataTemplate>
-                    <se:StswHeader x:Name="PART_Header" Content="{Binding Version}"/>
+                    <se:StswLabel x:Name="PART_Header" Content="{Binding Version}"/>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Type}" Value="Major">
                             <Setter Property="FontWeight" Value="Bold" TargetName="PART_Header"/>
