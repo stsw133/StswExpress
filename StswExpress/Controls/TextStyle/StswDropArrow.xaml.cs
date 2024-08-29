@@ -1,13 +1,10 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows;
 
 namespace StswExpress;
 /// <summary>
 /// Represents a control displaying rotatable arrow icon.
 /// </summary>
-public class StswDropArrow : Control
+public class StswDropArrow : StswIcon
 {
     static StswDropArrow()
     {
@@ -29,107 +26,5 @@ public class StswDropArrow : Control
             typeof(bool?),
             typeof(StswDropArrow)
         );
-
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswDropArrow)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
-    public static readonly DependencyProperty FillProperty
-        = DependencyProperty.Register(
-            nameof(Fill),
-            typeof(Brush),
-            typeof(StswDropArrow)
-        );
-    #endregion
-
-    #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
-    /*
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Background { get; private set; }
-    */
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Foreground { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontFamily? FontFamily { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new double FontSize { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontStretch FontStretch { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontWeight FontWeight { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness Padding { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }

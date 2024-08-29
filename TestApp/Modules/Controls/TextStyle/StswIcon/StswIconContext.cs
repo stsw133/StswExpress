@@ -14,8 +14,8 @@ public class StswIconContext : ControlsContext
     public StswIconContext()
     {
         Task.Run(() => Icons = [.. typeof(StswIcons).GetProperties()
-                                                    .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
-                                                    .OrderBy(x => x.Display)]);
+                                 .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
+                                 .OrderBy(x => x.Display)]);
     }
 
     public override void SetDefaults()
@@ -34,12 +34,12 @@ public class StswIconContext : ControlsContext
     private Geometry? _data = StswIcons.Abacus;
 
     /// Icons
-    public List<StswComboItem> Icons
+    public IReadOnlyList<StswComboItem> Icons
     {
         get => _icons;
         set => SetProperty(ref _icons, value);
     }
-    private List<StswComboItem> _icons = [];
+    private IReadOnlyList<StswComboItem> _icons = [];
 
     /// Scale
     public GridLength Scale

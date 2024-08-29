@@ -13,6 +13,15 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- Icons -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Icons"/>
+            <se:StswComboBox IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedValue="{Binding Data}" TextSearch.TextPath="Display" VirtualizingPanel.ScrollUnit="Item">
+                <se:StswComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <se:StswLabel Content="{Binding Display}" IconData="{Binding Value}"/>
+                    </DataTemplate>
+                </se:StswComboBox.ItemTemplate>
+            </se:StswComboBox>
             <!-- IsExpanded -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpanded, Type={x:Type se:StswDropArrow}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsExpanded}"/>
@@ -26,7 +35,8 @@
             </se:StswTextBox>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswDropArrow IsEnabled="{Binding IsEnabled}"
+        <se:StswDropArrow Data="{Binding Data}"
+                          IsEnabled="{Binding IsEnabled}"
                           IsExpanded="{Binding IsExpanded}"
                           Margin="5"
                           Scale="{Binding Scale}"
