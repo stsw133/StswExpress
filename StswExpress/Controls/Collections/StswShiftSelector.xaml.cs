@@ -2,7 +2,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -12,17 +11,16 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows shifting through items using arrow buttons or keyboard input.
 /// </summary>
-[Obsolete(@$"This control will propably be deleted soon. {nameof(StswComboBox)} can do the same but better, and you can achieve similar functionality with a few buttons and text block.")]
-public class StswShiftButton : ComboBox, IStswCornerControl
+public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionControl
 {
-    public StswShiftButton()
+    public StswShiftSelector()
     {
-        DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(ComboBox)).AddValueChanged(this, CheckButtonAccessibility);
-        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(ComboBox)).AddValueChanged(this, CheckButtonAccessibility);
+        DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
+        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
     }
-    static StswShiftButton()
+    static StswShiftSelector()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswShiftButton), new FrameworkPropertyMetadata(typeof(StswShiftButton)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswShiftSelector), new FrameworkPropertyMetadata(typeof(StswShiftSelector)));
     }
 
     #region Events & methods
@@ -58,20 +56,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        if (newValue?.GetType()?.IsListType(out var innerType) == true)
-        {
-            //UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
-
-            /// StswComboItem short usage
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-            {
-                if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
-                    DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(SelectedValuePath))
-                    SelectedValuePath = nameof(StswComboItem.Value);
-            }
-        }
-
+        IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
@@ -82,8 +67,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
-        if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
-            DisplayMemberPath = string.Empty;
+        IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
@@ -108,9 +92,6 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         base.OnPreviewKeyDown(e);
-
-        if (IsEditable)
-            return;
 
         if (IsKeyboardFocusWithin && !IsReadOnly)
         {
@@ -167,11 +148,9 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         if (Items.Count == 0)
             SelectedIndex = -1;
         else if (IsLoopingEnabled || CanShiftBy(step))
-            SelectedIndex = (SelectedIndex + step % Items.Count + Items.Count) % Items.Count;
-        else if (step > 0)
-            SelectedIndex = Items.Count - 1;
+            SelectedIndex = (SelectedIndex + step + Items.Count) % Items.Count;
         else
-            SelectedIndex = 0;
+            SelectedIndex = step > 0 ? Items.Count - 1 : 0;
     }
 
     /// <summary>
@@ -202,18 +181,49 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsLoopingEnabled),
             typeof(bool),
-            typeof(StswShiftButton),
+            typeof(StswShiftSelector),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsLoopingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnIsLoopingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswShiftButton stsw)
+        if (obj is StswShiftSelector stsw)
         {
             stsw.CheckButtonAccessibility(null, EventArgs.Empty);
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswShiftSelector)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control uses selection items that implement
+    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// </summary>
+    public bool UsesSelectionItems
+    {
+        get => (bool)GetValue(UsesSelectionItemsProperty);
+        set => SetValue(UsesSelectionItemsProperty, value);
+    }
+    public static readonly DependencyProperty UsesSelectionItemsProperty
+        = DependencyProperty.Register(
+            nameof(UsesSelectionItems),
+            typeof(bool),
+            typeof(StswShiftSelector)
+        );
     #endregion
 
     #region Style properties
@@ -231,7 +241,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswShiftButton)
+            typeof(StswShiftSelector)
         );
 
     /// <summary>
@@ -248,22 +258,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswShiftButton)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between arrow button and content presenter.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswShiftButton)
+            typeof(StswShiftSelector)
         );
     #endregion
 }

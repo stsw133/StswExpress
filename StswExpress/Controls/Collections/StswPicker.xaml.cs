@@ -32,13 +32,13 @@ public class StswPicker : ListBox, IStswCornerControl
             return;
 
         var index = SelectedIndex > -1 ? SelectedIndex : 0;
-        ItemsVisible = new List<object>();
+        ItemsVisible = [];
         while (ItemsVisible.Count < (ItemsNumber / 2 * 2 + 1))
         {
-            if (ItemsSource != null && ItemsSource is IList source)
-                ItemsVisible.Add(source[StswFn.ShiftIndexBy(index, source.Count, ItemsVisible.Count - (ItemsNumber / 2), true)]);
+            if (ItemsSource is IList source and not null)
+                ItemsVisible.Add(source[index.ShiftBy(ItemsVisible.Count - (ItemsNumber / 2), source.Count)]!);
             else
-                ItemsVisible.Add(Items[StswFn.ShiftIndexBy(index, Items.Count, ItemsVisible.Count - ItemsNumber / 2, true)]);
+                ItemsVisible.Add(Items[index.ShiftBy(ItemsVisible.Count - ItemsNumber / 2, Items.Count)]);
         }
     }
 
@@ -59,10 +59,10 @@ public class StswPicker : ListBox, IStswCornerControl
         ItemsVisible = new List<object>();
         while (ItemsVisible.Count < (ItemsNumber / 2 * 2 + 1))
         {
-            if (ItemsSource != null && ItemsSource is IList source)
-                ItemsVisible.Add(source[StswFn.ShiftIndexBy(index, source.Count, ItemsVisible.Count - (ItemsNumber / 2), true)]);
+            if (ItemsSource is IList source and not null)
+                ItemsVisible.Add(source[index.ShiftBy(ItemsVisible.Count - (ItemsNumber / 2), source.Count)]!);
             else
-                ItemsVisible.Add(Items[StswFn.ShiftIndexBy(index, Items.Count, ItemsVisible.Count - ItemsNumber / 2, true)]);
+                ItemsVisible.Add(Items[index.ShiftBy(ItemsVisible.Count - ItemsNumber / 2, Items.Count)]);
         }
     }
     #endregion

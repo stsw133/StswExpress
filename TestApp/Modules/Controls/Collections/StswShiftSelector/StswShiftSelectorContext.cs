@@ -4,25 +4,16 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswShiftButtonContext : ControlsContext
+public class StswShiftSelectorContext : ControlsContext
 {
     public override void SetDefaults()
     {
         base.SetDefaults();
 
         SelectedItem = Items[new Random().Next(30)];
-        IsEditable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEditable)))?.Value ?? default;
         IsLoopingEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsLoopingEnabled)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    /// IsEditable
-    public bool IsEditable
-    {
-        get => _isEditable;
-        set => SetProperty(ref _isEditable, value);
-    }
-    private bool _isEditable;
 
     /// IsLoopingEnabled
     public bool IsLoopingEnabled

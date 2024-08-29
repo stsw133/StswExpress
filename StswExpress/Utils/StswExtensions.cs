@@ -778,35 +778,6 @@ public static partial class StswExtensions
             : parameters.Contains(value);
 
     /// <summary>
-    /// Compares two objects of the same type by checking if all their public properties are equal.
-    /// </summary>
-    /// <typeparam name="T">The type of the objects to compare.</typeparam>
-    /// <param name="objA">The first object to compare.</param>
-    /// <param name="objB">The second object to compare.</param>
-    /// <returns>
-    /// <see langword="true"/> if both objects are either null or have identical public property values;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
-    /// <remarks>
-    /// This method performs a shallow comparison of the public properties of both objects. 
-    /// It compares the string representations of property values using the <see cref="object.ToString"/> method.
-    /// The method skips indexer properties during the comparison.
-    /// </remarks>
-    public static bool IsEqualSimply<T>(this T objA, T objB)
-    {
-        if (objA == null && objB == null)
-            return true;
-        else if (objA == null || objB == null)
-            return false;
-
-        foreach (var item in objA.GetType().GetProperties())
-            if (item.GetValue(objA)?.ToString() != item.GetValue(objB)?.ToString())
-                return false;
-
-        return true;
-    }
-
-    /// <summary>
     /// Checks if a type is a list type and retrieves the inner type if it is.
     /// </summary>
     /// <param name="type">The type to check.</param>
@@ -867,7 +838,7 @@ public static partial class StswExtensions
             return !enumerable.GetEnumerator().MoveNext();
 
         if (typeof(T).IsClass)
-            return value.IsEqualSimply((T?)Activator.CreateInstance(typeof(T)));
+            return value.IsSimilarTo((T?)Activator.CreateInstance(typeof(T)));
 
         return EqualityComparer<T>.Default.Equals(value, default);
     }
@@ -904,6 +875,66 @@ public static partial class StswExtensions
             default:
                 return false;
         }
+    }
+
+    /// <summary>
+    /// Compares two objects of the same type by checking if all their public properties are equal.
+    /// </summary>
+    /// <typeparam name="T">The type of the objects to compare.</typeparam>
+    /// <param name="objA">The first object to compare.</param>
+    /// <param name="objB">The second object to compare.</param>
+    /// <returns>
+    /// <see langword="true"/> if both objects are either null or have identical public property values;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method performs a shallow comparison of the public properties of both objects. 
+    /// It compares the string representations of property values using the <see cref="object.ToString"/> method.
+    /// The method skips indexer properties during the comparison.
+    /// </remarks>
+    public static bool IsSimilarTo<T>(this T objA, T objB)
+    {
+        if (objA == null && objB == null)
+            return true;
+        else if (objA == null || objB == null)
+            return false;
+
+        foreach (var item in objA.GetType().GetProperties())
+            if (item.GetValue(objA)?.ToString() != item.GetValue(objB)?.ToString())
+                return false;
+
+        return true;
+    }
+    #endregion
+
+    #region Numeric extensions
+    /// <summary>
+    /// Shifts the value by the specified step, with optional looping and boundary conditions.
+    /// </summary>
+    /// <param name="value">The current value.</param>
+    /// <param name="step">The step value for shifting.</param>
+    /// <param name="max">The maximum possible value (exclusive upper bound).</param>
+    /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting past boundaries.</param>
+    /// <returns>The new shifted value, respecting looping and boundary conditions.</returns>
+    public static int ShiftBy(this int value, int step, int max, bool isLoopingAllowed = true)
+    {
+        if (max <= 0)
+            return -1;
+
+        int result = (value + step) % max;
+        if (result < 0)
+            result += max;
+
+        if (!isLoopingAllowed)
+        {
+            if (result >= max)
+                return max - 1;
+
+            if (result < 0)
+                return 0;
+        }
+
+        return result;
     }
     #endregion
 

@@ -507,34 +507,6 @@ public static class StswFn
     /// <param name="expression">The mathematical expression to evaluate.</param>
     /// <returns>The result of the evaluated expression as a double.</returns>
     public static double Compute(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
-
-    /// <summary>
-    /// Shifts the selected index by the specified step, considering looping and boundary conditions.
-    /// </summary>
-    /// <param name="currIndex">The current index.</param>
-    /// <param name="itemsCount">The total number of items.</param>
-    /// <param name="step">The step value for shifting through items.</param>
-    /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting.</param>
-    /// <returns>The new shifted index.</returns>
-    public static int ShiftIndexBy(int currIndex, int itemsCount, int step, bool isLoopingAllowed)
-    {
-        if (itemsCount <= 0)
-            return -1;
-
-        int newIndex = (currIndex + step) % itemsCount;
-        if (newIndex < 0) newIndex += itemsCount;
-
-        if (isLoopingAllowed)
-            return newIndex;
-
-        if (newIndex >= itemsCount)
-            return itemsCount - 1;
-
-        if (newIndex < 0)
-            return 0;
-
-        return newIndex;
-    }
     #endregion
 
     #region Serialization functions

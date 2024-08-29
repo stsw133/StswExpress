@@ -1,10 +1,10 @@
 # StswExpress
 WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-  - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
+  - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartColumns, StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswTimedSwitch, StswToggleSwitch
-  - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswTreeView
+  - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswShiftSelector, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
   - **DataGrids:** StswDataGrid, StswDataPager
   - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker
@@ -17,8 +17,8 @@ WPF .NET 6.0 library containing:
   - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswDirectionView, StswScrollBar, StswScrollView
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
-  - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubLabel, StswSubRadio, StswSubRepeater, StswSubSelector
-  - **TextStyle:** StswDropArrow, StswIcon, StswLabel, StswLabelContainer, StswOutlinedText, StswSpinner, StswText
+  - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubError, StswSubLabel, StswSubRadio, StswSubRepeater, StswSubSelector
+  - **TextStyle:** StswDropArrow, StswIcon, StswLabel, StswLabelPanel, StswOutlinedText, StswSpinner, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like relay commands, converters, exporting data, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)

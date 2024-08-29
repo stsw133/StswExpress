@@ -18,7 +18,7 @@ public class StswSubError : StswSubLabel
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
@@ -33,7 +33,7 @@ public class StswSubError : StswSubLabel
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
     /// </summary>
     public bool HasError
     {

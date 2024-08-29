@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.StswShiftButtonView"
+﻿<UserControl x:Class="TestApp.StswShiftSelectorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswShiftButtonContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswShiftSelectorContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -13,34 +13,30 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- IsEditable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsEditable, Type={x:Type se:StswShiftButton}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEditable}"/>
             <!-- IsLoopingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsLoopingEnabled, Type={x:Type se:StswShiftButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsLoopingEnabled, Type={x:Type se:StswShiftSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsLoopingEnabled}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswShiftButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswShiftSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswShiftButton IsEditable="{Binding IsEditable}"
-                            IsEnabled="{Binding IsEnabled}"
-                            IsLoopingEnabled="{Binding IsLoopingEnabled}"
-                            IsReadOnly="{Binding IsReadOnly}"
-                            ItemsSource="{Binding Items}"
-                            Margin="5"
-                            SelectedItem="{Binding SelectedItem}"
-                            HorizontalAlignment="{Binding HorizontalAlignment}"
-                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                            VerticalAlignment="{Binding VerticalAlignment}"
-                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswShiftButton.ItemTemplate>
+        <se:StswShiftSelector IsEnabled="{Binding IsEnabled}"
+                              IsLoopingEnabled="{Binding IsLoopingEnabled}"
+                              IsReadOnly="{Binding IsReadOnly}"
+                              ItemsSource="{Binding Items}"
+                              Margin="5"
+                              SelectedItem="{Binding SelectedItem}"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswShiftSelector.ItemTemplate>
                 <ItemContainerTemplate>
                     <se:StswLabel Content="{Binding}" IconData="{x:Static se:StswIcons.Cake}"/>
                 </ItemContainerTemplate>
-            </se:StswShiftButton.ItemTemplate>
-        </se:StswShiftButton>
+            </se:StswShiftSelector.ItemTemplate>
+        </se:StswShiftSelector>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">

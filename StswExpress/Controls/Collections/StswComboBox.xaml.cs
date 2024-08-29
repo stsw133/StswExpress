@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl
+public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     public StswComboBox()
     {
@@ -101,21 +101,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        if (newValue?.GetType()?.IsListType(out var innerType) == true)
-        {
-            //UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
+        IStswSelectionControl.ItemsSourceChanged(this, newValue);
 
-            /// StswComboItem short usage
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-            {
-                if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
-                    DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(SelectedValuePath))
-                    SelectedValuePath = nameof(StswComboItem.Value);
-            }
-        }
-
-        /// ICollectionView filtering
         if (IsFilterEnabled && newValue != null && newValue is not ICollectionView)
             throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
 
@@ -134,8 +121,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
-        if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
-            DisplayMemberPath = string.Empty;
+        IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
@@ -292,6 +278,22 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control uses selection items that implement
+    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// </summary>
+    public bool UsesSelectionItems
+    {
+        get => (bool)GetValue(UsesSelectionItemsProperty);
+        set => SetValue(UsesSelectionItemsProperty, value);
+    }
+    public static readonly DependencyProperty UsesSelectionItemsProperty
+        = DependencyProperty.Register(
+            nameof(UsesSelectionItems),
+            typeof(bool),
             typeof(StswComboBox)
         );
     #endregion

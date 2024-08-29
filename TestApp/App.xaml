@@ -42,9 +42,6 @@
             <DataTemplate DataType="{x:Type local:StswRadioButtonContext}">
                 <local:StswRadioButtonView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswShiftButtonContext}">
-                <local:StswShiftButtonView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSplitButtonContext}">
                 <local:StswSplitButtonView/>
             </DataTemplate>
@@ -95,6 +92,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswShiftSelectorContext}">
+                <local:StswShiftSelectorView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTreeViewContext}">
                 <local:StswTreeViewView/>
@@ -184,6 +184,9 @@
             <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
                 <local:StswGroupBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelPanelContext}">
+                <local:StswLabelPanelView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
             </DataTemplate>
@@ -251,6 +254,9 @@
             <DataTemplate DataType="{x:Type local:StswSubDropContext}">
                 <local:StswSubDropView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubErrorContext}">
+                <local:StswSubErrorView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSubLabelContext}">
                 <local:StswSubLabelView/>
             </DataTemplate>
@@ -276,9 +282,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLabelContext}">
                 <local:StswLabelView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLabelContainerContext}">
-                <local:StswLabelContainerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>

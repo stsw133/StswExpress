@@ -147,7 +147,7 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Buttons\StswShiftButton\StswShiftButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\Collections\StswShiftSelector\StswShiftSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml.cs">
@@ -178,6 +178,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Subs\StswSubError\StswSubErrorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml.cs">
@@ -399,7 +402,7 @@
     <Page Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Buttons\StswShiftButton\StswShiftButtonView.xaml">
+    <Page Update="Modules\Controls\Collections\StswShiftSelector\StswShiftSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml">
@@ -430,6 +433,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Subs\StswSubError\StswSubErrorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml">

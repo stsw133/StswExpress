@@ -17,6 +17,7 @@
         -->
         <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircleOutline}"/>
         <Setter Property="IconFill" Value="{DynamicResource StswBox.Error.Border}"/>
+        <Setter Property="IconScale" Value="1.5"/>
         
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -31,12 +32,22 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubError}">
                     <se:StswSubLabel x:Name="PART_Error"
-                                      IconData="{TemplateBinding IconData}"
-                                      IconFill="{TemplateBinding IconFill}"
-                                      Padding="{TemplateBinding Padding}"
-                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Visibility="Collapsed">
+                                     Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerClipping="{TemplateBinding CornerClipping}"
+                                     CornerRadius="{TemplateBinding CornerRadius}"
+                                     IconData="{TemplateBinding IconData}"
+                                     IconFill="{TemplateBinding IconFill}"
+                                     IconScale="{TemplateBinding IconScale}"
+                                     IconStroke="{TemplateBinding IconStroke}"
+                                     IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                     IsBusy="{TemplateBinding IsBusy}"
+                                     IsContentVisible="{TemplateBinding IsContentVisible}"
+                                     Orientation="{TemplateBinding Orientation}"
+                                     Padding="{TemplateBinding Padding}"
+                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswSubLabel.ToolTip>
                             <se:StswToolTip>
                                 <ItemsControl IsTabStop="False" ItemsSource="{Binding Errors, RelativeSource={RelativeSource TemplatedParent}}">
@@ -49,9 +60,10 @@
                             </se:StswToolTip>
                         </se:StswSubLabel.ToolTip>
                     </se:StswSubLabel>
+                    
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasError" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Error"/>
+                        <Trigger Property="HasError" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Error"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

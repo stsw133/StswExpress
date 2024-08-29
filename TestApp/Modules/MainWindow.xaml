@@ -21,6 +21,7 @@
                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" HorizontalAlignment="Left" IsHitTestVisible="False" Margin="5"/>
             </Grid>
         </se:StswNavigation.Components>
+        
         <se:StswNavigationElement/>
         <se:StswNavigationElement Header="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
         <se:StswNavigationElement/>
@@ -31,7 +32,6 @@
                 <se:StswNavigationElement Header="StswHyperlinkButton" ContextNamespace="TestApp.StswHyperlinkButtonContext"/>
                 <se:StswNavigationElement Header="StswRadioButton" ContextNamespace="TestApp.StswRadioButtonContext"/>
                 <se:StswNavigationElement Header="StswRepeatButton" ContextNamespace="TestApp.StswRepeatButtonContext"/>
-                <se:StswNavigationElement Header="StswShiftButton" ContextNamespace="TestApp.StswShiftButtonContext"/>
                 <se:StswNavigationElement Header="StswSplitButton" ContextNamespace="TestApp.StswSplitButtonContext"/>
                 <se:StswNavigationElement Header="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
             </se:StswNavigationElement>
@@ -53,6 +53,7 @@
                 <se:StswNavigationElement Header="StswPicker" ContextNamespace="TestApp.StswPickerContext"/>
                 <se:StswNavigationElement Header="StswSegment" ContextNamespace="TestApp.StswSegmentContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
+                <se:StswNavigationElement Header="StswShiftSelector" ContextNamespace="TestApp.StswShiftSelectorContext"/>
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Color" IconData="{x:Static se:StswIcons.PaletteOutline}">
@@ -93,6 +94,7 @@
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Header="StswGrid" ContextNamespace="TestApp.StswGridContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
+                <se:StswNavigationElement Header="StswLabelPanel" ContextNamespace="TestApp.StswLabelPanelContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
                 <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
@@ -130,6 +132,7 @@
                 <se:StswNavigationElement Header="StswSubButton" ContextNamespace="TestApp.StswSubButtonContext"/>
                 <se:StswNavigationElement Header="StswSubCheck" ContextNamespace="TestApp.StswSubCheckContext"/>
                 <se:StswNavigationElement Header="StswSubDrop" ContextNamespace="TestApp.StswSubDropContext"/>
+                <se:StswNavigationElement Header="StswSubError" ContextNamespace="TestApp.StswSubErrorContext"/>
                 <se:StswNavigationElement Header="StswSubLabel" ContextNamespace="TestApp.StswSubLabelContext"/>
                 <se:StswNavigationElement Header="StswSubRadio" ContextNamespace="TestApp.StswSubRadioContext"/>
                 <se:StswNavigationElement Header="StswSubRepeater" ContextNamespace="TestApp.StswSubRepeaterContext"/>
@@ -140,7 +143,6 @@
                 <se:StswNavigationElement Header="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
                 <se:StswNavigationElement Header="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
-                <se:StswNavigationElement Header="StswLabelContainer" ContextNamespace="TestApp.StswLabelContainerContext"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
                 <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
                 <se:StswNavigationElement Header="StswText" ContextNamespace="TestApp.StswTextContext"/>

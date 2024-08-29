@@ -86,7 +86,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     public bool WasClicked
     {
         get => (bool)GetValue(WasClickedProperty);
-        internal set => SetValue(WasClickedProperty, value);
+        set => SetValue(WasClickedProperty, value);
     }
     public static readonly DependencyProperty WasClickedProperty
         = DependencyProperty.Register(
