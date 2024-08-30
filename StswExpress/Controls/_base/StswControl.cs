@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -9,6 +12,49 @@ namespace StswExpress;
 /// </summary>
 public static class StswControl
 {
+    /// <summary>
+    /// Identifies the EnableRippleEffect attached property.
+    /// When set to <see langword="true"/>, it enables a ripple effect that is triggered upon a mouse click within the control.
+    /// The ripple effect is visualized as a circular animation starting from the point of click and expanding outward.
+    /// </summary>
+    public static readonly DependencyProperty EnableRippleEffectProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(EnableRippleEffectProperty)[..^8],
+            typeof(bool),
+            typeof(StswButton),
+            new PropertyMetadata(default(bool), OnEnableRippleEffectChanged)
+        );
+    public static bool GetEnableRippleEffect(UIElement element) => (bool)element.GetValue(EnableRippleEffectProperty);
+    public static void SetEnableRippleEffect(UIElement element, bool value) => element.SetValue(EnableRippleEffectProperty, value);
+    private static void OnEnableRippleEffectChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Control button)
+        {
+            if ((bool)e.NewValue)
+                button.PreviewMouseDown += Button_PreviewMouseDown;
+            else
+                button.PreviewMouseDown -= Button_PreviewMouseDown;
+        }
+    }
+    private static void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is Control button)
+        {
+            var point = e.GetPosition(button);
+            var size = Math.Max(button.ActualWidth, button.ActualHeight);
+
+            if (button.Template.FindName("PART_MainBorder", button) is Border border)
+            {
+                var adornerLayer = AdornerLayer.GetAdornerLayer(button);
+                if (adornerLayer != null)
+                {
+                    var rippleAdorner = new RippleAdorner(button, point, size, border);
+                    adornerLayer.Add(rippleAdorner);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Identifies the IsArrowless attached property.
     /// When set to <see langword="true"/>, it hides the drop-down arrow by setting its visibility to <see cref="Visibility.Collapsed"/>.
