@@ -69,6 +69,7 @@
                 <se:StswNavigationElement Header="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>
                 <se:StswNavigationElement Header="StswDatePicker" ContextNamespace="TestApp.StswDatePickerContext"/>
                 <se:StswNavigationElement Header="StswTimePicker" ContextNamespace="TestApp.StswTimePickerContext"/>
+                <se:StswNavigationElement Header="StswTimerControl" ContextNamespace="TestApp.StswTimerControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Dialogs" IconData="{x:Static se:StswIcons.MessageTextOutline}">
                 <se:StswNavigationElement Header="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>

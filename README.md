@@ -7,7 +7,7 @@ WPF .NET 6.0 library containing:
   - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswShiftSelector, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
   - **DataGrids:** StswDataGrid, StswDataPager
-  - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker
+  - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker, StswTimerControl
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **File:** StswFilePicker
   - **Filters:** StswFilterBox

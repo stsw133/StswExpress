@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="TestApp.StswTimerControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswTimerControlContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a customizable timer control that can count up or down,
+            display the elapsed time in various formats, and provides properties for controlling the 
+            start time, end time, and running state of the timer.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- EndTime -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf EndTime, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswTimePicker Margin="0 0 0 3" SelectedTime="{Binding EndTime}"/>
+            <!-- Format -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
+            <!-- IsCountingDown -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCountingDown, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsCountingDown}"/>
+            <!-- StartStopReset -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartStopReset, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding StartStopReset}" IsThreeState="True"/>
+            <!-- StartTime -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartTime, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswTimePicker Margin="0 0 0 3" SelectedTime="{Binding StartTime}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswTimerControl EndTime="{Binding EndTime}"
+                             Format="{Binding Format}"
+                             IsCountingDown="{Binding IsCountingDown}"
+                             IsEnabled="{Binding IsEnabled}"
+                             Margin="5"
+                             StartStopReset="{Binding StartStopReset}"
+                             StartTime="{Binding StartTime}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

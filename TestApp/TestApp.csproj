@@ -171,6 +171,9 @@
     <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\DateTime\StswTimerControl\StswTimerControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -424,6 +427,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\DateTime\StswTimerControl\StswTimerControlView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml">
