@@ -21,19 +21,19 @@ public static class StswControl
         = DependencyProperty.RegisterAttached(
             nameof(EnableRippleEffectProperty)[..^8],
             typeof(bool),
-            typeof(StswButton),
-            new PropertyMetadata(default(bool), OnEnableRippleEffectChanged)
+            typeof(StswControl),
+            new PropertyMetadata(false, OnEnableRippleEffectChanged)
         );
-    public static bool GetEnableRippleEffect(UIElement element) => (bool)element.GetValue(EnableRippleEffectProperty);
-    public static void SetEnableRippleEffect(UIElement element, bool value) => element.SetValue(EnableRippleEffectProperty, value);
+    public static bool GetEnableRippleEffect(DependencyObject obj) => (bool)obj.GetValue(EnableRippleEffectProperty);
+    public static void SetEnableRippleEffect(DependencyObject obj, bool value) => obj.SetValue(EnableRippleEffectProperty, value);
     private static void OnEnableRippleEffectChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Control button)
+        if (obj is Control stsw)
         {
             if ((bool)e.NewValue)
-                button.PreviewMouseDown += Button_PreviewMouseDown;
+                stsw.PreviewMouseDown += Button_PreviewMouseDown;
             else
-                button.PreviewMouseDown -= Button_PreviewMouseDown;
+                stsw.PreviewMouseDown -= Button_PreviewMouseDown;
         }
     }
     private static void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
