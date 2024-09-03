@@ -4,7 +4,6 @@
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswChartTip.xaml"/>
 
-        <ResourceDictionary Source="Buttons/RgsButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswHyperlinkButton.xaml"/>

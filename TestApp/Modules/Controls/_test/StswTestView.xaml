@@ -12,9 +12,11 @@
             Some control description...
         </local:ControlsBase.Description>
         <!-- properties -->
+        <!--
         <local:ControlsBase.Properties>
-            
+
         </local:ControlsBase.Properties>
+        -->
         <!-- content -->
         <!-- *** here declare a control *** -->
         
