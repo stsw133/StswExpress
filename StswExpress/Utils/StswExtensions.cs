@@ -546,11 +546,11 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method is useful when you want to display user-friendly descriptions of enum values in the UI or logs.
     /// </remarks>
-    public static string GetDescription(this Enum value)
+    public static string GetDescription(this Enum enumVal)
     {
-        var field = value.GetType().GetField(value.ToString());
+        var field = enumVal.GetType().GetField(enumVal.ToString());
         var attribute = field?.GetCustomAttribute<DescriptionAttribute>();
-        return attribute?.Description ?? value.ToString();
+        return attribute?.Description ?? enumVal.ToString();
     }
 
     /// <summary>
@@ -651,15 +651,6 @@ public static partial class StswExtensions
             modifier(item);
         return list;
     }
-
-    /// <summary>
-    /// Removes all occurrences of the specified elements from an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    /// <param name="collection">The collection to remove elements from.</param>
-    /// <param name="itemsToRemove">The collection containing the elements to remove.</param>
-    /// <returns>A new collection with the specified elements removed.</returns>
-    public static IEnumerable<T> Remove<T>(this IEnumerable<T> collection, IEnumerable<T> itemsToRemove) => collection.Where(item => !new HashSet<T>(itemsToRemove).Contains(item));
 
     /// <summary>
     /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
@@ -858,23 +849,21 @@ public static partial class StswExtensions
         if (type == typeof(nint) || type == typeof(nuint))
             return true;
 
-        switch (Type.GetTypeCode(type))
+        return Type.GetTypeCode(type) switch
         {
-            case TypeCode.Byte:
-            case TypeCode.SByte:
-            case TypeCode.UInt16:
-            case TypeCode.UInt32:
-            case TypeCode.UInt64:
-            case TypeCode.Int16:
-            case TypeCode.Int32:
-            case TypeCode.Int64:
-            case TypeCode.Decimal:
-            case TypeCode.Double:
-            case TypeCode.Single:
-                return true;
-            default:
-                return false;
-        }
+            TypeCode.Byte or
+            TypeCode.SByte or
+            TypeCode.UInt16 or
+            TypeCode.UInt32 or
+            TypeCode.UInt64 or
+            TypeCode.Int16 or
+            TypeCode.Int32 or
+            TypeCode.Int64 or
+            TypeCode.Decimal or
+            TypeCode.Double or
+            TypeCode.Single => true,
+            _ => false,
+        };
     }
 
     /// <summary>

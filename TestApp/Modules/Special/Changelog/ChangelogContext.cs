@@ -8,7 +8,7 @@ public class ChangelogContext : StswObservableObject
 {
     public ChangelogContext()
     {
-        foreach (var changelog in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), @"Resources\changelogs")).OrderBy(x => x))
+        foreach (var changelog in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), @"Resources\changelogs")).OrderBy(x => x, new StswNaturalStringComparer()))
         {
             var version = Path.GetFileNameWithoutExtension(changelog).Split('_')[1];
             var major = string.Empty;

@@ -9,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -254,31 +253,6 @@ public static class StswFn
 
         return result;
     }
-
-    /// <summary>
-    /// Converts a <see cref="DataTable"/> to a CSV (Comma-Separated Values) string.
-    /// </summary>
-    /// <param name="table">The DataTable to convert.</param>
-    /// <returns>A string representing the DataTable in CSV format, with columns separated by commas and rows separated by new lines.</returns>
-    /// <remarks>
-    /// This method is useful for exporting data from a DataTable to a CSV file or for serializing table data in a portable text format.
-    /// </remarks>
-    public static string ToCsv(DataTable table)
-    {
-        var sb = new StringBuilder();
-
-        var columnNames = table.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
-        sb.AppendLine(string.Join(",", columnNames));
-
-        foreach (DataRow row in table.Rows)
-        {
-            var fields = row.ItemArray.Select(x => x?.ToString());
-            sb.AppendLine(string.Join(",", fields));
-        }
-
-        return sb.ToString();
-    }
-
     #endregion
 
     #region DateTime functions
@@ -507,38 +481,6 @@ public static class StswFn
     /// <param name="expression">The mathematical expression to evaluate.</param>
     /// <returns>The result of the evaluated expression as a double.</returns>
     public static double Compute(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
-    #endregion
-
-    #region Serialization functions
-    /// <summary>
-    /// Serializes an object to a JSON string.
-    /// </summary>
-    /// <typeparam name="T">The type of the object to serialize.</typeparam>
-    /// <param name="obj">The object to serialize.</param>
-    /// <returns>A JSON string representing the serialized object, or null if the object is null.</returns>
-    public static string? SerializeToJson<T>(T obj)
-    {
-        if (obj == null)
-            return null;
-
-        var serializer = new DataContractJsonSerializer(typeof(T));
-        using var stream = new MemoryStream();
-        serializer.WriteObject(stream, obj);
-        return Encoding.UTF8.GetString(stream.ToArray());
-    }
-
-    /// <summary>
-    /// Deserializes a JSON string to an object of type <typeparamref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the object to deserialize.</typeparam>
-    /// <param name="json">The JSON string to deserialize.</param>
-    /// <returns>An object of type <typeparamref name="T"/>.</returns>
-    public static T? DeserializeFromJson<T>(string json)
-    {
-        var serializer = new DataContractJsonSerializer(typeof(T));
-        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
-        return (T?)serializer.ReadObject(stream);
-    }
     #endregion
 
     #region Text functions

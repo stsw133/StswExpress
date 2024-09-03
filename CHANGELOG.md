@@ -1,3 +1,34 @@
+# **0.10.0**
+2024-09-03
+
+### New functionality:
+* New controls: **StswTimerControl**, **StswLabelPanel**.
+* New adorner: **StswRippleAdorner**. It is used to enable a new click effect to most Stsw controls, especially the buttons (they already have it enabled by default) and can be set through **StswControl**'s "EnableRippleEffect" attached property.
+* New classes: **StswNaturalStringComparer** (to provide a natural string comparison that sorts string in a "human-expected" order), **StswStoreBase** (base model for stores), **StswStoreChangedArgs** (for stores).
+* **StswDatabases** has new config property where all configuration has been moved (**StswDatabaseConfig** supports auto disposing connections, setting delimiters for mappings, changing file path for importing and exporting lists, enabling less space queries, returning if designer mode).
+* **StswMailboxes** has new config property where all configuration has been moved (**StswMailboxesConfig** supports global email address for debug mode, disabling mail sending, changing file path for importing and exporting lists).
+* **StswExport** has new method for exporting IXLWorksheet to html code string named "ExportToHtml".
+* New extensions and functions: **ToDictionarySafely** (converts a collection to a dictionary, safely handling duplicate keys by ignoring subsequent duplicates), **Next** (finds the next occurrence of a specified day of the week after a given date), **GetDescription** (retrieves the description attribute from an enum value, if present), **Batch** (splits a collection into smaller batches of the specified size), **Shuffle** (randomizes the order of elements in a list), **sSimilarTo** (simple comparing the string representations of property values), **FindLogicalChild** (finds the first logical child of a specific type for the given control).
+
+### Changed functionality:
+* **StswHeader** renamed into **StswLabel**. For backward compatibility, it exists with two different names in this version, but older one is marked as obsolete.
+* **StswSubHeader** renamed into **StswSubLabel**.
+* **StswMessageDialog** has a little changed template (to make details button look better).
+* **StswCancellableAsyncCommand** no longer have action on cancel as parameter.
+* **StswShiftButton** remade into **StswShiftSelector**.
+* **StswDropArrow**'s icon can be changed now. Additionaly its visibility in other controls from now on is controled only by **StswControl**'s "IsArrowless" attached property and no longer controled by dynamic resource named "StswDropArrow.Visibility".
+* **StswComboBox** implements **IStswSelectionControl** interface.
+* **StswDatabaseHelper**'s "Set" method has been reworked.
+* Importing and exporting lists in **StswDatabases**, **StswMailboxes** has been reworked. It works with encrypted json now and can work asynchronously. **StswLog** also has async methods now and can auto disable logging if there was enough failed attempts.
+* Removed extensions and functions: **Remove** (for IEnumerable), **SerializeToJson**, **DeserializeFromJson**.
+* Changed extensions and functions: **ToHex** (it always returns color in hex - before it could return name of color), **Between** (reversed order can be allowed), **ShiftIndexBy** renamed into **ShiftBy**, **GetProcessUser** renamed into **GetUser** (and made into extension).
+* **ParametersAddList** method is limited to max. 20 elements.
+
+### Bugfixes:
+* **IsInDebug** method should better determine if entry assembly was built in debug mode.
+* Stsw sub controls also have nullable "IsBusy" property to allow them to automatically bind to command's "IsBusy" property (similar to what **StswLabel** has).
+* Bugfix for archiving logs.
+
 # **0.9.3**
 2024-08-14
 
