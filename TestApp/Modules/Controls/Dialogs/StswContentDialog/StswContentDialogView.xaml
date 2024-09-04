@@ -23,7 +23,7 @@
         <se:StswContentDialog.DialogContent>
             <se:StswGroupBox Margin="20">
                 <se:StswGroupBox.Header>
-                    <se:StswHeader Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
+                    <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
                 </se:StswGroupBox.Header>
                 <DockPanel>
                     <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center" Margin="5">

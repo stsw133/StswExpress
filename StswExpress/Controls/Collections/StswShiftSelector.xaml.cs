@@ -241,7 +241,8 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswShiftSelector)
+            typeof(StswShiftSelector),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -258,7 +259,8 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswShiftSelector)
+            typeof(StswShiftSelector),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

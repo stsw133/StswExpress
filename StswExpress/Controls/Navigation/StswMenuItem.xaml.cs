@@ -75,7 +75,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswMenuItem)
+            typeof(StswMenuItem),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -92,7 +93,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswMenuItem)
+            typeof(StswMenuItem),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -107,7 +109,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswMenuItem)
+            typeof(StswMenuItem),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -122,7 +125,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswMenuItem)
+            typeof(StswMenuItem),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -137,7 +141,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswMenuItem)
+            typeof(StswMenuItem),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

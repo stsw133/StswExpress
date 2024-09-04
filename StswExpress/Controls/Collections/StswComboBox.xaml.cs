@@ -313,7 +313,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswComboBox)
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -330,7 +331,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBox)
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -345,7 +347,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswComboBox)
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

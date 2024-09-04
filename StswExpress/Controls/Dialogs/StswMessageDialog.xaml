@@ -47,11 +47,11 @@
                                     </se:StswTimedSwitch>
                                 </se:StswSubButton>
                                 <!-- header -->
-                                <se:StswHeader x:Name="PART_Header" Content="{TemplateBinding Title}" FontWeight="Medium">
-                                    <se:StswHeader.LayoutTransform>
+                                <se:StswLabel x:Name="PART_Header" Content="{TemplateBinding Title}" FontWeight="Medium">
+                                    <se:StswLabel.LayoutTransform>
                                         <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                    </se:StswHeader.LayoutTransform>
-                                </se:StswHeader>
+                                    </se:StswLabel.LayoutTransform>
+                                </se:StswLabel>
                             </DockPanel>
                         </se:StswGroupBox.Header>
                         

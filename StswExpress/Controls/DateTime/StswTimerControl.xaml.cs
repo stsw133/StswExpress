@@ -281,7 +281,8 @@ public class StswTimerControl : Control
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswTimerControl)
+            typeof(StswTimerControl),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -298,7 +299,8 @@ public class StswTimerControl : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTimerControl)
+            typeof(StswTimerControl),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

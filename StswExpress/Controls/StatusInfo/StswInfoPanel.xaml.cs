@@ -132,7 +132,8 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswInfoPanel)
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -149,7 +150,8 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswInfoPanel)
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -164,7 +166,8 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswInfoPanel)
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

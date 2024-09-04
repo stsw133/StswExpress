@@ -12,7 +12,7 @@
             <!-- security -->
             <se:StswGroupBox Margin="5">
                 <se:StswGroupBox.Header>
-                    <se:StswHeader Content="Security" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Security" FontSize="14" FontWeight="Bold"/>
                 </se:StswGroupBox.Header>
                 <StackPanel>
                     <!-- Key -->

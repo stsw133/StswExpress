@@ -33,7 +33,7 @@ public class StswTabControlContext : ControlsContext
     [
         new()
         {
-            Header = new StswHeader()
+            Header = new StswLabel()
             {
                 IconData = StswIcons.Dice1,
                 Content = nameof(StswButton)
@@ -42,7 +42,7 @@ public class StswTabControlContext : ControlsContext
         },
         new()
         {
-            Header = new StswHeader()
+            Header = new StswLabel()
             {
                 IconData = StswIcons.Dice2,
                 Content = nameof(StswCheckBox)
@@ -52,7 +52,7 @@ public class StswTabControlContext : ControlsContext
         },
         new()
         {
-            Header = new StswHeader()
+            Header = new StswLabel()
             {
                 IconData = StswIcons.Dice3,
                 Content = nameof(StswGroupBox)

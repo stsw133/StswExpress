@@ -267,7 +267,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -284,7 +285,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -299,7 +301,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

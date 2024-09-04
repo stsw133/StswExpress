@@ -303,7 +303,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -320,7 +321,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -351,7 +353,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

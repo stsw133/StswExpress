@@ -56,7 +56,8 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSubCheck)
+            typeof(StswSubCheck),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -73,7 +74,8 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswSubCheck)
+            typeof(StswSubCheck),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -88,7 +90,8 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswSubCheck)
+            typeof(StswSubCheck),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -103,7 +106,8 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswSubCheck)
+            typeof(StswSubCheck),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

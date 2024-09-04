@@ -146,7 +146,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswBoxBase)
+            typeof(StswBoxBase),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -163,7 +164,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswBoxBase)
+            typeof(StswBoxBase),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -179,7 +181,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswBoxBase)
+            typeof(StswBoxBase),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

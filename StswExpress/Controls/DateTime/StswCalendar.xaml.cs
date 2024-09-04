@@ -372,7 +372,8 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswCalendar)
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -389,7 +390,8 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCalendar)
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -404,7 +406,8 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemBorderThickness),
             typeof(Thickness),
-            typeof(StswCalendar)
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -419,7 +422,8 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemCornerRadius),
             typeof(CornerRadius),
-            typeof(StswCalendar)
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -434,7 +438,8 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemPadding),
             typeof(Thickness),
-            typeof(StswCalendar)
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
     
     /// Names for days of week

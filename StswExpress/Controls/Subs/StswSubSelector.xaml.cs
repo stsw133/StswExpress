@@ -150,7 +150,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -169,7 +170,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -186,7 +188,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -201,7 +204,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -216,7 +220,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -231,7 +236,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     
     /// <summary>

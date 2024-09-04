@@ -184,7 +184,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswToggleSwitch)
+            typeof(StswToggleSwitch),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -201,7 +202,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswToggleSwitch)
+            typeof(StswToggleSwitch),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -216,7 +218,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ToggleBrush),
             typeof(Brush),
-            typeof(StswToggleSwitch)
+            typeof(StswToggleSwitch),
+            new FrameworkPropertyMetadata(default(Brush?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 

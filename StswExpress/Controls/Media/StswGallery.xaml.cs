@@ -153,7 +153,8 @@ public class StswGallery : Control
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswGallery)
+            typeof(StswGallery),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
 
     /// <summary>
@@ -228,7 +229,8 @@ public class StswGallery : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswGallery)
+            typeof(StswGallery),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

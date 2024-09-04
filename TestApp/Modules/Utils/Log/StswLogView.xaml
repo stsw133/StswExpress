@@ -12,7 +12,7 @@
             <!-- log -->
             <se:StswGroupBox Margin="5">
                 <se:StswGroupBox.Header>
-                    <se:StswHeader Content="Log" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Log" FontSize="14" FontWeight="Bold"/>
                 </se:StswGroupBox.Header>
                 <StackPanel>
                     <!-- DirectoryPath -->

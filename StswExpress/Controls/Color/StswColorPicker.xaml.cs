@@ -334,7 +334,8 @@ public class StswColorPicker : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswColorPicker)
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

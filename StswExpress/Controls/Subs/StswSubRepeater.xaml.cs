@@ -86,7 +86,8 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSubRepeater)
+            typeof(StswSubRepeater),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -103,7 +104,8 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswSubRepeater)
+            typeof(StswSubRepeater),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -118,7 +120,8 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswSubRepeater)
+            typeof(StswSubRepeater),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -133,7 +136,8 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswSubRepeater)
+            typeof(StswSubRepeater),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

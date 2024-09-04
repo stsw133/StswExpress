@@ -26,7 +26,7 @@
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswExpander.Header>
-                <se:StswHeader Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
+                <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
             </se:StswExpander.Header>
             <se:StswText Margin="3" TextWrapping="Wrap">
                 <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>

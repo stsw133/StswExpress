@@ -119,7 +119,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswProgressBar)
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -136,7 +137,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswProgressBar)
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -151,7 +153,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Fill),
             typeof(Brush),
-            typeof(StswProgressBar)
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

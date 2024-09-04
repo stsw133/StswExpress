@@ -15,16 +15,18 @@ public class StswDropArrow : StswIcon
     /// <summary>
     /// Gets or sets a value indicating whether or not the content of the control is currently expanded.
     /// </summary>
-    public bool? IsExpanded
+    public bool IsExpanded
     {
-        get => (bool?)GetValue(IsExpandedProperty);
+        get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
     }
     public static readonly DependencyProperty IsExpandedProperty
         = DependencyProperty.Register(
             nameof(IsExpanded),
-            typeof(bool?),
-            typeof(StswDropArrow)
+            typeof(bool),
+            typeof(StswDropArrow),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

@@ -277,7 +277,8 @@ public class StswMediaPlayer : ItemsControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswMediaPlayer)
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -294,7 +295,8 @@ public class StswMediaPlayer : ItemsControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswMediaPlayer)
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -309,7 +311,8 @@ public class StswMediaPlayer : ItemsControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswMediaPlayer)
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

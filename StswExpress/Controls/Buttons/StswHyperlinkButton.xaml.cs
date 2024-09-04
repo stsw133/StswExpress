@@ -60,7 +60,8 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswHyperlinkButton)
+            typeof(StswHyperlinkButton),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -77,7 +78,8 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswHyperlinkButton)
+            typeof(StswHyperlinkButton),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

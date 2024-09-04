@@ -35,7 +35,7 @@
                         <se:StswText x:Name="PART_Display"
                                      Focusable="False"
                                      Margin="{TemplateBinding Padding}"
-                                     Text="{Binding CurrentTime}"
+                                     Text="{TemplateBinding CurrentTime}"
                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>

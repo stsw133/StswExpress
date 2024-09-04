@@ -28,7 +28,9 @@ public class StswSpinner : Control
             nameof(Scale),
             typeof(GridLength),
             typeof(StswSpinner),
-            new PropertyMetadata(default(GridLength), OnScaleChanged)
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -68,7 +70,9 @@ public class StswSpinner : Control
         = DependencyProperty.Register(
             nameof(Fill),
             typeof(Brush),
-            typeof(StswSpinner)
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 

@@ -28,7 +28,8 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSlider)
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -43,7 +44,8 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(ThumbBorderThickness),
             typeof(double),
-            typeof(StswSlider)
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -58,7 +60,8 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(ThumbIcon),
             typeof(Geometry),
-            typeof(StswSlider)
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -73,7 +76,8 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(ThumbSize),
             typeof(double),
-            typeof(StswSlider)
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -88,7 +92,8 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(TrackSize),
             typeof(double),
-            typeof(StswSlider)
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

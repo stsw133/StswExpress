@@ -151,7 +151,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswDropButton)
+            typeof(StswDropButton),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -168,7 +169,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDropButton)
+            typeof(StswDropButton),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -199,7 +201,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswDropButton)
+            typeof(StswDropButton),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

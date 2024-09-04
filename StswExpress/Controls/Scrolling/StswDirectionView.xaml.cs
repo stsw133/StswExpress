@@ -166,7 +166,8 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
         = DependencyProperty.Register(
             nameof(BBtnThickness),
             typeof(Thickness),
-            typeof(StswDirectionView)
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -181,7 +182,8 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FBtnThickness),
             typeof(Thickness),
-            typeof(StswDirectionView)
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -198,7 +200,8 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswDirectionView)
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -215,7 +218,8 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDirectionView)
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

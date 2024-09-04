@@ -143,7 +143,8 @@ public class StswProgressRing : ProgressBar
         = DependencyProperty.Register(
             nameof(Fill),
             typeof(Brush),
-            typeof(StswProgressRing)
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

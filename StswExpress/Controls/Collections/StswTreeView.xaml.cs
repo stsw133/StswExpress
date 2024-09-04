@@ -79,7 +79,8 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswTreeView)
+            typeof(StswTreeView),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -96,7 +97,8 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTreeView)
+            typeof(StswTreeView),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

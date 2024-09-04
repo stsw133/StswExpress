@@ -272,7 +272,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswDataGrid)
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -289,7 +290,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDataGrid)
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -304,7 +306,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(HeaderBackground),
             typeof(Brush),
-            typeof(StswDataGrid)
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -319,7 +322,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(HeaderBorderBrush),
             typeof(SolidColorBrush),
-            typeof(StswDataGrid)
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

@@ -393,7 +393,8 @@ public class StswRatingControl : Control, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswRatingControl)
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -408,7 +409,8 @@ public class StswRatingControl : Control, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswRatingControl)
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -423,7 +425,8 @@ public class StswRatingControl : Control, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswRatingControl)
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 

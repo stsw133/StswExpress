@@ -82,7 +82,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(Background),
             typeof(Brush),
             typeof(StswPopup),
-            new PropertyMetadata(default)
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     public static Brush GetBackground(DependencyObject obj) => (Brush)obj.GetValue(BackgroundProperty);
     public static void SetBackground(DependencyObject obj, Brush value) => obj.SetValue(BackgroundProperty, value);
@@ -100,7 +100,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(BorderBrush),
             typeof(Brush),
             typeof(StswPopup),
-            new PropertyMetadata(default)
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     public static Brush GetBorderBrush(DependencyObject obj) => (Brush)obj.GetValue(BorderBrushProperty);
     public static void SetBorderBrush(DependencyObject obj, Brush value) => obj.SetValue(BorderBrushProperty, value);
@@ -118,7 +118,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(BorderThickness),
             typeof(Thickness),
             typeof(StswPopup),
-            new PropertyMetadata(new Thickness(2))
+            new FrameworkPropertyMetadata(new Thickness(2), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     public static Thickness GetBorderThickness(DependencyObject obj) => (Thickness)obj.GetValue(BorderThicknessProperty);
     public static void SetBorderThickness(DependencyObject obj, Thickness value) => obj.SetValue(BorderThicknessProperty, value);
@@ -136,7 +136,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(CornerClipping),
             typeof(bool),
             typeof(StswPopup),
-            new PropertyMetadata(true)
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender)
         );
     public static bool GetCornerClipping(DependencyObject obj) => (bool)obj.GetValue(CornerClippingProperty);
     public static void SetCornerClipping(DependencyObject obj, bool value) => obj.SetValue(CornerClippingProperty, value);
@@ -154,7 +154,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswPopup),
-            new PropertyMetadata(new CornerRadius(10))
+            new FrameworkPropertyMetadata(new CornerRadius(10), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     public static CornerRadius GetCornerRadius(DependencyObject obj) => (CornerRadius)obj.GetValue(CornerRadiusProperty);
     public static void SetCornerRadius(DependencyObject obj, CornerRadius value) => obj.SetValue(CornerRadiusProperty, value);
@@ -172,7 +172,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(Padding),
             typeof(Thickness),
             typeof(StswPopup),
-            new PropertyMetadata(new Thickness(0))
+            new FrameworkPropertyMetadata(new Thickness(0), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
     public static Thickness GetPadding(DependencyObject obj) => (Thickness)obj.GetValue(PaddingProperty);
     public static void SetPadding(DependencyObject obj, Thickness value) => obj.SetValue(PaddingProperty, value);

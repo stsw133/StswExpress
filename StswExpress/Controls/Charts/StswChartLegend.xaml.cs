@@ -67,7 +67,8 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(Columns),
             typeof(int),
-            typeof(StswChartLegend)
+            typeof(StswChartLegend),
+            new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
 
     /// <summary>
@@ -82,7 +83,8 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(Rows),
             typeof(int),
-            typeof(StswChartLegend)
+            typeof(StswChartLegend),
+            new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
 
     /// <summary>
@@ -116,7 +118,8 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswChartLegend)
+            typeof(StswChartLegend),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -133,7 +136,8 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswChartLegend)
+            typeof(StswChartLegend),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

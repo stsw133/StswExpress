@@ -97,7 +97,6 @@
         <ResourceDictionary Source="Subs/StswSubSelector.xaml"/>
 
         <ResourceDictionary Source="TextStyle/StswDropArrow.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
         <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>
         <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>

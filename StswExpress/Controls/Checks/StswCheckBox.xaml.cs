@@ -71,7 +71,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -88,7 +89,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -103,7 +105,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(GlyphBrush),
             typeof(Brush),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(Brush?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -118,7 +121,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IconChecked),
             typeof(Geometry),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -133,7 +137,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IconIndeterminate),
             typeof(Geometry),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -148,7 +153,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IconUnchecked),
             typeof(Geometry),
-            typeof(StswCheckBox)
+            typeof(StswCheckBox),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

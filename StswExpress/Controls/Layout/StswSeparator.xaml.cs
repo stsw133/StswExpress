@@ -38,7 +38,7 @@ public class StswSeparator : Separator
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswSeparator),
-            new PropertyMetadata(default(Orientation), OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange, OnBorderThicknessChanged)
         );
     #endregion
 
@@ -56,7 +56,7 @@ public class StswSeparator : Separator
             nameof(BorderThickness),
             typeof(double),
             typeof(StswSeparator),
-            new PropertyMetadata(default(double), OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender, OnBorderThicknessChanged)
         );
     public static void OnBorderThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -83,7 +83,8 @@ public class StswSeparator : Separator
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSeparator)
+            typeof(StswSeparator),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

@@ -148,7 +148,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSubDrop)
+            typeof(StswSubDrop),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -165,7 +166,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswSubDrop)
+            typeof(StswSubDrop),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -180,7 +182,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswSubDrop)
+            typeof(StswSubDrop),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -195,7 +198,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswSubDrop)
+            typeof(StswSubDrop),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

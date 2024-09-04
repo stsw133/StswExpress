@@ -278,7 +278,8 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswNavigation)
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -295,7 +296,8 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigation)
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     
     /// <summary>
@@ -310,7 +312,8 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswNavigation)
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -325,7 +328,8 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(TabStripWidth),
             typeof(double),
-            typeof(StswNavigation)
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
     #endregion
 }

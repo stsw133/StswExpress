@@ -40,11 +40,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
 
         if (GetValue(IsBusyProperty) == null)
         {
-            ICommandSource? commandSource = null;
-            if (Parent is ICommandSource parentCommandSource)
-                commandSource = parentCommandSource;
-            else if (TemplatedParent is ICommandSource templatedParentCommandSource)
-                commandSource = templatedParentCommandSource;
+            var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
 
             if (/*GetBindingExpression(IsBusyProperty) == null &&*/ commandSource?.Command is IStswCommand cmd)
             {
@@ -71,7 +67,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Geometry?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -86,7 +84,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -101,7 +101,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(ImageSource?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -116,7 +118,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool?),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -131,7 +135,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IsContentVisible),
             typeof(bool),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -146,7 +152,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Orientation),
+                FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -165,7 +173,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -182,7 +192,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -197,7 +209,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -212,7 +226,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -227,7 +243,9 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswLabel)
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

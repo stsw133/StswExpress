@@ -42,7 +42,7 @@ public class StswTabControl : TabControl
 
         var newTab = new StswTabItem()
         {
-            Header = new StswHeader()
+            Header = new StswLabel()
             {
                 IconData = NewTabTemplate.Icon,
                 Content = NewTabTemplate.Name

@@ -279,7 +279,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -296,7 +297,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -311,7 +313,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -326,7 +329,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -341,7 +345,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -358,7 +363,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             typeof(double),
             typeof(StswNavigationElement),
             new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsIndentationChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnItemsIndentationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -390,7 +395,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(ItemsMargin),
             typeof(Thickness?),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(Thickness?), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>
@@ -405,7 +411,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

@@ -51,7 +51,8 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSegment)
+            typeof(StswSegment),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
 
     /// <summary>
@@ -86,7 +87,8 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSegment)
+            typeof(StswSegment),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -103,7 +105,8 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSegment)
+            typeof(StswSegment),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

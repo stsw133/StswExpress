@@ -59,7 +59,7 @@
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswHeader Content="{se:Tr StswColorSelector.ThemeColors}"/>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
                             </se:StswGroupBox.Header>
                             <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                     Focusable="False"
@@ -105,7 +105,7 @@
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswHeader Content="{se:Tr StswColorSelector.StandardColors}"/>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
                             </se:StswGroupBox.Header>
                             <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                     Focusable="False"

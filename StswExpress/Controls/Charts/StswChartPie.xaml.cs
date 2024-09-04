@@ -121,7 +121,7 @@ public class StswChartPie : ItemsControl
             typeof(double),
             typeof(StswChartPie),
             new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

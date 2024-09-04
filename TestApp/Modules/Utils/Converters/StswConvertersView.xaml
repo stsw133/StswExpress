@@ -12,7 +12,7 @@
             <!-- bool converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="Bool converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Bool converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- Bool -->
@@ -119,7 +119,7 @@
             <!-- color converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="Color converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Color converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- ColorAdvanced -->
@@ -174,7 +174,7 @@
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     <!-- Color -->
-                    <se:StswHeader Content="StswColorConverter" FontSize="16" FontWeight="Bold"/>
+                    <se:StswLabel Content="StswColorConverter" FontSize="16" FontWeight="Bold"/>
                     <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
                         <Run Text="Used for type conversion between different types."/>
                     </se:StswText>
@@ -222,7 +222,7 @@
             <!-- format converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="Format converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Format converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- MultiCultureNumber -->
@@ -242,7 +242,7 @@
             <!-- list converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="List converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="List converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- EnumDescription -->
@@ -277,7 +277,7 @@
             <!-- numeric converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="Numeric converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Numeric converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- Calculate -->
@@ -314,7 +314,7 @@
             <!-- universal converters -->
             <se:StswExpander Margin="5">
                 <se:StswExpander.Header>
-                    <se:StswHeader Content="Universal converters" FontSize="14" FontWeight="Bold"/>
+                    <se:StswLabel Content="Universal converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
                     <!-- IfElse -->

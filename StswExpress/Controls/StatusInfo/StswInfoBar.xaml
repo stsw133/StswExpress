@@ -75,13 +75,13 @@
                                     </se:StswSubButton>
                                 </StackPanel>
                                 <!-- title -->
-                                <se:StswHeader x:Name="PART_Header"
-                                               DockPanel.Dock="Top"
-                                               Content="{TemplateBinding Title}"
-                                               Focusable="False"
-                                               FontSize="11"
-                                               FontWeight="Bold"
-                                               Padding="1"/>
+                                <se:StswLabel x:Name="PART_Header"
+                                              DockPanel.Dock="Top"
+                                              Content="{TemplateBinding Title}"
+                                              Focusable="False"
+                                              FontSize="11"
+                                              FontWeight="Bold"
+                                              Padding="1"/>
                             </DockPanel>
                             <!-- text -->
                             <se:StswText x:Name="PART_Text" Padding="3 0" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>

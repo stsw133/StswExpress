@@ -33,7 +33,7 @@ public class StswOutlinedText : FrameworkElement
     /// </summary>
     private void UpdatePen()
     {
-        _Pen = new Pen(Stroke, StrokeThickness)
+        var newPen = new Pen(Stroke, StrokeThickness)
         {
             DashCap = PenLineCap.Round,
             EndLineCap = PenLineCap.Round,
@@ -41,7 +41,11 @@ public class StswOutlinedText : FrameworkElement
             StartLineCap = PenLineCap.Round
         };
 
-        InvalidateVisual();
+        if (!newPen.Equals(_Pen))
+        {
+            _Pen = newPen;
+            InvalidateVisual();
+        }
     }
 
     /// <summary>
@@ -50,8 +54,14 @@ public class StswOutlinedText : FrameworkElement
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
-        drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
-        drawingContext.DrawGeometry(Fill, null, _TextGeometry);
+
+        if (_TextGeometry != null)
+        {
+            if (_Pen != null)
+                drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
+            if (Fill != null)
+                drawingContext.DrawGeometry(Fill, null, _TextGeometry);
+        }
     }
 
     /// <summary>
@@ -171,7 +181,8 @@ public class StswOutlinedText : FrameworkElement
             nameof(Fill),
             typeof(Brush),
             typeof(StswOutlinedText),
-            new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(Brushes.Black,
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -258,7 +269,9 @@ public class StswOutlinedText : FrameworkElement
             nameof(Stroke),
             typeof(Brush),
             typeof(StswOutlinedText),
-            new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender, StrokePropertyChangedCallback)
+            new FrameworkPropertyMetadata(Brushes.Black,
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                StrokePropertyChangedCallback)
         );
     private static void StrokePropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e) => (obj as StswOutlinedText)?.UpdatePen();
 
@@ -275,7 +288,9 @@ public class StswOutlinedText : FrameworkElement
             nameof(StrokeThickness),
             typeof(double),
             typeof(StswOutlinedText),
-            new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender, StrokePropertyChangedCallback)
+            new FrameworkPropertyMetadata(1.0,
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                StrokePropertyChangedCallback)
         );
 
     /// <summary>

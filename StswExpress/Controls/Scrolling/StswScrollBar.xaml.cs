@@ -99,7 +99,8 @@ public class StswScrollBar : ScrollBar
         = DependencyProperty.Register(
             nameof(CollapsedWidth),
             typeof(double),
-            typeof(StswScrollBar)
+            typeof(StswScrollBar),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>
@@ -114,7 +115,8 @@ public class StswScrollBar : ScrollBar
         = DependencyProperty.Register(
             nameof(ExpandedWidth),
             typeof(double),
-            typeof(StswScrollBar)
+            typeof(StswScrollBar),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>

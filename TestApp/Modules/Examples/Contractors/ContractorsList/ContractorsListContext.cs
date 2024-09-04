@@ -113,7 +113,7 @@ public class ContractorsListContext : StswObservableObject
                 //    newContext.ID = 0;
                 //    newContext.IsCloned = false;
                 //
-                //    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
+                //    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswLabel header)
                 //    {
                 //        header.Content = $"New contractor";
                 //        header.IconData = StswIcons.AccountPlus;
@@ -158,7 +158,7 @@ public class ContractorsListContext : StswObservableObject
                         newContext.ID = m.ID;
                         newContext.IsCloned = true;
 
-                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswLabel header)
                         {
                             header.Content = $"Cloning contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountPlus;
@@ -214,7 +214,7 @@ public class ContractorsListContext : StswObservableObject
                         newContext.ID = m.ID;
                         newContext.IsCloned = false;
 
-                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswLabel header)
                         {
                             header.Content = $"Editing contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountEdit;

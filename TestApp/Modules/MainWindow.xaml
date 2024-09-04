@@ -141,7 +141,6 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Text &amp; style" IconData="{x:Static se:StswIcons.Text}">
                 <se:StswNavigationElement Header="StswDropArrow" ContextNamespace="TestApp.StswDropArrowContext"/>
-                <se:StswNavigationElement Header="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
                 <se:StswNavigationElement Header="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>

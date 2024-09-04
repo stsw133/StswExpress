@@ -15,7 +15,7 @@ public class ContractorsContext : StswObservableObject
     {
         new()
         {
-            Header = new StswHeader()
+            Header = new StswLabel()
             {
                 IconData = StswIcons.AccountGroup,
                 Content = "Contractors list"

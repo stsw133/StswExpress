@@ -30,7 +30,8 @@ public class StswIcon : Control
             nameof(CanvasSize),
             typeof(double),
             typeof(StswIcon),
-            new FrameworkPropertyMetadata(24d)
+            new FrameworkPropertyMetadata(24.0,
+                FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>
@@ -45,7 +46,9 @@ public class StswIcon : Control
         = DependencyProperty.Register(
             nameof(Data),
             typeof(Geometry),
-            typeof(StswIcon)
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Geometry?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -61,7 +64,9 @@ public class StswIcon : Control
             nameof(Scale),
             typeof(GridLength),
             typeof(StswIcon),
-            new PropertyMetadata(default(GridLength), OnScaleChanged)
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -86,7 +91,9 @@ public class StswIcon : Control
         = DependencyProperty.Register(
             nameof(Fill),
             typeof(Brush),
-            typeof(StswIcon)
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -101,7 +108,9 @@ public class StswIcon : Control
         = DependencyProperty.Register(
             nameof(Stroke),
             typeof(Brush),
-            typeof(StswIcon)
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -116,7 +125,9 @@ public class StswIcon : Control
         = DependencyProperty.Register(
             nameof(StrokeThickness),
             typeof(double),
-            typeof(StswIcon)
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 

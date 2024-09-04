@@ -298,7 +298,8 @@ public class StswContentDialog : ContentControl
         = DependencyProperty.Register(
             nameof(DialogMargin),
             typeof(Thickness),
-            typeof(StswContentDialog)
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>
@@ -421,22 +422,24 @@ public class StswContentDialog : ContentControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswContentDialog)
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
     /// Represents the brush for the Dialog's background
     /// </summary>
-    public Brush? DialogBackground
+    public Brush DialogBackground
     {
-        get => (Brush?)GetValue(DialogBackgroundProperty);
+        get => (Brush)GetValue(DialogBackgroundProperty);
         set => SetValue(DialogBackgroundProperty, value);
     }
     public static readonly DependencyProperty DialogBackgroundProperty
         = DependencyProperty.Register(
             nameof(DialogBackground),
             typeof(Brush),
-            typeof(StswContentDialog)
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

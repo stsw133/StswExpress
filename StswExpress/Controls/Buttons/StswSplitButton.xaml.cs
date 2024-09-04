@@ -196,7 +196,8 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSplitButton)
+            typeof(StswSplitButton),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -213,7 +214,8 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSplitButton)
+            typeof(StswSplitButton),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -244,7 +246,8 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswSplitButton)
+            typeof(StswSplitButton),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }
