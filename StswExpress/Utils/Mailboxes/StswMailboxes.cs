@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Provides functionality for managing email configurations, including methods for importing and exporting these configurations with encryption.
 /// </summary>
-public static class StswMailboxex
+public static class StswMailboxes
 {
     /// <summary>
     /// Gets the configuration settings for managing email configurations.

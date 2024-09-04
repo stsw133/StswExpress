@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -20,6 +20,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 
     public StswDataGrid()
     {
+        Columns.CollectionChanged += Columns_CollectionChanged;
+
         ClearFiltersCommand = new StswCommand(ActionClear);
     }
     static StswDataGrid()
@@ -60,6 +62,10 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)
     {
         base.OnSelectedCellsChanged(e);
@@ -78,6 +84,25 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
                     if (item is IStswSelectionItem selectionItem)
                         selectionItem.IsSelected = true;
             }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    private void Columns_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems == null)
+            return;
+
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            foreach (var newColumn in e.NewItems)
+                if (newColumn is StswDataGridStatusColumn column)
+                    column.DataGridOwner = this;
         }
     }
 
@@ -157,15 +182,15 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Gets or sets a value indicating whether the filters are visible.
     /// </summary>
-    public bool AreFiltersVisible
+    public bool? AreFiltersVisible
     {
-        get => (bool)GetValue(AreFiltersVisibleProperty);
+        get => (bool?)GetValue(AreFiltersVisibleProperty);
         set => SetValue(AreFiltersVisibleProperty, value);
     }
     public static readonly DependencyProperty AreFiltersVisibleProperty
         = DependencyProperty.Register(
             nameof(AreFiltersVisible),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswDataGrid)
         );
 
@@ -214,96 +239,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             typeof(StswDataGrid)
         );
     //TODO - double click row command
-
-    /// <summary>
-    /// Gets or sets the visibility mode for special column.
-    /// </summary>
-    public StswSpecialColumnVisibility SpecialColumnVisibility
-    {
-        get => (StswSpecialColumnVisibility)GetValue(SpecialColumnVisibilityProperty);
-        set => SetValue(SpecialColumnVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty SpecialColumnVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(SpecialColumnVisibility),
-            typeof(StswSpecialColumnVisibility),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(StswSpecialColumnVisibility),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSpecialColumnVisibilityChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSpecialColumnVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswDataGrid stsw)
-        {
-            var specialColumnCellTemplate = stsw.FindResource("StswDataGridSpecialColumnCellTemplate") as DataTemplate;
-            var specialColumnHeaderTemplate = stsw.FindResource("StswDataGridSpecialColumnHeaderTemplate") as DataTemplate;
-
-            var specialColumn = stsw.Columns.FirstOrDefault(x => x is DataGridTemplateColumn specialColumn
-                && specialColumn.CellTemplate == specialColumnCellTemplate
-                && specialColumn.HeaderTemplate == specialColumnHeaderTemplate);
-
-            if (stsw.SpecialColumnVisibility != StswSpecialColumnVisibility.Collapsed)
-            {
-                if (specialColumn == null)
-                {
-                    /// create special column
-                    stsw.Columns.Insert(0, new DataGridTemplateColumn() { CellTemplate = specialColumnCellTemplate, HeaderTemplate = specialColumnHeaderTemplate });
-                    if (stsw.IsLoaded)
-                        stsw.FrozenColumnCount++;
-
-                    specialColumn = stsw.Columns[0];
-
-                    /// make style for cell
-                    var newCellStyle = new Style(typeof(DataGridCell));
-                    newCellStyle.Setters.Add(new Setter(IsTabStopProperty, false));
-                    specialColumn.CellStyle = newCellStyle;
-                }
-                specialColumn.CanUserReorder = false;
-                specialColumn.CanUserResize = false;
-                specialColumn.IsReadOnly = true;
-
-                /// set visibility for header
-                //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid)
-                //    grid.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
-
-                /// triggers
-                var style = stsw.RowStyle ?? new Style(typeof(DataGridRow));
-                var newStyle = new Style(typeof(DataGridRow))
-                {
-                    Resources = style.Resources
-                };
-
-                foreach (var setter in style.Setters)
-                    newStyle.Setters.Add(setter);
-
-                foreach (var trigger in style.Triggers)
-                    newStyle.Triggers.Add(trigger);
-
-                if (style.Triggers.OfType<DataTrigger>().FirstOrDefault(
-                        trigger => trigger.Binding is Binding binding &&
-                        binding.Path != null && binding.Path.Path == nameof(IStswCollectionItem.ShowDetails)
-                    ) == null)
-                {
-                    var t = new DataTrigger() { Binding = new Binding(nameof(IStswCollectionItem.ShowDetails)), Value = true };
-                    t.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible));
-                    newStyle.Triggers.Add(t);
-                }
-
-                if (style.Setters.OfType<Setter>().FirstOrDefault(setter => setter.Property == DataGridRow.DetailsVisibilityProperty) == null)
-                    newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
-
-                stsw.RowStyle = newStyle;
-            }
-            else if (specialColumn != null)
-            {
-                /// remove special column
-                if (stsw.IsLoaded && stsw.FrozenColumnCount > 0)
-                    stsw.FrozenColumnCount--;
-                stsw.Columns.Remove(specialColumn);
-            }
-        }
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control uses selection items that implement

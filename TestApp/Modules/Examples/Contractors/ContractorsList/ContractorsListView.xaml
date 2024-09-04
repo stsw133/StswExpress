@@ -70,7 +70,9 @@
                 <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
             </se:StswDataGrid.Resources>
 
-            <DataGrid.Columns>
+            <se:StswDataGrid.Columns>
+                <se:StswDataGridStatusColumn/>
+
                 <!-- ID -->
                 <DataGridTextColumn Binding="{Binding ID}" IsReadOnly="True">
                     <DataGridTextColumn.Header>
@@ -163,7 +165,7 @@
                         <!-- Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" -->
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-            </DataGrid.Columns>
+            </se:StswDataGrid.Columns>
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>

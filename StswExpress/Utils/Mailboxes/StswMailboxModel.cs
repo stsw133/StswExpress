@@ -139,7 +139,7 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="reply">An optional collection of reply-to addresses.</param>
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
-        if (!StswMailboxex.Config.EnableMailSending)
+        if (!StswMailboxes.Config.EnableMailSending)
         {
             Console.WriteLine("Mail sending is disabled.");
             return;
@@ -158,9 +158,9 @@ public class StswMailboxModel : StswObservableObject
         mail.Subject = subject;
         mail.Body = body;
 
-        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxes.Config.DebugEmailRecipient))
         {
-            AddRecipients([StswMailboxex.Config.DebugEmailRecipient], mail.To.Add);
+            AddRecipients([StswMailboxes.Config.DebugEmailRecipient], mail.To.Add);
         }
         else
         {
@@ -209,7 +209,7 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="reply">An optional collection of reply-to addresses.</param>
     public async Task SendAsync(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
-        if (!StswMailboxex.Config.EnableMailSending)
+        if (!StswMailboxes.Config.EnableMailSending)
         {
             Console.WriteLine("Mail sending is disabled.");
             return;
@@ -228,9 +228,9 @@ public class StswMailboxModel : StswObservableObject
         mail.Subject = subject;
         mail.Body = body;
 
-        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxex.Config.DebugEmailRecipient))
+        if (StswFn.IsInDebug() && !string.IsNullOrEmpty(StswMailboxes.Config.DebugEmailRecipient))
         {
-            AddRecipients([StswMailboxex.Config.DebugEmailRecipient], mail.To.Add);
+            AddRecipients([StswMailboxes.Config.DebugEmailRecipient], mail.To.Add);
         }
         else
         {

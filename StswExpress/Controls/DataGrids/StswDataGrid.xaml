@@ -19,7 +19,6 @@
         <Setter Property="FiltersType" Value="CollectionView"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
-        <Setter Property="SpecialColumnVisibility" Value="All"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -432,75 +431,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!-- StswDataGridSpecialColumn -->
-    <!-- StswDataGridSpecialColumnHeaderTemplate -->
-    <DataTemplate x:Key="StswDataGridSpecialColumnHeaderTemplate">
-        <UniformGrid x:Name="PART_Buttons" Columns="1" Margin="-3" Visibility="Collapsed">
-            <se:StswToggleButton se:StswControl.IsBorderless="True" Padding="0"
-                                 IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
-                <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
-            </se:StswToggleButton>
-            <se:StswButton x:Name="PART_ButtonClear" se:StswControl.IsBorderless="True" Padding="0"
-                           Command="{Binding ClearFiltersCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
-                <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
-            </se:StswButton>
-        </UniformGrid>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="False">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonClear"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding SpecialColumnVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="All">
-                <Setter Property="Visibility" Value="Visible" TargetName="PART_Buttons"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
-    <!-- StswDataGridSpecialColumn -->
-    <!-- StswDataGridSpecialColumnCellTemplate -->
-    <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
-        <Grid Background="{DynamicResource StswDataGrid.Cell.Static.Background}" Margin="-1">
-            <se:StswToggleButton x:Name="PART_ShowDetails" se:StswControl.IsBorderless="True" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
-            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <se:StswDropArrow x:Name="PART_Arrow" IsExpanded="{Binding ShowDetails}" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Grid>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Hidden" TargetName="PART_Arrow"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ItemState}" Value="{x:Null}">
-                <Setter Property="Fill" Value="Transparent" TargetName="PART_StateIcon"/>
-                <Setter Property="Stroke" Value="Transparent" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ItemState}" Value="Unchanged">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Fill}" TargetName="PART_StateIcon"/>
-                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Border}" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ItemState}" Value="Added">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}" TargetName="PART_StateIcon"/>
-                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Border}" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ItemState}" Value="Modified">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}" TargetName="PART_StateIcon"/>
-                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Border}" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}" TargetName="PART_StateIcon"/>
-                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Border}" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
-                <Setter Property="Stroke" Value="Transparent" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="Collapsed">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
-                <Setter Property="Stroke" Value="Transparent" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
-                <Setter Property="Stroke" Value="Transparent" TargetName="PART_StateIcon"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
 
 </ResourceDictionary>

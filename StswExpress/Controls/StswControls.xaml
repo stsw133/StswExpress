@@ -35,6 +35,7 @@
         <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
 
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="DataGrids/StswDataGridStatusColumn.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
         
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>

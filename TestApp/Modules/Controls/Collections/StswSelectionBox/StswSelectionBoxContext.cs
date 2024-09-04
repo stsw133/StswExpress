@@ -7,7 +7,6 @@ namespace TestApp;
 
 public class StswSelectionBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(Clear);
     public StswCommand RandomizeCommand => new(Randomize);
     public ICommand? SetTextCommand { get; set; } = null; /// this command is only for updating text in box when popup did not load yet
 
@@ -19,12 +18,6 @@ public class StswSelectionBoxContext : ControlsContext
     }
 
     #region Events & commands
-    /// Command: clear
-    private void Clear()
-    {
-        Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
-        SetTextCommand?.Execute(null);
-    }
     /// Command: randomize
     private void Randomize()
     {

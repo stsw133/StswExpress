@@ -50,7 +50,7 @@
                 <se:StswSubButton Command="{Binding RandomizeCommand}"
                                   IconData="{x:Static se:StswIcons.DiceMultiple}"
                                   Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                <se:StswSubButton Command="{x:Static se:StswCommands.ClearText}"
+                <se:StswSubButton Command="{x:Static se:StswCommands.Clear}"
                                   IconData="{x:Static se:StswIcons.Close}"
                                   Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswTimePicker.SubControls>

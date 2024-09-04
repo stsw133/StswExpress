@@ -8,7 +8,6 @@ namespace TestApp;
 
 public class StswComboBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedItem = null);
     public StswCommand RandomizeCommand => new(() => SelectedItem = Items[new Random().Next(0, Items.Count)]);
 
     public StswComboBoxContext()

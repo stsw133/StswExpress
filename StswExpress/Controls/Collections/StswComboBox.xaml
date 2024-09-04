@@ -102,7 +102,7 @@
                                             <se:StswTextBox x:Name="PART_Filter" DockPanel.Dock="Top"
                                                             se:StswControl.IsBorderless="True"
                                                             se:StswControl.SubControlsDock="Left"
-                                                            Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                            Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=200}"
                                                             Visibility="Collapsed">
                                                 <se:StswTextBox.SubControls>
                                                     <se:StswSubLabel IconData="{x:Static se:StswIcons.Magnify}" Opacity="0.6"/>

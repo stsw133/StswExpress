@@ -14,7 +14,6 @@ public class StswDataGridContext : ControlsContext
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
-        SpecialColumnVisibility = (StswSpecialColumnVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SpecialColumnVisibility)))?.Value ?? default;
     }
 
     #region Commands & methods
@@ -56,14 +55,6 @@ public class StswDataGridContext : ControlsContext
         set => SetProperty(ref _items, value);
     }
     private StswBindingList<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
-    
-    /// SpecialColumnVisibility
-    public StswSpecialColumnVisibility SpecialColumnVisibility
-    {
-        get => _specialColumnVisibility;
-        set => SetProperty(ref _specialColumnVisibility, value);
-    }
-    private StswSpecialColumnVisibility _specialColumnVisibility;
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem

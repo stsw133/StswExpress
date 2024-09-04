@@ -16,9 +16,6 @@
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
-            <!-- SpecialColumnVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SpecialColumnVisibility, Type={x:Type se:StswDataGrid}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswSpecialColumnVisibility}" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDataGrid FrozenColumnCount="1"
@@ -26,7 +23,6 @@
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding Items}"
                          Margin="3"
-                         SpecialColumnVisibility="{Binding SpecialColumnVisibility}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
@@ -34,17 +30,21 @@
                          se:StswScrollView.Command="{Binding OnScrollBottomCommand}"
                          se:StswScrollView.IsBusy="{Binding IsBusy}">
             <se:StswDataGrid.Columns>
+                <se:StswDataGridStatusColumn/>
+                <!-- ID -->
                 <DataGridTextColumn Binding="{Binding ID}" Width="100">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+                <!-- Name -->
                 <DataGridTextColumn Binding="{Binding Name}" Width="*">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </se:StswDataGrid.Columns>
+            
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <TextBlock Text="There are some row details..." Margin="3"/>
