@@ -63,6 +63,10 @@
     "en": "Pink",
     "pl": "Różowy"
   },
+  "StswConfig.Theme.Spring": {
+    "en": "Spring",
+    "pl": "Wiosenny"
+  },
   "StswFilterBox.Between": {
     "en": "Is between",
     "pl": "Pomiędzy"

@@ -274,7 +274,8 @@ public enum StswTheme
     Auto = -1,
     Light,
     Dark,
-    Pink
+    Pink,
+    Spring
 }
 
 /// <summary>

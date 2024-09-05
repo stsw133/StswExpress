@@ -142,8 +142,8 @@
     <SolidColorBrush x:Key="StswCalendar.SpecialDay.Foreground" Color="#df2020"/>
     
     <!-- Dialogs -->
-    <SolidColorBrush x:Key="StswDialog.None.Background" Color="#a1a1a1"/>
-    <SolidColorBrush x:Key="StswDialog.None.Border" Color="#bbbbbb"/>
+    <SolidColorBrush x:Key="StswDialog.None.Background" Color="#808080"/>
+    <SolidColorBrush x:Key="StswDialog.None.Border" Color="#a6a6a6"/>
     <SolidColorBrush x:Key="StswDialog.None.Foreground" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDialog.None.Subground" Color="#e6e6e6"/>
     <SolidColorBrush x:Key="StswDialog.Blockade.Background" Color="#df6020"/>

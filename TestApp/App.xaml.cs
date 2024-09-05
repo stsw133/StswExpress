@@ -22,15 +22,17 @@ public partial class App : StswApp
 
         /// example for overriding security key:
         //StswSecurity.Key = "myOwnStswHashKey";
-
         /// example for removing language from config:
-        //StswTranslator.AvailableLanguages.Remove("");
-        //StswTranslator.AvailableLanguages.Remove("pl");
+        //StswTranslator.AvailableLanguages.Clear();
+        //StswTranslator.AvailableLanguages.Add(string.Empty);
+        //StswTranslator.AvailableLanguages.Add("en");
         //StswSettings.Default.Language = "en";
         /// example for removing theme from config:
-        //StswResources.AvailableThemes.Remove(StswTheme.Auto);
-        //StswResources.AvailableThemes.Remove(StswTheme.Pink);
-        //StswSettings.Default.Theme = (int)StswTheme.Dark;
+        //StswResources.AvailableThemes.Clear();
+        //StswResources.AvailableThemes.Add(StswTheme.Auto);
+        //StswResources.AvailableThemes.Add(StswTheme.Light);
+        //StswResources.AvailableThemes.Add(StswTheme.Dark);
+        //StswSettings.Default.Theme = (int)StswTheme.Light;
     }
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

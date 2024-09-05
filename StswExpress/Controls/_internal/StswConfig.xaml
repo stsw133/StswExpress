@@ -95,6 +95,9 @@
                                             <ComboBoxItem Tag="2" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Pink}}">
                                                 <se:StswLabel Content="{se:Tr StswConfig.Theme.Pink}" IconData="{x:Static se:StswIcons.HeartOutline}" Padding="0"/>
                                             </ComboBoxItem>
+                                            <ComboBoxItem Tag="3" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Spring}}">
+                                                <se:StswLabel Content="{se:Tr StswConfig.Theme.Spring}" IconData="{x:Static se:StswIcons.Leaf}" Padding="0"/>
+                                            </ComboBoxItem>
                                         </se:StswComboBox>
                                     </StackPanel>
                                 </DockPanel>
