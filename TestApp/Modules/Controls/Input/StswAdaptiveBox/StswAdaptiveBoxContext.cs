@@ -30,7 +30,7 @@ public class StswAdaptiveBoxContext : ControlsContext
         get => _itemsSource;
         set => SetProperty(ref _itemsSource, value);
     }
-    private List<StswSelectionItem> _itemsSource = new() { new() { Value = "test1" }, new() { Value = "test2" } };
+    private List<StswSelectionItem> _itemsSource = [new() { Value = "test1" }, new() { Value = "test2" }];
 
     /// SelectedValue
     public object? SelectedValue

@@ -24,6 +24,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
+    private ContentPresenter? _contentPresenter;
+    
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -31,7 +33,133 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        /// content
+        if (GetTemplateChild("PART_ContentPresenter") is ContentPresenter contentPresenter)
+            _contentPresenter = contentPresenter;
+
         OnTypeChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected void CreateControlBasedOnType()
+    {
+        if (_contentPresenter == null || Type.In(null, StswAdaptiveType.Auto))
+            return;
+
+        var bindingBorderBrush = new Binding(nameof(BorderBrush)) { Source = this };
+        var bindingBorderThickness = new Binding(nameof(BorderThickness)) { Source = this };
+        var bindingCornerClipping = new Binding(nameof(CornerClipping)) { Source = this };
+        var bindingCornerRadius = new Binding(nameof(CornerRadius)) { Source = this };
+        var bindingDisplayMemberPath = new Binding(nameof(DisplayMemberPath)) { Source = this };
+        var bindingIsReadOnly = new Binding(nameof(IsReadOnly)) { Source = this };
+        var bindingIsThreeState = new Binding(nameof(IsThreeState)) { Source = this };
+        var bindingItemsSource = new Binding(nameof(ItemsSource)) { Source = this };
+        var bindingPadding = new Binding(nameof(Padding)) { Source = this };
+        var bindingPlaceholder = new Binding(nameof(Placeholder)) { Source = this };
+        var bindingPopupBackground = new Binding { Path = new PropertyPath(StswPopup.BackgroundProperty), Source = this };
+        var bindingPopupBorderBrush = new Binding { Path = new PropertyPath(StswPopup.BorderBrushProperty), Source = this };
+        var bindingPopupBorderThickness = new Binding { Path = new PropertyPath(StswPopup.BorderThicknessProperty), Source = this };
+        var bindingPopupCornerClipping = new Binding { Path = new PropertyPath(StswPopup.CornerClippingProperty), Source = this };
+        var bindingPopupCornerRadius = new Binding { Path = new PropertyPath(StswPopup.CornerRadiusProperty), Source = this };
+        var bindingPopupPadding = new Binding { Path = new PropertyPath(StswPopup.PaddingProperty), Source = this };
+        var bindingSelectedValuePath = new Binding(nameof(SelectedValuePath)) { Source = this };
+        var bindingSeparatorThickness = new Binding(nameof(SeparatorThickness)) { Source = this };
+        var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
+        var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
+        var bindingVerticalContentAlignment = new Binding(nameof(VerticalContentAlignment)) { Source = this };
+        var bindingValue = new Binding(nameof(Value)) { Source = this };
+
+        FrameworkElement? newControl = null;
+        switch (Type)
+        {
+            case StswAdaptiveType.Check:
+                newControl = new StswCheckBox();
+                newControl.SetBinding(StswCheckBox.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswCheckBox.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswCheckBox.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswCheckBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswCheckBox.IsCheckedProperty, bindingValue);
+                newControl.SetBinding(StswCheckBox.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswCheckBox.IsThreeStateProperty, bindingIsThreeState);
+                newControl.SetBinding(StswCheckBox.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                break;
+
+            case StswAdaptiveType.Date:
+                newControl = new StswDatePicker();
+                newControl.SetBinding(StswDatePicker.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswDatePicker.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswDatePicker.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswDatePicker.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDatePicker.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswDatePicker.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswDatePicker.SelectedDateProperty, bindingValue);
+                newControl.SetBinding(StswDatePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
+                newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
+                newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                break;
+            case StswAdaptiveType.List:
+                newControl = new StswSelectionBox();
+                newControl.SetBinding(StswSelectionBox.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswSelectionBox.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswSelectionBox.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswSelectionBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswSelectionBox.DisplayMemberPathProperty, bindingDisplayMemberPath);
+                newControl.SetBinding(StswSelectionBox.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswSelectionBox.ItemsSourceProperty, bindingItemsSource);
+                newControl.SetBinding(StswSelectionBox.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswSelectionBox.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswSelectionBox.SelectedValuePathProperty, bindingSelectedValuePath);
+                newControl.SetBinding(StswSelectionBox.SeparatorThicknessProperty, bindingSeparatorThickness);
+                newControl.SetBinding(StswSelectionBox.SubControlsProperty, bindingSubControls);
+                newControl.SetBinding(StswSelectionBox.TextProperty, bindingValue);
+                newControl.SetBinding(StswSelectionBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswSelectionBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                newControl.SetBinding(StswPopup.BackgroundProperty, bindingPopupBackground);
+                newControl.SetBinding(StswPopup.BorderBrushProperty, bindingPopupBorderBrush);
+                newControl.SetBinding(StswPopup.BorderThicknessProperty, bindingPopupBorderThickness);
+                newControl.SetBinding(StswPopup.CornerClippingProperty, bindingPopupCornerClipping);
+                newControl.SetBinding(StswPopup.CornerRadiusProperty, bindingPopupCornerRadius);
+                newControl.SetBinding(StswPopup.PaddingProperty, bindingPopupPadding);
+                break;
+            case StswAdaptiveType.Number:
+                newControl = new StswDecimalBox();
+                newControl.SetBinding(StswDecimalBox.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswDecimalBox.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswDecimalBox.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswDecimalBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDecimalBox.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswDecimalBox.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswDecimalBox.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswDecimalBox.SeparatorThicknessProperty, bindingSeparatorThickness);
+                newControl.SetBinding(StswDecimalBox.SubControlsProperty, bindingSubControls);
+                newControl.SetBinding(StswDecimalBox.ValueProperty, bindingValue);
+                newControl.SetBinding(StswDecimalBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswDecimalBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                break;
+            case StswAdaptiveType.Text:
+                newControl = new StswTextBox();
+                newControl.SetBinding(StswTextBox.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswTextBox.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswTextBox.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswTextBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswTextBox.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswTextBox.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswTextBox.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswTextBox.SubControlsProperty, bindingSubControls);
+                newControl.SetBinding(StswTextBox.TextProperty, bindingValue);
+                newControl.SetBinding(StswTextBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswTextBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                break;
+        }
+
+        if (newControl != null)
+            _contentPresenter.Content = newControl;
     }
     #endregion
 
@@ -168,7 +296,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(ObservableCollection<IStswSubControl>),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -185,14 +315,14 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveType?),
             typeof(StswAdaptiveBox),
             new FrameworkPropertyMetadata(default(StswAdaptiveType?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswAdaptiveBox stsw)
         {
-            if (stsw.Type == null)
+            if (stsw.Type == StswAdaptiveType.Auto)
             {
                 if (stsw.ItemsSource != default)
                     stsw.Type = StswAdaptiveType.List;
@@ -215,7 +345,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                     }
 
                     /// if type is still not found then try to determine type based on value
-                    if (stsw.Type == null)
+                    if (stsw.Type == StswAdaptiveType.Auto)
                     {
                         if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
                             stsw.Type = StswAdaptiveType.Check;
@@ -230,6 +360,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                     }
                 }
             }
+            stsw.CreateControlBasedOnType();
         }
     }
 

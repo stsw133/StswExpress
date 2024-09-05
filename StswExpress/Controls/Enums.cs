@@ -5,6 +5,7 @@
 /// </summary>
 public enum StswAdaptiveType
 {
+    Auto,
     Check,
     Date,
     List,
