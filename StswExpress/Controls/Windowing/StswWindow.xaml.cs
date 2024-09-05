@@ -189,14 +189,25 @@ public class StswWindow : Window, IStswCornerControl
         if (obj is StswWindow stsw)
         {
             /// jury-rig for StswWindow -> StswWindowBar binding
-            if (stsw._windowBar != null)
-            {
-                var binding = new Binding(nameof(Components));
-                binding.Source = stsw;
-                stsw._windowBar.SetBinding(StswWindowBar.ComponentsProperty, binding);
-            }
+            stsw._windowBar?.SetBinding(StswWindowBar.ComponentsProperty, new Binding(nameof(Components)) { Source = stsw });
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the config will be shown and in what mode (ContentDialog or Window).
+    /// </summary>
+    public StswPresentationMode? ConfigPresentationMode
+    {
+        get => (StswPresentationMode?)GetValue(ConfigPresentationModeProperty);
+        set => SetValue(ConfigPresentationModeProperty, value);
+    }
+    public static readonly DependencyProperty ConfigPresentationModeProperty
+        = DependencyProperty.Register(
+            nameof(ConfigPresentationMode),
+            typeof(StswPresentationMode?),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(StswPresentationMode?))
+        );
 
     /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.
@@ -253,22 +264,6 @@ public class StswWindow : Window, IStswCornerControl
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the config will be shown in content dialog or separated window.
-    /// </summary>
-    public bool ShowConfigInDialog
-    {
-        get => (bool)GetValue(ShowConfigInDialogProperty);
-        set => SetValue(ShowConfigInDialogProperty, value);
-    }
-    public static readonly DependencyProperty ShowConfigInDialogProperty
-        = DependencyProperty.Register(
-            nameof(ShowConfigInDialog),
-            typeof(bool),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(true)
-        );
     #endregion
 
     #region Style properties

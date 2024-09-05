@@ -233,7 +233,7 @@ public static class StswFn
     /// </summary>
     /// <param name="value">The byte array to convert.</param>
     /// <returns>The converted <see cref="BitmapImage"/>, or null if the byte array is empty.</returns>
-    public static BitmapImage? ToBitmapImage(byte[]? value)
+    public static BitmapImage? BytesToBitmapImage(byte[]? value)
     {
         if (value == null || value.Length == 0)
             return null;

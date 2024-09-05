@@ -203,6 +203,15 @@ public enum StswPathType
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswWindow.ConfigPresentationMode"/>.
+/// </summary>
+public enum StswPresentationMode
+{
+    ContentDialog,
+    Window
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswProgressBar.State"/> and <see cref="StswProgressRing.State"/>.
 /// </summary>
 public enum StswProgressState

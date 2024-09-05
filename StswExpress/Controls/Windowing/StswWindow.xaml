@@ -12,6 +12,8 @@
         <Setter Property="FontSize" Value="{DynamicResource StswWindow.Font.Size}"/>
         <Setter Property="WindowStyle" Value="None"/>
 
+        <Setter Property="ConfigPresentationMode" Value="ContentDialog"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
@@ -55,7 +57,7 @@
                                             <se:StswMenuItem x:Name="PART_iConfig"
                                                              Header="{se:Tr StswWindow.Config}"
                                                              IconData="{x:Static se:StswIcons.Cog}"/>
-                                            <se:StswSeparator/>
+                                            <se:StswSeparator x:Name="PART_MenuConfigSeparator"/>
                                             <!-- default -->
                                             <se:StswMenuItem x:Name="PART_MenuDefault"
                                                              Header="{se:Tr StswWindow.DefaultSize}"
@@ -74,7 +76,7 @@
                                                              IconData="{x:Static se:StswIcons.Fullscreen}"
                                                              InputGestureText="F11"/>
                                             <!-- close -->
-                                            <se:StswSeparator/>
+                                            <se:StswSeparator x:Name="PART_MenuCloseSeparator"/>
                                             <se:StswMenuItem x:Name="PART_MenuClose"
                                                              Header="{se:Tr StswWindow.Close}"
                                                              IconData="{x:Static se:StswIcons.WindowClose}"
@@ -88,23 +90,27 @@
                         </Grid>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="ConfigPresentationMode" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_iConfig"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuConfigSeparator"/>
+                        </Trigger>
                         <Trigger Property="Fullscreen" Value="True">
                             <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_WindowBarPanel"/>
-                            <!-- <Setter Property="HorizontalContentAlignment" Value="Right" TargetName="PART_WindowBarPanel"/> -->
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuCloseSeparator"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>

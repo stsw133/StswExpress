@@ -15,6 +15,8 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Height" Value="300"/>
+        <Setter Property="Width" Value="400"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -25,23 +27,25 @@
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      CornerRadius="{TemplateBinding CornerRadius}"
                                      Focusable="False"
+                                     Padding="{TemplateBinding Padding}"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     Height="300" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
-                                     Width="400" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}">
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswGroupBox.Header>
-                            <se:StswLabel Content="{se:Tr StswConfig}"
-                                          FontWeight="Medium"
-                                          IconData="{x:Static se:StswIcons.Cog}"
-                                          IconFill="{DynamicResource StswColor.Designer}"/>
+                            <se:StswLabel x:Name="PART_Header" Content="{se:Tr StswConfig}" FontWeight="Medium" IconData="{x:Static se:StswIcons.Cog}"/>
                         </se:StswGroupBox.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
+                        
+                        <DockPanel>
+                            <!-- buttons -->
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="{TemplateBinding Padding}">
+                                <se:StswButton x:Name="PART_ButtonConfirm" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
+                                    <se:StswLabel Content="{se:Tr StswConfig.Confirm}" IconData="{x:Static se:StswIcons.Check}" IconFill="{DynamicResource StswColor.Positive}"/>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonCancel" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
+                                    <se:StswLabel Content="{se:Tr StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
+                                </se:StswButton>
+                            </UniformGrid>
                             <!-- options -->
-                            <se:StswScrollView Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <se:StswScrollView Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                 <DockPanel>
                                     <!-- isize -->
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
@@ -95,23 +99,14 @@
                                     </StackPanel>
                                 </DockPanel>
                             </se:StswScrollView>
-                            <!-- buttons -->
-                            <UniformGrid Grid.Row="1" Rows="1" Margin="{TemplateBinding Padding}">
-                                <se:StswButton x:Name="PART_ButtonConfirm" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
-                                    <se:StswLabel Content="{se:Tr StswConfig.Confirm}" IconData="{x:Static se:StswIcons.Check}" IconFill="{DynamicResource StswColor.Positive}"/>
-                                </se:StswButton>
-                                <se:StswButton x:Name="PART_ButtonCancel" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
-                                    <se:StswLabel Content="{se:Tr StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
-                                </se:StswButton>
-                            </UniformGrid>
-                        </Grid>
+                        </DockPanel>
                     </se:StswGroupBox>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Identifier.ShowConfigInDialog, RelativeSource={RelativeSource Self}}" Value="False">
+                        <DataTrigger Binding="{Binding Identifier.ConfigPresentationMode, RelativeSource={RelativeSource Self}}" Value="Window">
                             <Setter Property="se:StswControl.IsBorderless" Value="True" TargetName="PART_MainBorder"/>
-                            <Setter Property="Height" Value="auto" TargetName="PART_MainBorder"/>
-                            <Setter Property="Width" Value="auto" TargetName="PART_MainBorder"/>
+                            <Setter Property="Header" Value="{x:Null}" TargetName="PART_MainBorder"/>
+                            <Setter Property="SeparatorThickness" Value="0" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

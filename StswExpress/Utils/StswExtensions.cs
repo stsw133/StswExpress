@@ -443,6 +443,39 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Converts a <see cref="Geometry"/> to an <see cref="ImageSource"/>.
+    /// </summary>
+    /// <param name="geometry">The geometry to convert.</param>
+    /// <param name="size">Height and width of the output image.</param>
+    /// <param name="fill">Fill brush of the output image.</param>
+    /// <param name="stroke">Stroke brush of the output image.</param>
+    /// <param name="strokeThickness">Stroke thickness of the output image.</param>
+    /// <returns>The converted <see cref="ImageSource"/>.</returns>
+    public static ImageSource ToImageSource(this Geometry geometry, double size, Brush? fill = null, Brush? stroke = null, double strokeThickness = 0)
+    {
+        var drawingVisual = new DrawingVisual();
+
+        using (var drawingContext = drawingVisual.RenderOpen())
+        {
+            if (fill != null)
+            {
+                drawingContext.DrawGeometry(fill, null, geometry);
+            }
+
+            if (stroke != null)
+            {
+                var pen = new Pen(stroke, strokeThickness);
+                drawingContext.DrawGeometry(null, pen, geometry);
+            }
+        }
+
+        var renderTargetBitmap = new RenderTargetBitmap((int)size, (int)size, 96, 96, PixelFormats.Pbgra32);
+        renderTargetBitmap.Render(drawingVisual);
+
+        return renderTargetBitmap;
+    }
+
+    /// <summary>
     /// Converts an <see cref="IEnumerable{T}"/> to an <see cref="ObservableCollection{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects in the collection.</typeparam>

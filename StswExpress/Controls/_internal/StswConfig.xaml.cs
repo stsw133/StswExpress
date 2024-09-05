@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace StswExpress;
@@ -47,7 +48,7 @@ internal class StswConfig : Control, IStswCornerControl
     /// <param name="result">A boolean indicating whether changes should be saved (<see langword="true"/>) or discarded (<see langword="false"/>).</param>
     private void Close(bool? result)
     {
-        if (Identifier is StswWindow window && !window.ShowConfigInDialog)
+        if (Identifier is StswWindow stswWindow && stswWindow.ConfigPresentationMode == StswPresentationMode.Window)
             Window.GetWindow(this).Close();
         else
             StswContentDialog.Close(Identifier);
@@ -72,22 +73,19 @@ internal class StswConfig : Control, IStswCornerControl
     /// <param name="identifier">The identifier to determine the context where the dialog should be displayed.</param>
     public static async void Show(object identifier)
     {
-        if (identifier is StswWindow window && !window.ShowConfigInDialog)
+        if (identifier is StswWindow window && window.ConfigPresentationMode == StswPresentationMode.Window)
         {
-            var config = new StswConfig(window);
             var newWindow = new StswWindow()
             {
-                Content = config,
+                ConfigPresentationMode = null,
+                Content = new StswConfig(window),
+                Icon = StswIcons.Cog.ToImageSource(24, SystemColors.WindowTextBrush),
                 Owner = window,
-                Height = window.ActualHeight * 0.9,
-                Width = window.ActualWidth * 0.9,
+                ResizeMode = ResizeMode.NoResize,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                Title = StswTranslator.Tr(nameof(StswConfig)),
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
-
-            newWindow.ApplyTemplate();
-            if (newWindow._windowBar != null)
-                ((Control)newWindow._windowBar.Parent).Visibility = Visibility.Collapsed;
-
             WindowChrome.SetWindowChrome(newWindow, new());
             newWindow.ShowDialog();
         }
