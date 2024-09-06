@@ -34,29 +34,27 @@ public class StswLabelPanel : Grid
             {
                 if (i >= RowDefinitions.Count)
                     RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                
+
                 SetRow(Children[i], i);
                 SetColumn(Children[i], 0);
             }
         }
         else
         {
-            if (ColumnDefinitions.Count == 0)
+            ColumnDefinitions.Add(new ColumnDefinition { Width = LabelWidth });
+            ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            var requiredRows = (Children.Count + 1) / 2;
+            for (var i = 0; i < requiredRows; i++)
             {
-                ColumnDefinitions.Add(new ColumnDefinition { Width = LabelWidth });
-                ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                if (i >= RowDefinitions.Count)
+                    RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             }
 
             for (var i = 0; i < Children.Count; i++)
             {
-                var row = i / 2;
-                var column = i % 2;
-
-                if (row >= RowDefinitions.Count)
-                    RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-                SetRow(Children[i], row);
-                SetColumn(Children[i], column);
+                SetRow(Children[i], i / 2);
+                SetColumn(Children[i], i % 2);
             }
         }
 
@@ -72,8 +70,11 @@ public class StswLabelPanel : Grid
         {
             if ((i % 2) == 0 && Children[i] is Control control)
             {
-                control.HorizontalContentAlignment = LabelHorizontalAlignment;
-                control.FontWeight = LabelFontWeight;
+                if (control.FontWeight != LabelFontWeight)
+                    control.FontWeight = LabelFontWeight;
+
+                if (control.HorizontalContentAlignment != LabelHorizontalAlignment)
+                    control.HorizontalContentAlignment = LabelHorizontalAlignment;
             }
         }
     }
@@ -93,7 +94,9 @@ public class StswLabelPanel : Grid
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswLabelPanel),
-            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange, OnOrientationChanged)
+            new FrameworkPropertyMetadata(default(Orientation),
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnOrientationChanged)
         );
     private static void OnOrientationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -118,7 +121,9 @@ public class StswLabelPanel : Grid
             nameof(LabelFontWeight),
             typeof(FontWeight),
             typeof(StswLabelPanel),
-            new FrameworkPropertyMetadata(default(FontWeight), FrameworkPropertyMetadataOptions.AffectsMeasure, OnLabelFontWeightChanged)
+            new FrameworkPropertyMetadata(default(FontWeight),
+                FrameworkPropertyMetadataOptions.AffectsMeasure,
+                OnLabelFontWeightChanged)
         );
     private static void OnLabelFontWeightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -141,7 +146,9 @@ public class StswLabelPanel : Grid
             nameof(LabelHorizontalAlignment),
             typeof(HorizontalAlignment),
             typeof(StswLabelPanel),
-            new FrameworkPropertyMetadata(default(HorizontalAlignment), FrameworkPropertyMetadataOptions.AffectsArrange, OnLabelHorizontalAlignmentChanged)
+            new FrameworkPropertyMetadata(default(HorizontalAlignment),
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnLabelHorizontalAlignmentChanged)
         );
     private static void OnLabelHorizontalAlignmentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -164,7 +171,9 @@ public class StswLabelPanel : Grid
             nameof(LabelWidth),
             typeof(GridLength),
             typeof(StswLabelPanel),
-            new FrameworkPropertyMetadata(default(GridLength), FrameworkPropertyMetadataOptions.AffectsMeasure, OnLabelWidthChanged)
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure,
+                OnLabelWidthChanged)
         );
     private static void OnLabelWidthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {

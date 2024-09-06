@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -23,8 +24,7 @@ public class StswGrid : Grid
     {
         base.OnApplyTemplate();
 
-        if (AutoLayoutMode != StswAutoLayoutMode.None)
-            EnsureDefinitions();
+        EnsureDefinitions();
     }
 
     /// <summary>
@@ -34,8 +34,7 @@ public class StswGrid : Grid
     /// <returns>The desired size of the control.</returns>
     protected override Size MeasureOverride(Size constraint)
     {
-        if (AutoLayoutMode != StswAutoLayoutMode.None)
-            EnsureDefinitions();
+        EnsureDefinitions();
         return base.MeasureOverride(constraint);
     }
 
@@ -44,44 +43,114 @@ public class StswGrid : Grid
     /// </summary>
     private void EnsureDefinitions()
     {
-        ColumnDefinitions.Clear();
+        if (AutoLayoutMode == StswAutoLayoutMode.None)
+            return;
 
-        if (AutoLayoutMode == StswAutoLayoutMode.IncrementColumns)
+        switch (AutoLayoutMode)
         {
-            for (int i = 0; i < Children.Count; i++)
-            {
-                if (ColumnDefinitions.Count <= i)
-                    ColumnDefinitions.Add(new ColumnDefinition() { Width = ColumnWidths?.Count > 0 ? ColumnWidths[Math.Min(ColumnDefinitions.Count, ColumnWidths.Count - 1)] : GridLength.Auto });
-                SetColumn(Children[i], i);
-            }
-        }
-        else if (AutoLayoutMode == StswAutoLayoutMode.IncrementRows)
-        {
-            for (int i = 0; i < Children.Count; i++)
-            {
-                if (RowDefinitions.Count <= i)
-                    RowDefinitions.Add(new RowDefinition() { Height = RowHeights?.Count > 0 ? RowHeights[Math.Min(RowDefinitions.Count, RowHeights.Count - 1)] : GridLength.Auto });
-                SetRow(Children[i], i);
-            }
-        }
-        else if (AutoLayoutMode == StswAutoLayoutMode.AutoDefinitions)
-        {
-            int maxRow = 0;
-            int maxColumn = 0;
+            case StswAutoLayoutMode.IncrementColumns:
+                {
+                    if (ColumnDefinitions.Count != Children.Count)
+                    {
+                        if (ColumnDefinitions.Count > Children.Count)
+                            ColumnDefinitions.RemoveRange(Children.Count, ColumnDefinitions.Count - Children.Count);
+                        else
+                            while (ColumnDefinitions.Count < Children.Count)
+                                ColumnDefinitions.Add(new ColumnDefinition());
+                    }
 
-            foreach (UIElement element in Children)
-            {
-                int row = GetRow(element);
-                int column = GetColumn(element);
-                maxRow = Math.Max(maxRow, row);
-                maxColumn = Math.Max(maxColumn, column);
-            }
+                    for (var i = 0; i < Children.Count; i++)
+                    {
+                        var desiredWidth = ColumnWidths?.Any() == true
+                            ? ColumnWidths.Count > i ? ColumnWidths[i] : ColumnWidths.Last()
+                            : GridLength.Auto;
 
-            while (RowDefinitions.Count <= maxRow)
-                RowDefinitions.Add(new RowDefinition() { Height = RowHeights?.Count > 0 ? RowHeights[Math.Min(RowDefinitions.Count, RowHeights.Count - 1)] : GridLength.Auto });
+                        if (ColumnDefinitions[i].Width != desiredWidth)
+                            ColumnDefinitions[i].Width = desiredWidth;
 
-            while (ColumnDefinitions.Count <= maxColumn)
-                ColumnDefinitions.Add(new ColumnDefinition() { Width = ColumnWidths?.Count > 0 ? ColumnWidths[Math.Min(ColumnDefinitions.Count, ColumnWidths.Count - 1)] : GridLength.Auto });
+                        SetColumn(Children[i], i);
+                    }
+
+                    break;
+                }
+
+            case StswAutoLayoutMode.IncrementRows:
+                {
+                    if (RowDefinitions.Count != Children.Count)
+                    {
+                        if (RowDefinitions.Count > Children.Count)
+                            RowDefinitions.RemoveRange(Children.Count, RowDefinitions.Count - Children.Count);
+                        else
+                            while (RowDefinitions.Count < Children.Count)
+                                RowDefinitions.Add(new RowDefinition());
+                    }
+
+                    for (var i = 0; i < Children.Count; i++)
+                    {
+                        var desiredHeight = RowHeights?.Any() == true
+                            ? RowHeights.Count > i ? RowHeights[i] : RowHeights.Last()
+                            : GridLength.Auto;
+
+                        if (RowDefinitions[i].Height != desiredHeight)
+                            RowDefinitions[i].Height = desiredHeight;
+
+                        SetRow(Children[i], i);
+                    }
+
+                    break;
+                }
+
+            case StswAutoLayoutMode.AutoDefinitions:
+                {
+                    var maxRow = 0;
+                    var maxColumn = 0;
+
+                    foreach (UIElement element in Children)
+                    {
+                        maxRow = Math.Max(maxRow, GetRow(element));
+                        maxColumn = Math.Max(maxColumn, GetColumn(element));
+                    }
+
+                    if (ColumnDefinitions.Count != maxColumn + 1)
+                    {
+                        if (ColumnDefinitions.Count > (maxColumn + 1))
+                            ColumnDefinitions.RemoveRange(maxColumn + 1, ColumnDefinitions.Count - (maxColumn + 1));
+                        else
+                            while (ColumnDefinitions.Count < (maxColumn + 1))
+                                ColumnDefinitions.Add(new ColumnDefinition());
+                    }
+
+                    if (RowDefinitions.Count != maxRow + 1)
+                    {
+                        if (RowDefinitions.Count > (maxRow + 1))
+                            RowDefinitions.RemoveRange(maxRow + 1, RowDefinitions.Count - (maxRow + 1));
+                        else
+                            while (RowDefinitions.Count < (maxRow + 1))
+                                RowDefinitions.Add(new RowDefinition());
+                    }
+
+                    for (var i = 0; i < ColumnDefinitions.Count; i++)
+                    {
+                        var desiredWidth = ColumnWidths?.Any() == true
+                            ? ColumnWidths.Count > i ? ColumnWidths[i] : ColumnWidths.Last()
+                            : GridLength.Auto;
+
+                        if (ColumnDefinitions[i].Width != desiredWidth)
+                            ColumnDefinitions[i].Width = desiredWidth;
+                    }
+
+                    for (var i = 0; i < RowDefinitions.Count; i++)
+                    {
+                        var desiredHeight = RowHeights?.Any() == true
+                            ? RowHeights.Count > i ? RowHeights[i] : RowHeights.Last()
+                            : GridLength.Auto;
+
+                        if (RowDefinitions[i].Height != desiredHeight)
+                            RowDefinitions[i].Height = desiredHeight;
+                    }
+
+                    break;
+                }
         }
     }
     #endregion

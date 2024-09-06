@@ -23,7 +23,7 @@ public class StswDropArrow : StswIcon
     public static readonly DependencyProperty IsExpandedProperty
         = DependencyProperty.Register(
             nameof(IsExpanded),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswDropArrow),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.AffectsRender)

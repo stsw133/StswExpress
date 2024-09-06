@@ -25,6 +25,9 @@ public class StswZoomControl : Border
     /// <param name="element"></param>
     public void Initialize(UIElement element)
     {
+        if (_child == element)
+            return;
+
         _child = element;
         if (_child != null)
         {
@@ -33,11 +36,18 @@ public class StswZoomControl : Border
             group.Children.Add(new TranslateTransform());
             _child.RenderTransform = group;
             _child.RenderTransformOrigin = new Point(0.0, 0.0);
+
+            MouseLeftButtonDown -= child_MouseLeftButtonDown;
+            MouseLeftButtonUp -= child_MouseLeftButtonUp;
+            MouseMove -= child_MouseMove;
+            MouseWheel -= child_MouseWheel;
+            PreviewMouseRightButtonDown -= child_PreviewMouseRightButtonDown;
+
             MouseLeftButtonDown += child_MouseLeftButtonDown;
             MouseLeftButtonUp += child_MouseLeftButtonUp;
             MouseMove += child_MouseMove;
             MouseWheel += child_MouseWheel;
-            PreviewMouseRightButtonDown += new MouseButtonEventHandler(child_PreviewMouseRightButtonDown);
+            PreviewMouseRightButtonDown += child_PreviewMouseRightButtonDown;
         }
     }
 
@@ -64,13 +74,19 @@ public class StswZoomControl : Border
         {
             /// reset zoom
             var st = GetScaleTransform(_child);
-            st.ScaleX = 1.0;
-            st.ScaleY = 1.0;
+            if (st.ScaleX != 1.0 || st.ScaleY != 1.0)
+            {
+                st.ScaleX = 1.0;
+                st.ScaleY = 1.0;
+            }
 
             /// reset pan
             var tt = GetTranslateTransform(_child);
-            tt.X = 0.0;
-            tt.Y = 0.0;
+            if (tt.X != 0.0 || tt.Y != 0.0)
+            {
+                tt.X = 0.0;
+                tt.Y = 0.0;
+            }
         }
     }
 
@@ -86,14 +102,14 @@ public class StswZoomControl : Border
             var st = GetScaleTransform(_child);
             var tt = GetTranslateTransform(_child);
 
-            if (e.Delta <= 0 && (st.ScaleX < MinScale || st.ScaleY < MinScale))
+            var zoom = e.Delta > 0 ? 0.2 : -0.2;
+            if (e.Delta <= 0 && (st.ScaleX + zoom < MinScale || st.ScaleY + zoom < MinScale))
                 return;
 
             var relative = e.GetPosition(_child);
             var absoluteX = relative.X * st.ScaleX + tt.X;
             var absoluteY = relative.Y * st.ScaleY + tt.Y;
 
-            var zoom = e.Delta > 0 ? 0.2 : -0.2;
             st.ScaleX += zoom;
             st.ScaleY += zoom;
 
@@ -185,7 +201,7 @@ public class StswZoomControl : Border
             nameof(MinScale),
             typeof(double),
             typeof(StswZoomControl),
-            new FrameworkPropertyMetadata(0.4d)
+            new FrameworkPropertyMetadata(0.4)
         );
     #endregion
 }

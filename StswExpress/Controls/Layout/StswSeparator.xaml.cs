@@ -13,12 +13,18 @@ public class StswSeparator : Separator
     }
 
     #region Events & methods
+    private Border? _mainBorder;
+    
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        /// border
+        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
+            _mainBorder = mainBorder;
 
         OnBorderThicknessChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -38,7 +44,9 @@ public class StswSeparator : Separator
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange, OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(Orientation),
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnBorderThicknessChanged)
         );
     #endregion
 
@@ -56,14 +64,16 @@ public class StswSeparator : Separator
             nameof(BorderThickness),
             typeof(double),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender, OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnBorderThicknessChanged)
         );
     public static void OnBorderThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswSeparator stsw)
         {
-            if (stsw.GetTemplateChild("PART_MainBorder") is Border mainBorder)
-                mainBorder.BorderThickness = stsw.Orientation == Orientation.Horizontal
+            if (stsw._mainBorder != null)
+                stsw._mainBorder.BorderThickness = stsw.Orientation == Orientation.Horizontal
                     ? new Thickness(stsw.BorderThickness, stsw.BorderThickness, stsw.BorderThickness, 0)
                     : new Thickness(stsw.BorderThickness, stsw.BorderThickness, 0, stsw.BorderThickness);
         }
@@ -84,7 +94,8 @@ public class StswSeparator : Separator
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

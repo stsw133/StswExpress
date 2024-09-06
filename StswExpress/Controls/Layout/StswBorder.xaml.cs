@@ -27,8 +27,8 @@ public class StswBorder : Border, IStswCornerControl
     /// </summary>
     protected override void OnRender(DrawingContext dc)
     {
-        if (CornerClipping)
-            OnApplyChildClip();
+        if (CornerClipping && Child is UIElement child)
+            OnApplyChildClip(child);
         base.OnRender(dc);
     }
 
@@ -52,14 +52,11 @@ public class StswBorder : Border, IStswCornerControl
     /// <summary>
     /// Applies the clipping with rounded corners to the child element of the border control.
     /// </summary>
-    protected virtual void OnApplyChildClip()
+    protected virtual void OnApplyChildClip(UIElement child)
     {
-        if (Child is UIElement child)
-        {
-            _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
-            _clipRect.Rect = new Rect(Child.RenderSize);
-            child.Clip = _clipRect;
-        }
+        _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
+        _clipRect.Rect = new Rect(0, 0, child.RenderSize.Width, child.RenderSize.Height);
+        child.Clip = _clipRect;
     }
     #endregion
 
@@ -79,7 +76,8 @@ public class StswBorder : Border, IStswCornerControl
             nameof(CornerClipping),
             typeof(bool),
             typeof(StswBorder),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

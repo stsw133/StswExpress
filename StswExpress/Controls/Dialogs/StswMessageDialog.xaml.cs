@@ -263,7 +263,9 @@ public class StswMessageDialog : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswMessageDialog)
+            typeof(StswMessageDialog),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -280,7 +282,9 @@ public class StswMessageDialog : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswMessageDialog)
+            typeof(StswMessageDialog),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }
