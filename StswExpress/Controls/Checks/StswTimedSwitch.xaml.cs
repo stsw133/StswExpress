@@ -59,8 +59,11 @@ public class StswTimedSwitch : CheckBox
     {
         Dispatcher.Invoke(() =>
         {
-            SetValue(IsCheckedProperty, false);
-            timer.Stop();
+            if (IsChecked == true)
+            {
+                SetValue(IsCheckedProperty, false);
+                timer.Stop();
+            }
         });
     }
     #endregion
@@ -87,9 +90,13 @@ public class StswTimedSwitch : CheckBox
         {
             if (stsw.SwitchTime.TotalMilliseconds > 0)
             {
-                stsw.timer.Interval = stsw.SwitchTime.TotalMilliseconds;
-                if (stsw.IsChecked == true)
-                    stsw.timer.Start();
+                var newInterval = stsw.SwitchTime.TotalMilliseconds;
+                if (stsw.timer.Interval != newInterval)
+                {
+                    stsw.timer.Interval = newInterval;
+                    if (stsw.IsChecked == true)
+                        stsw.timer.Start();
+                }
             }
         }
     }

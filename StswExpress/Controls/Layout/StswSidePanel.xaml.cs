@@ -61,7 +61,9 @@ public class StswSidePanel : ContentControl
     {
         if (obj is StswSidePanel stsw)
         {
-            stsw.IsCollapsed = !stsw.IsAlwaysVisible;
+            var newIsCollapsed = !stsw.IsAlwaysVisible;
+            if (stsw.IsCollapsed != newIsCollapsed)
+                stsw.IsCollapsed = newIsCollapsed;
         }
     }
 

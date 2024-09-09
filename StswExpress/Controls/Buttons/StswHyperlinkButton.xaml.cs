@@ -22,9 +22,11 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     {
         base.OnClick();
 
-        if (NavigateUri?.AbsoluteUri != null)
+        if (NavigateUri != null && !string.IsNullOrEmpty(NavigateUri.AbsoluteUri))
+        {
             StswFn.OpenFile(NavigateUri.AbsoluteUri);
-        WasClicked = true;
+            WasClicked = true;
+        }
     }
     #endregion
 
