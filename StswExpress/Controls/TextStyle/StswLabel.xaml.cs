@@ -41,15 +41,8 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         if (GetValue(IsBusyProperty) == null)
         {
             var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
-
-            if (/*GetBindingExpression(IsBusyProperty) == null &&*/ commandSource?.Command is IStswCommand cmd)
-            {
-                var binding = new Binding(nameof(cmd.IsBusy))
-                {
-                    Source = cmd
-                };
-                BindingOperations.SetBinding(this, IsBusyProperty, binding);
-            }
+            if (commandSource?.Command is IStswCommand cmd)
+                SetBinding(IsBusyProperty, new Binding(nameof(IStswCommand.IsBusy)) { Source = cmd });
         }
     }
     #endregion

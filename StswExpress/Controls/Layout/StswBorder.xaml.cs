@@ -29,6 +29,7 @@ public class StswBorder : Border, IStswCornerControl
     {
         if (CornerClipping && Child is UIElement child)
             OnApplyChildClip(child);
+
         base.OnRender(dc);
     }
 

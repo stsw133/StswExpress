@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -49,6 +50,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 foreach (var item in oldValue)
                     if (item is ButtonBase btn)
                         btn.Click -= (_, _) => IsDropDownOpen = false;
+
             if (newValue != null)
                 foreach (var item in newValue)
                     if (item is ButtonBase btn)
@@ -79,12 +81,12 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     {
         if (obj is StswDropButton stsw)
         {
-            foreach (var item in stsw.Items)
-                if (item is ButtonBase btn)
+            if (stsw.Items != null)
+                foreach (var btn in stsw.Items.OfType<ButtonBase>())
                 {
                     if (stsw.AutoClose)
                         btn.Click += (_, _) => stsw.IsDropDownOpen = false;
-                    else if ((bool?)e.OldValue == true && stsw.Items != null)
+                    else
                         btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
                 }
         }

@@ -15,7 +15,7 @@
         <local:ControlsBase.Properties>
             <!-- MinScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MinScale, Type={x:Type se:StswZoomControl}}"/>
-            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MinScale}"/>
+            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Minimum="0.01" Value="{Binding MinScale}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswZoomControl IsEnabled="{Binding IsEnabled}"
