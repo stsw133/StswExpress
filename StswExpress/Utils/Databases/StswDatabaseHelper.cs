@@ -323,59 +323,6 @@ public static class StswDatabaseHelper
     public static IEnumerable<TResult> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : class, new()
         => model.OpenedConnection().Get<TResult>(query, parameters, timeout, sqlTran);
 
-    /*
-    /// <summary>
-    /// Executes a multi-select SQL query and returns a collection of results, where each result set is mapped to a specified type.
-    /// </summary>
-    /// <param name="model">The database model containing connection and transaction information.</param>
-    /// <param name="query">The SQL query string containing multiple SELECT statements, separated by semicolons.</param>
-    /// <param name="resultTypes">A list of types corresponding to the result sets returned by each SELECT statement in the query.</param>
-    /// <param name="parameters">Optional parameters to be used in the SQL query.</param>
-    /// <param name="timeout">The timeout used for the SQL command. If not specified, the default timeout is used.</param>
-    /// <param name="delimiter">An optional delimiter used for mapping nested properties in the result sets. Defaults to '/' if not specified.</param>
-    /// <returns>
-    /// A collection of collections, where each inner collection contains objects mapped to the specified type corresponding to each SELECT statement.
-    /// </returns>
-    /// <exception cref="InvalidOperationException">Thrown when the number of result types does not match the number of SELECT statements in the SQL command.</exception>
-    public static IEnumerable<IEnumerable<object>> GetMultiple(this StswDatabaseModel model, string query, IList<Type> resultTypes, object? parameters = null, int? timeout = null, SqlTransaction? externalTransaction = null, char delimiter = '/')
-    {
-        if (!CheckQueryConditions())
-            return [];
-
-        using var factory = new StswSqlConnectionFactory(model, externalTransaction, false);
-        using var sqlDA = new SqlDataAdapter(model.PrepareQuery(query), factory.Connection);
-        sqlDA.SelectCommand.CommandTimeout = timeout ?? model.DefaultTimeout ?? sqlDA.SelectCommand.CommandTimeout;
-        sqlDA.SelectCommand.Transaction = factory.Transaction;
-
-        PrepareParameters(sqlDA.SelectCommand, parameters);
-
-        var dataSet = new DataSet();
-        sqlDA.Fill(dataSet);
-
-        if (dataSet.Tables.Count != resultTypes.Count)
-            throw new InvalidOperationException("The number of result types does not match the number of queries in the SQL command.");
-
-        var results = new List<IEnumerable<object>>();
-
-        for (int i = 0; i < dataSet.Tables.Count; i++)
-        {
-            var table = dataSet.Tables[i];
-            var resultType = resultTypes[i];
-
-            var mapMethod = typeof(DataTableExtensions).GetMethod("MapTo", BindingFlags.Static | BindingFlags.Public)?.MakeGenericMethod(resultType);
-            if (mapMethod != null)
-            {
-                var mappedResult = mapMethod.Invoke(null, [table, delimiter]);
-                if (mappedResult != null)
-                    results.Add((IEnumerable<object>)mappedResult);
-            }
-        }
-
-        factory.Commit();
-        return results;
-    }
-    */
-
     /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
     /// </summary>
@@ -507,15 +454,15 @@ public static class StswDatabaseHelper
     /// <param name="query">The SQL query to process and reduce unnecessary whitespace.</param>
     /// <returns>The processed SQL query with reduced whitespace.</returns>
     public static string LessSpaceQuery(string query)
-    {
-        var regex = new Regex(@"('([^']*)')|([^']+)");
-        var parts = regex.Matches(query)
-                         .Cast<Match>()
-                         .Select(x => x.Groups[2].Success ? (x.Groups[2].Value, true) : (x.Groups[3].Value, false))
-                         .ToList();
-
-        return parts.Aggregate(string.Empty, (current, part) => current + (part.Item2 ? $"'{part.Value}'" : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")));
-    }
+        => new Regex(@"('([^']*)')|([^']+)").Matches(query)
+                                            .Cast<Match>()
+                                            .Select(x => x.Groups[2].Success ? (x.Groups[2].Value, true) : (x.Groups[3].Value, false))
+                                            .ToList()
+                                            .Aggregate(string.Empty, (current, part) => current + (
+                                                part.Item2
+                                                    ? $"'{part.Value}'"
+                                                    : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")
+                                            ));
 
     /// <summary>
     /// Prepares the specified SQL command by clearing existing parameters and adding new ones based on 
@@ -531,13 +478,31 @@ public static class StswDatabaseHelper
 
         if (model != null)
         {
-            var sqlParameters = model switch
-            {
-                IEnumerable<SqlParameter> paramList => paramList.ToList(),
-                IDictionary<string, object> dictionary => dictionary.Select(x => new SqlParameter("@" + x.Key, x.Value ?? DBNull.Value)).ToList(),
-                _ => model.GetType().GetProperties().Select(x => new SqlParameter("@" + x.Name, x.GetValue(model) ?? DBNull.Value)).ToList()
-            };
+            /// in query:
+            /// remove everything between '' marks (including the quotes)
+            /// remove everything between /* and */ (including the markers)
+            /// remove everything between -- and newline (keeping the newline)
+            /// and get all used parameters
             
+            var query = Regex.Replace(sqlCommand.CommandText, @"'[^']*'", "");
+            query = Regex.Replace(query, @"/\*.*?\*/", "", RegexOptions.Singleline);
+            query = Regex.Replace(query, @"--.*?$", "", RegexOptions.Multiline);
+
+            var cmdParameters = Regex.Matches(query, @"@(\w+)").Cast<Match>().Select(x => x.Groups[1].Value.ToLower());
+
+            /// prepare parameters from model
+            var sqlParameters = (model switch
+            {
+                IEnumerable<SqlParameter> paramList => paramList,
+                IDictionary<string, object> dict => dict.Where(x => x.Key.ToLower().In(cmdParameters))
+                                                        .Select(x => new SqlParameter("@" + x.Key, x.Value ?? DBNull.Value)),
+                _ => model.GetType()
+                          .GetProperties()
+                          .Where(x => x.Name.ToLower().In(cmdParameters))
+                          .Select(x => new SqlParameter("@" + x.Name, x.GetValue(model) ?? DBNull.Value))
+            }).ToList();
+            
+            /// add prepared parameters to command
             foreach (var parameter in sqlParameters)
             {
                 if (parameter.Value?.GetType()?.IsListType(out var type) == true)

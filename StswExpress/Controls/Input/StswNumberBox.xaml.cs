@@ -43,7 +43,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    private static bool TryParse(string? text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+    private static bool TryParse(string? text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
     private static T Add(T a, T b) => a + b;
     private static T Subtract(T a, T b) => a - b;
     private static bool IsZero(T value) => value == T.Zero;

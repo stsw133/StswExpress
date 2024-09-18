@@ -35,7 +35,24 @@ public static class StswFn
     /// Gets the version number of the currently executing application.
     /// </summary>
     /// <returns>The version number of the currently executing application as a string, or null if it cannot be determined.</returns>
-    public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.Replace(".0", string.Empty);
+    public static string? AppVersion()
+    {
+        if (Assembly.GetEntryAssembly()?.GetName().Version is Version version)
+        {
+            int?[] versionParts = [version.Major, version.Minor, version.Build, version.Revision];
+            for (int i = versionParts.Length - 1; i >= 0; i--)
+            {
+                if (versionParts[i] == 0)
+                    versionParts[i] = null;
+                else
+                    break;
+            }
+
+            return string.Join(".", versionParts.Where(part => part != null));
+        }
+
+        return null;
+    }
 
     /// <summary>
     /// Gets the name and version number of the currently executing application.
