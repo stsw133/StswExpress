@@ -35,8 +35,9 @@ public class StswTabControlContext : ControlsContext
         {
             Header = new StswLabel()
             {
+                Content = nameof(StswButton),
                 IconData = StswIcons.Dice1,
-                Content = nameof(StswButton)
+                HorizontalContentAlignment = HorizontalAlignment.Left
             },
             Content = new StswButtonContext()
         },
@@ -44,8 +45,9 @@ public class StswTabControlContext : ControlsContext
         {
             Header = new StswLabel()
             {
+                Content = nameof(StswCheckBox),
                 IconData = StswIcons.Dice2,
-                Content = nameof(StswCheckBox)
+                HorizontalContentAlignment = HorizontalAlignment.Left
             },
             Content = new StswCheckBoxContext(),
             IsClosable = true
@@ -54,8 +56,9 @@ public class StswTabControlContext : ControlsContext
         {
             Header = new StswLabel()
             {
+                Content = nameof(StswGroupBox),
                 IconData = StswIcons.Dice3,
-                Content = nameof(StswGroupBox)
+                HorizontalContentAlignment = HorizontalAlignment.Left
             },
             Content = new StswGroupBoxContext(),
             IsClosable = true

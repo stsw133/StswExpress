@@ -69,7 +69,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
         var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
         var bindingVerticalContentAlignment = new Binding(nameof(VerticalContentAlignment)) { Source = this };
-        var bindingValue = new Binding(nameof(Value)) { Source = this };
+        var bindingValue = new Binding(nameof(Value)) { Source = this, Mode = BindingMode.TwoWay };
 
         FrameworkElement? newControl = null;
         switch (Type)

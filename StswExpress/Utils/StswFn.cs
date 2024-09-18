@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -269,6 +270,32 @@ public static class StswFn
         result.Freeze();
 
         return result;
+    }
+
+    /// <summary>
+    /// Merges properties of multiple objects into a single dynamic object. 
+    /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
+    /// </summary>
+    /// <param name="parameters">An array of objects to be merged.</param>
+    /// <returns>A dynamic object containing all properties from the provided objects.</returns>
+    public static dynamic MergeObjects(params object[] parameters)
+    {
+        var expando = new ExpandoObject() as IDictionary<string, object?>;
+
+        foreach (var parameter in parameters)
+        {
+            if (parameter == null)
+                continue;
+
+            foreach (var property in parameter.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var propertyName = property.Name;
+                var propertyValue = property.GetValue(parameter);
+                expando[propertyName] = propertyValue;
+            }
+        }
+
+        return expando;
     }
     #endregion
 

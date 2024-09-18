@@ -44,8 +44,9 @@ public class StswTabControl : TabControl
         {
             Header = new StswLabel()
             {
+                Content = NewTabTemplate.Name,
                 IconData = NewTabTemplate.Icon,
-                Content = NewTabTemplate.Name
+                HorizontalContentAlignment = HorizontalAlignment.Left
             },
             IsClosable = true,
             Content = NewTabTemplate.Type != null ? Activator.CreateInstance(NewTabTemplate.Type) : null
