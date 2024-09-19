@@ -55,37 +55,40 @@ public class StswDatePicker : StswBoxBase
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateTimeIncrementType.None && DateTime.TryParse(Text, out var result))
+        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateTimeIncrementType.None)
         {
-            if (e.Delta > 0)
+            if (DateTime.TryParse(Text, out var result))
             {
-                result = IncrementType switch
+                if (e.Delta > 0)
                 {
-                    StswDateTimeIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= result ? result.AddYears(1) : DateTime.MaxValue,
-                    StswDateTimeIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= result ? result.AddMonths(1) : DateTime.MaxValue,
-                    StswDateTimeIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= result ? result.AddDays(1) : DateTime.MaxValue,
-                    StswDateTimeIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= result ? result.AddHours(1) : DateTime.MaxValue,
-                    StswDateTimeIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= result ? result.AddMinutes(1) : DateTime.MaxValue,
-                    StswDateTimeIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= result ? result.AddSeconds(1) : DateTime.MaxValue,
-                    _ => result
-                };
-            }
-            else //if (e.Delta < 0)
-            {
-                result = IncrementType switch
+                    result = IncrementType switch
+                    {
+                        StswDateTimeIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= result ? result.AddYears(1) : DateTime.MaxValue,
+                        StswDateTimeIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= result ? result.AddMonths(1) : DateTime.MaxValue,
+                        StswDateTimeIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= result ? result.AddDays(1) : DateTime.MaxValue,
+                        StswDateTimeIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= result ? result.AddHours(1) : DateTime.MaxValue,
+                        StswDateTimeIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= result ? result.AddMinutes(1) : DateTime.MaxValue,
+                        StswDateTimeIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= result ? result.AddSeconds(1) : DateTime.MaxValue,
+                        _ => result
+                    };
+                }
+                else //if (e.Delta < 0)
                 {
-                    StswDateTimeIncrementType.Year => DateTime.MinValue.AddYears(1) <= result ? result.AddYears(-1) : DateTime.MinValue,
-                    StswDateTimeIncrementType.Month => DateTime.MinValue.AddMonths(1) <= result ? result.AddMonths(-1) : DateTime.MinValue,
-                    StswDateTimeIncrementType.Day => DateTime.MinValue.AddDays(1) <= result ? result.AddDays(-1) : DateTime.MinValue,
-                    StswDateTimeIncrementType.Hour => DateTime.MinValue.AddHours(1) <= result ? result.AddHours(-1) : DateTime.MinValue,
-                    StswDateTimeIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= result ? result.AddMinutes(-1) : DateTime.MinValue,
-                    StswDateTimeIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= result ? result.AddSeconds(-1) : DateTime.MinValue,
-                    _ => result
-                };
-            }
-            SelectedDate = result;
+                    result = IncrementType switch
+                    {
+                        StswDateTimeIncrementType.Year => DateTime.MinValue.AddYears(1) <= result ? result.AddYears(-1) : DateTime.MinValue,
+                        StswDateTimeIncrementType.Month => DateTime.MinValue.AddMonths(1) <= result ? result.AddMonths(-1) : DateTime.MinValue,
+                        StswDateTimeIncrementType.Day => DateTime.MinValue.AddDays(1) <= result ? result.AddDays(-1) : DateTime.MinValue,
+                        StswDateTimeIncrementType.Hour => DateTime.MinValue.AddHours(1) <= result ? result.AddHours(-1) : DateTime.MinValue,
+                        StswDateTimeIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= result ? result.AddMinutes(-1) : DateTime.MinValue,
+                        StswDateTimeIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= result ? result.AddSeconds(-1) : DateTime.MinValue,
+                        _ => result
+                    };
+                }
+                SelectedDate = result;
 
-            e.Handled = true;
+                e.Handled = true;
+            }
         }
     }
 
@@ -96,10 +99,13 @@ public class StswDatePicker : StswBoxBase
     {
         if (newValue == null)
             return newValue;
+
         if (Minimum.HasValue && newValue < Minimum)
             newValue = Minimum;
+
         if (Maximum.HasValue && newValue > Maximum)
             newValue = Maximum;
+
         return newValue;
     }
 

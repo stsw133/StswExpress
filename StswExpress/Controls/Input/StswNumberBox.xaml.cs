@@ -56,10 +56,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// <param name="e">The event arguments</param>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
-        var result = Value;
+        var result = Value ?? default;
+
         if (TryParse(Text, out var res))
             result = res;
-        Value = Add(result.GetValueOrDefault(), Increment);
+
+        Value = Add(result, Increment);
     }
 
     /// <summary>
@@ -69,10 +71,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// <param name="e">The event arguments</param>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
-        var result = Value;
+        var result = Value ?? default;
+
         if (TryParse(Text, out var res))
             result = res;
-        Value = Subtract(result.GetValueOrDefault(), Increment);
+
+        Value = Subtract(result, Increment);
     }
 
     /// <summary>
@@ -83,16 +87,14 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused == true && !IsReadOnly && !IsZero(Increment) && TryParse(Text, out var res))
+        if (IsKeyboardFocused == true && !IsReadOnly && !IsZero(Increment))
         {
-            var result = res;
-            if (e.Delta > 0)
-                result = Add(result, Increment);
-            else //if (e.Delta < 0)
-                result = Subtract(result, Increment);
-            Value = result;
+            if (TryParse(Text, out var res))
+            {
+                Value = e.Delta > 0 ? Add(res, Increment) : Subtract(res, Increment);
 
-            e.Handled = true;
+                e.Handled = true;
+            }
         }
     }
 
@@ -103,10 +105,13 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         if (newValue == null)
             return newValue;
+
         if (Minimum.HasValue && Compare(newValue.GetValueOrDefault(), Minimum.Value) < 0)
             newValue = Minimum.Value;
+
         if (Maximum.HasValue && Compare(newValue.GetValueOrDefault(), Maximum.Value) > 0)
             newValue = Maximum.Value;
+
         return newValue;
     }
 

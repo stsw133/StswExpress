@@ -252,18 +252,27 @@ public class StswRatingControl : Control, IStswIconControl
                 val = 0;
 
             if (val > stsw.Items.Count)
-                while (stsw.Items.Count < val)
+            {
+                for (var i = stsw.Items.Count + 1; i <= val; i++)
                 {
-                    var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? 0 : stsw.Items.Count;
-                    stsw.Items.Insert(index, new() { Value = stsw.Items.Count + 1 });
+                    var newItem = new StswRatingItem { Value = i };
+                    if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                        stsw.Items.Insert(0, newItem);
+                    else
+                        stsw.Items.Add(newItem);
                 }
+            }
             else if (val < stsw.Items.Count)
-                while (stsw.Items.Count > val)
+            {
+                for (var i = stsw.Items.Count - 1; i >= val; i--)
                 {
-                    var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? 0 : stsw.Items.Count - 1;
-                    stsw.Items.RemoveAt(index);
+                    if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                        stsw.Items.RemoveAt(0);
+                    else
+                        stsw.Items.RemoveAt(stsw.Items.Count - 1);
                 }
-            
+            }
+
             stsw.Value = stsw.Items.Count(x => x.IsChecked);
         }
     }
@@ -304,7 +313,8 @@ public class StswRatingControl : Control, IStswIconControl
     {
         if (obj is StswRatingControl stsw)
         {
-            stsw.Items.ToList().ForEach(x => x.IsMouseOver = false);
+            foreach (var item in stsw.Items)
+                item.IsMouseOver = false;
 
             var val = stsw.Placeholder;
             if (val is < 0 or null || val > stsw.Items.Count)

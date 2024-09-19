@@ -105,8 +105,8 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="PART_MainBorder"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/>
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/> -->
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="PART_MainBorder"/>
             </Trigger>
         </ControlTemplate.Triggers>
@@ -202,8 +202,8 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="PART_MainBorder"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/>
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/> -->
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="PART_MainBorder"/>
             </Trigger>
         </ControlTemplate.Triggers>
@@ -289,8 +289,8 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="PART_MainBorder"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/>
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/> -->
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="PART_MainBorder"/>
             </Trigger>
         </ControlTemplate.Triggers>
@@ -404,8 +404,8 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="PART_MainBorder"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/>
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="PART_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="PART_MainBorder"/> -->
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="PART_MainBorder"/>
             </Trigger>
         </ControlTemplate.Triggers>

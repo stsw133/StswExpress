@@ -45,7 +45,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// </summary>
     protected void CreateControlBasedOnType()
     {
-        if (_contentPresenter == null || Type.In(null, StswAdaptiveType.Auto))
+        if (_contentPresenter == null || Type == StswAdaptiveType.Auto)
             return;
 
         var bindingBorderBrush = new Binding(nameof(BorderBrush)) { Source = this };
@@ -304,17 +304,17 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the type of box to be applied.
     /// </summary>
-    public StswAdaptiveType? Type
+    public StswAdaptiveType Type
     {
-        get => (StswAdaptiveType?)GetValue(TypeProperty);
+        get => (StswAdaptiveType)GetValue(TypeProperty);
         set => SetValue(TypeProperty, value);
     }
     public static readonly DependencyProperty TypeProperty
         = DependencyProperty.Register(
             nameof(Type),
-            typeof(StswAdaptiveType?),
+            typeof(StswAdaptiveType),
             typeof(StswAdaptiveBox),
-            new FrameworkPropertyMetadata(default(StswAdaptiveType?),
+            new FrameworkPropertyMetadata(default(StswAdaptiveType),
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );

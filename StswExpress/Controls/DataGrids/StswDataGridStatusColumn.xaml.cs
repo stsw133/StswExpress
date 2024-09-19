@@ -62,6 +62,6 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
                 newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
 
             DataGridOwner.RowStyle = newStyle;
-        }, DispatcherPriority.Loaded);
+        }, DispatcherPriority.DataBind);
     }
 }
