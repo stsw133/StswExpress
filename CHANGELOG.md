@@ -1,3 +1,27 @@
+# **0.11.0**
+2024-09-19
+
+### New functionality:
+* New extension method: **ToImageSource** (from Geometry).
+* New dynamic function in **StswFn** named **MergeObjects** (for more comfortable **StswDatabaseHelper** methods using).
+* **StswDatabaseHelper**'s methods will exclude all properties from parameter model that have no equivalent parameters in query.
+* Prototype "Spring" theme.
+
+### Changed functionality:
+* StswDataGrid's special column moved to separated class named **StswDataGridStatusColumn**. **StswDataGrid** no longer has "SpecialColumnVisibility" property and column needs to be added manually.
+* Global command **ClearText** renamed to **Clear** and now supports reseting selected items.
+* **StswHeader** removed.
+* Added "FrameworkPropertyMetadataOptions" (to handle affecting render, measure, arrange) to properties in Stsw controls.
+* Small changes in **StswConfig**.
+* A few optimisations.
+
+### Bugfixes:
+* **StswMailboxex** renamed to **StswMailboxes**.
+* **StswAdaptiveBox** has been remade to fix bug with binding "SubControls" property.
+* Bugfix for **StswNumberBox**'s "TryParse" method by changing invariant culture to current culture.
+* Bugfix for **StswFn**'s "AppVersion" method because it was cutting out all parts with only 0.
+* Bugfix for **StswTabControl** placement style.
+
 # **0.10.0**
 2024-09-03
 
