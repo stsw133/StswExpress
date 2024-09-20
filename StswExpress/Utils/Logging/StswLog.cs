@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace StswExpress;
@@ -17,6 +16,12 @@ public static class StswLog
 
     static StswLog()
     {
+        if (!string.IsNullOrEmpty(Config.ArchiveDirectoryPath) && !Directory.Exists(Config.ArchiveDirectoryPath))
+            Directory.CreateDirectory(Config.ArchiveDirectoryPath);
+
+        if (!string.IsNullOrEmpty(Config.LogDirectoryPath) && !Directory.Exists(Config.LogDirectoryPath))
+            Directory.CreateDirectory(Config.LogDirectoryPath);
+
         AutoArchive();
     }
 
@@ -50,9 +55,6 @@ public static class StswLog
     /// <param name="dateTo">The end date of the range.</param>
     public static void Archive(DateTime dateFrom, DateTime dateTo)
     {
-        if (!Directory.Exists(Config.ArchiveDirectoryPath))
-            Directory.CreateDirectory(Config.ArchiveDirectoryPath);
-
         string archivePath;
         if (Config.ArchiveFullMonth && dateFrom.Year == dateTo.Year && dateFrom.Month == dateTo.Month)
             archivePath = $"archive_{dateFrom:yyyy-MM}.zip";
@@ -64,9 +66,6 @@ public static class StswLog
         var fullArchivePath = Path.Combine(Config.ArchiveDirectoryPath, archivePath);
         if (File.Exists(fullArchivePath))
             return;
-
-        if (!Directory.Exists(Config.LogDirectoryPath))
-            Directory.CreateDirectory(Config.LogDirectoryPath);
 
         using var archive = ZipFile.Open(Path.Combine(Config.ArchiveDirectoryPath, archivePath), ZipArchiveMode.Create);
         foreach (var file in Directory.GetFiles(Config.LogDirectoryPath).Where(x =>
@@ -159,9 +158,6 @@ public static class StswLog
         /// CREATE LOG
         try
         {
-            if (!Directory.Exists(Config.LogDirectoryPath))
-                Directory.CreateDirectory(Config.LogDirectoryPath);
-
             var log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {(type ?? StswInfoType.None).ToString()[0]} | {text}";
 
             using var sw = new StreamWriter(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
@@ -201,9 +197,6 @@ public static class StswLog
         /// CREATE LOG
         try
         {
-            if (!Directory.Exists(Config.LogDirectoryPath))
-                Directory.CreateDirectory(Config.LogDirectoryPath);
-
             var log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type?.ToString().FirstOrDefault()} | {text}";
 
             using var sw = new StreamWriter(Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);

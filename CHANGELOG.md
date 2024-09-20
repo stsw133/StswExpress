@@ -21,6 +21,7 @@
 * Bugfix for **StswNumberBox**'s "TryParse" method by changing invariant culture to current culture.
 * Bugfix for **StswFn**'s "AppVersion" method because it was cutting out all parts with only 0.
 * Bugfix for **StswTabControl** placement style.
+* Bugfix for creating directories when **StswLog** is used.
 
 # **0.10.0**
 2024-09-03
