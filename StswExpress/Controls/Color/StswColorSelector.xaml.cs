@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a color selector control that provides a selection of standard and theme colors.
 /// </summary>
 [ContentProperty(nameof(ColorPaletteStandard))]
-public class StswColorSelector : Control
+public class StswColorSelector : Control, IStswCornerControl
 {
     public ICommand SelectColorCommand { get; set; }
 
@@ -113,6 +113,24 @@ public class StswColorSelector : Control
 
     #region Style properties
     /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswColorSelector),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
     /// Gets or sets the degree to which the corners of the control's border are rounded by defining
     /// a radius value for each corner independently. This property allows users to control the roundness
     /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
@@ -128,6 +146,22 @@ public class StswColorSelector : Control
             typeof(CornerRadius),
             typeof(StswColorSelector),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswColorSelector),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

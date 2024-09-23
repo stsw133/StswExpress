@@ -57,10 +57,13 @@
                                 </se:StswDropButton.Header>
                                 <se:StswTabControl>
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                        <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorSelector se:StswControl.IsBorderless="True"
+                                                              Margin="-3"
+                                                              SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
-                                        <se:StswColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
+                                        <se:StswColorPicker IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
+                                                            SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                 </se:StswTabControl>
                             </se:StswDropButton>

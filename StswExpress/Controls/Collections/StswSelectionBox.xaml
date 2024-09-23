@@ -121,6 +121,7 @@
                                 <se:StswText IsHitTestVisible="False"
                                              Margin="{TemplateBinding Padding}"
                                              Text="{TemplateBinding Text}"
+                                             TextTrimming="CharacterEllipsis"
                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>

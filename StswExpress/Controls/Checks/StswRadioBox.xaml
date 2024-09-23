@@ -40,7 +40,9 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}">
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswIcon x:Name="PART_Icon"
                                          Fill="{TemplateBinding GlyphBrush}"
                                          Margin="{TemplateBinding Padding}"
@@ -55,7 +57,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>

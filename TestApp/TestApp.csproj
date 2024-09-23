@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>TestApp</AssemblyName>
-    <Version>0.11</Version>
+    <Version>0.12</Version>
     <Copyright></Copyright>
     <Authors>Karol Staszewski, Hubert Rogowski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>

@@ -60,6 +60,9 @@ public class StswCalendar : Control, IStswCornerControl
         /// Button: next year
         if (GetTemplateChild("PART_ButtonNextYear") is ButtonBase btnNextYear)
             btnNextYear.Click += (_, _) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 120 : 12);
+        /// Button: today
+        if (GetTemplateChild("PART_ButtonToday") is ButtonBase btnToday)
+            btnToday.Click += (_, _) => { SelectedMonth = DateTime.Now; SelectDate(DateTime.Now); };
 
         SelectedMonth = SelectedDate ?? DateTime.Now.Date;
         OnSelectedDateChanged(this, new DependencyPropertyChangedEventArgs());
