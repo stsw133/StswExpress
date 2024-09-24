@@ -19,14 +19,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswMediaPlayer}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -123,9 +123,8 @@
                                 </DockPanel>
                             </Grid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Bottom"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                            <se:StswSeparator DockPanel.Dock="Bottom"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
                             <!-- media -->

@@ -18,20 +18,20 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartPie}">
-                    <Grid x:Name="PART_MainPanel"
+                    <Grid x:Name="OPT_MainPanel"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <Ellipse Fill="{TemplateBinding BorderBrush}"
-                                 Height="{Binding ActualHeight, ElementName=PART_ChartContainer}"
-                                 Width="{Binding ActualWidth, ElementName=PART_ChartContainer}"/>
-                        <Grid x:Name="PART_ChartContainer" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                 Height="{Binding ActualHeight, ElementName=OPT_ChartContainer}"
+                                 Width="{Binding ActualWidth, ElementName=OPT_ChartContainer}"/>
+                        <Grid x:Name="OPT_ChartContainer" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Viewbox Margin="{TemplateBinding BorderThickness}">
                                 <ItemsPresenter/>
                             </Viewbox>
@@ -39,7 +39,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainPanel"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -76,7 +76,7 @@
                             </Ellipse.ToolTip>
                         </Ellipse>
                         <!-- percentage text -->
-                        <StackPanel x:Name="PART_Percentage"
+                        <StackPanel x:Name="OPT_Percentage"
                                     IsHitTestVisible="False"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Center"
@@ -103,7 +103,7 @@
                     
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Internal.IsPercentageVisible}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Percentage"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Percentage"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

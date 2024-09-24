@@ -27,14 +27,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorBox}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -42,7 +42,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- buttons -->
-                            <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
+                            <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -69,7 +69,7 @@
                             </se:StswDropButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
@@ -84,7 +84,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                             <!-- error -->
-                            <se:StswSubError x:Name="PART_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
+                            <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
                             <DockPanel>
                                 <Ellipse Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"
@@ -93,7 +93,7 @@
                                          StrokeThickness="1"
                                          Height="{DynamicResource StswColorBox.Size.Icon}" Width="{DynamicResource StswColorBox.Size.Icon}"/>
                                 <Grid>
-                                    <se:StswText x:Name="PART_Placeholder"
+                                    <se:StswText x:Name="OPT_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                                  IsHitTestVisible="False"
                                                  Margin="{TemplateBinding Padding}"
@@ -113,32 +113,32 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_DropButton"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_DropButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="HasError" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

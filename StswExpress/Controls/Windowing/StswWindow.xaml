@@ -18,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- window border -->
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -42,7 +42,7 @@
                             </AdornerDecorator>
 
                             <!-- title bar -->
-                            <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">
+                            <se:StswSidePanel x:Name="OPT_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">
                                 <se:StswWindowBar x:Name="PART_WindowBar" Background="{TemplateBinding Background}" Components="{TemplateBinding Components}">
                                     <se:StswWindowBar.ContextMenu>
                                         <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenuStyle}">
@@ -57,7 +57,7 @@
                                             <se:StswMenuItem x:Name="PART_iConfig"
                                                              Header="{se:Tr StswWindow.Config}"
                                                              IconData="{x:Static se:StswIcons.Cog}"/>
-                                            <se:StswSeparator x:Name="PART_MenuConfigSeparator"/>
+                                            <se:StswSeparator x:Name="OPT_MenuConfigSeparator"/>
                                             <!-- default -->
                                             <se:StswMenuItem x:Name="PART_MenuDefault"
                                                              Header="{se:Tr StswWindow.DefaultSize}"
@@ -76,7 +76,7 @@
                                                              IconData="{x:Static se:StswIcons.Fullscreen}"
                                                              InputGestureText="F11"/>
                                             <!-- close -->
-                                            <se:StswSeparator x:Name="PART_MenuCloseSeparator"/>
+                                            <se:StswSeparator x:Name="OPT_MenuCloseSeparator"/>
                                             <se:StswMenuItem x:Name="PART_MenuClose"
                                                              Header="{se:Tr StswWindow.Close}"
                                                              IconData="{x:Static se:StswIcons.WindowClose}"
@@ -92,20 +92,20 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="ConfigPresentationMode" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_iConfig"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuConfigSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MenuConfigSeparator"/>
                         </Trigger>
                         <Trigger Property="Fullscreen" Value="True">
-                            <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_WindowBarPanel"/>
+                            <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_WindowBarPanel"/>
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuCloseSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MenuCloseSeparator"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
@@ -113,8 +113,8 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
-                            <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="0" TargetName="OPT_MainBorder"/>
+                            <Setter Property="CornerRadius" Value="0" TargetName="OPT_MainBorder"/>
                             <Setter Property="Header" Value="{se:Tr StswWindow.Restore}" TargetName="PART_MenuRestore"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.WindowRestore}" TargetName="PART_MenuRestore"/>
                         </Trigger>

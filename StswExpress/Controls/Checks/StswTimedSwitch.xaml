@@ -18,13 +18,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTimedSwitch}">
                     <Grid>
-                        <ContentControl x:Name="PART_DefaultContent"
+                        <ContentControl x:Name="OPT_DefaultContent"
                                         Content="{TemplateBinding Content}"
                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
                                         ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                         Focusable="False"/>
-                        <ContentControl x:Name="PART_TimedContent"
+                        <ContentControl x:Name="OPT_TimedContent"
                                         Content="{TemplateBinding TimedContent}"
                                         ContentStringFormat="{TemplateBinding TimedContentStringFormat}"
                                         ContentTemplate="{TemplateBinding TimedContentTemplate}"
@@ -34,8 +34,8 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_DefaultContent"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_TimedContent"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DefaultContent"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_TimedContent"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -21,8 +21,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
@@ -38,7 +38,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswInfoPanel}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -47,7 +47,7 @@
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top" Background="{DynamicResource StswPanel.Static.Background}">
                                 <!-- control panel -->
-                                <StackPanel x:Name="PART_ControlPanel"
+                                <StackPanel x:Name="OPT_ControlPanel"
                                             DockPanel.Dock="Right"
                                             Margin="{TemplateBinding Padding}"
                                             Orientation="Horizontal"
@@ -60,7 +60,7 @@
                                     -->
                                     <!-- export button -->
                                     <!--
-                                    <se:StswSubButton x:Name="PART_ButtonExport"
+                                    <se:StswSubButton x:Name="OPT_ButtonExport"
                                                       IconData="{x:Static se:StswIcons.Export}"
                                                       Margin="3 0 0 0">
                                         <se:StswSubButton.ToolTip>
@@ -89,7 +89,7 @@
                                         </se:StswSubButton.Triggers>
                                     </se:StswSubButton>
                                     <!-- minimize all button -->
-                                    <se:StswSubCheck x:Name="PART_ButtonMinimizeAll"
+                                    <se:StswSubCheck x:Name="OPT_ButtonMinimizeAll"
                                                      IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
                                                      IconChecked="{x:Static se:StswIcons.ChevronDown}"
                                                      IsChecked="{Binding IsMinimized, RelativeSource={RelativeSource TemplatedParent}}"
@@ -110,14 +110,14 @@
                                 </StackPanel>
                             </DockPanel>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
+                            <se:StswSeparator x:Name="OPT_Separator"
                                               DockPanel.Dock="Top"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- items panel -->
-                            <se:StswScrollView x:Name="PART_ScrollView"
+                            <se:StswScrollView x:Name="OPT_ScrollView"
                                                AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
@@ -136,11 +136,11 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="ShowControlPanel" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ControlPanel"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ControlPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="IsMinimized" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimizeAll"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonMinimizeAll"/>
                         </Trigger>
                         <Trigger Property="IsClosable" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCloseAll"/>

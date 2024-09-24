@@ -22,8 +22,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
@@ -35,7 +35,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <!-- box -->
-                        <se:StswBorder x:Name="PART_MainBorder"
+                        <se:StswBorder x:Name="OPT_MainBorder"
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
@@ -43,7 +43,7 @@
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <se:StswIcon x:Name="PART_Icon"
+                            <se:StswIcon x:Name="OPT_Icon"
                                          Fill="{TemplateBinding GlyphBrush}"
                                          Margin="{TemplateBinding Padding}"
                                          Scale="{TemplateBinding IconScale}"
@@ -51,7 +51,7 @@
                                          VerticalAlignment="Center"/>
                         </se:StswBorder>
                         <!-- content -->
-                        <ContentPresenter x:Name="PART_Content" Grid.Column="1"
+                        <ContentPresenter x:Name="OPT_Content" Grid.Column="1"
                                           Focusable="False"
                                           Margin="4 0 0 0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -60,60 +60,60 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>
-                            <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
+                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
+                            <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
+                            <Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.ReadOnly.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.ReadOnly.Glyph}" TargetName="PART_Icon"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.ReadOnly.Glyph}" TargetName="OPT_Icon"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsReadOnly" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.ReadOnly.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.ReadOnly.Glyph}" TargetName="PART_Icon"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.ReadOnly.Glyph}" TargetName="OPT_Icon"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Glyph}" TargetName="PART_Icon"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Glyph}" TargetName="OPT_Icon"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>
@@ -121,9 +121,9 @@
                                 <Condition Property="IsEnabled" Value="False"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Glyph}" TargetName="PART_Icon"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Glyph}" TargetName="OPT_Icon"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

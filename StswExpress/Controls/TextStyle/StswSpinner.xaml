@@ -283,19 +283,19 @@
                         <!-- StswSpinnerCrescentTemplate -->
                         <DataTemplate x:Key="StswSpinnerCrescentTemplate">
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
-                                <Ellipse x:Name="PART_Ellipse"
+                                <Ellipse x:Name="OPT_Ellipse"
                                          RenderTransformOrigin=".5 .5"
                                          Stroke="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                          StrokeDashArray="24"
                                          Height="12" Width="12">
                                     <Ellipse.RenderTransform>
-                                        <RotateTransform x:Name="PART_Rotation" Angle="0"/>
+                                        <RotateTransform x:Name="OPT_Rotation" Angle="0"/>
                                     </Ellipse.RenderTransform>
                                     <Ellipse.Triggers>
                                         <EventTrigger RoutedEvent="Loaded">
                                             <BeginStoryboard>
                                                 <Storyboard RepeatBehavior="Forever">
-                                                    <DoubleAnimation Storyboard.TargetName="PART_Rotation"
+                                                    <DoubleAnimation Storyboard.TargetName="OPT_Rotation"
                                                                      Storyboard.TargetProperty="Angle"
                                                                      To="360"/>
                                                 </Storyboard>
@@ -309,7 +309,7 @@
                         <DataTemplate x:Key="StswSpinnerDotsTemplate">
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <UniformGrid Rows="1" Columns="3" HorizontalAlignment="Center" Height="24" Width="72">
-                                    <Ellipse x:Name="PART_Dot1"
+                                    <Ellipse x:Name="OPT_Dot1"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
@@ -359,7 +359,7 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
-                                    <Ellipse x:Name="PART_Dot2"
+                                    <Ellipse x:Name="OPT_Dot2"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
@@ -408,7 +408,7 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
-                                    <Ellipse x:Name="PART_Dot3"
+                                    <Ellipse x:Name="OPT_Dot3"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
@@ -724,23 +724,23 @@
                     </ControlTemplate.Resources>
                     
                     <!-- content -->
-                    <ContentControl x:Name="PART_ContentControl" Background="{TemplateBinding Background}" Focusable="False"/>
+                    <ContentControl x:Name="OPT_ContentControl" Background="{TemplateBinding Background}" Focusable="False"/>
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="Type" Value="Circles">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="PART_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="OPT_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Crescent">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCrescentTemplate}" TargetName="PART_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCrescentTemplate}" TargetName="OPT_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Dots">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerDotsTemplate}" TargetName="PART_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerDotsTemplate}" TargetName="OPT_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Lines">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="PART_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="OPT_ContentControl"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_ContentControl"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_ContentControl"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

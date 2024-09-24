@@ -21,14 +21,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubCheck}">
-                    <se:StswLabel x:Name="PART_MainBorder"
+                    <se:StswLabel x:Name="OPT_MainBorder"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
@@ -51,13 +51,13 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="IconData" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconData" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="IconData" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconData" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="IconData" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconData" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Opacity" Value="0.6"/>
@@ -66,7 +66,7 @@
                             <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

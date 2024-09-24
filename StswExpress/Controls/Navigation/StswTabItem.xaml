@@ -14,25 +14,25 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabItem}">
                     <Grid>
-                        <Border x:Name="PART_MainBorder"
+                        <Border x:Name="OPT_MainBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Margin="0">
-                            <Border x:Name="PART_InnerBorder"
+                            <Border x:Name="OPT_InnerBorder"
                                     Background="{DynamicResource StswTabItem.Checked.Background}"
                                     BorderBrush="{DynamicResource StswTabItem.Checked.Border}"
                                     Margin="-1"
                                     Opacity="0"/>
                         </Border>
-                        <DockPanel x:Name="PART_Header">
+                        <DockPanel x:Name="OPT_Header">
                             <se:StswButton x:Name="PART_CloseTabButton" DockPanel.Dock="Right"
                                            se:StswControl.IsBorderless="True"
                                            Background="Transparent"
@@ -42,7 +42,7 @@
                                            Visibility="Collapsed">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Close}" Scale="1"/>
                             </se:StswButton>
-                            <ContentPresenter x:Name="PART_ContentPresenter"
+                            <ContentPresenter x:Name="OPT_ContentPresenter"
                                               ContentSource="Header"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
@@ -55,29 +55,29 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_CloseTabButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="PART_InnerBorder"/>
+                            <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="OPT_InnerBorder"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="BorderThickness" Value="1 1 0 1" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderThickness" Value="1 1 0 1" TargetName="PART_InnerBorder"/>
+                            <Setter Property="BorderThickness" Value="1 1 0 1" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="1 1 0 1" TargetName="OPT_InnerBorder"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="BorderThickness" Value="0 1 1 1" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderThickness" Value="0 1 1 1" TargetName="PART_InnerBorder"/>
+                            <Setter Property="BorderThickness" Value="0 1 1 1" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="0 1 1 1" TargetName="OPT_InnerBorder"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
-                            <Setter Property="BorderThickness" Value="1 1 1 0" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderThickness" Value="1 1 1 0" TargetName="PART_InnerBorder"/>
+                            <Setter Property="BorderThickness" Value="1 1 1 0" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="1 1 1 0" TargetName="OPT_InnerBorder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswTabItem.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswTabItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswTabItem.Checked.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.Checked.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Opacity" Value="1" TargetName="PART_InnerBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswTabItem.Checked.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.Checked.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Opacity" Value="1" TargetName="OPT_InnerBorder"/>
                             <Setter Property="Panel.ZIndex" Value="1"/>
                         </Trigger>
                         <MultiTrigger>
@@ -109,9 +109,9 @@
                             <Setter Property="Margin" Value="-2 -2 -2 0"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswTabItem.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Opacity" Value="0.6" TargetName="PART_ContentPresenter"/>
+                            <Setter Property="Background" Value="{DynamicResource StswTabItem.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Opacity" Value="0.6" TargetName="OPT_ContentPresenter"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

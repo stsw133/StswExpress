@@ -27,14 +27,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswFilePicker}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -49,7 +49,7 @@
                             </se:StswButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
@@ -64,16 +64,16 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                             <!-- error -->
-                            <se:StswSubError x:Name="PART_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
+                            <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
                             <DockPanel>
-                                <se:StswImage x:Name="PART_Icon"
+                                <se:StswImage x:Name="OPT_Icon"
                                               Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                               MenuMode="Disabled"
                                               Source="{TemplateBinding IconSource}"
                                               Height="{DynamicResource StswFilePicker.Size.Icon}"
                                               Width="{DynamicResource StswFilePicker.Size.Icon}"/>
-                                <se:StswLabel x:Name="PART_FileSize"
+                                <se:StswLabel x:Name="OPT_FileSize"
                                               Content="{TemplateBinding FileSize}"
                                               FontWeight="Bold"
                                               Opacity="0.6"
@@ -85,14 +85,14 @@
                                         <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
                                     </se:StswLabel.LayoutTransform>
                                 </se:StswLabel>
-                                <se:StswSeparator x:Name="PART_IconSeparator"
-                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                <se:StswSeparator x:Name="OPT_IconSeparator"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                                   Orientation="Vertical"
                                                   Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                                 <Grid>
-                                    <se:StswText x:Name="PART_Placeholder"
+                                    <se:StswText x:Name="OPT_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                                  IsHitTestVisible="False"
                                                  Margin="{TemplateBinding Padding}"
@@ -112,43 +112,43 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="FileSize" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileSize"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_IconSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_IconSeparator"/>
                         </Trigger>
                         <Trigger Property="IconSource" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsFileSizeVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileSize"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_IconSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_IconSeparator"/>
                         </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_DialogButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="HasError" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

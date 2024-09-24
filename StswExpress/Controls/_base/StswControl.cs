@@ -43,7 +43,7 @@ public static class StswControl
             var point = e.GetPosition(button);
             var size = Math.Max(button.ActualWidth, button.ActualHeight);
 
-            if (button.Template.FindName("PART_MainBorder", button) is Border border)
+            if ((button.Template.FindName("OPT_MainBorder", button) ?? button.Template.FindName("PART_MainBorder", button)) is Border border)
             {
                 var adornerLayer = AdornerLayer.GetAdornerLayer(button);
                 if (adornerLayer != null)

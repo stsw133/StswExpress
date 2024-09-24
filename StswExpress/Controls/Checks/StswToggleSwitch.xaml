@@ -18,8 +18,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="Template">
@@ -38,8 +38,7 @@
                                        CornerClipping="{TemplateBinding CornerClipping}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        HorizontalAlignment="Left">
-                            <Grid x:Name="PART_Grid"
-                                  Margin="{TemplateBinding Padding}"
+                            <Grid Margin="{TemplateBinding Padding}"
                                   Height="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*12}"
                                   Width="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*24}">
                                 <Border x:Name="PART_CheckBorder"
@@ -58,7 +57,7 @@
                             </Grid>
                         </se:StswBorder>
                         <!-- content -->
-                        <ContentPresenter x:Name="PART_Content" Grid.Column="1"
+                        <ContentPresenter x:Name="OPT_Content" Grid.Column="1"
                                           Focusable="False"
                                           Margin="4 0 0 0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -68,7 +67,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>
-                            <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
+                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="PART_MainBorder"/>

@@ -24,14 +24,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubError}">
-                    <se:StswSubLabel x:Name="PART_Error"
+                    <se:StswSubLabel x:Name="OPT_Error"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -63,7 +63,7 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasError" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Error"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Error"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

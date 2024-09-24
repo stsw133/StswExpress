@@ -15,8 +15,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
@@ -29,7 +29,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 MinHeight="{TemplateBinding MinHeight}"
                                 MinWidth="{TemplateBinding MinWidth}"/>
-                        <ContentPresenter x:Name="PART_Content"
+                        <ContentPresenter x:Name="OPT_Content"
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -38,7 +38,7 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsCollapsed" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

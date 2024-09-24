@@ -16,8 +16,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -29,7 +29,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartLegend}">
-                    <DockPanel x:Name="PART_MainPanel"
+                    <DockPanel x:Name="OPT_MainPanel"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <!-- header -->
@@ -41,7 +41,7 @@
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
                         <!-- items -->
-                        <se:StswScrollView x:Name="PART_ScrollView" DockPanel.Dock="Top"
+                        <se:StswScrollView DockPanel.Dock="Top"
                                            AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
@@ -59,7 +59,7 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainPanel"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -88,14 +88,14 @@
                 <DataTemplate>
                     <DockPanel>
                         <!-- box -->
-                        <se:StswBorder x:Name="PART_MainBorder"
+                        <se:StswBorder x:Name="OPT_MainBorder"
                                        Background="{Binding Brush}"
                                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                        CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                        Height="18" Width="18">
-                            <Viewbox x:Name="PART_Percentage" Visibility="Collapsed">
+                            <Viewbox x:Name="OPT_Percentage" Visibility="Collapsed">
                                 <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}">
                                     <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
                                                          FontWeight="Bold"
@@ -120,8 +120,8 @@
                     
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding ShowDetails, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}" Value="True">
-                            <Setter Property="Width" Value="36" TargetName="PART_MainBorder"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Percentage"/>
+                            <Setter Property="Width" Value="36" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Percentage"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

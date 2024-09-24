@@ -17,8 +17,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="se:StswControl.EnableRippleEffect" Value="True"/>
@@ -34,7 +34,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropButton}">
-                    <se:StswToggleButton x:Name="PART_MainButton"
+                    <se:StswToggleButton x:Name="OPT_MainButton"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
                                          BorderThickness="{TemplateBinding BorderThickness}"
@@ -51,17 +51,17 @@
                             <se:StswDropArrow DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
                             <!-- popup -->
-                            <se:StswPopup x:Name="PART_Popup"
+                            <se:StswPopup x:Name="OPT_Popup"
                                           IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                          MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                          MinWidth="{Binding ActualWidth, ElementName=OPT_MainButton}"
                                           Placement="Bottom"
-                                          PlacementTarget="{Binding ElementName=PART_MainButton}"
+                                          PlacementTarget="{Binding ElementName=OPT_MainButton}"
                                           PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                           StaysOpen="False"
                                           se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
@@ -80,7 +80,7 @@
                                           se:StswScrollView.PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                           se:StswScrollView.HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                           se:StswScrollView.VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                                <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
+                                <ItemsPresenter x:Name="OPT_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
@@ -96,8 +96,8 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainButton"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_Items"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -32,8 +32,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -46,7 +46,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTextEditor}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -54,13 +54,13 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- toolbar -->
-                            <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="Top" Focusable="False">
+                            <Grid x:Name="OPT_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="Top" Focusable="False">
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Focusable="False" VerticalScrollBarVisibility="Disabled">
                                     <DockPanel>
                                         <!-- file -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_FileNew"
+                                                <se:StswButton x:Name="OPT_FileNew"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -70,7 +70,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.File}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FileOpen"
+                                                <se:StswButton x:Name="OPT_FileOpen"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileOpenCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -80,7 +80,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{DynamicResource StswColor.Structure}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FileSave"
+                                                <se:StswButton x:Name="OPT_FileSave"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileSaveCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -90,7 +90,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Fill="{DynamicResource StswColor.Modify}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FileSaveAs"
+                                                <se:StswButton x:Name="OPT_FileSaveAs"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileSaveAsCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -102,7 +102,7 @@
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_FileReload"
+                                                <se:StswButton x:Name="OPT_FileReload"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -112,7 +112,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Reload}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FileInfo"
+                                                <se:StswButton x:Name="OPT_FileInfo"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileInfoCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -122,7 +122,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FolderInformation}" Fill="{DynamicResource StswColor.Structure}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FilePrint"
+                                                <se:StswButton x:Name="OPT_FilePrint"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FilePrintCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -132,7 +132,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Printer}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_FileEmail"
+                                                <se:StswButton x:Name="OPT_FileEmail"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileMailCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -143,14 +143,14 @@
                                                 </se:StswButton>
                                             </DockPanel>
 
-                                            <se:StswText x:Name="PART_FileText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.File}" ToolTip="{TemplateBinding FilePath}"/>
+                                            <se:StswText x:Name="OPT_FileText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.File}" ToolTip="{TemplateBinding FilePath}"/>
                                         </DockPanel>
                                         <!-- separator -->
-                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
+                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- edit -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_EditUndo"
+                                                <se:StswButton x:Name="OPT_EditUndo"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Undo"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -160,7 +160,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_EditRedo"
+                                                <se:StswButton x:Name="OPT_EditRedo"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Redo"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -170,7 +170,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_EditSelectAll"
+                                                <se:StswButton x:Name="OPT_EditSelectAll"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.SelectAll"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -182,7 +182,7 @@
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_EditCut"
+                                                <se:StswButton x:Name="OPT_EditCut"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Cut"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -192,7 +192,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_EditCopy"
+                                                <se:StswButton x:Name="OPT_EditCopy"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Copy"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -202,7 +202,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_EditPaste"
+                                                <se:StswButton x:Name="OPT_EditPaste"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Paste"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -213,10 +213,10 @@
                                                 </se:StswButton>
                                             </DockPanel>
 
-                                            <se:StswText x:Name="PART_EditText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Edit}"/>
+                                            <se:StswText x:Name="OPT_EditText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Edit}"/>
                                         </DockPanel>
                                         <!-- separator -->
-                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
+                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- font -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
@@ -226,13 +226,13 @@
                                                                        CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                        Focusable="False"
                                                                        Format="N1"
-                                                                       Height="{Binding ActualHeight, ElementName=PART_FileNew}"
+                                                                       Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                        Margin="{TemplateBinding SubPadding}"
                                                                        Minimum="1" Maximum="1638"
                                                                        SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                        Width="60"/>
                                                     
-                                                    <se:StswButton x:Name="PART_FontIncrease"
+                                                    <se:StswButton x:Name="OPT_FontIncrease"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    Command="EditingCommands.IncreaseFontSize"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -242,7 +242,7 @@
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeIncrease}"/>
                                                     </se:StswButton>
 
-                                                    <se:StswButton x:Name="PART_FontDecrease"
+                                                    <se:StswButton x:Name="OPT_FontDecrease"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    Command="EditingCommands.DecreaseFontSize"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -257,14 +257,14 @@
                                                                  BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                  CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                  Focusable="False"
-                                                                 Height="{Binding ActualHeight, ElementName=PART_FileNew}"
+                                                                 Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                  IsEditable="True"
                                                                  Margin="{TemplateBinding SubPadding}"
                                                                  SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_FontBold"
+                                                <se:StswButton x:Name="OPT_FontBold"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleBold"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -274,7 +274,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_FontItalic"
+                                                <se:StswButton x:Name="OPT_FontItalic"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleItalic"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -284,7 +284,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_FontUnderline"
+                                                <se:StswButton x:Name="OPT_FontUnderline"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleUnderline"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -294,7 +294,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_FontStrikethrough"
+                                                <se:StswButton x:Name="OPT_FontStrikethrough"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FontStrikethroughCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -304,7 +304,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatStrikethrough}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_FontSubscript"
+                                                <se:StswButton x:Name="OPT_FontSubscript"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleSubscript"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -314,7 +314,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSubscript}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_FontSuperscript"
+                                                <se:StswButton x:Name="OPT_FontSuperscript"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleSuperscript"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -324,7 +324,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSuperscript}"/>
                                                 </se:StswButton>
 
-                                                <se:StswSplitButton x:Name="PART_FontColorText"
+                                                <se:StswSplitButton x:Name="OPT_FontColorText"
                                                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                     Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -355,7 +355,7 @@
                                                     </TabControl>
                                                 </se:StswSplitButton>
 
-                                                <se:StswSplitButton x:Name="PART_FontColorHighlight"
+                                                <se:StswSplitButton x:Name="OPT_FontColorHighlight"
                                                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                     Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -387,14 +387,14 @@
                                                 </se:StswSplitButton>
                                             </DockPanel>
 
-                                            <se:StswText x:Name="PART_FontText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Font}"/>
+                                            <se:StswText x:Name="OPT_FontText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Font}"/>
                                         </DockPanel>
                                         <!-- separator -->
-                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
+                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- paragraph -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_SectionIncrease"
+                                                <se:StswButton x:Name="OPT_SectionIncrease"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.IncreaseIndentation"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -404,7 +404,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentIncrease}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_SectionDecrease"
+                                                <se:StswButton x:Name="OPT_SectionDecrease"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.DecreaseIndentation"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -414,7 +414,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}"/>
                                                 </se:StswButton>
 
-                                                <se:StswDropButton x:Name="PART_SectionList"
+                                                <se:StswDropButton x:Name="OPT_SectionList"
                                                                    se:StswControl.IsArrowless="True"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -434,7 +434,7 @@
                                                     </se:StswButton>
                                                 </se:StswDropButton>
                                                 
-                                                <se:StswDropButton x:Name="PART_SectionInterline"
+                                                <se:StswDropButton x:Name="OPT_SectionInterline"
                                                                    se:StswControl.IsArrowless="True"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -455,7 +455,7 @@
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
-                                                <se:StswButton x:Name="PART_SectionAlignLeft"
+                                                <se:StswButton x:Name="OPT_SectionAlignLeft"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignLeft"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -465,7 +465,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignLeft}"/>
                                                 </se:StswButton>
                                                 
-                                                <se:StswButton x:Name="PART_SectionAlignCenter"
+                                                <se:StswButton x:Name="OPT_SectionAlignCenter"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignCenter"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -475,7 +475,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignCenter}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_SectionAlignRight"
+                                                <se:StswButton x:Name="OPT_SectionAlignRight"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignRight"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -485,7 +485,7 @@
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignRight}"/>
                                                 </se:StswButton>
 
-                                                <se:StswButton x:Name="PART_SectionAlignJustify"
+                                                <se:StswButton x:Name="OPT_SectionAlignJustify"
                                                                BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignJustify"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
@@ -496,17 +496,17 @@
                                                 </se:StswButton>
                                             </DockPanel>
                                             
-                                            <se:StswText x:Name="PART_SectionText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Paragraph}"/>
+                                            <se:StswText x:Name="OPT_SectionText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:Tr StswTextEditor.Paragraph}"/>
                                         </DockPanel>
                                         <!-- separator -->
-                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
+                                        <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                     </DockPanel>
                                 </se:StswDirectionView>
                             </Grid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
+                            <se:StswSeparator x:Name="OPT_Separator"
                                               DockPanel.Dock="Top"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
                             <!-- sub controls -->
@@ -536,80 +536,80 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ToolbarMode" Value="Collapsed">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ToolBar"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ToolBar"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="ToolbarMode" Value="Compact">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileInfo"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilePrint"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileEmail"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileText"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditSelectAll"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCut"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCopy"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditPaste"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileReload"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileInfo"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FilePrint"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileEmail"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_EditSelectAll"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_EditCut"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_EditCopy"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_EditPaste"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_EditText"/>
                             <Setter Property="Width" Value="120" TargetName="PART_FontFamily"/>
                             <Setter Property="Width" Value="60" TargetName="PART_FontSize"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontBold"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontItalic"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontUnderline"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontStrikethrough"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSubscript"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSuperscript"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorText"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorHighlight"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontText"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignLeft"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignCenter"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignRight"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignJustify"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontBold"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontItalic"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontUnderline"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontStrikethrough"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontSubscript"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontSuperscript"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontColorText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontColorHighlight"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FontText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_SectionAlignLeft"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_SectionAlignCenter"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_SectionAlignRight"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_SectionAlignJustify"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_SectionText"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileSave"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileReload"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditCut"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditPaste"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FileSave"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FileReload"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_EditCut"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_EditPaste"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FontFamily"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSize"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontIncrease"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontDecrease"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontBold"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontItalic"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontUnderline"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontStrikethrough"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSubscript"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSuperscript"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorText"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorHighlight"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionIncrease"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionDecrease"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionList"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionInterline"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignLeft"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignCenter"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignRight"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontIncrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontDecrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontBold"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontItalic"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontUnderline"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontStrikethrough"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontSubscript"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontSuperscript"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontColorText"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_FontColorHighlight"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionIncrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionDecrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionList"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionInterline"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionAlignLeft"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionAlignCenter"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionAlignRight"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_SectionAlignJustify"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

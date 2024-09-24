@@ -15,14 +15,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
-                    <Grid x:Name="PART_MainGrid">
+                    <Grid x:Name="OPT_MainGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2"/>
@@ -112,7 +112,7 @@
                             </se:StswSlider.Resources>
                         </se:StswSlider>
                         <!-- A -->
-                        <DockPanel x:Name="PART_Alpha" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2">
+                        <DockPanel x:Name="OPT_Alpha" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2">
                             <Border Background="{DynamicResource StswColorPicker.Alpha.Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -174,10 +174,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsAlphaEnabled" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Alpha"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainGrid"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainGrid"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

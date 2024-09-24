@@ -8,10 +8,10 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
         
         <Setter Property="Template">
@@ -29,15 +29,15 @@
                         <!-- corner -->
                         <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                         <!-- content -->
-                        <DockPanel x:Name="PART_Content">
-                            <se:StswSubButton x:Name="PART_LoadingButton"
+                        <DockPanel x:Name="OPT_Content">
+                            <se:StswSubButton x:Name="OPT_LoadingButton"
                                               DockPanel.Dock="Bottom"
                                               Command="{TemplateBinding Command}"
                                               CommandParameter="{TemplateBinding CommandParameter}"
                                               CommandTarget="{TemplateBinding CommandTarget}"
                                               IconData="{x:Static se:StswIcons.ArrowDown}"
                                               Margin="0 3"/>
-                            <se:StswSpinner x:Name="PART_Spinner"
+                            <se:StswSpinner x:Name="OPT_Spinner"
                                             DockPanel.Dock="Bottom"
                                             Margin="0 3"
                                             Type="Dots"
@@ -71,18 +71,18 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Command" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
                         </Trigger>
                         <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Visible">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
                         </Trigger>
                         <Trigger Property="IsBusy" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Spinner"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Spinner"/>
                         </Trigger>
                         <Trigger Property="IsDynamic" Value="True">
-                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_Content"/>
-                            <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_Content"/>
+                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_Content"/>
+                            <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_Content"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -120,15 +120,15 @@
             <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1"
                                             Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
             <!-- content-->
-            <DockPanel x:Name="PART_Content" Grid.ColumnSpan="2" Grid.Row="1">
-                <se:StswSubButton x:Name="PART_LoadingButton"
+            <DockPanel x:Name="OPT_Content" Grid.ColumnSpan="2" Grid.Row="1">
+                <se:StswSubButton x:Name="OPT_LoadingButton"
                                   DockPanel.Dock="Bottom"
                                   Command="{TemplateBinding Command}"
                                   CommandParameter="{TemplateBinding CommandParameter}"
                                   CommandTarget="{TemplateBinding CommandTarget}"
                                   IconData="{x:Static se:StswIcons.ArrowDown}"
                                   Margin="0 3"/>
-                <se:StswSpinner x:Name="PART_Spinner"
+                <se:StswSpinner x:Name="OPT_Spinner"
                                 DockPanel.Dock="Bottom"
                                 Margin="0 3"
                                 Type="Dots"
@@ -160,18 +160,18 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="Command" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
             </Trigger>
             <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Visible">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
             </Trigger>
             <Trigger Property="IsBusy" Value="True">
-                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LoadingButton"/>
-                <Setter Property="Visibility" Value="Visible" TargetName="PART_Spinner"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
+                <Setter Property="Visibility" Value="Visible" TargetName="OPT_Spinner"/>
             </Trigger>
             <Trigger Property="IsDynamic" Value="True">
-                <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_Content"/>
-                <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_Content"/>
+                <Setter Property="Grid.ColumnSpan" Value="3" TargetName="OPT_Content"/>
+                <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_Content"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

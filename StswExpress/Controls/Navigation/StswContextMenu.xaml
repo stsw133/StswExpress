@@ -14,8 +14,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
@@ -27,8 +27,7 @@
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </Grid.LayoutTransform>
 
-                        <se:StswBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
+                        <se:StswBorder Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="True"

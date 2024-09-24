@@ -23,7 +23,7 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
-                            <Path x:Name="PART_Path"
+                            <Path x:Name="OPT_Path"
                                   Data="{TemplateBinding Data}"
                                   Fill="{TemplateBinding Fill}"
                                   Margin="{TemplateBinding Padding}"
@@ -34,7 +34,7 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_Path"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_Path"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

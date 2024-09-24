@@ -13,12 +13,15 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AutoClose -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AutoClose, Type={x:Type se:StswDropButton}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AutoClose}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDropButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswDropButton AutoClose="True"
+        <se:StswDropButton AutoClose="{Binding AutoClose}"
                            IsEnabled="{Binding IsEnabled}"
                            IsReadOnly="{Binding IsReadOnly}"
                            Margin="5"

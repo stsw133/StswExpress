@@ -14,7 +14,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindowBar}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -26,7 +26,7 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <!-- icon & title -->
-                            <se:StswLabel x:Name="PART_Header"
+                            <se:StswLabel x:Name="OPT_Header"
                                           Grid.ColumnSpan="2"
                                           Content="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                                           IconScale="*"
@@ -44,7 +44,7 @@
                                     <se:StswOutlinedText Text="🗕"/>
                                 </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Maximize}">
-                                    <se:StswOutlinedText x:Name="PART_ButtonRestoreText" Text="🗖"/>
+                                    <se:StswOutlinedText x:Name="OPT_ButtonRestoreText" Text="🗖"/>
                                 </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
                                     <se:StswOutlinedText Text="🗙"/>
@@ -75,11 +75,11 @@
                     
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="{x:Null}">
-                            <Setter Property="Padding" Value="5 0 0 0" TargetName="PART_Header"/>
+                            <Setter Property="Padding" Value="5 0 0 0" TargetName="OPT_Header"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswWindow.Inactive.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswWindow.Inactive.Foreground}" TargetName="OPT_Header"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ResizeMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="NoResize">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize"/>
@@ -89,13 +89,13 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="Maximized">
-                            <Setter Property="Text" Value="🗗" TargetName="PART_ButtonRestoreText"/>
+                            <Setter Property="Text" Value="🗗" TargetName="OPT_ButtonRestoreText"/>
                             <Setter Property="ToolTip" Value="{se:Tr StswWindow.Restore}" TargetName="PART_ButtonRestore"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Fullscreen, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="True">
-                            <Setter Property="Text" Value="⛶" TargetName="PART_ButtonRestoreText"/>
+                            <Setter Property="Text" Value="⛶" TargetName="OPT_ButtonRestoreText"/>
                             <Setter Property="ToolTip" Value="{se:Tr StswWindow.DisableFullscreen}" TargetName="PART_ButtonRestore"/>
-                            <!-- <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Header"/> -->
+                            <!-- <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Header"/> -->
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

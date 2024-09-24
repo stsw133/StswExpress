@@ -19,21 +19,21 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
                     <DockPanel ClipToBounds="True" KeyboardNavigation.TabNavigation="Local">
-                        <DockPanel x:Name="PART_HeaderPanel" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+                        <DockPanel x:Name="OPT_HeaderPanel" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
                             <se:StswButton x:Name="PART_NewTabButton"
                                            Visibility="{TemplateBinding NewTabButtonVisibility}"
                                            Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                            <se:StswDirectionView x:Name="PART_DirectionView" Focusable="False">
+                            <se:StswDirectionView x:Name="OPT_DirectionView" Focusable="False">
                                 <TabPanel x:Name="HeaderPanel"
                                           Background="Transparent"
                                           IsItemsHost="True"
@@ -41,7 +41,7 @@
                                           Panel.ZIndex="1"/>
                             </se:StswDirectionView>
                         </DockPanel>
-                        <Border x:Name="PART_ContentPanel"
+                        <Border x:Name="OPT_ContentPanel"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -55,70 +55,70 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="AreTabsVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_HeaderPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="NewTabTemplate" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_NewTabButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="Grid.Row" Value="1" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
+                            <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="Grid.Row" Value="1" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_NewTabButton"/>
                             <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="PART_NewTabButton"/>
                             <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="PART_NewTabButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
                             <Setter Property="Margin" Value="-3 0 0 2" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="FBtnThickness" Value="1 0 1 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionView"/>
+                            <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="FBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 0 2 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
+                            <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_NewTabButton"/>
                             <Setter Property="BorderThickness" Value="1 0 0 1" TargetName="PART_NewTabButton"/>
                             <Setter Property="CornerRadius" Value="0 0 0 10" TargetName="PART_NewTabButton"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_NewTabButton"/>
                             <Setter Property="Margin" Value="2 -3 0 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="FBtnThickness" Value="1 1 0 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionView"/>
+                            <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="FBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 2 0 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="Grid.Column" Value="1" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
+                            <Setter Property="Grid.Column" Value="1" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_NewTabButton"/>
                             <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="PART_NewTabButton"/>
                             <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="PART_NewTabButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
                             <Setter Property="Margin" Value="0 -3 2 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="FBtnThickness" Value="0 1 1 1" TargetName="PART_DirectionView"/>
-                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionView"/>
+                            <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="FBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="0 2 2 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
-                            <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
+                            <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_NewTabButton"/>
                             <Setter Property="BorderThickness" Value="0 1 1 0" TargetName="PART_NewTabButton"/>
                             <Setter Property="CornerRadius" Value="0 10 0 0" TargetName="PART_NewTabButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
                             <Setter Property="Margin" Value="-3 2 0 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="PART_DirectionView"/>
-                            <Setter Property="FBtnThickness" Value="1 1 1 0" TargetName="PART_DirectionView"/>
-                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionView"/>
+                            <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
+                            <Setter Property="FBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
+                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 2 2 0" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswTabControl.Disabled.Background}" TargetName="PART_ContentPanel"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Disabled.Border}" TargetName="PART_ContentPanel"/>
+                            <Setter Property="Background" Value="{DynamicResource StswTabControl.Disabled.Background}" TargetName="OPT_ContentPanel"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Disabled.Border}" TargetName="OPT_ContentPanel"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswTabControl.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

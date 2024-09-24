@@ -226,6 +226,9 @@
             <DataTemplate DataType="{x:Type local:StswDirectionViewContext}">
                 <local:StswDirectionViewView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswScrollBarContext}">
+                <local:StswScrollBarView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswScrollViewContext}">
                 <local:StswScrollViewView/>
             </DataTemplate>

@@ -15,8 +15,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
@@ -33,7 +33,7 @@
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <Border.ContextMenu>
-                            <ContextMenu x:Name="PART_Menu"
+                            <ContextMenu x:Name="OPT_Menu"
                                          DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                          Style="{DynamicResource StswContextMenuStyle}">
                                 <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}"/>
@@ -48,8 +48,8 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Menu"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Menu"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_Menu"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Menu"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>

@@ -19,8 +19,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
@@ -28,7 +28,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswFilterBox}">
                     <DockPanel>
                         <!-- filter -->
-                        <se:StswBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
+                        <se:StswBorder x:Name="OPT_MainBorder" DockPanel.Dock="Bottom"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
@@ -46,119 +46,119 @@
                                                      IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Style="{DynamicResource StswContextMenuStyle}">
 
-                                            <se:StswMenuItem x:Name="PART_ModeEqual" Header="{se:Tr StswFilterBox.Equal}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeEqual" Header="{se:Tr StswFilterBox.Equal}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Equal}">
                                                 <se:StswMenuItem.Icon>
                                                     <se:StswOutlinedText Text="=" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </se:StswMenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNotEqual" Header="{se:Tr StswFilterBox.NotEqual}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNotEqual" Header="{se:Tr StswFilterBox.NotEqual}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotEqual}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≠" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeGreater" Header="{se:Tr StswFilterBox.Greater}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeGreater" Header="{se:Tr StswFilterBox.Greater}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Greater}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="&#62;" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeGreaterEqual" Header="{se:Tr StswFilterBox.GreaterEqual}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeGreaterEqual" Header="{se:Tr StswFilterBox.GreaterEqual}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.GreaterEqual}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≥" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeLess" Header="{se:Tr StswFilterBox.Less}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeLess" Header="{se:Tr StswFilterBox.Less}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Less}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="&#60;" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeLessEqual" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeLessEqual" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.LessEqual}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≤" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeBetween" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeBetween" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Between}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≷" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeContains" Header="{se:Tr StswFilterBox.Contains}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeContains" Header="{se:Tr StswFilterBox.Contains}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Contains}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⊇" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNotContains" Header="{se:Tr StswFilterBox.NotContains}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNotContains" Header="{se:Tr StswFilterBox.NotContains}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotContains}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⊉" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeLike" Header="{se:Tr StswFilterBox.Like}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeLike" Header="{se:Tr StswFilterBox.Like}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Like}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="%" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNotLike" Header="{se:Tr StswFilterBox.NotLike}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNotLike" Header="{se:Tr StswFilterBox.NotLike}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotLike}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="%" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeStartsWith" Header="{se:Tr StswFilterBox.StartsWith}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeStartsWith" Header="{se:Tr StswFilterBox.StartsWith}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.StartsWith}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⟝" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeEndsWith" Header="{se:Tr StswFilterBox.EndsWith}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeEndsWith" Header="{se:Tr StswFilterBox.EndsWith}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.EndsWith}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⟞" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeIn" Header="{se:Tr StswFilterBox.In}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeIn" Header="{se:Tr StswFilterBox.In}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.In}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="◐" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNotIn" Header="{se:Tr StswFilterBox.NotIn}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNotIn" Header="{se:Tr StswFilterBox.NotIn}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotIn}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="◐" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNull" Header="{se:Tr StswFilterBox.Null}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNull" Header="{se:Tr StswFilterBox.Null}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Null}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="○" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="PART_ModeNotNull" Header="{se:Tr StswFilterBox.NotNull}" Visibility="Collapsed"
+                                            <se:StswMenuItem x:Name="OPT_ModeNotNull" Header="{se:Tr StswFilterBox.NotNull}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotNull}">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⬤" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
@@ -169,15 +169,15 @@
                                     </se:StswToggleButton.ContextMenu>
                                 </se:StswToggleButton>
                                 <!-- separator -->
-                                <se:StswSeparator x:Name="PART_Separator"
-                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                <se:StswSeparator x:Name="OPT_Separator"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Vertical"/>
                                 <!-- controls -->
-                                <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
+                                <UniformGrid x:Name="OPT_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
                                     <se:StswAdaptiveBox se:StswControl.IsBorderless="True"
-                                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                        BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
@@ -200,9 +200,9 @@
                                         </se:StswAdaptiveBox.Resources>
                                     </se:StswAdaptiveBox>
                                     <!-- second control -->
-                                    <se:StswAdaptiveBox x:Name="PART_SecondControl"
+                                    <se:StswAdaptiveBox x:Name="OPT_SecondControl"
                                                         se:StswControl.IsBorderless="True"
-                                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                        BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
@@ -233,84 +233,84 @@
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="FilterType" Value="Check">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEqual"/>
                         </Trigger>
                         <Trigger Property="FilterType" Value="Date">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeGreater"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeGreaterEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeLess"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeLessEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeBetween"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeGreater"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeGreaterEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeLess"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeLessEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeBetween"/>
                         </Trigger>
                         <Trigger Property="FilterType" Value="List">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeIn"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotIn"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeIn"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotIn"/>
                         </Trigger>
                         <Trigger Property="FilterType" Value="Number">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeGreater"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeGreaterEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeLess"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeLessEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeBetween"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeGreater"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeGreaterEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeLess"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeLessEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeBetween"/>
                         </Trigger>
                         <Trigger Property="FilterType" Value="Text">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotEqual"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeBetween"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeContains"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotContains"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeLike"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotLike"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeStartsWith"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeEndsWith"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotEqual"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeBetween"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeContains"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotContains"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeLike"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotLike"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeStartsWith"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEndsWith"/>
                         </Trigger>
                         <Trigger Property="IsFilterNullSensitive" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNull"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotNull"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNull"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotNull"/>
                         </Trigger>
                         <Trigger Property="FilterMode" Value="Between">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SecondControl"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_SecondControl"/>
                         </Trigger>
                         <Trigger Property="FilterMenuMode" Value="ReadOnly">
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FilterMode"/>
                         </Trigger>
                         <Trigger Property="FilterMenuMode" Value="Disabled">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilterMode"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsInDataGrid, RelativeSource={RelativeSource Self}}" Value="True"/>
                                 <Condition Binding="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="False"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainBorder"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MainBorder"/>
                         </MultiDataTrigger>
                         <Trigger Property="Header" Value="{x:Null}">
-                            <Setter Property="Margin" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="Margin" Value="0" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

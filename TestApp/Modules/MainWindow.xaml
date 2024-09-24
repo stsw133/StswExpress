@@ -112,6 +112,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
                 <se:StswNavigationElement Header="StswDirectionView" ContextNamespace="TestApp.StswDirectionViewContext"/>
+                <se:StswNavigationElement Header="StswScrollBar" ContextNamespace="TestApp.StswScrollBarContext"/>
                 <se:StswNavigationElement Header="StswScrollView" ContextNamespace="TestApp.StswScrollViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">

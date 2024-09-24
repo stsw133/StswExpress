@@ -16,8 +16,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -31,14 +31,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListView}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollView x:Name="PART_ScrollView"
-                                           AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                        <se:StswScrollView AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
@@ -62,8 +61,8 @@
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -85,7 +84,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border x:Name="PART_Border"
+                                <Border x:Name="OPT_Border"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -95,24 +94,24 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_Border"/>
                                     </Trigger>
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsMouseOver" Value="True"/>
                                             <Condition Property="IsSelected" Value="True"/>
                                         </MultiTrigger.Conditions>
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
                                     </MultiTrigger>
                                     <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
                                         <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
                                     </Trigger>
                                     <MultiTrigger>
@@ -120,8 +119,8 @@
                                             <Condition Property="IsSelected" Value="True"/>
                                             <Condition Property="IsEnabled" Value="False"/>
                                         </MultiTrigger.Conditions>
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
                                         <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
                                     </MultiTrigger>
                                 </ControlTemplate.Triggers>

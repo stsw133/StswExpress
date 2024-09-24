@@ -17,14 +17,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswGroupBox}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -32,7 +32,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswLabel x:Name="PART_Header"
+                            <se:StswLabel x:Name="OPT_Header"
                                           DockPanel.Dock="Top"
                                           se:StswControl.IsBorderless="True"
                                           Background="{DynamicResource StswExpander.Static.Header}"
@@ -52,7 +52,7 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Top"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
                             <!-- content -->
@@ -65,9 +65,9 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="OPT_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="OPT_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

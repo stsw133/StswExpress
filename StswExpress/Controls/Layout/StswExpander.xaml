@@ -17,14 +17,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswExpander}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -32,7 +32,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswToggleButton x:Name="PART_Header"
+                            <se:StswToggleButton x:Name="OPT_Header"
                                                  se:StswControl.IsBorderless="True"
                                                  Background="{DynamicResource StswExpander.Static.Header}"
                                                  FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
@@ -47,7 +47,7 @@
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow" IsExpanded="{TemplateBinding IsExpanded}" Width="24"/>
+                                    <se:StswDropArrow x:Name="OPT_Arrow" IsExpanded="{TemplateBinding IsExpanded}" Width="24"/>
                                     <ContentPresenter Content="{TemplateBinding Header}"
                                                       ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                                       ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -55,12 +55,12 @@
                                 </DockPanel>
                             </se:StswToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                            <se:StswSeparator x:Name="OPT_Separator"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Visibility="Collapsed"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="PART_Content"
+                            <ContentPresenter x:Name="OPT_Content"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -71,39 +71,39 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Down">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Separator"/>
-                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Arrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Separator"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Separator"/>
-                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
-                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Arrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
+                            <Setter Property="LayoutTransform" TargetName="OPT_Arrow">
                                 <Setter.Value>
                                     <RotateTransform Angle="90"/>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Separator"/>
-                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
-                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Arrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
+                            <Setter Property="LayoutTransform" TargetName="OPT_Arrow">
                                 <Setter.Value>
                                     <RotateTransform Angle="-90"/>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Separator"/>
-                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
-                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Arrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Separator"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
+                            <Setter Property="LayoutTransform" TargetName="OPT_Arrow">
                                 <Setter.Value>
                                     <RotateTransform Angle="180"/>
                                 </Setter.Value>
@@ -114,49 +114,49 @@
                                 <Condition Property="IsExpanded" Value="False"/>
                                 <Condition Property="ExpandDirection" Value="Down"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_MainBorder"/>
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsExpanded" Value="False"/>
                                 <Condition Property="ExpandDirection" Value="Left"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_MainBorder"/>
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsExpanded" Value="False"/>
                                 <Condition Property="ExpandDirection" Value="Right"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_MainBorder"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsExpanded" Value="False"/>
                                 <Condition Property="ExpandDirection" Value="Up"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="VerticalAlignment" Value="Bottom" TargetName="PART_MainBorder"/>
+                            <Setter Property="VerticalAlignment" Value="Bottom" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Separator"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Content"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True" SourceName="PART_Header">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="PART_Header"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="OPT_Header">
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="OPT_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="True" SourceName="PART_Header">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="PART_Header"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="PART_MainBorder"/>
+                        <Trigger Property="IsPressed" Value="True" SourceName="OPT_Header">
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="OPT_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="True" SourceName="PART_Header">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="PART_Header"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="PART_MainBorder"/>
+                        <Trigger Property="IsChecked" Value="True" SourceName="OPT_Header">
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="OPT_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="OPT_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="OPT_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

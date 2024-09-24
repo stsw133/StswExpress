@@ -11,8 +11,17 @@ public class StswDropButtonContext : ControlsContext
     {
         base.SetDefaults();
 
+        AutoClose = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AutoClose)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    /// AutoClose
+    public bool AutoClose
+    {
+        get => _autoClose;
+        set => SetProperty(ref _autoClose, value);
+    }
+    private bool _autoClose;
 
     /// ClickOption
     public int ClickOption

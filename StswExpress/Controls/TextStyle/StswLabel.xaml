@@ -20,14 +20,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLabel}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -37,18 +37,18 @@
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <!-- icon -->
-                            <ContentControl x:Name="PART_Icon"
+                            <ContentControl x:Name="OPT_Icon"
                                             Focusable="False"
                                             Margin="0 -1"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="PART_Content"
+                            <ContentPresenter x:Name="OPT_Content"
                                               Focusable="False"/>
                         </DockPanel>
                     </se:StswBorder>
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IconSource" Value="{x:Null}">
-                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                            <Setter Property="ContentTemplate" TargetName="OPT_Icon">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
@@ -61,7 +61,7 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="IconData" Value="{x:Null}">
-                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                            <Setter Property="ContentTemplate" TargetName="OPT_Icon">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <se:StswImage MenuMode="Disabled"
@@ -76,10 +76,10 @@
                                 <Condition Property="IconData" Value="{x:Null}"/>
                                 <Condition Property="IconSource" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
                         </MultiTrigger>
                         <Trigger Property="IsBusy" Value="True">
-                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                            <Setter Property="ContentTemplate" TargetName="OPT_Icon">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <se:StswSpinner Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
@@ -90,30 +90,30 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsContentVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Icon"/>
-                            <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_Content"/>
-                            <Setter Property="Margin" Value="5 0 0 0" TargetName="PART_Content"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Icon"/>
+                            <Setter Property="VerticalAlignment" Value="Center" TargetName="OPT_Content"/>
+                            <Setter Property="Margin" Value="5 0 0 0" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Icon"/>
-                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
-                            <Setter Property="Margin" Value="0 2 0 0" TargetName="PART_Content"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Icon"/>
+                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="OPT_Content"/>
+                            <Setter Property="Margin" Value="0 2 0 0" TargetName="OPT_Content"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IconData" Value="{x:Null}"/>
                                 <Condition Property="IconSource" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
+                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="OPT_Content"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

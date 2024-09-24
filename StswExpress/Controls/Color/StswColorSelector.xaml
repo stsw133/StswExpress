@@ -17,14 +17,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorSelector}">
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -32,8 +32,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswGrid AutoLayoutMode="IncrementRows">
                             <!-- automatic color -->
-                            <se:StswButton x:Name="PART_AutoColor"
-                                           se:StswControl.IsBorderless="True"
+                            <se:StswButton se:StswControl.IsBorderless="True"
                                            Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandParameter="{TemplateBinding ColorAuto}">
                                 <DockPanel>
@@ -57,8 +56,8 @@
                                 </DockPanel>
                             </se:StswButton>
                             <!-- theme colors -->
-                            <se:StswSeparator x:Name="PART_ThemeSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
-                            <se:StswGroupBox x:Name="PART_ThemeColors"
+                            <se:StswSeparator x:Name="OPT_ThemeSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                            <se:StswGroupBox x:Name="OPT_ThemeColors"
                                              se:StswControl.IsBorderless="True"
                                              Padding="0"
                                              SeparatorThickness="1">
@@ -104,8 +103,8 @@
                                 </se:StswDirectionView>
                             </se:StswGroupBox>
                             <!-- standard colors -->
-                            <se:StswSeparator x:Name="PART_StandardSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
-                            <se:StswGroupBox x:Name="PART_StandardColors"
+                            <se:StswSeparator x:Name="OPT_StandardSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                            <se:StswGroupBox x:Name="OPT_StandardColors"
                                              se:StswControl.IsBorderless="True"
                                              Padding="0"
                                              SeparatorThickness="1">
@@ -152,16 +151,16 @@
 
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ThemeSeparator"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ThemeColors"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ThemeSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ThemeColors"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ColorPaletteStandard.Length, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_StandardSeparator"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_StandardColors"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_StandardSeparator"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_StandardColors"/>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

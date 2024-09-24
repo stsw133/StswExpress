@@ -21,14 +21,14 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubRadio}">
-                    <se:StswLabel x:Name="PART_MainBorder"
+                    <se:StswLabel x:Name="OPT_MainBorder"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
@@ -58,27 +58,27 @@
                             <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="IconFill" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsEnabled" Value="False"/>
                                 <Condition Property="IsChecked" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsEnabled" Value="False"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

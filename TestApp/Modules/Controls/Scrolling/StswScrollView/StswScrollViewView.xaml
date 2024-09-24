@@ -14,10 +14,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswScrollView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsDynamic -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsDynamic"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsDynamic, Type={x:Type se:StswScrollView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
             <!-- HorizontalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollView}}"/>

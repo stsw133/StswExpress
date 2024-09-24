@@ -21,8 +21,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
@@ -34,7 +34,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubSelector}">
                     <Grid>
-                        <se:StswLabel x:Name="PART_MainBorder"
+                        <se:StswLabel x:Name="OPT_MainBorder"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
@@ -66,7 +66,7 @@
                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                       Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                       Placement="Center"
-                                      PlacementTarget="{Binding ElementName=PART_MainBorder}"
+                                      PlacementTarget="{Binding ElementName=OPT_MainBorder}"
                                       ScrollType="DirectionView"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       StaysOpen="False">
@@ -82,7 +82,7 @@
                             <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

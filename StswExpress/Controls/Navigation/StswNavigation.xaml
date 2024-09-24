@@ -21,8 +21,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -35,23 +35,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
                     <!-- navigation list part -->
-                    <se:StswBorder x:Name="PART_MainBorder"
+                    <se:StswBorder x:Name="OPT_MainBorder"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
                         <DockPanel>
-                            <DockPanel x:Name="PART_MainPanel"
+                            <DockPanel x:Name="OPT_MainPanel"
                                        DockPanel.Dock="{TemplateBinding TabStripPlacement}"
                                        Background="{TemplateBinding Background}"
                                        Width="{Binding TabStripWidth, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- components -->
-                                <DockPanel x:Name="PART_Components">
+                                <DockPanel x:Name="OPT_Components">
                                     <se:StswToggleButton x:Name="PART_TabStripModeButton" se:StswControl.IsBorderless="True">
                                         <se:StswLabel IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswDirectionView x:Name="PART_CustomComponents"
+                                    <se:StswDirectionView x:Name="OPT_CustomComponents"
                                                             BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                             Focusable="False"
                                                             HorizontalScrollBarVisibility="Auto"
@@ -66,7 +66,7 @@
                                     </se:StswDirectionView>
                                 </DockPanel>
                                 <!-- navigation pinned items -->
-                                <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
+                                <ItemsControl x:Name="OPT_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel>
@@ -93,7 +93,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollView x:Name="PART_Items"
+                                <se:StswScrollView x:Name="OPT_Items"
                                                    AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                    CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                    Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
@@ -139,9 +139,9 @@
                                 </se:StswScrollView>
                             </DockPanel>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
+                            <se:StswSeparator x:Name="OPT_Separator"
                                               DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"/>
                             <Grid>
                                 <!-- content -->
@@ -155,14 +155,14 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <!-- compact panel -->
-                                <se:StswDirectionView x:Name="PART_CompactPanel"
+                                <se:StswDirectionView x:Name="OPT_CompactPanel"
                                                         Background="{TemplateBinding Background}"
                                                         BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                                         HorizontalAlignment="Left"
                                                         HorizontalScrollBarVisibility="Disabled"
                                                         VerticalScrollBarVisibility="Auto"
                                                         Visibility="Collapsed">
-                                    <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 1">
+                                    <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="0 0 1 1">
                                         <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>
                                     </se:StswBorder>
                                 </se:StswDirectionView>
@@ -172,52 +172,52 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripMode" Value="Collapsed">
                             <Setter Property="IsChecked" Value="{x:Null}" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_CustomComponents"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainPanel"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
-                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_CustomComponents"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MainPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="OPT_MainPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripMode" Value="Compact">
                             <Setter Property="IsChecked" Value="False" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_CustomComponents"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_CompactPanel"/>
-                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_CustomComponents"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_CompactPanel"/>
+                            <Setter Property="Width" Value="NaN" TargetName="OPT_MainPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripMode" Value="Full">
                             <Setter Property="IsChecked" Value="True" TargetName="PART_TabStripModeButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Components"/>
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Components"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
-                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="OPT_MainPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Components"/>
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Components"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Components"/>
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Components"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Components"/>
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Components"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
-                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="OPT_MainPanel"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding ItemsCompact.Count, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_CompactPanel"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_CompactPanel"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
