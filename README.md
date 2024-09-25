@@ -3,7 +3,7 @@ WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartColumns, StswChartLegend, StswChartPie
-  - **Checks:** StswCheckBox, StswRadioBox, StswTimedSwitch, StswToggleSwitch
+  - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswShiftSelector, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswColorSelector
   - **DataGrids:** StswDataGrid, StswDataPager
@@ -12,13 +12,14 @@ WPF .NET 6.0 library containing:
   - **File:** StswFilePicker
   - **Filters:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswDecimalBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-  - **Layout:** StswBorder, StswExpander, StswGrid, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
+  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswTimedSwitch, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaPlayer
   - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
+  - **Panels:** StswGrid, StswLabelPanel, StswSidePanel
   - **Scrolling:** StswDirectionView, StswScrollBar, StswScrollView
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubError, StswSubLabel, StswSubRadio, StswSubRepeater, StswSubSelector
-  - **TextStyle:** StswDropArrow, StswIcon, StswLabel, StswLabelPanel, StswOutlinedText, StswSpinner, StswText
+  - **TextStyle:** StswDropArrow, StswIcon, StswLabel, StswOutlinedText, StswSpinner, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like relay commands, converters, exporting data, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)

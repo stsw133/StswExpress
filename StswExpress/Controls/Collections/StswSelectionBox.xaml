@@ -53,7 +53,9 @@
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <se:StswDropArrow DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                            <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
+                            </Grid>
                             <!-- sub controls -->
                             <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                           IsTabStop="False"

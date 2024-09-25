@@ -42,8 +42,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- drop button -->
-                            <se:StswToggleButton DockPanel.Dock="Right"
-                                                 se:StswControl.IsBorderless="True"
+                            <se:StswToggleButton se:StswControl.IsBorderless="True" DockPanel.Dock="Right"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  ClickMode="Press"
@@ -52,7 +51,9 @@
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <se:StswDropArrow IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                                <Grid Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                    <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
+                                </Grid>
                             </se:StswToggleButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"

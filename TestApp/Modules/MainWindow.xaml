@@ -43,7 +43,6 @@
             <se:StswNavigationElement Header="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Header="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Header="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>
-                <se:StswNavigationElement Header="StswTimedSwitch" ContextNamespace="TestApp.StswTimedSwitchContext"/>
                 <se:StswNavigationElement Header="StswToggleSwitch" ContextNamespace="TestApp.StswToggleSwitchContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
@@ -93,11 +92,9 @@
             <se:StswNavigationElement Header="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
-                <se:StswNavigationElement Header="StswGrid" ContextNamespace="TestApp.StswGridContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
-                <se:StswNavigationElement Header="StswLabelPanel" ContextNamespace="TestApp.StswLabelPanelContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
-                <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
+                <se:StswNavigationElement Header="StswTimedSwitch" ContextNamespace="TestApp.StswTimedSwitchContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
@@ -109,6 +106,11 @@
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="TestApp.StswMenuContext"/>
                 <se:StswNavigationElement Header="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Header="Panels" IconData="{x:Static se:StswIcons.FormatListGroup}">
+                <se:StswNavigationElement Header="StswGrid" ContextNamespace="TestApp.StswGridContext"/>
+                <se:StswNavigationElement Header="StswLabelPanel" ContextNamespace="TestApp.StswLabelPanelContext"/>
+                <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
                 <se:StswNavigationElement Header="StswDirectionView" ContextNamespace="TestApp.StswDirectionViewContext"/>

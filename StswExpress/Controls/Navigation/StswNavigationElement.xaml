@@ -53,7 +53,9 @@
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Template="{DynamicResource StswNavigationToggleButtonTemplate}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="OPT_Arrow" DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
+                                    <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                        <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsChecked}"/>
+                                    </Grid>
                                     <se:StswLabel x:Name="OPT_Header"
                                                   Content="{TemplateBinding Header}"
                                                   ContentStringFormat="{TemplateBinding HeaderStringFormat}"
@@ -91,7 +93,7 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Arrow"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DropArrow"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -113,7 +115,7 @@
                         </MultiTrigger>
                         <Trigger Property="TabStripMode" Value="Compact">
                             <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainButton"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Arrow"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DropArrow"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Items"/>
                         </Trigger>
                         <Trigger Property="TabStripMode" Value="Full">

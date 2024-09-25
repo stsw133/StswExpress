@@ -156,7 +156,7 @@
     <Page Update="Controls\Input\StswRatingControl.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Layout\StswSidePanel.xaml">
+    <Page Update="Controls\Panels\StswSidePanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Media\StswGallery.xaml">

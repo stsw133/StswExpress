@@ -21,7 +21,7 @@
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
+            <se:StswLabel Content="{Binding IsChecked, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='True~Unclick me~Click me'}" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
         </se:StswToggleButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

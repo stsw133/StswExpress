@@ -18,7 +18,6 @@
 
         <ResourceDictionary Source="Checks/StswCheckBox.xaml"/>
         <ResourceDictionary Source="Checks/StswRadioBox.xaml"/>
-        <ResourceDictionary Source="Checks/StswTimedSwitch.xaml"/>
         <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
@@ -62,7 +61,7 @@
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
-        <ResourceDictionary Source="Layout/StswSidePanel.xaml"/>
+        <ResourceDictionary Source="Layout/StswTimedSwitch.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
 
         <ResourceDictionary Source="Media/StswGallery.xaml"/>
@@ -76,6 +75,8 @@
         <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabItem.xaml"/>
+
+        <ResourceDictionary Source="Panels/StswSidePanel.xaml"/>
 
         <ResourceDictionary Source="Scrolling/StswDirectionView.xaml"/>
         <ResourceDictionary Source="Scrolling/StswScrollBar.xaml"/>

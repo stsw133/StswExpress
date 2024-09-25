@@ -67,9 +67,6 @@
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
-                <local:StswTimedSwitchView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswToggleSwitchContext}">
                 <local:StswToggleSwitchView/>
             </DataTemplate>
@@ -181,20 +178,14 @@
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswGridContext}">
-                <local:StswGridView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
                 <local:StswGroupBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLabelPanelContext}">
-                <local:StswLabelPanelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswSidePanelContext}">
-                <local:StswSidePanelView/>
+            <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
+                <local:StswTimedSwitchView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswZoomControlContext}">
                 <local:StswZoomControlView/>
@@ -222,6 +213,17 @@
                 <local:StswTabControlView/>
             </DataTemplate>
             
+            <!-- Panel -->
+            <DataTemplate DataType="{x:Type local:StswGridContext}">
+                <local:StswGridView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelPanelContext}">
+                <local:StswLabelPanelView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSidePanelContext}">
+                <local:StswSidePanelView/>
+            </DataTemplate>
+
             <!-- Scrolling -->
             <DataTemplate DataType="{x:Type local:StswDirectionViewContext}">
                 <local:StswDirectionViewView/>

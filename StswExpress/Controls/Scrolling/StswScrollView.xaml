@@ -26,10 +26,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <!-- corner -->
-                        <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                         <!-- content -->
-                        <DockPanel x:Name="OPT_Content">
+                        <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.Row="0">
                             <se:StswSubButton x:Name="OPT_LoadingButton"
                                               DockPanel.Dock="Bottom"
                                               Command="{TemplateBinding Command}"
@@ -50,16 +48,8 @@
                                                     Margin="{TemplateBinding Padding}"/>
                         </DockPanel>
                         <!-- bars -->
-                        <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0"
-                                          AutomationProperties.AutomationId="VerticalScrollBar"
-                                          Cursor="Arrow"
-                                          IsDynamic="{TemplateBinding IsDynamic}"
-                                          Maximum="{TemplateBinding ScrollableHeight}"
-                                          Orientation="Vertical"
-                                          Value="{TemplateBinding VerticalOffset}"
-                                          ViewportSize="{TemplateBinding ViewportHeight}"
-                                          Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                        <se:StswScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1"
+                        <se:StswScrollBar x:Name="PART_HorizontalScrollBar"
+                                          Grid.Column="0" Grid.Row="1"
                                           AutomationProperties.AutomationId="HorizontalScrollBar"
                                           Cursor="Arrow"
                                           IsDynamic="{TemplateBinding IsDynamic}"
@@ -68,6 +58,18 @@
                                           Value="{TemplateBinding HorizontalOffset}"
                                           ViewportSize="{TemplateBinding ViewportWidth}"
                                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                        <se:StswScrollBar x:Name="PART_VerticalScrollBar"
+                                          Grid.Column="1" Grid.Row="0"
+                                          AutomationProperties.AutomationId="VerticalScrollBar"
+                                          Cursor="Arrow"
+                                          IsDynamic="{TemplateBinding IsDynamic}"
+                                          Maximum="{TemplateBinding ScrollableHeight}"
+                                          Orientation="Vertical"
+                                          Value="{TemplateBinding VerticalOffset}"
+                                          ViewportSize="{TemplateBinding ViewportHeight}"
+                                          Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <!-- corner -->
+                        <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Command" Value="{x:Null}">
@@ -111,16 +113,17 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <!-- column header corner -->
-            <se:StswButton Command="{x:Static DataGrid.SelectAllCommand}"
+            <se:StswButton Grid.Column="0" Grid.Row="0"
+                           Command="{x:Static DataGrid.SelectAllCommand}"
                            Focusable="False"
                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type se:StswDataGrid}, ResourceId=StswDataGridSelectAllButtonStyle}}"
                            Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}"
                            Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
             <!-- column headers -->
-            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1"
+            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Grid.Row="0"
                                             Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
             <!-- content-->
-            <DockPanel x:Name="OPT_Content" Grid.ColumnSpan="2" Grid.Row="1">
+            <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
                 <se:StswSubButton x:Name="OPT_LoadingButton"
                                   DockPanel.Dock="Bottom"
                                   Command="{TemplateBinding Command}"
@@ -137,13 +140,6 @@
                                         CanContentScroll="{TemplateBinding CanContentScroll}"/>
             </DockPanel>
             <!-- bars -->
-            <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Grid.Row="1"
-                              IsDynamic="{TemplateBinding IsDynamic}"
-                              Maximum="{TemplateBinding ScrollableHeight}"
-                              Orientation="Vertical"
-                              Value="{TemplateBinding VerticalOffset}"
-                              ViewportSize="{TemplateBinding ViewportHeight}"
-                              Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
             <Grid Grid.Column="1" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
@@ -157,6 +153,13 @@
                                   ViewportSize="{TemplateBinding ViewportWidth}"
                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
             </Grid>
+            <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Grid.Row="1"
+                              IsDynamic="{TemplateBinding IsDynamic}"
+                              Maximum="{TemplateBinding ScrollableHeight}"
+                              Orientation="Vertical"
+                              Value="{TemplateBinding VerticalOffset}"
+                              ViewportSize="{TemplateBinding ViewportHeight}"
+                              Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="Command" Value="{x:Null}">
