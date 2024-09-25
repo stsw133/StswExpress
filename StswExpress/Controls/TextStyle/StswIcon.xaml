@@ -19,10 +19,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswIcon}">
                     <Viewbox>
-                        <Canvas Background="{TemplateBinding Background}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
+                        <Canvas Background="{TemplateBinding Background}" Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
                             <Path x:Name="OPT_Path"
                                   Data="{TemplateBinding Data}"
                                   Fill="{TemplateBinding Fill}"

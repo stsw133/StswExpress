@@ -63,6 +63,8 @@
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_MainBorder"/>
                             <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="OPT_MainBorder"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Icon"/>

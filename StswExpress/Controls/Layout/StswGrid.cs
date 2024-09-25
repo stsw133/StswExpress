@@ -61,7 +61,7 @@ public class StswGrid : Grid
 
                     for (var i = 0; i < Children.Count; i++)
                     {
-                        var desiredWidth = ColumnWidths?.Any() == true
+                        var desiredWidth = ColumnWidths?.Count > 0
                             ? ColumnWidths.Count > i ? ColumnWidths[i] : ColumnWidths.Last()
                             : GridLength.Auto;
 
@@ -87,7 +87,7 @@ public class StswGrid : Grid
 
                     for (var i = 0; i < Children.Count; i++)
                     {
-                        var desiredHeight = RowHeights?.Any() == true
+                        var desiredHeight = RowHeights?.Count > 0
                             ? RowHeights.Count > i ? RowHeights[i] : RowHeights.Last()
                             : GridLength.Auto;
 
@@ -131,7 +131,7 @@ public class StswGrid : Grid
 
                     for (var i = 0; i < ColumnDefinitions.Count; i++)
                     {
-                        var desiredWidth = ColumnWidths?.Any() == true
+                        var desiredWidth = ColumnWidths?.Count > 0
                             ? ColumnWidths.Count > i ? ColumnWidths[i] : ColumnWidths.Last()
                             : GridLength.Auto;
 
@@ -141,7 +141,7 @@ public class StswGrid : Grid
 
                     for (var i = 0; i < RowDefinitions.Count; i++)
                     {
-                        var desiredHeight = RowHeights?.Any() == true
+                        var desiredHeight = RowHeights?.Count > 0
                             ? RowHeights.Count > i ? RowHeights[i] : RowHeights.Last()
                             : GridLength.Auto;
 

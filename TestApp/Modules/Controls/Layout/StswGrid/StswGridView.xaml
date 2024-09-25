@@ -19,37 +19,17 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswGrid AutoLayoutMode="{Binding AutoLayoutMode}"
+                     IsEnabled="{Binding IsEnabled}"
                      Margin="5"
+                     ColumnWidths="{se:StswMakeList '*,auto,*,auto,*'}"
+                     RowHeights="{se:StswMakeList '*,auto,*,auto,*'}"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswText Grid.Row="0" FontSize="15" FontWeight="Bold" Text="TITLE"/>
-            <se:StswText Grid.Row="1" FontWeight="Bold" Opacity="0.6" Text="SUBTITLE"/>
-            <se:StswText Grid.Row="2"
-                         IsEnabled="{Binding IsEnabled}"
-                         Margin="0 3 0 0"
-                         TextWrapping="Wrap"
-                         Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type Grid}, AncestorLevel=2}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=-16}">
-                <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
-                <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
-                <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
-                <Run Text="Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."/>
-                <Run Text="Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."/>
-                <Run Text="In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Negative}"/>
-                <Run Text="Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus."/>
-                <Run Text="Vivamus elementum semper nisi. Aenean vulputate eleifend tellus."/>
-                <Run Text="Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim." FontWeight="Medium" Foreground="{DynamicResource StswColor.Neutral}"/>
-                <Run Text="Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus."/>
-                <Run Text="Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum."/>
-                <Run Text="Aenean imperdiet. Etiam ultricies nisi vel augue." FontWeight="Medium" Foreground="{DynamicResource StswColor.Modify}"/>
-                <Run Text="Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus."/>
-                <Run Text="Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."/>
-                <Run Text="Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem." FontWeight="Medium" Foreground="{DynamicResource StswColor.Structure}"/>
-                <Run Text="Maecenas nec odio et ante tincidunt tempus."/>
-                <Run Text="Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante."/>
-                <Run Text="Etiam sit amet orci eget eros faucibus tincidunt. Duis leo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Designer}"/>
-                <Run Text="Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna."/>
-                <Run Text="Sed consequat, leo eget bibendum sodales, augue velit cursus nunc..."/>
-            </se:StswText>
+            <se:StswBorder Grid.Column="0" Grid.Row="0" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="1" Grid.Row="1" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="2" Grid.Row="2" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="3" Grid.Row="3" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="4" Grid.Row="4" Margin="1" MinHeight="10" MinWidth="10"/>
         </se:StswGrid>
         <!-- status panel -->
         
