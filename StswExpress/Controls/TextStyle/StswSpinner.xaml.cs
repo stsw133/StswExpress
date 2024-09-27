@@ -79,62 +79,62 @@ public class StswSpinner : Control
     #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
     /*
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Background { get; private set; }
     */
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? BorderBrush { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Thickness? BorderThickness { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Foreground { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new FontFamily? FontFamily { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new double FontSize { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new FontStretch FontStretch { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new FontWeight FontWeight { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }

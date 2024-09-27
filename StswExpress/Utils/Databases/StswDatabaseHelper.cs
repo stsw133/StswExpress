@@ -141,14 +141,13 @@ public static class StswDatabaseHelper
     /// <param name="parameters">The model used for the query parameters.</param>
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
-    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
-    public static SqlDataReader? ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    public static SqlDataReader ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
     {
         if (!CheckQueryConditions())
-            return default;
+            return default!;
 
-        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, false);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
         sqlCmd.PrepareCommand(parameters);
@@ -164,7 +163,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
-    public static SqlDataReader? ExecuteReader(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
+    public static SqlDataReader ExecuteReader(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteReader(query, parameters, timeout, sqlTran);
 
     /// <summary>
@@ -175,7 +174,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
-    public static SqlDataReader? ExecuteReader(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static SqlDataReader ExecuteReader(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteReader(query, parameters, timeout, sqlTran);
 
     /// <summary>

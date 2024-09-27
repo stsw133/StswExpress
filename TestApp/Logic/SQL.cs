@@ -73,4 +73,31 @@ internal static class SQL
         select Pdf
         from dbo.StswExpressTEST_Contractors with(nolock)
         where ID=@ID", new { ID = id });
+
+    /// GetContractorAddress
+    internal static AddressModel? GetContractorAddress(int contractorID)
+    {
+        using (var sqlDR = DbCurrent.ExecuteReader($@"
+            select
+                a.Country [{nameof(AddressModel.Country)}],
+                a.PostCode [{nameof(AddressModel.PostCode)}],
+                a.City [{nameof(AddressModel.City)}],
+                a.Street [{nameof(AddressModel.Street)}]
+            from dbo.StswExpressTEST_Contractors a with(nolock)
+            where a.ID=@contractorID", new { contractorID }))
+        {
+            if (sqlDR.Read())
+            {
+                return new()
+                {
+                    City = sqlDR[nameof(AddressModel.City)].ConvertTo<string>(),
+                    Country = sqlDR[nameof(AddressModel.Country)].ConvertTo<string>(),
+                    PostCode = sqlDR[nameof(AddressModel.PostCode)].ConvertTo<string>(),
+                    Street = sqlDR[nameof(AddressModel.Street)].ConvertTo<string>()
+                };
+            }
+        }
+
+        return null;
+    }
 }

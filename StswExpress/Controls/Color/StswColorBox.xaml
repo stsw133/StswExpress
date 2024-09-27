@@ -41,6 +41,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
+                            <!-- icon section -->
+                            <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"

@@ -46,6 +46,9 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswTimePicker.Icon>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+            </se:StswTimePicker.Icon>
             <se:StswTimePicker.SubControls>
                 <se:StswSubButton Command="{Binding RandomizeCommand}"
                                   IconData="{x:Static se:StswIcons.DiceMultiple}"

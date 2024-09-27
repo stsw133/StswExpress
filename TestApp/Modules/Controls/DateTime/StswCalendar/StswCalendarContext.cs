@@ -27,4 +27,12 @@ public class StswCalendarContext : ControlsContext
         set => SetProperty(ref _selectedDate, value);
     }
     private DateTime? _selectedDate = DateTime.Now;
+
+    /// SelectionMode
+    public StswCalendarMode SelectionMode
+    {
+        get => _selectionMode;
+        set => SetProperty(ref _selectionMode, value);
+    }
+    private StswCalendarMode _selectionMode;
 }

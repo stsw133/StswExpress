@@ -150,6 +150,21 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen

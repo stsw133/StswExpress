@@ -63,6 +63,7 @@ public class StswScrollView : ScrollViewer
         {
             if (e.ExtentHeightChange == 0)
                 _autoScrolled = VerticalOffset == ScrollableHeight;
+
             if (_autoScrolled && e.ExtentHeightChange != 0)
                 ScrollToVerticalOffset(ExtentHeight);
         }

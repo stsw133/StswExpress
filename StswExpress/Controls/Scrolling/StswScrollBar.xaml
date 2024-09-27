@@ -248,7 +248,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.Disabled.Background}" TargetName="border"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswScroll.Disabled.Border}" TargetName="border"/>
-                            <Setter Property="Opacity" Value="0.6" TargetName="contentPresenter"/>
+                            <!-- <Setter Property="Opacity" Value="0.6" TargetName="contentPresenter"/> -->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

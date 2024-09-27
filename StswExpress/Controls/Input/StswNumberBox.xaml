@@ -37,6 +37,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
+                            <!-- icon section -->
+                            <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <UniformGrid DockPanel.Dock="Right" Columns="1" Width="24">
                                 <se:StswRepeatButton x:Name="PART_ButtonUp" se:StswControl.IsBorderless="True" Focusable="False" Padding="0">

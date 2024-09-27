@@ -42,6 +42,9 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswFilePicker.Icon>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+            </se:StswFilePicker.Icon>
             <se:StswFilePicker.SubControls>
                 <se:StswSubButton Command="{x:Static se:StswCommands.Clear}"
                                   IconData="{x:Static se:StswIcons.Close}"

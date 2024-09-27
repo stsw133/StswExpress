@@ -8,24 +8,15 @@ public class StswDirectionViewContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-
-        HorizontalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalScrollBarVisibility)))?.Value ?? default;
-        VerticalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalScrollBarVisibility)))?.Value ?? default;
+        
+        Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
-    /// HorizontalScrollBarVisibility
-    public ScrollBarVisibility HorizontalScrollBarVisibility
+    /// Orientation
+    public Orientation Orientation
     {
-        get => _horizontalScrollBarVisibility;
-        set => SetProperty(ref _horizontalScrollBarVisibility, value);
+        get => _orientation;
+        set => SetProperty(ref _orientation, value);
     }
-    private ScrollBarVisibility _horizontalScrollBarVisibility;
-
-    /// VerticalScrollBarVisibility
-    public ScrollBarVisibility VerticalScrollBarVisibility
-    {
-        get => _verticalScrollBarVisibility;
-        set => SetProperty(ref _verticalScrollBarVisibility, value);
-    }
-    private ScrollBarVisibility _verticalScrollBarVisibility;
+    private Orientation _orientation;
 }

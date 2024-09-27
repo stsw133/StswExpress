@@ -53,6 +53,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingCornerClipping = new Binding(nameof(CornerClipping)) { Source = this };
         var bindingCornerRadius = new Binding(nameof(CornerRadius)) { Source = this };
         var bindingDisplayMemberPath = new Binding(nameof(DisplayMemberPath)) { Source = this };
+        var bindingIcon = new Binding(nameof(Icon)) { Source = this };
         var bindingIsReadOnly = new Binding(nameof(IsReadOnly)) { Source = this };
         var bindingIsThreeState = new Binding(nameof(IsThreeState)) { Source = this };
         var bindingItemsSource = new Binding(nameof(ItemsSource)) { Source = this };
@@ -94,6 +95,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDatePicker.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswDatePicker.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDatePicker.IconProperty, bindingIcon);
                 newControl.SetBinding(StswDatePicker.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDatePicker.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
@@ -110,6 +112,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswSelectionBox.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswSelectionBox.CornerRadiusProperty, bindingCornerRadius);
                 newControl.SetBinding(StswSelectionBox.DisplayMemberPathProperty, bindingDisplayMemberPath);
+                newControl.SetBinding(StswSelectionBox.IconProperty, bindingIcon);
                 newControl.SetBinding(StswSelectionBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswSelectionBox.ItemsSourceProperty, bindingItemsSource);
                 newControl.SetBinding(StswSelectionBox.PaddingProperty, bindingPadding);
@@ -133,6 +136,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDecimalBox.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswDecimalBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDecimalBox.IconProperty, bindingIcon);
                 newControl.SetBinding(StswDecimalBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDecimalBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDecimalBox.PlaceholderProperty, bindingPlaceholder);
@@ -148,6 +152,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswTextBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswTextBox.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswTextBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswTextBox.IconProperty, bindingIcon);
                 newControl.SetBinding(StswTextBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswTextBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswTextBox.PlaceholderProperty, bindingPlaceholder);
@@ -206,6 +211,21 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HasError),
             typeof(bool),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
             typeof(StswAdaptiveBox)
         );
 

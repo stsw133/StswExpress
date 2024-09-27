@@ -85,6 +85,21 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswBoxBase)
+        );
+
+    /// <summary>
     /// Gets or sets the placeholder text to display in the text box when no value is provided by the user.
     /// This text provides a hint about the expected input or format for the field.
     /// </summary>
@@ -120,8 +135,8 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     /// Gets or sets the text value of the control. This property is hidden from designers and editors
     /// to prevent direct manipulation, and it is internally managed to ensure correct data handling.
     /// </summary>
-    [Browsable(false)]
     //[Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public new string? Text

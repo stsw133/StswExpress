@@ -215,6 +215,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether filtering of items in list is enabled.
     /// </summary>
     /// <remarks>

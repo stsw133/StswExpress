@@ -159,6 +159,21 @@ public class StswFilePicker : StswBoxBase
 
     #region Logic properties
     /// <summary>
+    /// Gets or sets the file icon source for the file picker.
+    /// </summary>
+    public ImageSource? FileIcon
+    {
+        get => (ImageSource?)GetValue(FileIconProperty);
+        internal set => SetValue(FileIconProperty, value);
+    }
+    public static readonly DependencyProperty FileIconProperty
+        = DependencyProperty.Register(
+            nameof(FileIcon),
+            typeof(ImageSource),
+            typeof(StswFilePicker)
+        );
+
+    /// <summary>
     /// Gets or sets the info about file's length.
     /// </summary>
     internal string? FileSize
@@ -185,21 +200,6 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
-            typeof(StswFilePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the icon source for the file picker.
-    /// </summary>
-    public ImageSource? IconSource
-    {
-        get => (ImageSource?)GetValue(IconSourceProperty);
-        set => SetValue(IconSourceProperty, value);
-    }
-    public static readonly DependencyProperty IconSourceProperty
-        = DependencyProperty.Register(
-            nameof(IconSource),
-            typeof(ImageSource),
             typeof(StswFilePicker)
         );
 
@@ -266,7 +266,7 @@ public class StswFilePicker : StswBoxBase
         if (obj is StswFilePicker stsw)
         {
             stsw.FileSize = null;
-            stsw.IconSource = null;
+            stsw.FileIcon = null;
 
             if (stsw.PathType == StswPathType.Directory ? Directory.Exists(stsw.SelectedPath) : File.Exists(stsw.SelectedPath))
             {
@@ -275,12 +275,12 @@ public class StswFilePicker : StswBoxBase
                 {
                     var shinfo = new SHFILEINFO();
                     if (SHGetFileInfo(stsw.SelectedPath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
-                        stsw.IconSource = Icon.FromHandle(shinfo.hIcon).ToBitmap().ToImageSource();
+                        stsw.FileIcon = System.Drawing.Icon.FromHandle(shinfo.hIcon).ToBitmap().ToImageSource();
                 }
                 else
                 {
-                    if (Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
-                        stsw.IconSource = icon.ToBitmap().ToImageSource();
+                    if (System.Drawing.Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
+                        stsw.FileIcon = icon.ToBitmap().ToImageSource();
                     stsw.FileSize = DisplayFileSize(stsw.SelectedPath);
                 }
 

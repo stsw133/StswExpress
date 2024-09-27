@@ -41,6 +41,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
+                            <!-- icon section -->
+                            <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <se:StswButton x:Name="PART_DialogButton" DockPanel.Dock="Right"
                                            Focusable="True"
@@ -70,7 +72,7 @@
                                 <se:StswImage x:Name="OPT_Icon"
                                               Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                               MenuMode="Disabled"
-                                              Source="{TemplateBinding IconSource}"
+                                              Source="{TemplateBinding FileIcon}"
                                               Height="{DynamicResource StswFilePicker.Size.Icon}"
                                               Width="{DynamicResource StswFilePicker.Size.Icon}"/>
                                 <se:StswLabel x:Name="OPT_FileSize"
@@ -115,7 +117,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_IconSeparator"/>
                         </Trigger>
-                        <Trigger Property="IconSource" Value="{x:Null}">
+                        <Trigger Property="FileIcon" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsFileSizeVisible" Value="False">

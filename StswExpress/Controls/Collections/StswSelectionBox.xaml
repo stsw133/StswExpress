@@ -52,6 +52,8 @@
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
+                            <!-- icon section -->
+                            <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- arrow -->
                             <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                 <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>

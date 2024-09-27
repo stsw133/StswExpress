@@ -22,6 +22,12 @@ public interface IStswBoxControl
     public static readonly DependencyProperty? HasErrorProperty;
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon { get; set; }
+    public static readonly DependencyProperty? IconProperty;
+    
+    /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.
     /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
     /// </summary>

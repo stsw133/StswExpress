@@ -46,7 +46,7 @@
                                 </Grid.ColumnDefinitions>
                                 <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubButton x:Name="PART_ButtonSelectionMode" Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}" Content="{TemplateBinding SelectionName}"/>
+                                <se:StswSubButton x:Name="PART_ButtonCurrentMode" Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}" Content="{TemplateBinding SelectionName}"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
                             </Grid>
@@ -131,8 +131,9 @@
                             </DockPanel>
                         </Grid>
                     </se:StswGroupBox>
+                    
                     <ControlTemplate.Triggers>
-                        <Trigger Property="SelectionMode" Value="ByMonth">
+                        <Trigger Property="CurrentMode" Value="ByMonth">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronRight}" TargetName="PART_ButtonNextMonth"/>
@@ -140,13 +141,18 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListDays"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListMonths"/>
                         </Trigger>
-                        <Trigger Property="SelectionMode" Value="ByYear">
+                        <Trigger Property="CurrentMode" Value="ByYear">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleRight}" TargetName="PART_ButtonNextYear"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListDays"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListMonths"/>
+                        </Trigger>
+                        <Trigger Property="SelectionMode" Value="ByYear">
+                            <Setter Property="Focusable" Value="False" TargetName="PART_ButtonCurrentMode"/>
+                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonCurrentMode"/>
+                            <Setter Property="IsTabStop" Value="False" TargetName="PART_ButtonCurrentMode"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -155,9 +161,12 @@
     </Style>
 
     <!-- StswCalendarButtonMonthStyle -->
-    <Style x:Key="StswCalendarButtonMonthStyle" TargetType="{x:Type se:StswButton}">
+    <Style x:Key="StswCalendarButtonMonthStyle" TargetType="{x:Type se:StswToggleButton}">
         <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
         <Style.Triggers>
+            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
+                <Setter Property="Visibility" Value="Hidden"/>
+            </DataTrigger>
             <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
                 <Setter Property="Visibility" Value="Hidden"/>
             </DataTrigger>

@@ -66,6 +66,21 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswTextBox)
+        );
+
+    /// <summary>
     /// Gets or sets the placeholder text to display in the box when no value is provided.
     /// </summary>
     public string? Placeholder

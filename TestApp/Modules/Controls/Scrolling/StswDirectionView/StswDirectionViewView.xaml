@@ -13,22 +13,18 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- HorizontalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswDirectionView}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
-            <!-- VerticalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf VerticalScrollBarVisibility, Type={x:Type se:StswDirectionView}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
+            <!-- Orientation -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswDirectionView}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDirectionView IsEnabled="{Binding IsEnabled}"
                               Margin="5"
+                              Orientation="{Binding Orientation}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                              HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
                               VerticalAlignment="{Binding VerticalAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}"
-                              VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}">
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <Rectangle Height="1080" Width="1920">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">

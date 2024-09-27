@@ -20,7 +20,7 @@
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"
                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <Border BorderBrush="{DynamicResource StswBorder.Static.Border}" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <se:StswBorder HorizontalAlignment="Center" VerticalAlignment="Center">
                 <UniformGrid HorizontalAlignment="Center" Rows="1">
                     <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="1">
                         <se:StswIcon Data="{x:Static se:StswIcons.Dice1}"/>
@@ -38,7 +38,7 @@
                         <se:StswIcon Data="{x:Static se:StswIcons.Dice5}"/>
                     </se:StswButton>
                 </UniformGrid>
-            </Border>
+            </se:StswBorder>
         </se:StswSidePanel>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -122,9 +123,13 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
             return;
 
         if (HorizontalOffset == 0)
+        {
             _btnLeft.IsEnabled = false;
+        }
         else if (HorizontalOffset >= ScrollableWidth)
+        {
             _btnRight.IsEnabled = false;
+        }
         else
         {
             _btnLeft.IsEnabled = true;
@@ -142,15 +147,37 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
             return;
 
         if (VerticalOffset == 0)
+        {
             _btnUp.IsEnabled = false;
+        }
         else if (VerticalOffset >= ScrollableWidth)
+        {
             _btnDown.IsEnabled = false;
+        }
         else
         {
             _btnUp.IsEnabled = true;
             _btnDown.IsEnabled = true;
         }
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets the orientation of the control.
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
     #endregion
 
     #region Style properties
@@ -221,5 +248,21 @@ public class StswDirectionView : ScrollViewer, IStswCornerControl
             typeof(StswDirectionView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+    
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new ScrollBarVisibility HorizontalScrollBarVisibility { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new ScrollBarVisibility VerticalScrollBarVisibility { get; private set; }
     #endregion
 }

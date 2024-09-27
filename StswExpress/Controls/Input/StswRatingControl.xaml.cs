@@ -443,14 +443,14 @@ public class StswRatingControl : Control, IStswIconControl
     #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? BorderBrush { get; private set; }
 
-    [Browsable(false)]
     [Bindable(false)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Thickness? BorderThickness { get; private set; }

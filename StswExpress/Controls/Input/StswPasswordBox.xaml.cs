@@ -90,6 +90,21 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the icon section of the box.
+    /// </summary>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswPasswordBox)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.
     /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
     /// </summary>

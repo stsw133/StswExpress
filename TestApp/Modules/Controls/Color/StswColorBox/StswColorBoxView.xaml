@@ -34,6 +34,9 @@
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswColorBox.Icon>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+            </se:StswColorBox.Icon>
             <se:StswColorBox.SubControls>
                 <se:StswSubButton Command="{Binding RandomizeCommand}"
                                   IconData="{x:Static se:StswIcons.DiceMultiple}"
