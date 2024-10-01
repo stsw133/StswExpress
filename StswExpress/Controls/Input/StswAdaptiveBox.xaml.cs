@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -53,6 +54,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingCornerClipping = new Binding(nameof(CornerClipping)) { Source = this };
         var bindingCornerRadius = new Binding(nameof(CornerRadius)) { Source = this };
         var bindingDisplayMemberPath = new Binding(nameof(DisplayMemberPath)) { Source = this };
+        var bindingFormat = new Binding(nameof(Format)) { Source = this };
         var bindingIcon = new Binding(nameof(Icon)) { Source = this };
         var bindingIsReadOnly = new Binding(nameof(IsReadOnly)) { Source = this };
         var bindingIsThreeState = new Binding(nameof(IsThreeState)) { Source = this };
@@ -66,6 +68,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingPopupCornerRadius = new Binding { Path = new PropertyPath(StswPopup.CornerRadiusProperty), Source = this };
         var bindingPopupPadding = new Binding { Path = new PropertyPath(StswPopup.PaddingProperty), Source = this };
         var bindingSelectedValuePath = new Binding(nameof(SelectedValuePath)) { Source = this };
+        var bindingSelectionMode = new Binding(nameof(SelectionMode)) { Source = this };
         var bindingSeparatorThickness = new Binding(nameof(SeparatorThickness)) { Source = this };
         var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
         var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
@@ -95,15 +98,18 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDatePicker.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswDatePicker.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDatePicker.FormatProperty, bindingFormat);
                 newControl.SetBinding(StswDatePicker.IconProperty, bindingIcon);
                 newControl.SetBinding(StswDatePicker.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDatePicker.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswDatePicker.SelectedDateProperty, bindingValue);
+                newControl.SetBinding(StswDatePicker.SelectionModeProperty, bindingSelectionMode);
                 newControl.SetBinding(StswDatePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                Format ??= "d";
                 break;
             case StswAdaptiveType.List:
                 newControl = new StswSelectionBox();
@@ -136,6 +142,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDecimalBox.CornerClippingProperty, bindingCornerClipping);
                 newControl.SetBinding(StswDecimalBox.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswDecimalBox.FormatProperty, bindingFormat);
                 newControl.SetBinding(StswDecimalBox.IconProperty, bindingIcon);
                 newControl.SetBinding(StswDecimalBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDecimalBox.PaddingProperty, bindingPadding);
@@ -145,6 +152,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.ValueProperty, bindingValue);
                 newControl.SetBinding(StswDecimalBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDecimalBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                Format ??= "0";
                 break;
             case StswAdaptiveType.Text:
                 newControl = new StswTextBox();
@@ -196,6 +204,22 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the custom format string used to display the value in the control.
+    /// When set, the value is formatted according to the provided format string.
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
             typeof(StswAdaptiveBox)
         );
 
@@ -301,6 +325,21 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the selection mode of the control.
+    /// </summary>
+    public StswCalendarMode SelectionMode
+    {
+        get => (StswCalendarMode)GetValue(SelectionModeProperty);
+        set => SetValue(SelectionModeProperty, value);
+    }
+    public static readonly DependencyProperty SelectionModeProperty
+        = DependencyProperty.Register(
+            nameof(SelectionMode),
+            typeof(StswCalendarMode),
             typeof(StswAdaptiveBox)
         );
 

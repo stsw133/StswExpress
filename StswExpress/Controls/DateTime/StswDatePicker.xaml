@@ -56,7 +56,8 @@
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
                                 </se:StswDropButton.Header>
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
-                                                 SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                 SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 SelectionMode="{TemplateBinding SelectionMode}"/>
                             </se:StswDropButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
@@ -88,13 +89,14 @@
                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                              Visibility="Collapsed"/>
                                 <se:StswScrollView x:Name="PART_ContentHost"
-                                                     Focusable="False"
-                                                     IsDynamic="True"
-                                                     HorizontalScrollBarVisibility="Hidden"
-                                                     VerticalScrollBarVisibility="Hidden"/>
+                                                   Focusable="False"
+                                                   IsDynamic="True"
+                                                   HorizontalScrollBarVisibility="Hidden"
+                                                   VerticalScrollBarVisibility="Hidden"/>
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>

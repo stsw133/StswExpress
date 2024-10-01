@@ -156,6 +156,7 @@ public class StswDatePicker : StswBoxBase
     {
         if (obj is StswDatePicker stsw)
         {
+            stsw.Format ??= "d";
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
                 var newBinding = binding.Clone();
@@ -267,5 +268,20 @@ public class StswDatePicker : StswBoxBase
 
         return baseValue;
     }
+
+    /// <summary>
+    /// Gets or sets the selection mode of the control.
+    /// </summary>
+    public StswCalendarMode SelectionMode
+    {
+        get => (StswCalendarMode)GetValue(SelectionModeProperty);
+        set => SetValue(SelectionModeProperty, value);
+    }
+    public static readonly DependencyProperty SelectionModeProperty
+        = DependencyProperty.Register(
+            nameof(SelectionMode),
+            typeof(StswCalendarMode),
+            typeof(StswDatePicker)
+        );
     #endregion
 }

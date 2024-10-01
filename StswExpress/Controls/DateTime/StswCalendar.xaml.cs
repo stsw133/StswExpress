@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StswExpress;
 /// <summary>
@@ -17,16 +15,16 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : Control, IStswCornerControl
 {
-    public ICommand SelectDateCommand { get; set; }
+    public ICommand SelectDayCommand { get; set; }
     public ICommand SelectMonthCommand { get; set; }
 
     public StswCalendar()
     {
-        SetValue(ListDaysProperty, new ObservableCollection<StswCalendarDay>());
-        SetValue(ListMonthsProperty, new ObservableCollection<StswCalendarMonth>());
+        SetValue(ListOfDaysProperty, new ObservableCollection<StswCalendarItem>());
+        SetValue(ListOfMonthsProperty, new ObservableCollection<StswCalendarItem>());
 
-        SelectDateCommand = new StswCommand<DateTime?>(SelectDate);
-        SelectMonthCommand = new StswCommand<int>(SelectMonth);
+        SelectDayCommand = new StswCommand<DateTime?>(SelectDay);
+        SelectMonthCommand = new StswCommand<DateTime>(SelectMonth);
     }
     static StswCalendar()
     {
@@ -34,6 +32,9 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     #region Events & methods
+    private ContentControl? _buttonCurrentMode;
+    private ContentControl? _buttonToday;
+
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// </summary>
@@ -46,74 +47,132 @@ public class StswCalendar : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        CurrentMode = SelectionMode;
-
         /// Button: previous year
         if (GetTemplateChild("PART_ButtonPreviousYear") is ButtonBase btnPreviousYear)
-            btnPreviousYear.Click += (_, _) => SelectedMonth = ValidateSelectedMonth(CurrentMode == StswCalendarMode.ByYear ? -120 : -12);
+            btnPreviousYear.Click += (_, _) => SwitchMonth(ValidateSelectedMonth(CurrentMode == StswCalendarMode.Months ? -120 : -12));
         /// Button: previous month
         if (GetTemplateChild("PART_ButtonPreviousMonth") is ButtonBase btnPreviousMonth)
-            btnPreviousMonth.Click += (_, _) => SelectedMonth = ValidateSelectedMonth(CurrentMode == StswCalendarMode.ByYear ? -12 : -1);
+            btnPreviousMonth.Click += (_, _) => SwitchMonth(ValidateSelectedMonth(CurrentMode == StswCalendarMode.Months ? -12 : -1));
         /// Button: current mode
         if (GetTemplateChild("PART_ButtonCurrentMode") is ButtonBase btnCurrentMode)
+        {
             btnCurrentMode.Click += (_, _) => CurrentMode = CurrentMode.GetNextValue();
+            _buttonCurrentMode = btnCurrentMode;
+        }
         /// Button: next month
         if (GetTemplateChild("PART_ButtonNextMonth") is ButtonBase btnNextMonth)
-            btnNextMonth.Click += (_, _) => SelectedMonth = ValidateSelectedMonth(CurrentMode == StswCalendarMode.ByYear ? 12 : 1);
+            btnNextMonth.Click += (_, _) => SwitchMonth(ValidateSelectedMonth(CurrentMode == StswCalendarMode.Months ? 12 : 1));
         /// Button: next year
         if (GetTemplateChild("PART_ButtonNextYear") is ButtonBase btnNextYear)
-            btnNextYear.Click += (_, _) => SelectedMonth = ValidateSelectedMonth(CurrentMode == StswCalendarMode.ByYear ? 120 : 12);
+            btnNextYear.Click += (_, _) => SwitchMonth(ValidateSelectedMonth(CurrentMode == StswCalendarMode.Months ? 120 : 12));
         /// Button: today
         if (GetTemplateChild("PART_ButtonToday") is ButtonBase btnToday)
-            btnToday.Click += (_, _) => { SelectedMonth = DateTime.Now; SelectDate(DateTime.Now); };
+        {
+            btnToday.Click += (_, _) => { SelectMonth(DateTime.Now); SelectDay(DateTime.Now); };
+            _buttonToday = btnToday;
+        }
 
-        SelectedMonth = SelectedDate ?? DateTime.Now.Date;
-        OnSelectedDateChanged(this, new DependencyPropertyChangedEventArgs());
+        /// set default month to create first view
+        var defMonth = (SelectedDate ?? DateTime.Now).Date;
+        SelectedMonth = new DateTime(defMonth.Year, defMonth.Month, 1);
+
+        if (CurrentMode != SelectionMode)
+            CurrentMode = SelectionMode;
+        else
+            OnCurrentModeChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
-    /// 
+    /// Generates the list of days to display in the control based on the selected month.
     /// </summary>
-    private void MakeListDays()
+    private void MakeListOfDays()
     {
-        var newList = new ObservableCollection<StswCalendarDay>();
-        
-        for (int i = 1; i <= 42; i++)
-            newList.Add(new StswCalendarDay());
+        if (ListOfDays.Count == 0)
+        {
+            var newList = new ObservableCollection<StswCalendarItem>();
 
-        ListDays = newList;
-    }
+            for (var i = 1; i <= 42; i++)
+                newList.Add(new StswCalendarItem());
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private void MakeListMonths()
-    {
-        var newList = new ObservableCollection<StswCalendarMonth>();
-        
-        for (int i = 1; i <= 12; i++)
-            newList.Add(new StswCalendarMonth()
+            ListOfDays = newList;
+        }
+
+        var middleDate = new DateTime(SelectedMonth.Year, SelectedMonth.Month, DateTime.DaysInMonth(SelectedMonth.Year, SelectedMonth.Month) / 2);
+        while (middleDate.DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
+            middleDate = middleDate.AddDays(1);
+
+        for (var i = 0; i < 42; i++)
+        {
+            DateTime? newDate;
+            try
             {
-                Month = i,
-                Name = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(i)
-            });
+                newDate = middleDate.AddDays(i - 21);
+            }
+            catch
+            {
+                newDate = null;
+            }
 
-        ListMonths = newList;
+            ListOfDays[i] = new StswCalendarItem()
+            {
+                Date = newDate,
+                Name = newDate?.Day.ToString(),
+                InCurrentMonth = newDate.HasValue && (newDate.Value.Year == SelectedMonth.Year && newDate.Value.Month == SelectedMonth.Month),
+                InMinMaxRange = newDate >= (Minimum ?? DateTime.MinValue) && newDate <= (Maximum ?? DateTime.MaxValue),
+                IsCurrentDay = newDate == DateTime.Now.Date,
+                IsSpecialDay = newDate?.DayOfWeek == DayOfWeek.Sunday,
+                IsSelected = newDate == SelectedDate?.Date
+            };
+        }
     }
 
     /// <summary>
-    /// Checks and calculates a new date based on the current selected date and the number of months to add or subtract.
+    /// Generates the list of months to display in the control based on the selected year.
+    /// </summary>
+    private void MakeListOfMonths()
+    {
+        if (ListOfMonths.Count == 0)
+        {
+            var newList = new ObservableCollection<StswCalendarItem>();
+
+            for (var i = 1; i <= 12; i++)
+                newList.Add(new StswCalendarItem());
+
+            ListOfMonths = newList;
+        }
+
+        var max = Maximum ?? DateTime.MaxValue; max = new DateTime(max.Year, max.Month, DateTime.DaysInMonth(max.Year, max.Month));
+        var min = Minimum ?? DateTime.MinValue; min = new DateTime(min.Year, min.Month, 1);
+
+        for (var i = 0; i < 12; i++)
+        {
+            var newDate = new DateTime(SelectedMonth.Year, i + 1, 1);
+            ListOfMonths[i] = new StswCalendarItem()
+            {
+                Date = newDate,
+                Name = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(i + 1),
+                InMinMaxRange = newDate.Between(min, max),
+                IsCurrentDay = newDate.Year == DateTime.Now.Year && newDate.Month == DateTime.Now.Month,
+                IsSelected = SelectedDate.HasValue && newDate == new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, 1)
+            };
+        }
+    }
+
+    /// <summary>
+    /// Validates and calculates a new date based on the current selected date and the number of months to add or subtract.
     /// Ensures the new date falls within the range defined by <see cref="Minimum"/> and <see cref="Maximum"/>.
     /// </summary>
+    /// <param name="months">The number of months to add or subtract.</param>
+    /// <returns>A validated <see cref="DateTime"/> within the allowable range.</returns>
     private DateTime ValidateSelectedMonth(int months)
     {
-        /// try add months to selected date
+        /// try to add months to the selected date
         if ((months > 0 && DateTime.MaxValue.AddMonths(-months) > SelectedMonth)
          || (months < 0 && DateTime.MinValue.AddMonths(-months) < SelectedMonth))
         {
             var newDate = SelectedMonth.AddMonths(months);
 
-            /// check if new date is between range of Minimum and Maximum
+            /// check if new date is within the Minimum and Maximum range
             var max = new DateTime(newDate.Year, newDate.Month, DateTime.DaysInMonth(newDate.Year, newDate.Month));
             var min = new DateTime(newDate.Year, newDate.Month, 1);
 
@@ -124,46 +183,55 @@ public class StswCalendar : Control, IStswCornerControl
 
             return newDate;
         }
-        else return months > 0 ? DateTime.MaxValue : DateTime.MinValue;
+        else
+        {
+            return months > 0 ? DateTime.MaxValue : DateTime.MinValue;
+        }
     }
 
-    /// Command: select month
     /// <summary>
-    /// Handles the execution of the select month command in the calendar control.
-    /// Updates the selected month based on the provided date - it changes the selected month to the specified date's month.
+    /// Handles the selection of a day.
     /// </summary>
-    private void SelectMonth(int month)
+    /// <param name="date">The date to select.</param>
+    private void SelectDay(DateTime? date)
     {
-        SelectedMonth = new DateTime(SelectedMonth.Year, month, 1);
+        SelectedDate = date?.Date;
 
-        if (SelectionMode == StswCalendarMode.ByMonth)
-        {
-            CurrentMode = StswCalendarMode.ByMonth;
-        }
-        else
+        /// close the parent popup if applicable (e.g., when used in a DatePicker)
+        if (StswFn.GetParentPopup(this) is Popup popup)
+            popup.IsOpen = false;
+    }
+
+    /// <summary>
+    /// Handles the selection of a month.
+    /// </summary>
+    /// <param name="date">The month to select.</param>
+    private void SelectMonth(DateTime date)
+    {
+        SelectedMonth = new DateTime(date.Year, date.Month, 1);
+
+        if (SelectionMode == StswCalendarMode.Months)
         {
             SelectedDate = SelectedMonth;
 
-            /// for DatePicker
+            /// close the parent popup if applicable (e.g., when used in a DatePicker)
             if (StswFn.GetParentPopup(this) is Popup popup)
                 popup.IsOpen = false;
         }
+        else if (SelectionMode == StswCalendarMode.Days && CurrentMode != StswCalendarMode.Days)
+            CurrentMode = StswCalendarMode.Days;
+        else
+            OnCurrentModeChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// Command: select date
     /// <summary>
-    /// Handles the execution of the select date command in the calendar control.
-    /// Updates the selected date based on the provided date - it sets the SelectedDate property and updates the SelectedMonth to match the selected date's month.
-    /// Also, closes any open popups that contain the calendar control.
+    /// Switches the currently displayed month in the control.
     /// </summary>
-    private void SelectDate(DateTime? date)
+    /// <param name="date">The new date to display.</param>
+    private void SwitchMonth(DateTime date)
     {
-        if (date.Between(Minimum ?? DateTime.MinValue, Maximum ?? DateTime.MaxValue))
-            SelectedDate = date;
-
-        /// for DatePicker
-        if (StswFn.GetParentPopup(this) is Popup popup)
-            popup.IsOpen = false;
+        SelectedMonth = new DateTime(date.Year, date.Month, 1);
+        OnCurrentModeChanged(this, new DependencyPropertyChangedEventArgs());
     }
     #endregion
 
@@ -181,36 +249,56 @@ public class StswCalendar : Control, IStswCornerControl
             nameof(CurrentMode),
             typeof(StswCalendarMode),
             typeof(StswCalendar),
-            new PropertyMetadata(default(StswCalendarMode), OnSelectedMonthChanged)
+            new PropertyMetadata(default(StswCalendarMode), OnCurrentModeChanged)
         );
+    public static void OnCurrentModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswCalendar stsw)
+        {
+            if (stsw.CurrentMode == StswCalendarMode.Days)
+            {
+                if (stsw._buttonCurrentMode != null)
+                    stsw._buttonCurrentMode.Content = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize()} {stsw.SelectedMonth.Year}";
+
+                stsw.MakeListOfDays();
+            }
+            else if (stsw.CurrentMode == StswCalendarMode.Months)
+            {
+                if (stsw._buttonCurrentMode != null)
+                    stsw._buttonCurrentMode.Content = stsw.SelectedMonth.Year.ToString();
+
+                stsw.MakeListOfMonths();
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets the collection of days displayed in the control.
     /// </summary>
-    internal ObservableCollection<StswCalendarDay> ListDays
+    internal ObservableCollection<StswCalendarItem> ListOfDays
     {
-        get => (ObservableCollection<StswCalendarDay>)GetValue(ListDaysProperty);
-        set => SetValue(ListDaysProperty, value);
+        get => (ObservableCollection<StswCalendarItem>)GetValue(ListOfDaysProperty);
+        set => SetValue(ListOfDaysProperty, value);
     }
-    public static readonly DependencyProperty ListDaysProperty
+    public static readonly DependencyProperty ListOfDaysProperty
         = DependencyProperty.Register(
-            nameof(ListDays),
-            typeof(ObservableCollection<StswCalendarDay>),
+            nameof(ListOfDays),
+            typeof(ObservableCollection<StswCalendarItem>),
             typeof(StswCalendar)
         );
 
     /// <summary>
     /// Gets or sets the collection of months displayed in the control.
     /// </summary>
-    internal ObservableCollection<StswCalendarMonth> ListMonths
+    internal ObservableCollection<StswCalendarItem> ListOfMonths
     {
-        get => (ObservableCollection<StswCalendarMonth>)GetValue(ListMonthsProperty);
-        set => SetValue(ListMonthsProperty, value);
+        get => (ObservableCollection<StswCalendarItem>)GetValue(ListOfMonthsProperty);
+        set => SetValue(ListOfMonthsProperty, value);
     }
-    public static readonly DependencyProperty ListMonthsProperty
+    public static readonly DependencyProperty ListOfMonthsProperty
         = DependencyProperty.Register(
-            nameof(ListMonths),
-            typeof(ObservableCollection<StswCalendarMonth>),
+            nameof(ListOfMonths),
+            typeof(ObservableCollection<StswCalendarItem>),
             typeof(StswCalendar)
         );
 
@@ -227,7 +315,7 @@ public class StswCalendar : Control, IStswCornerControl
             nameof(Maximum),
             typeof(DateTime?),
             typeof(StswCalendar),
-            new PropertyMetadata(default(DateTime?), OnSelectedMonthChanged)
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
 
     /// <summary>
@@ -243,8 +331,18 @@ public class StswCalendar : Control, IStswCornerControl
             nameof(Minimum),
             typeof(DateTime?),
             typeof(StswCalendar),
-            new PropertyMetadata(default(DateTime?), OnSelectedMonthChanged)
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
+    private static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswCalendar stsw)
+        {
+            if (stsw._buttonToday != null)
+                stsw._buttonToday.IsEnabled = DateTime.Today.Between(stsw.Minimum ?? DateTime.MinValue, stsw.Maximum ?? DateTime.MaxValue);
+
+            OnCurrentModeChanged(obj, e);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the currently selected date in the control.
@@ -267,20 +365,11 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
+            foreach (var day in stsw.ListOfDays)
+                day.IsSelected = day.Date == stsw.SelectedDate;
+
             if (stsw.SelectedDate.HasValue)
                 stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
-
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarDay oldDay)
-                oldDay.IsSelected = false;
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay)
-                newDay.IsSelected = true;
-
-            /*
-            foreach (var month in stsw.ListMonths)
-                month.IsSelected = false;
-            if (stsw.ListMonths.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarMonth newMonth && stsw.SelectionMode == StswCalendarMode.ByYear)
-                newMonth.IsSelected = true;
-            */
 
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
@@ -307,65 +396,11 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
-            if (e.Property.Name.In(nameof(Minimum), nameof(Maximum)))
-            {
-                if (stsw.GetTemplateChild("PART_ButtonToday") is ButtonBase buttonToday)
-                    buttonToday.IsEnabled = DateTime.Today.Between(stsw.Minimum ?? DateTime.MinValue, stsw.Maximum ?? DateTime.MaxValue);
-            }
+            foreach (var month in stsw.ListOfMonths)
+                month.IsSelected = month.Date == stsw.SelectedMonth;
 
-            if (stsw.CurrentMode == StswCalendarMode.ByYear)
-            {
-                if (stsw.ListMonths.Count == 0)
-                    stsw.MakeListMonths();
-
-                /// display year
-                stsw.SelectionName = stsw.SelectedMonth.Year.ToString();
-
-                /// check range
-                var max = stsw.Maximum ?? DateTime.MaxValue; max = new DateTime(max.Year, max.Month, DateTime.DaysInMonth(max.Year, max.Month));
-                var min = stsw.Minimum ?? DateTime.MinValue; min = new DateTime(min.Year, min.Month, 1);
-
-                foreach (var month in stsw.ListMonths)
-                {
-                    month.Date = new DateTime(stsw.SelectedMonth.Year, month.Month, 1);
-                    month.InMinMaxRange = month.Date.Between(min, max);
-                }
-            }
-            else if (stsw.CurrentMode == StswCalendarMode.ByMonth)
-            {
-                if (stsw.ListDays.Count == 0)
-                    stsw.MakeListDays();
-
-                /// display month and year
-                stsw.SelectionName = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize()} {stsw.SelectedMonth.Year}";
-
-                /// calculate date and change buttons of each day
-                var middleDate = new DateTime(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month, DateTime.DaysInMonth(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month) / 2);
-                while (middleDate.DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
-                    middleDate = middleDate.AddDays(1);
-
-                for (int i = 0; i < 42; i++)
-                {
-                    DateTime? newDate;
-                    try
-                    {
-                        newDate = middleDate.AddDays(i - 21);
-                    }
-                    catch
-                    {
-                        newDate = null;
-                    }
-
-                    stsw.ListDays[i] = new StswCalendarDay()
-                    {
-                        Date = newDate,
-                        Month = stsw.SelectedMonth.Month,
-                        Name = newDate?.Day.ToString(),
-                        InMinMaxRange = newDate >= (stsw.Minimum ?? DateTime.MinValue) && newDate <= (stsw.Maximum ?? DateTime.MaxValue),
-                        IsSelected = newDate == stsw.SelectedDate
-                    };
-                }
-            }
+            if (stsw.CurrentMode == StswCalendarMode.Days && e.OldValue != e.NewValue)
+                OnCurrentModeChanged(stsw, new DependencyPropertyChangedEventArgs());
         }
     }
 
@@ -382,31 +417,16 @@ public class StswCalendar : Control, IStswCornerControl
             nameof(SelectionMode),
             typeof(StswCalendarMode),
             typeof(StswCalendar),
-            new PropertyMetadata(StswCalendarMode.ByMonth, OnSelectionModeChanged)
+            new PropertyMetadata(StswCalendarMode.Days, OnSelectionModeChanged)
         );
     private static void OnSelectionModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswCalendar stsw)
         {
-            if (e.NewValue is StswCalendarMode stswCalendarMode && stswCalendarMode == StswCalendarMode.ByYear)
+            if (e.NewValue is StswCalendarMode stswCalendarMode && stswCalendarMode == StswCalendarMode.Months)
                 stsw.CurrentMode = stswCalendarMode;
         }
     }
-
-    /// <summary>
-    /// Gets the name of the current selection (year or month) for display purposes.
-    /// </summary>
-    internal string SelectionName
-    {
-        get => (string)GetValue(SelectionNameProperty);
-        set => SetValue(SelectionNameProperty, value);
-    }
-    public static readonly DependencyProperty SelectionNameProperty
-        = DependencyProperty.Register(
-            nameof(SelectionName),
-            typeof(string),
-            typeof(StswCalendar)
-        );
     #endregion
 
     #region Style properties
@@ -508,7 +528,7 @@ public class StswCalendar : Control, IStswCornerControl
 /// <summary>
 /// Data model for StswCalendar's month items.
 /// </summary>
-internal class StswCalendarMonth : StswObservableObject
+internal class StswCalendarItem : StswObservableObject
 {
     /// <summary>
     /// Gets the date associated with the calendar item.
@@ -516,19 +536,29 @@ internal class StswCalendarMonth : StswObservableObject
     public DateTime? Date { get; internal set; }
 
     /// <summary>
+    /// Gets a value indicating whether the calendar item is within the selected month.
+    /// </summary>
+    public bool? InCurrentMonth { get; internal set; }
+
+    /// <summary>
     /// Gets a value indicating whether the calendar item is within the allowable date range.
     /// </summary>
     public bool InMinMaxRange
     {
-        get => inMinMaxRange;
-        internal set => SetProperty(ref inMinMaxRange, value);
+        get => _inMinMaxRange;
+        internal set => SetProperty(ref _inMinMaxRange, value);
     }
-    private bool inMinMaxRange;
+    private bool _inMinMaxRange;
 
     /// <summary>
-    /// Gets or sets the number of month.
+    /// Gets a value indicating whether the calendar item represents the current day.
     /// </summary>
-    public int Month { get; internal set; }
+    public bool IsCurrentDay { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the calendar item represents the special day (e.g., sunday).
+    /// </summary>
+    public bool IsSpecialDay { get; internal set; }
 
     /// <summary>
     /// Gets or sets the display name of the calendar item (e.g., day of the month).
@@ -540,26 +570,8 @@ internal class StswCalendarMonth : StswObservableObject
     /// </summary>
     public bool IsSelected
     {
-        get => isSelected;
-        internal set => SetProperty(ref isSelected, value);
+        get => _isSelected;
+        internal set => SetProperty(ref _isSelected, value);
     }
-    private bool isSelected;
-}
-
-/// <summary>
-/// Data model for StswCalendar's day items.
-/// </summary>
-internal class StswCalendarDay : StswCalendarMonth
-{
-    /// <summary>
-    /// Gets a value indicating whether the calendar item is within the selected month.
-    /// </summary>
-    //public bool InCurrentMonth { get; internal set; }
-    public bool InCurrentMonth => Date?.Month == Month;
-
-    /// <summary>
-    /// Gets a value indicating whether the calendar item represents the current day.
-    /// </summary>
-    //public bool IsCurrentDay { get; internal set; }
-    public bool IsCurrentDay => Date?.Date == DateTime.Now.Date;
+    private bool _isSelected;
 }

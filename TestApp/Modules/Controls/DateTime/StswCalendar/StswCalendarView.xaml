@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswCalendarContext}">
@@ -35,6 +36,11 @@
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
-
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
+                <Run Text="{Binding SelectedDate, Mode=OneWay, StringFormat=d, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontWeight="Bold"/>
+                <Run Text=" is selected"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

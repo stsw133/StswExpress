@@ -372,6 +372,22 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the custom format string used to display the value in the control.
+    /// When set, the value is formatted according to the provided format string.
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
+            typeof(StswFilterBox)
+        );
+
+    /// <summary>
     /// Gets or sets the header of the control.
     /// </summary>
     public object? Header
@@ -497,6 +513,21 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
+            typeof(StswFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the selection mode of the control.
+    /// </summary>
+    public StswCalendarMode SelectionMode
+    {
+        get => (StswCalendarMode)GetValue(SelectionModeProperty);
+        set => SetValue(SelectionModeProperty, value);
+    }
+    public static readonly DependencyProperty SelectionModeProperty
+        = DependencyProperty.Register(
+            nameof(SelectionMode),
+            typeof(StswCalendarMode),
             typeof(StswFilterBox)
         );
 

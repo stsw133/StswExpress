@@ -525,6 +525,26 @@ public static class StswFn
     /// <param name="expression">The mathematical expression to evaluate.</param>
     /// <returns>The result of the evaluated expression as a double.</returns>
     public static double Compute(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+
+    /// <summary>
+    /// Tries to evaluate a mathematical expression given as a string.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="result">The result of the evaluated expression as a double.</param>
+    /// <returns><see langword="true"/> on success, or <see langword="false"/> on failure.</returns>
+    public static bool TryCompute(string expression, out double result)
+    {
+        try
+        {
+            result = StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+            return true;
+        }
+        catch
+        {
+            result = default;
+            return false;
+        }
+    }
     #endregion
 
     #region Text functions

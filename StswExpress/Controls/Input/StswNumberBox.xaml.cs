@@ -127,14 +127,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             result = null;
         else if (TryParse(Text, out var res))
             result = res;
-        else
-        {
-            try
-            {
-                result = T.CreateChecked(StswFn.Compute(Text));
-            }
-            catch { }
-        }
+        else if (StswFn.TryCompute(Text, out var computedValue))
+            result = T.CreateChecked(computedValue);
 
         if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)
         {

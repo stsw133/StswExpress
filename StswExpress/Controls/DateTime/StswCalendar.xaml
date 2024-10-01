@@ -44,15 +44,15 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubButton x:Name="PART_ButtonCurrentMode" Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}" Content="{TemplateBinding SelectionName}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubButton x:Name="PART_ButtonCurrentMode" Grid.Column="2" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
                             </Grid>
                         </se:StswGroupBox.Header>
 
-                        <Grid Focusable="False" MinHeight="200" MinWidth="240" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Grid MinHeight="200" MinWidth="250" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
@@ -64,25 +64,23 @@
                                 <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
                                 <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent"/>
                             </Grid.Resources>
-                            <!-- selection mode: by year -->
-                            <ItemsControl x:Name="OPT_ListMonths" IsTabStop="False" ItemsSource="{TemplateBinding ListMonths}" Margin="{TemplateBinding Padding}" Visibility="Hidden">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="4"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <se:StswButton Command="{Binding SelectMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
-                                                       CommandParameter="{Binding Month}"
-                                                       Content="{Binding Name}"
-                                                       CornerClipping="False"
-                                                       CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
-                                                       Style="{DynamicResource StswCalendarButtonMonthStyle}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <!-- selection mode: by month -->
+                            <!-- selection mode: months -->
+                            <Grid x:Name="OPT_ListMonths" Margin="{TemplateBinding Padding}" Visibility="Hidden">
+                                <!-- months of year -->
+                                <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding ListOfMonths}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="4" Rows="3"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <se:StswRadioButton Command="{Binding SelectMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Style="{DynamicResource StswCalendarButtonStyle}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            <!-- selection mode: days -->
                             <Grid x:Name="OPT_ListDays" Margin="{TemplateBinding Padding}" Visibility="Hidden">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*"/>
@@ -99,21 +97,15 @@
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </UniformGrid>
                                 <!-- days of month -->
-                                <ItemsControl Grid.Row="1" IsTabStop="False" ItemsSource="{TemplateBinding ListDays}">
+                                <ItemsControl Grid.Row="1" IsTabStop="False" ItemsSource="{TemplateBinding ListOfDays}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <UniformGrid Columns="7"/>
+                                            <UniformGrid Columns="7" Rows="6"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswToggleButton Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
-                                                                 CommandParameter="{Binding Date}"
-                                                                 Content="{Binding Name}"
-                                                                 CornerClipping="False"
-                                                                 CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
-                                                                 IsChecked="{Binding IsSelected, Mode=OneWay}"
-                                                                 Style="{DynamicResource StswCalendarButtonDayStyle}"/>
+                                            <se:StswRadioButton Command="{Binding SelectDayCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Style="{DynamicResource StswCalendarButtonStyle}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -121,35 +113,34 @@
                             <!-- today button -->
                             <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
                                 <se:StswSeparator DockPanel.Dock="Top"/>
-                                <Grid Margin="{TemplateBinding Padding}">
-                                    <se:StswSubButton x:Name="PART_ButtonToday"
-                                                      Content="{se:Tr StswCalendar.Today}"
-                                                      HorizontalAlignment="Stretch"
-                                                      IconData="{x:Static se:StswIcons.CalendarToday}"
-                                                      Padding="{TemplateBinding ItemPadding}"/>
-                                </Grid>
+                                <se:StswSubButton x:Name="PART_ButtonToday"
+                                                  Content="{se:Tr StswCalendar.Today}"
+                                                  IconData="{x:Static se:StswIcons.CalendarToday}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  Padding="{TemplateBinding ItemPadding}"
+                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DockPanel>
                         </Grid>
                     </se:StswGroupBox>
                     
                     <ControlTemplate.Triggers>
-                        <Trigger Property="CurrentMode" Value="ByMonth">
+                        <Trigger Property="CurrentMode" Value="Days">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronRight}" TargetName="PART_ButtonNextMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextYear"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListDays"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListMonths"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListDays"/>
                         </Trigger>
-                        <Trigger Property="CurrentMode" Value="ByYear">
+                        <Trigger Property="CurrentMode" Value="Months">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleRight}" TargetName="PART_ButtonNextYear"/>
-                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListDays"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListMonths"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListDays"/>
                         </Trigger>
-                        <Trigger Property="SelectionMode" Value="ByYear">
+                        <Trigger Property="SelectionMode" Value="Months">
                             <Setter Property="Focusable" Value="False" TargetName="PART_ButtonCurrentMode"/>
                             <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonCurrentMode"/>
                             <Setter Property="IsTabStop" Value="False" TargetName="PART_ButtonCurrentMode"/>
@@ -160,24 +151,17 @@
         </Setter>
     </Style>
 
-    <!-- StswCalendarButtonMonthStyle -->
-    <Style x:Key="StswCalendarButtonMonthStyle" TargetType="{x:Type se:StswToggleButton}">
+    <!-- StswCalendarButtonStyle -->
+    <Style x:Key="StswCalendarButtonStyle" TargetType="{x:Type se:StswRadioButton}">
         <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
+        <Setter Property="CommandParameter" Value="{Binding Date}"/>
+        <Setter Property="Content" Value="{Binding Name}"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
+        <Setter Property="IsChecked" Value="{Binding IsSelected, Mode=OneWay}"/>
+        
         <Style.Triggers>
-            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
-                <Setter Property="Visibility" Value="Hidden"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
-                <Setter Property="Visibility" Value="Hidden"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!-- StswCalendarButtonDayStyle -->
-    <Style x:Key="StswCalendarButtonDayStyle" TargetType="{x:Type se:StswToggleButton}">
-        <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Date.DayOfWeek}" Value="Sunday">
+            <DataTrigger Binding="{Binding IsSpecialDay}" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
@@ -191,7 +175,7 @@
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Date.DayOfWeek}" Value="Sunday"/>
+                    <Condition Binding="{Binding IsSpecialDay}" Value="Sunday"/>
                     <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>

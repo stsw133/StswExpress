@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswCalendarContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        SelectionMode = (StswCalendarMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
+    }
+
     /// Maximum
     public DateTime? Maximum
     {

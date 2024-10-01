@@ -29,8 +29,8 @@ public enum StswAutoLayoutMode
 /// </summary>
 public enum StswCalendarMode
 {
-    ByMonth,
-    ByYear
+    Days,
+    Months
 }
 
 /// <summary>

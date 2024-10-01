@@ -14,11 +14,11 @@ namespace StswExpress;
 [ContentProperty(nameof(EndTime))]
 public class StswTimerControl : Control
 {
-    private DispatcherTimer _timer;
+    private readonly DispatcherTimer _timer = new();
+    private DateTime _lastTickTime;
 
     public StswTimerControl()
     {
-        _timer = new DispatcherTimer();
         _timer.Tick += Timer_Tick;
     }
     static StswTimerControl()
@@ -75,7 +75,6 @@ public class StswTimerControl : Control
             }
         }
     }
-    private DateTime _lastTickTime;
 
     /// <summary>
     /// Updates the timer's interval based on the current format string. The interval is adjusted to match
@@ -213,8 +212,8 @@ public class StswTimerControl : Control
 
     /// <summary>
     /// Gets or sets a value that controls the start, stop, and reset behavior of the timer. 
-    /// When set to true, the timer starts or continues. When set to false, the timer stops. 
-    /// When set to null, the timer resets to the start time.
+    /// When set to <see langword="true"/>, the timer starts or continues. When set to <see langword="false"/>, the timer stops. 
+    /// When set to <see langword="null"/>, the timer resets to the start time.
     /// </summary>
     public bool? StartStopReset
     {

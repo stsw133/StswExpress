@@ -91,10 +91,13 @@ public class StswTimePicker : StswBoxBase
     {
         if (newValue == null)
             return newValue;
+
         if (Minimum.HasValue && newValue < Minimum)
             newValue = Minimum;
+
         if (Maximum.HasValue && newValue > Maximum)
             newValue = Maximum;
+
         return newValue;
     }
 
@@ -246,16 +249,16 @@ public class StswTimePicker : StswBoxBase
     {
         if (obj is StswTimePicker stsw)
         {
-            if (!stsw.isTimeChanging)
+            if (!stsw._isTimeChanging)
             {
-                stsw.isTimeChanging = true;
+                stsw._isTimeChanging = true;
                 if (stsw.SelectedTime.HasValue)
                 {
                     stsw.SelectedTimeH = stsw.SelectedTime.Value.Hours;
                     stsw.SelectedTimeM = stsw.SelectedTime.Value.Minutes;
                     stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
                 }
-                stsw.isTimeChanging = false;
+                stsw._isTimeChanging = false;
 
                 stsw.SelectedTimeChanged?.Invoke(stsw, EventArgs.Empty);
             }
@@ -268,7 +271,7 @@ public class StswTimePicker : StswBoxBase
 
         return baseValue;
     }
-    private bool isTimeChanging;
+    private bool _isTimeChanging;
 
     /// <summary>
     /// Gets or sets the currently selected hour for the selected time.
