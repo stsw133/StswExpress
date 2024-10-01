@@ -10,7 +10,10 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            A control with date selection functionality.
+            Represents a custom calendar control with date selection functionality.
+            The control allows users to navigate between months and years, select individual days or months, and provides
+            support for minimum and maximum date ranges. It also includes functionality for quick selection of the current date
+            and offers support for customization, such as corner radius and item appearance.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
@@ -38,7 +41,7 @@
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">
-                <Run Text="{Binding SelectedDate, Mode=OneWay, StringFormat=d, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontWeight="Bold"/>
+                <Run Text="{Binding SelectedDate, Mode=OneWay, StringFormat=g, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontWeight="Bold"/>
                 <Run Text=" is selected"/>
             </se:StswText>
         </local:ControlsBase.StatusPanel>
