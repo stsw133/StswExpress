@@ -35,9 +35,17 @@
     "en": "Confirm",
     "pl": "Potwierdź"
   },
+  "StswConfig.EnableAnimations": {
+    "en": "Enable animations",
+    "pl": "Włącz animacje"
+  },
   "StswConfig.Language": {
     "en": "Language",
     "pl": "Język"
+  },
+  "StswConfig.RestartMayBeRequired": {
+    "en": "Application restart may be required!",
+    "pl": "Możliwy wymagany restart aplikacji!"
   },
   "StswConfig.Scaling": {
     "en": "Scaling",

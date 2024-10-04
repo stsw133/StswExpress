@@ -37,6 +37,7 @@
                             <ItemsPresenter/>
                         </se:StswDirectionView>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -110,6 +111,7 @@
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
+
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>

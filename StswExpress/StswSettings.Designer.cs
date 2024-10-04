@@ -12,7 +12,7 @@ namespace StswExpress {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     public sealed partial class StswSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static StswSettings defaultInstance = ((StswSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new StswSettings())));
@@ -56,6 +56,18 @@ namespace StswExpress {
             }
             set {
                 this["Theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableAnimations {
+            get {
+                return ((bool)(this["EnableAnimations"]));
+            }
+            set {
+                this["EnableAnimations"] = value;
             }
         }
         

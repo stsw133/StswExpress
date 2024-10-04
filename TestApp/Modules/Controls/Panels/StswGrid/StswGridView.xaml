@@ -21,15 +21,23 @@
         <se:StswGrid AutoLayoutMode="{Binding AutoLayoutMode}"
                      IsEnabled="{Binding IsEnabled}"
                      Margin="5"
-                     ColumnWidths="{se:StswMakeList '*,auto,*,auto,*'}"
-                     RowHeights="{se:StswMakeList '*,auto,*,auto,*'}"
+                     ColumnWidths="{se:StswMakeList '*,auto,*,auto,*,auto'}"
+                     RowHeights="{se:StswMakeList '*,auto,*,auto,*,auto'}"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswBorder Grid.Column="0" Grid.Row="0" Margin="1" MinHeight="10" MinWidth="10"/>
-            <se:StswBorder Grid.Column="1" Grid.Row="1" Margin="1" MinHeight="10" MinWidth="10"/>
-            <se:StswBorder Grid.Column="2" Grid.Row="2" Margin="1" MinHeight="10" MinWidth="10"/>
-            <se:StswBorder Grid.Column="3" Grid.Row="3" Margin="1" MinHeight="10" MinWidth="10"/>
-            <se:StswBorder Grid.Column="4" Grid.Row="4" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="0" Grid.Row="0" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="0" Grid.Row="4" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="1" Grid.Row="1" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="2" Grid.Row="2" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="3" Grid.Row="3" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="4" Grid.Row="4" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="4" Grid.Row="0" Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Grid.Column="5" Grid.RowSpan="5" Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Grid.Column="6" Grid.RowSpan="5" Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Grid.Column="7" Grid.RowSpan="5" Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Grid.ColumnSpan="8" Grid.Row="6" Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
+            <se:StswBorder Grid.ColumnSpan="8" Grid.Row="7" Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
+            <se:StswBorder Grid.ColumnSpan="8" Grid.Row="8" Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
         </se:StswGrid>
         <!-- status panel -->
         

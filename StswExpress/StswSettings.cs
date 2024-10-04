@@ -67,6 +67,7 @@ public sealed partial class StswSettings
             {
                 Default.Upgrade();
                 Default.UpdateRequired = false;
+                Default.EnableAnimations = (bool)(Default.GetPreviousVersion(nameof(Default.EnableAnimations)) ?? Default.EnableAnimations);
                 Default.iSize = (double)(Default.GetPreviousVersion(nameof(Default.iSize)) ?? Default.iSize);
                 Default.Language = (string)(Default.GetPreviousVersion(nameof(Default.Language)) ?? Default.Language);
                 Default.Theme = (int)(Default.GetPreviousVersion(nameof(Default.Theme)) ?? Default.Theme);

@@ -8,7 +8,6 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on the child elements.
 /// </remarks>
-[Obsolete($"Seems to be bugged. Please use traditional {nameof(Grid)} instead!")]
 public class StswGrid : Grid
 {
     public StswGrid()

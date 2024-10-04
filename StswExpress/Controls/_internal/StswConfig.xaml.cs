@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shell;
+using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace StswExpress;
 
@@ -60,7 +62,6 @@ internal class StswConfig : Control, IStswCornerControl
         else
         {
             StswSettings.Default.Reload();
-            StswSettings.Default.iSize = StswSettings.Default.iSize;
             StswSettings.Default.Language = StswSettings.Default.Language;
             StswSettings.Default.Theme = StswSettings.Default.Theme;
         }
