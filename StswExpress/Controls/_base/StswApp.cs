@@ -12,7 +12,6 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom application class with additional functionality and customization options.
 /// </summary>
-//[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswApp : Application
 {
     /// <summary>
@@ -33,7 +32,12 @@ public class StswApp : Application
                 if (otherInstances.FirstOrDefault(x => x.Id != Environment.ProcessId) is Process originalProcess)
                 {
                     if (originalProcess.MainWindowHandle != IntPtr.Zero)
+                    {
+                        if (IsIconic(originalProcess.MainWindowHandle))
+                            ShowWindow(originalProcess.MainWindowHandle, SW_RESTORE);
+
                         SetForegroundWindow(originalProcess.MainWindowHandle);
+                    }
                 }
 
                 return;
@@ -108,5 +112,14 @@ public class StswApp : Application
     private bool _allowMultipleInstances = true;
 
     [DllImport("user32.dll")]
+    private static extern bool IsIconic(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    private const int SW_RESTORE = 9;
+    private const int SW_MAXIMIZE = 3;
 }

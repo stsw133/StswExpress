@@ -58,6 +58,9 @@ public class StswNotifyIcon : FrameworkElement
             _window.StateChanged += StswWindow_StateChanged;
             System.Windows.Application.Current.Exit += StswApplication_Exit;
 
+            if (Icon == null && IconPath == null)
+                throw new Exception($"{nameof(Icon)} or {nameof(IconPath)} cannot be null!");
+
             Tray = new()
             {
                 Icon = Icon ?? IconFromPath(IconPath),
@@ -206,7 +209,7 @@ public class StswNotifyIcon : FrameworkElement
         if (obj is StswNotifyIcon stsw)
         {
             if (stsw.Tray != null)
-                stsw.Tray.Icon = IconFromPath(stsw.IconPath);
+                stsw.Tray.Icon = stsw.IconPath != null ? IconFromPath(stsw.IconPath) : stsw.Icon;
         }
     }
 
