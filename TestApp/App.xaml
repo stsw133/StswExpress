@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
             xmlns:local="clr-namespace:TestApp"
-            StartupUri="Modules/MainWindow.xaml" AllowMultipleInstances="False"
+            AllowMultipleInstances="False" StartupUri="Modules/MainWindow.xaml"
             DispatcherUnhandledException="Application_DispatcherUnhandledException">
     <se:StswApp.Resources>
         <ResourceDictionary>
