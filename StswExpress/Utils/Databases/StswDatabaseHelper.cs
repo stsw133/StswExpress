@@ -281,7 +281,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TResult : class, new()
+    public static IEnumerable<TResult?> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TResult : new()
     {
         if (!CheckQueryConditions())
             return [];
@@ -307,8 +307,8 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null) where TResult : class, new()
-        => sqlTran.Connection.Get<TResult>(query, parameters, timeout, sqlTran);
+    public static IEnumerable<TResult?> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null) where TResult : new()
+        => sqlTran.Connection.Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a collection of results.
@@ -319,8 +319,8 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : class, new()
-        => model.OpenedConnection().Get<TResult>(query, parameters, timeout, sqlTran);
+    public static IEnumerable<TResult?> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : new()
+        => model.OpenedConnection().Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
@@ -415,6 +415,9 @@ public static class StswDatabaseHelper
     /// </returns>
     public static bool CheckQueryConditions()
     {
+        if (!StswDatabases.Config.IsEnabled)
+            return false;
+
         var isInDesignMode = false;
         if (StswDatabases.Config.ReturnIfInDesignerMode)
             Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new()));

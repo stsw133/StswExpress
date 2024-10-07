@@ -1,13 +1,10 @@
-﻿using ClosedXML.Excel;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
@@ -124,6 +121,7 @@ public static class StswExport
     #endregion
 
     #region Excel
+    /*
     /// <summary>
     /// Exports a collection of data sheets to an Excel file.
     /// </summary>
@@ -223,16 +221,14 @@ public static class StswExport
             StswFn.OpenFile(filePath);
 
         //TODO - memory stream type opening
-        /*
-        using (var memoryStream = new MemoryStream())
-        {
-            wb.SaveAs(memoryStream);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            var tempFilePath = Path.GetTempFileName() + ".xlsx";
-            File.WriteAllBytes(tempFilePath, memoryStream.ToArray());
-            StswFn.OpenFile(tempFilePath);
-        }
-        */
+        //using (var memoryStream = new MemoryStream())
+        //{
+        //    wb.SaveAs(memoryStream);
+        //    memoryStream.Seek(0, SeekOrigin.Begin);
+        //    var tempFilePath = Path.GetTempFileName() + ".xlsx";
+        //    File.WriteAllBytes(tempFilePath, memoryStream.ToArray());
+        //    StswFn.OpenFile(tempFilePath);
+        //}
     }
 
     /// <summary>
@@ -373,6 +369,7 @@ public static class StswExport
         sb.AppendLine("</table>");
         return sb.ToString();
     }
+    */
     #endregion
 
     #region JSON

@@ -48,7 +48,7 @@ internal static class SQL
             a.CreateDT [{nameof(ContractorModel.CreateDT)}]
         from dbo.StswExpressTEST_Contractors a with(nolock)
         where {filter ?? "1=1"}
-        order by a.Name", parameters);
+        order by a.Name", parameters)!;
 
     /// SetContractors
     internal static void SetContractors(StswBindingList<ContractorModel> list) => DbCurrent.Set(list,

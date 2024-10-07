@@ -93,7 +93,7 @@ public class ContractorsListContext : StswObservableObject
     {
         LoadingActions++;
 
-        await Task.Run(() => StswExport.ExportToExcel("Sheet1", ListContractors, null, new() { OpenFile = true }));
+        //await Task.Run(() => StswExport.ExportToExcel("Sheet1", ListContractors, null, new() { OpenFile = true }));
 
         LoadingActions--;
     }

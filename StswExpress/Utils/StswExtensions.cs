@@ -264,42 +264,52 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of objects to map to.</typeparam>
     /// <param name="dt">The DataTable to map.</param>
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T> MapTo<T>(this DataTable dt) where T : class, new()
+    public static IEnumerable<T?> MapTo<T>(this DataTable dt) where T : new()
     {
-        var objProps = typeof(T).GetProperties();
-        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-            .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-            .ToArray();
-        var mappings = normalizedColumnNames
-            .Select(x => Array.FindIndex(objProps, prop => prop.Name.Equals(x, StringComparison.CurrentCultureIgnoreCase)))
-            .ToArray();
+        var type = typeof(T);
 
-        foreach (var row in dt.AsEnumerable())
+        if (!type.IsClass || type == typeof(string))
         {
-            var obj = new T();
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo<T?>();
+        }
+        else
+        {
+            var objProps = type.GetProperties();
+            var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+                .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+                .ToArray();
+            var mappings = normalizedColumnNames
+                .Select(x => Array.FindIndex(objProps, prop => prop.Name.Equals(x, StringComparison.CurrentCultureIgnoreCase)))
+                .ToArray();
 
-            for (int i = 0; i < mappings.Length; i++)
+            foreach (var row in dt.AsEnumerable())
             {
-                if (mappings[i] < 0)
-                    continue;
+                var obj = new T();
 
-                var propertyInfo = objProps[mappings[i]];
-                if (propertyInfo != null)
+                for (int i = 0; i < mappings.Length; i++)
                 {
-                    try
-                    {
-                        var value = row[i] == DBNull.Value ? null : row[i];
-                        propertyInfo.SetValue(obj, value?.ConvertTo(propertyInfo.PropertyType), null);
-                    }
-                    catch
-                    {
-                        // Optionally, log the exception or handle it as needed
+                    if (mappings[i] < 0)
                         continue;
+
+                    var propertyInfo = objProps[mappings[i]];
+                    if (propertyInfo != null)
+                    {
+                        try
+                        {
+                            var value = row[i] == DBNull.Value ? null : row[i];
+                            propertyInfo.SetValue(obj, value?.ConvertTo(propertyInfo.PropertyType), null);
+                        }
+                        catch
+                        {
+                            // Optionally, log the exception or handle it as needed
+                            continue;
+                        }
                     }
                 }
-            }
 
-            yield return obj;
+                yield return obj;
+            }
         }
     }
 
@@ -310,19 +320,29 @@ public static partial class StswExtensions
     /// <param name="dt">The DataTable to map.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T> MapTo<T>(this DataTable dt, char delimiter) where T : class, new()
+    public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter) where T : new()
     {
-        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-            .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-            .ToArray();
+        var type = typeof(T);
 
-        var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
-
-        foreach (var row in dt.AsEnumerable())
+        if (!type.IsClass || type == typeof(string))
         {
-            var obj = new T();
-            StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
-            yield return obj;
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo<T>();
+        }
+        else
+        {
+            var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+                                                  .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+                                                  .ToArray();
+
+            var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
+
+            foreach (var row in dt.AsEnumerable())
+            {
+                var obj = new T();
+                StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
+                yield return obj;
+            }
         }
     }
 
@@ -440,6 +460,18 @@ public static partial class StswExtensions
         {
             DeleteObject(handle);
         }
+    }
+
+    /// <summary>
+    /// Converts an <see cref="Icon"/> to an <see cref="ImageSource"/>.
+    /// </summary>
+    /// <param name="icon">The <see cref="Icon"/> to convert.</param>
+    /// <returns>The converted <see cref="ImageSource"/>.</returns>
+    public static ImageSource ToImageSource(this System.Drawing.Icon icon)
+    {
+        var bitmap = icon.ToBitmap();
+        var hBitmap = bitmap.GetHbitmap();
+        return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
     }
 
     /// <summary>

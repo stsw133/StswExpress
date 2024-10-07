@@ -265,31 +265,14 @@ public class StswFilePicker : StswBoxBase
     {
         if (obj is StswFilePicker stsw)
         {
-            stsw.FileSize = null;
-            stsw.FileIcon = null;
+            stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
+            stsw.FileIcon = StswFn.ExtractAssociatedIcon(stsw.SelectedPath);
 
-            if (stsw.PathType == StswPathType.Directory ? Directory.Exists(stsw.SelectedPath) : File.Exists(stsw.SelectedPath))
+            /// load adjacent paths
+            if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
             {
-                /// path icon
-                if (stsw.PathType == StswPathType.Directory)
-                {
-                    var shinfo = new SHFILEINFO();
-                    if (SHGetFileInfo(stsw.SelectedPath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
-                        stsw.FileIcon = System.Drawing.Icon.FromHandle(shinfo.hIcon).ToBitmap().ToImageSource();
-                }
-                else
-                {
-                    if (System.Drawing.Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
-                        stsw.FileIcon = icon.ToBitmap().ToImageSource();
-                    stsw.FileSize = DisplayFileSize(stsw.SelectedPath);
-                }
-
-                /// load adjacent paths
-                if (Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
-                {
-                    stsw.parentPath = parentPath;
-                    stsw.ListAdjacentPaths();
-                }
+                stsw.parentPath = parentPath;
+                stsw.ListAdjacentPaths();
             }
 
             stsw.SelectedPathChanged?.Invoke(stsw, EventArgs.Empty);
@@ -314,22 +297,4 @@ public class StswFilePicker : StswBoxBase
             typeof(StswFilePicker)
         );
     #endregion
-
-    const uint SHGFI_ICON = 0x100;
-    const uint SHGFI_LARGEICON = 0x0; // Large icon
-
-    [DllImport("shell32.dll")]
-    static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    internal struct SHFILEINFO
-    {
-        public IntPtr hIcon;
-        public int iIcon;
-        public uint dwAttributes;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string szDisplayName;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-        public string szTypeName;
-    }
 }

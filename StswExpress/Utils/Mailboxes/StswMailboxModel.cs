@@ -3,7 +3,6 @@ using System.Net.Mail;
 using System.Net;
 using System;
 using System.Threading.Tasks;
-using System.Reflection;
 
 namespace StswExpress;
 /// <summary>
@@ -139,19 +138,14 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="reply">An optional collection of reply-to addresses.</param>
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
-        if (!StswMailboxes.Config.EnableMailSending)
-        {
-            Console.WriteLine("Mail sending is disabled.");
+        if (!StswMailboxes.Config.IsEnabled)
             return;
-        }
 
         // if (!CanSendEmail())
         //     return;
 
-        if (string.IsNullOrEmpty(Address))
-            throw new ArgumentNullException(nameof(Address));
-        if (Port == null)
-            throw new ArgumentNullException(nameof(Port));
+        ArgumentException.ThrowIfNullOrEmpty(Address);
+        ArgumentNullException.ThrowIfNull(Port);
 
         using var mail = new MailMessage();
         mail.From = new MailAddress(Address);
@@ -209,19 +203,14 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="reply">An optional collection of reply-to addresses.</param>
     public async Task SendAsync(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
-        if (!StswMailboxes.Config.EnableMailSending)
-        {
-            Console.WriteLine("Mail sending is disabled.");
+        if (!StswMailboxes.Config.IsEnabled)
             return;
-        }
 
         // if (!CanSendEmail())
         //     return;
 
-        if (string.IsNullOrEmpty(Address))
-            throw new ArgumentNullException(nameof(Address));
-        if (Port == null)
-            throw new ArgumentNullException(nameof(Port));
+        ArgumentException.ThrowIfNullOrEmpty(Address);
+        ArgumentNullException.ThrowIfNull(Port);
 
         using var mail = new MailMessage();
         mail.From = new MailAddress(Address);

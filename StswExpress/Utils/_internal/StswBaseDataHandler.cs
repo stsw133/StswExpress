@@ -1,10 +1,4 @@
-﻿using ClosedXML.Excel;
-using System;
-using System.Collections;
-using System.Globalization;
-using System.Linq;
-
-namespace StswExpress;
+﻿namespace StswExpress;
 
 /// <summary>
 /// Provides a set of static methods for handling data conversion and processing within the <see cref="StswExpress"/> framework.
@@ -26,7 +20,7 @@ internal static class StswBaseDataHandler
 
         return value;
     }
-
+    /*
     /// <summary>
     /// Gets the element type of an IEnumerable.
     /// </summary>
@@ -37,7 +31,7 @@ internal static class StswBaseDataHandler
         var enumerableType = enumerable.GetType();
         return enumerableType.IsGenericType ? enumerableType.GetGenericArguments().FirstOrDefault() : null;
     }
-
+    
     /// <summary>
     /// Converts an Excel cell value to the specified type.
     /// </summary>
@@ -83,7 +77,7 @@ internal static class StswBaseDataHandler
 
         return Convert.ChangeType(cell.Value, type);
     }
-
+    
     /// <summary>
     /// Converts a string to a boolean value based on the specified format.
     /// </summary>
@@ -161,7 +155,7 @@ internal static class StswBaseDataHandler
 
         return formatParts.ElementAtOrDefault(boolValue ? 0 : 1) ?? string.Empty;
     }
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -186,7 +180,7 @@ internal static class StswBaseDataHandler
                borderStyle == XLBorderStyleValues.Dashed ? "dashed" :
                borderStyle == XLBorderStyleValues.Double ? "double" : "solid";
     }
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -200,4 +194,5 @@ internal static class StswBaseDataHandler
         var c = color.Color;
         return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
     }
+    */
 }

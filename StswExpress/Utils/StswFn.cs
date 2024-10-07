@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -273,11 +274,11 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Merges properties of multiple objects into a single dynamic object. 
+    /// Merges properties of multiple objects into a single dictionary object. 
     /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
     /// </summary>
     /// <param name="parameters">An array of objects to be merged.</param>
-    /// <returns>A dynamic object containing all properties from the provided objects.</returns>
+    /// <returns>A dictionary object containing all properties from the provided objects.</returns>
     public static IDictionary<string, object?> MergeObjects(params object[] parameters)
     {
         var expando = new ExpandoObject() as IDictionary<string, object?>;
@@ -327,11 +328,52 @@ public static class StswFn
     #endregion
 
     #region File functions
+    internal struct SHFILEINFO
+    {
+        public IntPtr hIcon;
+        public int iIcon;
+        public uint dwAttributes;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    /// <summary>
+    /// Extracts the associated icon of the specified file or directory path as an <see cref="ImageSource"/>.
+    /// </summary>
+    /// <param name="path">The file or directory path to extract the icon from.</param>
+    /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
+    public static ImageSource? ExtractAssociatedIcon(string? path)
+    {
+        const uint SHGFI_ICON = 0x100;
+        const uint SHGFI_LARGEICON = 0x0;
+
+        [DllImport("shell32.dll")]
+        static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+
+        if (Path.Exists(path))
+        {
+            if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                var shinfo = new SHFILEINFO();
+                if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
+                    return System.Drawing.Icon.FromHandle(shinfo.hIcon).ToImageSource();
+            }
+            else
+            {
+                if (System.Drawing.Icon.ExtractAssociatedIcon(path) is System.Drawing.Icon icon)
+                    return icon.ToImageSource();
+            }
+        }
+        return null;
+    }
+
     /// <summary>
     /// Checks if a file is currently in use.
     /// </summary>
     /// <param name="path">The path to the file.</param>
-    /// <returns>True if the file is in use; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if the file is in use; otherwise, <see langword="false"/>.</returns>
     public static bool IsFileInUse(string path)
     {
         if (File.Exists(path))

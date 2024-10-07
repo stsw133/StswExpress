@@ -202,7 +202,11 @@ public class StswCalendar : Control, IStswCornerControl
     /// <param name="date">The month to select.</param>
     private void SelectMonth(DateTime date)
     {
-        SelectedMonth = new DateTime(date.Year, date.Month, 1);
+        var selectedMonth = new DateTime(date.Year, date.Month, 1);
+        if (SelectedMonth != selectedMonth)
+            SelectedMonth = selectedMonth;
+        else /// to refresh button selections
+            OnSelectedMonthChanged(this, new DependencyPropertyChangedEventArgs());
 
         if (SelectionMode == StswCalendarMode.Months)
         {

@@ -16,15 +16,15 @@ public class StswMailboxesConfig
     public string? DebugEmailRecipient { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether email sending is globally enabled. 
-    /// If set to <see langword="false"/>, no emails will be sent by the application.
-    /// </summary>
-    public bool EnableMailSending { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets the location of the file where encrypted email configurations are stored.
     /// </summary>
     public string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
+
+    /// <summary>
+    /// Gets or sets a value indicating whether email sending is globally enabled. 
+    /// If set to <see langword="false"/>, no emails will be sent by the application.
+    /// </summary>
+    public bool IsEnabled { get; set; } = true;
 
     /*
     /// <summary>

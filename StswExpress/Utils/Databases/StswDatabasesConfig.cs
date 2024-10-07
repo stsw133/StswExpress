@@ -26,6 +26,12 @@ public class StswDatabasesConfig
     public string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
 
     /// <summary>
+    /// Gets or sets a value indicating whether database connecting is globally enabled. 
+    /// If set to <see langword="false"/>, all <see cref="StswDatabaseHelper"/>'s methods will return default value.
+    /// </summary>
+    public bool IsEnabled { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether queries should be optimized to use less space.
     /// </summary>
     public bool MakeLessSpaceQuery { get; set; } = true;
