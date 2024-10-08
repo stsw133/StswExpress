@@ -25,10 +25,6 @@ public class StswImage : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// MainBorder: context menu opening
-        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
-            mainBorder.ContextMenuOpening += PART_MainBorder_ContextMenuOpening;
-
         /// Menu: cut
         if (GetTemplateChild("PART_Cut") is MenuItem mniCut)
             mniCut.Click += PART_Cut_Click;
@@ -47,21 +43,6 @@ public class StswImage : Control, IStswCornerControl
         /// Menu: save
         if (GetTemplateChild("PART_Save") is MenuItem mniSave)
             mniSave.Click += PART_Save_Click;
-    }
-
-    /// <summary>
-    /// Occurs when the context menu is opening.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-    {
-        ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == StswMenuMode.Full;
-        ((MenuItem)GetTemplateChild("PART_Copy")).IsEnabled = MenuMode != StswMenuMode.Disabled;
-        ((MenuItem)GetTemplateChild("PART_Paste")).IsEnabled = MenuMode == StswMenuMode.Full;
-        ((MenuItem)GetTemplateChild("PART_Delete")).IsEnabled = MenuMode == StswMenuMode.Full;
-        ((MenuItem)GetTemplateChild("PART_Load")).IsEnabled = MenuMode == StswMenuMode.Full;
-        ((MenuItem)GetTemplateChild("PART_Save")).IsEnabled = MenuMode != StswMenuMode.Disabled;
     }
 
     /// <summary>
@@ -215,6 +196,21 @@ public class StswImage : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Stretch),
             typeof(Stretch),
+            typeof(StswImage)
+        );
+
+    /// <summary>
+    /// Gets or sets the stretch direction of the control.
+    /// </summary>
+    public StretchDirection StretchDirection
+    {
+        get => (StretchDirection)GetValue(StretchDirectionProperty);
+        set => SetValue(StretchDirectionProperty, value);
+    }
+    public static readonly DependencyProperty StretchDirectionProperty
+        = DependencyProperty.Register(
+            nameof(StretchDirection),
+            typeof(StretchDirection),
             typeof(StswImage)
         );
     #endregion

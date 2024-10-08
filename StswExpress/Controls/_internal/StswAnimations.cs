@@ -18,30 +18,26 @@ internal static class StswAnimations
         if (!StswSettings.Default.EnableAnimations)
             return;
 
-        Color fromBackgroundColor, toBackgroundColor;
-        Color fromBorderBrushColor, toBorderBrushColor;
+        Color fromBackgroundColor = ((SolidColorBrush)target.Background).Color;
+        Color toBackgroundColor;
+        Color fromBorderBrushColor = ((SolidColorBrush) target.BorderBrush).Color;
+        Color toBorderBrushColor;
 
         switch (sender)
         {
             case StswCheckBox:
             case StswRadioBox:
-                fromBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswCheck.Static.Background" : "StswCheck.Checked.Static.Background")).Color;
                 toBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswCheck.Checked.Static.Background" : "StswCheck.Static.Background")).Color;
-                fromBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswCheck.Static.Border" : "StswCheck.Checked.Static.Border")).Color;
                 toBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswCheck.Checked.Static.Border" : "StswCheck.Static.Border")).Color;
                 break;
                 
             case ButtonBase:
-                fromBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswButton.Static.Background" : "StswButton.Checked.Static.Background")).Color;
                 toBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswButton.Checked.Static.Background" : "StswButton.Static.Background")).Color;
-                fromBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswButton.Static.Border" : "StswButton.Checked.Static.Border")).Color;
                 toBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswButton.Checked.Static.Border" : "StswButton.Static.Border")).Color;
                 break;
 
             case ItemsControl:
-                fromBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswItem.Static.Background" : "StswItem.Checked.Static.Background")).Color;
                 toBackgroundColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswItem.Checked.Static.Background" : "StswItem.Static.Background")).Color;
-                fromBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswItem.Static.Border" : "StswItem.Checked.Static.Border")).Color;
                 toBorderBrushColor = ((SolidColorBrush)target.FindResource(isSelected ? "StswItem.Checked.Static.Border" : "StswItem.Static.Border")).Color;
                 break;
         }

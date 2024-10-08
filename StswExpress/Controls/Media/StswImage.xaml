@@ -9,6 +9,7 @@
         <Setter Property="MenuMode" Value="Disabled"/>
         <Setter Property="Scale" Value="auto"/>
         <Setter Property="Stretch" Value="Uniform"/>
+        <Setter Property="StretchDirection" Value="Both"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -28,11 +29,7 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
-                               Stretch="{TemplateBinding Stretch}"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        <Border.ContextMenu>
+                        <se:StswBorder.ContextMenu>
                             <ContextMenu x:Name="OPT_Menu"
                                          DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                          Style="{DynamicResource StswContextMenuStyle}">
@@ -44,12 +41,39 @@
                                 <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
                                 <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}"/>
                             </ContextMenu>
-                        </Border.ContextMenu>
+                        </se:StswBorder.ContextMenu>
+                        <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
+                               Stretch="{TemplateBinding Stretch}"
+                               StretchDirection="{TemplateBinding StretchDirection}"
+                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
-                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_Menu"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Menu"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Cut"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Copy"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Paste"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Delete"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Load"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Save"/>
+                        </Trigger>
+                        <Trigger Property="MenuMode" Value="ReadOnly">
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Cut"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Copy"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Paste"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Delete"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Load"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Save"/>
+                        </Trigger>
+                        <Trigger Property="MenuMode" Value="Full">
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Cut"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Copy"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Paste"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Delete"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Load"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Save"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
