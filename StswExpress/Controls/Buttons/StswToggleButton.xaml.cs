@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -12,6 +13,38 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
     }
+
+    #region Events & methods
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, true);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, false);
+        }
+    }
+    #endregion
 
     #region Style properties
     /// <summary>

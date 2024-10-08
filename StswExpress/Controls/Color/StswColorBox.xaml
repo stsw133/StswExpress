@@ -113,6 +113,7 @@
                             </DockPanel>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>

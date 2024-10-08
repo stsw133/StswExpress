@@ -5,14 +5,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorPicker : Control
+public class StswColorPicker : Control, IStswCornerControl
 {
     static StswColorPicker()
     {
@@ -20,9 +19,9 @@ public class StswColorPicker : Control
     }
 
     #region Events & methods
-    private bool blockColorEllipse;
-    private Ellipse? _colorEllipse;
-    private Grid? _colorGrid;
+    private bool _blockColorEllipse;
+    private FrameworkElement? _colorEllipse;
+    private FrameworkElement? _colorGrid;
 
     /// <summary>
     /// Occurs when the selected color in the control changes.
@@ -37,7 +36,7 @@ public class StswColorPicker : Control
         base.OnApplyTemplate();
 
         /// PART_ColorGrid
-        if (GetTemplateChild("PART_ColorGrid") is Grid colorGrid)
+        if (GetTemplateChild("PART_ColorGrid") is FrameworkElement colorGrid)
         {
             colorGrid.MouseDown += PART_ColorGrid_MouseDown;
             colorGrid.MouseMove += PART_ColorGrid_MouseMove;
@@ -45,7 +44,7 @@ public class StswColorPicker : Control
             _colorGrid = colorGrid;
         }
         /// PART_ColorEllipse
-        if (GetTemplateChild("PART_ColorEllipse") is Ellipse colorEllipse)
+        if (GetTemplateChild("PART_ColorEllipse") is FrameworkElement colorEllipse)
             _colorEllipse = colorEllipse;
     }
 
@@ -59,6 +58,7 @@ public class StswColorPicker : Control
     {
         if (e.LeftButton == MouseButtonState.Pressed)
             PART_ColorGrid_MouseMove(sender, e);
+
         e.Handled = true;
     }
 
@@ -70,25 +70,11 @@ public class StswColorPicker : Control
     /// <param name="e">The event arguments</param>
     private void PART_ColorGrid_MouseMove(object sender, MouseEventArgs e)
     {
-        var grid = (Grid)sender;
-
-        if (e.LeftButton == MouseButtonState.Pressed)
+        if (sender is FrameworkElement grid && e.LeftButton == MouseButtonState.Pressed)
         {
             var position = e.GetPosition(grid);
-
             var x = Math.Floor(position.X);
             var y = Math.Floor(position.Y);
-
-            /// cannot do this since getting mouse outisde the grid is not performing this event
-            //if (x <= 0)
-            //    x = 0;
-            //else if (x >= (int)grid.ActualWidth)
-            //    x = (int)grid.ActualWidth - 1;
-            //
-            //if (y <= 0)
-            //    y = 0;
-            //else if (y >= (int)grid.ActualHeight)
-            //    y = (int)grid.ActualHeight - 1;
 
             if (x <= 0 || x >= grid.ActualWidth || y <= 0 || y >= grid.ActualHeight)
                 return;
@@ -112,10 +98,17 @@ public class StswColorPicker : Control
     /// <param name="e">The event arguments</param>
     private void PART_ColorGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var grid = (Grid)sender;
-        
-        StswFn.ColorToHsv(SelectedColor, out var h, out var s, out var _);
+        if (sender is FrameworkElement grid)
+            UpdateEllipsePosition(grid);
+    }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="grid"></param>
+    private void UpdateEllipsePosition(FrameworkElement grid)
+    {
+        StswFn.ColorToHsv(SelectedColor, out var h, out var s, out _);
         var x = grid.ActualWidth * h / 360;
         var y = grid.ActualHeight - (grid.ActualHeight * s);
 
@@ -149,7 +142,7 @@ public class StswColorPicker : Control
     public Color PickedColor
     {
         get => (Color)GetValue(PickedColorProperty);
-        set => SetValue(PickedColorProperty, value);
+        internal set => SetValue(PickedColorProperty, value);
     }
     public static readonly DependencyProperty PickedColorProperty
         = DependencyProperty.Register(
@@ -185,25 +178,15 @@ public class StswColorPicker : Control
             stsw.SelectedColorG = stsw.SelectedColor.G;
             stsw.SelectedColorB = stsw.SelectedColor.B;
 
-            if (!stsw.blockColorEllipse)
+            if (!stsw._blockColorEllipse)
             {
                 stsw.PickedColor = StswFn.ColorFromHsv(h, s, 1);
-
                 if (stsw._colorGrid != null)
-                {
-                    var x = stsw._colorGrid.ActualWidth * h / 360;
-                    var y = stsw._colorGrid.ActualHeight - (stsw._colorGrid.ActualHeight * s);
-
-                    if (stsw._colorEllipse != null && x >= 0 && y >= 0)
-                    {
-                        Canvas.SetLeft(stsw._colorEllipse, x - stsw._colorEllipse.Width / 2);
-                        Canvas.SetTop(stsw._colorEllipse, y - stsw._colorEllipse.Height / 2);
-                    }
-                }
+                    stsw.UpdateEllipsePosition(stsw._colorGrid);
             }
 
             stsw.SelectedColorV = v;
-            stsw.blockColorEllipse = false;
+            stsw._blockColorEllipse = false;
 
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
         }
@@ -314,12 +297,30 @@ public class StswColorPicker : Control
         {
             StswFn.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
             stsw.SelectedColor = StswFn.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
-            stsw.blockColorEllipse = true;
+            stsw._blockColorEllipse = true;
         }
     }
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control's border are rounded by defining
     /// a radius value for each corner independently. This property allows users to control the roundness
@@ -336,6 +337,21 @@ public class StswColorPicker : Control
             typeof(CornerRadius),
             typeof(StswColorPicker),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum height and width of color selection grid.
+    /// </summary>
+    public double SelectorSize
+    {
+        get => (double)GetValue(SelectorSizeProperty);
+        set => SetValue(SelectorSizeProperty, value);
+    }
+    public static readonly DependencyProperty SelectorSizeProperty
+        = DependencyProperty.Register(
+            nameof(SelectorSize),
+            typeof(double),
+            typeof(StswColorPicker)
         );
     #endregion
 }

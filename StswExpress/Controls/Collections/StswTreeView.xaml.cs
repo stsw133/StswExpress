@@ -30,11 +30,11 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         {
             if (e.NewValue != null)
                 if (ItemContainerGenerator.ContainerFromItem(e.NewValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                    AnimateSelectionChange(border, true);
+                    StswAnimations.AnimateClick(this, border, true);
 
             if (e.OldValue != null)
                 if (ItemContainerGenerator.ContainerFromItem(e.OldValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border oldBorder)
-                    AnimateSelectionChange(oldBorder, false);
+                    StswAnimations.AnimateClick(this, oldBorder, false);
         }
     }
 
@@ -123,75 +123,5 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
             typeof(StswTreeView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    #endregion
-
-    #region Animations
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="isSelected"></param>
-    private void AnimateSelectionChange(Border target, bool isSelected)
-    {
-        Color fromBackgroundColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Static.Background")
-            : (SolidColorBrush)FindResource("StswItem.Checked.Static.Background")).Color;
-
-        Color toBackgroundColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Checked.Static.Background")
-            : (SolidColorBrush)FindResource("StswItem.Static.Background")).Color;
-
-        Color fromBorderBrushColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Static.Border")
-            : (SolidColorBrush)FindResource("StswItem.Checked.Static.Border")).Color;
-
-        Color toBorderBrushColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Checked.Static.Border")
-            : (SolidColorBrush)FindResource("StswItem.Static.Border")).Color;
-
-        if (target.Background is not SolidColorBrush backgroundBrush || backgroundBrush.IsFrozen || !backgroundBrush.CanFreeze)
-        {
-            backgroundBrush = new SolidColorBrush(fromBackgroundColor);
-            target.Background = backgroundBrush;
-        }
-
-        if (target.BorderBrush is not SolidColorBrush borderBrush || borderBrush.IsFrozen || !borderBrush.CanFreeze)
-        {
-            borderBrush = new SolidColorBrush(fromBorderBrushColor);
-            target.BorderBrush = borderBrush;
-        }
-
-        var backgroundAnimation = new ColorAnimation
-        {
-            From = fromBackgroundColor,
-            To = toBackgroundColor,
-            Duration = TimeSpan.FromSeconds(0.2)
-        };
-
-        var borderBrushAnimation = new ColorAnimation
-        {
-            From = fromBorderBrushColor,
-            To = toBorderBrushColor,
-            Duration = TimeSpan.FromSeconds(0.2)
-        };
-
-        var storyboard = new Storyboard();
-
-        storyboard.Children.Add(backgroundAnimation);
-        Storyboard.SetTarget(backgroundAnimation, target);
-        Storyboard.SetTargetProperty(backgroundAnimation, new PropertyPath("(Border.Background).(SolidColorBrush.Color)"));
-
-        storyboard.Children.Add(borderBrushAnimation);
-        Storyboard.SetTarget(borderBrushAnimation, target);
-        Storyboard.SetTargetProperty(borderBrushAnimation, new PropertyPath("(Border.BorderBrush).(SolidColorBrush.Color)"));
-
-        storyboard.Completed += (s, e) =>
-        {
-            target.ClearValue(Border.BackgroundProperty);
-            target.ClearValue(Border.BorderBrushProperty);
-        };
-
-        storyboard.Begin();
-    }
     #endregion
 }

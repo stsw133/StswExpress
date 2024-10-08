@@ -19,28 +19,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-    {
-        base.OnSelectionChanged(e);
-
-        if (StswSettings.Default.EnableAnimations)
-        {
-            if (e.AddedItems != null)
-                foreach (var selectedItem in e.AddedItems)
-                    if (ItemContainerGenerator.ContainerFromItem(selectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                        AnimateSelectionChange(border, true);
-
-            if (e.RemovedItems != null)
-                foreach (var unselectedItem in e.RemovedItems)
-                    if (ItemContainerGenerator.ContainerFromItem(unselectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                        AnimateSelectionChange(border, false);
-        }
-    }
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -60,6 +38,16 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+        IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
     #endregion
 
@@ -133,75 +121,5 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
             typeof(StswSegment),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    #endregion
-
-    #region Animations
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="isSelected"></param>
-    private void AnimateSelectionChange(Border target, bool isSelected)
-    {
-        Color fromBackgroundColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Static.Background")
-            : (SolidColorBrush)FindResource("StswItem.Checked.Static.Background")).Color;
-
-        Color toBackgroundColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Checked.Static.Background")
-            : (SolidColorBrush)FindResource("StswItem.Static.Background")).Color;
-
-        Color fromBorderBrushColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Static.Border")
-            : (SolidColorBrush)FindResource("StswItem.Checked.Static.Border")).Color;
-
-        Color toBorderBrushColor = (isSelected
-            ? (SolidColorBrush)FindResource("StswItem.Checked.Static.Border")
-            : (SolidColorBrush)FindResource("StswItem.Static.Border")).Color;
-
-        if (target.Background is not SolidColorBrush backgroundBrush || backgroundBrush.IsFrozen || !backgroundBrush.CanFreeze)
-        {
-            backgroundBrush = new SolidColorBrush(fromBackgroundColor);
-            target.Background = backgroundBrush;
-        }
-
-        if (target.BorderBrush is not SolidColorBrush borderBrush || borderBrush.IsFrozen || !borderBrush.CanFreeze)
-        {
-            borderBrush = new SolidColorBrush(fromBorderBrushColor);
-            target.BorderBrush = borderBrush;
-        }
-
-        var backgroundAnimation = new ColorAnimation
-        {
-            From = fromBackgroundColor,
-            To = toBackgroundColor,
-            Duration = TimeSpan.FromSeconds(0.2)
-        };
-
-        var borderBrushAnimation = new ColorAnimation
-        {
-            From = fromBorderBrushColor,
-            To = toBorderBrushColor,
-            Duration = TimeSpan.FromSeconds(0.2)
-        };
-
-        var storyboard = new Storyboard();
-
-        storyboard.Children.Add(backgroundAnimation);
-        Storyboard.SetTarget(backgroundAnimation, target);
-        Storyboard.SetTargetProperty(backgroundAnimation, new PropertyPath("(Border.Background).(SolidColorBrush.Color)"));
-
-        storyboard.Children.Add(borderBrushAnimation);
-        Storyboard.SetTarget(borderBrushAnimation, target);
-        Storyboard.SetTargetProperty(borderBrushAnimation, new PropertyPath("(Border.BorderBrush).(SolidColorBrush.Color)"));
-
-        storyboard.Completed += (s, e) =>
-        {
-            target.ClearValue(Border.BackgroundProperty);
-            target.ClearValue(Border.BorderBrushProperty);
-        };
-
-        storyboard.Begin();
-    }
     #endregion
 }

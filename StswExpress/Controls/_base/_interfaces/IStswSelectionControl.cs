@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -45,6 +47,28 @@ public interface IStswSelectionControl
     /// </summary>
     bool UsesSelectionItems { get; set; }
     static readonly DependencyProperty? UsesSelectionItemsProperty;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="selectionControl"></param>
+    /// <param name="addedItems"></param>
+    /// <param name="removedItems"></param>
+    static void SelectionChanged(Selector selectionControl, IList addedItems, IList removedItems)
+    {
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (addedItems != null)
+                foreach (var selectedItem in addedItems)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
+                        StswAnimations.AnimateClick(selectionControl, border, true);
+
+            if (removedItems != null)
+                foreach (var unselectedItem in removedItems)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
+                        StswAnimations.AnimateClick(selectionControl, border, false);
+        }
+    }
 
     /// <summary>
     /// Handles changes to the ItemsSource property of the selection control.

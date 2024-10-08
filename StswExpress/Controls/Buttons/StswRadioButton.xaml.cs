@@ -13,6 +13,38 @@ public class StswRadioButton : RadioButton, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioButton), new FrameworkPropertyMetadata(typeof(StswRadioButton)));
     }
 
+    #region Events & methods
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, true);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, false);
+        }
+    }
+    #endregion
+
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.

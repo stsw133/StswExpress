@@ -22,6 +22,36 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         if (!IsReadOnly)
             base.OnToggle();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, true);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (GetTemplateChild("OPT_MainBorder") is Border border)
+                StswAnimations.AnimateClick(this, border, false);
+        }
+    }
     #endregion
 
     #region Logic properties
