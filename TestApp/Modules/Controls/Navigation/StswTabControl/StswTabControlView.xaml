@@ -9,16 +9,16 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control that extends the TabControl class with additional functionality.
+            Represents a tab control with extended functionality, including support for creating new tab items.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- AreTabsVisible -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreTabsVisible, Type={x:Type se:StswTabControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreTabsVisible}"/>
-            <!-- NewTabButtonVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NewTabButtonVisibility, Type={x:Type se:StswTabControl}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding NewTabButtonVisibility}"/>
+            <!-- NewItemButtonVisibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NewItemButtonVisibility, Type={x:Type se:StswTabControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding NewItemButtonVisibility}"/>
             <!-- TabStripPlacement -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TabStripPlacement, Type={x:Type se:StswTabControl}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Dock}" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}"/>
@@ -28,15 +28,26 @@
                            IsEnabled="{Binding IsEnabled}"
                            ItemsSource="{Binding Items}"
                            Margin="5"
-                           NewTabButtonVisibility="{Binding NewTabButtonVisibility}"
+                           NewItem="{Binding NewItem}"
+                           NewItemButtonVisibility="{Binding NewItemButtonVisibility}"
                            TabStripPlacement="{Binding TabStripPlacement}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswTabControl.NewTabTemplate>
-                <se:StswTabItemModel Icon="{x:Static se:StswIcons.PlusThick}" Name="New tab" Type="{x:Type local:HomeContext}"/>
-            </se:StswTabControl.NewTabTemplate>
+            <se:StswTabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type se:StswTabItem}">
+                    <Setter Property="Content" Value="{Binding Content}"/>
+                    <Setter Property="IsClosable" Value="{Binding IsClosable}"/>
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <se:StswLabel Content="{Binding Name}" IconData="{Binding Icon}"/>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </se:StswTabControl.ItemContainerStyle>
         </se:StswTabControl>
         <!-- status panel -->
         

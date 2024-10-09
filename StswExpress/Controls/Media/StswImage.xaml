@@ -30,9 +30,7 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswBorder.ContextMenu>
-                            <ContextMenu x:Name="OPT_Menu"
-                                         DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                         Style="{DynamicResource StswContextMenuStyle}">
+                            <se:StswContextMenu x:Name="OPT_Menu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                                 <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}"/>
                                 <se:StswMenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}"/>
                                 <se:StswMenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}"/>
@@ -40,7 +38,7 @@
                                 <se:StswSeparator/>
                                 <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
                                 <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}"/>
-                            </ContextMenu>
+                            </se:StswContextMenu>
                         </se:StswBorder.ContextMenu>
                         <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
                                Stretch="{TemplateBinding Stretch}"

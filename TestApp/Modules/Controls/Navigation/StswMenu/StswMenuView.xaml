@@ -9,7 +9,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control that extends the TabControl class with additional functionality.
+            Represents a menu control with extended functionality, including support for corner customization.
         </local:ControlsBase.Description>
         <!-- properties -->
         

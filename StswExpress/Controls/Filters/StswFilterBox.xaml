@@ -42,9 +42,8 @@
                                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswOutlinedText Stroke="Black" StrokeThickness="2"/>
                                     <se:StswToggleButton.ContextMenu>
-                                        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                                     IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Style="{DynamicResource StswContextMenuStyle}">
+                                        <se:StswContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
+                                                            IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
 
                                             <se:StswMenuItem x:Name="OPT_ModeEqual" Header="{se:Tr StswFilterBox.Equal}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Equal}">
@@ -165,7 +164,7 @@
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                        </ContextMenu>
+                                        </se:StswContextMenu>
                                     </se:StswToggleButton.ContextMenu>
                                 </se:StswToggleButton>
                                 <!-- separator -->

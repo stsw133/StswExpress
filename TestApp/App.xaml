@@ -336,9 +336,6 @@
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:ContractorsListContext}">
-                <local:ContractorsListView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:ContractorsSingleContext}">
                 <local:ContractorsSingleView/>
             </DataTemplate>

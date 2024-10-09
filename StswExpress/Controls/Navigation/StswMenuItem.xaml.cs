@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Represents a menu item with extended functionality, including support for icons and corner customization.
 /// </summary>
 public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
 {

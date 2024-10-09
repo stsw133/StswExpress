@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that extends the <see cref="TabItem"/> class with additional functionality.
+/// Represents a tab item with additional functionality, including support for a close button.
 /// </summary>
 public class StswTabItem : TabItem
 {
@@ -28,18 +28,16 @@ public class StswTabItem : TabItem
     }
 
     /// <summary>
-    /// Handles the click event of the PART_FunctionButton.
-    /// Removes the current tab item from the parent StswTabControl.
+    /// Handles the click event of the close tab button. Removes the current tab item from the parent tab control.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
     public void PART_CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
-        var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);
-        if (tabControl != null)
+        if (StswFn.FindVisualAncestor<StswTabControl>(this) is StswTabControl tabControl)
         {
             if (tabControl.ItemsSource is IList list)
-                list.Remove(this);
+                list.Remove(tabControl.ItemContainerGenerator.ItemFromContainer(this));
             else
                 tabControl.Items?.Remove(this);
         }
@@ -48,7 +46,7 @@ public class StswTabItem : TabItem
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the tab item is closable and has a close button.
+    /// Gets or sets a value indicating whether the tab item can be closed by the user. When true, a close button is displayed.
     /// </summary>
     public bool IsClosable
     {

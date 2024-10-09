@@ -57,7 +57,7 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswTabControl>
+                                <se:StswTabControl NewItemButtonVisibility="Collapsed">
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
                                         <se:StswColorSelector se:StswControl.IsBorderless="True"
                                                               Margin="-3"

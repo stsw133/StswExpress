@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Represents a menu control with extended functionality, including support for corner customization.
 /// </summary>
 public class StswMenu : Menu, IStswCornerControl
 {

@@ -2,11 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style x:Key="StswContextMenuStyle" TargetType="{x:Type ContextMenu}">
+    <Style TargetType="{x:Type se:StswContextMenu}">
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -20,7 +22,7 @@
         
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                <ControlTemplate TargetType="{x:Type se:StswContextMenu}">
                     <Grid>
                         <Grid.LayoutTransform>
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
@@ -30,8 +32,8 @@
                         <se:StswBorder Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerClipping="True"
-                                       CornerRadius="5">
+                                       CornerClipping="{TemplateBinding CornerClipping}"
+                                       CornerRadius="{TemplateBinding CornerRadius}">
                             <se:StswDirectionView BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                                   Focusable="False"
                                                   Orientation="Vertical"

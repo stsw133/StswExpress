@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
+using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that extends the <see cref="TabControl"/> class with additional functionality.
+/// Represents a tab control with extended functionality, including support for creating new tab items.
 /// </summary>
 public class StswTabControl : TabControl
 {
@@ -24,40 +24,40 @@ public class StswTabControl : TabControl
     {
         base.OnApplyTemplate();
 
-        /// NewTabButton
-        if (GetTemplateChild("PART_NewTabButton") is ButtonBase newTabButton)
-            newTabButton.Click += PART_NewTabButton_Click;
+        NewItemCommand = new StswCommand(CreateItem);
     }
 
     /// <summary>
-    /// Handles the click event of the PART_NewTabButton.
-    /// Creates and adds a new tab item based on the NewTabTemplate.
+    /// Creates or identifies the container used for a tab item.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    public void PART_NewTabButton_Click(object sender, RoutedEventArgs e)
+    /// <returns>A new instance of <see cref="StswTabItem"/>.</returns>
+    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
+
+    /// <summary>
+    /// Determines whether the specified item is its own container or if a new container is needed.
+    /// </summary>
+    /// <param name="item">The item to check.</param>
+    /// <returns><see langword="true"/> if the item is a <see cref="StswTabItem"/>; otherwise, <see langword="false"/>.</returns>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
+
+    /// <summary>
+    /// Creates a new tab item and adds it to the tab control.
+    /// </summary>
+    private void CreateItem()
     {
-        if (NewTabTemplate == null)
-            return;
-
-        var newTab = new StswTabItem()
-        {
-            Header = new StswLabel()
-            {
-                Content = NewTabTemplate.Name,
-                IconData = NewTabTemplate.Icon,
-                HorizontalContentAlignment = HorizontalAlignment.Left
-            },
-            IsClosable = true,
-            Content = NewTabTemplate.Type != null ? Activator.CreateInstance(NewTabTemplate.Type) : null
-        };
-
-        int index = -1;
         if (ItemsSource is IList list)
-            index = list.Add(newTab);
+        {
+            var itemType = list.GetType().GenericTypeArguments.FirstOrDefault() ?? typeof(object);
+            NewItem = Activator.CreateInstance(itemType);
+            list.Add(NewItem);
+            SelectedIndex = list.Count - 1;
+        }
         else if (Items != null)
-            index = Items.Add(newTab);
-        SelectedIndex = index;
+        {
+            NewItem = new StswTabItem();
+            Items.Add(NewItem);
+            SelectedIndex = Items.Count - 1;
+        }
     }
     #endregion
 
@@ -78,54 +78,49 @@ public class StswTabControl : TabControl
         );
 
     /// <summary>
-    /// Gets or sets the visibility of the new tab button.
+    /// Gets or sets the newly added item.
     /// </summary>
-    public Visibility NewTabButtonVisibility
+    public object? NewItem
     {
-        get => (Visibility)GetValue(NewTabButtonVisibilityProperty);
-        set => SetValue(NewTabButtonVisibilityProperty, value);
+        get => (object?)GetValue(NewItemProperty);
+        set => SetValue(NewItemProperty, value);
     }
-    public static readonly DependencyProperty NewTabButtonVisibilityProperty
+    public static readonly DependencyProperty NewItemProperty
         = DependencyProperty.Register(
-            nameof(NewTabButtonVisibility),
+            nameof(NewItem),
+            typeof(object),
+            typeof(StswTabControl),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
+
+    /// <summary>
+    /// Gets or sets the command that creates a new item in the tab control.
+    /// </summary>
+    public ICommand? NewItemCommand
+    {
+        get => (ICommand?)GetValue(NewItemCommandProperty);
+        set => SetValue(NewItemCommandProperty, value);
+    }
+    public static readonly DependencyProperty NewItemCommandProperty
+        = DependencyProperty.Register(
+            nameof(NewItemCommand),
+            typeof(ICommand),
+            typeof(StswTabControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the visibility of the new item button in the tab control.
+    /// </summary>
+    public Visibility NewItemButtonVisibility
+    {
+        get => (Visibility)GetValue(NewItemButtonVisibilityProperty);
+        set => SetValue(NewItemButtonVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty NewItemButtonVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(NewItemButtonVisibility),
             typeof(Visibility),
             typeof(StswTabControl)
         );
-
-    /// <summary>
-    /// Gets or sets the template for creating new tab items in the tab control.
-    /// </summary>
-    public StswTabItemModel? NewTabTemplate
-    {
-        get => (StswTabItemModel?)GetValue(NewTabTemplateProperty);
-        set => SetValue(NewTabTemplateProperty, value);
-    }
-    public static readonly DependencyProperty NewTabTemplateProperty
-        = DependencyProperty.Register(
-            nameof(NewTabTemplate),
-            typeof(StswTabItemModel),
-            typeof(StswTabControl)
-        );
     #endregion
-}
-
-/// <summary>
-/// Data model for StswTabControl's new tab template.
-/// </summary>
-public class StswTabItemModel
-{
-    /// <summary>
-    /// Gets or sets the icon data represented by a Geometry object for the new tab item.
-    /// </summary>
-    public Geometry? Icon { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name for the new tab item.
-    /// </summary>
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the type of the content to be created for the new tab item.
-    /// </summary>
-    public Type? Type { get; set; }
 }

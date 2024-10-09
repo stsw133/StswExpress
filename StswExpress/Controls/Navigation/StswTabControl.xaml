@@ -9,8 +9,8 @@
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
-        <Setter Property="NewTabButtonVisibility" Value="Visible"/>
+        <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!1}"/>
+        <Setter Property="NewItemButtonVisibility" Value="Visible"/>
         <Setter Property="SelectedIndex" Value="0"/>
         <Setter Property="TabStripPlacement" Value="Top"/>
 
@@ -27,9 +27,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
                     <DockPanel ClipToBounds="True" KeyboardNavigation.TabNavigation="Local">
+                        <!-- header panel -->
                         <DockPanel x:Name="OPT_HeaderPanel" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
-                            <se:StswButton x:Name="PART_NewTabButton"
-                                           Visibility="{TemplateBinding NewTabButtonVisibility}"
+                            <se:StswButton x:Name="OPT_NewItemButton"
+                                           Command="{TemplateBinding NewItemCommand}"
+                                           Visibility="{TemplateBinding NewItemButtonVisibility}"
                                            Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
@@ -41,6 +43,7 @@
                                           Panel.ZIndex="1"/>
                             </se:StswDirectionView>
                         </DockPanel>
+                        <!-- content -->
                         <Border x:Name="OPT_ContentPanel"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -53,22 +56,20 @@
                                               Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </DockPanel>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="AreTabsVisible" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_HeaderPanel"/>
-                        </Trigger>
-                        <Trigger Property="NewTabTemplate" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_NewTabButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="1" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="PART_NewTabButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
-                            <Setter Property="Margin" Value="-3 0 0 2" TargetName="PART_NewTabButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="Margin" Value="-3 0 0 2" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
@@ -78,11 +79,11 @@
                             <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BorderThickness" Value="1 0 0 1" TargetName="PART_NewTabButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 0 10" TargetName="PART_NewTabButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_NewTabButton"/>
-                            <Setter Property="Margin" Value="2 -3 0 0" TargetName="PART_NewTabButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="BorderThickness" Value="1 0 0 1" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 0 10" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="Margin" Value="2 -3 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
@@ -92,11 +93,11 @@
                             <Setter Property="Grid.Column" Value="1" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="PART_NewTabButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
-                            <Setter Property="Margin" Value="0 -3 2 0" TargetName="PART_NewTabButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="Margin" Value="0 -3 2 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
@@ -106,11 +107,11 @@
                             <Setter Property="Grid.Column" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_NewTabButton"/>
-                            <Setter Property="BorderThickness" Value="0 1 1 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="CornerRadius" Value="0 10 0 0" TargetName="PART_NewTabButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_NewTabButton"/>
-                            <Setter Property="Margin" Value="-3 2 0 0" TargetName="PART_NewTabButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="BorderThickness" Value="0 1 1 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 10 0 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="Margin" Value="-3 2 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
                             <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
