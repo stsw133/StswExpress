@@ -182,6 +182,7 @@
                             </DockPanel>
                         </se:StswToggleButton>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
                             <Setter Property="Visibility" Value="Hidden" TargetName="OPT_Separator"/>
@@ -270,6 +271,7 @@
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
+                                
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>

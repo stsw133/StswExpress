@@ -86,6 +86,7 @@
                                             Visibility="Collapsed"/>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasHeader" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="OPT_MainBorder"/>

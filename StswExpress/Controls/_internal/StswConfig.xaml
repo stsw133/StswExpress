@@ -15,8 +15,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Height" Value="300"/>
-        <Setter Property="Width" Value="400"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -58,7 +56,7 @@
                             -->
                             <!-- options -->
                             <se:StswScrollView Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                <se:StswLabelPanel Margin="{TemplateBinding Padding}" Orientation="Vertical">
+                                <se:StswLabelPanel Margin="{TemplateBinding Padding}" Orientation="Vertical" MinWidth="400">
                                     <!-- isize -->
                                     <se:StswLabel Content="{se:Tr StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}" Margin="0 5 0 0"/>
                                     <DockPanel>

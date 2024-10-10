@@ -53,6 +53,7 @@
                             <ItemsPresenter/>
                         </se:StswScrollView>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -115,6 +116,7 @@
                                     </Border>
                                     <ItemsPresenter x:Name="OPT_Items" Grid.Column="1" Grid.Row="1"/>
                                 </Grid>
+                                
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="HasItems" Value="False">
                                         <Setter Property="Visibility" TargetName="OPT_Expander" Value="Hidden"/>
@@ -156,6 +158,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+                    
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>

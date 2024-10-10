@@ -144,6 +144,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="TimeMax" Value="0">
                             <Setter Property="ThumbIcon" Value="M0 0" TargetName="PART_Timeline"/>

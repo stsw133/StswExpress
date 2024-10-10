@@ -534,6 +534,7 @@
                                                VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="ToolbarMode" Value="Collapsed">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ToolBar"/>

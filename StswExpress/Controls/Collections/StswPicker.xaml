@@ -44,6 +44,7 @@
                                         se:StswScrollView.HorizontalScrollBarVisibility="Hidden"
                                         se:StswScrollView.VerticalScrollBarVisibility="Hidden"/>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -81,6 +82,7 @@
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
+                                
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
@@ -116,6 +118,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+                    
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>

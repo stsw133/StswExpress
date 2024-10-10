@@ -57,6 +57,7 @@
                             <ItemsPresenter/>
                         </se:StswScrollView>
                     </DockPanel>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>

@@ -32,6 +32,7 @@
                                         Focusable="False"
                                         Visibility="Collapsed"/>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DefaultContent"/>

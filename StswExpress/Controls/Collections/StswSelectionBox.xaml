@@ -131,6 +131,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswToggleButton>
+                    
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
                             <Setter Property="Height" Value="95" TargetName="PART_ListBox"/>

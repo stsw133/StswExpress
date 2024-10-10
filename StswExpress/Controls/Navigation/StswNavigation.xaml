@@ -169,6 +169,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripMode" Value="Collapsed">
                             <Setter Property="IsChecked" Value="{x:Null}" TargetName="PART_TabStripModeButton"/>

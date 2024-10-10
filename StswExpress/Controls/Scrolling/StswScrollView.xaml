@@ -71,6 +71,7 @@
                         <!-- corner -->
                         <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Command" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
@@ -159,6 +160,7 @@
                               ViewportSize="{TemplateBinding ViewportHeight}"
                               Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
         </Grid>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="Command" Value="{x:Null}">
                 <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>

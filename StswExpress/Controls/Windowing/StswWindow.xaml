@@ -89,6 +89,7 @@
 
                         </Grid>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="ConfigPresentationMode" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_iConfig"/>

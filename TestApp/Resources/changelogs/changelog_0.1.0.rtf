@@ -1,65 +1,114 @@
 {\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil\fcharset0 Cascadia Mono;}{\f2\fnil\fcharset2 Symbol;}}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.1.0\line\b0\fs16 2023-08-19\b\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.1.0\line\b0\fs16 2023-08-19 | August 19 2023\b\par
 
 \pard\sa200\sl276\slmult1\qj\b0\fs24 New functionality:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 New controls: \b StswCalendar\b0 , \b StswColorBox\b0 , \b StswColorPicker\b0 , \b StswColorSelector\b0 , \b StswComponentButton\b0 , \b StswComponentCheck\b0 , \b StswComponentPanel\b0 , \b StswComponentRebutton\b0 , \b StswContentDialog\b0 , \b StswDropButton\b0 , \b StswExpander\b0 , \b StswGroupBox\b0 , \b StswListBox\b0 , \b StswLogPanel\b0 , \b StswNotifyIcon\b0 , \b StswRadioBox\b0 , \b StswRatingControl\b0 , \b StswScrollBar\b0 , \b StswScrollViewer\b0 , \b StswSelectionBox\b0 , \b StswSplitButton\b0 , \b StswTabControl\b0 , \b StswTabItem\b0 , \b StswText\b0 , \b StswTextEditor, StswTruncateLabel\b0 .\par
-{\pntext\f2\'B7\tab}New converters: \b StswEnumToListConverter\b0 , \b StswModuloConverter\b0 .\line New converters splitted from \b StswColorConverter\b0 : \b StswColorAlphaConverter\b0 , \b StswColorGeneratorConverter\b0 , \b StswColorSaturationConverter\b0 .\par
-{\pntext\f2\'B7\tab}New extensions: \b PadLeft\b0 , \b PadRight\b0 , \b FromAhsl\b0 , \b FromHsl\b0 , \b ToHsl\b0 , \b FromAhsv\b0 , \b FromHsv\b0 , \b ToHsv\b0 , \b ToColor\b0 , \b ToDrawingColor\b0 , \b ToMediaColor\b0 , \b ToHtml\b0 , \b Clone\b0 .\par
-{\pntext\f2\'B7\tab}New functions: \b CalculateString\b0 , \b FindVisualAncestor\b0 , \b GetParent\b0 .\par
-{\pntext\f2\'B7\tab}New item classes: \b StswCollectionItem \b0 (with "ItemState" property and "ShowDetails" property), \b StswLogItem\b0 .\par
-{\pntext\f2\'B7\tab}New icons.\par
-{\pntext\f2\'B7\tab}New class: \b StswApp\b0 .\par
-{\pntext\f2\'B7\tab}New \b StswCommand\b0  that can pass parameter.\par
-{\pntext\f2\'B7\tab}Some Stsw controls now have a new event that invokes when their main property has been changed.\par
-{\pntext\f2\'B7\tab}\b StswNumericBox \b0 has new "Format" property.\par
-{\pntext\f2\'B7\tab}\b StswIcon \b0 and \b StswHeader \b0 now have "Stroke" property and "StrokeThickness" property.\par
-{\pntext\f2\'B7\tab}\b StswNavigation \b0 now has "ItemsWidth" property so it can have constant width for items panel.\par
-{\pntext\f2\'B7\tab}\b StswComboBox\b0 's text box can have placeholder now.\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 New Controls\b0 :\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li1080\sa200\sl276\slmult1\qj `StswCalendar`\par
+{\pntext\f0 2.\tab}`StswColorBox`\par
+{\pntext\f0 3.\tab}`StswColorPicker`\par
+{\pntext\f0 4.\tab}`StswColorSelector`\par
+{\pntext\f0 5.\tab}`StswComponentButton`\par
+{\pntext\f0 6.\tab}`StswComponentCheck`\par
+{\pntext\f0 7.\tab}`StswComponentPanel`\par
+{\pntext\f0 8.\tab}`StswComponentRebutton`\par
+{\pntext\f0 9.\tab}`StswContentDialog`\par
+{\pntext\f0 10.\tab}`StswDropButton`\par
+{\pntext\f0 11.\tab}`StswExpander`\par
+{\pntext\f0 12.\tab}`StswGroupBox`\par
+{\pntext\f0 13.\tab}`StswListBox`\par
+{\pntext\f0 14.\tab}`StswLogPanel`\par
+{\pntext\f0 15.\tab}`StswNotifyIcon`\par
+{\pntext\f0 16.\tab}`StswRadioBox`\par
+{\pntext\f0 17.\tab}`StswRatingControl`\par
+{\pntext\f0 18.\tab}`StswScrollBar`\par
+{\pntext\f0 19.\tab}`StswScrollViewer`\par
+{\pntext\f0 20.\tab}`StswSelectionBox`\par
+{\pntext\f0 21.\tab}`StswSplitButton`\par
+{\pntext\f0 22.\tab}`StswTabControl`\par
+{\pntext\f0 23.\tab}`StswTabItem`\par
+{\pntext\f0 24.\tab}`StswText`\par
+{\pntext\f0 25.\tab}`StswTextEditor`\par
+{\pntext\f0 26.\tab}`StswTruncateLabel`\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b New Converters\b0 :\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li1080\sa200\sl276\slmult1\qj `StswEnumToListConverter`, `StswModuloConverter`.\par
+{\pntext\f0 2.\tab}\b Split from StswColorConverter\b0 : `StswColorAlphaConverter`, `StswColorGeneratorConverter`, `StswColorSaturationConverter`.\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b New Extensions\b0 : `PadLeft`, `PadRight`, `FromAhsl`, `FromHsl`, `ToHsl`, `FromAhsv`, `FromHsv`, `ToHsv`, `ToColor`, `ToDrawingColor`, `ToMediaColor`, `ToHtml`, `Clone`.\par
+{\pntext\f2\'B7\tab}\b New Functions\b0 : `CalculateString`, `FindVisualAncestor`, `GetParent`.\par
+{\pntext\f2\'B7\tab}\b New Item Classes\b0 : `StswCollectionItem` (with properties `ItemState` and `ShowDetails`), `StswLogItem`.\par
+{\pntext\f2\'B7\tab}\b New icons\b0 .\par
+{\pntext\f2\'B7\tab}\b New Class\b0 : `StswApp`.\par
+{\pntext\f2\'B7\tab}\b New Command\b0 : `StswCommand`, capable of passing parameters.\par
+{\pntext\f2\'B7\tab}\b Updated Controls\b0 :\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li1080\sa200\sl276\slmult1\qj\b StswNumericBox\b0 : New `Format` property.\par
+{\pntext\f0 2.\tab}\b StswIcon and StswHeader\b0 : Added `Stroke` and `StrokeThickness` properties.\par
+{\pntext\f0 3.\tab}\b StswNavigation\b0 : New `ItemsWidth` property for consistent item panel width.\par
+{\pntext\f0 4.\tab}\b StswComboBox\b0 : Added placeholder functionality for the text box.\par
+{\pntext\f0 5.\tab}\b New Event for Main Property Change\b0 : Some controls now invoke an event when their main property changes.\par
+{\pntext\f0 6.\tab}\b StswDataGrid\b0 : Now shows different button colors in special columns when `ItemState` is not `Unchanged`.\par
+{\pntext\f0 7.\tab}\b StswNavigationElement\b0 : Inherits `GroupName` from StswNavigation for better grouping.\par
+{\pntext\f0 8.\tab}\b StswDatePicker and StswColorBox\b0 : Added function button with Press click mode.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 GUI scaling has been upgraded - now it finally uses "ScaleTransform" on \b StswWindow\b0  instead of spamming \b StswMultiplyConverter \b0 on "FontSize" in every control's style.\par
-{\pntext\f2\'B7\tab}All Stsw controls use dynamic resources to manage brushes instead of having style properties.\par
-{\pntext\f2\'B7\tab}\b StswCheckBox \b0 has smaller icon.\par
-{\pntext\f2\'B7\tab}\b StswCalendarPicker \b0 renamed to \b StswDatePicker\b0 .\par
-{\pntext\f2\'B7\tab}\b StswTextBox\b0 , \b StswNumericBox\b0 , \b StswDateBox \b0 no longer have clear button. \b StswPasswordBox \b0 no longer has show password button.\par
-{\pntext\f2\'B7\tab}Improvements for conveters. Additionally, each converter will be created only once first time it is referenced to.\par
-{\pntext\f2\'B7\tab}\b StswSimpleModel \b0 name reverted to \b StswComboBoxModel\b0 .\par
-{\pntext\f2\'B7\tab}\b StswHeader \b0 no longer has "SubTexts" property since the same effect can be achieved by declaring controls as its content.\par
-{\pntext\f2\'B7\tab}Some functional improvements in \b StswNavigation \b0 and \b StswNavigationElement \b0 (renamed from \b StswNavigationButton \b0 and now can function as both: button and expander).\par
-{\pntext\f2\'B7\tab}\b StswDataGrid \b0 shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".\par
-{\pntext\f2\'B7\tab}\b StswNavigationElement \b0 can take "GroupName" from \b StswNavigation\b0 .\par
-{\pntext\f2\'B7\tab}Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive \b IStswComponent \b0 controls. Additionally, components will no longer be disabled when control is in read only mode.\par
-{\pntext\f2\'B7\tab}\b StswDatePicker \b0 and \b StswColorBox \b0 now have function button with Press click mode.\par
-{\pntext\f2\'B7\tab}\b StswLoadingCircle \b0 changes its opacity when disabled instead of fill color (similarly to \b StswIcon \b0 and \b StswImage\b0 ).\par
-{\pntext\f2\'B7\tab}\b StswImage \b0 has different method for paste image from clipboard.\par
-{\pntext\f2\'B7\tab}\b StswSeparator \b0 now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.\par
-{\pntext\f2\'B7\tab}\b StswComboBox \b0 and \b StswComboView \b0 can be opened in read only mode (but selection can not be changed).\par
-{\pntext\f2\'B7\tab}\b StswNumericBox \b0 and \b StswDatePicker \b0 refreshes "Value"/"SelectedDate" property before incrementing.\par
-{\pntext\f2\'B7\tab}\b StswFilter \b0 has been reworked. Clearing and getting filters data is moved from \b StswFilter \b0 to \b StswDataGrid\b0 .\par
-{\pntext\f2\'B7\tab}Improvements for \b StswPasswordBox\b0 , \b StswWindow\b0 's title bar, \b StswCollection\b0 .\par
-{\pntext\f2\'B7\tab}Stsw control styles moved to resource dictionaries.\par
-{\pntext\f2\'B7\tab}Corner radius for all Stsw controls changed from 9 to 10. \b StswDataGrid\b0 's header cell's border thickness changed from 0.5 to 1.\par
-{\pntext\f2\'B7\tab}\b ClippingBorder \b0 renamed into \b StswClippingBorder\b0 . Every main border in Stsw controls that uses "CornerRadius" property is a \b ClippingBorder \b0 now.\par
-{\pntext\f2\'B7\tab}\b OutlinedTextBlock \b0 has been renamed into \b StswOutlinedText\b0 .\par
-{\pntext\f2\'B7\tab}Some Stsw controls now have visible checked state while being disabled (for example buttons and checks).\par
-{\pntext\f2\'B7\tab}\b StswTextBox \b0 now refreshes after Enter click (that also fixes its behaviour in \b StswFilter\b0 ).\par
-{\pntext\f2\'B7\tab}\b StswExport \b0 now takes only properties that have export attribute.\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 Improved GUI Scaling\b0 : Now using `ScaleTransform` on `StswWindow` instead of applying `StswMultiplyConverter` on font sizes within control styles.\par
+{\pntext\f2\'B7\tab}\b Dynamic Resource Management\b0 : All Stsw controls now utilize dynamic resources for brush management, replacing previous style properties.\par
+{\pntext\f2\'B7\tab}\b Control Modifications\b0 :\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li1080\sa200\sl276\slmult1\qj\b StswCheckBox\b0 : Smaller icon.\par
+{\pntext\f0 2.\tab}`StswCalendarPicker` renamed to `StswDatePicker`.\par
+{\pntext\f0 3.\tab}`StswTextBox`, `StswNumericBox`, `StswDateBox` no longer have a clear button, and `StswPasswordBox` has no show password button.\par
+{\pntext\f0 4.\tab}Removed `SubTexts` property from `StswHeader`; similar effects can be achieved using child controls as content.\par
+{\pntext\f0 5.\tab}`StswNavigationElement` combines button and expander functionalities, renamed from `StswNavigationButton`.\par
+{\pntext\f0 6.\tab}\b StswComboBox and StswComboView\b0 : Can open in read-only mode without changing selection.\par
+{\pntext\f0 7.\tab}\b StswLoadingCircle\b0 : Changes opacity instead of fill color when disabled, similar to `StswIcon` and `StswImage`.\par
+{\pntext\f0 8.\tab}\b StswImage\b0 : Updated method for pasting images from the clipboard.\par
+{\pntext\f0 9.\tab}\b StswFilter\b0 : Reworked; filter handling moved to `StswDataGrid`.\par
+{\pntext\f0 10.\tab}\b StswSeparator\b0 : Updated `BorderThickness` logic and new disabled appearance.\par
+{\pntext\f0 11.\tab}\b StswNumericBox and StswDatePicker\b0 : Refresh `Value`/`SelectedDate` before incrementing.\par
+{\pntext\f0 12.\tab}\b StswPasswordBox, StswWindow title bar, and StswCollection\b0 : Functional improvements.\par
+{\pntext\f0 13.\tab}\b StswTextBox\b0 : Refreshes after Enter, resolving issues with `StswFilter`.\par
+{\pntext\f0 14.\tab}Stsw control styles moved to resource dictionaries.\par
+{\pntext\f0 15.\tab}`CornerRadius` adjusted from 9 to 10 for all controls, and `StswDataGrid` header cell border thickness changed from 0.5 to 1.\par
+{\pntext\f0 16.\tab}`ClippingBorder` renamed to `StswClippingBorder`; now used as the main border for controls with `CornerRadius`.\par
+{\pntext\f0 17.\tab}`OutlinedTextBlock` renamed to `StswOutlinedText`.\par
+{\pntext\f0 18.\tab}Some controls now show checked state while disabled.\par
+{\pntext\f0 19.\tab}The `Buttons` property for Stsw box controls has been renamed to `Components`. This property now exclusively accepts controls that implement the `IStswComponent` interface. Additionally, components will remain enabled even when the control is in read-only mode.\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b Helpers Modifications\b0 :\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li1080\sa200\sl276\slmult1\qj Converter instances now created once, improving performance.\par
+{\pntext\f0 2.\tab}`StswSimpleModel` reverted to `StswComboBoxModel`.\par
+{\pntext\f0 3.\tab}\b StswExport\b0 : Now exports only properties marked with the export attribute.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Bugfix for converters when decimal separator is not set to dot.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Stsw buttons now have grids in templates between "ClippingBorder" and "ContentPresenter" so content should be clipped properly now.\f1\lang21\par
-{\pntext\f2\'B7\tab}\b\f0\lang1045 StswWindow \b0 now properly works with fullscreen mode.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfix for menu option that set default window size.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfixes for \b StswCalendar\b0 . Additionally \b StswCalendar \b0 now works with first days of week other than "Monday" and properly shows last possible day to choose (9999-12-31).\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfixes for \b StswDataGrid\b0 's special column.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfix for Stsw buttons' border colors.\f1\lang21\par
-{\pntext\f2\'B7\tab}\b\f0\lang1045 StswDatePicker \b0 and \b StswNumericBox \b0 now properly display formatted text after binding failure.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfix for "Minimum" property and "Maximum" property in \b StswDatePicker \b0 and \b StswNumericBox \b0 - new value is validated before being assigned instead of corrected after being assigned.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Bugfixes for "IconScale" property in a few controls.\f1\lang21\par
-{\pntext\f2\'B7\tab}\f0\lang1045 Many other small bugfixes.\f1\lang21\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\f1\fs20\lang21 Corrected decimal separator handling in converters.\par
+{\pntext\f2\'B7\tab}Improved content clipping for buttons using grids within templates.\par
+{\pntext\f2\'B7\tab}Fixed fullscreen mode behavior for \f0\lang1045 `\f1\lang21 StswWindow\f0\lang1045 `\f1\lang21 .\par
+{\pntext\f2\'B7\tab}Resolved menu option issue for setting default window size.\par
+{\pntext\f2\'B7\tab}Various fixes for \f0\lang1045 `\f1\lang21 StswCalendar\f0\lang1045 `\f1\lang21 , including handling weeks starting on days other than Monday and displaying the last selectable day (9999-12-31).\par
+{\pntext\f2\'B7\tab}Fixed issues with \f0\lang1045 `\f1\lang21 StswDataGrid\f0\lang1045 `\f1\lang21\rquote s special column.\par
+{\pntext\f2\'B7\tab}Resolved button border color inconsistencies.\par
+{\pntext\f2\'B7\tab}Addressed display issues in \f0\lang1045 `\f1\lang21 StswDatePicker\f0\lang1045 `\f1\lang21  and \f0\lang1045 `\f1\lang21 StswNumericBox\f0\lang1045 `\f1\lang21  after binding failures.\par
+{\pntext\f2\'B7\tab}Fixed \f0\lang1045 `\f1\lang21 Minimum\f0\lang1045 `\f1\lang21  and \f0\lang1045 `\f1\lang21 Maximum\f0\lang1045 `\f1\lang21  properties in \f0\lang1045 `\f1\lang21 StswDatePicker\f0\lang1045 `\f1\lang21  and \f0\lang1045 `\f1\lang21 StswNumericBox\f0\lang1045 `\f1\lang21  for pre-assignment validation.\par
+{\pntext\f2\'B7\tab}Adjusted \f0\lang1045 `\f1\lang21 IconScale\f0\lang1045 `\f1\lang21  property behavior across multiple controls.\par
+{\pntext\f2\'B7\tab}Numerous smaller bug fixes.\par
 }
  

@@ -112,6 +112,7 @@
                             </DockPanel>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="FileSize" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>

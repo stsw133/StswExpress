@@ -29,6 +29,7 @@
         <Setter Property="se:StswPopup.Padding" Value="0"/>
 
         <Setter Property="Template" Value="{DynamicResource StswMenuSubItem}"/>
+        
         <Style.Triggers>
             <Trigger Property="Role" Value="SubmenuHeader">
                 <Setter Property="Template" Value="{DynamicResource StswMenuSubHeader}"/>
@@ -77,6 +78,7 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </se:StswGrid>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -167,6 +169,7 @@
                 </se:StswPopup>
             </se:StswGrid>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>
@@ -265,6 +268,7 @@
                 </se:StswText>
             </Grid>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -373,6 +377,7 @@
                 </se:StswPopup>
             </Grid>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>

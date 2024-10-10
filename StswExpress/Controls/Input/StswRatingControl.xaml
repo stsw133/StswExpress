@@ -70,6 +70,7 @@
                                                  Stroke="{Binding IconStroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                                  StrokeThickness="{Binding IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
                                 </DockPanel>
+                                
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked}" Value="True">
                                         <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Background}" TargetName="OPT_Icon"/>

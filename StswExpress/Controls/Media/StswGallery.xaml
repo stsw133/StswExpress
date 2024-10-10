@@ -60,6 +60,7 @@
                             </se:StswRepeatButton>
                         </Grid>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_ButtonPrevious"/>

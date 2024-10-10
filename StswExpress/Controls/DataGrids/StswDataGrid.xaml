@@ -67,6 +67,7 @@
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollView>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
@@ -76,6 +77,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Style.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -193,6 +195,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Style.Triggers>
             <Trigger Property="IsNewItem" Value="True">
                 <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
@@ -237,6 +240,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswDataGrid.Cell.Checked.Background}"/>
@@ -325,6 +329,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswDataGrid.ColumnHeader.MouseOver.Background}"/>
@@ -388,6 +393,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswDataGrid.RowHeader.MouseOver.Background}"/>
@@ -416,6 +422,7 @@
                                  HorizontalAlignment="Right"
                                  VerticalAlignment="Bottom"/>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="OPT_Border" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
