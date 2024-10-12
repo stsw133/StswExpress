@@ -31,6 +31,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubError}">
+                    <!-- main -->
                     <se:StswSubLabel x:Name="OPT_Error"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
@@ -60,7 +61,7 @@
                             </se:StswToolTip>
                         </se:StswSubLabel.ToolTip>
                     </se:StswSubLabel>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasError" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Error"/>

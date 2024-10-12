@@ -24,6 +24,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorSelector}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -64,7 +65,7 @@
                                 <se:StswGroupBox.Header>
                                     <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
                                 </se:StswGroupBox.Header>
-                                
+
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                       Focusable="False"
                                                       Padding="{TemplateBinding Padding}"
@@ -111,7 +112,7 @@
                                 <se:StswGroupBox.Header>
                                     <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
                                 </se:StswGroupBox.Header>
-                                
+
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                       Focusable="False"
                                                       Padding="{TemplateBinding Padding}"
@@ -148,7 +149,7 @@
                             </se:StswGroupBox>
                         </se:StswGrid>
                     </se:StswBorder>
-
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource Self}}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ThemeSeparator"/>

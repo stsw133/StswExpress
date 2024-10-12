@@ -24,6 +24,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
+                    <!-- main -->
                     <DockPanel x:Name="OPT_MainPanel" Background="{TemplateBinding Background}">
                         <!-- VARGB sliders -->
                         <StackPanel DockPanel.Dock="Bottom">
@@ -167,7 +168,7 @@
                             </Canvas>
                         </Grid>
                     </DockPanel>
-
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsAlphaEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Alpha"/>

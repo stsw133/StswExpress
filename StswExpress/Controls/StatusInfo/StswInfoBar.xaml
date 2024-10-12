@@ -23,6 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswInfoBar}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -87,7 +88,7 @@
                             <se:StswText x:Name="OPT_Text" Padding="3 0" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMinimized" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Text"/>

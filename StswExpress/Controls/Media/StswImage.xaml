@@ -23,6 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswImage}">
+                    <!-- main -->
                     <se:StswBorder x:Name="PART_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -46,7 +47,7 @@
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Menu"/>

@@ -25,6 +25,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartPie}">
+                    <!-- main -->
                     <Grid x:Name="OPT_MainPanel"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -37,7 +38,7 @@
                             </Viewbox>
                         </Grid>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>
@@ -101,7 +102,7 @@
                                                  Text="%"/>
                         </StackPanel>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Internal.IsPercentageVisible}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Percentage"/>

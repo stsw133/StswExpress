@@ -31,6 +31,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListView}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -52,7 +53,7 @@
                             <ItemsPresenter/>
                         </se:StswScrollView>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -85,6 +86,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <!-- main -->
                                 <Border x:Name="OPT_Border"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -93,7 +95,7 @@
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
-                                
+                                <!-- triggers -->
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
@@ -129,7 +131,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                    
+                    <!-- triggers -->
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>

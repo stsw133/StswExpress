@@ -27,6 +27,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLabel}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -37,15 +38,12 @@
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <!-- icon -->
-                            <ContentControl x:Name="OPT_Icon"
-                                            Focusable="False"
-                                            Margin="0 -1"/>
+                            <ContentControl x:Name="OPT_Icon" Focusable="False" Margin="0 -1"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="OPT_Content"
-                                              Focusable="False"/>
+                            <ContentPresenter x:Name="OPT_Content" Focusable="False"/>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IconSource" Value="{x:Null}">
                             <Setter Property="ContentTemplate" TargetName="OPT_Icon">

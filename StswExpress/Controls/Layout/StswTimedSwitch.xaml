@@ -17,6 +17,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTimedSwitch}">
+                    <!-- main -->
                     <Grid>
                         <ContentControl x:Name="OPT_DefaultContent"
                                         Content="{TemplateBinding Content}"
@@ -32,7 +33,7 @@
                                         Focusable="False"
                                         Visibility="Collapsed"/>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DefaultContent"/>

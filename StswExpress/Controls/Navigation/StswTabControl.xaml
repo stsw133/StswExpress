@@ -26,6 +26,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
+                    <!-- main -->
                     <DockPanel ClipToBounds="True" KeyboardNavigation.TabNavigation="Local">
                         <!-- header panel -->
                         <DockPanel x:Name="OPT_HeaderPanel" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
@@ -56,7 +57,7 @@
                                               Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </DockPanel>
-
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="AreTabsVisible" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_HeaderPanel"/>

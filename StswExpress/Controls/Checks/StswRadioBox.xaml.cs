@@ -22,7 +22,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
         if (!IsReadOnly)
             base.OnToggle();
     }
-
+    
     /// <summary>
     /// 
     /// </summary>

@@ -47,6 +47,7 @@
     
     <!-- StswMenuTopItem -->
     <ControlTemplate x:Key="StswMenuTopItem" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -78,7 +79,7 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </se:StswGrid>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -118,6 +119,7 @@
 
     <!-- StswMenuTopHeader -->
     <ControlTemplate x:Key="StswMenuTopHeader" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -169,7 +171,7 @@
                 </se:StswPopup>
             </se:StswGrid>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>
@@ -218,6 +220,7 @@
 
     <!-- StswMenuSubItem -->
     <ControlTemplate x:Key="StswMenuSubItem" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -268,7 +271,7 @@
                 </se:StswText>
             </Grid>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -308,6 +311,7 @@
 
     <!-- StswMenuSubHeader -->
     <ControlTemplate x:Key="StswMenuSubHeader" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -377,7 +381,7 @@
                 </se:StswPopup>
             </Grid>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>

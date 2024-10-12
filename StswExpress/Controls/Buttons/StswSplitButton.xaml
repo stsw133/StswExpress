@@ -12,6 +12,8 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="AutoClose" Value="True"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -34,6 +36,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSplitButton}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -41,7 +44,7 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
-                            <!-- drop button -->
+                            <!-- drop-button -->
                             <se:StswToggleButton se:StswControl.IsBorderless="True" DockPanel.Dock="Right"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
@@ -51,9 +54,9 @@
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <Grid Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                <DockPanel Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                     <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
-                                </Grid>
+                                </DockPanel>
                             </se:StswToggleButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
@@ -103,7 +106,7 @@
                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="OPT_MainBorder"/>

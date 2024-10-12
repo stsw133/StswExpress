@@ -345,9 +345,9 @@
             <DataTemplate DataType="{x:Type local:GalleryContext}">
                 <local:GalleryView/>
             </DataTemplate>
-            
-            
-            
+
+
+
             <!-- Special -->
             <DataTemplate DataType="{x:Type local:ChangelogContext}">
                 <local:ChangelogView/>

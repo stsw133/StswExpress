@@ -28,6 +28,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSlider}">
+                    <!-- main -->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -84,7 +85,7 @@
                             </Track.Thumb>
                         </Track>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="Grid.Column" Value="0" TargetName="OPT_TopTick"/>
@@ -196,6 +197,7 @@
     </Style>
 
     <ControlTemplate x:Key="StswSliderThumbTemplate" TargetType="{x:Type Thumb}">
+        <!-- main -->
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
             <Path x:Name="OPT_Grip"
                   Data="{Binding ThumbIcon, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
@@ -204,7 +206,7 @@
                   Stroke="{DynamicResource StswSlider.Thumb.Static.Border}"
                   StrokeThickness="{Binding ThumbBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"/>
         </Grid>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}" TargetName="OPT_Grip"/>

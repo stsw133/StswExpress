@@ -722,25 +722,24 @@
                             </Viewbox>
                         </DataTemplate>
                     </ControlTemplate.Resources>
-                    
-                    <!-- content -->
-                    <ContentControl x:Name="OPT_ContentControl" Background="{TemplateBinding Background}" Focusable="False"/>
-                    
+                    <!-- main -->
+                    <ContentControl x:Name="OPT_MainContent" Background="{TemplateBinding Background}" Focusable="False"/>
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Type" Value="Circles">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="OPT_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Crescent">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCrescentTemplate}" TargetName="OPT_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCrescentTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Dots">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerDotsTemplate}" TargetName="OPT_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerDotsTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Lines">
-                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="OPT_ContentControl"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_ContentControl"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainContent"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

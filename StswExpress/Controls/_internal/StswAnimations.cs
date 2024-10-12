@@ -6,13 +6,19 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace StswExpress;
+
+/// <summary>
+/// Provides animation utilities for Stsw controls, including click animations for background and border colors.
+/// </summary>
 internal static class StswAnimations
 {
     /// <summary>
-    /// 
+    /// Animates the background and border colors of a target Border based on the selected state and control type.
+    /// The animation is applied only if animations are enabled in settings.
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="isSelected"></param>
+    /// <param name="sender">The control initiating the animation, determining the color scheme to use.</param>
+    /// <param name="target">The <see cref="Border"/> element to animate.</param>
+    /// <param name="isSelected">Indicates whether the target is in the selected state.</param>
     internal static void AnimateClick(object? sender, Border target, bool isSelected)
     {
         if (!StswSettings.Default.EnableAnimations)

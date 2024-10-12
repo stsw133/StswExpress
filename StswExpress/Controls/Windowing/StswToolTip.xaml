@@ -26,6 +26,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswToolTip}">
+                    <!-- main -->
                     <se:StswBorder Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -35,7 +36,7 @@
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </se:StswBorder.LayoutTransform>
-                        
+                        <!-- content -->
                         <ContentPresenter Focusable="False"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

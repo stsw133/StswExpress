@@ -29,6 +29,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartLegend}">
+                    <!-- main -->
                     <DockPanel x:Name="OPT_MainPanel"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -57,7 +58,7 @@
                             <ItemsPresenter/>
                         </se:StswScrollView>
                     </DockPanel>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>
@@ -118,7 +119,7 @@
                             <se:StswChartTip ShowDescription="True" ShowName="False"/>
                         </DockPanel.ToolTip>
                     </DockPanel>
-                    
+                    <!-- triggers -->
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding ShowDetails, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}" Value="True">
                             <Setter Property="Width" Value="36" TargetName="OPT_MainBorder"/>

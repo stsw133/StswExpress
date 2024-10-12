@@ -216,7 +216,7 @@ public class StswDatePicker : StswBoxBase
     {
         if (obj is StswDatePicker stsw)
         {
-            if (!stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
+            if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
                 stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
         }
     }

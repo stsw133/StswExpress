@@ -10,7 +10,7 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-
+        
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -25,6 +25,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -36,7 +37,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
@@ -90,6 +91,7 @@
     
     <!-- template for StswToggleButton in: "StswDropButton" & "StswSplitButton" & "StswComboBox" & "StswSelectionBox" -->
     <ControlTemplate x:Key="StswDropToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -101,7 +103,7 @@
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="OPT_MainBorder"/>
@@ -125,6 +127,7 @@
 
     <!-- template for StswToggleButton in: "StswNavigationElement" -->
     <ControlTemplate x:Key="StswNavigationToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
+        <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
                        Background="{TemplateBinding Background}"
                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -136,7 +139,7 @@
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </se:StswBorder>
-        
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="OPT_MainBorder"/>

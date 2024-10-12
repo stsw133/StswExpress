@@ -22,6 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartColumns}">
+                    <!-- main -->
                     <Grid x:Name="OPT_MainPanel"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -29,6 +30,7 @@
                             <ItemsPresenter/>
                         </Viewbox>
                     </Grid>
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainPanel"/>

@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
@@ -11,24 +13,6 @@ public class StswSeparator : Separator
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
     }
-
-    #region Events & methods
-    private Border? _mainBorder;
-    
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        /// border
-        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
-            _mainBorder = mainBorder;
-
-        OnBorderThicknessChanged(this, new DependencyPropertyChangedEventArgs());
-    }
-    #endregion
 
     #region Logic properties
     /// <summary>
@@ -44,9 +28,7 @@ public class StswSeparator : Separator
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(Orientation),
-                FrameworkPropertyMetadataOptions.AffectsArrange,
-                OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 
@@ -64,38 +46,59 @@ public class StswSeparator : Separator
             nameof(BorderThickness),
             typeof(double),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnBorderThicknessChanged)
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    public static void OnBorderThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSeparator stsw)
-        {
-            if (stsw._mainBorder != null)
-                stsw._mainBorder.BorderThickness = stsw.Orientation == Orientation.Horizontal
-                    ? new Thickness(stsw.BorderThickness, stsw.BorderThickness, stsw.BorderThickness, 0)
-                    : new Thickness(stsw.BorderThickness, stsw.BorderThickness, 0, stsw.BorderThickness);
-        }
-    }
+    #endregion
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? Background { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? Foreground { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontFamily? FontFamily { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new double FontSize { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontStretch FontStretch { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontWeight FontWeight { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }

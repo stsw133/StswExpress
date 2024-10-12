@@ -13,18 +13,20 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- BorderThickness -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf BorderThickness, Type={x:Type se:StswSeparator}}"/>
+            <se:StswDecimalBox Format="0" Margin="0 0 0 3" Value="{Binding BorderThickness}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSeparator}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswSeparator IsEnabled="{Binding IsEnabled}"
+        <se:StswSeparator BorderThickness="{Binding BorderThickness}"
+                          IsEnabled="{Binding IsEnabled}"
                           Margin="5"
                           Orientation="{Binding Orientation}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
-                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}"
-                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                          VerticalAlignment="{Binding VerticalAlignment}"/>
         <!-- status panel -->
 
     </local:ControlsBase>

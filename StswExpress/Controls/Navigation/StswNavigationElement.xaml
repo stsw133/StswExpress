@@ -29,6 +29,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigationElement}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -53,9 +54,9 @@
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Template="{DynamicResource StswNavigationToggleButtonTemplate}">
                                 <DockPanel>
-                                    <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                    <DockPanel DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                         <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsChecked}"/>
-                                    </Grid>
+                                    </DockPanel>
                                     <se:StswLabel x:Name="OPT_Header"
                                                   Content="{TemplateBinding Header}"
                                                   ContentStringFormat="{TemplateBinding HeaderStringFormat}"
@@ -86,7 +87,7 @@
                                             Visibility="Collapsed"/>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasHeader" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="OPT_MainBorder"/>

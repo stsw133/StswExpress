@@ -38,6 +38,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswInfoPanel}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -133,7 +134,7 @@
                             </se:StswScrollView>
                         </DockPanel>
                     </se:StswBorder>
-
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="ShowControlPanel" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ControlPanel"/>

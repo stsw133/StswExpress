@@ -15,9 +15,10 @@ public class StswRadioButton : RadioButton, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Handles the event triggered when the radio button is checked. If animations are enabled in the settings,
+    /// the method animates the control's main border to provide visual feedback for the checked state.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -30,9 +31,10 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the event triggered when the radio button is unchecked. If animations are enabled in the settings,
+    /// the method animates the control's main border to provide visual feedback for the unchecked state.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);

@@ -16,7 +16,7 @@ public class StswOutlinedText : FrameworkElement
     public StswOutlinedText()
     {
         UpdatePen();
-        TextDecorations = new TextDecorationCollection();
+        TextDecorations = [];
     }
     static StswOutlinedText()
     {

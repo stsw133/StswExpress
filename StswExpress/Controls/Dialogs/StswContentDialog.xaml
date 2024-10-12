@@ -128,7 +128,7 @@
                                             TextElement.Foreground="{TemplateBinding Foreground}"/>
                         </Grid>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsOpen" Value="True">
                             <Setter TargetName="OPT_ContentCoverGrid" Property="IsHitTestVisible" Value="True"/>

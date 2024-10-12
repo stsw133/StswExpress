@@ -234,7 +234,7 @@
                         <!-- header -->
                         <ContentPresenter ContentSource="Header" Focusable="False" Margin="2 0"/>
                     </DockPanel>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="FilterType" Value="Check">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEqual"/>

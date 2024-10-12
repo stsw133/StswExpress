@@ -11,6 +11,8 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
+        
+        <Setter Property="AutoClose" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -34,6 +36,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropButton}">
+                    <!-- main -->
                     <se:StswToggleButton x:Name="OPT_MainButton"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
@@ -48,9 +51,9 @@
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                            <DockPanel DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                 <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
-                            </Grid>
+                            </DockPanel>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
@@ -95,7 +98,7 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswToggleButton>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainButton"/>

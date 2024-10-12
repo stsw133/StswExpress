@@ -23,6 +23,7 @@
                     <ControlTemplate.Resources>
                         <SolidColorBrush x:Key="StswExpander.Static.Header" Color="Transparent"/>
                     </ControlTemplate.Resources>
+                    <!-- main -->
                     <se:StswGroupBox x:Name="OPT_MainBorder"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
@@ -54,7 +55,7 @@
                                 </se:StswLabel>
                             </DockPanel>
                         </se:StswGroupBox.Header>
-                        
+
                         <DockPanel Background="{DynamicResource StswPanel.Static.Background}">
                             <!-- buttons -->
                             <UniformGrid DockPanel.Dock="Bottom"
@@ -151,7 +152,7 @@
                             </se:StswScrollView>
                         </DockPanel>
                     </se:StswGroupBox>
-
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Details" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Details"/>

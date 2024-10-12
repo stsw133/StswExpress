@@ -9,8 +9,17 @@ public class StswSeparatorContext : ControlsContext
     {
         base.SetDefaults();
 
+        BorderThickness = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(BorderThickness)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
+
+    /// BorderThickness
+    public double BorderThickness
+    {
+        get => _borderThickness;
+        set => SetProperty(ref _borderThickness, value);
+    }
+    private double _borderThickness;
 
     /// Orientation
     public Orientation Orientation

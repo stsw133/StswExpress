@@ -22,7 +22,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         if (!IsReadOnly)
             base.OnToggle();
     }
-
+    
     /// <summary>
     /// 
     /// </summary>

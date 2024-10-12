@@ -23,6 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswContextMenu}">
+                    <!-- main -->
                     <Grid>
                         <Grid.LayoutTransform>
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"

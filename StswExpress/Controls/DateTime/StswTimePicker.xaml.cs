@@ -207,7 +207,7 @@ public class StswTimePicker : StswBoxBase
     {
         if (obj is StswTimePicker stsw)
         {
-            if (!stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
+            if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
                 stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
         }
     }

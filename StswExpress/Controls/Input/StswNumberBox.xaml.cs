@@ -205,7 +205,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         if (obj is StswNumberBoxBase<T> stsw)
         {
-            if (!stsw.Value.Between(stsw.Minimum, stsw.Maximum))
+            if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
                 stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
         }
     }

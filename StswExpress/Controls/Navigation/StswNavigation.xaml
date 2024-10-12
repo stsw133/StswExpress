@@ -34,7 +34,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
-                    <!-- navigation list part -->
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
@@ -169,7 +169,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripMode" Value="Collapsed">
                             <Setter Property="IsChecked" Value="{x:Null}" TargetName="PART_TabStripModeButton"/>

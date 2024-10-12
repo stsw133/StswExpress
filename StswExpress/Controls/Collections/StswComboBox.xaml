@@ -14,6 +14,7 @@
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -37,6 +38,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswComboBox}">
+                    <!-- main -->
                     <Grid x:Name="OPT_TemplateRoot">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -62,9 +64,9 @@
                                 <!-- icon section -->
                                 <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                                 <!-- arrow -->
-                                <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                <DockPanel DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                     <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
-                                </Grid>
+                                </DockPanel>
                                 <!-- separator -->
                                 <se:StswSeparator x:Name="OPT_Separator" DockPanel.Dock="Right"
                                                   BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
@@ -182,7 +184,7 @@
                             </DockPanel>
                         </se:StswToggleButton>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
                             <Setter Property="Visibility" Value="Hidden" TargetName="OPT_Separator"/>
@@ -263,6 +265,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                <!-- main -->
                                 <Border x:Name="OPT_Border"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -271,7 +274,7 @@
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
-                                
+                                <!-- triggers -->
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
@@ -310,8 +313,6 @@
                 </Style>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
 
 </ResourceDictionary>

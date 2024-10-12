@@ -14,6 +14,7 @@
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -37,6 +38,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSelectionBox}">
+                    <!-- main -->
                     <se:StswToggleButton x:Name="OPT_MainButton"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
@@ -55,9 +57,9 @@
                             <!-- icon section -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- arrow -->
-                            <Grid DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                            <DockPanel DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                 <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
-                            </Grid>
+                            </DockPanel>
                             <!-- sub controls -->
                             <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                           IsTabStop="False"
@@ -131,7 +133,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswToggleButton>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
                             <Setter Property="Height" Value="95" TargetName="PART_ListBox"/>
@@ -170,8 +172,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
 
 </ResourceDictionary>

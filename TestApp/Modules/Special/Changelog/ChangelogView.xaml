@@ -3,52 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              xmlns:local="clr-namespace:TestApp"
-             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:ChangelogContext}">
+             mc:Ignorable="d">
 
-    <DockPanel Background="{DynamicResource StswBox.ReadOnly.Background}">
-        <se:StswComboBox DockPanel.Dock="Top"
-                         CornerClipping="False"
-                         CornerRadius="0"
-                         ItemsSource="{Binding Changelogs}"
-                         Margin="5"
-                         SelectedItem="{Binding SelectedChangelog}"
-                         VerticalContentAlignment="Center"
-                         se:StswPopup.CornerClipping="False"
-                         se:StswPopup.CornerRadius="0">
-            <se:StswComboBox.ItemTemplate>
-                <DataTemplate>
-                    <se:StswLabel x:Name="PART_Header" Content="{Binding Version}"/>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Type}" Value="Major">
-                            <Setter Property="FontWeight" Value="Bold" TargetName="PART_Header"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.DeathStar}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_Header"/>
-                            <Setter Property="Margin" Value="0 0 0 0" TargetName="PART_Header"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Minor">
-                            <Setter Property="FontWeight" Value="Medium" TargetName="PART_Header"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Star}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_Header"/>
-                            <Setter Property="Margin" Value="20 0 0 0" TargetName="PART_Header"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Patch">
-                            <Setter Property="FontWeight" Value="Normal" TargetName="PART_Header"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.BugCheckOutline}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_Header"/>
-                            <Setter Property="Margin" Value="40 0 0 0" TargetName="PART_Header"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </se:StswComboBox.ItemTemplate>
-        </se:StswComboBox>
-        <se:StswSeparator DockPanel.Dock="Top"
-                          BorderThickness="1"/>
-        <se:StswTextEditor se:StswControl.IsBorderless="True"
-                           FilePath="{Binding SelectedChangelog.FilePath}"
-                           IsReadOnly="True"
-                           Padding="10 10 10 0"
-                           ToolbarMode="Collapsed"/>
-    </DockPanel>
+    <wv2:WebView2 x:Name="webView2"/>
 </UserControl>

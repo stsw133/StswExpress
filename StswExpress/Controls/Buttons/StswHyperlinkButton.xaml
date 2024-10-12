@@ -28,6 +28,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswHyperlinkButton}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -49,7 +50,7 @@
                             </ContentPresenter.Resources>
                         </ContentPresenter>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="WasClicked" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswColor.Modify}"/>

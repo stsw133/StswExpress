@@ -27,6 +27,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type se:StswScrollBar}">
+                            <!-- main -->
                             <Grid x:Name="Bg" SnapsToDevicePixels="True">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
@@ -56,7 +57,7 @@
                                     <se:StswIcon x:Name="OPT_ArrowRight" Data="{x:Static se:StswIcons.MenuRight}" Fill="{DynamicResource StswScroll.Static.Glyph}" Scale="1.25"/>
                                 </RepeatButton>
                             </Grid>
-                            
+                            <!-- triggers -->
                             <ControlTemplate.Triggers>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
@@ -105,6 +106,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type se:StswScrollBar}">
+                            <!-- main -->
                             <Grid x:Name="Bg" SnapsToDevicePixels="True">
                                 <Grid.RowDefinitions>
                                     <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
@@ -134,7 +136,7 @@
                                     <se:StswIcon x:Name="OPT_ArrowBottom" Data="{x:Static se:StswIcons.MenuDown}" Fill="{DynamicResource StswScroll.Static.Glyph}" Scale="1.25"/>
                                 </RepeatButton>
                             </Grid>
-
+                            <!-- triggers -->
                             <ControlTemplate.Triggers>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
@@ -223,6 +225,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <!-- main -->
                     <Border x:Name="border"
                             Background="{DynamicResource StswScroll.Static.Background}"
                             BorderBrush="{DynamicResource StswScroll.Static.Border}"
@@ -235,7 +238,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Background}" TargetName="border"/>
@@ -264,6 +267,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
+                    <!-- main -->
                     <Border x:Name="OPT_Border"
                             Background="{DynamicResource StswScroll.Static.Thumb}"
                             CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.5}"
@@ -272,7 +276,7 @@
                             VerticalAlignment="Stretch"
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"/>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Thumb}" TargetName="OPT_Border"/>
@@ -297,6 +301,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
+                    <!-- main -->
                     <Border x:Name="OPT_Border"
                             Background="{DynamicResource StswScroll.Static.Thumb}"
                             CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.5}"
@@ -305,7 +310,7 @@
                             VerticalAlignment="Stretch"
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"/>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Thumb}" TargetName="OPT_Border"/>

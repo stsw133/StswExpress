@@ -94,11 +94,7 @@ internal class RippleAdorner : Adorner
         Storyboard.SetTargetProperty(opacityAnim, new PropertyPath(OpacityProperty));
         sb.Children.Add(opacityAnim);
 
-        sb.Completed += (s, args) =>
-        {
-            var adornerLayer = AdornerLayer.GetAdornerLayer(AdornedElement);
-            adornerLayer?.Remove(this);
-        };
+        sb.Completed += (s, args) => AdornerLayer.GetAdornerLayer(AdornedElement)?.Remove(this);
 
         sb.Begin(_ellipse);
     }

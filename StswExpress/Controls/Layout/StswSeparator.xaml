@@ -3,9 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSeparator}">
-        <Setter Property="Background" Value="{DynamicResource StswBorder.Static.Border}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
-
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="IsEnabled" Value="True"/>
 
@@ -20,22 +18,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSeparator}">
-                    <Border x:Name="PART_MainBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="{TemplateBinding CornerRadius}"/>
+                    <!-- main -->
+                    <Rectangle x:Name="OPT_MainShape" Fill="{TemplateBinding BorderBrush}"/>
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
-                            <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_MainBorder"/>
+                            <Setter Property="Height" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainShape"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_MainBorder"/>
-                            <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
+                            <Setter Property="Width" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainShape"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBorder.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswBorder.Disabled.Border}" TargetName="OPT_MainShape"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswBorder.Disabled.Border}" TargetName="OPT_MainShape"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -43,19 +38,17 @@
         </Setter>
     </Style>
 
+    <!-- StswSeparatorEnabledTemplate -->
     <ControlTemplate x:Key="StswSeparatorEnabledTemplate" TargetType="{x:Type se:StswSeparator}">
-        <Border x:Name="PART_MainBorder"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                CornerRadius="{TemplateBinding CornerRadius}"/>
+        <!-- main -->
+        <Rectangle x:Name="OPT_MainShape" Fill="{TemplateBinding BorderBrush}"/>
+        <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
-                <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_MainBorder"/>
+                <Setter Property="Height" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainShape"/>
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_MainBorder"/>
-                <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
+                <Setter Property="Width" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainShape"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

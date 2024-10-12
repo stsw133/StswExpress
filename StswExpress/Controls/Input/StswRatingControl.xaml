@@ -29,6 +29,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswRatingControl}">
+                    <!-- main -->
                     <ItemsControl Background="{TemplateBinding Background}" Focusable="False" ItemsSource="{TemplateBinding Items}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

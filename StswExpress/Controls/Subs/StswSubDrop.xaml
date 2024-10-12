@@ -38,32 +38,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubDrop}">
-                    <Grid>
-                        <!-- button -->
-                        <se:StswSubCheck x:Name="OPT_MainButton"
-                                         Background="{TemplateBinding Background}"
-                                         BorderBrush="{TemplateBinding BorderBrush}"
-                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                         Content="{TemplateBinding Content}"
-                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                         ContentTemplate="{TemplateBinding ContentTemplate}"
-                                         ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                         CornerClipping="{TemplateBinding CornerClipping}"
-                                         CornerRadius="{TemplateBinding CornerRadius}"
-                                         ClickMode="Press"
-                                         IconChecked="{TemplateBinding IconData}"
-                                         IconUnchecked="{TemplateBinding IconData}"
-                                         IconFill="{TemplateBinding IconFill}"
-                                         IconScale="{TemplateBinding IconScale}"
-                                         IconStroke="{TemplateBinding IconStroke}"
-                                         IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                         IsBusy="{TemplateBinding IsBusy}"
-                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                         IsContentVisible="{TemplateBinding IsContentVisible}"
-                                         Orientation="{TemplateBinding Orientation}"
-                                         Padding="{TemplateBinding Padding}"
-                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    <!-- main -->
+                    <DockPanel>
                         <!-- popup -->
                         <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
@@ -90,8 +66,33 @@
                                       se:StswScrollView.VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter x:Name="OPT_Items" Focusable="False"/>
                         </se:StswPopup>
-                    </Grid>
-                    
+                        <!-- button -->
+                        <se:StswSubCheck x:Name="OPT_MainButton"
+                                         Background="{TemplateBinding Background}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         Content="{TemplateBinding Content}"
+                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                         ContentTemplate="{TemplateBinding ContentTemplate}"
+                                         ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                         CornerClipping="{TemplateBinding CornerClipping}"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         ClickMode="Press"
+                                         IconChecked="{TemplateBinding IconData}"
+                                         IconUnchecked="{TemplateBinding IconData}"
+                                         IconFill="{TemplateBinding IconFill}"
+                                         IconScale="{TemplateBinding IconScale}"
+                                         IconStroke="{TemplateBinding IconStroke}"
+                                         IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                         IsBusy="{TemplateBinding IsBusy}"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         IsContentVisible="{TemplateBinding IsContentVisible}"
+                                         Orientation="{TemplateBinding Orientation}"
+                                         Padding="{TemplateBinding Padding}"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </DockPanel>
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainButton"/>

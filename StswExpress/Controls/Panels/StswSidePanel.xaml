@@ -22,6 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSidePanel}">
+                    <!-- main -->
                     <Grid>
                         <Border x:Name="PART_ExpandBorder"
                                 Background="{TemplateBinding Background}"
@@ -35,7 +36,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsCollapsed" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>

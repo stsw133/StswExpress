@@ -24,6 +24,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswExpander}">
+                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -47,9 +48,9 @@
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <DockPanel>
-                                    <Grid Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
+                                    <DockPanel x:Name="OPT_DropArrowPanel" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                         <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsExpanded}"/>
-                                    </Grid>
+                                    </DockPanel>
                                     <ContentPresenter Content="{TemplateBinding Header}"
                                                       ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                                       ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -70,16 +71,16 @@
                                               Visibility="Collapsed"/>
                         </DockPanel>
                     </se:StswBorder>
-                    
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Down">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_DropArrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_DropArrowPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="OPT_Separator"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_DropArrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_DropArrowPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_Separator"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
@@ -90,7 +91,7 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_DropArrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_DropArrowPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="OPT_Separator"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="OPT_Separator"/>
@@ -101,7 +102,7 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_DropArrow"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_DropArrowPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_Separator"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_Separator"/>
