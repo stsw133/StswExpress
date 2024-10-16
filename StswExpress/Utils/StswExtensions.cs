@@ -264,7 +264,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of objects to map to.</typeparam>
     /// <param name="dt">The DataTable to map.</param>
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T?> MapTo<T>(this DataTable dt) where T : new()
+    public static IEnumerable<T?> MapTo<T>(this DataTable dt)
     {
         var type = typeof(T);
 
@@ -276,34 +276,36 @@ public static partial class StswExtensions
         else
         {
             var objProps = type.GetProperties();
-            var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-                .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-                .ToArray();
-            var mappings = normalizedColumnNames
-                .Select(x => Array.FindIndex(objProps, prop => prop.Name.Equals(x, StringComparison.CurrentCultureIgnoreCase)))
-                .ToArray();
+            var mappings = new Dictionary<int, PropertyInfo>();
+
+            for (var i = 0; i < dt.Columns.Count; i++)
+            {
+                var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
+                var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
+
+                if (prop != null)
+                    mappings.Add(i, prop);
+            }
 
             foreach (var row in dt.AsEnumerable())
             {
-                var obj = new T();
+                var obj = Activator.CreateInstance<T>();
 
-                for (int i = 0; i < mappings.Length; i++)
+                foreach (var kvp in mappings)
                 {
-                    if (mappings[i] < 0)
-                        continue;
+                    var colIndex = kvp.Key;
+                    var prop = kvp.Value;
 
-                    var propertyInfo = objProps[mappings[i]];
-                    if (propertyInfo != null)
+                    var value = row[colIndex] == DBNull.Value ? null : row[colIndex];
+                    if (value != null && prop.CanWrite)
                     {
                         try
                         {
-                            var value = row[i] == DBNull.Value ? null : row[i];
-                            propertyInfo.SetValue(obj, value?.ConvertTo(propertyInfo.PropertyType), null);
+                            prop.SetValue(obj, value.ConvertTo(prop.PropertyType));
                         }
                         catch
                         {
-                            // Optionally, log the exception or handle it as needed
-                            continue;
+                            // Optional logging or handling
                         }
                     }
                 }
@@ -320,7 +322,7 @@ public static partial class StswExtensions
     /// <param name="dt">The DataTable to map.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter) where T : new()
+    public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter)
     {
         var type = typeof(T);
 
@@ -339,7 +341,7 @@ public static partial class StswExtensions
 
             foreach (var row in dt.AsEnumerable())
             {
-                var obj = new T();
+                var obj = Activator.CreateInstance<T>();
                 StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
                 yield return obj;
             }

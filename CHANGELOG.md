@@ -40,20 +40,20 @@
   - Introduced the `StswAnimations` class for managing animations across collection controls, check controls, and checkable button controls.
   - Added configuration option to enable or disable animations.
 
-- **Standalone Control**: 
+- **Context Menu Control**: 
   - `StswContextMenu` has been promoted from a style to a full control.
 
-- **Database Configurations**:
+- **Database Configuration**:
   - `StswDatabaseConfig` now includes an option to disable SQL connections.
 
-- **Extensions**:
+- **New Extensions**:
   - `ToImageSource`: Converts from `System.Drawing.Icon`.
 
 - **New Functions** in `StswFn`:
-  - `ExtractAssociatedIcon`: Utility extracted from `StswFilePicker`.
+  - `ExtractAssociatedIcon`: Utility extracted from `StswFilePicker`. Allows to extract associated icon from files and directories.
   - `TryCompute`: Added for additional computation flexibility.
 
-- **Box Control Icons**:
+- **Box Controls Icon Property**:
   - Box controls now support an icon on the left side, enhancing visual clarity.
 
 ## Changes in Controls

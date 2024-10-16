@@ -5,7 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              xmlns:local="clr-namespace:TestApp"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              mc:Ignorable="d">
 
-    <wv2:WebView2 x:Name="webView2"/>
+    <wv2:WebView2 x:Name="webView2">
+        <wv2:WebView2.Resources>
+            <Style TargetType="{x:Type wv2:WebView2}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsOpen, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}, AncestorLevel=1}}" Value="True">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </wv2:WebView2.Resources>
+    </wv2:WebView2>
 </UserControl>

@@ -19,33 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\changelogs\changelog.html" />
-    <None Remove="Resources\changelogs\changelog_0.0.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.1.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.1.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.10.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.11.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.2.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.2.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.3.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.3.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.3.2.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.4.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.4.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.4.2.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.4.3.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.5.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.6.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.6.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.6.2.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.7.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.8.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.8.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.8.2.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.9.0.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.9.1.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.9.2.rtf" />
-    <None Remove="Resources\changelogs\changelog_0.9.3.rtf" />
     <None Remove="Resources\changelog_en.rtf" />
     <None Remove="Resources\help_en.pdf" />
     <None Remove="Resources\icon.ico" />
@@ -59,87 +32,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\changelog.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.11.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.10.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.9.3.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.9.2.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.9.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.8.2.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.9.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.8.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.8.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.0.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.1.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.1.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.2.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.2.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.3.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.3.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.3.2.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.4.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.4.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.4.2.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.4.3.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.5.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.6.2.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.6.1.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.6.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.7.0.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\changelogs\changelog_0.7.1.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\help_en.pdf">

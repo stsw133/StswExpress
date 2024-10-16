@@ -54,7 +54,7 @@ public class StswApp : Application
         //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
         /// merged dictionaries (themes)
-        var dict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/StswResources.xaml", UriKind.RelativeOrAbsolute));
+        var dict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri($"/{nameof(StswExpress)};component/StswResources.xaml", UriKind.Relative));
         dict ??= Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources);
         Current.Resources.MergedDictionaries.Remove(dict);
         Current.Resources.MergedDictionaries.Add(new StswResources((StswTheme)StswSettings.Default.Theme));
@@ -64,7 +64,7 @@ public class StswApp : Application
 
         var trFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "translations.stsw.json");
 
-        using (var stream = GetResourceStream(new Uri($"pack://application:,,,/{nameof(StswExpress)};component//Translator/Translations.json", UriKind.RelativeOrAbsolute)).Stream)
+        using (var stream = GetResourceStream(new Uri($"/{nameof(StswExpress)};component/Translator/Translations.json", UriKind.Relative)).Stream)
         using (var reader = new StreamReader(stream))
         {
             if (!Directory.Exists(Path.GetDirectoryName(trFileName)))

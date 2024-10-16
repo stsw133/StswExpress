@@ -82,7 +82,7 @@ internal static class StswMapping
     /// <param name="normalizedColumnNames">The normalized column names from the DataTable.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="propCache">A dictionary of cached properties and their paths.</param>
-    internal static void MapRowToObject(object obj, DataRow row, string[] normalizedColumnNames, char delimiter, Dictionary<string, PropertyInfo> propCache)
+    internal static void MapRowToObject(object? obj, DataRow row, string[] normalizedColumnNames, char delimiter, Dictionary<string, PropertyInfo> propCache)
     {
         foreach (var kvp in propCache)
         {
