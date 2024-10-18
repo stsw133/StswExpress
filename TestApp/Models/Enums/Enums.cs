@@ -2,6 +2,16 @@
 
 namespace TestApp;
 
+public enum ArticleType
+{
+    [Description("Commodity")]
+    Commodity,
+    [Description("Product")]
+    Product,
+    [Description("Service")]
+    Service
+}
+
 public enum ContractorType
 {
     [Description("Supplier")]
@@ -10,12 +20,10 @@ public enum ContractorType
     Recipient
 }
 
-public enum ChangelogType
+public enum DiscountType
 {
-    [Description("Major")]
-    Major,
-    [Description("Minor")]
-    Minor,
-    [Description("Patch")]
-    Patch
+    [Description("Percentage")]
+    Percentage,
+    [Description("Value")]
+    Value
 }

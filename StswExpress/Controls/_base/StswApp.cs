@@ -46,13 +46,6 @@ public class StswApp : Application
 
         base.OnStartup(e);
 
-        /// hash key
-        //StswSecurity.Key = hashKey;
-
-        /// import databases
-        //StswDatabase.ImportDatabases();
-        //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
-
         /// merged dictionaries (themes)
         var dict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri($"/{nameof(StswExpress)};component/StswResources.xaml", UriKind.Relative));
         dict ??= Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources);

@@ -296,12 +296,11 @@ public static partial class StswExtensions
                     var colIndex = kvp.Key;
                     var prop = kvp.Value;
 
-                    var value = row[colIndex] == DBNull.Value ? null : row[colIndex];
-                    if (value != null && prop.CanWrite)
+                    if (prop.CanWrite)
                     {
                         try
                         {
-                            prop.SetValue(obj, value.ConvertTo(prop.PropertyType));
+                            prop.SetValue(obj, row[colIndex].ConvertTo(prop.PropertyType));
                         }
                         catch
                         {

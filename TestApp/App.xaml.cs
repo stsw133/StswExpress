@@ -1,7 +1,5 @@
 ﻿global using StswExpress;
 using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -35,22 +33,6 @@ public partial class App : StswApp
         //StswResources.AvailableThemes.Add(StswTheme.Light);
         //StswResources.AvailableThemes.Add(StswTheme.Dark);
         //StswSettings.Default.Theme = (int)StswTheme.Light;
-
-        using (var sqlConn = SQL.DbCurrent.OpenedConnection())
-        {
-            var query = $@"
-                select Knt_Akronim, Knt_Nazwa1 [{nameof(ContractorModel.Name)}], Knt_Miasto, Knt_Ulica, Knt_Archiwalny [{nameof(ContractorModel.IsArchival)}]
-                from cdn.KntKarty with(nolock)
-                where Knt_Archiwalny=1";
-            using (var sqlDA = new SqlDataAdapter(query, sqlConn))
-            {
-                var dt = new DataTable();
-                sqlDA.Fill(dt);
-
-                var result = dt.MapTo<ContractorModel>();
-                ;
-            }
-        }
     }
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

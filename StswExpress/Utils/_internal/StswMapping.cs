@@ -26,8 +26,7 @@ internal static class StswMapping
         if (visitedTypes.Contains(type)) return [];
         visitedTypes.Add(type);
 
-        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .Where(x => x.CanWrite /*&& !IsExcludedType(x.PropertyType)*/).ToArray();
+        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite).ToArray();
         var propMappings = new Dictionary<string, PropertyInfo>();
 
         foreach (var prop in props)
@@ -134,13 +133,4 @@ internal static class StswMapping
             }
         }
     }
-
-    /// <summary>
-    /// Determines if a type should be excluded from the mapping process.
-    /// </summary>
-    /// <param name="type">The type to check for exclusion.</param>
-    /// <returns>True if the type should be excluded, otherwise false.</returns>
-    private static bool IsExcludedType(Type type)
-        => type.Namespace != null &&
-           type.Namespace.StartsWith("System") && type != typeof(string) && type != typeof(byte[]) && !type.IsEnum && !type.IsValueType;
 }
