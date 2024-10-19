@@ -6,7 +6,6 @@
                xmlns:local="clr-namespace:TestApp"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
-               Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
     <se:StswWindow.Components>
         <se:StswButton Command="{x:Static local:App.HelpCommand}" Style="{DynamicResource StswWindowButtonStyle}">

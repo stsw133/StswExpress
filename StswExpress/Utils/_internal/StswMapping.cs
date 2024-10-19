@@ -7,7 +7,7 @@ using System;
 namespace StswExpress;
 
 /// <summary>
-/// Helper class for mapping DataTable rows to objects, including nested properties.
+/// Helper class for mapping <see cref="DataTable"/> rows to objects, including nested properties.
 /// </summary>
 internal static class StswMapping
 {
@@ -15,7 +15,7 @@ internal static class StswMapping
     /// Caches the properties of a given type, including nested properties, if they exist in the column names.
     /// </summary>
     /// <param name="type">The type of the object to cache properties for.</param>
-    /// <param name="normalizedColumnNames">The normalized column names from the DataTable.</param>
+    /// <param name="normalizedColumnNames">The normalized column names from the <see cref="DataTable"/>.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties.</param>
     /// <param name="visitedTypes">A set of visited types to avoid recursion issues.</param>
@@ -24,20 +24,21 @@ internal static class StswMapping
     {
         visitedTypes ??= [];
         if (visitedTypes.Contains(type)) return [];
-        visitedTypes.Add(type);
 
-        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite).ToArray();
+        visitedTypes.Add(type);
         var propMappings = new Dictionary<string, PropertyInfo>();
+        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite).ToArray();
 
         foreach (var prop in props)
         {
             var propPath = string.IsNullOrEmpty(parentPath) ? prop.Name : $"{parentPath}{delimiter}{prop.Name}";
 
-            if (normalizedColumnNames.Any(x => x.Equals(propPath, StringComparison.CurrentCultureIgnoreCase)) ||
-                HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath))
+            if (normalizedColumnNames.Any(x => x.Equals(propPath, StringComparison.CurrentCultureIgnoreCase))
+             || HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath))
             {
                 propMappings[propPath] = prop;
-                if (prop.PropertyType.IsClass && prop.PropertyType != typeof(string) && !visitedTypes.Contains(prop.PropertyType))
+
+                if (prop.PropertyType.IsClass && prop.PropertyType != typeof(byte[]) && prop.PropertyType != typeof(string) && !visitedTypes.Contains(prop.PropertyType))
                 {
                     var nestedProps = CacheProperties(prop.PropertyType, normalizedColumnNames, delimiter, propPath, visitedTypes);
                     foreach (var nestedProp in nestedProps)
@@ -54,31 +55,32 @@ internal static class StswMapping
     /// Checks if a given type has nested properties that match any of the normalized column names.
     /// </summary>
     /// <param name="type">The type to check for nested properties.</param>
-    /// <param name="normalizedColumnNames">The normalized column names from the DataTable.</param>
+    /// <param name="normalizedColumnNames">The normalized column names from the <see cref="DataTable"/>.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties.</param>
-    /// <returns>True if there are nested properties that match the column names, otherwise false.</returns>
+    /// <returns><see langword="true"/> if there are nested properties that match the column names, otherwise <see langword="false"/>.</returns>
     internal static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath)
     {
         if (type.IsClass && type != typeof(string))
+            return false;
+
+        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        foreach (var prop in props)
         {
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var prop in props)
-            {
-                var propPath = $"{parentPath}{delimiter}{prop.Name}";
-                if (normalizedColumnNames.Any(col => col.Equals(propPath, StringComparison.CurrentCultureIgnoreCase)))
-                    return true;
-            }
+            var propPath = $"{parentPath}{delimiter}{prop.Name}";
+            if (normalizedColumnNames.Any(col => col.Equals(propPath, StringComparison.CurrentCultureIgnoreCase)))
+                return true;
         }
+        
         return false;
     }
 
     /// <summary>
-    /// Maps a DataRow to an object, including setting nested property values.
+    /// Maps a <see cref="DataRow"/> to an object, including setting nested property values.
     /// </summary>
-    /// <param name="obj">The object to map the DataRow values to.</param>
-    /// <param name="row">The DataRow to map from.</param>
-    /// <param name="normalizedColumnNames">The normalized column names from the DataTable.</param>
+    /// <param name="obj">The object to map the <see cref="DataRow"/> values to.</param>
+    /// <param name="row">The <see cref="DataRow"/> to map from.</param>
+    /// <param name="normalizedColumnNames">The normalized column names from the <see cref="DataTable"/>.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="propCache">A dictionary of cached properties and their paths.</param>
     internal static void MapRowToObject(object? obj, DataRow row, string[] normalizedColumnNames, char delimiter, Dictionary<string, PropertyInfo> propCache)
@@ -88,8 +90,8 @@ internal static class StswMapping
             var propPath = kvp.Key.Split(delimiter);
             var prop = kvp.Value;
             var columnName = kvp.Key;
-            var columnIndex = Array.FindIndex(normalizedColumnNames, col => col.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
 
+            var columnIndex = Array.FindIndex(normalizedColumnNames, col => col.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
             if (columnIndex >= 0)
             {
                 var value = row[columnIndex] == DBNull.Value ? null : row[columnIndex];

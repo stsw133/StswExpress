@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -129,7 +128,7 @@ public static partial class StswExtensions
                 throw new NotSupportedException("Failed to clone binding");
         }
     }
-    
+
     /// <summary>
     /// Creates a deep copy of the specified object.
     /// </summary>
@@ -140,7 +139,8 @@ public static partial class StswExtensions
     /// This method handles cloning of primitive types, complex object graphs, and collections. It uses reflection to dynamically create a copy
     /// of the object, ensuring that all nested objects and collections are also deeply cloned. It does not handle circular references which can lead to stack overflow.
     /// </remarks>
-    public static T? DeepClone<T>(this T original)
+    [Obsolete("Bugged.")]
+    public static T? DeepClone<T>(this T original) where T : class
     {
         if (original == null)
             return default;
@@ -190,23 +190,19 @@ public static partial class StswExtensions
         var underlyingType = Nullable.GetUnderlyingType(t);
 
         if (o == null || o == DBNull.Value)
-            return underlyingType == null ? default : null;
+            return underlyingType != null ? null : (t.IsValueType ? Activator.CreateInstance(t) : null);
 
-        if (t.IsEnum || underlyingType?.IsEnum == true)
+        var targetType = underlyingType ?? t;
+        if (targetType.IsEnum)
         {
-            var enumType = underlyingType ?? t;
-
-            if (Enum.TryParse(enumType, o.ToString(), out var result))
+            if (Enum.TryParse(targetType, o.ToString(), out var result))
                 return result;
-
             return null;
         }
 
         try
         {
-            return underlyingType == null
-                ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
-                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+            return Convert.ChangeType(o, targetType, CultureInfo.InvariantCulture);
         }
         catch
         {
@@ -233,30 +229,29 @@ public static partial class StswExtensions
 
         var underlyingType = Nullable.GetUnderlyingType(type) ?? (type.IsEnum ? Enum.GetUnderlyingType(type) : type);
 
-        var typeMap = new Dictionary<Type, SqlDbType>
-        {
-            { typeof(byte), SqlDbType.TinyInt },
-            { typeof(sbyte), SqlDbType.TinyInt },
-            { typeof(short), SqlDbType.SmallInt },
-            { typeof(ushort), SqlDbType.SmallInt },
-            { typeof(int), SqlDbType.Int },
-            { typeof(uint), SqlDbType.Int },
-            { typeof(long), SqlDbType.BigInt },
-            { typeof(ulong), SqlDbType.BigInt },
-            { typeof(float), SqlDbType.Real },
-            { typeof(double), SqlDbType.Float },
-            { typeof(decimal), SqlDbType.Decimal },
-            { typeof(bool), SqlDbType.Bit },
-            { typeof(string), SqlDbType.NVarChar },
-            { typeof(char), SqlDbType.NChar },
-            { typeof(Guid), SqlDbType.UniqueIdentifier },
-            { typeof(DateTime), SqlDbType.DateTime },
-            { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
-            { typeof(byte[]), SqlDbType.VarBinary }
-        };
-
-        return typeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : SqlDbType.NVarChar;
+        return TypeToSqlDbTypeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : SqlDbType.NVarChar;
     }
+    private static readonly Dictionary<Type, SqlDbType> TypeToSqlDbTypeMap = new()
+    {
+        { typeof(byte), SqlDbType.TinyInt },
+        { typeof(sbyte), SqlDbType.TinyInt },
+        { typeof(short), SqlDbType.SmallInt },
+        { typeof(ushort), SqlDbType.SmallInt },
+        { typeof(int), SqlDbType.Int },
+        { typeof(uint), SqlDbType.Int },
+        { typeof(long), SqlDbType.BigInt },
+        { typeof(ulong), SqlDbType.BigInt },
+        { typeof(float), SqlDbType.Real },
+        { typeof(double), SqlDbType.Float },
+        { typeof(decimal), SqlDbType.Decimal },
+        { typeof(bool), SqlDbType.Bit },
+        { typeof(string), SqlDbType.NVarChar },
+        { typeof(char), SqlDbType.NChar },
+        { typeof(Guid), SqlDbType.UniqueIdentifier },
+        { typeof(DateTime), SqlDbType.DateTime },
+        { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
+        { typeof(byte[]), SqlDbType.VarBinary }
+    };
 
     /// <summary>
     /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
@@ -268,7 +263,7 @@ public static partial class StswExtensions
     {
         var type = typeof(T);
 
-        if (!type.IsClass || type == typeof(string))
+        if (!type.IsClass || type == typeof(byte[]) || type == typeof(string))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T?>();
@@ -283,7 +278,7 @@ public static partial class StswExtensions
                 var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
                 var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
 
-                if (prop != null)
+                if (prop != null && prop.CanWrite)
                     mappings.Add(i, prop);
             }
 
@@ -296,16 +291,13 @@ public static partial class StswExtensions
                     var colIndex = kvp.Key;
                     var prop = kvp.Value;
 
-                    if (prop.CanWrite)
+                    try
                     {
-                        try
-                        {
-                            prop.SetValue(obj, row[colIndex].ConvertTo(prop.PropertyType));
-                        }
-                        catch
-                        {
-                            // Optional logging or handling
-                        }
+                        prop.SetValue(obj, row[colIndex].ConvertTo(prop.PropertyType));
+                    }
+                    catch
+                    {
+                        // Optional logging or handling
                     }
                 }
 
@@ -360,7 +352,7 @@ public static partial class StswExtensions
         ArgumentNullException.ThrowIfNull(value);
 
         if (value is not BitmapSource bitmapSource)
-            throw new ArgumentException("Value must be a BitmapSource.", nameof(value));
+            throw new ArgumentException($"Value must be a {nameof(BitmapSource)}.", nameof(value));
 
         encoder ??= new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
@@ -379,13 +371,21 @@ public static partial class StswExtensions
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        var password = new NetworkCredential(string.Empty, value).Password;
-        var bytes = Encoding.UTF8.GetBytes(password);
+        var ptr = IntPtr.Zero;
+        try
+        {
+            ptr = Marshal.SecureStringToGlobalAllocUnicode(value);
+            var length = value.Length;
+            var bytes = new byte[length * sizeof(char)];
 
-        for (int i = 0; i < password.Length; i++)
-            password = password.Remove(i, 1).Insert(i, "\0");
+            Marshal.Copy(ptr, bytes, 0, bytes.Length);
 
-        return bytes;
+            return Encoding.Convert(Encoding.Unicode, Encoding.UTF8, bytes);
+        }
+        finally
+        {
+            Marshal.ZeroFreeGlobalAllocUnicode(ptr);
+        }
     }
 
     /// <summary>
@@ -432,12 +432,10 @@ public static partial class StswExtensions
         Func<TSource, TValue> valueSelector) where TKey : notnull
     {
         var dictionary = new Dictionary<TKey, TValue>();
+
         foreach (var item in source)
-        {
-            var key = keySelector(item);
-            if (!dictionary.ContainsKey(key))
-                dictionary[key] = valueSelector(item);
-        }
+            dictionary.TryAdd(keySelector(item), valueSelector(item));
+
         return dictionary;
     }
 
@@ -448,18 +446,19 @@ public static partial class StswExtensions
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
     public static ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
     {
-        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool DeleteObject([In] IntPtr hObject);
-
-        var handle = bmp.GetHbitmap();
+        IntPtr handle = bmp.GetHbitmap();
         try
         {
-            return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            return Imaging.CreateBitmapSourceFromHBitmap(
+                handle,
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
         }
         finally
         {
-            DeleteObject(handle);
+            if (handle != IntPtr.Zero)
+                DeleteObject(handle);
         }
     }
 
@@ -470,9 +469,21 @@ public static partial class StswExtensions
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
     public static ImageSource ToImageSource(this System.Drawing.Icon icon)
     {
-        var bitmap = icon.ToBitmap();
+        using var bitmap = icon.ToBitmap();
         var hBitmap = bitmap.GetHbitmap();
-        return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        try
+        {
+            return Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap,
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+        }
+        finally
+        {
+            if (hBitmap != IntPtr.Zero)
+                DeleteObject(hBitmap);
+        }
     }
 
     /// <summary>
@@ -483,26 +494,23 @@ public static partial class StswExtensions
     /// <param name="fill">Fill brush of the output image.</param>
     /// <param name="stroke">Stroke brush of the output image.</param>
     /// <param name="strokeThickness">Stroke thickness of the output image.</param>
+    /// <param name="dpi">DPI of the output image. Defaults to 96.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
-    public static ImageSource ToImageSource(this Geometry geometry, double size, Brush? fill = null, Brush? stroke = null, double strokeThickness = 0)
+    public static ImageSource ToImageSource(this Geometry geometry, double size, Brush? fill = null, Brush? stroke = null, double strokeThickness = 0, double dpi = 96)
     {
         var drawingVisual = new DrawingVisual();
+        var pen = stroke != null ? new Pen(stroke, strokeThickness) : null;
 
         using (var drawingContext = drawingVisual.RenderOpen())
-        {
-            if (fill != null)
-            {
-                drawingContext.DrawGeometry(fill, null, geometry);
-            }
+            drawingContext.DrawGeometry(fill, pen, geometry);
 
-            if (stroke != null)
-            {
-                var pen = new Pen(stroke, strokeThickness);
-                drawingContext.DrawGeometry(null, pen, geometry);
-            }
-        }
+        var renderTargetBitmap = new RenderTargetBitmap(
+            (int)size,
+            (int)size,
+            dpi,
+            dpi,
+            PixelFormats.Pbgra32);
 
-        var renderTargetBitmap = new RenderTargetBitmap((int)size, (int)size, 96, 96, PixelFormats.Pbgra32);
         renderTargetBitmap.Render(drawingVisual);
 
         return renderTargetBitmap;
@@ -577,7 +585,11 @@ public static partial class StswExtensions
     {
         var start = (int)from.DayOfWeek;
         var target = (int)dayOfWeek;
-        return from.AddDays((target - start + 7) % 7);
+
+        var daysToAdd = (target - start + 7) % 7;
+        if (daysToAdd == 0) daysToAdd = 7;
+
+        return from.AddDays(daysToAdd);
     }
 
     /// <summary>
@@ -594,13 +606,15 @@ public static partial class StswExtensions
     /// </summary>
     /// <typeparam name="T">The type of the attribute to retrieve.</typeparam>
     /// <param name="enumVal">The enum value.</param>
-    /// <returns>The attribute of type T that exists on the enum value, or null if no such attribute is found.</returns>
+    /// <returns>The attribute of type <see cref="{T}"/> that exists on the enum value, or <see langword="null"/> if no such attribute is found.</returns>
     public static T? GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
     {
-        var memberInfo = enumVal.GetType().GetMember(enumVal.ToString()).FirstOrDefault();
-        if (memberInfo == null) return null;
+        var memberInfo = enumVal.GetType().GetMember(enumVal.ToString());
 
-        return memberInfo.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+        if (memberInfo.Length == 0)
+            return null;
+
+        return memberInfo[0].GetCustomAttribute<T>(false);
     }
 
     /// <summary>
@@ -615,7 +629,10 @@ public static partial class StswExtensions
     public static string GetDescription(this Enum enumVal)
     {
         var field = enumVal.GetType().GetField(enumVal.ToString());
-        var attribute = field?.GetCustomAttribute<DescriptionAttribute>();
+        if (field == null)
+            return enumVal.ToString();
+
+        var attribute = field.GetCustomAttribute<DescriptionAttribute>();
         return attribute?.Description ?? enumVal.ToString();
     }
 
@@ -630,15 +647,19 @@ public static partial class StswExtensions
     public static T GetNextValue<T>(this T value, int count = 1, bool wrapAround = true) where T : Enum
     {
         var values = (T[])Enum.GetValues(typeof(T));
+        int length = values.Length;
         int index = Array.IndexOf(values, value);
-        int nextIndex = index + count;
 
         if (wrapAround)
-            nextIndex = (nextIndex + values.Length) % values.Length;
+        {
+            int nextIndex = (index + count % length + length) % length;
+            return values[nextIndex];
+        }
         else
-            nextIndex = Math.Min(nextIndex, values.Length - 1);
-
-        return values[nextIndex];
+        {
+            int nextIndex = Math.Clamp(index + count, 0, length - 1);
+            return values[nextIndex];
+        }
     }
     #endregion
 
@@ -683,6 +704,7 @@ public static partial class StswExtensions
     public static IEnumerable<IList<T>> Batch<T>(this IEnumerable<T> source, int size)
     {
         var batch = new List<T>(size);
+
         foreach (var item in source)
         {
             batch.Add(item);
@@ -692,29 +714,37 @@ public static partial class StswExtensions
                 batch = new(size);
             }
         }
+
         if (batch.Count != 0)
             yield return batch;
     }
 
     /// <summary>
-    /// Applies a specified action to each element of the IList, allowing modification of 
+    /// Applies a specified action to each element of the <see cref="IList{}"/>, allowing modification of 
     /// individual properties within each element.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the IList.</typeparam>
-    /// <param name="list">The IList on which the action will be performed.</param>
+    /// <typeparam name="T">The type of elements in the <see cref="IList{}"/>.</typeparam>
+    /// <param name="list">The <see cref="IList{}"/> on which the action will be performed.</param>
     /// <param name="modifier">An action that defines the modification to be applied to each element.</param>
-    /// <returns>The same IList after the modifications have been applied to its elements.</returns>
+    /// <returns>The same <see cref="IList{}"/> after the modifications have been applied to its elements.</returns>
     /// <remarks>
-    /// This method modifies the elements of the IList in-place, meaning that it does not 
+    /// This method modifies the elements of the <see cref="IList{}"/> in-place, meaning that it does not 
     /// create a new collection or new elements, but instead applies the provided action to 
-    /// each existing element in the IList. 
+    /// each existing element in the <see cref="IList{}"/>. 
     /// It is particularly useful when you need to update specific properties of objects 
     /// within a collection without altering the entire object or creating a new collection.
     /// </remarks>
     public static IList<T> ModifyEach<T>(this IList<T> list, Action<T> modifier)
     {
+        ArgumentNullException.ThrowIfNull(list, nameof(list));
+        ArgumentNullException.ThrowIfNull(modifier, nameof(modifier));
+
+        if (list.Count == 0)
+            return list;
+
         foreach (var item in list)
             modifier(item);
+
         return list;
     }
 
@@ -722,18 +752,27 @@ public static partial class StswExtensions
     /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
-    /// <param name="iList">The list to remove elements from.</param>
-    /// <param name="itemsToRemove">The collection containing the elements to remove.</param>
-    public static void Remove<T>(this IList<T> iList, IEnumerable<T> itemsToRemove)
+    /// <param name="list">The list to remove elements from.</param>
+    /// <param name="items">The collection containing the elements to remove.</param>
+    public static void Remove<T>(this IList<T> list, IEnumerable<T> items)
     {
-        var set = new HashSet<T>(itemsToRemove);
+        ArgumentNullException.ThrowIfNull(list, nameof(list));
+        ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-        if (iList is List<T> list)
-            list.RemoveAll(set.Contains);
+        var set = new HashSet<T>(items);
+        if (set.Count == 0)
+            return;
+
+        if (list is List<T> strongList)
+        {
+            strongList.RemoveAll(set.Contains);
+        }
         else
-            for (int i = iList.Count - 1; i >= 0; i--)
-                if (set.Contains(iList[i]))
-                    iList.RemoveAt(i);
+        {
+            for (var i = list.Count - 1; i >= 0; i--)
+                if (set.Contains(list[i]))
+                    list.RemoveAt(i);
+        }
     }
 
     /// <summary>
@@ -747,9 +786,10 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
     public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
     {
-        return source == null
-            ? throw new ArgumentNullException(nameof(source))
-            : source.Select(item => EqualityComparer<T>.Default.Equals(item, oldValue) ? newValue : item);
+        if (source == null)
+            throw new ArgumentNullException(nameof(source));
+
+        return source.Select(item => EqualityComparer<T>.Default.Equals(item, oldValue) ? newValue : item);
     }
 
     /// <summary>
@@ -764,7 +804,7 @@ public static partial class StswExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        for (int i = 0; i < source.Count; i++)
+        for (var i = 0; i < source.Count; i++)
             if (EqualityComparer<T>.Default.Equals(source[i], oldValue))
                 source[i] = newValue;
     }
@@ -780,11 +820,11 @@ public static partial class StswExtensions
     public static void Shuffle<T>(this IList<T> list)
     {
         var rng = new Random();
-        int n = list.Count;
+        var n = list.Count;
         while (n > 1)
         {
             n--;
-            int k = rng.Next(n + 1);
+            var k = rng.Next(n + 1);
             (list[n], list[k]) = (list[k], list[n]);
         }
     }
@@ -798,15 +838,10 @@ public static partial class StswExtensions
     /// <param name="value">The value to check.</param>
     /// <param name="start">The start of the range.</param>
     /// <param name="end">The end of the range.</param>
-    /// <param name="allowReversedOrder">If <see langword="true"/>, allows the range to be specified in reverse order (start can be greater than end).</param>
     /// <returns><see langword="true"/> if the value is within the range; otherwise, <see langword="false"/>.</returns>
-    public static bool Between<T>(this T? value, T? start, T? end, bool allowReversedOrder = false)
+    public static bool Between<T>(this T? value, T? start, T? end)
     {
         var comparer = Comparer<T>.Default;
-
-        if (allowReversedOrder && comparer.Compare(start, end) > 0)
-            (end, start) = (start, end);
-
         return comparer.Compare(value, start) >= 0 && comparer.Compare(value, end) <= 0;
     }
 
@@ -843,7 +878,6 @@ public static partial class StswExtensions
     internal static bool IsListType(this Type type, out Type? innerType)
     {
         ArgumentNullException.ThrowIfNull(type);
-
         innerType = null;
 
         if (type == typeof(string))
@@ -855,12 +889,11 @@ public static partial class StswExtensions
             return true;
         }
 
-        foreach (var i in type.GetInterfaces())
-            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                innerType = i.GetGenericArguments().Single();
-                return true;
-            }
+        if (type.GetInterfaces().FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)) is Type iType)
+        {
+            innerType = iType.GetGenericArguments().Single();
+            return true;
+        }
 
         return false;
     }
@@ -876,26 +909,28 @@ public static partial class StswExtensions
         if (value == null || Convert.IsDBNull(value))
             return true;
 
-        if (Nullable.GetUnderlyingType(typeof(T)) != null)
-            return EqualityComparer<T>.Default.Equals(value, (T?)Activator.CreateInstance(Nullable.GetUnderlyingType(typeof(T))!));
+        var type = typeof(T);
 
-        if (typeof(T) == typeof(bool))
-            return value == null;
+        if (Nullable.GetUnderlyingType(type) != null)
+        {
+            var underlyingType = Nullable.GetUnderlyingType(type)!;
+            return EqualityComparer<T>.Default.Equals(value, (T?)Activator.CreateInstance(underlyingType));
+        }
 
-        if (typeof(T).IsEnum)
-            return value == null;
+        if (type == typeof(bool))
+            return false;
 
-        if (typeof(T) == typeof(string))
+        if (type == typeof(string))
             return string.IsNullOrEmpty(value as string);
 
-        if (EqualityComparer<T>.Default.Equals(value, default))
-            return true;
+        if (type.IsEnum)
+            return EqualityComparer<T>.Default.Equals(value, default);
 
         if (value is IEnumerable enumerable)
             return !enumerable.GetEnumerator().MoveNext();
 
-        if (typeof(T).IsClass)
-            return value.IsSimilarTo((T?)Activator.CreateInstance(typeof(T)));
+        if (type.IsClass)
+            return value.IsSimilarTo((T?)Activator.CreateInstance(type));
 
         return EqualityComparer<T>.Default.Equals(value, default);
     }
@@ -944,7 +979,7 @@ public static partial class StswExtensions
     /// </returns>
     /// <remarks>
     /// This method performs a shallow comparison of the public properties of both objects. 
-    /// It compares the string representations of property values using the <see cref="object.ToString"/> method.
+    /// It compares the values of public properties using <see cref="EqualityComparer{T}.Equals"/> method.
     /// The method skips indexer properties during the comparison.
     /// </remarks>
     public static bool IsSimilarTo<T>(this T objA, T objB)
@@ -954,9 +989,19 @@ public static partial class StswExtensions
         else if (objA == null || objB == null)
             return false;
 
-        foreach (var item in objA.GetType().GetProperties())
-            if (item.GetValue(objA)?.ToString() != item.GetValue(objB)?.ToString())
+        var type = typeof(T);
+
+        foreach (var property in type.GetProperties())
+        {
+            if (property.GetIndexParameters().Length > 0)
+                continue;
+
+            var valueA = property.GetValue(objA);
+            var valueB = property.GetValue(objB);
+
+            if (!EqualityComparer<object>.Default.Equals(valueA, valueB))
                 return false;
+        }
 
         return true;
     }
@@ -998,15 +1043,14 @@ public static partial class StswExtensions
     /// Determines the user that owns the specified process.
     /// </summary>
     /// <param name="process">The process whose owner is to be determined.</param>
-    /// <returns>The username of the owner of the process, or null if it cannot be determined.</returns>
+    /// <returns>The username of the owner of the process, or <see langword="null"/> if it cannot be determined.</returns>
     public static string? GetUser(this Process process)
     {
         var processHandle = IntPtr.Zero;
         try
         {
             OpenProcessToken(process.Handle, 8, out processHandle);
-            var wi = new WindowsIdentity(processHandle);
-            var user = wi.Name;
+            var user = new WindowsIdentity(processHandle).Name;
             return user.Contains('\\') ? user[(user.IndexOf('\\') + 1)..] : user;
         }
         catch
@@ -1029,7 +1073,7 @@ public static partial class StswExtensions
     private static partial bool CloseHandle(IntPtr hObject);
     #endregion
 
-    #region Sql extensions
+    #region SQL extensions
     /// <summary>
     /// Adds a list of parameters to the <see cref="SqlCommand"/> by replacing the specified parameter name in the SQL query with the list of values.
     /// If the list is null or empty, replaces the parameter with NULL in the SQL query.
@@ -1045,25 +1089,27 @@ public static partial class StswExtensions
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
 
         const int maxListSize = 20;
-        if (list != null && list.Count > maxListSize)
+        if (list?.Count > maxListSize)
             throw new ArgumentException($"The list contains more than {maxListSize} elements, which exceeds the allowed limit.", nameof(list));
 
-        if (list == null || !IsListType(list.GetType(), out var innerType) || list.Count == 0)
+        string replacementValue;
+
+        if (list == null || list.Count == 0 || !IsListType(list.GetType(), out var innerType) || innerType == null)
         {
-            sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", "NULL", RegexOptions.IgnoreCase);
-            return;
+            replacementValue = "NULL";
+        }
+        else
+        {
+            var sqlDbType = innerType.InferSqlDbType();
+            replacementValue = string.Join(',', Enumerable.Range(0, list.Count).Select(i =>
+            {
+                var paramName = $"{parameterName}{i}";
+                sqlCommand.Parameters.Add(paramName, sqlDbType).Value = list[i] ?? DBNull.Value;
+                return paramName;
+            }));
         }
 
-        var parameterNames = new StringBuilder();
-        for (var i = 0; i < list.Count; i++)
-        {
-            var paramName = $"{parameterName}{i}";
-            sqlCommand.Parameters.Add(paramName, innerType!.InferSqlDbType()).Value = list[i] ?? DBNull.Value;
-            if (i > 0) parameterNames.Append(',');
-            parameterNames.Append(paramName);
-        }
-
-        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", parameterNames.ToString(), RegexOptions.IgnoreCase);
+        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", replacementValue, RegexOptions.IgnoreCase);
     }
     #endregion
 
@@ -1177,4 +1223,8 @@ public static partial class StswExtensions
     /// <returns>The value of the specified property, or null if the property is not found.</returns>
     public static object? GetPropertyValue(this object obj, string propertyName) => obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
     #endregion
+
+    [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteObject([In] IntPtr hObject);
 }

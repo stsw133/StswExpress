@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.13.0](#0-13-0)
 - [Version 0.12.0](#0-12-0)
 - [Version 0.11.0](#0-11-0)
 - [Version 0.10.0](#0-10-0)
@@ -26,13 +27,53 @@
 - [Version 0.2.0](#0-2-0)
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
-- [Version 0.0.0](#one-year-edition)
+- [Re-edition](#re-edition)
 
+---
 
+<h1 id="0-13-0">0.13.0</h1>
+
+**Release Date**: ?
+
+## Additions
+
+### Controls
+
+- ?
+
+### Utils
+
+- ?
+
+---
+
+## Changes
+
+### Controls
+
+- ?
+
+### Utils
+
+- ?
+
+---
+
+## Fixes
+
+### Controls
+
+- ?
+
+### Utils
+
+- ?
+
+---
 
 <h1 id="0-12-0">0.12.0</h1>
 
-**Release Date**: 2024-10-12
+**Release Date**: 2024-10-18
 
 ## New Functionality
 
@@ -110,7 +151,7 @@
 - **Window Restoration**:
   - `StswApp` with `AllowMultipleInstances` set to `false` now restores minimized windows from prior instances.
 
-
+---
 
 <h1 id="0-11-0">0.11.0</h1>
 
@@ -138,7 +179,7 @@
 * Bugfix for **StswTabControl** placement style.
 * Bugfix for creating directories when **StswLog** is used.
 
-
+---
 
 <h1 id="0-10-0">0.10.0</h1>
 
@@ -172,7 +213,7 @@
 * Stsw sub controls also have nullable "IsBusy" property to allow them to automatically bind to command's "IsBusy" property (similar to what **StswLabel** has).
 * Bugfix for archiving logs.
 
-
+---
 
 <h1 id="0-9-3">0.9.3</h1>
 
@@ -194,7 +235,7 @@
 ## Bug Fixes
 * **StswDatabaseHelper** and **StswSqlConnectionFactory** reworked to fix many bugs.
 
-
+---
 
 <h1 id="0-9-2">0.9.2</h1>
 
@@ -219,7 +260,7 @@
 * Bugfix to **ConvertTo** extension method so it can properly assign null value.
 * Bugfix for **MapTo** extension method (one with delimiter parameter) so it can again map system types including object type. This way it can support query method **Get** mapped to **StswComboItem**.
 
-
+---
 
 <h1 id="0-9-1">0.9.1</h1>
 
@@ -241,7 +282,7 @@
 * All Stsw collection controls will properly set "UsesSelectionItems" property when their items source is ICollectionView. Just in case, setter for this property is also public now.
 * Extension **ParametersAddList** should properly handle null values and byte arrays now.
 
-
+---
 
 <h1 id="0-9-0">0.9.0</h1>
 
@@ -290,7 +331,7 @@
 * Bugfix for **StswColorConverter** when target type is nullable.
 * Bugfix for **StswTabControl** initial selected index.
 
-
+---
 
 <h1 id="0-8-2">0.8.2</h1>
 
@@ -299,7 +340,7 @@
 ## New Functionality
 * **StswMailboxModel** has additional property called "Domain". This property can be used for NetworkCredential in sending mail.
 
-
+---
 
 <h1 id="0-8-1">0.8.1</h1>
 
@@ -313,7 +354,7 @@
 * **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
 * **StswFilePicker** has small bugfix for separating by thousands.
 
-
+---
 
 <h1 id="0-8-0">0.8.0</h1>
 
@@ -348,7 +389,7 @@
 * **StswTextEditor** has customizable scroll viewer control now.
 * **StswBindingList** properly counts initial items as "Unchanged".
 
-
+---
 
 <h1 id="0-7-1">0.7.1</h1>
 
@@ -358,7 +399,7 @@
 * Stsw collection items no longer set "DisplayMemberPath" if items source type is assignable to **StswComboItem** but item template is not null.
 * **StswMessageDialog** has properly stretched text box.
 
-
+---
 
 <h1 id="0-7-0">0.7.0</h1>
 
@@ -403,7 +444,7 @@
 * **RadioConverter** renamed into **StswRadioConverter**.
 * Extensions **PadLeft** and **PadRight** work properly now.
 
-
+---
 
 <h1 id="0-6-2">0.6.2</h1>
 
@@ -413,7 +454,7 @@
 
 * **ConvertTo** extension now will work with nullable enums.
 
-
+---
 
 <h1 id="0-6-1">0.6.1</h1>
 
@@ -434,7 +475,7 @@
 
 * **StswBindingList** can be sorted now (for example in **StswDataGrid** when clicked on column).
 
-
+---
 
 <h1 id="0-6-0">0.6.0</h1>
 
@@ -479,7 +520,7 @@
 * **StswNotifyIcon** can show in tray only if it is enabled.
 * **StswWindow** now can pass "Components" to its title bar.
 
-
+---
 
 <h1 id="0-5-0">0.5.0</h1>
 
@@ -513,7 +554,7 @@
 * Bugfix translation for **StswColorBox**'s tab headers.
 * Going into fullscreen mode should properly activate and focus window.
 
-
+---
 
 <h1 id="0-4-3">0.4.3</h1>
 
@@ -522,7 +563,7 @@
 ## Bug Fixes
 * **StswExport** is improved - now numeric and date values should be properly displayed and formatted in cells.
 
-
+---
 
 <h1 id="0-4-2">0.4.2</h1>
 
@@ -531,7 +572,7 @@
 ## Bug Fixes
 * **StswCalendar** no longer allows to select date that is not between minimum and maximum range. "Today" button becomes disabled when current date is not in minimum and maximum range.
 
-
+---
 
 <h1 id="0-4-1">0.4.1</h1>
 
@@ -540,7 +581,7 @@
 ## Changed Functionality
 * **StswFilterBox** have "FilterMenuMode" property for filter mode button. **StswFilterMode** enum no longer have "None" value.
 
-
+---
 
 <h1 id="0-4-0">0.4.0</h1>
 
@@ -601,7 +642,7 @@
 * Stsw button controls no longer have additional grid in their template to fix clipping border since there exists "CornerClipping" property now.
 * **StswContentDialog** will no longer throw exception if someone will try to close it multiple times in a moment.
 
-
+---
 
 <h1 id="0-3-2">0.3.2</h1>
 
@@ -619,7 +660,7 @@
 * **ConvertTo** extension method can properly convert to enum type.
 * **StswFilter** properly calculates SQL string when its ItemsSource contains enum values.
 
-
+---
 
 <h1 id="0-3-1">0.3.1</h1>
 
@@ -628,7 +669,7 @@
 ## Bug Fixes
 * **StswDataGrid**'s special column has proper margins again.
 
-
+---
 
 <h1 id="0-3-0">0.3.0</h1>
 
@@ -671,7 +712,7 @@
 * Bugfix for binding to **StswDatabaseModel**'s properties.
 * **StswExportParameters**'s "ExcludeNonAttributes" property renamed to "IncludeNonAttributed".
 
-
+---
 
 <h1 id="0-2-1">0.2.1</h1>
 
@@ -687,7 +728,7 @@
 * **StswDataGrid** is no longer overriding "FrozenColumnCount" property.
 * **StswDropButton** properly binds its separator's brush.
 
-
+---
 
 <h1 id="0-2-0">0.2.0</h1>
 
@@ -733,7 +774,7 @@
 * **StswDropButton**, **StswSplitButton**, **StswComboBox** and **StswSelectionBox** have default "MaxDropDownHeight".
 * **StswFilter** will no longer have top margin if it does not have header.
 
-
+---
 
 <h1 id="0-1-1">0.1.1</h1>
 
@@ -759,7 +800,7 @@
 * Arrow icon in Stsw controls with drop-down list are now aligned to right when control is in stretched alignment mode.
 * Stsw component controls release space for icon if icon is null.
 
-
+---
 
 <h1 id="0-1-0">0.1.0</h1>
 
@@ -826,7 +867,7 @@
 * Bugfixes for "IconScale" property in a few controls.
 * Many other small bugfixes.
 
-
+---
 
 <h1 id="one-year-edition">One year edition</h1>
 
@@ -872,13 +913,13 @@
 
 * Not listed since most of controls and helper classes have been reworked and reworks include many bugfixes.
 
-
+---
 
 <h1 id="re-edition">Re-edition</h1>
 
 **Release Date**: 2022-03-01
 
-### New controls:
+### Controls:
 
 * **ColorSetter** - in short a control made from 4 sliders and labels. Each slider represent RGBA color channels.
 * **ColumnFilter** - in short a control that allows user to specify a value used for "where" clause in SQL commands. This control shows different box based on filter type and generates different text based on filter mode.
@@ -900,7 +941,7 @@
 * **OutlinedTextBlock** - same as TextBlock but contains some properties allowing it to have a stroke.
 * **StswWindow** - extended window with options to scale interface (poor version) and switch themes between light and dark.
 
-### New helpers:
+### Helpers:
 
 * **BindingProxy** - helper class that allows creating a proxy object for data binding purposes.
 * **Commands** - helper class that contains some routed UI commands including their input gestures.
@@ -914,7 +955,7 @@
 * **Security** - helper class that provides methods for encrypting and decrypting text and for generating salt and hash.
 * **VM** - helper class implementing INotifyPropertyChanged interface that provides a method for invoking PropertyChanged.
 
-Other:
+### Other:
 
 * **Resources** - a collection of filter icons.
 * **Themes** - a collection of styles for some controls to provide them with light and dark theme look (poor version).

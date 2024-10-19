@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,19 +31,19 @@ public static class StswFn
     /// <summary>
     /// Gets the name of the currently executing application.
     /// </summary>
-    /// <returns>The name of the currently executing application, or null if it cannot be determined.</returns>
+    /// <returns>The name of the currently executing application, or <see langword="null"/> if it cannot be determined.</returns>
     public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
 
     /// <summary>
     /// Gets the version number of the currently executing application.
     /// </summary>
-    /// <returns>The version number of the currently executing application as a string, or null if it cannot be determined.</returns>
+    /// <returns>The version number of the currently executing application as a string, or <see langword="null"/> if it cannot be determined.</returns>
     public static string? AppVersion()
     {
         if (Assembly.GetEntryAssembly()?.GetName().Version is Version version)
         {
             int?[] versionParts = [version.Major, version.Minor, version.Build, version.Revision];
-            for (int i = versionParts.Length - 1; i >= 0; i--)
+            for (var i = versionParts.Length - 1; i >= 0; i--)
             {
                 if (versionParts[i] == 0)
                     versionParts[i] = null;
@@ -50,7 +51,7 @@ public static class StswFn
                     break;
             }
 
-            return string.Join(".", versionParts.Where(part => part != null));
+            return string.Join('.', versionParts.Where(part => part != null));
         }
 
         return null;
@@ -60,12 +61,21 @@ public static class StswFn
     /// Gets the name and version number of the currently executing application.
     /// </summary>
     /// <returns>A string containing the name and version number of the currently executing application.</returns>
-    public static string AppNameAndVersion => $"{AppName()} {(AppVersion() != "1" ? AppVersion() : string.Empty)}";
+    public static string? AppNameAndVersion
+    {
+        get
+        {
+            var appName = AppName();
+            var appVersion = AppVersion();
+
+            return appVersion != "1" ? $"{appName} {appVersion}" : appName;
+        }
+    }
 
     /// <summary>
     /// Gets the copyright information for the currently executing application.
     /// </summary>
-    /// <returns>The copyright information, or null if it cannot be determined.</returns>
+    /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
@@ -93,36 +103,20 @@ public static class StswFn
         var m = lightness - c / 2;
 
         double r = 0, g = 0, b = 0;
-        if (h < 1.0 / 6)
-        {
-            r = c; g = x;
-        }
-        else if (h < 2.0 / 6)
-        {
-            r = x; g = c;
-        }
-        else if (h < 3.0 / 6)
-        {
-            g = c; b = x;
-        }
-        else if (h < 4.0 / 6)
-        {
-            g = x; b = c;
-        }
-        else if (h < 5.0 / 6)
-        {
-            r = x; b = c;
-        }
-        else
-        {
-            r = c; b = x;
-        }
 
-        r = Math.Round((r + m) * 255);
-        g = Math.Round((g + m) * 255);
-        b = Math.Round((b + m) * 255);
+        if (h < 1.0 / 6) { r = c; g = x; }
+        else if (h < 2.0 / 6) { r = x; g = c; }
+        else if (h < 3.0 / 6) { g = c; b = x; }
+        else if (h < 4.0 / 6) { g = x; b = c; }
+        else if (h < 5.0 / 6) { r = x; b = c; }
+        else { r = c; b = x; }
 
-        return Color.FromArgb(alpha, (byte)r, (byte)g, (byte)b);
+        return Color.FromArgb(
+            alpha,
+            (byte)Math.Round((r + m) * 255),
+            (byte)Math.Round((g + m) * 255),
+            (byte)Math.Round((b + m) * 255)
+        );
     }
 
     /// <summary>
@@ -143,11 +137,37 @@ public static class StswFn
     /// <param name="lightness">The lightness component (0-1).</param>
     public static void ColorToHsl(Color color, out double hue, out double saturation, out double lightness)
     {
-        var drawingColor = color.ToDrawingColor();
+        var r = color.R / 255.0;
+        var g = color.G / 255.0;
+        var b = color.B / 255.0;
 
-        hue = drawingColor.GetHue();
-        saturation = drawingColor.GetSaturation();
-        lightness = drawingColor.GetBrightness();
+        var max = Math.Max(r, Math.Max(g, b));
+        var min = Math.Min(r, Math.Min(g, b));
+
+        lightness = (max + min) / 2.0;
+
+        if (max == min)
+        {
+            hue = 0;
+            saturation = 0;
+        }
+        else
+        {
+            var delta = max - min;
+
+            saturation = lightness > 0.5
+                ? delta / (2.0 - max - min)
+                : delta / (max + min);
+
+            if (max == r)
+                hue = (g - b) / delta + (g < b ? 6 : 0);
+            else if (max == g)
+                hue = (b - r) / delta + 2;
+            else
+                hue = (r - g) / delta + 4;
+
+            hue *= 60;
+        }
     }
 
     /// <summary>
@@ -160,14 +180,14 @@ public static class StswFn
     /// <returns>A <see cref="Color"/> object representing the specified HSV values.</returns>
     public static Color ColorFromHsv(byte alpha, double hue, double saturation, double value)
     {
-        var h = (int)Math.Floor(hue / 60) % 6;
+        hue = hue % 360;
+        var h = (int)(hue / 60) % 6;
         var f = hue / 60 - Math.Floor(hue / 60);
 
-        value *= 255;
-        var v = (byte)value;
-        var p = (byte)(value * (1 - saturation));
-        var q = (byte)(value * (1 - f * saturation));
-        var t = (byte)(value * (1 - (1 - f) * saturation));
+        var v = (byte)(value * 255);
+        var p = (byte)(v * (1 - saturation));
+        var q = (byte)(v * (1 - f * saturation));
+        var t = (byte)(v * (1 - (1 - f) * saturation));
 
         return h switch
         {
@@ -198,12 +218,29 @@ public static class StswFn
     /// <param name="value">The value component (0-1).</param>
     public static void ColorToHsv(Color color, out double hue, out double saturation, out double value)
     {
-        int max = Math.Max(color.R, Math.Max(color.G, color.B));
-        int min = Math.Min(color.R, Math.Min(color.G, color.B));
+        var r = color.R / 255.0;
+        var g = color.G / 255.0;
+        var b = color.B / 255.0;
 
-        hue = color.ToDrawingColor().GetHue();
-        saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-        value = max / 255d;
+        var max = Math.Max(r, Math.Max(g, b));
+        var min = Math.Min(r, Math.Min(g, b));
+        var delta = max - min;
+
+        if (delta == 0)
+            hue = 0;
+        else if (max == r)
+            hue = 60 * (((g - b) / delta) % 6);
+        else if (max == g)
+            hue = 60 * (((b - r) / delta) + 2);
+        else
+            hue = 60 * (((r - g) / delta) + 4);
+
+        if (hue < 0)
+            hue += 360;
+
+        saturation = (max == 0) ? 0 : delta / max;
+
+        value = max;
     }
 
     /// <summary>
@@ -214,35 +251,24 @@ public static class StswFn
     /// <returns>A <see cref="Color"/> object generated from the text and adjusted by the seed value.</returns>
     public static Color GenerateColor(string text, int seed)
     {
-        static int AdjustBrightness(int colorComponent, int seed)
+        static int AdjustBrightness(int component, int seed) => component + (seed - component) / 2;
+
+        if (string.IsNullOrEmpty(text))
+            return Colors.Transparent;
+
+        byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
+        int r = hashBytes[0];
+        int g = hashBytes[1];
+        int b = hashBytes[2];
+
+        if (seed >= 0 && seed <= 255)
         {
-            if (colorComponent > seed)
-                return colorComponent - (colorComponent - seed) / 2;
-            else if (colorComponent < seed)
-                return colorComponent + (seed - colorComponent) / 2;
-            return colorComponent;
+            r = AdjustBrightness(r, seed);
+            g = AdjustBrightness(g, seed);
+            b = AdjustBrightness(b, seed);
         }
 
-        var color = Colors.Transparent;
-
-        if (!string.IsNullOrEmpty(text))
-        {
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
-            int r = hashBytes[0];
-            int g = hashBytes[1];
-            int b = hashBytes[2];
-
-            if (seed >= 0)
-            {
-                r = AdjustBrightness(r, seed);
-                g = AdjustBrightness(g, seed);
-                b = AdjustBrightness(b, seed);
-            }
-
-            color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
-        }
-
-        return color;
+        return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
     }
     #endregion
 
@@ -258,28 +284,24 @@ public static class StswFn
             return null;
 
         var result = new BitmapImage();
-        using (var mem = new MemoryStream(value))
-        {
-            mem.Position = 0;
-            result.BeginInit();
-            result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-            result.CacheOption = BitmapCacheOption.OnLoad;
-            result.UriSource = null;
-            result.StreamSource = mem;
-            result.EndInit();
-        }
+        using var mem = new MemoryStream(value);
+        result.BeginInit();
+        result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+        result.CacheOption = BitmapCacheOption.OnLoad;
+        result.StreamSource = mem;
+        result.EndInit();
         result.Freeze();
 
         return result;
     }
 
     /// <summary>
-    /// Merges properties of multiple objects into a single dictionary object. 
+    /// Merges properties of multiple objects into a single dynamic object. 
     /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
     /// </summary>
     /// <param name="parameters">An array of objects to be merged.</param>
-    /// <returns>A dictionary object containing all properties from the provided objects.</returns>
-    public static IDictionary<string, object?> MergeObjects(params object[] parameters)
+    /// <returns>A dynamic object containing all properties from the provided objects.</returns>
+    public static dynamic MergeObjects(params object[] parameters)
     {
         var expando = new ExpandoObject() as IDictionary<string, object?>;
 
@@ -290,13 +312,16 @@ public static class StswFn
 
             foreach (var property in parameter.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
+                if (property.GetIndexParameters().Length > 0)
+                    continue;
+
                 var propertyName = property.Name;
                 var propertyValue = property.GetValue(parameter);
                 expando[propertyName] = propertyValue;
             }
         }
 
-        return expando;
+        return (ExpandoObject)expando;
     }
     #endregion
 
@@ -307,14 +332,14 @@ public static class StswFn
     /// <param name="startDate">The start date of the range.</param>
     /// <param name="endDate">The end date of the range.</param>
     /// <returns>A list of tuples, where each tuple contains the year and month within the specified date range.</returns>
-    /// <remarks>
-    /// This method iterates from the start date to the end date, month by month,
-    /// and collects each unique year and month combination into a list.
-    /// The day component of the dates is ignored.
-    /// </remarks>
     public static List<(int Year, int Month)> GetUniqueMonthsFromRange(DateTime startDate, DateTime endDate)
     {
-        var months = new List<(int Year, int Month)>();
+        if (startDate > endDate)
+            return [];
+
+        var monthsDifference = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
+        var months = new List<(int Year, int Month)>(monthsDifference);
+
         var current = new DateTime(startDate.Year, startDate.Month, 1);
 
         while (current <= endDate)
@@ -328,15 +353,23 @@ public static class StswFn
     #endregion
 
     #region File functions
-    internal struct SHFILEINFO
+    /// <summary>
+    /// Executes a specified verb action on the given file, such as opening or printing the file.
+    /// </summary>
+    /// <param name="path">The path to the file to be opened or printed.</param>
+    /// <param name="verb">The action to perform on the file (e.g., "open", "print").</param>
+    private static void ExecuteFileAction(string path, string verb)
     {
-        public IntPtr hIcon;
-        public int iIcon;
-        public uint dwAttributes;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string szDisplayName;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-        public string szTypeName;
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = verb
+            }
+        };
+        process.Start();
     }
 
     /// <summary>
@@ -349,23 +382,25 @@ public static class StswFn
         const uint SHGFI_ICON = 0x100;
         const uint SHGFI_LARGEICON = 0x0;
 
-        [DllImport("shell32.dll")]
-        static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+        if (!Path.Exists(path))
+            return null;
 
-        if (Path.Exists(path))
+        if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
         {
-            if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
+            var shinfo = new SHFILEINFO();
+            if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
             {
-                var shinfo = new SHFILEINFO();
-                if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
-                    return System.Drawing.Icon.FromHandle(shinfo.hIcon).ToImageSource();
-            }
-            else
-            {
-                if (System.Drawing.Icon.ExtractAssociatedIcon(path) is System.Drawing.Icon icon)
-                    return icon.ToImageSource();
+                using var icon = System.Drawing.Icon.FromHandle(shinfo.hIcon);
+                return icon.ToImageSource();
             }
         }
+        else
+        {
+            var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
+            if (icon != null)
+                return icon.ToImageSource();
+        }
+
         return null;
     }
 
@@ -376,18 +411,19 @@ public static class StswFn
     /// <returns><see langword="true"/> if the file is in use; otherwise, <see langword="false"/>.</returns>
     public static bool IsFileInUse(string path)
     {
-        if (File.Exists(path))
+        try
         {
-            try
-            {
-                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
-            }
-            catch (IOException)
-            {
-                return true;
-            }
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
+            return false;
         }
-        return false;
+        catch (IOException)
+        {
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -400,27 +436,13 @@ public static class StswFn
     /// Opens a file in its associated application.
     /// </summary>
     /// <param name="path">The path to the file to be opened.</param>
-    public static void OpenFile(string path)
-    {
-        var process = new Process();
-        process.StartInfo.FileName = path;
-        process.StartInfo.UseShellExecute = true;
-        process.StartInfo.Verb = "open";
-        process.Start();
-    }
+    public static void OpenFile(string path) => ExecuteFileAction(path, "open");
 
     /// <summary>
     /// Prints a file in its associated application.
     /// </summary>
     /// <param name="path">The path to the file to be printed.</param>
-    public static void PrintFile(string path)
-    {
-        var process = new Process();
-        process.StartInfo.FileName = path;
-        process.StartInfo.UseShellExecute = true;
-        process.StartInfo.Verb = "print";
-        process.Start();
-    }
+    public static void PrintFile(string path) => ExecuteFileAction(path, "print");
     #endregion
 
     #region Finding functions
@@ -429,19 +451,16 @@ public static class StswFn
     /// </summary>
     /// <typeparam name="T">The type of the child to find.</typeparam>
     /// <param name="obj">The control for which to find the logical child.</param>
-    /// <returns>The first logical child of the specified type, or null if no such child exists.</returns>
+    /// <returns>The first logical child of the specified type, or <see langword="null"/> if no such child exists.</returns>
     public static T? FindLogicalChild<T>(DependencyObject obj) where T : class
     {
-        if (obj == null)
-            return null;
-
         foreach (var child in LogicalTreeHelper.GetChildren(obj))
         {
+            if (child is T result)
+                return result;
+
             if (child is DependencyObject depChild)
             {
-                if (child is T result)
-                    return result;
-
                 var descendent = FindLogicalChild<T>(depChild);
                 if (descendent != null)
                     return descendent;
@@ -456,16 +475,18 @@ public static class StswFn
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
     /// <param name="obj">The control for which to find the visual ancestor.</param>
-    /// <returns>The first visual ancestor of the specified type, or null if no such ancestor exists.</returns>
+    /// <returns>The first visual ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
     public static T? FindVisualAncestor<T>(DependencyObject obj) where T : class
     {
-        var dependObj = obj;
-        while (dependObj != null)
+        var parent = obj;
+
+        while (parent != null)
         {
-            dependObj = GetParent(dependObj);
-            if (dependObj is T ancestor)
+            parent = GetParent(parent);
+            if (parent is T ancestor)
                 return ancestor;
         }
+
         return null;
     }
 
@@ -474,15 +495,13 @@ public static class StswFn
     /// </summary>
     /// <typeparam name="T">The type of the child to find.</typeparam>
     /// <param name="obj">The control for which to find the visual child.</param>
-    /// <returns>The first visual child of the specified type, or null if no such child exists.</returns>
+    /// <returns>The first visual child of the specified type, or <see langword="null"/> if no such child exists.</returns>
     public static T? FindVisualChild<T>(DependencyObject obj) where T : class
     {
-        if (obj == null)
-            return null;
-
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
         {
             var child = VisualTreeHelper.GetChild(obj, i);
+
             if (child is T result)
                 return result;
 
@@ -502,16 +521,13 @@ public static class StswFn
     /// <returns>An enumerable collection of visual children of the specified type.</returns>
     public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : class
     {
-        if (obj == null)
-            yield break;
-
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
         {
             var child = VisualTreeHelper.GetChild(obj, i);
             if (child is T t)
                 yield return t;
 
-            foreach (T childOfChild in FindVisualChildren<T>(child))
+            foreach (var childOfChild in FindVisualChildren<T>(child))
                 yield return childOfChild;
         }
     }
@@ -520,7 +536,7 @@ public static class StswFn
     /// Gets the parent of the given control.
     /// </summary>
     /// <param name="obj">The control for which to find the parent.</param>
-    /// <returns>The parent of the control, or null if no parent exists.</returns>
+    /// <returns>The parent of the control, or <see langword="null"/> if no parent exists.</returns>
     public static DependencyObject? GetParent(DependencyObject obj)
     {
         if (obj == null)
@@ -532,30 +548,34 @@ public static class StswFn
             if (parent != null)
                 return parent;
 
-            if (obj is FrameworkContentElement frameworkContentElement)
+            if (contentElement is FrameworkContentElement frameworkContentElement)
                 return frameworkContentElement.Parent;
         }
-        else return VisualTreeHelper.GetParent(obj);
 
-        return null;
+        return VisualTreeHelper.GetParent(obj);
     }
 
     /// <summary>
     /// Gets the parent popup of the given control.
     /// </summary>
     /// <param name="obj">The control for which to find the parent popup.</param>
-    /// <returns>The parent <see cref="Popup"/> control, or null if no parent popup exists.</returns>
+    /// <returns>The parent <see cref="Popup"/> control, or <see langword="null"/> if no parent popup exists.</returns>
     public static Popup? GetParentPopup(DependencyObject obj)
     {
-        var popupRootFinder = VisualTreeHelper.GetParent(obj);
-        while (popupRootFinder != null)
+        var parent = VisualTreeHelper.GetParent(obj);
+
+        while (parent != null)
         {
-            var logicalRoot = LogicalTreeHelper.GetParent(popupRootFinder);
-            if (logicalRoot is Popup popup)
+            if (parent is Popup popup)
                 return popup;
 
-            popupRootFinder = VisualTreeHelper.GetParent(popupRootFinder);
+            var logicalParent = LogicalTreeHelper.GetParent(parent);
+            if (logicalParent is Popup logicalPopup)
+                return logicalPopup;
+
+            parent = VisualTreeHelper.GetParent(parent);
         }
+
         return null;
     }
     #endregion
@@ -601,13 +621,15 @@ public static class StswFn
             return text;
 
         var normalizedString = text.Normalize(NormalizationForm.FormD);
-        var stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder(text.Length);
 
         foreach (var c in normalizedString)
+        {
             if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
                 stringBuilder.Append(c);
+        }
 
-        return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        return stringBuilder.ToString();
     }
 
     /// <summary>
@@ -618,12 +640,11 @@ public static class StswFn
     /// <returns>The processed string with consecutive occurrences removed.</returns>
     public static string RemoveConsecutiveText(string originalText, string textToRemove)
     {
-        var result = originalText;
+        if (string.IsNullOrEmpty(textToRemove))
+            return originalText;
 
-        while (result.Contains(textToRemove + textToRemove))
-            result = result.Replace(textToRemove + textToRemove, textToRemove);
-
-        return result;
+        var pattern = $"({Regex.Escape(textToRemove)})+";
+        return Regex.Replace(originalText, pattern, textToRemove);
     }
 
     /// <summary>
@@ -641,38 +662,9 @@ public static class StswFn
         }
 
         var lines = input.Split(new[] { '\n' }, StringSplitOptions.None);
-        var index = 0;
 
-        while (index < lines.Length)
-        {
-            yield return string.Join("\n", lines.Skip(index).Take(linesPerPart));
-            index += linesPerPart;
-        }
-    }
-    #endregion
-
-    #region Universal functions
-    /// <summary>
-    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
-    /// </summary>
-    /// <param name="action">The action to execute.</param>
-    /// <param name="maxTries">The maximum number of tries.</param>
-    /// <param name="msInterval">The interval between tries in milliseconds.</param>
-    public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
-    {
-        while (maxTries > 0)
-        {
-            try
-            {
-                action.Invoke();
-                break;
-            }
-            catch
-            {
-                if (--maxTries == 0) throw;
-                Thread.Sleep(msInterval);
-            }
-        }
+        for (int i = 0; i < lines.Length; i += linesPerPart)
+            yield return string.Join("\n", lines, i, Math.Min(linesPerPart, lines.Length - i));
     }
     #endregion
 
@@ -680,9 +672,9 @@ public static class StswFn
     /// <summary>
     /// Determines whether the specified element is part of the specified <see cref="Popup"/> control.
     /// </summary>
-    /// <param name="popup">The Popup control to check against.</param>
+    /// <param name="popup">The <see cref="Popup"/> control to check against.</param>
     /// <param name="element">The element to check.</param>
-    /// <returns>True if the element is part of the Popup control; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if the element is part of the <see cref="Popup"/> control; otherwise, <see langword="false"/>.</returns>
     public static bool IsChildOfPopup(Popup popup, DependencyObject element)
     {
         var parent = VisualTreeHelper.GetParent(element);
@@ -692,6 +684,15 @@ public static class StswFn
                 return true;
             parent = VisualTreeHelper.GetParent(parent);
         }
+
+        parent = LogicalTreeHelper.GetParent(element);
+        while (parent != null)
+        {
+            if (parent == popup)
+                return true;
+            parent = LogicalTreeHelper.GetParent(parent);
+        }
+
         return false;
     }
 
@@ -701,24 +702,19 @@ public static class StswFn
     /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
     public static StswTheme GetWindowsTheme()
     {
-        var theme = StswTheme.Light;
-
         try
         {
             using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
             var registryValueObject = key?.GetValue("AppsUseLightTheme");
-            if (registryValueObject == null)
-                return theme;
-
-            var registryValue = (int)registryValueObject;
-            theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
+            if (registryValueObject is int registryValue)
+                return registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
         }
-        catch
+        catch (Exception)
         {
-            /// default to light theme in case of exception
+            // Optionally log the exception here if needed
         }
 
-        return theme;
+        return StswTheme.Light;
     }
 
     /// <summary>
@@ -727,10 +723,11 @@ public static class StswFn
     /// <param name="element">The <see cref="FrameworkElement"/> to be removed from its parent.</param>
     public static void RemoveFromParent(FrameworkElement element)
     {
-        if (element.Parent == null)
+        var parent = element.Parent;
+        if (parent == null)
             return;
 
-        switch (element.Parent)
+        switch (parent)
         {
             case ContentControl contentControl:
                 contentControl.Content = null;
@@ -751,7 +748,51 @@ public static class StswFn
     }
     #endregion
 
+    #region Universal functions
+    /// <summary>
+    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
+    /// </summary>
+    /// <param name="action">The action to execute.</param>
+    /// <param name="maxTries">The maximum number of tries.</param>
+    /// <param name="msInterval">The interval between tries in milliseconds.</param>
+    public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
+    {
+        for (var attempt = 1; attempt <= maxTries; attempt++)
+        {
+            try
+            {
+                action.Invoke();
+                break;
+            }
+            catch (Exception) when (attempt < maxTries)
+            {
+                Thread.Sleep(msInterval);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+    #endregion
+
     #region Validation functions
+    /// <summary>
+    /// Validates whether the specified email addresses are in a valid format. Multiple email addresses can be separated by commas or semicolons.
+    /// </summary>
+    /// <param name="emails">A string containing one or more email addresses to validate.</param>
+    /// <param name="separator">The separator used to split the email addresses (e.g., ',', ';').</param>
+    /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
+    public static bool AreValidEmails(string emails, char separator = ',')
+    {
+        if (string.IsNullOrWhiteSpace(emails))
+            return false;
+
+        var emailList = emails.Split(separator, StringSplitOptions.TrimEntries);
+        var emailValidator = new EmailAddressAttribute();
+        return emailList.All(emailValidator.IsValid);
+    }
+
     /// <summary>
     /// Validates whether the specified email address is in a valid format.
     /// </summary>
@@ -760,11 +801,33 @@ public static class StswFn
     public static bool IsValidEmail(string email) => new EmailAddressAttribute().IsValid(email);
 
     /// <summary>
-    /// Validates whether the specified phone number is in a valid format.
+    /// Validates whether the specified phone number is in a valid format based on the country code.
     /// </summary>
     /// <param name="number">The phone number to validate.</param>
-    /// <returns><see langword="true"/> if the phone number contains between 7 and 15 digits; otherwise, <see langword="false"/>.</returns>
-    public static bool IsValidPhoneNumber(string number) => new string(number.Where(char.IsDigit).ToArray()).Length.Between(7, 15);
+    /// <param name="countryCode">The country code to validate against (e.g., "PL").</param>
+    /// <returns><see langword="true"/> if the phone number is valid for the given country code; otherwise, <see langword="false"/>.</returns>
+    public static bool IsValidPhoneNumber(string number, string countryCode)
+    {
+        var digits = new string(number.Where(char.IsDigit).ToArray());
+
+        switch (countryCode.ToUpper())
+        {
+            case "PL":
+                if (digits.Length == 9)
+                    return true;
+
+                if (digits.Length == 11 && digits.StartsWith("48"))
+                    return true;
+
+                return false;
+            case "UK":
+                return digits.Length == 10 || digits.Length == 11;
+            case "US":
+                return digits.Length == 10;
+            default:
+                return digits.Length >= 7 && digits.Length <= 15;
+        }
+    }
 
     /// <summary>
     /// Validates whether the specified URL is in a valid format and uses HTTP or HTTPS.
@@ -773,25 +836,27 @@ public static class StswFn
     /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
     public static bool IsValidUrl(string url)
     {
-        if (Uri.TryCreate(url, UriKind.Absolute, out var result))
+        if (Uri.TryCreate(url, UriKind.Absolute, out var result)
+         && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps))
         {
-            if (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps)
-            {
-                try
-                {
-                    var host = result.Host;
-                    if (string.IsNullOrWhiteSpace(host))
-                        return false;
-
-                    return host.Contains('.') && !host.Any(char.IsWhiteSpace);
-                }
-                catch
-                {
-                    return false;
-                }
-            }
+            var host = result.Host;
+            return !string.IsNullOrWhiteSpace(host) && host.Contains('.') && !host.Any(char.IsWhiteSpace);
         }
         return false;
     }
     #endregion
+
+    private struct SHFILEINFO
+    {
+        public IntPtr hIcon;
+        public int iIcon;
+        public uint dwAttributes;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    [DllImport("shell32.dll")]
+    static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
 }

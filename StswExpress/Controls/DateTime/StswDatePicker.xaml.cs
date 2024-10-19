@@ -33,7 +33,7 @@ public class StswDatePicker : StswBoxBase
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
-
+    /*
     /// <summary>
     /// Handles the MouseDown event for the internal content host of the time picker.
     /// If the Middle mouse button is pressed, the IncrementType value is changed.
@@ -45,7 +45,7 @@ public class StswDatePicker : StswBoxBase
         if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
             IncrementType = IncrementType.GetNextValue();
     }
-
+    */
     /// <summary>
     /// Handles the MouseWheel event for the internal content host of the date picker.
     /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.

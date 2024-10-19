@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace TestApp;
@@ -38,7 +39,6 @@ public partial class App : StswApp
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         await StswMessageDialog.Show(e.Exception, "Unhandled exception", true);
-        //StswLog.Write(StswInfoType.Error, e.Exception.ToString());
     }
 
     private static async void OpenHelp()

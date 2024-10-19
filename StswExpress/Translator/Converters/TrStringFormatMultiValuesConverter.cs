@@ -92,9 +92,9 @@ public class TrStringFormatMultiValuesConverter : MarkupExtension, IMultiValueCo
         try
         {
             var xamlContext = serviceProvider.GetType()?.GetRuntimeFields()?.ToList()?.Find(f => f.Name.Equals("_xamlContext"))?.GetValue(serviceProvider);
-            xamlTargetObject = xamlContext?.GetType()?.GetProperty("GrandParentInstance")?.GetValue(xamlContext) as FrameworkElement;
-            var xamlProperty = xamlContext?.GetType()?.GetProperty("GrandParentProperty")?.GetValue(xamlContext);
-            xamlDependencyProperty = xamlProperty?.GetType()?.GetProperty("DependencyProperty")?.GetValue(xamlProperty) as DependencyProperty;
+            xamlTargetObject = xamlContext?.GetPropertyValue("GrandParentInstance") as FrameworkElement;
+            var xamlProperty = xamlContext?.GetPropertyValue("GrandParentProperty");
+            xamlDependencyProperty = xamlProperty?.GetPropertyValue("DependencyProperty") as DependencyProperty;
 
             if (string.IsNullOrEmpty(TextID))
             {

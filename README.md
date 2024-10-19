@@ -1,33 +1,51 @@
 # StswExpress
-WPF .NET 6.0 library containing:
-- new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-  - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
-  - **Charts:** StswChartColumns, StswChartLegend, StswChartPie
-  - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
-  - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswShiftSelector, StswTreeView
-  - **Color:** StswColorBox, StswColorPicker, StswColorSelector
-  - **DataGrids:** StswDataGrid, StswDataPager
-  - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker, StswTimerControl
-  - **Dialogs:** StswContentDialog, StswMessageDialog
-  - **File:** StswFilePicker
-  - **Filters:** StswFilterBox
-  - **Input:** StswAdaptiveBox, StswDecimalBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswTimedSwitch, StswZoomControl
-  - **Media:** StswGallery, StswImage, StswMediaPlayer
-  - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Panels:** StswGrid, StswLabelPanel, StswSidePanel
-  - **Scrolling:** StswDirectionView, StswScrollBar, StswScrollView
-  - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
-  - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubError, StswSubLabel, StswSubRadio, StswSubRepeater, StswSubSelector
-  - **TextStyle:** StswDropArrow, StswIcon, StswLabel, StswOutlinedText, StswSpinner, StswText
-  - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
-- many helpful classes like relay commands, converters, exporting data, extensions, geometry icons, logging system, mail sending, security etc.
-- possibility to scale GUI and change themes (light/dark)
 
-Licencing:
-- icons contained in StswIcons class are copied from Material Design Icons: https://pictogrammers.com/library/mdi/
-- themes are modified version of themes from DynamicAero2: https://github.com/manju-summoner/DynamicAero2
-- translator is modified version of translator from TranslateMe: https://github.com/codingseb/TranslateMe
+A modern WPF library for .NET 8.0, offering enhanced controls, tools, and customization options for building responsive and feature-rich desktop applications.
 
-Packages are available in NuGet at the following link: https://www.nuget.org/packages/StswExpress
-Full changelog is available in TestApp or at the following link: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md
+## Features
+
+### Controls
+StswExpress provides a wide range of controls, many inspired by **WinUI 3**, as well as WPF controls with enhanced styling and functionalities.
+Here's a breakdown:
+
+- **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
+- **Charts**: `StswChartColumns`, `StswChartLegend`, `StswChartPie`
+- **Checks**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
+- **Collections**: `StswComboBox`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswShiftSelector`, `StswTreeView`
+- **Color Controls**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
+- **DataGrids**: `StswDataGrid`, `StswDataPager`
+- **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
+- **Dialogs**: `StswContentDialog`, `StswMessageDialog`
+- **File Handling**: `StswFilePicker`
+- **Filters**: `StswFilterBox`
+- **Input**: `StswAdaptiveBox`, `StswDecimalBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
+- **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswZoomControl`
+- **Media**: `StswGallery`, `StswImage`, `StswMediaPlayer`
+- **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
+- **Panels**: `StswGrid`, `StswLabelPanel`, `StswSidePanel`
+- **Scrolling**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
+- **Status & Info**: `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`
+- **Sub Controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
+- **Text & Styling**: `StswDropArrow`, `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
+- **Windowing**: `StswContextMenu`, `StswNotifyIcon`, `StswPopup`, `StswToolTip`, `StswWindow`, `StswWindowBar`
+
+### Utilities & Enhancements
+- **Commands & Converters**: Various command patterns and value converters for common WPF scenarios.
+- **Database Tools**: Query result mapping and database helpers.
+- **Extensions**: Useful extensions to simplify WPF development.
+- **Icons**: A wide collection of vector-based geometry icons that are easy to customize and scale for various UI needs.
+- **Logging System**: Built-in logging functionality for better debugging and monitoring.
+- **Mail Sending**: Utility for sending emails directly from the application.
+- **Scaling & Themes**: Easily scale the GUI, switch between multiple color themes, and localize the app for different languages.
+
+## Licensing & Acknowledgments
+
+- **Icons**: The icons in `StswIcons` are sourced from [Material Design Icons](https://pictogrammers.com/library/mdi/).
+- **Themes**: The light/dark themes are a modified version of [DynamicAero2](https://github.com/manju-summoner/DynamicAero2).
+- **Translator**: The translation functionality is based on [TranslateMe](https://github.com/codingseb/TranslateMe).
+
+## Get Started
+
+You can find StswExpress on NuGet [here](https://www.nuget.org/packages/StswExpress).
+
+For more details and the full changelog, click [here](https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md).

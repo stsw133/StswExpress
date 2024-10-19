@@ -9,17 +9,13 @@ namespace StswExpress;
 /// </summary>
 public partial class StswResources
 {
-    static StswResources()
-    {
-        AvailableThemes = Enum.GetValues(typeof(StswTheme)).Cast<StswTheme>().ToObservableCollection();
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswResources"/> class.
-    /// </summary>
     public StswResources()
     {
         InitializeComponent();
+    }
+    static StswResources()
+    {
+        AvailableThemes = Enum.GetValues(typeof(StswTheme)).Cast<StswTheme>().ToObservableCollection();
     }
 
     /// <summary>

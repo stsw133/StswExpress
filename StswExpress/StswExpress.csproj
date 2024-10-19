@@ -7,23 +7,24 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski, Hubert Rogowski</Authors>
-    <Version>0.12.0</Version>
+    <Version>0.13.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Description>This is a package that contains:
-- new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-- many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
-- possibility to scale GUI and change themes (light/dark)</Description>
+    <Description>This package offers:
+• A variety of modern WPF controls (inspired by WinUI 3) with enhanced styling and functionalities.
+• Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.
+• Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <!-- <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../CHANGELOG.md"))</PackageReleaseNotes> -->
     <PackageTags>Controls; Themes; Utils</PackageTags>
     <Copyright>© 2024 Karol Staszewski</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

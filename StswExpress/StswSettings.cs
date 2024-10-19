@@ -13,23 +13,9 @@ public sealed partial class StswSettings
     /// </summary>
     public StswSettings()
     {
-        // PropertyChanged += StswSettings_PropertyChanged;
         SettingChanging += StswSettings_SettingChanging;
         SettingsLoaded += StswSettings_SettingsLoaded;
-        // SettingsSaving += StswSettings_SettingsSaving;
     }
-
-    /*
-    /// <summary>
-    /// Handles the PropertyChanged event to perform actions when settings properties change.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">Event arguments containing information about the property change.</param>
-    private void StswSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        // Implement actions when properties change
-    }
-    */
 
     /// <summary>
     /// Handles the SettingChanging event to react to changes in specific settings.
@@ -80,16 +66,4 @@ public sealed partial class StswSettings
             Default.Save();
         }
     }
-
-    /*
-    /// <summary>
-    /// Handles the SettingsSaving event to perform actions before settings are saved.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">Event arguments related to the settings saving event.</param>
-    private void StswSettings_SettingsSaving(object sender, CancelEventArgs e)
-    {
-        // Implement actions before settings are saved
-    }
-    */
 }
