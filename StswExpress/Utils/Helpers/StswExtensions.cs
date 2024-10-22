@@ -14,12 +14,14 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Text.Json.Serialization;
 
 namespace StswExpress;
 /// <summary>
@@ -130,30 +132,24 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Creates a deep copy of the specified object.
+    /// Creates a deep copy of the specified object using JSON serialization.
     /// </summary>
     /// <typeparam name="T">The type of the object being cloned.</typeparam>
     /// <param name="original">The original object to clone.</param>
     /// <returns>A deep copy of the original object. The returned object and any sub-objects are entirely independent of the original.</returns>
     /// <remarks>
-    /// This method handles cloning of primitive types, complex object graphs, and collections. It uses reflection to dynamically create a copy
-    /// of the object, ensuring that all nested objects and collections are also deeply cloned. It does not handle circular references which can lead to stack overflow.
+    /// This method uses <see cref="JsonSerializer"/> for deep cloning by serializing the object to a JSON string and then deserializing it back to a new instance.
+    /// It is suitable for objects that are serializable to JSON, including primitive types, complex objects, and collections. 
+    /// However, types like <see cref="BitmapImage"/> and other WPF-related types cannot be serialized directly. These properties must be manually excluded using the <see cref="JsonIgnoreAttribute"/> or handled with custom converters.
+    /// Circular references and metadata are not handled automatically and may cause issues if present. Use with caution for objects with complex internal state or cyclic dependencies.
     /// </remarks>
-    [Obsolete("Bugged.")]
-    public static T? DeepClone<T>(this T original) where T : class
+    public static T? DeepCopyWithJson<T>(this T original) where T : class
     {
         if (original == null)
             return default;
 
-        var typeToReflect = original.GetType();
-        if (StswClone.IsPrimitive(typeToReflect))
-            return original;
-
-        var cloneObject = Activator.CreateInstance<T>();
-        StswClone.CopyProperties(original, cloneObject, typeToReflect);
-        StswClone.CopyFields(original, cloneObject, typeToReflect);
-
-        return cloneObject;
+        var jsonString = JsonSerializer.Serialize(original);
+        return JsonSerializer.Deserialize<T>(jsonString);
     }
 
     /// <summary>
@@ -786,9 +782,7 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
     public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
     {
-        if (source == null)
-            throw new ArgumentNullException(nameof(source));
-
+        ArgumentNullException.ThrowIfNull(source);
         return source.Select(item => EqualityComparer<T>.Default.Equals(item, oldValue) ? newValue : item);
     }
 
@@ -803,7 +797,6 @@ public static partial class StswExtensions
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
-
         for (var i = 0; i < source.Count; i++)
             if (EqualityComparer<T>.Default.Equals(source[i], oldValue))
                 source[i] = newValue;
@@ -1063,14 +1056,6 @@ public static partial class StswExtensions
                 CloseHandle(processHandle);
         }
     }
-
-    [LibraryImport("advapi32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
-
-    [LibraryImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool CloseHandle(IntPtr hObject);
     #endregion
 
     #region SQL extensions
@@ -1224,7 +1209,16 @@ public static partial class StswExtensions
     public static object? GetPropertyValue(this object obj, string propertyName) => obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
     #endregion
 
+    [LibraryImport("advapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
+
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool CloseHandle(IntPtr hObject);
+
     [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
     [return: MarshalAs(UnmanagedType.Bool)]
+
     private static extern bool DeleteObject([In] IntPtr hObject);
 }

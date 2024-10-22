@@ -38,18 +38,21 @@ public static class StswControl
     }
     private static void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is Control button)
+        if (StswSettings.Default.EnableAnimations)
         {
-            var point = e.GetPosition(button);
-            var size = Math.Max(button.ActualWidth, button.ActualHeight);
-
-            if ((button.Template.FindName("OPT_MainBorder", button) ?? button.Template.FindName("PART_MainBorder", button)) is Border border)
+            if (sender is Control button)
             {
-                var adornerLayer = AdornerLayer.GetAdornerLayer(button);
-                if (adornerLayer != null)
+                var point = e.GetPosition(button);
+                var size = Math.Max(button.ActualWidth, button.ActualHeight);
+
+                if ((button.Template.FindName("OPT_MainBorder", button) ?? button.Template.FindName("PART_MainBorder", button)) is Border border)
                 {
-                    var rippleAdorner = new RippleAdorner(button, point, size, border);
-                    adornerLayer.Add(rippleAdorner);
+                    var adornerLayer = AdornerLayer.GetAdornerLayer(button);
+                    if (adornerLayer != null)
+                    {
+                        var rippleAdorner = new RippleAdorner(button, point, size, border);
+                        adornerLayer.Add(rippleAdorner);
+                    }
                 }
             }
         }

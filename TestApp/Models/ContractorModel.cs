@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
 
 namespace TestApp;
@@ -32,6 +33,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private byte[]? _icon;
 
     /// IconSource
+    [JsonIgnore]
     public ImageSource? IconSource
     {
         get => _iconSource;

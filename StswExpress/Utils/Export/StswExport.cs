@@ -52,7 +52,7 @@ public static class StswExport
 
             /// write data
             foreach (var item in data)
-                writer.WriteLine(string.Join(delimiter, properties.Select(p => StswBaseDataHandler.EscapeCsvValue(p.GetValue(item)?.ToString()))));
+                writer.WriteLine(string.Join(delimiter, properties.Select(p => EscapeCsvValue(p.GetValue(item)?.ToString()))));
         }
 
         if (additionalParameters?.OpenFile == true)
@@ -494,4 +494,20 @@ public static class StswExport
         return (List<T>?)serializer.Deserialize(reader) ?? [];
     }
     #endregion
+
+    /// <summary>
+    /// Escapes a CSV value by enclosing it in double quotes if it contains a comma, double quote, or newline.
+    /// </summary>
+    /// <param name="value">The CSV value to escape.</param>
+    /// <returns>The escaped CSV value.</returns>
+    private static string EscapeCsvValue(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+            value = $"\"{value.Replace("\"", "\"\"")}\"";
+
+        return value;
+    }
 }
