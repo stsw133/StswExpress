@@ -281,7 +281,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TResult : new()
+    public static IEnumerable<TResult?> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return [];
@@ -307,7 +307,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null) where TResult : new()
+    public static IEnumerable<TResult?> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
@@ -319,7 +319,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">The timeout used for the command.</param>
     /// <param name="sqlTran">The SQL transaction to use.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null) where TResult : new()
+    public static IEnumerable<TResult?> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
