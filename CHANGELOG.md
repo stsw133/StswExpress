@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.12.1](#0-12-1)
 - [Version 0.12.0](#0-12-0)
 - [Version 0.11.0](#0-11-0)
 - [Version 0.10.0](#0-10-0)
@@ -30,9 +31,23 @@
 
 
 
+<h1 id="0-12-1">0.12.1</h1>
+
+**Release Date**: 2024-10-23
+
+## Bug Fixes
+
+- **Auto-Close on Button Click**:
+  - `StswSubDrop` will also auto-close by default when a button within its content is clicked.
+
+- **Database Connections**:
+  - `Get` in `StswDatabaseHelper` will work with `string` as generic type.
+
+
+
 <h1 id="0-12-0">0.12.0</h1>
 
-**Release Date**: 2024-10-12
+**Release Date**: 2024-10-18
 
 ## New Functionality
 
