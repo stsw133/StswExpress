@@ -135,5 +135,21 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- style for StswCheckBox in: "StswDataGridCheckColumn" -->
+    <Style x:Key="StswDataGridCheckColumnEditingStyle" TargetType="{x:Type se:StswCheckBox}" BasedOn="{StaticResource {x:Type se:StswCheckBox}}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="StswDataGridCheckColumnDisplayStyle" TargetType="{x:Type se:StswCheckBox}" BasedOn="{StaticResource StswDataGridCheckColumnEditingStyle}">
+        <Setter Property="IsHitTestVisible" Value="False"/>
+    </Style>
+
 </ResourceDictionary>

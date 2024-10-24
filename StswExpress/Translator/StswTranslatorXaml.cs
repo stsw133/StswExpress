@@ -296,7 +296,7 @@ public class TrData : StswObservableObject
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">Event arguments containing information about the language change.</param>
-    private void CurrentLanguageChanged(object? sender, TranslatorLanguageChangedEventArgs e) => NotifyPropertyChanged(nameof(TranslatedText));
+    private void CurrentLanguageChanged(object? sender, TranslatorLanguageChangedEventArgs e) => OnPropertyChanged(nameof(TranslatedText));
 
     /// <summary>
     /// Gets the translated text, including any specified prefix and suffix.

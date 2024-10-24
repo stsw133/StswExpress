@@ -16,6 +16,9 @@
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswDecimalBox}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
+            <!-- Icon -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswDecimalBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
             <!-- Increment -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Increment, Type={x:Type se:StswDecimalBox}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Increment}"/>
@@ -47,7 +50,7 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswDecimalBox.Icon>
-                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswDecimalBox.Icon>
             <se:StswDecimalBox.SubControls>
                 <se:StswSubButton Command="{Binding RandomizeCommand}"

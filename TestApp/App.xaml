@@ -142,6 +142,9 @@
             <DataTemplate DataType="{x:Type local:StswFilePickerContext}">
                 <local:StswFilePickerView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswFileTreeContext}">
+                <local:StswFileTreeView/>
+            </DataTemplate>
 
             <!-- Filters -->
             <DataTemplate DataType="{x:Type local:StswFilterBoxContext}">

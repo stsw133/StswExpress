@@ -15,7 +15,7 @@ public abstract class StswObservableObject : INotifyPropertyChanged
     /// Raises the <see cref="PropertyChanged"/> event with the property name.
     /// </summary>
     /// <param name="propertyName">Name of the property (used to notify about different property than the one that has been set).</param>
-    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     /// <summary>
     /// Sets the property value and raises the <see cref="PropertyChanged"/> event if the new value is different from the current value.
@@ -31,7 +31,7 @@ public abstract class StswObservableObject : INotifyPropertyChanged
             return false;
 
         field = value;
-        NotifyPropertyChanged(propertyName);
+        OnPropertyChanged(propertyName);
         return true;
     }
 
@@ -50,7 +50,7 @@ public abstract class StswObservableObject : INotifyPropertyChanged
             return false;
 
         foreach (var name in propertyNamesToNotify)
-            NotifyPropertyChanged(name);
+            OnPropertyChanged(name);
 
         return true;
     }

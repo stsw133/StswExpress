@@ -22,17 +22,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
-
-        if (StswSettings.Default.EnableAnimations)
-        {
-            if (e.NewValue != null)
-                if (ItemContainerGenerator.ContainerFromItem(e.NewValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                    StswAnimations.AnimateClick(this, border, true);
-
-            if (e.OldValue != null)
-                if (ItemContainerGenerator.ContainerFromItem(e.OldValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border oldBorder)
-                    StswAnimations.AnimateClick(this, oldBorder, false);
-        }
+        IStswSelectionControl.SelectionChanged(this, e.NewValue, e.OldValue);
     }
 
     /// <summary>
@@ -68,8 +58,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement
-    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
     /// </summary>
     public bool UsesSelectionItems
     {

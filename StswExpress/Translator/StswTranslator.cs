@@ -52,7 +52,7 @@ public class StswTranslator : StswObservableObject
                 {
                     currentLanguage = value;
                     CurrentLanguageChanged?.Invoke(Instance, changedArgs);
-                    Instance.NotifyPropertyChanged();
+                    Instance.OnPropertyChanged();
                     _translationCache.Clear(); /// clear cache when language changes
                 }
             }

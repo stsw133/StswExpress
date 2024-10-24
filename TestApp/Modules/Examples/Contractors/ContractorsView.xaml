@@ -104,71 +104,61 @@
                         </DataGridTemplateColumn>
 
                         <!-- Name -->
-                        <DataGridTextColumn Binding="{Binding Name}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridTextColumn Binding="{Binding Name}">
+                            <se:StswDataGridTextColumn.Header>
                                 <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Name"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridTextColumn.Header>
+                        </se:StswDataGridTextColumn>
 
                         <!-- Country -->
-                        <DataGridTextColumn Binding="{Binding Address.Country}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridTextColumn Binding="{Binding Address.Country}">
+                            <se:StswDataGridTextColumn.Header>
                                 <se:StswFilterBox Header="Country" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Country"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridTextColumn.Header>
+                        </se:StswDataGridTextColumn>
 
                         <!-- PostCode -->
-                        <DataGridTextColumn Binding="{Binding Address.PostCode}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridTextColumn Binding="{Binding Address.PostCode}">
+                            <se:StswDataGridTextColumn.Header>
                                 <se:StswFilterBox Header="Post code" FilterType="Text" FilterMode="Contains" FilterValuePath="a.PostCode"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridTextColumn.Header>
+                        </se:StswDataGridTextColumn>
 
                         <!-- City -->
-                        <DataGridTextColumn Binding="{Binding Address.City}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridTextColumn Binding="{Binding Address.City}">
+                            <se:StswDataGridTextColumn.Header>
                                 <se:StswFilterBox Header="City" FilterType="Text" FilterMode="Contains" FilterValuePath="a.City"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridTextColumn.Header>
+                        </se:StswDataGridTextColumn>
 
                         <!-- Street -->
-                        <DataGridTextColumn Binding="{Binding Address.Street}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridTextColumn Binding="{Binding Address.Street}">
+                            <se:StswDataGridTextColumn.Header>
                                 <se:StswFilterBox Header="Street" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Street"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridTextColumn.Header>
+                        </se:StswDataGridTextColumn>
 
                         <!-- DefaultDiscount -->
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.Header>
+                        <se:StswDataGridDecimalColumn Binding="{Binding DefaultDiscount}">
+                            <se:StswDataGridDecimalColumn.Header>
                                 <se:StswFilterBox Header="Default discount" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="a.DefaultDiscount"/>
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <se:StswDecimalBox se:StswControl.IsBorderless="True" Padding="0" SeparatorThickness="1" Value="{Binding DefaultDiscount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            </se:StswDataGridDecimalColumn.Header>
+                        </se:StswDataGridDecimalColumn>
 
                         <!-- IsArchival -->
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.Header>
+                        <se:StswDataGridCheckColumn Binding="{Binding IsArchival}">
+                            <se:StswDataGridCheckColumn.Header>
                                 <se:StswFilterBox Header="Is archival" FilterType="Check" FilterValuePath="a.IsArchival" IsFilterNullSensitive="True"/>
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <se:StswCheckBox se:StswControl.IsBorderless="True" Padding="0" IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            </se:StswDataGridCheckColumn.Header>
+                        </se:StswDataGridCheckColumn>
 
                         <!-- CreateDT -->
-                        <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridDateColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
+                            <se:StswDataGridDateColumn.Header>
                                 <se:StswFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="cast(a.CreateDT as date)"/>
                                 <!-- Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" -->
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridDateColumn.Header>
+                        </se:StswDataGridDateColumn>
                     </se:StswDataGrid.Columns>
 
                     <se:StswDataGrid.RowDetailsTemplate>

@@ -20,7 +20,7 @@
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         
         <Setter Property="IsShiftingEnabled" Value="False"/>
-        <Setter Property="PathType" Value="File"/>
+        <Setter Property="SelectionMode" Value="File"/>
         <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -160,5 +160,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- style for StswFilePicker in: "StswDataGridPathColumn" -->
+    <Style x:Key="StswDataGridPathColumnEditingStyle" TargetType="{x:Type se:StswFilePicker}" BasedOn="{StaticResource {x:Type se:StswFilePicker}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+    </Style>
+
 </ResourceDictionary>

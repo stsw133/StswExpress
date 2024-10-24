@@ -127,12 +127,19 @@
     <Style TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
     </Style>
-    <!--
-    <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
-        <Setter Property="Increment" Value="1"/>
+
+    <!-- style for StswNumberBox in: "StswDataGridNumberColumn" -->
+    <Style x:Key="StswDataGridDecimalColumnEditingStyle" TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource {x:Type se:StswDecimalBox}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
     </Style>
-    <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
-        <Setter Property="Increment" Value="1"/>
-    </Style>
-    -->
+
 </ResourceDictionary>

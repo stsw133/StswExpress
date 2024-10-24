@@ -54,7 +54,27 @@ public interface IStswSelectionControl
     /// <param name="selectionControl"></param>
     /// <param name="addedItems"></param>
     /// <param name="removedItems"></param>
-    static void SelectionChanged(Selector selectionControl, IList addedItems, IList removedItems)
+    static void SelectionChanged(TreeView selectionControl, object? newValue, object? oldValue)
+    {
+        if (StswSettings.Default.EnableAnimations)
+        {
+            if (newValue != null)
+                if (selectionControl.ItemContainerGenerator.ContainerFromItem(newValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
+                    StswAnimations.AnimateClick(selectionControl, border, true);
+
+            if (oldValue != null)
+                if (selectionControl.ItemContainerGenerator.ContainerFromItem(oldValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
+                    StswAnimations.AnimateClick(selectionControl, border, false);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="selectionControl"></param>
+    /// <param name="addedItems"></param>
+    /// <param name="removedItems"></param>
+    static void SelectionChanged(Selector selectionControl, IList? addedItems, IList? removedItems)
     {
         if (StswSettings.Default.EnableAnimations)
         {

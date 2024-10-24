@@ -377,7 +377,7 @@ public static class StswFn
     /// </summary>
     /// <param name="path">The file or directory path to extract the icon from.</param>
     /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
-    public static ImageSource? ExtractAssociatedIcon(string? path)
+    public static System.Drawing.Icon? ExtractAssociatedIcon(string? path)
     {
         const uint SHGFI_ICON = 0x100;
         const uint SHGFI_LARGEICON = 0x0;
@@ -389,16 +389,11 @@ public static class StswFn
         {
             var shinfo = new SHFILEINFO();
             if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
-            {
-                using var icon = System.Drawing.Icon.FromHandle(shinfo.hIcon);
-                return icon.ToImageSource();
-            }
+                return System.Drawing.Icon.FromHandle(shinfo.hIcon);
         }
         else
         {
-            var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
-            if (icon != null)
-                return icon.ToImageSource();
+            return System.Drawing.Icon.ExtractAssociatedIcon(path);
         }
 
         return null;
@@ -749,6 +744,22 @@ public static class StswFn
     #endregion
 
     #region Universal functions
+    /// <summary>
+    /// Returns the first non-null and non-default value from the provided arguments.
+    /// If all values are <see langword="null"/> or <see langword="default"/>, returns <see langword="null"/>.
+    /// </summary>
+    /// <param name="values">Array of values to evaluate.</param>
+    /// <returns>The first non-null, non-default value or <see langword="null"/> if all are <see langword="null"/> or <see langword="default"/>.</returns>
+    public static T? Coalesce<T>(params T[] values)
+    {
+        foreach (var value in values)
+        {
+            if (!value.IsNullOrDefault())
+                return value;
+        }
+        return (T?)(object?)null;
+    }
+
     /// <summary>
     /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
     /// </summary>

@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TestApp.StswFileTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswFileTreeContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a custom file tree control that displays folders and files in a hierarchical structure.
+            This control allows for folder expansion and item selection with support for animations and custom paths.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- InitialPath -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf InitialPath, Type={x:Type se:StswFileTree}}"/>
+            <se:StswFilePicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionMode="Directory"/>
+            <!-- ShowFiles -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowFiles, Type={x:Type se:StswFileTree}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowFiles}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswFileTree InitialPath="{Binding InitialPath}"
+                         IsEnabled="{Binding IsEnabled}"
+                         Margin="5"
+                         SelectedPath="{Binding SelectedPath}"
+                         ShowFiles="{Binding ShowFiles}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
+                <Run Text="Selected path: "/>
+                <Run Text="{Binding SelectedPath}" FontWeight="Bold"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

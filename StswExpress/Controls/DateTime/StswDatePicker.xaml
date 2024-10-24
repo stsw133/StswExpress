@@ -133,5 +133,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- style for StswDatePicker in: "StswDataGridDateColumn" -->
+    <Style x:Key="StswDataGridDateColumnEditingStyle" TargetType="{x:Type se:StswDatePicker}" BasedOn="{StaticResource {x:Type se:StswDatePicker}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+    </Style>
+
 </ResourceDictionary>

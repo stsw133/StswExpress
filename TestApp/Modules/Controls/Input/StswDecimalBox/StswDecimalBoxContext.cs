@@ -24,6 +24,14 @@ public class StswDecimalBoxContext : ControlsContext
     }
     private string? _format = "N2";
 
+    /// Icon
+    public bool Icon
+    {
+        get => _icon;
+        set => SetProperty(ref _icon, value);
+    }
+    private bool _icon;
+
     /// Increment
     public decimal Increment
     {

@@ -9,7 +9,7 @@ public class StswSegmentContext : ControlsContext
 {
     public StswSegmentContext()
     {
-        Items.ListChanged += (_, _) => NotifyPropertyChanged(nameof(SelectionCounter));
+        Items.ListChanged += (_, _) => OnPropertyChanged(nameof(SelectionCounter));
     }
 
     public override void SetDefaults()

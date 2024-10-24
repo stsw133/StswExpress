@@ -17,6 +17,14 @@ public class StswColorBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
+    /// Icon
+    public bool Icon
+    {
+        get => _icon;
+        set => SetProperty(ref _icon, value);
+    }
+    private bool _icon;
+
     /// IsAlphaEnabled
     public bool IsAlphaEnabled
     {

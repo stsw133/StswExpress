@@ -46,6 +46,7 @@
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
         <ResourceDictionary Source="File/StswFilePicker.xaml"/>
+        <ResourceDictionary Source="File/StswFileTree.xaml"/>
         
         <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
         
