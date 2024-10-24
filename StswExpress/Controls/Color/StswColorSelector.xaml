@@ -68,9 +68,8 @@
 
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                       Focusable="False"
-                                                      Padding="{TemplateBinding Padding}"
-                                                      HorizontalScrollBarVisibility="Auto"
-                                                      VerticalScrollBarVisibility="Disabled">
+                                                      Orientation="Horizontal"
+                                                      Padding="{TemplateBinding Padding}">
                                     <ItemsControl AlternationCount="6" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -115,9 +114,8 @@
 
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                       Focusable="False"
-                                                      Padding="{TemplateBinding Padding}"
-                                                      HorizontalScrollBarVisibility="Auto"
-                                                      VerticalScrollBarVisibility="Disabled">
+                                                      Orientation="Horizontal"
+                                                      Padding="{TemplateBinding Padding}">
                                     <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>

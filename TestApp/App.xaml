@@ -75,6 +75,9 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswFlipViewContext}">
+                <local:StswFlipViewView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
@@ -89,9 +92,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswShiftSelectorContext}">
-                <local:StswShiftSelectorView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTreeViewContext}">
                 <local:StswTreeViewView/>
@@ -200,6 +200,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswMediaPlayerContext}">
                 <local:StswMediaPlayerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswThumbnailViewContext}">
+                <local:StswThumbnailViewView/>
             </DataTemplate>
             
             <!-- Navigation -->

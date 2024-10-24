@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswShiftSelectorContext : ControlsContext
+public class StswFlipViewContext : ControlsContext
 {
     public override void SetDefaults()
     {

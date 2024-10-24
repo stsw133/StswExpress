@@ -37,10 +37,9 @@
                         <DockPanel>
                             <!-- page buttons -->
                             <se:StswDirectionView DockPanel.Dock="Bottom"
-                                                    BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
-                                                    Focusable="False"
-                                                    HorizontalScrollBarVisibility="Auto"
-                                                    VerticalScrollBarVisibility="Disabled">
+                                                  BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                  Focusable="False"
+                                                  Orientation="Horizontal">
                                 <ItemsControl Focusable="False" ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>

@@ -73,7 +73,7 @@
                             <Setter Property="Margin" Value="-3 0 0 2" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
-                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 0 2 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
@@ -87,7 +87,7 @@
                             <Setter Property="Margin" Value="2 -3 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
-                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 2 0 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
@@ -101,7 +101,7 @@
                             <Setter Property="Margin" Value="0 -3 2 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
-                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="0 2 2 2" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
@@ -115,7 +115,7 @@
                             <Setter Property="Margin" Value="-3 2 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>
-                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="OPT_DirectionView"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="OPT_DirectionView"/>
                             <Setter Property="Margin" Value="2 2 2 0" TargetName="HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

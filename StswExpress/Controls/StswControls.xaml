@@ -21,12 +21,12 @@
         <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
+        <ResourceDictionary Source="Collections/StswFlipView.xaml"/>
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSegment.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Collections/StswPicker.xaml"/>
-        <ResourceDictionary Source="Collections/StswShiftSelector.xaml"/>
         <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="Color/StswColorBox.xaml"/>
@@ -68,7 +68,6 @@
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
-        <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
@@ -104,6 +103,7 @@
         <ResourceDictionary Source="TextStyle/StswSpinner.xaml"/>
         <ResourceDictionary Source="TextStyle/StswText.xaml"/>
 
+        <ResourceDictionary Source="Windowing/StswContextMenu.xaml"/>
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
         <ResourceDictionary Source="Windowing/StswToolTip.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>

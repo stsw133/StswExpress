@@ -11,16 +11,16 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows shifting through items using arrow buttons or keyboard input.
 /// </summary>
-public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionControl
+public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
-    public StswShiftSelector()
+    public StswFlipView()
     {
         DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
         DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
     }
-    static StswShiftSelector()
+    static StswFlipView()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswShiftSelector), new FrameworkPropertyMetadata(typeof(StswShiftSelector)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(typeof(StswFlipView)));
     }
 
     #region Events & methods
@@ -181,14 +181,14 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(IsLoopingEnabled),
             typeof(bool),
-            typeof(StswShiftSelector),
+            typeof(StswFlipView),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsLoopingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnIsLoopingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswShiftSelector stsw)
+        if (obj is StswFlipView stsw)
         {
             stsw.CheckButtonAccessibility(null, EventArgs.Empty);
         }
@@ -206,7 +206,7 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswShiftSelector)
+            typeof(StswFlipView)
         );
 
     /// <summary>
@@ -222,7 +222,7 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(UsesSelectionItems),
             typeof(bool),
-            typeof(StswShiftSelector)
+            typeof(StswFlipView)
         );
     #endregion
 
@@ -241,7 +241,7 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswShiftSelector),
+            typeof(StswFlipView),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -259,7 +259,7 @@ public class StswShiftSelector : Selector, IStswCornerControl, IStswSelectionCon
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswShiftSelector),
+            typeof(StswFlipView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion

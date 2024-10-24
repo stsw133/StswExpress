@@ -36,8 +36,7 @@
             <se:StswDirectionView x:Name="OPT_ScrollView"
                                   BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                   Focusable="False"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  VerticalScrollBarVisibility="Auto">
+                                  Orientation="Vertical">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>

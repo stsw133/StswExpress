@@ -52,10 +52,9 @@
                                         <se:StswLabel IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
                                     <se:StswDirectionView x:Name="OPT_CustomComponents"
-                                                            BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
-                                                            Focusable="False"
-                                                            HorizontalScrollBarVisibility="Auto"
-                                                            VerticalScrollBarVisibility="Disabled">
+                                                          BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                          Focusable="False"
+                                                          Orientation="Horizontal">
                                         <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -156,12 +155,11 @@
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <!-- compact panel -->
                                 <se:StswDirectionView x:Name="OPT_CompactPanel"
-                                                        Background="{TemplateBinding Background}"
-                                                        BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
-                                                        HorizontalAlignment="Left"
-                                                        HorizontalScrollBarVisibility="Disabled"
-                                                        VerticalScrollBarVisibility="Auto"
-                                                        Visibility="Collapsed">
+                                                      Background="{TemplateBinding Background}"
+                                                      BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
+                                                      HorizontalAlignment="Left"
+                                                      Orientation="Vertical"
+                                                      Visibility="Collapsed">
                                     <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="0 0 1 1">
                                         <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>
                                     </se:StswBorder>

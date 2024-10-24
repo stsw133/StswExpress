@@ -52,7 +52,7 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswShiftSelector\StswShiftSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\Collections\StswFlipView\StswFlipViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml.cs">
@@ -80,6 +80,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Panels\StswGrid\StswGridView.xaml.cs">
@@ -307,7 +310,7 @@
     <Page Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswShiftSelector\StswShiftSelectorView.xaml">
+    <Page Update="Modules\Controls\Collections\StswFlipView\StswFlipViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml">
@@ -335,6 +338,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Panels\StswGrid\StswGridView.xaml">

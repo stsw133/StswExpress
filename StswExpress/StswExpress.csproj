@@ -121,7 +121,10 @@
     <Page Update="Controls\DateTime\StswTimePicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Navigation\StswContextMenu.xaml">
+    <Page Update="Controls\Media\StswThumbnailView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Windowing\StswContextMenu.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Navigation\StswMenu.xaml">

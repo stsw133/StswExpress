@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.StswShiftSelectorView"
+﻿<UserControl x:Class="TestApp.StswFlipViewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswShiftSelectorContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswFlipViewContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -14,29 +14,29 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsLoopingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsLoopingEnabled, Type={x:Type se:StswShiftSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsLoopingEnabled, Type={x:Type se:StswFlipView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsLoopingEnabled}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswShiftSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswFlipView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswShiftSelector IsEnabled="{Binding IsEnabled}"
-                              IsLoopingEnabled="{Binding IsLoopingEnabled}"
-                              IsReadOnly="{Binding IsReadOnly}"
-                              ItemsSource="{Binding Items}"
-                              Margin="5"
-                              SelectedItem="{Binding SelectedItem}"
-                              HorizontalAlignment="{Binding HorizontalAlignment}"
-                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                              VerticalAlignment="{Binding VerticalAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswShiftSelector.ItemTemplate>
+        <se:StswFlipView IsEnabled="{Binding IsEnabled}"
+                         IsLoopingEnabled="{Binding IsLoopingEnabled}"
+                         IsReadOnly="{Binding IsReadOnly}"
+                         ItemsSource="{Binding Items}"
+                         Margin="5"
+                         SelectedItem="{Binding SelectedItem}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswFlipView.ItemTemplate>
                 <ItemContainerTemplate>
                     <se:StswLabel Content="{Binding}" IconData="{x:Static se:StswIcons.Cake}"/>
                 </ItemContainerTemplate>
-            </se:StswShiftSelector.ItemTemplate>
-        </se:StswShiftSelector>
+            </se:StswFlipView.ItemTemplate>
+        </se:StswFlipView>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">

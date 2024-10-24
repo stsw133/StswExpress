@@ -11,7 +11,7 @@ Here's a breakdown:
 - **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
 - **Charts**: `StswChartColumns`, `StswChartLegend`, `StswChartPie`
 - **Checks**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
-- **Collections**: `StswComboBox`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswShiftSelector`, `StswTreeView`
+- **Collections**: `StswComboBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
 - **Color Controls**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`

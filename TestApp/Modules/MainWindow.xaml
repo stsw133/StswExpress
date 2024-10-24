@@ -46,12 +46,12 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Header="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
+                <se:StswNavigationElement Header="StswFlipView" ContextNamespace="TestApp.StswFlipViewContext"/>
                 <se:StswNavigationElement Header="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Header="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
                 <se:StswNavigationElement Header="StswPicker" ContextNamespace="TestApp.StswPickerContext"/>
                 <se:StswNavigationElement Header="StswSegment" ContextNamespace="TestApp.StswSegmentContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
-                <se:StswNavigationElement Header="StswShiftSelector" ContextNamespace="TestApp.StswShiftSelectorContext"/>
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Color" IconData="{x:Static se:StswIcons.PaletteOutline}">
@@ -100,6 +100,7 @@
                 <se:StswNavigationElement Header="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Header="StswImage" ContextNamespace="TestApp.StswImageContext"/>
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
+                <se:StswNavigationElement Header="StswThumbnailView" ContextNamespace="TestApp.StswThumbnailViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="TestApp.StswMenuContext"/>
