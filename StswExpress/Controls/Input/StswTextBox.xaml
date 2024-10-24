@@ -102,5 +102,18 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- style for StswTextBox in: "StswDataGridTextColumn" -->
+    <Style x:Key="StswDataGridTextColumnEditingStyle" TargetType="{x:Type se:StswTextBox}" BasedOn="{StaticResource {x:Type se:StswTextBox}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+    </Style>
+
 </ResourceDictionary>

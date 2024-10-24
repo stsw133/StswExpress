@@ -194,7 +194,7 @@ public enum StswNotificationType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilePicker.PathType"/>.
+/// Enumeration for <see cref="StswFilePicker.SelectionMode"/>.
 /// </summary>
 public enum StswPathType
 {

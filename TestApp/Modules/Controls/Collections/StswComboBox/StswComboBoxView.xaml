@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- Icon -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswComboBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
             <!-- IsEditable -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsEditable, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEditable}"/>
@@ -40,7 +43,7 @@
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswComboBox.Icon>
-                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswComboBox.Icon>
             <se:StswComboBox.SubControls>
                 <se:StswSubButton Command="{Binding RandomizeCommand}"

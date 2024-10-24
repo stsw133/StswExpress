@@ -241,8 +241,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     //TODO - double click row command
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement
-    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
     /// </summary>
     public bool UsesSelectionItems
     {

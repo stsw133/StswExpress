@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- Icon -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
             <!-- IsFileSizeVisible -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFileSizeVisible, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFileSizeVisible}"/>
@@ -22,9 +25,9 @@
             <!-- IsShiftingEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
-            <!-- PathType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf PathType, Type={x:Type se:StswFilePicker}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding PathType}"/>
+            <!-- SelectionMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
@@ -35,15 +38,15 @@
                            IsReadOnly="{Binding IsReadOnly}"
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
                            Margin="5"
-                           PathType="{Binding PathType}"
                            Placeholder="Select path..."
                            SelectedPath="{Binding SelectedPath}"
+                           SelectionMode="{Binding SelectionMode}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswFilePicker.Icon>
-                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswFilePicker.Icon>
             <se:StswFilePicker.SubControls>
                 <se:StswSubButton Command="{x:Static se:StswCommands.Clear}"

@@ -75,6 +75,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="File" IconData="{x:Static se:StswIcons.FolderFileOutline}">
                 <se:StswNavigationElement Header="StswFilePicker" ContextNamespace="TestApp.StswFilePickerContext"/>
+                <se:StswNavigationElement Header="StswFileTree" ContextNamespace="TestApp.StswFileTreeContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Filters" IconData="{x:Static se:StswIcons.FilterOutline}">
                 <se:StswNavigationElement Header="StswFilterBox" ContextNamespace="TestApp.StswFilterBoxContext"/>

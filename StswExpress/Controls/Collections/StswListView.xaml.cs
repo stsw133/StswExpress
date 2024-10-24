@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
-using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
@@ -53,8 +50,7 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement
-    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
     /// </summary>
     public bool UsesSelectionItems
     {

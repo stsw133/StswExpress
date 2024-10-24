@@ -25,6 +25,14 @@ public class StswDatePickerContext : ControlsContext
     }
     private string? _format;
 
+    /// Icon
+    public bool Icon
+    {
+        get => _icon;
+        set => SetProperty(ref _icon, value);
+    }
+    private bool _icon;
+
     /// IncrementType
     public StswDateTimeIncrementType IncrementType
     {

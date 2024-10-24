@@ -16,6 +16,9 @@
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswDatePicker}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
+            <!-- Icon -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
             <!-- IncrementType -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IncrementType, Type={x:Type se:StswDatePicker}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDateTimeIncrementType}" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}"/>
@@ -47,7 +50,7 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswDatePicker.Icon>
-                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswDatePicker.Icon>
             <se:StswDatePicker.SubControls>
                 <se:StswSubButton Command="{Binding RandomizeCommand}"

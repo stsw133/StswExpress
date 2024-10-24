@@ -76,8 +76,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement
-    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
     /// </summary>
     public bool UsesSelectionItems
     {

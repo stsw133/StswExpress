@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -68,7 +66,7 @@ public class StswFilePicker : StswBoxBase
     {
         if (IsShiftingEnabled && parentPath != null)
         {
-            if (PathType == StswPathType.Directory)
+            if (SelectionMode == StswPathType.Directory)
                 adjacentPaths = Directory.GetDirectories(parentPath).ToList();
             else
                 adjacentPaths = Directory.GetFiles(parentPath).ToList();
@@ -116,7 +114,7 @@ public class StswFilePicker : StswBoxBase
     /// <param name="e">The event arguments</param>
     private void PART_DialogButton_Click(object sender, RoutedEventArgs e)
     {
-        if (PathType == StswPathType.Directory)
+        if (SelectionMode == StswPathType.Directory)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -229,22 +227,6 @@ public class StswFilePicker : StswBoxBase
     }
 
     /// <summary>
-    /// Gets or sets the type of paths that can be selected (File or Directory).
-    /// </summary>
-    public StswPathType PathType
-    {
-        get => (StswPathType)GetValue(PathTypeProperty);
-        set => SetValue(PathTypeProperty, value);
-    }
-    public static readonly DependencyProperty PathTypeProperty
-        = DependencyProperty.Register(
-            nameof(PathType),
-            typeof(StswPathType),
-            typeof(StswFilePicker),
-            new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
-        );
-
-    /// <summary>
     /// Gets or sets the currently selected path in the control.
     /// </summary>
     public string? SelectedPath
@@ -266,7 +248,7 @@ public class StswFilePicker : StswBoxBase
         if (obj is StswFilePicker stsw)
         {
             stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
-            stsw.FileIcon = StswFn.ExtractAssociatedIcon(stsw.SelectedPath);
+            stsw.FileIcon = StswFn.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
 
             /// load adjacent paths
             if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
@@ -279,6 +261,22 @@ public class StswFilePicker : StswBoxBase
         }
     }
     private string? parentPath;
+
+    /// <summary>
+    /// Gets or sets the type of paths that can be selected (File or Directory).
+    /// </summary>
+    public StswPathType SelectionMode
+    {
+        get => (StswPathType)GetValue(SelectionModeProperty);
+        set => SetValue(SelectionModeProperty, value);
+    }
+    public static readonly DependencyProperty SelectionModeProperty
+        = DependencyProperty.Register(
+            nameof(SelectionMode),
+            typeof(StswPathType),
+            typeof(StswFilePicker),
+            new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
+        );
     #endregion
 
     #region Style properties

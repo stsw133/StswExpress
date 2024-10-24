@@ -150,5 +150,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- style for StswColorBox in: "StswDataGridColorColumn" -->
+    <Style x:Key="StswDataGridColorColumnEditingStyle" TargetType="{x:Type se:StswColorBox}" BasedOn="{StaticResource {x:Type se:StswColorBox}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+    </Style>
+
 </ResourceDictionary>
