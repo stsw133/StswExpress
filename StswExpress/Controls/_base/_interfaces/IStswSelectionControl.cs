@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -54,39 +53,19 @@ public interface IStswSelectionControl
     /// <param name="selectionControl"></param>
     /// <param name="addedItems"></param>
     /// <param name="removedItems"></param>
-    static void SelectionChanged(TreeView selectionControl, object? newValue, object? oldValue)
+    static void SelectionChanged(ItemsControl selectionControl, IList? addedItems, IList? removedItems)
     {
-        if (StswSettings.Default.EnableAnimations)
-        {
-            if (newValue != null)
-                if (selectionControl.ItemContainerGenerator.ContainerFromItem(newValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                    StswAnimations.AnimateClick(selectionControl, border, true);
-
-            if (oldValue != null)
-                if (selectionControl.ItemContainerGenerator.ContainerFromItem(oldValue) is TreeViewItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                    StswAnimations.AnimateClick(selectionControl, border, false);
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="selectionControl"></param>
-    /// <param name="addedItems"></param>
-    /// <param name="removedItems"></param>
-    static void SelectionChanged(Selector selectionControl, IList? addedItems, IList? removedItems)
-    {
-        if (StswSettings.Default.EnableAnimations)
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(selectionControl))
         {
             if (addedItems != null)
                 foreach (var selectedItem in addedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                        StswAnimations.AnimateClick(selectionControl, border, true);
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is Control item && item.Template.FindName("OPT_Border", item) is Border border)
+                        StswSharedAnimations.AnimateClick(selectionControl, border, true);
 
             if (removedItems != null)
                 foreach (var unselectedItem in removedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is ListBoxItem item && item.Template.FindName("OPT_Border", item) is Border border)
-                        StswAnimations.AnimateClick(selectionControl, border, false);
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_Border", item) is Border border)
+                        StswSharedAnimations.AnimateClick(selectionControl, border, false);
         }
     }
 

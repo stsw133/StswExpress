@@ -40,6 +40,7 @@
                         <DockPanel>
                             <!-- button -->
                             <se:StswToggleButton x:Name="OPT_MainButton" DockPanel.Dock="Top"
+                                                 se:StswControl.EnableAnimations="False"
                                                  se:StswControl.IsBorderless="True"
                                                  Background="Transparent"
                                                  FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"

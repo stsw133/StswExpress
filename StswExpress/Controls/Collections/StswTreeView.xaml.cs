@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,7 +23,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
-        IStswSelectionControl.SelectionChanged(this, e.NewValue, e.OldValue);
+        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
     }
 
     /// <summary>

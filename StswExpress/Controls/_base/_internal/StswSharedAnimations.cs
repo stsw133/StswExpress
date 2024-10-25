@@ -10,18 +10,18 @@ namespace StswExpress;
 /// <summary>
 /// Provides animation utilities for Stsw controls, including click animations for background and border colors.
 /// </summary>
-internal static class StswAnimations
+internal static class StswSharedAnimations
 {
     /// <summary>
     /// Animates the background and border colors of a target Border based on the selected state and control type.
     /// The animation is applied only if animations are enabled in settings.
     /// </summary>
-    /// <param name="sender">The control initiating the animation, determining the color scheme to use.</param>
+    /// <param name="control">The control initiating the animation, determining the color scheme to use.</param>
     /// <param name="target">The <see cref="Border"/> element to animate.</param>
     /// <param name="isSelected">Indicates whether the target is in the selected state.</param>
-    internal static void AnimateClick(object? sender, Border target, bool isSelected)
+    internal static void AnimateClick(Control control, Border target, bool isSelected)
     {
-        if (!StswSettings.Default.EnableAnimations)
+        if (!StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(control))
             return;
 
         Color fromBackgroundColor = ((SolidColorBrush)target.Background).Color;
@@ -29,7 +29,7 @@ internal static class StswAnimations
         Color fromBorderBrushColor = ((SolidColorBrush) target.BorderBrush).Color;
         Color toBorderBrushColor;
 
-        switch (sender)
+        switch (control)
         {
             case StswCheckBox:
             case StswRadioBox:

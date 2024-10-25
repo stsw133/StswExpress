@@ -13,7 +13,19 @@ namespace StswExpress;
 public static class StswControl
 {
     /// <summary>
-    /// Identifies the EnableRippleEffect attached property.
+    /// When set to <see langword="true"/>, it enables animations within the control.
+    /// </summary>
+    public static readonly DependencyProperty EnableAnimationsProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(EnableAnimationsProperty)[..^8],
+            typeof(bool),
+            typeof(StswControl),
+            new PropertyMetadata(true)
+        );
+    public static bool GetEnableAnimations(DependencyObject obj) => (bool)obj.GetValue(EnableAnimationsProperty);
+    public static void SetEnableAnimations(DependencyObject obj, bool value) => obj.SetValue(EnableAnimationsProperty, value);
+
+    /// <summary>
     /// When set to <see langword="true"/>, it enables a ripple effect that is triggered upon a mouse click within the control.
     /// The ripple effect is visualized as a circular animation starting from the point of click and expanding outward.
     /// </summary>
@@ -38,19 +50,19 @@ public static class StswControl
     }
     private static void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (StswSettings.Default.EnableAnimations)
+        if (sender is Control control)
         {
-            if (sender is Control button)
+            if (StswSettings.Default.EnableAnimations /*&& GetEnableAnimations(control)*/)
             {
-                var point = e.GetPosition(button);
-                var size = Math.Max(button.ActualWidth, button.ActualHeight);
+                var point = e.GetPosition(control);
+                var size = Math.Max(control.ActualWidth, control.ActualHeight);
 
-                if ((button.Template.FindName("OPT_MainBorder", button) ?? button.Template.FindName("PART_MainBorder", button)) is Border border)
+                if ((control.Template.FindName("OPT_MainBorder", control) ?? control.Template.FindName("PART_MainBorder", control)) is Border border)
                 {
-                    var adornerLayer = AdornerLayer.GetAdornerLayer(button);
+                    var adornerLayer = AdornerLayer.GetAdornerLayer(control);
                     if (adornerLayer != null)
                     {
-                        var rippleAdorner = new RippleAdorner(button, point, size, border);
+                        var rippleAdorner = new RippleAdorner(control, point, size, border);
                         adornerLayer.Add(rippleAdorner);
                     }
                 }

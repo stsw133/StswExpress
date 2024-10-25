@@ -56,9 +56,7 @@ public class StswTranslatorLanguagesLoader(StswTranslator tmInstance)
     {
         var loader = FileLanguageLoaders.Find(loader => loader.CanLoadFile(fileName));
         if (loader != null && loader is StswTranslatorJsonFileLanguageLoader jsonLoader)
-        {
             await jsonLoader.LoadFileAsync(fileName, this);
-        }
     }
 
     /// <summary>

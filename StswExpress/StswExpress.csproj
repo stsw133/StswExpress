@@ -310,7 +310,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\_internal\StswConfig.xaml">
+    <Page Update="Controls\_base\_internal\StswConfig.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Themes\Brushes\Light.xaml">

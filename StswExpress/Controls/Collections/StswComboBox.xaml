@@ -46,6 +46,7 @@
                         </Grid.ColumnDefinitions>
                         <!-- button -->
                         <se:StswToggleButton x:Name="OPT_MainButton"
+                                             se:StswControl.EnableAnimations="False"
                                              Grid.ColumnSpan="2"
                                              Background="{TemplateBinding Background}"
                                              BorderBrush="{TemplateBinding BorderBrush}"

@@ -38,6 +38,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswDropButton}">
                     <!-- main -->
                     <se:StswToggleButton x:Name="OPT_MainButton"
+                                         se:StswControl.EnableAnimations="False"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
                                          BorderThickness="{TemplateBinding BorderThickness}"

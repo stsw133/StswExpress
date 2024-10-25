@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -50,7 +51,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
-        IStswSelectionControl.SelectionChanged(this, e.NewValue, e.OldValue);
+        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
 
         if (!_isSelectingPath)
             SelectedPath = e.NewValue is StswFileTreeItem fileItem ? fileItem.FullPath : null;

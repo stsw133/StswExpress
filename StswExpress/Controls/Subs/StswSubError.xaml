@@ -10,7 +10,7 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="1"/>
         <!--
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"/>

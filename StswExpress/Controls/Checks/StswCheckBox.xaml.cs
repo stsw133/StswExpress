@@ -31,10 +31,10 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     {
         base.OnChecked(e);
 
-        if (StswSettings.Default.EnableAnimations)
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
         {
             if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswAnimations.AnimateClick(this, border, true);
+                StswSharedAnimations.AnimateClick(this, border, true);
         }
     }
 
@@ -46,10 +46,10 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     {
         base.OnUnchecked(e);
 
-        if (StswSettings.Default.EnableAnimations)
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
         {
             if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswAnimations.AnimateClick(this, border, false);
+                StswSharedAnimations.AnimateClick(this, border, false);
         }
     }
     #endregion

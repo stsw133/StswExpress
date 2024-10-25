@@ -45,7 +45,9 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- drop-button -->
-                            <se:StswToggleButton se:StswControl.IsBorderless="True" DockPanel.Dock="Right"
+                            <se:StswToggleButton DockPanel.Dock="Right"
+                                                 se:StswControl.EnableAnimations="False"
+                                                 se:StswControl.IsBorderless="True"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  ClickMode="Press"

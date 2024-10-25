@@ -15,7 +15,7 @@
         <local:ControlsBase.Properties>
             <!-- ItemsSource -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsSource, Type={x:Type se:StswThumbnailView}}"/>
-            <se:StswFilePicker Margin="0 0 0 3" PathType="Directory" SelectedPath="{Binding DirectoryPath}"/>
+            <se:StswFilePicker Margin="0 0 0 3" SelectedPath="{Binding DirectoryPath}" SelectionMode="Directory"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswThumbnailView IsEnabled="{Binding IsEnabled}"

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -14,7 +15,6 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     #region Events & methods
-    /*
     /// <summary>
     /// Handles the event triggered when the toggle button is checked. If animations are enabled in the settings,
     /// the method animates the control's main border to provide visual feedback for the checked state.
@@ -24,10 +24,10 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     {
         base.OnChecked(e);
 
-        if (StswSettings.Default.EnableAnimations)
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
         {
             if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswAnimations.AnimateClick(this, border, true);
+                StswSharedAnimations.AnimateClick(this, border, true);
         }
     }
 
@@ -40,13 +40,12 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     {
         base.OnUnchecked(e);
 
-        if (StswSettings.Default.EnableAnimations)
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
         {
             if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswAnimations.AnimateClick(this, border, false);
+                StswSharedAnimations.AnimateClick(this, border, false);
         }
     }
-    */
     #endregion
 
     #region Style properties
