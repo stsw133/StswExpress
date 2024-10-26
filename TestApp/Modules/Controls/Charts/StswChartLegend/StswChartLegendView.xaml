@@ -28,7 +28,6 @@
                             Header="Some random elements:"
                             IsEnabled="{Binding IsEnabled}"
                             ItemsSource="{Binding Items}"
-                            Margin="5"
                             Rows="{Binding Rows}"
                             ShowDetails="{Binding ShowDetails}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -37,7 +36,7 @@
                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Margin="5" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

@@ -20,7 +20,6 @@
         <!-- content -->
         <se:StswBorder CornerRadius="10"
                        IsEnabled="{Binding IsEnabled}"
-                       Margin="5"
                        Padding="3"
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        VerticalAlignment="{Binding VerticalAlignment}">

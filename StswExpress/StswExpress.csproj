@@ -91,22 +91,22 @@
     <Page Update="Controls\DataGrids\StswDataPager.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswSegment.xaml">
+    <Page Update="Controls\Selectors\StswSegment.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswPicker.xaml">
+    <Page Update="Controls\Selectors\StswPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswTreeView.xaml">
+    <Page Update="Controls\Selectors\StswTreeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswListView.xaml">
+    <Page Update="Controls\Selectors\StswListView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswListBox.xaml">
+    <Page Update="Controls\Selectors\StswListBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Color\StswColorSelector.xaml">
+    <Page Update="Controls\Colors\StswColorSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -121,7 +121,7 @@
     <Page Update="Controls\DateTime\StswTimePicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\File\StswFileTree.xaml">
+    <Page Update="Controls\Paths\StswPathTree.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Media\StswThumbnailView.xaml">
@@ -136,24 +136,24 @@
     <Page Update="Controls\Navigation\StswMenuItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Subs\StswSubCheck.xaml">
+    <Page Update="Controls\SubControls\StswSubCheck.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Subs\StswSubSelector.xaml">
+    <Page Update="Controls\SubControls\StswSubSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DateTime\StswCalendar.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Color\StswColorBox.xaml">
+    <Page Update="Controls\Colors\StswColorBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Dialogs\StswMessageDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\File\StswFilePicker.xaml">
+    <Page Update="Controls\Paths\StswPathPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Input\StswAdaptiveBox.xaml">
@@ -171,7 +171,7 @@
     <Page Update="Controls\Media\StswMediaPlayer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Scrolling\StswDirectionView.xaml">
+    <Page Update="Controls\Scrollers\StswDirectionView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\StatusInfo\StswInfoBar.xaml">
@@ -187,11 +187,11 @@
     <Page Update="Controls\StatusInfo\StswProgressRing.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\TextStyle\StswLabel.xaml">
+    <Page Update="Controls\Typography\StswLabel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TextStyle\StswText.xaml">
+    <Page Update="Controls\Typography\StswText.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Filters\StswFilterBox.xaml">
@@ -205,17 +205,17 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Collections\StswSelectionBox.xaml">
+    <Page Update="Controls\Selectors\StswSelectionBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\DataGrids\StswDataGrid.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswComboBox.xaml">
+    <Page Update="Controls\Selectors\StswComboBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Color\StswColorPicker.xaml">
+    <Page Update="Controls\Colors\StswColorPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -233,11 +233,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Checks\StswRadioBox.xaml">
+    <Page Update="Controls\Toggles\StswRadioBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Checks\StswCheckBox.xaml">
+    <Page Update="Controls\Toggles\StswCheckBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -260,7 +260,7 @@
     <Page Update="Controls\Navigation\StswNavigationElement.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Scrolling\StswScrollView.xaml">
+    <Page Update="Controls\Scrollers\StswScrollView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -272,7 +272,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TextStyle\StswIcon.xaml">
+    <Page Update="Controls\Typography\StswIcon.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

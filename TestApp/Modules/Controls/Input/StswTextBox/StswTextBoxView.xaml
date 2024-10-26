@@ -26,7 +26,6 @@
         <!-- content -->
         <se:StswTextBox IsEnabled="{Binding IsEnabled}"
                         IsReadOnly="{Binding IsReadOnly}"
-                        Margin="5"
                         Placeholder="Enter the text..."
                         Text="{Binding Text}"
                         HorizontalAlignment="{Binding HorizontalAlignment}"

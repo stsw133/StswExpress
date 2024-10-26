@@ -52,7 +52,7 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswFlipView\StswFlipViewView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswFlipView\StswFlipViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml.cs">
@@ -67,13 +67,13 @@
     <Compile Update="Modules\Controls\DataGrids\StswDataPager\StswDataPagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswSegment\StswSegmentView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswSegment\StswSegmentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswPicker\StswPickerView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswPicker\StswPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswTimerControl\StswTimerControlView.xaml.cs">
@@ -82,7 +82,7 @@
     <Compile Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\File\StswFileTree\StswFileTreeView.xaml.cs">
+    <Compile Update="Modules\Controls\Paths\StswPathTree\StswPathTreeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml.cs">
@@ -94,19 +94,19 @@
     <Compile Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubError\StswSubErrorView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubError\StswSubErrorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubRadio\StswSubRadioView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubDrop\StswSubDropView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubLabel\StswSubLabelView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubLabel\StswSubLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml.cs">
+    <Compile Update="Modules\Controls\Paths\StswPathPicker\StswPathPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
@@ -124,13 +124,19 @@
     <Compile Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml.cs">
+    <Compile Update="Modules\Controls\Typography\StswDropArrow\StswDropArrowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml.cs">
+    <Compile Update="Modules\Controls\Typography\StswLabel\StswLabelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswContextMenu\StswContextMenuView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswWindowBar\StswWindowBarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\_test\StswTestView.xaml.cs">
@@ -142,28 +148,28 @@
     <Compile Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswListView\StswListViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\Colors\StswColorSelector\StswColorSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Color\StswColorPicker\StswColorPickerView.xaml.cs">
+    <Compile Update="Modules\Controls\Colors\StswColorPicker\StswColorPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswListBox\StswListBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubRepeater\StswSubRepeaterView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubRepeater\StswSubRepeaterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubButton\StswSubButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubButton\StswSubButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubCheck\StswSubCheckView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubCheck\StswSubCheckView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Subs\StswSubSelector\StswSubSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\SubControls\StswSubSelector\StswSubSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml.cs">
@@ -184,16 +190,16 @@
     <Compile Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswDirectionView\StswDirectionViewView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrollers\StswDirectionView\StswDirectionViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswScrollView\StswScrollViewView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrollers\StswScrollView\StswScrollViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml.cs">
+    <Compile Update="Modules\Controls\Typography\StswText\StswTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswOutlinedText\StswOutlinedTextView.xaml.cs">
+    <Compile Update="Modules\Controls\Typography\StswOutlinedText\StswOutlinedTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Filters\StswFilterBox\StswFilterBoxView.xaml.cs">
@@ -235,7 +241,7 @@
     <Compile Update="Modules\Controls\DateTime\StswCalendar\StswCalendarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Color\StswColorBox\StswColorBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Colors\StswColorBox\StswColorBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Layout\StswExpander\StswExpanderView.xaml.cs">
@@ -244,16 +250,16 @@
     <Compile Update="Modules\Controls\Buttons\StswRadioButton\StswRadioButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Checks\StswRadioBox\StswRadioBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Toggles\StswRadioBox\StswRadioBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswDatePicker\StswDatePickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswComboBox\StswComboBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Selectors\StswComboBox\StswComboBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Checks\StswCheckBox\StswCheckBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Toggles\StswCheckBox\StswCheckBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Navigation\StswNavigation\StswNavigationView.xaml.cs">
@@ -262,7 +268,7 @@
     <Compile Update="Modules\Controls\Media\StswImage\StswImageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswIcon\StswIconView.xaml.cs">
+    <Compile Update="Modules\Controls\Typography\StswIcon\StswIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Layout\StswGroupBox\StswGroupBoxView.xaml.cs">
@@ -313,7 +319,7 @@
     <Page Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswFlipView\StswFlipViewView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswFlipView\StswFlipViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml">
@@ -328,13 +334,13 @@
     <Page Update="Modules\Controls\DataGrids\StswDataPager\StswDataPagerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswSegment\StswSegmentView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswSegment\StswSegmentView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswPicker\StswPickerView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswPicker\StswPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswTreeView\StswTreeViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\DateTime\StswTimerControl\StswTimerControlView.xaml">
@@ -343,7 +349,7 @@
     <Page Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\File\StswFileTree\StswFileTreeView.xaml">
+    <Page Update="Modules\Controls\Paths\StswPathTree\StswPathTreeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml">
@@ -355,19 +361,19 @@
     <Page Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubError\StswSubErrorView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubError\StswSubErrorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubRadio\StswSubRadioView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubDrop\StswSubDropView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubLabel\StswSubLabelView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubLabel\StswSubLabelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml">
+    <Page Update="Modules\Controls\Paths\StswPathPicker\StswPathPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
@@ -385,13 +391,19 @@
     <Page Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml">
+    <Page Update="Modules\Controls\Typography\StswDropArrow\StswDropArrowView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml">
+    <Page Update="Modules\Controls\Typography\StswLabel\StswLabelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswContextMenu\StswContextMenuView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswWindowBar\StswWindowBarView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\_test\StswTestView.xaml">
@@ -403,31 +415,31 @@
     <Page Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswListView\StswListViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml">
+    <Page Update="Modules\Controls\Colors\StswColorSelector\StswColorSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Modules\Controls\Color\StswColorPicker\StswColorPickerView.xaml">
+    <Page Update="Modules\Controls\Colors\StswColorPicker\StswColorPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswListBox\StswListBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubRepeater\StswSubRepeaterView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubRepeater\StswSubRepeaterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubButton\StswSubButtonView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubButton\StswSubButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubCheck\StswSubCheckView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubCheck\StswSubCheckView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Subs\StswSubSelector\StswSubSelectorView.xaml">
+    <Page Update="Modules\Controls\SubControls\StswSubSelector\StswSubSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml">
@@ -448,16 +460,16 @@
     <Page Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswDirectionView\StswDirectionViewView.xaml">
+    <Page Update="Modules\Controls\Scrollers\StswDirectionView\StswDirectionViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswScrollView\StswScrollViewView.xaml">
+    <Page Update="Modules\Controls\Scrollers\StswScrollView\StswScrollViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml">
+    <Page Update="Modules\Controls\Typography\StswText\StswTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswOutlinedText\StswOutlinedTextView.xaml">
+    <Page Update="Modules\Controls\Typography\StswOutlinedText\StswOutlinedTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Filters\StswFilterBox\StswFilterBoxView.xaml">
@@ -508,7 +520,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Color\StswColorBox\StswColorBoxView.xaml">
+    <Page Update="Modules\Controls\Colors\StswColorBox\StswColorBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -520,7 +532,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Checks\StswRadioBox\StswRadioBoxView.xaml">
+    <Page Update="Modules\Controls\Toggles\StswRadioBox\StswRadioBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -528,11 +540,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswComboBox\StswComboBoxView.xaml">
+    <Page Update="Modules\Controls\Selectors\StswComboBox\StswComboBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Checks\StswCheckBox\StswCheckBoxView.xaml">
+    <Page Update="Modules\Controls\Toggles\StswCheckBox\StswCheckBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -544,7 +556,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswIcon\StswIconView.xaml">
+    <Page Update="Modules\Controls\Typography\StswIcon\StswIconView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

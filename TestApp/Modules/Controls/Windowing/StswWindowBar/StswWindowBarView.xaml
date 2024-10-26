@@ -1,21 +1,23 @@
-﻿<UserControl x:Class="TestApp.StswWindowView"
+﻿<UserControl x:Class="TestApp.StswWindowBarView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswWindowContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswWindowBarContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>
-            Represents a window control with additional functionality and customization options,
-            such as full-screen toggle, default size management, and custom window chrome.
+            Represents a window bar control with integrated window management and dynamic context menu.
+            Provides options for minimizing, maximizing, restoring, and entering/exiting fullscreen mode.
         </local:ControlsBase.Description>
         <!-- properties -->
 
         <!-- content -->
-        <se:StswButton Command="{Binding OpenNewWindowCommand}" Content="Open new window"/>
+        <se:StswWindowBar IsEnabled="{Binding IsEnabled}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"/>
         <!-- status panel -->
         
     </local:ControlsBase>

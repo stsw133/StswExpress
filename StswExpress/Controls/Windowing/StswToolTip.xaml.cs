@@ -24,8 +24,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
-        OnIsMoveableChanged(this, new DependencyPropertyChangedEventArgs());
+        UpdateMoveableState();
     }
 
     /// <summary>
@@ -34,10 +33,69 @@ public class StswToolTip : ToolTip, IStswCornerControl
     private void SetOffset()
     {
         var window = Window.GetWindow(this);
-        var currentPos = window.PointToScreen(Mouse.GetPosition(window));
-        HorizontalOffset = currentPos.X + BorderThickness.Left;
-        VerticalOffset = currentPos.Y + BorderThickness.Top + SystemParameters.CursorHeight / 2;
+        if (window != null)
+        {
+            var currentPos = window.PointToScreen(Mouse.GetPosition(window));
+
+            HorizontalOffset = currentPos.X + BorderThickness.Left;
+            VerticalOffset = currentPos.Y + BorderThickness.Top + SystemParameters.CursorHeight / 2;
+        }
     }
+
+    /// <summary>
+    /// Updates the state of the tooltip movement based on the IsMoveable property.
+    /// </summary>
+    private void UpdateMoveableState()
+    {
+        if (IsMoveable)
+        {
+            Placement = PlacementMode.AbsolutePoint;
+            _parent = StswFn.GetParentPopup(this)?.PlacementTarget ?? Window.GetWindow(this);
+
+            if (_parent != null)
+            {
+                Opened += OnTooltipOpened;
+                _parent.MouseMove += OnParentMouseMove;
+            }
+        }
+        else
+        {
+            ResetMoveableState();
+        }
+    }
+
+    /// <summary>
+    /// Resets the tooltip to default placement and offsets when movement is disabled.
+    /// </summary>
+    private void ResetMoveableState()
+    {
+        if (_parent != null)
+        {
+            Opened -= OnTooltipOpened;
+            _parent.MouseMove -= OnParentMouseMove;
+            _parent = null;
+        }
+
+        Placement = PlacementMode.Mouse;
+        HorizontalOffset = 0;
+        VerticalOffset = 0;
+    }
+
+    /// <summary>
+    /// Handles the tooltip's Opened event, setting the initial offset based on the current mouse position.
+    /// This ensures the tooltip appears in the correct position when it becomes visible.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void OnTooltipOpened(object sender, RoutedEventArgs e) => SetOffset();
+
+    /// <summary>
+    /// Handles the MouseMove event for the parent element, dynamically updating the tooltip's position
+    /// to follow the cursor as it moves, maintaining the tooltip's relative offset.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
     #endregion
 
     #region Logic properties
@@ -62,31 +120,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
     {
         if (obj is StswToolTip stsw)
         {
-            if (stsw.IsMoveable)
-            {
-                stsw.Placement = PlacementMode.AbsolutePoint;
-
-                stsw._parent = StswFn.GetParentPopup(stsw)?.PlacementTarget;
-                if (stsw._parent == null)
-                    stsw._parent = Window.GetWindow(stsw);
-                if (stsw._parent != null)
-                {
-                    stsw.Opened += (_, _) => stsw.SetOffset();
-                    stsw._parent.MouseMove += (_, _) => stsw.SetOffset();
-                }
-            }
-            else if ((bool?)e.OldValue == true)
-            {
-                if (stsw._parent != null)
-                {
-                    stsw.Opened -= (_, _) => stsw.SetOffset();
-                    stsw._parent.MouseMove -= (_, _) => stsw.SetOffset();
-                }
-
-                stsw.Placement = PlacementMode.Mouse;
-                stsw.HorizontalOffset = 0;
-                stsw.VerticalOffset = 0;
-            }
+            stsw.UpdateMoveableState();
         }
     }
     #endregion

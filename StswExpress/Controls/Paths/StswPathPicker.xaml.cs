@@ -15,11 +15,11 @@ namespace StswExpress;
 /// A control that allows users to select file or directory path with additional features.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
-public class StswFilePicker : StswBoxBase
+public class StswPathPicker : StswBoxBase
 {
-    static StswFilePicker()
+    static StswPathPicker()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilePicker), new FrameworkPropertyMetadata(typeof(StswFilePicker)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(typeof(StswPathPicker)));
     }
 
     #region Events & methods
@@ -168,7 +168,7 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(FileIcon),
             typeof(ImageSource),
-            typeof(StswFilePicker)
+            typeof(StswPathPicker)
         );
 
     /// <summary>
@@ -183,7 +183,7 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(FileSize),
             typeof(string),
-            typeof(StswFilePicker)
+            typeof(StswPathPicker)
         );
 
     /// <summary>
@@ -198,7 +198,7 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
-            typeof(StswFilePicker)
+            typeof(StswPathPicker)
         );
 
     /// <summary>
@@ -213,14 +213,14 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(IsShiftingEnabled),
             typeof(bool),
-            typeof(StswFilePicker),
+            typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsShiftingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnIsShiftingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilePicker stsw)
+        if (obj is StswPathPicker stsw)
         {
             stsw.ListAdjacentPaths();
         }
@@ -238,14 +238,14 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(SelectedPath),
             typeof(string),
-            typeof(StswFilePicker),
+            typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilePicker stsw)
+        if (obj is StswPathPicker stsw)
         {
             stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
             stsw.FileIcon = StswFn.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
@@ -274,7 +274,7 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(SelectionMode),
             typeof(StswPathType),
-            typeof(StswFilePicker),
+            typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
         );
     #endregion
@@ -292,7 +292,7 @@ public class StswFilePicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(IsFileSizeVisible),
             typeof(bool),
-            typeof(StswFilePicker)
+            typeof(StswPathPicker)
         );
     #endregion
 }

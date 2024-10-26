@@ -21,7 +21,6 @@
             </Grid.ColumnDefinitions>
             <se:StswChartPie IsEnabled="{Binding IsEnabled}"
                              ItemsSource="{Binding Items}"
-                             Margin="5"
                              MaxHeight="400"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
@@ -29,12 +28,11 @@
                                 Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"
                                 ItemsSource="{Binding Items}"
-                                Margin="5"
                                 VerticalContentAlignment="Top"/>
         </Grid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Margin="5" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

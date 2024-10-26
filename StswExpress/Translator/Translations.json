@@ -427,6 +427,10 @@
     "en": "Fullscreen",
     "pl": "Pełny ekran"
   },
+  "StswWindow.FullscreenExit": {
+    "en": "Fullscreen exit",
+    "pl": "Wyłącz pełny ekran"
+  },
   "StswWindow.Maximize": {
     "en": "Maximize",
     "pl": "Maksymalizuj"

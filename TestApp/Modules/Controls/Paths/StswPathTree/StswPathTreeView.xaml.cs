@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswFileTreeView.xaml
+/// Interaction logic for StswPathTreeView.xaml
 /// </summary>
-public partial class StswFileTreeView : UserControl
+public partial class StswPathTreeView : UserControl
 {
-    public StswFileTreeView()
+    public StswPathTreeView()
     {
         InitializeComponent();
     }

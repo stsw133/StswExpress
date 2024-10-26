@@ -20,7 +20,6 @@
         <!-- content -->
         <se:StswTimedSwitch IsChecked="{Binding IsChecked}"
                             IsEnabled="{Binding IsEnabled}"
-                            Margin="5"
                             SwitchTime="{Binding SwitchTime}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}">

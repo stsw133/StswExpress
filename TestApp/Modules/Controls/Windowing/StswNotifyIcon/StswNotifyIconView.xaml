@@ -26,12 +26,12 @@
                                Text="{x:Static se:StswFn.AppNameAndVersion}"
                                Tip="{Binding Tip}">
                 <se:StswNotifyIcon.ContextMenu>
-                    <ContextMenu Style="{DynamicResource StswContextMenuStyle}">
+                    <se:StswContextMenu>
                         <se:StswMenuItem Command="{Binding ShowTipMinimizedCommand}" Header="Show random tip"/>
-                    </ContextMenu>
+                    </se:StswContextMenu>
                 </se:StswNotifyIcon.ContextMenu>
             </se:StswNotifyIcon>
-            <se:StswButton Command="{Binding ShowTipStaticCommand}" Content="Show random static tip" Margin="5"/>
+            <se:StswButton Command="{Binding ShowTipStaticCommand}" Content="Show random static tip"/>
         </DockPanel>
         <!-- status panel -->
         

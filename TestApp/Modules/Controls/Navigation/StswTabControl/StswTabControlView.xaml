@@ -27,7 +27,6 @@
         <se:StswTabControl AreTabsVisible="{Binding AreTabsVisible}"
                            IsEnabled="{Binding IsEnabled}"
                            ItemsSource="{Binding Items}"
-                           Margin="5"
                            NewItem="{Binding NewItem}"
                            NewItemButtonVisibility="{Binding NewItemButtonVisibility}"
                            TabStripPlacement="{Binding TabStripPlacement}"

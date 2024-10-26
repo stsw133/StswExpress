@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a custom popup control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
-public class StswPopup : Popup /*, IStswCornerControl*/
+public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
     {

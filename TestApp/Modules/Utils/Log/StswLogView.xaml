@@ -22,7 +22,7 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswLabel Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswFilePicker Grid.Row="1" Margin="5 0 5 5" SelectedPath="{Binding DirectoryPath}" SelectionMode="Directory"/>
+                        <se:StswPathPicker Grid.Row="1" Margin="5 0 5 5" SelectedPath="{Binding DirectoryPath}" SelectionMode="Directory"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     

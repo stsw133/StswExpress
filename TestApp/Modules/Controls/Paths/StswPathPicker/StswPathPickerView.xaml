@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.StswFilePickerView"
+﻿<UserControl x:Class="TestApp.StswPathPickerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswFilePickerContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswPathPickerContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -14,26 +14,26 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Icon -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
             <!-- IsFileSizeVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFileSizeVisible, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFileSizeVisible, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFileSizeVisible}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsShiftingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
             <!-- SelectionMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswPathPicker}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswFilePicker IsEnabled="{Binding IsEnabled}"
+        <se:StswPathPicker IsEnabled="{Binding IsEnabled}"
                            IsFileSizeVisible="{Binding IsFileSizeVisible}"
                            IsReadOnly="{Binding IsReadOnly}"
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
@@ -45,15 +45,15 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswFilePicker.Icon>
+            <se:StswPathPicker.Icon>
                 <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-            </se:StswFilePicker.Icon>
-            <se:StswFilePicker.SubControls>
+            </se:StswPathPicker.Icon>
+            <se:StswPathPicker.SubControls>
                 <se:StswSubButton Command="{x:Static se:StswCommands.Clear}"
                                   IconData="{x:Static se:StswIcons.Close}"
                                   Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-            </se:StswFilePicker.SubControls>
-        </se:StswFilePicker>
+            </se:StswPathPicker.SubControls>
+        </se:StswPathPicker>
         <!-- status panel -->
         
     </local:ControlsBase>

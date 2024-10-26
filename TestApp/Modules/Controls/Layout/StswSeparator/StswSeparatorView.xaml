@@ -23,7 +23,6 @@
         <!-- content -->
         <se:StswSeparator BorderThickness="{Binding BorderThickness}"
                           IsEnabled="{Binding IsEnabled}"
-                          Margin="5"
                           Orientation="{Binding Orientation}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"/>

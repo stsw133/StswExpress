@@ -19,7 +19,6 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswZoomControl IsEnabled="{Binding IsEnabled}"
-                            Margin="5"
                             MinScale="{Binding MinScale}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}">

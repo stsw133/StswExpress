@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswFilePickerContext : ControlsContext
+public class StswPathPickerContext : ControlsContext
 {
     public StswCommand ClearCommand => new(() => SelectedPath = default);
 

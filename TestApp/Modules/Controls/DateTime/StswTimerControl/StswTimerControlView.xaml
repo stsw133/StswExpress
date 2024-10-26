@@ -36,7 +36,6 @@
                              Format="{Binding Format}"
                              IsCountingDown="{Binding IsCountingDown}"
                              IsEnabled="{Binding IsEnabled}"
-                             Margin="5"
                              StartStopReset="{Binding StartStopReset}"
                              StartTime="{Binding StartTime}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"

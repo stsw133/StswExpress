@@ -41,10 +41,10 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// <returns></returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
-        var editingElement = new StswFilePicker();
+        var editingElement = new StswPathPicker();
 
         if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswFilePicker.SelectedPathProperty, Binding);
+            BindingOperations.SetBinding(editingElement, StswPathPicker.SelectedPathProperty, Binding);
 
         if (StswEditingElementStyle != null)
             editingElement.Style = StswEditingElementStyle;

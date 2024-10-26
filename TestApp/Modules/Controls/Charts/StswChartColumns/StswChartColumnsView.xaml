@@ -21,19 +21,17 @@
             </Grid.ColumnDefinitions>
             <se:StswChartColumns IsEnabled="{Binding IsEnabled}"
                                  ItemsSource="{Binding Items}"
-                                 Margin="5"
                                  HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                  VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswChartLegend Grid.Column="1" Columns="1"
                                 Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"
                                 ItemsSource="{Binding Items}"
-                                Margin="5"
                                 VerticalAlignment="Top"/>
         </Grid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Margin="5" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

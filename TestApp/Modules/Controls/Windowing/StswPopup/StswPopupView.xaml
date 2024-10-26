@@ -50,7 +50,7 @@
                     <Run Text="Sed consequat, leo eget bibendum sodales, augue velit cursus nunc..."/>
                 </se:StswText>
             </se:StswPopup>
-            <se:StswToggleButton IsChecked="{Binding IsOpen}" Content="Open popup" Margin="5"/>
+            <se:StswToggleButton IsChecked="{Binding IsOpen}" Content="Open popup"/>
         </DockPanel>
         <!-- status panel -->
         

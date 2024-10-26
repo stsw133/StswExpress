@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -10,7 +10,8 @@ using System.Windows.Shell;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom window control with additional functionality and customization options.
+/// Represents a window control with additional functionality and customization options,
+/// such as full-screen toggle, default size management, and custom window chrome.
 /// </summary>
 public class StswWindow : Window, IStswCornerControl
 {
@@ -18,8 +19,8 @@ public class StswWindow : Window, IStswCornerControl
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
 
-        var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
-        CommandBindings.Add(new CommandBinding(commandBinding, (_, _) => Fullscreen = !Fullscreen));
+        var command = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), [new KeyGesture(Key.F11)]);
+        CommandBindings.Add(new CommandBinding(command, (_, _) => Fullscreen = !Fullscreen));
     }
     static StswWindow()
     {
@@ -29,9 +30,10 @@ public class StswWindow : Window, IStswCornerControl
     #region Events & methods
     internal StswWindowBar? _windowBar;
     private WindowState preFullscreenState;
+    private double defaultHeight, defaultWidth;
 
     /// <summary>
-    /// Occurs when the Fullscreen property is changed.
+    /// Event that occurs when the <see cref="Fullscreen"/> property changes.
     /// </summary>
     public event EventHandler? FullscreenChanged;
 
@@ -42,26 +44,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// Menu: config
-        if (GetTemplateChild("PART_iConfig") is MenuItem mniConfig)
-            mniConfig.Click += (_, _) => StswConfig.Show(this);
-        /// Menu: default
-        if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault)
-            mniDefault.Click += PART_MenuDefault_Click;
-        /// Menu: minimize
-        if (GetTemplateChild("PART_MenuMinimize") is MenuItem mniMinimize)
-            mniMinimize.Click += PART_MenuMinimize_Click;
-        /// Menu: restore
-        if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore)
-            mniRestore.Click += PART_MenuRestore_Click;
-        /// Menu: fullscreen
-        if (GetTemplateChild("PART_MenuFullscreen") is MenuItem mniFullscreen)
-            mniFullscreen.Click += PART_MenuFullscreen_Click;
-        /// Menu: close
-        if (GetTemplateChild("PART_MenuClose") is MenuItem mniClose)
-            mniClose.Click += PART_MenuClose_Click;
-
-        /// Chrome change
+        /// chrome change
         if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
         {
             windowBar.SizeChanged += (_, _) => UpdateChrome();
@@ -70,12 +53,72 @@ public class StswWindow : Window, IStswCornerControl
             _windowBar = windowBar;
         }
         StateChanged += (_, _) => UpdateChrome();
-
-        OnComponentsChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
-    /// Updates the custom window chrome based on the current state and settings.
+    /// Centers the window on the screen based on monitor work area.
+    /// </summary>
+    private void Center()
+    {
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
+        {
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            var monitor = MonitorFromWindow(hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero)
+            {
+                var monitorInfo = new MONITORINFO();
+                GetMonitorInfo(monitor, monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
+                Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the window to its default size and centers it on the screen.
+    /// </summary>
+    public void Default()
+    {
+        if (WindowState == WindowState.Maximized)
+            WindowState = WindowState.Normal;
+
+        Height = defaultHeight;
+        Width = defaultWidth;
+        Center();
+    }
+
+    /// <summary>
+    /// Handles entering or exiting fullscreen mode and adjusts visibility and window state accordingly.
+    /// </summary>
+    /// <param name="enteringFullscreen"><see langword="true"/> if entering fullscreen, <see langword="false"/> if exiting.</param>
+    private void HandleEnteringFullscreen(bool enteringFullscreen)
+    {
+        if (enteringFullscreen)
+        {
+            preFullscreenState = WindowState;
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Minimized;
+
+            if (_windowBar?.Parent is StswSidePanel windowBarPanel)
+                windowBarPanel.IsAlwaysVisible = false;
+
+            WindowState = WindowState.Maximized;
+        }
+        else
+        {
+            if (_windowBar?.Parent is StswSidePanel windowBarPanel)
+                windowBarPanel.IsAlwaysVisible = true;
+
+            if (preFullscreenState == WindowState.Maximized)
+                WindowState = WindowState.Minimized;
+
+            WindowState = preFullscreenState;
+        }
+    }
+
+    /// <summary>
+    /// Updates the custom window chrome properties, including corner radius, caption height, and resize border thickness.
     /// </summary>
     private void UpdateChrome()
     {
@@ -101,100 +144,26 @@ public class StswWindow : Window, IStswCornerControl
             WindowChrome.SetWindowChrome(this, chrome);
         }
     }
-
-    /// <summary>
-    /// Event handler for the fullscreen button click to toggle fullscreen mode.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    protected void PART_MenuFullscreen_Click(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
-
-    /// <summary>
-    /// Event handler for the default button click to reset the window size to its default.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    protected void PART_MenuDefault_Click(object? sender, RoutedEventArgs e)
-    {
-        if (WindowState == WindowState.Maximized)
-            WindowState = WindowState.Normal;
-
-        Height = DefaultHeight;
-        Width = DefaultWidth;
-
-        /// center the window on the screen
-        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
-        {
-            int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            var monitor = MonitorFromWindow(hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-            if (monitor != IntPtr.Zero)
-            {
-                var monitorInfo = new MONITORINFO();
-                GetMonitorInfo(monitor, monitorInfo);
-                var rcWorkArea = monitorInfo.rcWork;
-                Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
-                Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Event handler for the minimize button click to minimize the window.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    internal void PART_MenuMinimize_Click(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-
-    /// <summary>
-    /// Event handler for the restore button click to toggle between normal and maximized window state.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    internal void PART_MenuRestore_Click(object? sender, RoutedEventArgs e)
-    {
-        if (Fullscreen)
-            Fullscreen = false;
-        else
-            WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
-    }
-
-    /// <summary>
-    /// Event handler for the close button click to close the window.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    internal void PART_MenuClose_Click(object? sender, RoutedEventArgs e) => Close();
     #endregion
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the collection of UI elements used in the custom window's title bar.
+    /// Gets or sets the collection of elements used in the window's title bar.
     /// </summary>
-    public ObservableCollection<UIElement> Components
+    public IList Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        get => (IList)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(ObservableCollection<UIElement>),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnComponentsChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(IList),
+            typeof(StswWindow)
         );
-    public static void OnComponentsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswWindow stsw)
-        {
-            /// jury-rig for StswWindow -> StswWindowBar binding
-            stsw._windowBar?.SetBinding(StswWindowBar.ComponentsProperty, new Binding(nameof(Components)) { Source = stsw });
-        }
-    }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the config will be shown and in what mode (ContentDialog or Window).
+    /// Gets or sets the presentation mode for the config dialog, allowing customization of appearance and behavior.
     /// </summary>
     public StswPresentationMode? ConfigPresentationMode
     {
@@ -205,8 +174,7 @@ public class StswWindow : Window, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ConfigPresentationMode),
             typeof(StswPresentationMode?),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(StswPresentationMode?))
+            typeof(StswWindow)
         );
 
     /// <summary>
@@ -235,28 +203,7 @@ public class StswWindow : Window, IStswCornerControl
                 if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                     return;
 
-                if (stsw.Fullscreen)
-                {
-                    stsw.preFullscreenState = stsw.WindowState;
-
-                    if (stsw.WindowState == WindowState.Maximized)
-                        stsw.WindowState = WindowState.Minimized;
-
-                    if (stsw._windowBar.Parent is StswSidePanel windowBarPanel)
-                        windowBarPanel.IsAlwaysVisible = false;
-
-                    stsw.WindowState = WindowState.Maximized;
-                }
-                else
-                {
-                    if (stsw._windowBar.Parent is StswSidePanel windowBarPanel)
-                        windowBarPanel.IsAlwaysVisible = true;
-
-                    if (stsw.preFullscreenState == WindowState.Maximized)
-                        stsw.WindowState = WindowState.Minimized;
-
-                    stsw.WindowState = stsw.preFullscreenState;
-                }
+                stsw.HandleEnteringFullscreen(stsw.Fullscreen);
                 stsw.Activate();
                 stsw.Focus();
 
@@ -313,40 +260,12 @@ public class StswWindow : Window, IStswCornerControl
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the default height of the custom window.
-    /// </summary>
-    public double DefaultHeight
-    {
-        get => (double)GetValue(DefaultHeightProperty);
-        set => SetValue(DefaultHeightProperty, value);
-    }
-    public static readonly DependencyProperty DefaultHeightProperty
-        = DependencyProperty.Register(
-            nameof(DefaultHeight),
-            typeof(double),
-            typeof(StswWindow)
-        );
-
-    /// <summary>
-    /// Gets or sets the default width of the custom window.
-    /// </summary>
-    public double DefaultWidth
-    {
-        get => (double)GetValue(DefaultWidthProperty);
-        set => SetValue(DefaultWidthProperty, value);
-    }
-    public static readonly DependencyProperty DefaultWidthProperty
-        = DependencyProperty.Register(
-            nameof(DefaultWidth),
-            typeof(double),
-            typeof(StswWindow)
-        );
     #endregion
 
     #region Advanced logic
-    /// OnSourceInitialized
+    /// <summary>
+    /// Initializes the window's source, attaches the WndProc hook, and saves default height and width.
+    /// </summary>
     protected override void OnSourceInitialized(EventArgs e)
     {
         base.OnSourceInitialized(e);
@@ -355,33 +274,34 @@ public class StswWindow : Window, IStswCornerControl
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
             hwndSource.AddHook(new HwndSourceHook(WndProc));
 
-        if (DefaultHeight == 0)
-            DefaultHeight = Height;
-        if (DefaultWidth == 0)
-            DefaultWidth = Width;
+        if (defaultHeight == 0)
+            defaultHeight = Height;
+        if (defaultWidth == 0)
+            defaultWidth = Width;
     }
 
-    /// WndProc
+    /// <summary>
+    /// Processes window messages, including handling fullscreen and maximization behavior.
+    /// </summary>
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        /// Avoid hiding task bar upon maximization
-        if (msg == 0x24)
+        handled = msg switch
         {
-            if (!Fullscreen)
-                WmGetMinMaxInfo(hwnd, lParam);
-            handled = false;
-        }
-        /// Hide default context menu and show custom
-        else if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 0xa5)
-        {
-            if (_windowBar != null)
-                _windowBar.ContextMenu.IsOpen = true;
-            handled = true;
-        }
+            0x24 when !Fullscreen => false,
+            0xa4 or 0xa5 when wParam.ToInt32() == 0x02 && _windowBar != null => _windowBar.ContextMenu.IsOpen = true,
+            _ => handled
+        };
+
+        /// avoid hiding task bar upon maximization
+        if (msg == 0x24 && !Fullscreen)
+            WmGetMinMaxInfo(hwnd, lParam);
+
         return IntPtr.Zero;
     }
 
-    /// WmGetMinMaxInfo
+    /// <summary>
+    /// Updates the window's maximized size to avoid covering the taskbar.
+    /// </summary>
     private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
         if (Marshal.PtrToStructure(lParam, typeof(MINMAXINFO)) is not MINMAXINFO mmi)
@@ -407,20 +327,6 @@ public class StswWindow : Window, IStswCornerControl
         Marshal.StructureToPtr(mmi, lParam, true);
     }
 
-    /// POINT
-    [StructLayout(LayoutKind.Sequential)]
-    public struct POINT
-    {
-        public int x;
-        public int y;
-        public POINT(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    /// MINMAXINFO
     [StructLayout(LayoutKind.Sequential)]
     public struct MINMAXINFO
     {
@@ -431,22 +337,27 @@ public class StswWindow : Window, IStswCornerControl
         public POINT ptMaxTrackSize;
     };
 
-    /// MONITORINFO
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     public class MONITORINFO
     {
         public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-        public RECT rcMonitor = new RECT();
-        public RECT rcWork = new RECT();
+        public RECT rcMonitor = new();
+        public RECT rcWork = new();
         public int dwFlags = 0;
     }
 
-    /// RECT
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT(int x, int y)
+    {
+        public int x = x;
+        public int y = y;
+    }
+
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct RECT
     {
         public int left, top, right, bottom;
-        public static readonly RECT Empty = new RECT();
+        public static readonly RECT Empty = new();
         public readonly int Width => Math.Abs(right - left);
         public readonly int Height => bottom - top;
 
@@ -468,17 +379,17 @@ public class StswWindow : Window, IStswCornerControl
 
         public readonly bool IsEmpty => left >= right || top >= bottom;
 
-        public override readonly string ToString() => this == Empty ? "RECT {Empty}" : $"RECT {{ left : {left} / top : {top} / right : {right} / bottom : {bottom} }}";
-        public override readonly bool Equals(object? obj) => obj is Rect && this == (RECT)obj;
-        public override readonly int GetHashCode() => left.GetHashCode() + top.GetHashCode() + right.GetHashCode() + bottom.GetHashCode();
+        public override readonly string ToString() => this == Empty ? "RECT {Empty}" : $"RECT {{ left: {left}, top: {top}, right: {right}, bottom: {bottom} }}";
+        public override readonly bool Equals(object? obj) => obj is RECT rect && this == rect;
+        public override readonly int GetHashCode() => HashCode.Combine(left, top, right, bottom);
         public static bool operator ==(RECT rect1, RECT rect2) => rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
         public static bool operator !=(RECT rect1, RECT rect2) => !(rect1 == rect2);
     }
+    #endregion
 
     [DllImport("user32")]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
 
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
-    #endregion
 }

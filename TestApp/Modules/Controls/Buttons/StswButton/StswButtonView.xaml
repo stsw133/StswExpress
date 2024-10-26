@@ -18,7 +18,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDefault}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+        <UniformGrid DockPanel.Dock="Top" Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswButton Command="{Binding OnClickCommand}">
                 <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswButton>
@@ -54,7 +54,7 @@
         </UniformGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="You clicked "/>
                 <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
                 <Run Text=" time(s)"/>

@@ -40,7 +40,6 @@
                            IncrementType="{Binding IncrementType}"
                            IsEnabled="{Binding IsEnabled}"
                            IsReadOnly="{Binding IsReadOnly}"
-                           Margin="5"
                            Maximum="{Binding Maximum}"
                            Minimum="{Binding Minimum}"
                            Placeholder="Select date..."

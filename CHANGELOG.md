@@ -103,7 +103,7 @@
   - `ToImageSource`: Converts from `System.Drawing.Icon`.
 
 - **New Functions**:
-  - `ExtractAssociatedIcon`: Utility extracted from `StswFilePicker`. Allows to extract associated icon from files and directories.
+  - `ExtractAssociatedIcon`: Utility extracted from `StswPathPicker`. Allows to extract associated icon from files and directories.
   - `TryCompute`: Added for additional computation flexibility.
 
 ## Changes in Controls
@@ -126,7 +126,7 @@
   - Added a new `Orientation` property in `StswDirectionView` as alternative to `HorizontalScrollBarVisibility` & `VerticalScrollBarVisibility` properties.
 
 - **Other Control Enhancements**:
-  - `StswFilePicker`: Renamed `IconSource` to `FileIcon`.
+  - `StswPathPicker`: Renamed `IconSource` to `FileIcon`.
   - `StswImage`: Now includes `StretchDirection`.
   - `StswTabControl` & `StswTabItem`: Full MVVM support, with `StswTabItem` as the default item type.
   - **Template Naming Update**: "PART_" changed to "OPT_" in template controls for better clarity.
@@ -367,7 +367,7 @@
 
 ## Bug Fixes
 * **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
-* **StswFilePicker** has small bugfix for separating by thousands.
+* **StswPathPicker** has small bugfix for separating by thousands.
 
 ---
 
@@ -436,7 +436,7 @@
 * **StswMessageDialog** template has been improved. One new message type has been added named "Blockade". Message type "Question" has slightly different color now.
 * **StswDropArrow** is no longer hidden from designer and has additional properties similar to **StswIcon**. Property "IsDropDownOpen" renamed into "IsExpanded".
 * **StswDropButton** and **StswSplitButton** both have new property named "AutoClose" that allows to close popup after clicking any button inside.
-* **StswFilePicker** has new property named "IsFileSizeVisible" that allows it to display file size.
+* **StswPathPicker** has new property named "IsFileSizeVisible" that allows it to display file size.
 * Stsw chart controls have been improved.
 * **StswHyperlinkButton** has been improved.
 * **StswRatingControl** has been improved and now supports key shortcuts.
@@ -543,8 +543,8 @@
 
 ## New Functionality
 
-* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker** used to select either file or directory path.
-* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswFilePicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
+* There is new category for Stsw controls named "File" that includes 1 new control: **StswPathPicker** used to select either file or directory path.
+* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswPathPicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
 * New control style: **StswContextMenu**.
 * New interface: **IStswBoxControl**. **IStswComponentControl** renamed into **IStswSubControl**.
 * New converter: **StswListFromRangeConverter**.

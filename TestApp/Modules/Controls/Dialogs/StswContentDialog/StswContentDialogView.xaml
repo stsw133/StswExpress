@@ -15,7 +15,7 @@
             <!-- properties -->
 
             <!-- content -->
-            <se:StswButton Command="{Binding OpenContentDialogCommand}" Content="Open content dialog" Margin="5"/>
+            <se:StswButton Command="{Binding OpenContentDialogCommand}" Content="Open content dialog"/>
             <!-- status panel -->
 
         </local:ControlsBase>

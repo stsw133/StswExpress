@@ -16,22 +16,9 @@
         <ResourceDictionary Source="Charts/StswChartLegend.xaml"/>
         <ResourceDictionary Source="Charts/StswChartPie.xaml"/>
 
-        <ResourceDictionary Source="Checks/StswCheckBox.xaml"/>
-        <ResourceDictionary Source="Checks/StswRadioBox.xaml"/>
-        <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
-
-        <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswFlipView.xaml"/>
-        <ResourceDictionary Source="Collections/StswListBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswListView.xaml"/>
-        <ResourceDictionary Source="Collections/StswSegment.xaml"/>
-        <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswPicker.xaml"/>
-        <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
-
-        <ResourceDictionary Source="Color/StswColorBox.xaml"/>
-        <ResourceDictionary Source="Color/StswColorPicker.xaml"/>
-        <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
+        <ResourceDictionary Source="Colors/StswColorBox.xaml"/>
+        <ResourceDictionary Source="Colors/StswColorPicker.xaml"/>
+        <ResourceDictionary Source="Colors/StswColorSelector.xaml"/>
 
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataGridStatusColumn.xaml"/>
@@ -45,9 +32,6 @@
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
-        <ResourceDictionary Source="File/StswFilePicker.xaml"/>
-        <ResourceDictionary Source="File/StswFileTree.xaml"/>
-        
         <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
         
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
@@ -78,9 +62,21 @@
 
         <ResourceDictionary Source="Panels/StswSidePanel.xaml"/>
 
-        <ResourceDictionary Source="Scrolling/StswDirectionView.xaml"/>
-        <ResourceDictionary Source="Scrolling/StswScrollBar.xaml"/>
-        <ResourceDictionary Source="Scrolling/StswScrollView.xaml"/>
+        <ResourceDictionary Source="Paths/StswPathPicker.xaml"/>
+        <ResourceDictionary Source="Paths/StswPathTree.xaml"/>
+
+        <ResourceDictionary Source="Scrollers/StswDirectionView.xaml"/>
+        <ResourceDictionary Source="Scrollers/StswScrollBar.xaml"/>
+        <ResourceDictionary Source="Scrollers/StswScrollView.xaml"/>
+
+        <ResourceDictionary Source="Selectors/StswComboBox.xaml"/>
+        <ResourceDictionary Source="Selectors/StswFlipView.xaml"/>
+        <ResourceDictionary Source="Selectors/StswListBox.xaml"/>
+        <ResourceDictionary Source="Selectors/StswListView.xaml"/>
+        <ResourceDictionary Source="Selectors/StswSegment.xaml"/>
+        <ResourceDictionary Source="Selectors/StswSelectionBox.xaml"/>
+        <ResourceDictionary Source="Selectors/StswPicker.xaml"/>
+        <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>
@@ -88,21 +84,25 @@
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
 
-        <ResourceDictionary Source="Subs/StswSubButton.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubCheck.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubDrop.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubError.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubLabel.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubRadio.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubRepeater.xaml"/>
-        <ResourceDictionary Source="Subs/StswSubSelector.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubButton.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubCheck.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubDrop.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubError.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubLabel.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubRadio.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubRepeater.xaml"/>
+        <ResourceDictionary Source="SubControls/StswSubSelector.xaml"/>
 
-        <ResourceDictionary Source="TextStyle/StswDropArrow.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswSpinner.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswText.xaml"/>
+        <ResourceDictionary Source="Toggles/StswCheckBox.xaml"/>
+        <ResourceDictionary Source="Toggles/StswRadioBox.xaml"/>
+        <ResourceDictionary Source="Toggles/StswToggleSwitch.xaml"/>
+
+        <ResourceDictionary Source="Typography/StswDropArrow.xaml"/>
+        <ResourceDictionary Source="Typography/StswIcon.xaml"/>
+        <ResourceDictionary Source="Typography/StswLabel.xaml"/>
+        <ResourceDictionary Source="Typography/StswOutlinedText.xaml"/>
+        <ResourceDictionary Source="Typography/StswSpinner.xaml"/>
+        <ResourceDictionary Source="Typography/StswText.xaml"/>
 
         <ResourceDictionary Source="Windowing/StswContextMenu.xaml"/>
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>

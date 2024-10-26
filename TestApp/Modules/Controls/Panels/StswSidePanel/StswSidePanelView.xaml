@@ -42,7 +42,7 @@
         </se:StswSidePanel>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="You clicked option "/>
                 <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
             </se:StswText>

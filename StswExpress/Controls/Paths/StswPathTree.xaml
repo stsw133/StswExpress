@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswFileTree}">
+    <Style TargetType="{x:Type se:StswPathTree}">
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
@@ -30,7 +30,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswFileTree}">
+                <ControlTemplate TargetType="{x:Type se:StswPathTree}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
@@ -84,8 +84,8 @@
                     <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
 
-                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswFileTree}}}"/>
-                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswFileTree}}}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswPathTree}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswPathTree}}}"/>
 
                     <Setter Property="Template">
                         <Setter.Value>
@@ -180,7 +180,7 @@
         </Setter>
     </Style>
 
-    <HierarchicalDataTemplate DataType="{x:Type se:StswFileTreeItem}" ItemsSource="{Binding Children}">
+    <HierarchicalDataTemplate DataType="{x:Type se:StswPathTreeItem}" ItemsSource="{Binding Children}">
         <StackPanel Orientation="Horizontal">
             <se:StswLabel Content="{Binding Name}" IconSource="{Binding Icon}"/>
         </StackPanel>

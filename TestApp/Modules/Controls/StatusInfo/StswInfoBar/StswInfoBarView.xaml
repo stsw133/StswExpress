@@ -27,7 +27,6 @@
         <se:StswInfoBar IsClosable="{Binding IsClosable}"
                         IsEnabled="{Binding IsEnabled}"
                         IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
-                        Margin="5"
                         Text="{Binding Text}"
                         Title="{Binding Title}"
                         Type="{Binding Type}"

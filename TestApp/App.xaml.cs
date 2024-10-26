@@ -37,7 +37,14 @@ public partial class App : StswApp
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        await StswMessageDialog.Show(e.Exception, "Unhandled exception", true);
+        try
+        {
+            await StswMessageDialog.Show(e.Exception, "Unhandled exception", true);
+        }
+        catch
+        {
+
+        }
     }
 
     private static async void OpenHelp()

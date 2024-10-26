@@ -10,11 +10,12 @@
             <Grid d:Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <se:StswScrollView Grid.Column="0" IsDynamic="True">
-                    <StackPanel Margin="3">
+                    <StackPanel Margin="5">
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                             <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
                             <LineBreak/>
@@ -66,18 +67,22 @@
                         </StackPanel>
                     </StackPanel>
                 </se:StswScrollView>
-                <GridSplitter Focusable="False" Margin="-1 0" Width="2"/>
+                <!-- splitter -->
+                <GridSplitter Grid.Column="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!-- control -->
-                <se:StswScrollView Grid.Column="1">
+                <se:StswScrollView Grid.Column="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ContentPresenter Margin="5 0 0 0"/>
-                        <GridSplitter Focusable="False" Height="2" Margin="0 -1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                        <!-- content -->
+                        <ContentPresenter Grid.Row="0" Margin="5"/>
+                        <!-- splitter -->
+                        <GridSplitter Grid.Row="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <!-- status panel -->
-                        <ContentControl Grid.Row="1" Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Focusable="False"/>
+                        <ContentControl Grid.Row="2" Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Focusable="False" Margin="5"/>
                     </Grid>
                 </se:StswScrollView>
             </Grid>

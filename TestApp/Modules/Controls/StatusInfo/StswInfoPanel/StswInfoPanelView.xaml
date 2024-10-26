@@ -36,7 +36,6 @@
                           IsEnabled="{Binding IsEnabled}"
                           IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
                           ItemsSource="{Binding ItemsSource}"
-                          Margin="5"
                           ShowControlPanel="{Binding ShowControlPanel}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

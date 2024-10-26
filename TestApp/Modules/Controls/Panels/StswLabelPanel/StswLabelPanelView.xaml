@@ -36,7 +36,6 @@
                            LabelFontWeight="{Binding LabelFontWeight}"
                            LabelHorizontalAlignment="{Binding LabelHorizontalAlignment}"
                            LabelWidth="{Binding LabelWidth}"
-                           Margin="5"
                            Orientation="{Binding Orientation}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}">

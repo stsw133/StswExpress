@@ -35,7 +35,6 @@
         <!-- content -->
         <se:StswProgressBar IsEnabled="{Binding IsEnabled}"
                             IsIndeterminate="{Binding IsIndeterminate}"
-                            Margin="5"
                             Maximum="{Binding Maximum}"
                             Minimum="{Binding Minimum}"
                             State="{Binding State}"

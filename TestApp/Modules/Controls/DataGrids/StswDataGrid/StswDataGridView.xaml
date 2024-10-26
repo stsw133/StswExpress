@@ -22,7 +22,6 @@
                          IsEnabled="{Binding IsEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding Items}"
-                         Margin="3"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
@@ -53,7 +52,7 @@
         </se:StswDataGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
                 <Run Text="{Binding Items.Unchanged, Mode=OneWay}" FontWeight="Bold"/>

@@ -20,7 +20,6 @@
         <!-- content -->
         <se:StswGrid AutoLayoutMode="{Binding AutoLayoutMode}"
                      IsEnabled="{Binding IsEnabled}"
-                     Margin="5"
                      ColumnWidths="{se:StswMakeList '*,auto,*,auto,*,auto'}"
                      RowHeights="{se:StswMakeList '*,auto,*,auto,*,auto'}"
                      HorizontalAlignment="{Binding HorizontalAlignment}"

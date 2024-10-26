@@ -10,23 +10,23 @@ Here's a breakdown:
 
 - **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
 - **Charts**: `StswChartColumns`, `StswChartLegend`, `StswChartPie`
-- **Checks**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
-- **Collections**: `StswComboBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
-- **Color Controls**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
+- **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
-- **File Handling**: `StswFilePicker`
 - **Filters**: `StswFilterBox`
 - **Input**: `StswAdaptiveBox`, `StswDecimalBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswZoomControl`
-- **Media**: `StswGallery`, `StswImage`, `StswMediaPlayer`
+- **Media**: `StswGallery`, `StswImage`, `StswMediaPlayer`, `StswThumbnailViewer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
 - **Panels**: `StswGrid`, `StswLabelPanel`, `StswSidePanel`
-- **Scrolling**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
+- **Paths**: `StswPathPicker`, `StswPathTree`
+- **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
+- **Selectors**: `StswComboBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
 - **Status & Info**: `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`
-- **Sub Controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
-- **Text & Styling**: `StswDropArrow`, `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
+- **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
+- **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
+- **Typography**: `StswDropArrow`, `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
 - **Windowing**: `StswContextMenu`, `StswNotifyIcon`, `StswPopup`, `StswToolTip`, `StswWindow`, `StswWindowBar`
 
 ### Utilities & Enhancements

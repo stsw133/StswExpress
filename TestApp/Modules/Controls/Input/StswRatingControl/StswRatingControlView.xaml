@@ -41,7 +41,6 @@
                               IsResetEnabled="{Binding IsResetEnabled}"
                               ItemsNumber="{Binding ItemsNumber}"
                               ItemsNumberVisibility="{Binding ItemsNumberVisibility}"
-                              Margin="5"
                               Value="{Binding SelectedValue}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
@@ -49,7 +48,7 @@
                               VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="Current value of rating control: "/>
                 <Run Text="{Binding SelectedValue}" FontWeight="Bold"/>
                 <Run Text="/"/>

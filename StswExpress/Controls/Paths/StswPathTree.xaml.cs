@@ -17,15 +17,15 @@ namespace StswExpress;
 /// This control allows for folder expansion and item selection with support for animations and custom paths.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
-public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
+public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
-    public StswFileTree()
+    public StswPathTree()
     {
         AddHandler(TreeViewItem.ExpandedEvent, new RoutedEventHandler(OnTreeViewItemExpanded));
     }
-    static StswFileTree()
+    static StswPathTree()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFileTree), new FrameworkPropertyMetadata(typeof(StswFileTree)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(typeof(StswPathTree)));
     }
 
     #region Events & methods
@@ -54,7 +54,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
 
         if (!_isSelectingPath)
-            SelectedPath = e.NewValue is StswFileTreeItem fileItem ? fileItem.FullPath : null;
+            SelectedPath = e.NewValue is StswPathTreeItem fileItem ? fileItem.FullPath : null;
     }
     private bool _isSelectingPath = false;
 
@@ -87,7 +87,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// <param name="e">The event arguments</param>
     private void OnTreeViewItemExpanded(object sender, RoutedEventArgs e)
     {
-        if (e.OriginalSource is TreeViewItem item && item.DataContext is StswFileTreeItem directoryItem)
+        if (e.OriginalSource is TreeViewItem item && item.DataContext is StswPathTreeItem directoryItem)
         {
             if (!directoryItem.IsLoaded)
                 _ = LoadFolderItemsAsync(directoryItem);
@@ -99,7 +99,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     /// <param name="parentItem">The parent folder item to load children for.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task LoadFolderItemsAsync(StswFileTreeItem parentItem)
+    private async Task LoadFolderItemsAsync(StswPathTreeItem parentItem)
     {
         if (parentItem.Children.Count == 1 && parentItem.Children[0] == null)
             parentItem.Children.Clear();
@@ -109,10 +109,10 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         var files = ShowFiles ? await Task.Run(() => Directory.GetFiles(parentItem.FullPath)) : [];
 
         foreach (var directory in directories)
-            parentItem.Children.Add(new StswFileTreeItem(directory, StswPathType.Directory));
+            parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.Directory));
 
         foreach (var file in files)
-            parentItem.Children.Add(new StswFileTreeItem(file, StswPathType.File));
+            parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.File));
     }
 
     /// <summary>
@@ -120,21 +120,21 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     private void ReloadInitialPath()
     {
-        var rootItems = new ObservableCollection<StswFileTreeItem>();
+        var rootItems = new ObservableCollection<StswPathTreeItem>();
 
         if (string.IsNullOrEmpty(InitialPath))
         {
             foreach (var drive in Directory.GetLogicalDrives())
-                rootItems.Add(new StswFileTreeItem(drive, StswPathType.Directory));
+                rootItems.Add(new StswPathTreeItem(drive, StswPathType.Directory));
         }
         else
         {
             foreach (var directory in Directory.GetDirectories(InitialPath))
-                rootItems.Add(new StswFileTreeItem(directory, StswPathType.Directory));
+                rootItems.Add(new StswPathTreeItem(directory, StswPathType.Directory));
 
             if (ShowFiles)
                 foreach (var file in Directory.GetFiles(InitialPath))
-                    rootItems.Add(new StswFileTreeItem(file, StswPathType.File));
+                    rootItems.Add(new StswPathTreeItem(file, StswPathType.File));
         }
 
         ItemsSource = rootItems;
@@ -156,7 +156,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
             relativePath = fullPath[InitialPath.Length..].TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
         var pathParts = relativePath.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-        var rootItem = Items.OfType<StswFileTreeItem>().FirstOrDefault();
+        var rootItem = Items.OfType<StswPathTreeItem>().FirstOrDefault();
         if (rootItem == null)
             return;
 
@@ -173,7 +173,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
             treeViewItem.IsExpanded = true;
             await Task.Delay(50);
 
-            currentItem = currentItem.Children.OfType<StswFileTreeItem>().FirstOrDefault(x => x.Name.Equals(pathParts[i], StringComparison.OrdinalIgnoreCase));
+            currentItem = currentItem.Children.OfType<StswPathTreeItem>().FirstOrDefault(x => x.Name.Equals(pathParts[i], StringComparison.OrdinalIgnoreCase));
             if (currentItem == null)
                 return;
         }
@@ -202,7 +202,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         {
             if (container.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem treeViewItem)
             {
-                if (item is StswFileTreeItem fileItem && fileItem.FullPath.Equals(fullPath, StringComparison.OrdinalIgnoreCase))
+                if (item is StswPathTreeItem fileItem && fileItem.FullPath.Equals(fullPath, StringComparison.OrdinalIgnoreCase))
                     return treeViewItem;
 
                 var foundItem = FindTreeViewItemByPath(treeViewItem, fullPath);
@@ -228,14 +228,14 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(InitialPath),
             typeof(string),
-            typeof(StswFileTree),
+            typeof(StswPathTree),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnInitialPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnInitialPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFileTree stsw)
+        if (obj is StswPathTree stsw)
         {
             stsw.ReloadInitialPath();
             // TODO - SelectedPath resets
@@ -254,14 +254,14 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(SelectedPath),
             typeof(string),
-            typeof(StswFileTree),
+            typeof(StswPathTree),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static async void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFileTree stsw)
+        if (obj is StswPathTree stsw)
         {
             if (e.NewValue is string newPath)
                 await stsw.SelectPathAsync(newPath);
@@ -282,14 +282,14 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(ShowFiles),
             typeof(bool),
-            typeof(StswFileTree),
+            typeof(StswPathTree),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnShowFilesChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnShowFilesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFileTree stsw)
+        if (obj is StswPathTree stsw)
         {
             stsw.ReloadInitialPath();
         }
@@ -307,7 +307,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(UsesSelectionItems),
             typeof(bool),
-            typeof(StswFileTree)
+            typeof(StswPathTree)
         );
     #endregion
 
@@ -326,7 +326,7 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswFileTree),
+            typeof(StswPathTree),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -344,18 +344,18 @@ public class StswFileTree : TreeView, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswFileTree),
+            typeof(StswPathTree),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }
 
 /// <summary>
-/// Represents a file or folder item in the <see cref="StswFileTree"/> control.
+/// Represents a file or folder item in the <see cref="StswPathTree"/> control.
 /// </summary>
-internal class StswFileTreeItem : StswObservableObject
+internal class StswPathTreeItem : StswObservableObject
 {
-    public StswFileTreeItem(string fullPath, StswPathType type)
+    public StswPathTreeItem(string fullPath, StswPathType type)
     {
         FullPath = fullPath;
         Type = type;
@@ -389,7 +389,7 @@ internal class StswFileTreeItem : StswObservableObject
     /// <summary>
     /// Gets or sets the collection of child items for this folder.
     /// </summary>
-    public ObservableCollection<StswFileTreeItem?> Children { get; set; } = [];
+    public ObservableCollection<StswPathTreeItem?> Children { get; set; } = [];
 
     /// <summary>
     /// Asynchronously loads the associated icon for the file or folder and updates the <see cref="Icon"/> property.

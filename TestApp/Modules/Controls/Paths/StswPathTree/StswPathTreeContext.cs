@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswFileTreeContext : ControlsContext
+public class StswPathTreeContext : ControlsContext
 {
     public override void SetDefaults()
     {

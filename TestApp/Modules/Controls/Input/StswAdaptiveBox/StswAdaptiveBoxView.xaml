@@ -34,7 +34,6 @@
         <se:StswAdaptiveBox DisplayMemberPath="Value"
                             IsEnabled="{Binding IsEnabled}"
                             IsReadOnly="{Binding IsReadOnly}"
-                            Margin="5"
                             Placeholder=" . . . "
                             SelectedValuePath="Value"
                             Type="{Binding Type}"

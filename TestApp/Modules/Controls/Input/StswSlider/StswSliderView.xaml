@@ -36,7 +36,6 @@
         <se:StswSlider IsEnabled="{Binding IsEnabled}"
                        IsSelectionRangeEnabled="True"
                        IsSnapToTickEnabled="True"
-                       Margin="5"
                        Maximum="{Binding Maximum}"
                        Minimum="{Binding Minimum}"
                        Orientation="{Binding Orientation}"
@@ -51,7 +50,7 @@
                        VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="Current value of slider: "/>
                 <Run Text="{Binding SelectedValue, StringFormat=N2}" FontWeight="Bold"/>
             </se:StswText>
