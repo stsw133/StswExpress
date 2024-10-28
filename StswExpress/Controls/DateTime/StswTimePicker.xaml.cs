@@ -67,7 +67,7 @@ public class StswTimePicker : StswBoxBase
                     _ => result
                 };
             }
-            else //if (e.Delta < 0)
+            else
             {
                 result = IncrementType switch
                 {

@@ -8,10 +8,8 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
 
         <Setter Property="Template">

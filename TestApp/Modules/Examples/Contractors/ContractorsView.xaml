@@ -15,7 +15,7 @@
 
             <DockPanel IsHitTestVisible="{Binding SaveCommand.IsBusy, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
                 <!-- button panel -->
-                <se:StswDirectionView DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                <se:StswDirectionView DockPanel.Dock="Top" Margin="3" Orientation="Horizontal">
                     <UniformGrid Rows="1" HorizontalAlignment="Left">
                         <se:StswSplitButton AutoClose="True" Command="{Binding RefreshCommand}" Margin=" 0 0 6 0">
                             <se:StswSplitButton.Header>
@@ -78,18 +78,18 @@
                         <se:StswDataGridStatusColumn/>
 
                         <!-- ID -->
-                        <DataGridTextColumn Binding="{Binding ID}" IsReadOnly="True">
-                            <DataGridTextColumn.Header>
+                        <se:StswDataGridDecimalColumn Binding="{Binding ID}" IsReadOnly="True">
+                            <se:StswDataGridDecimalColumn.Header>
                                 <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="a.ID"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                            </se:StswDataGridDecimalColumn.Header>
+                        </se:StswDataGridDecimalColumn>
 
                         <!-- Type -->
-                        <DataGridComboBoxColumn DisplayMemberPath="Display" ItemsSource="{se:StswEnumToList local:ContractorType}" SelectedValueBinding="{Binding Type}" SelectedValuePath="Value">
-                            <DataGridComboBoxColumn.Header>
+                        <se:StswDataGridComboColumn DisplayMemberPath="Display" ItemsSource="{se:StswEnumToList local:ContractorType}" SelectedValueBinding="{Binding Type}" SelectedValuePath="Value">
+                            <se:StswDataGridComboColumn.Header>
                                 <se:StswFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="a.Type" ItemsSource="{se:StswEnumToList local:ContractorType}"/>
-                            </DataGridComboBoxColumn.Header>
-                        </DataGridComboBoxColumn>
+                            </se:StswDataGridComboColumn.Header>
+                        </se:StswDataGridComboColumn>
 
                         <!-- Icon -->
                         <DataGridTemplateColumn IsReadOnly="True">

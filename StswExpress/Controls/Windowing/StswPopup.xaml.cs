@@ -14,12 +14,31 @@ public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
     {
-        OnScrollTypeChanged(this, new DependencyPropertyChangedEventArgs());
+        Init();
     }
     static StswPopup()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPopup), new FrameworkPropertyMetadata(typeof(StswPopup)));
     }
+
+    #region Events & methods
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Init()
+    {
+        var newChild = new ContentControl
+        {
+            ContentTemplate = ScrollType switch
+            {
+                StswScrollType.DirectionView => (DataTemplate)FindResource("StswPopupDirectionViewTemplate"),
+                StswScrollType.ScrollView => (DataTemplate)FindResource("StswPopupScrollViewTemplate"),
+                _ => throw new System.NotImplementedException()
+            }
+        };
+        Child = newChild;
+    }
+    #endregion
 
     #region Logic properties
     /// <summary>
@@ -58,12 +77,7 @@ public class StswPopup : Popup, IStswCornerControl
     {
         if (obj is StswPopup stsw)
         {
-            var newChild = new ContentControl();
-            if (stsw.ScrollType == StswScrollType.DirectionView)
-                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupDirectionViewTemplate");
-            else if (stsw.ScrollType == StswScrollType.ScrollView)
-                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupScrollViewTemplate");
-            stsw.Child = newChild;
+            stsw.Init();
         }
     }
     #endregion

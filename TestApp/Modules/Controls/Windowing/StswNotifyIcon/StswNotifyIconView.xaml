@@ -9,7 +9,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>
-            Represents a control for displaying a system tray icon with various properties for customization.
+            Represents a control for managing a system tray icon with customizable properties, including icons, tooltips, and notifications.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>

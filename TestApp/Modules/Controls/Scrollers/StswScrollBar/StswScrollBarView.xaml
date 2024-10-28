@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswScrollBarContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>
             Represents a control that extends the ScrollBar class with additional functionality.
         </local:ControlsBase.Description>
@@ -26,9 +26,7 @@
                           Margin="5"
                           Orientation="{Binding Orientation}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
-                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}"
-                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                          VerticalAlignment="{Binding VerticalAlignment}"/>
         <!-- status panel -->
         
     </local:ControlsBase>
