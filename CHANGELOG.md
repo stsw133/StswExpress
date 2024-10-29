@@ -39,35 +39,25 @@
 ## Additions
 
 ### Controls
-
 - ?
 
 ### Utils
-
 - ?
-
----
 
 ## Changes
 
 ### Controls
-
 - ?
 
 ### Utils
-
 - ?
-
----
 
 ## Fixes
 
 ### Controls
-
 - ?
 
 ### Utils
-
 - ?
 
 ---
@@ -76,13 +66,13 @@
 
 **Release Date**: 2024-10-23
 
-## Bug Fixes
+## Fixes
 
-- **Auto-Close on Button Click**:
-  - `StswSubDrop` will also auto-close by default when a button within its content is clicked.
+### Controls
+- Default behaviour changed for `StswSubDrop` control with `AutoClose` property set to `true` by default.
 
-- **Database Connections**:
-  - `Get` in `StswDatabaseHelper` will work with `string` as generic type.
+### Utils
+- `Get` method in `StswDatabaseHelper` class will work with `string` as generic type.
 
 ---
 
@@ -90,81 +80,61 @@
 
 **Release Date**: 2024-10-18
 
-## New Functionality
+## Additions
 
-- **Animations Configuration**:
-  - Introduced the `StswAnimations` class for managing animations across collection controls, check controls, and checkable button controls.
-  - Added configuration option in `StswConfig` to enable or disable animations.
-  
-- **Context Menu Control**: 
-  - `StswContextMenu` has been promoted from a style to a full control.
-
-- **New Extensions**:
-  - `ToImageSource`: Converts from `System.Drawing.Icon`.
-
-- **New Functions**:
-  - `ExtractAssociatedIcon`: Utility extracted from `StswPathPicker`. Allows to extract associated icon from files and directories.
-  - `TryCompute`: Added for additional computation flexibility.
-
-## Changes in Controls
-
-- **Auto-Close on Button Click**:
-  - `StswDropButton` and `StswSplitButton` now auto-close by default when a button within their content is clicked.
-
-- **Calendar & Date Controls**:
-  - Major improvements in `StswCalendar` template and logic, now supporting month selection.
-  - Updates extend to `StswDatePicker`, `StswAdaptiveBox`, and `StswFilterBox`.
-  
-- **Improved Templates**:
-  - `StswColorPicker` template updates for alignment consistency.
-  - `StswImage` item disabling logic moved from code to XAML triggers in template.
-  - `StswSeparator` template redesigned for a cleaner appearance.
-  
-- **New Properties**:
+### Controls
+- New `StswContextMenu` control instead of `StswContextMenuStyle` style for `ContextMenu` control.
+- New properties:
   - Added a new `Format` property in `StswAdaptiveBox` and `StswFilterBox` controls for better customization.
   - Added a new `Icon` property in all controls that implement `IStswBoxControl` interface for displaying icon on the left side of control.
-  - Added a new `Orientation` property in `StswDirectionView` as alternative to `HorizontalScrollBarVisibility` & `VerticalScrollBarVisibility` properties.
+  - Added a new `Orientation` property in `StswDirectionView` as alternative to `HorizontalScrollBarVisibility` and `VerticalScrollBarVisibility` properties.
+  - Added a new `SelectionMode` property in `StswAdaptiveBox`, `StswCalendar`, `StswDatePicker`, `StswFilterBox` to support month selection mode.
 
-- **Other Control Enhancements**:
-  - `StswPathPicker`: Renamed `IconSource` to `FileIcon`.
-  - `StswImage`: Now includes `StretchDirection`.
-  - `StswTabControl` & `StswTabItem`: Full MVVM support, with `StswTabItem` as the default item type.
-  - **Template Naming Update**: "PART_" changed to "OPT_" in template controls for better clarity.
+### Utils
+- Added configuration option in `StswConfig` to enable or disable animations.
+- Added new option to disable SQL connections in `StswDatabaseConfig`.
+- Introduced the `StswAnimations` class for managing animations across collection controls, check controls, and checkable button controls.
+- New helper methods: 
+  - Added a new `ExtractAssociatedIcon` utility extracted from `StswPathPicker` control. Allows to extract associated icon from files and directories.
+  - Added a new `ToImageSource` method for converting from `System.Drawing.Icon` to `ImageSource`.
+  - Added a new `TryCompute` method for additional computation flexibility.
 
-## Changes in Utilities
+## Changes
 
-- **Database Configuration**:
-  - `StswDatabaseConfig` now includes an option to disable SQL connections.
-  
-- **File Exporting**:
-  - `StswExport` no longer supports Excel.
-  - The `ClosedXML` library is now redundant and removed from references.
-  
-- **Extensions & Functions**:
-  - `MapTo` now allows mapping to lists of simple types like `int` or `string`.
-  - `MergeObjects` now returns an `IDictionary` instead of a `dynamic` object.
+### Controls
+- Added full MVVM support for `StswTabControl` control, with `StswTabItem` control as the default item type.
+- Default behaviour changed for `StswDropButton` and `StswSplitButton` controls with `AutoClose` property set to `true` by default.
+- Property changes:
+  - `StswPathPicker` property `IconSource` renamed to `FileIcon`.
+  - `StswImage` now includes `StretchDirection`.
+- Template changes:
+  - `StswCalendar` control template major updates and improvements.
+  - `StswColorPicker` control template updates for alignment consistency.
+  - `StswColorSelector` control template updates.
+  - `StswDataGrid` control no longer occupies space with no columns.
+  - `StswImage` control's item disabling logic moved from code to XAML triggers in template.
+  - `StswSeparator` control template redesigned for a cleaner appearance.
+- Template part names will start with either **"PART_"** (for controls used in logic) or **"OPT_"** (for controls used only in template).
 
-## Bug Fixes
+### Utils
+- The `ClosedXML` library is removed from references and `StswExport` class no longer contains methods to import from Excel and export to Excel.
+- Helper methods:
+  - `MapTo` method now allows mapping to lists of simple types like `int` or `int?`.
+  - `MergeObjects` method now returns an `IDictionary` instead of a `dynamic` object.
 
-- **Database Connections**:
-  - `ExecuteReader` in `StswDatabaseHelper` no longer disposes of the connection automatically.
-  
-- **Detailed Exceptions**:
-  - `StswNotifyIcon` now provides more specific exceptions if `Icon` or `IconPath` are not set.
-  
-- **Properties Fix**:
-  - Resolved an issue in `StswNumericBox`, `StswDatePicker`, and `StswTimePicker` where `Minimum` and `Maximum` settings prevented null values.
+## Fixes
 
-- **Theme Updates**:
-  - `StswContextMenu` now properly updates colors when the theme changes.
+### Controls
+- Corrected alignment for `StswCheckBox` and `StswRadioBox` controls.
+- Corrected alignment for `StswMenuItem` control in checked state.
+- Corrected width for `StswDropArrow` control in templates.
+- Resolved an issue in `StswNumericBox`, `StswDatePicker`, `StswTimePicker` controls where `Minimum` property and `Maximum` property settings prevented null values.
+- `StswApp` class with `AllowMultipleInstances` property set to `false` now restores minimized windows from prior instances.
+- `StswContextMenu` control now properly updates brushes when the theme changes.
+- `StswNotifyIcon` control now provides more specific exceptions if `Icon` property or `IconPath` property are not set.
 
-- **Visual Adjustments**:
-  - Corrected alignment for `StswMenuItem` in checked state.
-  - Fixed width issues for `StswDropArrow` in templates.
-  - Resolved alignment issues in `StswCheckBox` and `StswRadioBox`, fixing sizing when content is large.
-
-- **Window Restoration**:
-  - `StswApp` with `AllowMultipleInstances` set to `false` now restores minimized windows from prior instances.
+### Utils
+- `ExecuteReader` method in `StswDatabaseHelper` class no longer disposes of the connection automatically.
 
 ---
 
@@ -186,7 +156,7 @@
 * Small changes in **StswConfig**.
 * A few optimisations.
 
-## Bug Fixes
+## Fixes
 * **StswMailboxex** renamed to **StswMailboxes**.
 * **StswAdaptiveBox** has been remade to fix bug with binding "SubControls" property.
 * Bugfix for **StswNumberBox**'s "TryParse" method by changing invariant culture to current culture.
@@ -223,7 +193,7 @@
 * Changed extensions and functions: **ToHex** (it always returns color in hex - before it could return name of color), **Between** (reversed order can be allowed), **ShiftIndexBy** renamed into **ShiftBy**, **GetProcessUser** renamed into **GetUser** (and made into extension).
 * **ParametersAddList** method is limited to max. 20 elements.
 
-## Bug Fixes
+## Fixes
 * **IsInDebug** method should better determine if entry assembly was built in debug mode.
 * Stsw sub controls also have nullable "IsBusy" property to allow them to automatically bind to command's "IsBusy" property (similar to what **StswLabel** has).
 * Bugfix for archiving logs.
@@ -247,7 +217,7 @@
 * **ColorFromAhsv** made into **ColorFromHsv**'s overload.
   **ColorFromAhsl** made into **ColorFromHsl**'s overload.
 
-## Bug Fixes
+## Fixes
 * **StswDatabaseHelper** and **StswSqlConnectionFactory** reworked to fix many bugs.
 
 ---
@@ -268,7 +238,7 @@
 * **StswDatabaseModel** query methods can also receive Dictionary type value as parameters now.
 * **IsListType** extension method no longer treats string as list type.
 
-## Bug Fixes
+## Fixes
 
 * A lot of bugfixes for **StswDatabaseModel** (and its query methods that are now in **StswDatabaseHelper**).
 * Bugfix for **StswHeader** - it will set "IsBusy" property only if there is no default value set.
@@ -292,7 +262,7 @@
 * **StswDatabaseModel**'s query methods from now on can receive timeout as parameter.
 * Changed logo for StswExpress NuGet package.
 
-## Bug Fixes
+## Fixes
 
 * All Stsw collection controls will properly set "UsesSelectionItems" property when their items source is ICollectionView. Just in case, setter for this property is also public now.
 * Extension **ParametersAddList** should properly handle null values and byte arrays now.
@@ -335,7 +305,7 @@
 * **StswTranslator** can cache translations and load translations from file asynchronously.
 * Changed logo for StswExpress NuGet package.
 
-## Bug Fixes
+## Fixes
 
 * Improvements and bugfixes for converters.
 * Bugfix for **StswRatingControl** when "ExpandDirection" property was set to "Up".
@@ -365,7 +335,7 @@
 * **StswInfoBadge** can use value separated by thousands.
 * **StswCompareConverter** regained its old functionality alongside with the new one.
 
-## Bug Fixes
+## Fixes
 * **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
 * **StswPathPicker** has small bugfix for separating by thousands.
 
@@ -398,7 +368,7 @@
 * **NewExtension** renamed to **StswCreateInstanceExtension**.  
   **NameOfExtension** renamed to **StswNameOfExtension**.
 
-## Bug Fixes
+## Fixes
 * **StswWindow** can properly pass "Components" to **StswWindowBar** now.
 * **StswComboBox** no longer keyboard focus when its filter is not enabled.
 * **StswTextEditor** has customizable scroll viewer control now.
@@ -410,7 +380,7 @@
 
 **Release Date**: 2024-04-29
 
-## Bug Fixes
+## Fixes
 * Stsw collection items no longer set "DisplayMemberPath" if items source type is assignable to **StswComboItem** but item template is not null.
 * **StswMessageDialog** has properly stretched text box.
 
@@ -451,7 +421,7 @@
 * Attached properties named "IsBorderless" and "IsArrowless" have been moved to **StswControl** class.
 * Dark theme is a little lighter again. Brush colors for Stsw navigation controls have been a little desaturated.
 
-## Bug Fixes
+## Fixes
 
 * Settings like **interface size**, **language**, **theme** will be remembered by library.
 * **StswRatingControl** properly supports directions other than "Right".
@@ -465,7 +435,7 @@
 
 **Release Date**: 2024-03-14
 
-## Bug Fixes
+## Fixes
 
 * **ConvertTo** extension now will work with nullable enums.
 
@@ -486,7 +456,7 @@
 
 * **IStswBoxControl** interface has been extended. All box controls have 2 new properties: "Errors", "HasError", and 1 less property: "IsErrorVisible".
 
-## Bug Fixes
+## Fixes
 
 * **StswBindingList** can be sorted now (for example in **StswDataGrid** when clicked on column).
 
@@ -525,7 +495,7 @@
 * Dark theme has been modified to have darker colored parts. Pink theme has been remade.
 * Stsw internal sub controls are disabled for editor browsing.
 
-## Bug Fixes
+## Fixes
 
 * All Stsw controls have corrected "Focusable" and "IsTabStop" values.
 * All Stsw controls that were using **StswScrollViewer** have properly visible horizontal scroll bar - before it was never showing up, for example in **StswDataGrid**.
@@ -564,7 +534,7 @@
 * A few changes in theme brush key names.
 * **StswMailboxModel** implements INotifyPropertyChanged now.
 
-## Bug Fixes
+## Fixes
 
 * Bugfix translation for **StswColorBox**'s tab headers.
 * Going into fullscreen mode should properly activate and focus window.
@@ -575,7 +545,7 @@
 
 **Release Date**: 2023-12-27
 
-## Bug Fixes
+## Fixes
 * **StswExport** is improved - now numeric and date values should be properly displayed and formatted in cells.
 
 ---
@@ -584,7 +554,7 @@
 
 **Release Date**: 2023-12-14
 
-## Bug Fixes
+## Fixes
 * **StswCalendar** no longer allows to select date that is not between minimum and maximum range. "Today" button becomes disabled when current date is not in minimum and maximum range.
 
 ---
@@ -642,7 +612,7 @@
 * **StswDatabase** renamed to **StswDatabases**. Some methods are renamed and the way of importing and exporting "Port" is improved.
 * Automatic language can be removed from confgiuration dialog now.
 
-## Bug Fixes
+## Fixes
 
 * **StswToggleSwitch** no longer have different size when is checked at start.
 * **StswListBox**, **StswListView** and **StswTreeView** will properly determine if they are using ItemsSource of **IStswSelectionItem** type.
@@ -670,7 +640,7 @@
 * **StswEnumToListConverter** returns list of **StswSelectionItem** type instead of **StswComboItem** - it should fix **StswFilter** if it has result of this converter as ItemsSource.
 * **ToStswCollection** extension method renamed into **ToStswBindingList**.
 
-## Bug Fixes
+## Fixes
 
 * **ConvertTo** extension method can properly convert to enum type.
 * **StswFilter** properly calculates SQL string when its ItemsSource contains enum values.
@@ -681,7 +651,7 @@
 
 **Release Date**: 2023-10-24
 
-## Bug Fixes
+## Fixes
 * **StswDataGrid**'s special column has proper margins again.
 
 ---
@@ -719,7 +689,7 @@
 * Debug messages (**StswMessageDialog**, **StswLogPanel**) has different icon with original one removed completely. **StswDataGrid**'s items with filled "ItemMessage" property will show information icon in its special column.
 * Changes in **StswSecurity**.
 
-## Bug Fixes
+## Fixes
 
 * **StswPopup** properly binds DataContext now.
 * **StswToggleSwitch** is properly colored now.
@@ -737,7 +707,7 @@
 
 * Changed named of extension from **ToObjectList** to **MapTo**.
 
-## Bug Fixes
+## Fixes
 
 * Extension named **MapTo** properly maps DataTable's columns to generic type properties.
 * **StswDataGrid** is no longer overriding "FrozenColumnCount" property.
@@ -780,7 +750,7 @@
 * **StswSettings** renamed into **Settings** (is internal anyway).
 * Some brush properties in Stsw controls have different dynamic resources as default value.
 
-## Bug Fixes
+## Fixes
 
 * Stsw input controls no longer update their main property on lost focus if property didn't changed (main property is for example "SelectedColor" for StswColorBox).
 * **StswTextEditor**'s "FilePath" property loads or clears document if its value is changed.
@@ -801,7 +771,7 @@
 * **StswFilter** can now hide mode changing button with new property.
 * **StswApp** have new method called "StswWindow". This method will return current app's main window as StswWindow.
 
-## Bug Fixes
+## Fixes
 
 * Content dialog is declared properly now for **StswWindow**. This eliminates XAML binding failure caused by previous version.
 * **StswSelectionBox** uses scroll viewer from its list box instead of separated scroll viewer - thanks to that scroll viewer works properly and can for example be scrolled with mouse wheel.
@@ -868,7 +838,7 @@
 * **StswTextBox** now refreshes after Enter click (that also fixes its behaviour in **StswFilter**).
 * **StswExport** now takes only properties that have export attribute.
 
-## Bug Fixes
+## Fixes
 
 * Bugfix for converters when decimal separator is not set to dot.
 * Stsw buttons now have grids in templates between "ClippingBorder" and "ContentPresenter" so content should be clipped properly now.
@@ -924,7 +894,7 @@
 * **StswWindow** now uses WindowChrome (that also eliminated some bugs and weird behavior).
 * **StswSecurity** class uses different algorithm for encrypting, decrypting and generating salt.
 
-## Bug Fixes
+## Fixes
 
 * Not listed since most of controls and helper classes have been reworked and reworks include many bugfixes.
 

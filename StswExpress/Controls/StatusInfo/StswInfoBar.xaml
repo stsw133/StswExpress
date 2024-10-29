@@ -9,7 +9,8 @@
         <Setter Property="Padding" Value="3"/>
         
         <Setter Property="IsClosable" Value="False"/>
-        <Setter Property="IsMinimized" Value="{x:Null}"/>
+        <Setter Property="IsCopyable" Value="True"/>
+        <Setter Property="IsExpandable" Value="False"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -30,74 +31,81 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <DockPanel Margin="{TemplateBinding Padding}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <DockPanel DockPanel.Dock="Top">
-                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
-                                    <!-- copy button -->
-                                    <se:StswSubButton x:Name="PART_ButtonCopyToClipboard"
-                                                      IconData="{x:Static se:StswIcons.ContentCopy}"
-                                                      Margin="3 0 0 0">
-                                        <se:StswSubButton.ToolTip>
-                                            <se:StswToolTip Content="{se:Tr StswInfoBar.CopyToClipboard}"/>
-                                        </se:StswSubButton.ToolTip>
-                                        <se:StswSubButton.Triggers>
-                                            <EventTrigger RoutedEvent="Button.Click">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IconData" Duration="0:0:2">
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static se:StswIcons.Check}"/>
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:2" Value="{x:Static se:StswIcons.ContentCopy}"/>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </se:StswSubButton.Triggers>
-                                    </se:StswSubButton>
-                                    <!-- minimize button -->
-                                    <se:StswSubCheck x:Name="OPT_ButtonMinimize"
-                                                     IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
-                                                     IconChecked="{x:Static se:StswIcons.ChevronDown}"
-                                                     IsChecked="{Binding IsMinimized, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Margin="3 0 0 0">
-                                        <se:StswSubCheck.ToolTip>
-                                            <se:StswToolTip Content="{se:Tr StswInfoBar.Minimize}"/>
-                                        </se:StswSubCheck.ToolTip>
-                                    </se:StswSubCheck>
-                                    <!-- close button -->
-                                    <se:StswSubButton x:Name="PART_ButtonClose"
-                                                      IconData="{x:Static se:StswIcons.Close}"
-                                                      Margin="3 0 0 0"
-                                                      Visibility="Collapsed">
-                                        <se:StswSubButton.ToolTip>
-                                            <se:StswToolTip Content="{se:Tr StswInfoBar.Close}"/>
-                                        </se:StswSubButton.ToolTip>
-                                    </se:StswSubButton>
-                                </StackPanel>
-                                <!-- title -->
-                                <se:StswLabel x:Name="OPT_Header"
-                                              DockPanel.Dock="Top"
-                                              Content="{TemplateBinding Title}"
-                                              Focusable="False"
-                                              FontSize="11"
-                                              FontWeight="Bold"
-                                              Padding="1"/>
-                            </DockPanel>
+                        <Grid Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <!-- copy button -->
+                                <se:StswSubButton x:Name="PART_ButtonCopyToClipboard"
+                                                  IconData="{x:Static se:StswIcons.ContentCopy}"
+                                                  Margin="3 0 0 0">
+                                    <se:StswSubButton.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoBar.CopyToClipboard}"/>
+                                    </se:StswSubButton.ToolTip>
+                                    <se:StswSubButton.Triggers>
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IconData" Duration="0:0:2">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static se:StswIcons.Check}"/>
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:2" Value="{x:Static se:StswIcons.ContentCopy}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </se:StswSubButton.Triggers>
+                                </se:StswSubButton>
+                                <!-- expand button -->
+                                <se:StswSubCheck x:Name="OPT_ButtonExpand"
+                                                 IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
+                                                 IconChecked="{x:Static se:StswIcons.ChevronDown}"
+                                                 IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Margin="3 0 0 0">
+                                    <se:StswSubCheck.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoBar.Expand}"/>
+                                    </se:StswSubCheck.ToolTip>
+                                </se:StswSubCheck>
+                                <!-- close button -->
+                                <se:StswSubButton x:Name="PART_ButtonClose"
+                                                  IconData="{x:Static se:StswIcons.Close}"
+                                                  Margin="3 0 0 0">
+                                    <se:StswSubButton.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoBar.Close}"/>
+                                    </se:StswSubButton.ToolTip>
+                                </se:StswSubButton>
+                            </StackPanel>
+                            <!-- title -->
+                            <se:StswLabel x:Name="OPT_Header"
+                                          Content="{TemplateBinding Title}"
+                                          Focusable="False"
+                                          FontSize="11"
+                                          FontWeight="Bold"
+                                          Padding="1"/>
                             <!-- text -->
-                            <se:StswText x:Name="OPT_Text" Padding="3 0" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
-                        </DockPanel>
+                            <se:StswText x:Name="OPT_Text"  Grid.Row="1" Grid.RowSpan="2" Padding="3 0" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
+                        </Grid>
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMinimized" Value="True">
+                        <Trigger Property="IsClosable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonClose"/>
+                        </Trigger>
+                        <Trigger Property="IsCopyable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCopyToClipboard"/>
+                        </Trigger>
+                        <Trigger Property="IsExpandable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonExpand"/>
+                        </Trigger>
+                        <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Text"/>
-                        </Trigger>
-                        <Trigger Property="IsMinimized" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonMinimize"/>
-                        </Trigger>
-                        <Trigger Property="IsClosable" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonClose"/>
                         </Trigger>
                         <Trigger Property="Type" Value="None">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Subground}" TargetName="OPT_MainBorder"/>

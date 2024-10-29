@@ -4,14 +4,13 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a panel control that displays information bars in a scrollable list, providing optional functionality for a close button.
 /// </summary>
-public class StswInfoPanel : ListBox, IStswCornerControl
+public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
     static StswInfoPanel()
     {
@@ -26,8 +25,10 @@ public class StswInfoPanel : ListBox, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        /// Button: copy all to clipboard
         if (GetTemplateChild("PART_ButtonCopyAllToClipboard") is ButtonBase btnCopyAllToClipboard)
             btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
+        /// Button: close all
         if (GetTemplateChild("PART_ButtonCloseAll") is ButtonBase btnCloseAll)
             btnCloseAll.Click += PART_ButtonCloseAll_Click;
     }
@@ -60,7 +61,7 @@ public class StswInfoPanel : ListBox, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the items are closable and has a close button.
+    /// Gets or sets a value indicating whether the items are closable and have a close button.
     /// </summary>
     public bool IsClosable
     {
@@ -75,31 +76,49 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are minimized (<see langword="true"/> or <see langword="false"/>)
-    /// and has a minimize button (not <see langword="null"/>).
+    /// Gets or sets a value indicating whether the items are copyable and have a copy button.
     /// </summary>
-    public bool? IsMinimized
+    public bool IsCopyable
     {
-        get => (bool?)GetValue(IsMinimizedProperty);
-        set => SetValue(IsMinimizedProperty, value);
+        get => (bool)GetValue(IsCopyableProperty);
+        set => SetValue(IsCopyableProperty, value);
     }
-    public static readonly DependencyProperty IsMinimizedProperty
+    public static readonly DependencyProperty IsCopyableProperty
         = DependencyProperty.Register(
-            nameof(IsMinimized),
-            typeof(bool?),
-            typeof(StswInfoPanel),
-            new FrameworkPropertyMetadata(default(bool?),
-                FrameworkPropertyMetadataOptions.None,
-                OnIsMinimizedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            nameof(IsCopyable),
+            typeof(bool),
+            typeof(StswInfoPanel)
         );
-    public static void OnIsMinimizedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the items are expandable and have an expand button.
+    /// </summary>
+    public bool IsExpandable
     {
-        if (obj is StswInfoPanel stsw)
-        {
-            foreach (var infoBar in StswFn.FindVisualChildren<StswInfoBar>(stsw))
-                infoBar.IsMinimized = (bool?)e.NewValue;
-        }
+        get => (bool)GetValue(IsExpandableProperty);
+        set => SetValue(IsExpandableProperty, value);
     }
+    public static readonly DependencyProperty IsExpandableProperty
+        = DependencyProperty.Register(
+            nameof(IsExpandable),
+            typeof(bool),
+            typeof(StswInfoPanel)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the items are currently expanded.
+    /// </summary>
+    public bool IsExpanded
+    {
+        get => (bool)GetValue(IsExpandedProperty);
+        set => SetValue(IsExpandedProperty, value);
+    }
+    public static readonly DependencyProperty IsExpandedProperty
+        = DependencyProperty.Register(
+            nameof(IsExpanded),
+            typeof(bool),
+            typeof(StswInfoPanel)
+        );
 
     /// <summary>
     /// Gets or sets a value indicating whether the control panel is visible or not.

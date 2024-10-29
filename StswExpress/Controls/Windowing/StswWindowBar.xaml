@@ -137,7 +137,7 @@
                                      Header="{se:Tr StswWindow.Fullscreen}"
                                      IconData="{x:Static se:StswIcons.Fullscreen}"
                                      InputGestureText="F11"/>
-                    <!-- fullscreenexit -->
+                    <!-- fullscreen exit -->
                     <se:StswMenuItem x:Name="PART_MenuFullscreenExit"
                                      Header="{se:Tr StswWindow.FullscreenExit}"
                                      IconData="{x:Static se:StswIcons.FullscreenExit}"
@@ -158,9 +158,8 @@
     
     <!-- StswWindowButton -->
     <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type se:StswButton}">
+        <Setter Property="se:StswControl.IsBorderless" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Padding" Value="3"/>

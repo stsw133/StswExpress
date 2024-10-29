@@ -21,8 +21,7 @@ public class StswInfoBadge : Control, IStswCornerControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
-        OnValueChanged(this, new DependencyPropertyChangedEventArgs());
+        UpdateValue();
     }
 
     /// <summary>
@@ -49,6 +48,16 @@ public class StswInfoBadge : Control, IStswCornerControl
 
         number /= 1000;
         return $"{number}B";
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void UpdateValue()
+    {
+        DisplayedValue = Limit == null
+            ? SeparateByThousands(Value)
+            : Value > Limit.Value ? $"{SeparateByThousands(Limit.Value)}+" : $"{SeparateByThousands(Value)}";
     }
     #endregion
 
@@ -152,10 +161,7 @@ public class StswInfoBadge : Control, IStswCornerControl
     {
         if (obj is StswInfoBadge stsw)
         {
-            if (stsw.Limit == null)
-                stsw.DisplayedValue = SeparateByThousands(stsw.Value);
-            else
-                stsw.DisplayedValue = stsw.Value > stsw.Limit.Value ? $"{SeparateByThousands(stsw.Limit.Value)}+" : $"{SeparateByThousands(stsw.Value)}";
+            stsw.UpdateValue();
         }
     }
     #endregion

@@ -12,8 +12,8 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         
-        <Setter Property="ItemsPerPage" Value="25"/>
-        <Setter Property="PageCurrent" Value="1"/>
+        <Setter Property="CurrentPage" Value="1"/>
+        <Setter Property="ItemsPerPage" Value="50"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -40,29 +40,40 @@
                                                   BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                   Focusable="False"
                                                   Orientation="Horizontal">
-                                <ItemsControl Focusable="False" ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
-                                                         Rows="1"
-                                                         HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
-                                                         VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <se:StswRadioButton BorderThickness="1"
-                                                                Command="{Binding PageChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
-                                                                CommandParameter="{Binding Page}"
-                                                                Content="{Binding Description}"
-                                                                CornerRadius="5"
-                                                                FontSize="11"
-                                                                IsChecked="{Binding IsSelected}"
-                                                                IsEnabled="{Binding IsEnabled}"
-                                                                Margin="0 0 3 0"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <StackPanel Orientation="Horizontal">
+                                    <ItemsControl Focusable="False" ItemsSource="{Binding Pages, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
+                                                             Rows="1"
+                                                             HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
+                                                             VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <se:StswRadioButton BorderThickness="1"
+                                                                    Command="{Binding PageChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
+                                                                    CommandParameter="{Binding Page}"
+                                                                    Content="{Binding Description}"
+                                                                    CornerRadius="5"
+                                                                    FontSize="11"
+                                                                    IsChecked="{Binding IsSelected}"
+                                                                    IsEnabled="{Binding IsEnabled}"
+                                                                    Margin="0 0 3 0"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <se:StswDecimalBox DockPanel.Dock="Right"
+                                                       BorderThickness="1"
+                                                       CornerRadius="5"
+                                                       Margin="{TemplateBinding Padding}"
+                                                       Maximum="{Binding TotalPages, RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Minimum="1"
+                                                       SeparatorThickness="1"
+                                                       Value="{Binding CurrentPage, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Width="100"/>
+                                </StackPanel>
                             </se:StswDirectionView>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"

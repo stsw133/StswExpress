@@ -16,9 +16,12 @@
             <!-- IsClosable -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswInfoPanel}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
-            <!-- IsMinimized -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMinimized, Type={x:Type se:StswInfoPanel}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized, Mode=TwoWay}" IsThreeState="True"/>
+            <!-- IsCopyable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCopyable, Type={x:Type se:StswInfoPanel}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsCopyable}"/>
+            <!-- IsExpandable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpandable, Type={x:Type se:StswInfoPanel}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsExpandable}"/>
             <!-- ShowControlPanel -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowControlPanel, Type={x:Type se:StswInfoPanel}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowControlPanel}"/>
@@ -33,8 +36,9 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswInfoPanel IsClosable="{Binding IsClosable}"
+                          IsCopyable="{Binding IsCopyable}"
                           IsEnabled="{Binding IsEnabled}"
-                          IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
+                          IsExpandable="{Binding IsExpandable}"
                           ItemsSource="{Binding ItemsSource}"
                           ShowControlPanel="{Binding ShowControlPanel}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"

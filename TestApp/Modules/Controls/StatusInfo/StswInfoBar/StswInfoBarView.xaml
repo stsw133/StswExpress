@@ -16,17 +16,21 @@
             <!-- IsClosable -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswInfoBar}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
-            <!-- IsMinimized -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMinimized, Type={x:Type se:StswInfoBar}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMinimized, Mode=TwoWay}" IsThreeState="True"/>
+            <!-- IsCopyable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCopyable, Type={x:Type se:StswInfoBar}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsCopyable}"/>
+            <!-- IsExpandable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpandable, Type={x:Type se:StswInfoBar}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsExpandable}" IsThreeState="True"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBar}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswInfoBar IsClosable="{Binding IsClosable}"
+                        IsCopyable="{Binding IsCopyable}"
                         IsEnabled="{Binding IsEnabled}"
-                        IsMinimized="{Binding IsMinimized, Mode=TwoWay}"
+                        IsExpandable="{Binding IsExpandable}"
                         Text="{Binding Text}"
                         Title="{Binding Title}"
                         Type="{Binding Type}"

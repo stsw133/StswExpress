@@ -10,7 +10,8 @@ public class StswInfoBarContext : ControlsContext
         base.SetDefaults();
 
         IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
-        IsMinimized = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsMinimized)))?.Value ?? default(bool?);
+        IsCopyable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsCopyable)))?.Value ?? default;
+        IsExpandable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsExpandable)))?.Value ?? default;
         Type = (StswInfoType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
 
@@ -21,14 +22,22 @@ public class StswInfoBarContext : ControlsContext
         set => SetProperty(ref _isClosable, value);
     }
     private bool _isClosable;
-
-    /// IsMinimized
-    public bool? IsMinimized
+    
+    /// IsCopyable
+    public bool IsCopyable
     {
-        get => _isMinimized;
-        set => SetProperty(ref _isMinimized, value);
+        get => _isCopyable;
+        set => SetProperty(ref _isCopyable, value);
     }
-    private bool? _isMinimized;
+    private bool _isCopyable;
+
+    /// IsExpandable
+    public bool IsExpandable
+    {
+        get => _isExpandable;
+        set => SetProperty(ref _isExpandable, value);
+    }
+    private bool _isExpandable;
 
     /// Text
     public string Text

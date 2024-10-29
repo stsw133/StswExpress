@@ -179,9 +179,9 @@
     "en": "Copy to clipboard",
     "pl": "Kopiuj do schowka"
   },
-  "StswInfoBar.Minimize": {
-    "en": "Minimize",
-    "pl": "Minimalizuj"
+  "StswInfoBar.Expand": {
+    "en": "Expand/collapse",
+    "pl": "Rozwiń/zwiń"
   },
   "StswInfoPanel.CloseAll": {
     "en": "Close all",
@@ -191,9 +191,9 @@
     "en": "Copy all to clipboard",
     "pl": "Kopiuj wszystkie do schowka"
   },
-  "StswInfoPanel.MinimizeAll": {
-    "en": "Minimize all",
-    "pl": "Minimalizuj wszystkie"
+  "StswInfoPanel.ExpandAll": {
+    "en": "Expand/collapse all",
+    "pl": "Rozwiń/zwiń wszystkie"
   },
   "StswMessageDialog.Cancel": {
     "en": "Cancel",

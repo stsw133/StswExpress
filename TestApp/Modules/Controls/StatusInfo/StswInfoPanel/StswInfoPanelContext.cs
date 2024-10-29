@@ -15,7 +15,8 @@ public class StswInfoPanelContext : ControlsContext
         base.SetDefaults();
 
         IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
-        IsMinimized = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsMinimized)))?.Value ?? default(bool?);
+        IsCopyable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsCopyable)))?.Value ?? default;
+        IsExpandable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsExpandable)))?.Value ?? default;
         ShowControlPanel = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowControlPanel)))?.Value ?? default;
     }
 
@@ -30,7 +31,7 @@ public class StswInfoPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task LoadFromFiles() => Task.Run(async () => ItemsSource = (await StswLog.ImportListAsync(DateTime.Now.AddDays(-14), DateTime.Now)).ToObservableCollection());
+    private Task LoadFromFiles() => Task.Run(async () => ItemsSource = (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now)).ToObservableCollection());
     #endregion
 
     /// IsClosable
@@ -41,13 +42,21 @@ public class StswInfoPanelContext : ControlsContext
     }
     private bool _isClosable;
     
-    /// IsMinimized
-    public bool? IsMinimized
+    /// IsCopyable
+    public bool IsCopyable
     {
-        get => _isMinimized;
-        set => SetProperty(ref _isMinimized, value);
+        get => _isCopyable;
+        set => SetProperty(ref _isCopyable, value);
     }
-    private bool? _isMinimized;
+    private bool _isCopyable;
+
+    /// IsExpandable
+    public bool IsExpandable
+    {
+        get => _isExpandable;
+        set => SetProperty(ref _isExpandable, value);
+    }
+    private bool _isExpandable;
 
     /// ItemsSource
     public ObservableCollection<StswLogItem?> ItemsSource

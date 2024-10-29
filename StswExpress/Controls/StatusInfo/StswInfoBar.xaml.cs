@@ -23,8 +23,10 @@ public class StswInfoBar : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        /// Button: copy to clipboard
         if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase btnCopyToClipboard)
             btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+        /// Button: close
         if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
             btnClose.Click += PART_ButtonClose_Click;
     }
@@ -38,7 +40,7 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
+    /// Handles the click event of the function button, used for closing the info bar if it's placed within an <see cref="StswInfoPanel"/>.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -73,18 +75,47 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the bar is minimized (<see langword="true"/> or <see langword="false"/>)
-    /// and has a minimize button (not <see langword="null"/>).
+    /// Gets or sets a value indicating whether the bar is copyable and has a copy button.
     /// </summary>
-    public bool? IsMinimized
+    public bool IsCopyable
     {
-        get => (bool?)GetValue(IsMinimizedProperty);
-        set => SetValue(IsMinimizedProperty, value);
+        get => (bool)GetValue(IsCopyableProperty);
+        set => SetValue(IsCopyableProperty, value);
     }
-    public static readonly DependencyProperty IsMinimizedProperty
+    public static readonly DependencyProperty IsCopyableProperty
         = DependencyProperty.Register(
-            nameof(IsMinimized),
-            typeof(bool?),
+            nameof(IsCopyable),
+            typeof(bool),
+            typeof(StswInfoBar)
+        );
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the bar is expandable and has an expand button.
+    /// </summary>
+    public bool IsExpandable
+    {
+        get => (bool)GetValue(IsExpandableProperty);
+        set => SetValue(IsExpandableProperty, value);
+    }
+    public static readonly DependencyProperty IsExpandableProperty
+        = DependencyProperty.Register(
+            nameof(IsExpandable),
+            typeof(bool),
+            typeof(StswInfoBar)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bar is currently expanded.
+    /// </summary>
+    public bool IsExpanded
+    {
+        get => (bool)GetValue(IsExpandedProperty);
+        set => SetValue(IsExpandedProperty, value);
+    }
+    public static readonly DependencyProperty IsExpandedProperty
+        = DependencyProperty.Register(
+            nameof(IsExpanded),
+            typeof(bool),
             typeof(StswInfoBar)
         );
 

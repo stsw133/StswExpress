@@ -246,16 +246,6 @@ public enum StswScrollType
 }
 
 /// <summary>
-/// Enumerator for <see cref="StswDataGrid.SpecialColumnVisibility"/>.
-/// </summary>
-public enum StswSpecialColumnVisibility
-{
-    Collapsed,
-    All,
-    OnlyRows
-}
-
-/// <summary>
 /// Enumerator for <see cref="StswSpinner.Type"/>.
 /// </summary>
 public enum StswSpinnerType

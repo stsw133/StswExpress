@@ -7,13 +7,15 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerClipping" Value="True"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="1"/>
 
         <Setter Property="IsClosable" Value="True"/>
-        <Setter Property="IsMinimized" Value="False"/>
+        <Setter Property="IsCopyable" Value="True"/>
+        <Setter Property="IsExpandable" Value="True"/>
+        <Setter Property="IsExpanded" Value="False"/>
         <Setter Property="ShowControlPanel" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -26,14 +28,15 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
         <Setter Property="se:StswScrollView.AutoScroll" Value="True"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -89,21 +92,20 @@
                                             </EventTrigger>
                                         </se:StswSubButton.Triggers>
                                     </se:StswSubButton>
-                                    <!-- minimize all button -->
-                                    <se:StswSubCheck x:Name="OPT_ButtonMinimizeAll"
+                                    <!-- expand all button -->
+                                    <se:StswSubCheck x:Name="OPT_ButtonExpandAll"
                                                      IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
                                                      IconChecked="{x:Static se:StswIcons.ChevronDown}"
-                                                     IsChecked="{Binding IsMinimized, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Margin="3 0 0 0">
                                         <se:StswSubCheck.ToolTip>
-                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.MinimizeAll}"/>
+                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.ExpandAll}"/>
                                         </se:StswSubCheck.ToolTip>
                                     </se:StswSubCheck>
                                     <!-- close all button -->
                                     <se:StswSubButton x:Name="PART_ButtonCloseAll"
                                                       IconData="{x:Static se:StswIcons.Close}"
-                                                      Margin="3 0 0 0"
-                                                      Visibility="Collapsed">
+                                                      Margin="3 0 0 0">
                                         <se:StswSubButton.ToolTip>
                                             <se:StswToolTip Content="{se:Tr StswInfoPanel.CloseAll}"/>
                                         </se:StswSubButton.ToolTip>
@@ -136,39 +138,46 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsClosable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCloseAll"/>
+                        </Trigger>
+                        <Trigger Property="IsCopyable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCopyAllToClipboard"/>
+                        </Trigger>
+                        <Trigger Property="IsExpandable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonExpandAll"/>
+                        </Trigger>
                         <Trigger Property="ShowControlPanel" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ControlPanel"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
-                        </Trigger>
-                        <Trigger Property="IsMinimized" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonMinimizeAll"/>
-                        </Trigger>
-                        <Trigger Property="IsClosable" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCloseAll"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <Setter Property="ItemContainerStyle">
+        <Setter Property="ItemsPanel">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <se:StswInfoBar IsClosable="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
-                                                IsMinimized="{Binding IsMinimized, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
-                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
-                                                Text="{Binding Text}"
-                                                Title="{Binding DateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
-                                                Type="{Binding Type}"
-                                                HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
-                                                VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel IsVirtualizing="True" ScrollUnit="Pixel" VirtualizationMode="Recycling"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <se:StswInfoBar IsClosable="{Binding IsClosable, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    IsCopyable="{Binding IsCopyable, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    IsExpandable="{Binding IsExpandable, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    IsExpanded="{Binding IsExpanded, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    Margin="{Binding Padding, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    Text="{Binding Text}"
+                                    Title="{Binding DateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
+                                    Type="{Binding Type}"
+                                    HorizontalAlignment="{Binding HorizontalContentAlignment, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                    VerticalAlignment="{Binding VerticalContentAlignment, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"/>
+                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
