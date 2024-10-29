@@ -79,7 +79,6 @@
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
-                <se:StswNavigationElement Header="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Header="StswImage" ContextNamespace="TestApp.StswImageContext"/>
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
                 <se:StswNavigationElement Header="StswThumbnailView" ContextNamespace="TestApp.StswThumbnailViewContext"/>

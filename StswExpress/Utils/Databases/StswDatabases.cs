@@ -56,6 +56,9 @@ public static class StswDatabases
 
         var encryptedData = File.ReadAllText(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
+        if (string.IsNullOrEmpty(decryptedData))
+            return [];
+
         return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
     }
 
@@ -74,6 +77,9 @@ public static class StswDatabases
 
         var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
+        if (string.IsNullOrEmpty(decryptedData))
+            return [];
+
         return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
     }
 }

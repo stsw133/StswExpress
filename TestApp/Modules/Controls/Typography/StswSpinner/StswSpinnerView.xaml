@@ -7,7 +7,7 @@
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswSpinnerContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>
             Represents a control representing that the app is loading content or performing another process that the user needs to wait on.
         </local:ControlsBase.Description>

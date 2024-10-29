@@ -11,14 +11,13 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        
+
         <Setter Property="ScrollType" Value="ScrollView"/>
-        
-        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
     </Style>
     
     

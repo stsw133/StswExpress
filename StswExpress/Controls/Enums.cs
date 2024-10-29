@@ -183,17 +183,6 @@ public enum StswMenuMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswNotifyIcon.Notify"/>.
-/// </summary>
-public enum StswNotificationType
-{
-    None,
-    Info,
-    Warning,
-    Error
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswPathPicker.SelectionMode"/>.
 /// </summary>
 public enum StswPathType

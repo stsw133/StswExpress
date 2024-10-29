@@ -56,6 +56,9 @@ public static class StswMailboxes
 
         var encryptedData = File.ReadAllText(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
+        if (string.IsNullOrEmpty(decryptedData))
+            return [];
+
         return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
     }
 
@@ -69,11 +72,14 @@ public static class StswMailboxes
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
             await File.Create(Config.FilePath).DisposeAsync();
-            return new List<StswMailboxModel>();
+            return [];
         }
 
         var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
+        if (string.IsNullOrEmpty(decryptedData))
+            return [];
+
         return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
     }
 }

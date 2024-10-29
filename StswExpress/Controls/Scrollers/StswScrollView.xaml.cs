@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
@@ -27,7 +29,7 @@ public class StswScrollView : ScrollViewer
         {
             if (e.Delta > 0)
                 ScrollInfo.MouseWheelLeft();
-            else //if (e.Delta < 0)
+            else
                 ScrollInfo.MouseWheelRight();
 
             e.Handled = true;
@@ -184,5 +186,33 @@ public class StswScrollView : ScrollViewer
         );
     public static bool GetIsDynamic(DependencyObject obj) => (bool)obj.GetValue(IsDynamicProperty);
     public static void SetIsDynamic(DependencyObject obj, bool value) => obj.SetValue(IsDynamicProperty, value);
+    #endregion
+
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? BorderBrush { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Thickness? BorderThicknessProperty { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
