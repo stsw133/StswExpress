@@ -20,8 +20,8 @@
         <ResourceDictionary Source="Colors/StswColorPicker.xaml"/>
         <ResourceDictionary Source="Colors/StswColorSelector.xaml"/>
 
+        <ResourceDictionary Source="DataGrids/Columns/StswDataGridStatusColumn.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
-        <ResourceDictionary Source="DataGrids/StswDataGridStatusColumn.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
         
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>

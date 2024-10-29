@@ -10,34 +10,4 @@
         </Style.Triggers>
     </Style>
 
-    <!-- style for StswText in: "StswDataColorColorColumn" -->
-    <Style x:Key="StswDataGridColorColumnDisplayStyle" TargetType="{x:Type se:StswText}" BasedOn="{StaticResource {x:Type se:StswText}}">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-    <!-- style for StswText in: "StswDataGridDateColumn" -->
-    <Style x:Key="StswDataGridDateColumnDisplayStyle" TargetType="{x:Type se:StswText}" BasedOn="{StaticResource {x:Type se:StswText}}">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-    <!-- style for StswText in: "StswDataGridNumberColumn" -->
-    <Style x:Key="StswDataGridNumberColumnDisplayStyle" TargetType="{x:Type se:StswText}" BasedOn="{StaticResource {x:Type se:StswText}}">
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-    <!-- style for StswText in: "StswDataGridPathColumn" -->
-    <Style x:Key="StswDataGridPathColumnDisplayStyle" TargetType="{x:Type se:StswText}" BasedOn="{StaticResource {x:Type se:StswText}}">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-    <!-- style for StswText in: "StswDataGridTextColumn" -->
-    <Style x:Key="StswDataGridTextColumnDisplayStyle" TargetType="{x:Type se:StswText}" BasedOn="{StaticResource {x:Type se:StswText}}">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
 </ResourceDictionary>

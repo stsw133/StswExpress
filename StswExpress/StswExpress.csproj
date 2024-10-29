@@ -85,7 +85,7 @@
     <Page Update="Controls\Charts\StswChartPie.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\DataGrids\StswDataGridStatusColumn.xaml">
+    <Page Update="Controls\DataGrids\Columns\StswDataGridStatusColumn.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DataGrids\StswDataPager.xaml">
