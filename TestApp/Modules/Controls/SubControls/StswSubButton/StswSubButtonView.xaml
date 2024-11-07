@@ -29,7 +29,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
+        <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
             <se:StswSubButton Command="{Binding OnClickCommand}"
                               Content="Search"
                               FontSize="11"
@@ -69,7 +69,7 @@
         </UniformGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="You clicked "/>
                 <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
                 <Run Text=" time(s)"/>

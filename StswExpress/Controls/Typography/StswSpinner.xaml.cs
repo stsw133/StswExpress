@@ -12,6 +12,7 @@ public class StswSpinner : Control
     static StswSpinner()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(typeof(StswSpinner)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

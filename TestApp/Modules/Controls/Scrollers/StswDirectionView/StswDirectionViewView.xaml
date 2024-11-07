@@ -19,7 +19,6 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDirectionView IsEnabled="{Binding IsEnabled}"
-                              Margin="5"
                               Orientation="{Binding Orientation}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               VerticalAlignment="{Binding VerticalAlignment}">

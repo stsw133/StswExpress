@@ -46,10 +46,8 @@
                                 <!-- copy button -->
                                 <se:StswSubButton x:Name="PART_ButtonCopyToClipboard"
                                                   IconData="{x:Static se:StswIcons.ContentCopy}"
-                                                  Margin="3 0 0 0">
-                                    <se:StswSubButton.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoBar.CopyToClipboard}"/>
-                                    </se:StswSubButton.ToolTip>
+                                                  Margin="3 0 0 0"
+                                                  ToolTip="{se:Tr StswInfoBar.CopyToClipboard}">
                                     <se:StswSubButton.Triggers>
                                         <EventTrigger RoutedEvent="Button.Click">
                                             <BeginStoryboard>
@@ -68,19 +66,13 @@
                                                  IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
                                                  IconChecked="{x:Static se:StswIcons.ChevronDown}"
                                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 Margin="3 0 0 0">
-                                    <se:StswSubCheck.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoBar.Expand}"/>
-                                    </se:StswSubCheck.ToolTip>
-                                </se:StswSubCheck>
+                                                 Margin="3 0 0 0"
+                                                 ToolTip="{se:Tr StswInfoBar.Expand}"/>
                                 <!-- close button -->
                                 <se:StswSubButton x:Name="PART_ButtonClose"
                                                   IconData="{x:Static se:StswIcons.Close}"
-                                                  Margin="3 0 0 0">
-                                    <se:StswSubButton.ToolTip>
-                                        <se:StswToolTip Content="{se:Tr StswInfoBar.Close}"/>
-                                    </se:StswSubButton.ToolTip>
-                                </se:StswSubButton>
+                                                  Margin="3 0 0 0"
+                                                  ToolTip="{se:Tr StswInfoBar.Close}"/>
                             </StackPanel>
                             <!-- title -->
                             <se:StswLabel x:Name="OPT_Header"

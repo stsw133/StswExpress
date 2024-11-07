@@ -26,7 +26,6 @@
         <!-- content -->
         <UniformGrid Columns="1"
                      IsEnabled="{Binding IsEnabled}"
-                     Margin="5"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}" Tag="Option 1"/>
@@ -51,7 +50,7 @@
         </UniformGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="You clicked option "/>
                 <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
             </se:StswText>

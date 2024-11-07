@@ -8,7 +8,7 @@
         <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="5"/>
 
         <Setter Property="State" Value="Running"/>
         <Setter Property="TextMode" Value="Value"/>
@@ -48,7 +48,7 @@
                                 <Ellipse x:Name="Animation"
                                          RenderTransformOrigin="0.5 0.5"
                                          Stroke="{TemplateBinding Fill}"
-                                         StrokeDashArray="24"
+                                         StrokeDashArray="8"
                                          Height="12" Width="12">
                                     <Ellipse.RenderTransform>
                                         <RotateTransform x:Name="OPT_Rotation" Angle="0"/>
@@ -66,13 +66,15 @@
                             </Grid>
                         </Viewbox>
                         <!-- text -->
-                        <se:StswText x:Name="OPT_Text"
-                                     FontWeight="Medium"
-                                     Foreground="{TemplateBinding Foreground}"
-                                     Padding="{TemplateBinding Padding}"
-                                     Text="{TemplateBinding Text}"
-                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Viewbox>
+                            <se:StswText x:Name="OPT_Text"
+                                         FontWeight="Medium"
+                                         Foreground="{TemplateBinding Foreground}"
+                                         Padding="{TemplateBinding Padding}"
+                                         Text="{TemplateBinding Text}"
+                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Viewbox>
                     </Grid>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>

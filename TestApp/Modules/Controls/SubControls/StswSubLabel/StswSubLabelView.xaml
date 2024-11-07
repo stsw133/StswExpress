@@ -29,7 +29,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
+        <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
             <se:StswSubLabel Content="Info"
                              FontSize="11"
                              IconData="{x:Static se:StswIcons.InformationOutline}"

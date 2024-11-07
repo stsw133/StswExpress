@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
@@ -9,6 +10,7 @@ public class StswDropArrow : StswIcon
     static StswDropArrow()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropArrow), new FrameworkPropertyMetadata(typeof(StswDropArrow)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDropArrow), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

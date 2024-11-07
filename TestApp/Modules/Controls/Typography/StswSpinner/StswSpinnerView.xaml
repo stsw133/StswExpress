@@ -27,7 +27,6 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSpinner IsEnabled="{Binding IsEnabled}"
-                        Margin="5"
                         Scale="{Binding Scale}"
                         Type="{Binding Type}"
                         HorizontalAlignment="{Binding HorizontalAlignment}"

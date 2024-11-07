@@ -45,8 +45,8 @@
                                                  Foreground="{TemplateBinding Foreground}"
                                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Padding="{TemplateBinding Padding}"
-                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                 HorizontalContentAlignment="Stretch"
+                                                 VerticalContentAlignment="Stretch">
                                 <DockPanel>
                                     <DockPanel x:Name="OPT_DropArrowPanel" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                         <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsExpanded}"/>

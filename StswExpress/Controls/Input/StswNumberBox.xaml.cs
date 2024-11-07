@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -18,6 +19,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     static StswNumberBoxBase()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

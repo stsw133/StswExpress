@@ -6,10 +6,10 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="4 2"/>
-        
+        <Setter Property="Padding" Value="3 1"/>
+
         <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Format" Value="Number"/>
         <Setter Property="Limit" Value="{x:Null}"/>
         <Setter Property="Type" Value="Information"/>
@@ -17,7 +17,9 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-        
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -46,7 +48,7 @@
                                 <Setter.Value>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}}"
-                                                     Scale="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.095}"/>
+                                                     Scale="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.105}"/>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>

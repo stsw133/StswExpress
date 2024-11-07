@@ -8,9 +8,14 @@
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
                Icon="/TestApp;component/Resources/icon.ico">
     <se:StswWindow.Components>
-        <se:StswButton Command="{x:Static local:App.HelpCommand}" Style="{DynamicResource StswWindowButtonStyle}">
+        <se:StswButton Command="{x:Static local:App.HelpCommand}" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}">
             <se:StswOutlinedText Text="?"/>
         </se:StswButton>
+        <se:StswTextBox HorizontalAlignment="Right" Margin="3" Padding="1" Text="TEST" Width="200" WindowChrome.IsHitTestVisibleInChrome="True">
+            <se:StswTextBox.Icon>
+                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="3 3 0 3" Opacity="0.6"/>
+            </se:StswTextBox.Icon>
+        </se:StswTextBox>
     </se:StswWindow.Components>
     
     <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="200">

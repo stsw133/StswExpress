@@ -11,6 +11,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
     static StswSubRadio()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(typeof(StswSubRadio)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

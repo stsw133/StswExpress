@@ -21,6 +21,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     static StswSubSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(typeof(StswSubSelector)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

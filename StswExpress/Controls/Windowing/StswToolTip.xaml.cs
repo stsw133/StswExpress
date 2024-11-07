@@ -96,6 +96,21 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
     private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
+
+    /// <summary>
+    /// Updates the tooltip content for a specified <see cref="FrameworkElement"/> when the tooltip dependency property changes.
+    /// If the new value is a string, it creates a custom tooltip using <see cref="StswToolTip"/> and assigns it to the target element.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement stsw && e.NewValue is string tooltipContent)
+        {
+            var customToolTip = new StswToolTip { Content = tooltipContent };
+            ToolTipService.SetToolTip(stsw, customToolTip);
+        }
+    }
     #endregion
 
     #region Logic properties

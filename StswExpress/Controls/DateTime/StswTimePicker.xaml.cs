@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -15,6 +16,7 @@ public class StswTimePicker : StswBoxBase
     static StswTimePicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimePicker), new FrameworkPropertyMetadata(typeof(StswTimePicker)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTimePicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

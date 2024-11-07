@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -21,6 +22,7 @@ public class StswOutlinedText : FrameworkElement
     static StswOutlinedText()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(typeof(StswOutlinedText)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

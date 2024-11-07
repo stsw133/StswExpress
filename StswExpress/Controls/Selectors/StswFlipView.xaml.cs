@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -21,6 +22,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     static StswFlipView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(typeof(StswFlipView)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

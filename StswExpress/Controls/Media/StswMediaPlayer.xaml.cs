@@ -17,6 +17,7 @@ public class StswMediaPlayer : ItemsControl
     static StswMediaPlayer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

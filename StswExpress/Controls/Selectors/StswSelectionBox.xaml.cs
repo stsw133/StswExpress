@@ -24,6 +24,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     static StswSelectionBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

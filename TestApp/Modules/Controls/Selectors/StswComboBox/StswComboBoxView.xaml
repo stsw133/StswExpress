@@ -35,7 +35,6 @@
                          IsFilterEnabled="{Binding IsFilterEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding ItemsCollectionView}"
-                         Margin="5"
                          Placeholder="Select item..."
                          SelectedItem="{Binding SelectedItem}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -56,7 +55,7 @@
         </se:StswComboBox>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="{Binding SelectedItem, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" is selected"/>
             </se:StswText>

@@ -21,7 +21,6 @@
         <se:StswListView DisplayMemberPath="Name"
                          IsEnabled="{Binding IsEnabled}"
                          ItemsSource="{Binding Items}"
-                         Margin="5"
                          SelectionMode="{Binding SelectionMode}"
                          SelectedValuePath="Name"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -36,7 +35,7 @@
         </se:StswListView>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="{Binding SelectionCounter, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" option(s) are selected"/>
             </se:StswText>

@@ -13,6 +13,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     static StswTreeView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTreeView), new FrameworkPropertyMetadata(typeof(StswTreeView)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTreeView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

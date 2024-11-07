@@ -14,6 +14,7 @@ public class StswChartLegend : HeaderedItemsControl
     static StswChartLegend()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartLegend), new FrameworkPropertyMetadata(typeof(StswChartLegend)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswChartLegend), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

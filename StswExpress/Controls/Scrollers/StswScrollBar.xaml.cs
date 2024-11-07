@@ -14,6 +14,7 @@ public class StswScrollBar : ScrollBar
     static StswScrollBar()
 	{
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(typeof(StswScrollBar)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

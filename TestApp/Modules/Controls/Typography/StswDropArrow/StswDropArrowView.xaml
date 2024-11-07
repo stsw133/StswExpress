@@ -38,7 +38,6 @@
         <se:StswDropArrow Data="{Binding Data}"
                           IsEnabled="{Binding IsEnabled}"
                           IsExpanded="{Binding IsExpanded}"
-                          Margin="5"
                           Scale="{Binding Scale}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"/>

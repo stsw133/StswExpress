@@ -27,6 +27,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     static StswDataGrid()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

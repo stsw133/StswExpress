@@ -32,7 +32,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
+        <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
             <se:StswSubError Content="Info"
                              Errors="{Binding Errors}"
                              FontSize="11"

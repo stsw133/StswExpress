@@ -28,7 +28,6 @@
                              IsEnabled="{Binding IsEnabled}"
                              IsReadOnly="{Binding IsReadOnly}"
                              ItemsSource="{Binding Items}"
-                             Margin="5"
                              Placeholder="Select items..."
                              SelectedValuePath="Name"
                              SetTextCommand="{Binding SetTextCommand, Mode=OneWayToSource}"
@@ -50,7 +49,7 @@
         </se:StswSelectionBox>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="{Binding SelectionCounter, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" option(s) are selected"/>
             </se:StswText>

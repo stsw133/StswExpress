@@ -17,6 +17,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     static StswPasswordBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(typeof(StswPasswordBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

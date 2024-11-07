@@ -13,6 +13,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     static StswListBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

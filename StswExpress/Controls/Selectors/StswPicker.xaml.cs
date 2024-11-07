@@ -16,6 +16,7 @@ public class StswPicker : ListBox, IStswCornerControl
     static StswPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPicker), new FrameworkPropertyMetadata(typeof(StswPicker)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

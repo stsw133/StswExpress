@@ -30,7 +30,6 @@
         <se:StswScrollView IsBusy="{Binding IsBusy}"
                            IsDynamic="{Binding IsDynamic}"
                            IsEnabled="{Binding IsEnabled}"
-                           Margin="5"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
                            VerticalAlignment="{Binding VerticalAlignment}"

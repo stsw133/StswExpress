@@ -26,6 +26,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     static StswPathTree()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(typeof(StswPathTree)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -379,7 +380,7 @@ internal class StswPathTreeItem : StswObservableObject
     /// <summary>
     /// Gets or sets the name of the file or folder (derived from the full path).
     /// </summary>
-    public string? Name => StswFn.Coalesce(Path.GetFileName(FullPath), FullPath);
+    public string? Name => Path.GetFileName(FullPath) is string fileName && !string.IsNullOrEmpty(fileName) ? fileName : FullPath;
 
     /// <summary>
     /// Gets or sets the type of the item (file or directory).

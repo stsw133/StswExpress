@@ -37,7 +37,6 @@
                            IsFileSizeVisible="{Binding IsFileSizeVisible}"
                            IsReadOnly="{Binding IsReadOnly}"
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
-                           Margin="5"
                            Placeholder="Select path..."
                            SelectedPath="{Binding SelectedPath}"
                            SelectionMode="{Binding SelectionMode}"

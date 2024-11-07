@@ -102,7 +102,7 @@
                                               BorderThickness="1"
                                               Orientation="Horizontal"/>
                             <!-- details -->
-                            <se:StswScrollView IsDynamic="True">
+                            <se:StswScrollView DockPanel.Dock="Top" IsDynamic="True">
                                 <DockPanel>
                                     <StackPanel x:Name="OPT_Details" DockPanel.Dock="Bottom" Orientation="Vertical">
                                         <!-- separator -->
@@ -142,7 +142,7 @@
                                                     Padding="{TemplateBinding Padding}"
                                                     ScrollViewer.CanContentScroll="False"
                                                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                                    Text="{TemplateBinding Content}"
+                                                    Text="{TemplateBinding Message}"
                                                     TextWrapping="Wrap"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
@@ -150,12 +150,21 @@
                                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </DockPanel>
                             </se:StswScrollView>
+                            <!-- content -->
+                            <ContentPresenter x:Name="OPT_Content"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswGroupBox>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Details" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Details"/>
+                        </Trigger>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="ShowDetails" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_DetailsText"/>

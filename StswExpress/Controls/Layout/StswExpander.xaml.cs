@@ -10,6 +10,7 @@ public class StswExpander : Expander, IStswCornerControl
     static StswExpander()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

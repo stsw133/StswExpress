@@ -11,6 +11,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
     static StswMenuItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMenuItem), new FrameworkPropertyMetadata(typeof(StswMenuItem)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswMenuItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

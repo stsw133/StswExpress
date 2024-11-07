@@ -19,6 +19,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
     static StswDataPager()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(typeof(StswDataPager)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

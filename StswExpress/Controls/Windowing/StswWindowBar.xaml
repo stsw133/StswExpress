@@ -26,19 +26,18 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid Height="30">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <!-- icon & title -->
                             <se:StswLabel x:Name="OPT_Header"
-                                          Grid.ColumnSpan="2"
                                           Content="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                                           IconScale="*"
                                           IconSource="{Binding Icon, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                                           IsHitTestVisible="False"/>
                             <!-- buttons panel -->
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <StackPanel.Resources>
+                            <DockPanel Grid.Column="1">
+                                <DockPanel.Resources>
                                     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
                                     <Style TargetType="{x:Type se:StswOutlinedText}">
                                         <Setter Property="Fill" Value="White"/>
@@ -51,32 +50,33 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </StackPanel.Resources>
+                                </DockPanel.Resources>
                                 
-                                <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                                <!-- minimize -->
-                                <se:StswButton x:Name="PART_ButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Minimize}">
-                                    <se:StswOutlinedText Text="🗕"/>
-                                </se:StswButton>
-                                <!-- restore -->
-                                <se:StswButton x:Name="PART_ButtonRestate" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Maximize}">
-                                    <se:StswOutlinedText x:Name="OPT_ButtonRestateText" Text="🗖"/>
-                                </se:StswButton>
                                 <!-- close -->
-                                <se:StswButton x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
+                                <se:StswButton x:Name="PART_ButtonClose" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
                                     <se:StswOutlinedText Text="🗙"/>
                                     <se:StswButton.Resources>
                                         <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
                                         <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
                                     </se:StswButton.Resources>
                                 </se:StswButton>
-                            </StackPanel>
+                                <!-- restore -->
+                                <se:StswButton x:Name="PART_ButtonRestate" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Maximize}">
+                                    <se:StswOutlinedText x:Name="OPT_ButtonRestateText" Text="🗖"/>
+                                </se:StswButton>
+                                <!-- minimize -->
+                                <se:StswButton x:Name="PART_ButtonMinimize" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Minimize}">
+                                    <se:StswOutlinedText Text="🗕"/>
+                                </se:StswButton>
+                                <!-- custom components -->
+                                <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <DockPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DockPanel>
                         </Grid>
                     </se:StswBorder>
                     <!-- triggers -->
@@ -157,7 +157,7 @@
     
     
     <!-- StswWindowButton -->
-    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type se:StswButton}">
+    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type ButtonBase}">
         <Setter Property="se:StswControl.IsBorderless" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontSize" Value="15"/>

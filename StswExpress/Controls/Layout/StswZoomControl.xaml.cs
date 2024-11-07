@@ -13,6 +13,7 @@ public class StswZoomControl : Border
     static StswZoomControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(typeof(StswZoomControl)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

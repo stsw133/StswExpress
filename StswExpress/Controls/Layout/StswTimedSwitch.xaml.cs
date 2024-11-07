@@ -12,6 +12,7 @@ public class StswTimedSwitch : CheckBox
     static StswTimedSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

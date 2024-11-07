@@ -25,7 +25,6 @@
                          IsLoopingEnabled="{Binding IsLoopingEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding Items}"
-                         Margin="5"
                          SelectedItem="{Binding SelectedItem}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
@@ -39,7 +38,7 @@
         </se:StswFlipView>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="{Binding SelectedItem, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" is selected"/>
             </se:StswText>

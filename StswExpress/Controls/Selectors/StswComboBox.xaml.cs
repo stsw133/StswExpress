@@ -23,6 +23,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

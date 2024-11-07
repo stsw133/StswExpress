@@ -17,7 +17,6 @@
         <se:StswPicker DisplayMemberPath="Name"
                        IsEnabled="{Binding IsEnabled}"
                        ItemsSource="{Binding Items}"
-                       Margin="5"
                        SelectedValuePath="Name"
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

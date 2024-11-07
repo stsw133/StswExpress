@@ -14,6 +14,7 @@ public class StswIcon : Control
     static StswIcon()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

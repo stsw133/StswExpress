@@ -30,7 +30,6 @@
         <se:StswOutlinedText Fill="{Binding Fill, Converter={x:Static se:StswColorConverter.Instance}}"
                              FontSize="{Binding FontSize}"
                              IsEnabled="{Binding IsEnabled}"
-                             Margin="5"
                              Stroke="{Binding Stroke, Converter={x:Static se:StswColorConverter.Instance}}"
                              StrokeThickness="{Binding StrokeThickness}"
                              Text="Lorem ipsum dolor sit amet..."

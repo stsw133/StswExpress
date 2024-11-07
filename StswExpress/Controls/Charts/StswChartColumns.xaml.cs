@@ -15,6 +15,7 @@ public class StswChartColumns : ItemsControl
     static StswChartColumns()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartColumns), new FrameworkPropertyMetadata(typeof(StswChartColumns)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswChartColumns), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

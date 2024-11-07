@@ -21,6 +21,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

@@ -11,6 +11,7 @@ public class StswThumbnailView : ListBox, IStswCornerControl
     static StswThumbnailView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswThumbnailView), new FrameworkPropertyMetadata(typeof(StswThumbnailView)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswThumbnailView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

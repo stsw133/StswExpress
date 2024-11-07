@@ -27,6 +27,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     static StswFilterBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(typeof(StswFilterBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

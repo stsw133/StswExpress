@@ -20,6 +20,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     static StswNavigationElement()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

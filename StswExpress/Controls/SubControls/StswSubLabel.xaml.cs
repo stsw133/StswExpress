@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
@@ -9,5 +10,6 @@ public class StswSubLabel : StswLabel, IStswSubControl, IStswCornerControl, ISts
     static StswSubLabel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubLabel), new FrameworkPropertyMetadata(typeof(StswSubLabel)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubLabel), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }

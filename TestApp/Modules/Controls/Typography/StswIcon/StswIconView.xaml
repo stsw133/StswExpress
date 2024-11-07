@@ -34,7 +34,6 @@
         <!-- content -->
         <se:StswIcon Data="{Binding Data}"
                      IsEnabled="{Binding IsEnabled}"
-                     Margin="5"
                      Scale="{Binding Scale}"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}"/>

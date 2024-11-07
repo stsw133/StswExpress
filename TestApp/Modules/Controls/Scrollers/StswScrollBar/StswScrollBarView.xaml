@@ -23,7 +23,6 @@
         <!-- content -->
         <se:StswScrollBar IsDynamic="{Binding IsDynamic}"
                           IsEnabled="{Binding IsEnabled}"
-                          Margin="5"
                           Orientation="{Binding Orientation}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"/>

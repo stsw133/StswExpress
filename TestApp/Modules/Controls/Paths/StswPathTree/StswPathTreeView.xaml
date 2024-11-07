@@ -24,7 +24,6 @@
         <!-- content -->
         <se:StswPathTree InitialPath="{Binding InitialPath}"
                          IsEnabled="{Binding IsEnabled}"
-                         Margin="5"
                          SelectedPath="{Binding SelectedPath}"
                          ShowFiles="{Binding ShowFiles}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -33,7 +32,7 @@
                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswText Margin="5" Padding="5">
+            <se:StswText Padding="5">
                 <Run Text="Selected path: "/>
                 <Run Text="{Binding SelectedPath}" FontWeight="Bold"/>
             </se:StswText>

@@ -61,7 +61,7 @@
                                 <se:StswLabel DockPanel.Dock="Right"
                                               Content="{Binding SelectedColor.A, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               HorizontalContentAlignment="Right"
-                                              Width="28"/>
+                                              Width="30"/>
                                 <se:StswSlider IsSnapToTickEnabled="True"
                                                Margin="-2"
                                                Maximum="255"
@@ -79,7 +79,7 @@
                                 <se:StswLabel DockPanel.Dock="Right"
                                               Content="{Binding SelectedColor.R, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               HorizontalContentAlignment="Right"
-                                              Width="28"/>
+                                              Width="30"/>
                                 <se:StswSlider IsSnapToTickEnabled="True"
                                                Margin="-2"
                                                Maximum="255"
@@ -97,7 +97,7 @@
                                 <se:StswLabel DockPanel.Dock="Right"
                                               Content="{Binding SelectedColor.G, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               HorizontalContentAlignment="Right"
-                                              Width="28"/>
+                                              Width="30"/>
                                 <se:StswSlider IsSnapToTickEnabled="True"
                                                Margin="-2"
                                                Maximum="255"
@@ -115,7 +115,7 @@
                                 <se:StswLabel DockPanel.Dock="Right"
                                               Content="{Binding SelectedColor.B, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               HorizontalContentAlignment="Right"
-                                              Width="28"/>
+                                              Width="30"/>
                                 <se:StswSlider IsSnapToTickEnabled="True"
                                                Margin="-2"
                                                Maximum="255"

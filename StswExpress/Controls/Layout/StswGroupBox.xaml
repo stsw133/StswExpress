@@ -33,24 +33,24 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswLabel x:Name="OPT_Header"
-                                          DockPanel.Dock="Top"
-                                          se:StswControl.IsBorderless="True"
-                                          Background="{DynamicResource StswExpander.Static.Header}"
-                                          Content="{TemplateBinding Header}"
-                                          ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                          FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
-                                          FontFamily="{TemplateBinding FontFamily}"
-                                          FontSize="{TemplateBinding FontSize}"
-                                          FontStretch="{TemplateBinding FontStretch}"
-                                          FontStyle="{TemplateBinding FontStyle}"
-                                          FontWeight="{TemplateBinding FontWeight}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          Padding="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Label x:Name="OPT_Header"
+                                   DockPanel.Dock="Top"
+                                   Background="{DynamicResource StswExpander.Static.Header}"
+                                   FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontStretch="{TemplateBinding FontStretch}"
+                                   FontStyle="{TemplateBinding FontStyle}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Padding="{TemplateBinding Padding}"
+                                   HorizontalContentAlignment="Stretch"
+                                   VerticalContentAlignment="Stretch">
+                                <ContentPresenter Content="{TemplateBinding Header}"
+                                                  ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"/>
+                            </Label>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"

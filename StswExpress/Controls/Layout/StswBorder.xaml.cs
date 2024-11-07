@@ -16,6 +16,7 @@ public class StswBorder : Border, IStswCornerControl
     static StswBorder()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

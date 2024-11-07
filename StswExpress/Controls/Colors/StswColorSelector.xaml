@@ -36,25 +36,12 @@
                             <se:StswButton se:StswControl.IsBorderless="True"
                                            Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandParameter="{TemplateBinding ColorAuto}">
-                                <DockPanel>
-                                    <Rectangle Fill="{TemplateBinding ColorAuto}"
-                                               Margin="0 0 4 0"
-                                               SnapsToDevicePixels="True"
-                                               Stroke="{DynamicResource StswBorder.Static.Border}"
-                                               StrokeThickness="1"
-                                               Height="18" Width="18">
-                                        <Rectangle.Style>
-                                            <Style TargetType="{x:Type Rectangle}">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.4"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Rectangle.Style>
-                                    </Rectangle>
-                                    <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"/>
-                                </DockPanel>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"
+                                              IconData="{x:Static se:StswIcons.Square}"
+                                              IconFill="{TemplateBinding ColorAuto}"
+                                              IconScale="1.75"
+                                              IconStroke="{DynamicResource StswBorder.Static.Border}"
+                                              IconStrokeThickness="1"/>
                             </se:StswButton>
                             <!-- theme colors -->
                             <se:StswSeparator x:Name="OPT_ThemeSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>

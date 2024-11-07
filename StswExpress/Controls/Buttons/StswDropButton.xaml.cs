@@ -22,6 +22,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     static StswDropButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

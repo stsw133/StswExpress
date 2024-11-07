@@ -22,6 +22,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     static StswProgressBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(typeof(StswProgressBar)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -12,6 +13,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     static StswHyperlinkButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(typeof(StswHyperlinkButton)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
