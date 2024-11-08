@@ -2,47 +2,36 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace StswExpress;
 
 /// <summary>
-/// Represents a custom application class with additional functionality and customization options.
+/// Represents a custom application class with additional functionality and customization options, 
+/// including single-instance enforcement and inter-process communication for restoring a minimized or hidden instance.
 /// </summary>
 public class StswApp : Application
 {
-    // <summary>
-    /// Starting method that sets up various aspects of the application, including preventing duplicate instances,
-    /// initializing resources, registering data templates, setting translations, and configuring global culture settings.
+    private const string PipeName = "StswApp_SingleInstance_Pipe";
+
+    /// <summary>
+    /// Entry point that configures application settings, prevents multiple instances, 
+    /// initializes resources, data templates, and translations, and sets global culture settings.
     /// </summary>
-    /// <param name="e">The event arguments for the startup event.</param>
+    /// <param name="e">The startup event arguments.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
-        /// close duplicated application
-        if (!AllowMultipleInstances)
+        if (!AllowMultipleInstances && CheckForExistingInstance())
         {
-            var thisProcessName = Process.GetCurrentProcess().ProcessName;
-            var otherInstance = Process.GetProcessesByName(thisProcessName).FirstOrDefault(x => x.Id != Environment.ProcessId && x.GetUser() == Environment.UserName);
-
-            if (otherInstance != null)
-            {
-                Current.Shutdown();
-
-                if (otherInstance.MainWindowHandle != IntPtr.Zero)
-                {
-                    if (IsIconic(otherInstance.MainWindowHandle))
-                        ShowWindow(otherInstance.MainWindowHandle, SW_RESTORE);
-
-                    SetForegroundWindow(otherInstance.MainWindowHandle);
-                }
-
-                return;
-            }
+            SendRestoreCommandToExistingInstance();
+            Current.Shutdown();
+            return;
         }
+        StartListeningForRestoreCommand();
 
         base.OnStartup(e);
 
@@ -57,7 +46,80 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Initializes application resources by adding or replacing the main theme resource dictionary in the MergedDictionaries collection.
+    /// Checks if another instance of the application is already running under the current user's session.
+    /// </summary>
+    /// <returns><see langword="true"/> if an existing instance is found; otherwise, <see langword="false"/>.</returns>
+    private bool CheckForExistingInstance()
+    {
+        var thisProcessName = Process.GetCurrentProcess().ProcessName;
+        return Process.GetProcessesByName(thisProcessName).Any(x => x.Id != Environment.ProcessId && x.GetUser() == Environment.UserName);
+    }
+
+    /// <summary>
+    /// Sends a restore command to the existing application instance using a named pipe, prompting it to restore its window.
+    /// </summary>
+    private void SendRestoreCommandToExistingInstance()
+    {
+        using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+        {
+            try
+            {
+                client.Connect(200);
+                using var writer = new StreamWriter(client);
+                writer.WriteLine("Restore");
+            }
+            catch
+            {
+                // Log or handle exceptions, such as connection failure, if necessary
+            }
+        }
+    }
+
+    /// <summary>
+    /// Asynchronously starts a named pipe server to listen for commands from additional application instances, 
+    /// restoring the main window if a "Restore" command is received.
+    /// </summary>
+    private void StartListeningForRestoreCommand()
+    {
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                using (var server = new NamedPipeServerStream(PipeName, PipeDirection.In))
+                {
+                    try
+                    {
+                        server.WaitForConnection();
+
+                        using (var reader = new StreamReader(server))
+                        {
+                            var command = reader.ReadLine();
+                            if (command == "Restore")
+                            {
+                                Current.Dispatcher.Invoke(() =>
+                                {
+                                    if (Current.MainWindow != null)
+                                    {
+                                        Current.MainWindow.Show();
+                                        if (Current.MainWindow.WindowState == WindowState.Minimized)
+                                            Current.MainWindow.WindowState = WindowState.Normal;
+                                        Current.MainWindow.Activate();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // Handle exceptions if needed, such as IO errors when disconnecting
+                    }
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    /// Adds or updates the main theme resource dictionary in the application's MergedDictionaries collection.
     /// </summary>
     private void InitializeResources()
     {
@@ -73,8 +135,8 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Sets up language translations based on user settings and loads them from the application's default translation file.
-    /// If the target file path doesn't exist, it will be created.
+    /// Configures language translations based on user settings, and loads them from the application's default translation file.
+    /// Creates the file if it does not already exist.
     /// </summary>
     private void InitializeTranslations()
     {
@@ -96,10 +158,8 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Registers data templates dynamically for each context-view pair found in the application assembly.
-    /// Searches for types ending with "Context" and generates corresponding <see cref="DataTemplate"/>s
-    /// by mapping each context to a view with the same base name but ending with "View".
-    /// Adds each <see cref="DataTemplate"/> to the application's resources if it is not already present.
+    /// Dynamically registers data templates for each context-view pair within the application assembly.
+    /// Maps each context type ending with "Context" to a view type ending with "View" if available.
     /// </summary>
     private void RegisterDataTemplates()
     {
@@ -126,17 +186,17 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Method called when the theme is changed. Can be overridden to provide custom behavior on theme changes.
+    /// Virtual method called when the theme is changed, allowing derived classes to provide custom behavior on theme changes.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The new theme.</param>
+    /// <param name="e">The new theme instance.</param>
     public virtual void OnThemeChanged(object? sender, StswTheme e)
     {
         //;
     }
 
     /// <summary>
-    /// Gets the current application's main <see cref="StswWindow"/>.
+    /// Gets the current application's main <see cref="StswWindow"/>, throwing an exception if it is not of the expected type.
     /// </summary>
     public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
 
@@ -153,16 +213,4 @@ public class StswApp : Application
         }
     }
     private bool _allowMultipleInstances = true;
-
-    [DllImport("user32.dll")]
-    private static extern bool IsIconic(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-    private const int SW_RESTORE = 9;
-    private const int SW_MAXIMIZE = 3;
 }

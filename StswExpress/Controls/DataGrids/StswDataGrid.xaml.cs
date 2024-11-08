@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -50,6 +51,52 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             SqlFilter = null,
             SqlParameters = null
         };
+    }
+
+    /// <summary>
+    /// Custom auto-generating columns for specific property types.
+    /// </summary>
+    /// <param name="e">Auto-generating column event arguments</param>
+    protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
+    {
+        /// if exists column with the same binding
+        if (Columns.OfType<DataGridBoundColumn>().Any(x => x.Binding is Binding binding && binding.Path.Path == e.PropertyName))
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        /// if exists attribute to ignore generating column for this property
+        if (e.PropertyDescriptor is System.ComponentModel.PropertyDescriptor property && property.Attributes[typeof(StswIgnoreAutoGenerateColumnAttribute)] != null)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        /// skip columns without bounds
+        if (e.Column is not DataGridBoundColumn boundColumn)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        if (boundColumn.Binding is not Binding binding)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        /// auto generating
+        e.Column = e.PropertyType switch
+        {
+            Type t when t == typeof(bool) || t == typeof(bool?) => new StswDataGridCheckColumn { Header = e.Column.Header, Binding = binding },
+            Type t when t == typeof(Color) || t == typeof(Color?) => new StswDataGridColorColumn { Header = e.Column.Header, Binding = binding },
+            Type t when t == typeof(DateTime) || t == typeof(DateTime?) => new StswDataGridDateColumn { Header = e.Column.Header, Binding = binding },
+            Type t when t == typeof(decimal) || t == typeof(decimal?) => new StswDataGridDecimalColumn { Header = e.Column.Header, Binding = binding },
+            _ => new StswDataGridTextColumn { Header = e.Column.Header, Binding = binding }
+        };
+
+        base.OnAutoGeneratingColumn(e);
     }
 
     /// <summary>
@@ -357,4 +404,9 @@ public class StswDataGridFiltersDataModel
     /// Gets or sets the list of SQL parameters.
     /// </summary>
     public IList<SqlParameter>? SqlParameters { get; internal set; }
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class StswIgnoreAutoGenerateColumnAttribute : Attribute
+{
 }

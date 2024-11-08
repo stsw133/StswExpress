@@ -25,6 +25,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private ContractorType _type;
 
     /// Icon
+    [StswIgnoreAutoGenerateColumn]
     public byte[]? Icon
     {
         get => _icon;
@@ -34,6 +35,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// IconSource
     [JsonIgnore]
+    [StswIgnoreAutoGenerateColumn]
     public ImageSource? IconSource
     {
         get => _iconSource;
@@ -51,6 +53,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private string? _name;
 
     /// Address
+    [StswIgnoreAutoGenerateColumn]
     [StswExport(nameof(Address))]
     public AddressModel Address
     {
@@ -87,6 +90,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private DateTime _createDT = DateTime.Now;
 
     /// ItemState
+    [StswIgnoreAutoGenerateColumn]
     public StswItemState ItemState
     {
         get => _itemState;
@@ -95,6 +99,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private StswItemState _itemState;
 
     /// ShowDetails
+    [StswIgnoreAutoGenerateColumn]
     public bool? ShowDetails
     {
         get => _showDetails;

@@ -323,6 +323,85 @@ public static class StswDatabaseHelper
         => model.OpenedConnection().Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
+    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// </summary>
+    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
+    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
+    /// <param name="sqlConn">The SQL connection to use.</param>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="sharedProp">The shared property used for matching `TResult1` and `TResult2`.</param>
+    /// <param name="divideTo">The property in `TResult1` where associated `TResult2` items are stored.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this SqlConnection sqlConn, string query, string sharedProp, string divideTo, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    {
+        if (!CheckQueryConditions())
+            return [];
+
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
+        using var sqlDA = new SqlDataAdapter(PrepareQuery(query), factory.Connection);
+        sqlDA.SelectCommand.CommandTimeout = timeout ?? sqlDA.SelectCommand.CommandTimeout;
+        sqlDA.SelectCommand.Transaction = factory.Transaction;
+        sqlDA.SelectCommand.PrepareCommand(parameters);
+
+        var dataTable = new DataTable();
+        sqlDA.Fill(dataTable);
+
+        var result1 = dataTable.MapTo<TResult1>(StswDatabases.Config.DelimiterForMapping).Distinct();
+        var result2 = dataTable.MapTo<TResult2>(StswDatabases.Config.DelimiterForMapping);
+
+        var sharedPropInfo1 = typeof(TResult1).GetProperty(sharedProp);
+        var sharedPropInfo2 = typeof(TResult2).GetProperty(sharedProp);
+        var divideToPropInfo = typeof(TResult1).GetProperty(divideTo);
+
+        if (sharedPropInfo1 == null || sharedPropInfo2 == null || divideToPropInfo == null)
+            throw new ArgumentException($"Invalid property names for {nameof(sharedProp)} or {nameof(divideTo)}.");
+
+        foreach (var result in result1)
+        {
+            var sharedValue = sharedPropInfo1.GetValue(result)?.ToString();
+            var associatedResults = result2.Where(x => sharedPropInfo2.GetValue(x)?.ToString() == sharedValue);
+
+            divideToPropInfo.SetValue(result, associatedResults);
+        }
+
+        return result1!;
+    }
+
+    /// <summary>
+    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// </summary>
+    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
+    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="sharedProp">The shared property used for matching `TResult1` and `TResult2`.</param>
+    /// <param name="divideTo">The property in `TResult1` where associated `TResult2` items are stored.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this SqlTransaction sqlTran, string query, string sharedProp, string divideTo, object? parameters = null, int? timeout = null)
+        => sqlTran.Connection.GetDivided<TResult1, TResult2>(query, sharedProp, divideTo, parameters, timeout, sqlTran);
+
+    /// <summary>
+    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// </summary>
+    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
+    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="sharedProp">The shared property used for matching `TResult1` and `TResult2`.</param>
+    /// <param name="divideTo">The property in `TResult1` where associated `TResult2` items are stored.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">The timeout used for the command.</param>
+    /// <param name="sqlTran">The SQL transaction to use.</param>
+    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this StswDatabaseModel model, string query, string sharedProp, string divideTo, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().GetDivided<TResult1, TResult2>(query, sharedProp, divideTo, parameters, timeout, sqlTran);
+
+    /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
