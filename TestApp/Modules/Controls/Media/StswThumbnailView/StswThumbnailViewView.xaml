@@ -11,19 +11,19 @@
         <local:ControlsBase.Description>
             Represents a control to display image with additional features such as context menu options.
         </local:ControlsBase.Description>
-        <!-- properties -->
+        <!-- properties
         <local:ControlsBase.Properties>
-            <!-- ItemsSource -->
+            ItemsSource
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsSource, Type={x:Type se:StswThumbnailView}}"/>
             <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding DirectoryPath}" SelectionMode="Directory"/>
-        </local:ControlsBase.Properties>
-        <!-- content -->
+        </local:ControlsBase.Properties> -->
+        <!-- content
         <se:StswThumbnailView IsEnabled="{Binding IsEnabled}"
                               ItemsSource="{Binding ItemsSource}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                               VerticalAlignment="{Binding VerticalAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/> -->
         <!-- status panel -->
 
     </local:ControlsBase>

@@ -8,7 +8,7 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="True"/>
-        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Focusable" Value="True"/>

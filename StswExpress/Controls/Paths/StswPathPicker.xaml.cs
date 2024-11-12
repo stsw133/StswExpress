@@ -141,19 +141,13 @@ public class StswPathPicker : StswBoxBase
     public static string DisplayFileSize(string filePath)
     {
         var length = new FileInfo(filePath).Length;
-        if (length.Between(0, 999))
-            return $"{length} B";
-
-        length /= 1000;
-        if (length.Between(0, 999))
-            return $"{length} KB";
-
-        length /= 1000;
-        if (length.Between(0, 999))
-            return $"{length} MB";
-
-        length /= 1000;
-        return $"{length} GB";
+        return length switch
+        {
+            < 1_024 => $"{length} B",
+            < 1_048_576 => $"{length / 1_024} KB",
+            < 1_073_741_824 => $"{length / 1_048_576} MB",
+            _ => $"{length / 1_073_741_824} GB"
+        };
     }
     #endregion
 

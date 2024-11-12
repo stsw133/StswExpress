@@ -70,9 +70,6 @@
     <Compile Update="Modules\Controls\Selectors\StswSegment\StswSegmentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Selectors\StswPicker\StswPickerView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\Selectors\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -335,9 +332,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Selectors\StswSegment\StswSegmentView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\Selectors\StswPicker\StswPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Selectors\StswTreeView\StswTreeViewView.xaml">

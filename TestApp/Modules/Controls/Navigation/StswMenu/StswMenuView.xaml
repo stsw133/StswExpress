@@ -14,42 +14,39 @@
         <!-- properties -->
         
         <!-- content -->
-        <DockPanel>
-            <se:StswLabel DockPanel.Dock="Top" Content="Bar menu:"/>
-            <se:StswMenu IsEnabled="{Binding IsEnabled}"
-                         HorizontalAlignment="{Binding HorizontalAlignment}"
-                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                         VerticalAlignment="{Binding VerticalAlignment}"
-                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
-                <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
-                    <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
-                    <se:StswMenuItem Header="Option 2b" IconData="{x:Static se:StswIcons.AlphaBBox}"/>
-                    <se:StswMenuItem Header="Option 2c" IconData="{x:Static se:StswIcons.AlphaCBox}" InputGestureText="Alt + F4"/>
-                    <se:StswMenuItem Header="Option 2d" IconData="{x:Static se:StswIcons.AlphaDBox}" IsCheckable="True"/>
-                    <se:StswMenuItem Header="Option 2e" IconData="{x:Static se:StswIcons.AlphaEBox}" IsCheckable="True"/>
-                    <se:StswMenuItem Header="Option 2x"/>
-                </se:StswMenuItem>
-                <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}" InputGestureText="Alt + F4"/>
-                <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True"/>
-                <se:StswMenuItem Header="Option 5" IconData="{x:Static se:StswIcons.Dice5}" IsCheckable="True"/>
-                <se:StswMenuItem Header="Option 6" IconData="{x:Static se:StswIcons.Dice6}" IsCheckable="True"/>
-                <se:StswMenuItem Header="Option 7"/>
-                <se:StswMenuItem Header="Option 8"/>
-                <se:StswMenuItem Header="Option 9"/>
-                <se:StswMenuItem Header="Option 10"/>
-                <se:StswMenuItem Header="Option 11"/>
-                <se:StswMenuItem Header="Option 12"/>
-                <se:StswMenuItem Header="Option 13"/>
-                <se:StswMenuItem Header="Option 14"/>
-                <se:StswMenuItem Header="Option 15"/>
-                <se:StswMenuItem Header="Option 16"/>
-                <se:StswMenuItem Header="Option 17"/>
-                <se:StswMenuItem Header="Option 18"/>
-                <se:StswMenuItem Header="Option 19"/>
-                <se:StswMenuItem Header="Option 20"/>
-            </se:StswMenu>
-        </DockPanel>
+        <se:StswMenu IsEnabled="{Binding IsEnabled}"
+                     HorizontalAlignment="{Binding HorizontalAlignment}"
+                     HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                     VerticalAlignment="{Binding VerticalAlignment}"
+                     VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
+            <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
+                <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
+                <se:StswMenuItem Header="Option 2b" IconData="{x:Static se:StswIcons.AlphaBBox}"/>
+                <se:StswMenuItem Header="Option 2c" IconData="{x:Static se:StswIcons.AlphaCBox}" InputGestureText="Alt + F4"/>
+                <se:StswMenuItem Header="Option 2d" IconData="{x:Static se:StswIcons.AlphaDBox}" IsCheckable="True"/>
+                <se:StswMenuItem Header="Option 2e" IconData="{x:Static se:StswIcons.AlphaEBox}" IsCheckable="True"/>
+                <se:StswMenuItem Header="Option 2x"/>
+            </se:StswMenuItem>
+            <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}" InputGestureText="Alt + F4"/>
+            <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True"/>
+            <se:StswMenuItem Header="Option 5" IconData="{x:Static se:StswIcons.Dice5}" IsCheckable="True"/>
+            <se:StswMenuItem Header="Option 6" IconData="{x:Static se:StswIcons.Dice6}" IsCheckable="True"/>
+            <se:StswMenuItem Header="Option 7"/>
+            <se:StswMenuItem Header="Option 8"/>
+            <se:StswMenuItem Header="Option 9"/>
+            <se:StswMenuItem Header="Option 10"/>
+            <se:StswMenuItem Header="Option 11"/>
+            <se:StswMenuItem Header="Option 12"/>
+            <se:StswMenuItem Header="Option 13"/>
+            <se:StswMenuItem Header="Option 14"/>
+            <se:StswMenuItem Header="Option 15"/>
+            <se:StswMenuItem Header="Option 16"/>
+            <se:StswMenuItem Header="Option 17"/>
+            <se:StswMenuItem Header="Option 18"/>
+            <se:StswMenuItem Header="Option 19"/>
+            <se:StswMenuItem Header="Option 20"/>
+        </se:StswMenu>
         <!-- status panel -->
         
     </local:ControlsBase>

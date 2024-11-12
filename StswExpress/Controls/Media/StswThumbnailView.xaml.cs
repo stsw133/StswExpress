@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswThumbnailView : ListBox, IStswCornerControl
+internal class StswThumbnailView : ListBox, IStswCornerControl
 {
     static StswThumbnailView()
     {

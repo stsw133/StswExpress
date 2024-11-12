@@ -94,9 +94,6 @@
     <Page Update="Controls\Selectors\StswSegment.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\StswPicker.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Controls\Selectors\StswTreeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

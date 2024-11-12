@@ -68,7 +68,7 @@
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="OPT_NewItemButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 6 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
                             <Setter Property="Margin" Value="-3 0 0 2" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="OPT_DirectionView"/>
@@ -82,7 +82,7 @@
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BorderThickness" Value="1 0 0 1" TargetName="OPT_NewItemButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 0 10" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 0 6" TargetName="OPT_NewItemButton"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="OPT_NewItemButton"/>
                             <Setter Property="Margin" Value="2 -3 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="OPT_DirectionView"/>
@@ -96,7 +96,7 @@
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BorderThickness" Value="0 0 1 1" TargetName="OPT_NewItemButton"/>
-                            <Setter Property="CornerRadius" Value="0 0 10 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 0 6 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
                             <Setter Property="Margin" Value="0 -3 2 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="OPT_DirectionView"/>
@@ -110,7 +110,7 @@
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_HeaderPanel"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BorderThickness" Value="0 1 1 0" TargetName="OPT_NewItemButton"/>
-                            <Setter Property="CornerRadius" Value="0 10 0 0" TargetName="OPT_NewItemButton"/>
+                            <Setter Property="CornerRadius" Value="0 6 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="OPT_NewItemButton"/>
                             <Setter Property="Margin" Value="-3 2 0 0" TargetName="OPT_NewItemButton"/>
                             <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="OPT_DirectionView"/>

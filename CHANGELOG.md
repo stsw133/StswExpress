@@ -34,31 +34,71 @@
 
 <h1 id="0-13-0">0.13.0</h1>
 
-**Release Date**: ?
+**Release Date**: 2024-11-12
 
 ## Additions
 
 ### Controls
-- ?
+- Ability to disable animations for specific Stsw controls via the `EnableAnimations` attached property in the `StswControl` class.
+- Added `IsCopyable` property to `StswInfoBar` and `StswInfoPanel` controls to enable or disable a copy button.
+- New data grid column controls:
+  - `StswDataGridCheckColumn` for displaying `bool` values.
+  - `StswDataGridColorColumn` for displaying `Color` values.
+  - `StswDataGridComboColumn` for displaying multiple selectable values.
+  - `StswDataGridDateColumn` for displaying `DateTime` values.
+  - `StswDataGridDecimalColumn` for displaying `decimal` values.
+  - `StswDataGridPathColumn` for displaying file or directory paths as `string` values.
+  - `StswDataGridTextColumn` for displaying `string` values or other generic values.
+- New `StswPathTree` control for displaying a hierarchical tree of files and directories, with selection capability.
 
 ### Utils
-- ?
+- Automatic registration of data templates for each context-view pair within the application assembly.
+- New helper methods:
+  - `GetDivided` method for retrieving lists of data models divided by a specific property.
 
 ## Changes
 
 ### Controls
-- ?
+- Added a number box in `StswDataPager` control for easier page navigation, with simplified pagination and navigation logic.
+- Default tooltip changed to `StswTooltip` for all Stsw controls when the content is a `string`.
+- Minor visual adjustments to the `StswInfoBadge` control.
+- Overrode the auto-generating column event in `StswDataGrid` to generate Stsw columns instead of standard columns. Added the `StswIgnoreAutoGenerateColumnAttribute` attribute to exclude specific properties from auto-generated columns.
+- Property changes:
+  - Renamed `Content` property in `StswMessageDialog` to `Message` and reintroduced `Content` (type changed from `Control` to `ContentControl`).
+  - Renamed `IsMinimized` property in `StswInfoBar` and `StswInfoPanel` controls and split it into `IsExpandable` and `IsExpanded` properties.
+  - Renamed `PageButtons` property in `StswDataPager` control to `Pages`.
+  - Renamed `PageCurrent` property in `StswDataPager` control to `CurrentPage`.
+  - Renamed `PageLast` property in `StswDataPager` control to `TotalPages`.
+  - Renamed `PathType` property in `StswPathPicker` to `SelectionMode`.
+- Removed `CornerClipping` and `CornerRadius` properties from `StswDirectionView` control as they were not bound in the template. Additionally, the control's template no longer includes a border.
+- Removed the `Show` method overload without a `details` argument from `StswMessageDialog` control.
+- Removed the `StswNotificationType` and `StswSpecialColumnVisibility` enums.
+- Renamed `StswAnimations` class to `StswSharedAnimations`.
+- Renamed `StswFilePicker` control to `StswPathPicker`.
+- Replaced `StswShiftSelector` and `StswGallery` controls with the new `StswFlipView`, which retains the same functionality and appearance.
+- `StswNotifyIcon` control now uses the `ToolTipIcon` enum instead of `StswNotificationType`.
+- Text in the `StswProgressRing` control now scales with the ring, and the size can be adjusted via `FontSize` or `Padding` properties.
+- The title bar logic in `StswWindow` control has been moved to `StswWindowBar` control, and components within `StswWindowBar` now stretch across the entire bar.
+- Updated the default `CornerRadius` values across Stsw controls from 10 to 6 and 5 to 4 for improved appearance. For toggle controls, `CornerRadius` was changed from 10 to 30 to create a round shape.
 
 ### Utils
-- ?
+- Changed the return type of `ExtractAssociatedIcon` method in `StswFn` from `ImageSource` to `System.Drawing.Icon` to support asynchronous actions.
+- Changes to the `StswClone` class, with the `DeepClone` extension replaced by `DeepCopy` and `DeepCopyWithJson`.
+- Minor improvements and optimizations to helper methods in `StswExtensions` and `StswFn` classes.
+- Renamed `NotifyPropertyChanged` method in `StswObservableObject` to `OnPropertyChanged`.
 
 ## Fixes
 
 ### Controls
-- ?
+- Adjusted padding in `StswSubError` control to align with other sub-controls.
+- Changed the default `NewItemButtonVisibility` property value in `StswTabControl` control from `Visible` to `Collapsed`.
+- Fixed padding issues in `StswGroupBox` control by replacing `StswLabel` with `Label` in the template. Both `StswExpander` and `StswGroupBox` now have stretched headers and are independent of `HorizontalContentAlignment` and `VerticalContentAlignment` properties.
+- Improved file size calculation accuracy in `StswPathPicker` control.
+- Increased the width of ARGB labels in `StswColorPicker` control to display values correctly.
 
 ### Utils
-- ?
+- Resolved errors when importing mailbox or database lists if the data is empty (e.g., importing from an empty file).
+- Launching a second instance of the application while the first instance is in the system tray now properly brings the first instance's window to the foreground.
 
 ---
 
@@ -105,8 +145,8 @@
 - Added full MVVM support for `StswTabControl` control, with `StswTabItem` control as the default item type.
 - Default behaviour changed for `StswDropButton` and `StswSplitButton` controls with `AutoClose` property set to `true` by default.
 - Property changes:
-  - `StswPathPicker` property `IconSource` renamed to `FileIcon`.
-  - `StswImage` now includes `StretchDirection`.
+  - `StswPathPicker` control's property `IconSource` renamed to `FileIcon`.
+  - `StswImage` control now includes `StretchDirection`.
 - Template changes:
   - `StswCalendar` control template major updates and improvements.
   - `StswColorPicker` control template updates for alignment consistency.

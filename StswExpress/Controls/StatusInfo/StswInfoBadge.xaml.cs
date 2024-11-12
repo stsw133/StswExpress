@@ -34,31 +34,20 @@ public class StswInfoBadge : Control, IStswCornerControl
     /// A string representing the number with 'k' for thousands, 'M' for millions,
     /// and 'B' for billions, or the number itself if it is less than 1000.
     /// </returns>
-    public static string SeparateByThousands(int number)
+    public static string SeparateByThousands(int number) => Math.Abs(number) switch
     {
-        if (Math.Abs(number).Between(0, 999))
-            return $"{number}";
-
-        number /= 1000;
-        if (Math.Abs(number).Between(0, 999))
-            return $"{number}k";
-
-        number /= 1000;
-        if (Math.Abs(number).Between(0, 999))
-            return $"{number}M";
-
-        number /= 1000;
-        return $"{number}B";
-    }
+        < 1000 => $"{number}",
+        < 1_000_000 => $"{number / 1_000}k",
+        < 1_000_000_000 => $"{number / 1_000_000}M",
+        _ => $"{number / 1_000_000_000}B"
+    };
 
     /// <summary>
     /// 
     /// </summary>
     public void UpdateValue()
     {
-        DisplayedValue = Limit == null
-            ? SeparateByThousands(Value)
-            : Value > Limit.Value ? $"{SeparateByThousands(Limit.Value)}+" : $"{SeparateByThousands(Value)}";
+        DisplayedValue = Value > Limit ? $"{SeparateByThousands(Limit.Value)}+" : $"{SeparateByThousands(Value)}";
     }
     #endregion
 

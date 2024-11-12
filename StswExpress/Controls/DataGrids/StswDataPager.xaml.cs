@@ -141,9 +141,9 @@ public class StswDataPager : ContentControl, IStswCornerControl
             typeof(StswDataPager),
             new FrameworkPropertyMetadata(default(int),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnPageCurrentChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnCurrentPageChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnPageCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnCurrentPageChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDataPager stsw)
         {

@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswMessageDialog}">
         <Setter Property="BorderThickness" Value="4"/>
         <Setter Property="CornerClipping" Value="True"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Focusable" Value="True"/>
