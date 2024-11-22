@@ -91,7 +91,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
                 break;
-
             case StswAdaptiveType.Date:
                 newControl = new StswDatePicker();
                 newControl.SetBinding(StswDatePicker.BorderBrushProperty, bindingBorderBrush);
@@ -109,7 +108,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
-                Format ??= "d";
                 break;
             case StswAdaptiveType.List:
                 newControl = new StswSelectionBox();
@@ -152,7 +150,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.ValueProperty, bindingValue);
                 newControl.SetBinding(StswDecimalBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDecimalBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
-                Format ??= "0";
                 break;
             case StswAdaptiveType.Text:
                 newControl = new StswTextBox();
