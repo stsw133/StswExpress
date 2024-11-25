@@ -350,7 +350,7 @@ public static class StswDatabaseHelper
         var dataTable = new DataTable();
         sqlDA.Fill(dataTable);
 
-        var result1 = dataTable.MapTo<TResult1>(StswDatabases.Config.DelimiterForMapping).Distinct();
+        var result1 = dataTable.MapTo<TResult1>(StswDatabases.Config.DelimiterForMapping).Distinct().ToList();
         var result2 = dataTable.MapTo<TResult2>(StswDatabases.Config.DelimiterForMapping);
 
         var sharedPropInfo1 = typeof(TResult1).GetProperty(sharedProp);
@@ -365,7 +365,14 @@ public static class StswDatabaseHelper
             var sharedValue = sharedPropInfo1.GetValue(result)?.ToString();
             var associatedResults = result2.Where(x => sharedPropInfo2.GetValue(x)?.ToString() == sharedValue);
 
-            divideToPropInfo.SetValue(result, associatedResults);
+            var listType = typeof(List<>).MakeGenericType(divideToPropInfo.PropertyType.GenericTypeArguments[0]);
+            var listInstance = Activator.CreateInstance(listType);
+
+            var addMethod = listType.GetMethod("Add");
+            foreach (var item in associatedResults)
+                addMethod?.Invoke(listInstance, [item!]);
+
+            divideToPropInfo.SetValue(result, listInstance);
         }
 
         return result1!;
