@@ -24,7 +24,7 @@
         <se:StswText HorizontalAlignment="Center" Padding="5" Text=". . . . ." ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="{Binding ShowDuration}">
             <se:StswText.ToolTip>
                 <se:StswToolTip IsMoveable="{Binding IsMoveable}">
-                    <se:StswText TextWrapping="Wrap" Width="300">
+                    <se:StswText TextAlignment="Justify" TextWrapping="Wrap" Width="400">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                         <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
                         <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>

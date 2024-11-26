@@ -36,7 +36,7 @@ public class StswApp : Application
         base.OnStartup(e);
 
         InitializeResources();
-        RegisterDataTemplates();
+        RegisterDataTemplates("Context", "View");
         InitializeTranslations();
 
         /// global culture (does not work with converters)
@@ -161,24 +161,20 @@ public class StswApp : Application
     /// Dynamically registers data templates for each context-view pair within the application assembly.
     /// Maps each context type ending with "Context" to a view type ending with "View" if available.
     /// </summary>
-    private void RegisterDataTemplates()
+    private static void RegisterDataTemplates(string contextSuffix, string viewSuffix)
     {
         if (Assembly.GetEntryAssembly()?.GetTypes() is Type[] types)
         {
             var typeDictionary = types.ToDictionary(x => x.FullName!);
 
-            foreach (var context in types.Where(x => x.Name.EndsWith("Context")))
+            foreach (var context in types.Where(x => x.Name.EndsWith(contextSuffix)))
             {
-                var viewName = context.Namespace + "." + context.Name[..^7] + "View";
+                var viewName = $"{context.Namespace}.{context.Name[..^contextSuffix.Length]}{viewSuffix}";
                 var dataTemplateKey = new DataTemplateKey(context);
 
                 if (typeDictionary.TryGetValue(viewName, out var viewType) && !Current.Resources.Contains(dataTemplateKey))
                 {
-                    var dataTemplate = new DataTemplate
-                    {
-                        DataType = context,
-                        VisualTree = new FrameworkElementFactory(viewType)
-                    };
+                    var dataTemplate = new DataTemplate(context) { VisualTree = new FrameworkElementFactory(viewType) };
                     Current.Resources.Add(dataTemplateKey, dataTemplate);
                 }
             }

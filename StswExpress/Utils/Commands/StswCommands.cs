@@ -15,6 +15,11 @@ public static class StswCommands
     /// A command to clear the text or selection in a control.
     /// </summary>
     public static readonly RoutedUICommand Clear = new(nameof(Clear), nameof(Clear), typeof(StswCommands));
+    
+    /// <summary>
+    /// A command to clear the text or selection in a control.
+    /// </summary>
+    public static readonly RoutedUICommand CloseDialog = new(nameof(CloseDialog), nameof(CloseDialog), typeof(StswCommands));
 
     /// <summary>
     /// A command to clear the text in a control.
@@ -30,6 +35,8 @@ public static class StswCommands
         CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(StswSelectionBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
+
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(CloseDialog, CloseDialog_Execute, CloseDialog_CanExecute));
 
         CommandManager.RegisterClassCommandBinding(typeof(ToggleButton), new CommandBinding(SelectAll, SelectAll_Execute, SelectAll_CanExecute));
     }
@@ -74,6 +81,27 @@ public static class StswCommands
             TextBox textBox => !string.IsNullOrEmpty(textBox.Text),
             _ => false,
         };
+    }
+
+    /// <summary>
+    /// Executes the <see cref="CloseDialog"/> command by selecting all checks in the target control.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data.</param>
+    private static void CloseDialog_Execute(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (sender is ButtonBase buttonBase)
+            StswContentDialog.Close(e.Parameter);
+    }
+
+    /// <summary>
+    /// Determines whether the <see cref="CloseDialog"/> command can execute on the target control.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data.</param>
+    private static void CloseDialog_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = sender is ButtonBase;
     }
 
     /// <summary>

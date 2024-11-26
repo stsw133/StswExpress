@@ -106,10 +106,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
     public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is FrameworkElement stsw && e.NewValue is string tooltipContent)
-        {
-            var customToolTip = new StswToolTip { Content = tooltipContent };
-            ToolTipService.SetToolTip(stsw, customToolTip);
-        }
+            ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
     }
     #endregion
 

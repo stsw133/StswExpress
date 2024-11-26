@@ -23,7 +23,6 @@ public class StswGrid : Grid
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
         EnsureDefinitions();
     }
 

@@ -57,3 +57,30 @@ public class StswMessanger
         }
     }
 }
+
+/* usage:
+
+public class ExampleMessage : IStswMessage
+{
+    public string Content { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        StswMessanger.Instance.Register<ExampleMessage>(HandleExampleMessage);
+
+        var message = new ExampleMessage { Content = "Hello from StswMessanger!" };
+        StswMessanger.Instance.Send(message);
+
+        StswMessanger.Instance.Unregister<ExampleMessage>(HandleExampleMessage);
+    }
+
+    static void HandleExampleMessage(ExampleMessage message)
+    {
+        Console.WriteLine($"Message received: {message.Content}");
+    }
+}
+
+*/

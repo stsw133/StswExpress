@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.13.1](#0-13-1)
 - [Version 0.13.0](#0-13-0)
 - [Version 0.12.1](#0-12-1)
 - [Version 0.12.0](#0-12-0)
@@ -29,6 +30,27 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-13-1">0.13.1</h1>
+
+**Release Date**: 2024-11-26
+
+## Additions
+
+### Utils
+- Added `CloseDialog` global command in `StswCommands` class to simplify closing content dialogs.
+- Added `CC` and `IsBodyHtml` parameters to send methods in `StswMailboxModel` class.
+
+## Fixes
+
+### Controls
+- Fixed problem with detecting up/down button hitboxes in `StswNumberBox` control.
+- Removed default values for `Format` property in `StswAdaptiveBox` control.
+
+### Utils
+- Fixed problem with `GetDivided` database extension method not working properly.
 
 ---
 

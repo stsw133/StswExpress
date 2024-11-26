@@ -21,15 +21,24 @@
         </local:ControlsBase>
         <!-- content -->
         <se:StswContentDialog.DialogContent>
-            <se:StswGroupBox Margin="20">
+            <se:StswGroupBox Margin="20"
+                             MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.8}"
+                             MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.8}"
+                             Padding="0">
                 <se:StswGroupBox.Header>
-                    <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
+                    <DockPanel Margin="3">
+                        <se:StswSubButton DockPanel.Dock="Right"
+                                          Command="{x:Static se:StswCommands.CloseDialog}"
+                                          CommandParameter="StswContentDialogView"
+                                          IconData="{x:Static se:StswIcons.CloseBox}"
+                                          IconFill="{DynamicResource StswColor.Negative}"
+                                          ToolTip="Close dialog"/>
+                        <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
+                    </DockPanel>
                 </se:StswGroupBox.Header>
-                <DockPanel>
-                    <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center" Margin="5">
-                        <se:StswLabel Content="Close " IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
-                    </se:StswButton>
-                    <se:StswText Margin="3" TextWrapping="Wrap">
+
+                <se:StswScrollView IsDynamic="True" Padding="3">
+                    <se:StswText Margin="3" TextAlignment="Justify" TextWrapping="Wrap">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                         <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
                         <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
@@ -51,7 +60,7 @@
                         <Run Text="Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna."/>
                         <Run Text="Sed consequat, leo eget bibendum sodales, augue velit cursus nunc..."/>
                     </se:StswText>
-                </DockPanel>
+                </se:StswScrollView>
             </se:StswGroupBox>
         </se:StswContentDialog.DialogContent>
     </se:StswContentDialog>
