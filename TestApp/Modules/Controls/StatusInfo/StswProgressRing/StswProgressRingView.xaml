@@ -22,6 +22,14 @@
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswProgressRing}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <!-- Scale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Scale, Type={x:Type se:StswProgressRing}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Scale}">
+                <se:StswTextBox.SubControls>
+                    <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
+                    <se:StswSubButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
+                </se:StswTextBox.SubControls>
+            </se:StswTextBox>
             <!-- State -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf State, Type={x:Type se:StswProgressRing}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswProgressState}" Margin="0 0 0 3" SelectedValue="{Binding State}"/>
@@ -37,6 +45,7 @@
                              IsIndeterminate="{Binding IsIndeterminate}"
                              Maximum="{Binding Maximum}"
                              Minimum="{Binding Minimum}"
+                             Scale="{Binding Scale}"
                              State="{Binding State}"
                              TextMode="{Binding TextMode}"
                              Value="{Binding SelectedValue}"

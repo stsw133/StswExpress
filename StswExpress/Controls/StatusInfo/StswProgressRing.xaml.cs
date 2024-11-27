@@ -31,7 +31,7 @@ public class StswProgressRing : ProgressBar
 
     #region Events & methods
     /// <summary>
-    /// Event handler to update the text displayed on the progress bar based on its state.
+    /// Event handler to update the text displayed on the progress ring based on its state.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -60,7 +60,33 @@ public class StswProgressRing : ProgressBar
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the current state of the progress bar.
+    /// Gets or sets the scale of the progress ring.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
+        );
+    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswProgressRing stsw)
+        {
+            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the current state of the progress ring.
     /// </summary>
     public StswProgressState State
     {
@@ -90,7 +116,7 @@ public class StswProgressRing : ProgressBar
         );
 
     /// <summary>
-    /// Gets the text to display on the progress bar indicating the progress status.
+    /// Gets the text to display on the progress ring indicating the progress status.
     /// </summary>
     public string? Text
     {

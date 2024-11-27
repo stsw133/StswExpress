@@ -13,11 +13,11 @@
             <StackPanel Margin="0 10 0 40">
                 <se:StswLabelPanel DockPanel.Dock="Top" LabelHorizontalAlignment="Right" LabelWidth="100">
                     <se:StswLabel Content="Authors:" IconData="{x:Static se:StswIcons.AccountMultiple}"/>
-                    <se:StswLabel Content="{Binding Authors}" FontWeight="Medium"/>
+                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Authors}"/>
                     <se:StswLabel Content="   Name:" IconData="{x:Static se:StswIcons.Library}"/>
-                    <se:StswLabel Content="{Binding Name}" FontWeight="Medium"/>
+                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Name}"/>
                     <se:StswLabel Content=" Version:" IconData="{x:Static se:StswIcons.Update}"/>
-                    <se:StswLabel Content="{Binding Version}" FontWeight="Medium"/>
+                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Version}"/>
                     <se:StswLabel Content="  Github:" IconData="{x:Static se:StswIcons.Github}"/>
                     <se:StswHyperlinkButton NavigateUri="https://github.com/stsw133/StswExpress"/>
                 </se:StswLabelPanel>

@@ -17,9 +17,11 @@
                 <!-- button panel -->
                 <se:StswDirectionView DockPanel.Dock="Top" Margin="3" Orientation="Horizontal">
                     <UniformGrid Rows="1" HorizontalAlignment="Left">
-                        <se:StswSplitButton AutoClose="True" Command="{Binding RefreshCommand}" Margin=" 0 0 6 0">
+                        <se:StswSplitButton AutoClose="True" Margin=" 0 0 6 0">
                             <se:StswSplitButton.Header>
-                                <se:StswLabel Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{DynamicResource StswColor.Neutral}"/>
+                                <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding RefreshCommand}">
+                                    <se:StswLabel Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{DynamicResource StswColor.Neutral}"/>
+                                </se:StswButton>
                             </se:StswSplitButton.Header>
                             <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClearCommand}">
                                 <se:StswLabel Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}"/>

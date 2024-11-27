@@ -22,8 +22,6 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSplitButton AutoClose="{Binding AutoClose}"
-                            Command="{Binding OnClickCommand}"
-                            CommandParameter="6"
                             IsEnabled="{Binding IsEnabled}"
                             IsReadOnly="{Binding IsReadOnly}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -31,22 +29,26 @@
                             VerticalAlignment="{Binding VerticalAlignment}"
                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswSplitButton.Header>
-                <se:StswLabel Content="Option 6" IconData="{x:Static se:StswIcons.Dice6}"/>
+                <se:StswTextBox se:StswControl.IsBorderless="True" Placeholder="Search...">
+                    <se:StswTextBox.Icon>
+                        <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Padding="3 0 0 0" Opacity="0.4"/>
+                    </se:StswTextBox.Icon>
+                </se:StswTextBox>
             </se:StswSplitButton.Header>
 
-            <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">
+            <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="1">
                 <se:StswLabel Content="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
             </se:StswButton>
-            <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="2" CornerRadius="0">
+            <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="2">
                 <se:StswLabel Content="Option 2" IconData="{x:Static se:StswIcons.Dice2}"/>
             </se:StswButton>
-            <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="3" CornerRadius="0">
+            <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="3">
                 <se:StswLabel Content="Option 3" IconData="{x:Static se:StswIcons.Dice3}"/>
             </se:StswButton>
-            <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="4" CornerRadius="0">
+            <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="4">
                 <se:StswLabel Content="Option 4" IconData="{x:Static se:StswIcons.Dice4}"/>
             </se:StswButton>
-            <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="5" CornerRadius="0">
+            <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="5">
                 <se:StswLabel Content="Option 5" IconData="{x:Static se:StswIcons.Dice5}"/>
             </se:StswButton>
 

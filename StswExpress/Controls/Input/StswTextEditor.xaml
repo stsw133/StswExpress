@@ -323,7 +323,6 @@
 
                                                 <se:StswSplitButton x:Name="OPT_FontColorText"
                                                                     BorderThickness="{TemplateBinding SubBorderThickness}"
-                                                                    Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
@@ -337,10 +336,12 @@
                                                                     se:StswPopup.CornerRadius="0"
                                                                     se:StswPopup.Padding="0">
                                                     <se:StswSplitButton.Header>
-                                                        <StackPanel>
-                                                            <se:StswIcon Data="{x:Static se:StswIcons.FormatColorText}" Scale="1.25"/>
-                                                            <Rectangle Fill="{Binding SelectedColorText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
-                                                        </StackPanel>
+                                                        <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                            <StackPanel>
+                                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatColorText}" Scale="1.25"/>
+                                                                <Rectangle Fill="{Binding SelectedColorText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
+                                                            </StackPanel>
+                                                        </se:StswButton>
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
@@ -354,7 +355,6 @@
 
                                                 <se:StswSplitButton x:Name="OPT_FontColorHighlight"
                                                                     BorderThickness="{TemplateBinding SubBorderThickness}"
-                                                                    Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
@@ -368,10 +368,12 @@
                                                                     se:StswPopup.CornerRadius="0"
                                                                     se:StswPopup.Padding="0">
                                                     <se:StswSplitButton.Header>
-                                                        <StackPanel>
-                                                            <se:StswIcon Data="{x:Static se:StswIcons.FormatColorHighlight}" Scale="1.25"/>
-                                                            <Rectangle Fill="{Binding SelectedColorHighlight, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
-                                                        </StackPanel>
+                                                        <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding FontColorHighlightCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                            <StackPanel>
+                                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatColorHighlight}" Scale="1.25"/>
+                                                                <Rectangle Fill="{Binding SelectedColorHighlight, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
+                                                            </StackPanel>
+                                                        </se:StswButton>
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">

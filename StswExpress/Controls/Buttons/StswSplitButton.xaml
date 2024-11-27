@@ -9,7 +9,7 @@
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="AutoClose" Value="True"/>
@@ -23,7 +23,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswControl.EnableRippleEffect" Value="True"/>
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -92,20 +91,12 @@
                                 <ItemsPresenter x:Name="OPT_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
-                            <se:StswButton x:Name="OPT_HeaderButton"
-                                           se:StswControl.IsBorderless="True"
-                                           Command="{TemplateBinding Command}"
-                                           CommandParameter="{TemplateBinding CommandParameter}"
-                                           CommandTarget="{TemplateBinding CommandTarget}"
-                                           Content="{TemplateBinding Header}"
-                                           ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                           Padding="{TemplateBinding Padding}"
-                                           HorizontalAlignment="Stretch"
-                                           VerticalAlignment="Stretch"
-                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter Content="{TemplateBinding Header}"
+                                              ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"/>
                         </DockPanel>
                     </se:StswBorder>
                     <!-- triggers -->
@@ -120,7 +111,6 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainBorder"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_HeaderButton"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="OPT_Items"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

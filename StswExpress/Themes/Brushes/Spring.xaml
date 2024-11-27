@@ -45,92 +45,6 @@
     <SolidColorBrush x:Key="StswChart.Static.Background" Color="#FAFFF5"/>
     <SolidColorBrush x:Key="StswChart.Static.Border" Color="#191"/>
 
-    <!-- Checks -->
-    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
-    <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>
-    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
-    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
-    <SolidColorBrush x:Key="StswCheck.Static.Background" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswCheck.Static.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswCheck.MouseOver.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswCheck.MouseOver.Border" Color="#2A2"/>
-    <SolidColorBrush x:Key="StswCheck.MouseOver.Toggle" Color="#2A2"/>
-    <SolidColorBrush x:Key="StswCheck.Pressed.Background" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswCheck.Pressed.Border" Color="#191"/>
-    <SolidColorBrush x:Key="StswCheck.Pressed.Toggle" Color="#191"/>
-    <SolidColorBrush x:Key="StswCheck.ReadOnly.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswCheck.ReadOnly.Glyph" Color="#342"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Glyph" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Toggle" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Static.Background" Color="#adf688"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Static.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Static.Toggle" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Background" Color="#9df471"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Border" Color="#2A2"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Toggle" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Background" Color="#8cf359"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Border" Color="#191"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Toggle" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Background" Color="#d8fbc6"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Glyph" Color="#342"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Background" Color="#d8fbc6"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Border" Color="#e8fdde"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Foreground" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Glyph" Color="#675"/>
-    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Toggle" Color="#EFD"/>
-    
-    <!-- Collections -->
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Background" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Border" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#120"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="#adf688"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#b3f4b3"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#E6F6D6"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Background" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Background" Color="#E6F6D6"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Background" Color="#DEC"/>
-    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Background" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Border" Color="#3B3"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Border" Color="#4d6e80"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Fill" Color="#4cb2e6"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Border" Color="#804d4d"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Fill" Color="#e64c4c"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Border" Color="#7e6b4e"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#e2a850"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Fill" Color="Transparent"/>
-    
-    <Thickness x:Key="StswItem.Thickness.Border">0</Thickness>
-    <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FAFFF5"/>
-    <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#EFD"/>
-    <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Static.Background" Color="#adf688"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Static.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Background" Color="#9df471"/>
-    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Background" Color="#d8fbc6"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Foreground" Color="#675"/>
-    
     <!-- Color -->
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="StswColorPicker.Static.Border" Color="#3B3"/>
@@ -281,7 +195,7 @@
     <SolidColorBrush x:Key="StswTabItem.Disabled.Background" Color="#EFD"/>
     <SolidColorBrush x:Key="StswTabItem.Disabled.Border" Color="#DEC"/>
     
-    <!-- Scrolling -->
+    <!-- Scrollers -->
     <SolidColorBrush x:Key="StswScroll.Static.Background" Color="#EAEFE5"/>
     <SolidColorBrush x:Key="StswScroll.Static.Border" Color="#EAEFE5"/>
     <SolidColorBrush x:Key="StswScroll.Static.Glyph" Color="#795"/>
@@ -299,17 +213,103 @@
     <SolidColorBrush x:Key="StswScroll.Disabled.Foreground" Color="#9A8"/>
     <SolidColorBrush x:Key="StswScroll.Disabled.Glyph" Color="#DEC"/>
     <SolidColorBrush x:Key="StswScroll.Disabled.Thumb" Color="#DEC"/>
-    
+
+    <!-- Selectors -->
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Background" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Border" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#120"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="#adf688"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#b3f4b3"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#9A8"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#E6F6D6"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Background" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Background" Color="#E6F6D6"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Background" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Background" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Border" Color="#4d6e80"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Fill" Color="#4cb2e6"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Border" Color="#804d4d"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Fill" Color="#e64c4c"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Border" Color="#7e6b4e"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#e2a850"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Fill" Color="Transparent"/>
+
+    <Thickness x:Key="StswItem.Thickness.Border">0</Thickness>
+    <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#9A8"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Static.Background" Color="#adf688"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Static.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Background" Color="#9df471"/>
+    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Background" Color="#d8fbc6"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Foreground" Color="#675"/>
+
     <!-- StatusInfo -->
     <SolidColorBrush x:Key="StswProgressBar.Static.Background" Color="#FAFFF5"/>
     <SolidColorBrush x:Key="StswProgressBar.Static.Border" Color="#3B3"/>
     <SolidColorBrush x:Key="StswProgressBar.Custom.Background" Color="#91ee91"/>
     <SolidColorBrush x:Key="StswProgressBar.Ready.Background" Color="#BCA"/>
     <SolidColorBrush x:Key="StswProgressBar.Running.Background" Color="#75d775"/>
-    <SolidColorBrush x:Key="StswProgressBar.Paused.Background" Color="#d7d775"/>
+    <SolidColorBrush x:Key="StswProgressBar.Paused.Background" Color="#dddd3c"/>
     <SolidColorBrush x:Key="StswProgressBar.Error.Background" Color="#d77575"/>
-    
-    <!-- TextStyle -->
+
+    <!-- Toggles -->
+    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
+    <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>
+    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
+    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+    <SolidColorBrush x:Key="StswCheck.Static.Background" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswCheck.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswCheck.MouseOver.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswCheck.MouseOver.Border" Color="#2A2"/>
+    <SolidColorBrush x:Key="StswCheck.MouseOver.Toggle" Color="#2A2"/>
+    <SolidColorBrush x:Key="StswCheck.Pressed.Background" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswCheck.Pressed.Border" Color="#191"/>
+    <SolidColorBrush x:Key="StswCheck.Pressed.Toggle" Color="#191"/>
+    <SolidColorBrush x:Key="StswCheck.ReadOnly.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswCheck.ReadOnly.Glyph" Color="#342"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#9A8"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Glyph" Color="#9A8"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Toggle" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Static.Background" Color="#adf688"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Static.Toggle" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Background" Color="#9df471"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Border" Color="#2A2"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Toggle" Color="#EFD"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Background" Color="#8cf359"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Border" Color="#191"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Toggle" Color="#DEC"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Background" Color="#d8fbc6"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Glyph" Color="#342"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Background" Color="#d8fbc6"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Border" Color="#e8fdde"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Foreground" Color="#9A8"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Glyph" Color="#675"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Toggle" Color="#EFD"/>
+
+    <!-- Typography -->
     <SolidColorBrush x:Key="StswText.Static.Foreground" Color="#240"/>
     <SolidColorBrush x:Key="StswText.Disabled.Border" Color="#DEC"/>
     <SolidColorBrush x:Key="StswText.Disabled.Foreground" Color="#9A8"/>

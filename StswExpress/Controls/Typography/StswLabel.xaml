@@ -88,6 +88,46 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <Binding Path="Command.State" RelativeSource="{RelativeSource Self}" Converter="{x:Static se:StswContainsConverter.Instance}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="{x:Type se:StswProgressState}">
+                                            <se:StswProgressState>Running</se:StswProgressState>
+                                            <se:StswProgressState>Paused</se:StswProgressState>
+                                            <se:StswProgressState>Error</se:StswProgressState>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </DataTrigger.Binding>
+                            <Setter Property="ContentTemplate" TargetName="OPT_Icon">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <se:StswProgressRing Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
+                                                             Minimum="{Binding Command.Minimum, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
+                                                             Maximum="{Binding Command.Maximum, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
+                                                             Padding="3"
+                                                             Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
+                                                             State="{Binding Command.State, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"
+                                                             Value="{Binding Command.Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}">
+                                            <se:StswProgressRing.Style>
+                                                <Style TargetType="{x:Type se:StswProgressRing}">
+                                                    <Style.Triggers>
+                                                        <MultiTrigger>
+                                                            <MultiTrigger.Conditions>
+                                                                <Condition Property="Minimum" Value="0"/>
+                                                                <Condition Property="Maximum" Value="0"/>
+                                                            </MultiTrigger.Conditions>
+                                                            <Setter Property="IsIndeterminate" Value="True"/>
+                                                        </MultiTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </se:StswProgressRing.Style>
+                                        </se:StswProgressRing>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>

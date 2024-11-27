@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCornerControl, IStswDropControl
+public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
     public StswSplitButton()
     {
@@ -32,7 +32,6 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
         OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
@@ -92,51 +91,6 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
                 }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the command associated with the control.
-    /// </summary>
-    public ICommand? Command
-    {
-        get => (ICommand?)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
-    public static readonly DependencyProperty CommandProperty
-        = DependencyProperty.Register(
-            nameof(Command),
-            typeof(ICommand),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets the parameter to pass to the command associated with the control.
-    /// </summary>
-    public object? CommandParameter
-    {
-        get => (object?)GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
-    }
-    public static readonly DependencyProperty CommandParameterProperty
-        = DependencyProperty.Register(
-            nameof(CommandParameter),
-            typeof(object),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets the target element on which to execute the command associated with the control.
-    /// </summary>
-    public IInputElement? CommandTarget
-    {
-        get => (IInputElement?)GetValue(CommandTargetProperty);
-        set => SetValue(CommandTargetProperty, value);
-    }
-    public static readonly DependencyProperty CommandTargetProperty
-        = DependencyProperty.Register(
-            nameof(CommandTarget),
-            typeof(IInputElement),
-            typeof(StswSplitButton)
-        );
 
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.

@@ -1,14 +1,19 @@
 ﻿using System.Linq;
+using System.Windows;
 
 namespace TestApp;
 
 public class StswProgressRingContext : ControlsContext
 {
+    public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
+
     public override void SetDefaults()
     {
         base.SetDefaults();
 
         IsIndeterminate = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsIndeterminate)))?.Value ?? default;
+        Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
         State = (StswProgressState?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(State)))?.Value ?? default;
         TextMode = (StswProgressTextMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextMode)))?.Value ?? default;
     }
@@ -36,6 +41,14 @@ public class StswProgressRingContext : ControlsContext
         set => SetProperty(ref _minimum, value);
     }
     private double? _minimum = 0;
+
+    /// Scale
+    public GridLength Scale
+    {
+        get => _scale;
+        set => SetProperty(ref _scale, value);
+    }
+    private GridLength _scale;
 
     /// SelectedValue
     public double? SelectedValue

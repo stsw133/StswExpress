@@ -2,7 +2,6 @@
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
 // TODO - new custom controls: Clock, FileDialog, Alert (for fullscreen) etc.
-// TODO - StswDataGrid should have its own auto generated columns
 
 /// Changes difficult to implement so have lower priority for now:
 // TODO - null filter in StswSqlFilter should completely hide filter field

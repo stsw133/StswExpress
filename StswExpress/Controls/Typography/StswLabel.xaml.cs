@@ -42,13 +42,28 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         if (GetValue(IsBusyProperty) == null)
         {
             var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
-            if (commandSource?.Command is IStswCommand cmd)
-                SetBinding(IsBusyProperty, new Binding(nameof(IStswCommand.IsBusy)) { Source = cmd });
+            if (commandSource?.Command is IStswAsyncCommand cmd)
+                SetBinding(IsBusyProperty, new Binding(nameof(IStswAsyncCommand.IsBusy)) { Source = cmd });
         }
     }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets the geometry data for the icon.
+    /// </summary>
+    public IStswAsyncCommand Command
+    {
+        get => (IStswAsyncCommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+    public static readonly DependencyProperty CommandProperty
+        = DependencyProperty.Register(
+            nameof(Command),
+            typeof(IStswAsyncCommand),
+            typeof(StswLabel)
+        );
+
     /// <summary>
     /// Gets or sets the geometry data for the icon.
     /// </summary>
@@ -113,7 +128,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             nameof(IsBusy),
             typeof(bool?),
             typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(bool),
+            new FrameworkPropertyMetadata(default(bool?),
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
 

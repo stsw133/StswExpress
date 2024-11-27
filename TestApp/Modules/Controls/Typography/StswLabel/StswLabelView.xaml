@@ -32,7 +32,8 @@
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswLabel Content="Lorem ipsum dolor sit amet..."
+        <se:StswLabel Command="{Binding ProcessCommand}"
+                      Content="Lorem ipsum dolor sit amet..."
                       IconData="{x:Static se:StswIcons.Cake}"
                       IconScale="{Binding IconScale}"
                       IsBusy="{Binding IsBusy}"
@@ -44,6 +45,24 @@
                       VerticalAlignment="{Binding VerticalAlignment}"
                       VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
-
+        <local:ControlsBase.StatusPanel>
+            <StackPanel Orientation="Horizontal">
+                <se:StswSubButton Command="{Binding ProcessCommand}"
+                                  CommandParameter="{x:Static se:StswProgressState.Running}"
+                                  IconData="{x:Static se:StswIcons.Play}"
+                                  IconFill="{DynamicResource StswProgressBar.Running.Background}"
+                                  IsBusy="False"/>
+                <se:StswSubButton Command="{Binding ProcessCommand}"
+                                  CommandParameter="{x:Static se:StswProgressState.Paused}"
+                                  IconData="{x:Static se:StswIcons.Pause}"
+                                  IconFill="{DynamicResource StswProgressBar.Paused.Background}"
+                                  IsBusy="False"/>
+                <se:StswSubButton Command="{Binding ProcessCommand}"
+                                  CommandParameter="{x:Static se:StswProgressState.Error}"
+                                  IconData="{x:Static se:StswIcons.Stop}"
+                                  IconFill="{DynamicResource StswProgressBar.Error.Background}"
+                                  IsBusy="False"/>
+            </StackPanel>
+        </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

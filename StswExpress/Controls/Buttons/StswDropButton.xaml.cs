@@ -32,7 +32,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
         OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 

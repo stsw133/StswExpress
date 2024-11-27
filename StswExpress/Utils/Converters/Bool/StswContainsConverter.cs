@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -43,26 +44,28 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var pmr = parameter?.ToString() ?? string.Empty;
+        var val = ConvertToStringList(value);
+        var pmr = ConvertToStringList(parameter);
 
-        /// parameters
-        bool isReversed = pmr.StartsWith('!');
-        if (isReversed)
-            pmr = pmr[1..];
+        var allowed = pmr.Where(x => !x.StartsWith('!'));
+        var disallowed = pmr.Where(x => x.StartsWith('!')).Select(x => x[1..]);
 
         /// result
-        bool contains = false;
-        if (value is IEnumerable enumerable && value is not string)
-            contains = enumerable.Cast<object>().Select(x => x?.ToString() ?? string.Empty).Contains(pmr);
-        else if (value?.ToString() is string stringValue)
-            contains = stringValue.Contains(pmr);
+        var result = val.Any(v => allowed.Contains(v)) && val.All(v => !disallowed.Contains(v));
 
-        contains ^= isReversed;
-        if (targetType == typeof(Visibility))
-            return contains ? Visibility.Visible : Visibility.Collapsed;
-        else
-            return contains.ConvertTo(targetType);
+        return targetType switch
+        {
+            Type t when t == typeof(Visibility) => result ? Visibility.Visible : Visibility.Collapsed,
+            _ => result.ConvertTo(targetType)
+        };
     }
+    private static IEnumerable<string> ConvertToStringList(object? input) => input switch
+    {
+        null => [],
+        string s => [s],
+        IEnumerable e => e.Cast<object>().Select(x => x?.ToString() ?? string.Empty),
+        _ => [input.ToString() ?? string.Empty],
+    };
 
     /// <summary>
     /// This converter does not support converting back from target value to source value.

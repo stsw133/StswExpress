@@ -66,6 +66,7 @@
                                         </se:StswText>
                                         <se:StswSlider x:Name="PART_iSize"
                                                        IsSnapToTickEnabled="True"
+                                                       LargeChange="0.5"
                                                        Maximum="3"
                                                        Minimum="0.5"
                                                        TickFrequency="0.1"
