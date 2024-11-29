@@ -45,18 +45,17 @@
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
-                                               se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               se:StswDropArrow.Data="{x:Static se:StswIcons.Calendar}"
+                                               se:StswDropArrow.IsRotated="False"
+                                               se:StswControl.IsBorderless="True"
                                                se:StswPopup.Background="Transparent"
                                                se:StswPopup.BorderBrush="Transparent"
                                                se:StswPopup.BorderThickness="0"
                                                se:StswPopup.CornerClipping="False"
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
-                                <se:StswDropButton.Header>
-                                    <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
-                                </se:StswDropButton.Header>
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
                                                  SelectionMode="{TemplateBinding SelectionMode}"/>

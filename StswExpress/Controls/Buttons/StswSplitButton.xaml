@@ -56,7 +56,7 @@
                                                  VerticalContentAlignment="Stretch"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
                                 <DockPanel Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
-                                    <se:StswDropArrow x:Name="OPT_DropArrow" IsExpanded="{TemplateBinding IsDropDownOpen}"/>
+                                    <se:StswIcon x:Name="OPT_DropArrow" Data="{x:Static se:StswIcons.ChevronDown}" IsRotated="{TemplateBinding IsDropDownOpen}"/>
                                 </DockPanel>
                             </se:StswToggleButton>
                             <!-- separator -->

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestApp"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswSpinnerContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswSpinnerContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>

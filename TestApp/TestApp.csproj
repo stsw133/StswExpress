@@ -121,9 +121,6 @@
     <Compile Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Typography\StswDropArrow\StswDropArrowView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\Typography\StswLabel\StswLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -383,9 +380,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\Typography\StswDropArrow\StswDropArrowView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Typography\StswLabel\StswLabelView.xaml">

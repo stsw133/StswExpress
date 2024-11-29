@@ -71,41 +71,6 @@ public static class StswControl
     }
 
     /// <summary>
-    /// Identifies the IsArrowless attached property.
-    /// When set to <see langword="true"/>, it hides the drop-down arrow by setting its visibility to <see cref="Visibility.Collapsed"/>.
-    /// </summary>
-    public static readonly DependencyProperty IsArrowlessProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(IsArrowlessProperty)[..^8],
-            typeof(bool),
-            typeof(StswControl),
-            new PropertyMetadata(false, OnIsArrowlessChanged)
-        );
-    public static void SetIsArrowless(DependencyObject obj, bool value) => obj.SetValue(IsArrowlessProperty, value);
-    private static void OnIsArrowlessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is FrameworkElement stsw)
-        {
-            stsw.ApplyTemplate();
-
-            void loadedHandler(object s, RoutedEventArgs args)
-            {
-                if (StswFn.FindVisualChild<StswDropArrow>(stsw) is StswDropArrow dropArrow)
-                    dropArrow.Visibility = (bool?)e.NewValue == true ? Visibility.Collapsed : Visibility.Visible;
-
-                stsw.Loaded -= loadedHandler;
-            }
-            stsw.Loaded += loadedHandler;
-
-            if (stsw.IsLoaded)
-            {
-                if (StswFn.FindVisualChild<StswDropArrow>(stsw) is StswDropArrow dropArrow)
-                    dropArrow.Visibility = (bool?)e.NewValue == true ? Visibility.Collapsed : Visibility.Visible;
-            }
-        }
-    }
-
-    /// <summary>
     /// Attached property to control the borderless appearance of controls implementing the <see cref="IStswCornerControl"/> interface.
     /// When set to <see langword="true"/>, it hides the border by setting BorderThickness to <c>0</c>,
     /// CornerClipping to <see langword="false"/>, and CornerRadius to <c>0</c>.

@@ -13,7 +13,8 @@
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Content" Value="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"/>
-        
+
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

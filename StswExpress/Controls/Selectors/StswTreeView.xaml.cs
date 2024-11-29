@@ -16,6 +16,9 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTreeView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
+
     #region Events & methods
     /// <summary>
     /// 
@@ -39,7 +42,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
         //var selectedItem = FindAllTreeItems(this).FirstOrDefault(x => x.IsSelected);
         //if (selectedItem != null)
-        //    while (StswFn.FindVisualAncestor<TreeViewItem>(selectedItem) is TreeViewItem item)
+        //    while (StswFn.FindVisualAncestor<StswTreeViewItem>(selectedItem) is StswTreeViewItem item)
         //    {
         //        item.IsExpanded = true;
         //        selectedItem = item;
@@ -112,4 +115,16 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
+}
+
+public class StswTreeViewItem : TreeViewItem
+{
+    static StswTreeViewItem()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTreeViewItem), new FrameworkPropertyMetadata(typeof(StswTreeViewItem)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTreeViewItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+    }
+
+    protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
 }

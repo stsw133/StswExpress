@@ -13,6 +13,7 @@
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

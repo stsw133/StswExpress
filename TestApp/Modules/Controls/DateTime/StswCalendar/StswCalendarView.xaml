@@ -6,7 +6,7 @@
              xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswCalendarContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswCalendarContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>

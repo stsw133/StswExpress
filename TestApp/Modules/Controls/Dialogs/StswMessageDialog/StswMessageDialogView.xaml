@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance Type=local:StswMessageDialogContext}">
+             mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance local:StswMessageDialogContext}">
 
     <se:StswContentDialog Identifier="StswMessageDialogView">
         <local:ControlsBase ContentAlignmentVisibility="Collapsed">

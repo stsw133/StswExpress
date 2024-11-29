@@ -74,6 +74,9 @@
                                 </se:StswButton>
                                 <!-- custom components -->
                                 <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                    <ItemsControl.Resources>
+                                        <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource StswWindowButtonStyle}"/>
+                                    </ItemsControl.Resources>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <DockPanel/>

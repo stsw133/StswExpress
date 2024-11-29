@@ -26,6 +26,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswComboBoxItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswComboBoxItem;
+
     #region Events & methods
     private TextBoxBase? _filter;
 
@@ -366,4 +369,13 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
+}
+
+public class StswComboBoxItem : ComboBoxItem
+{
+    static StswComboBoxItem()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBoxItem), new FrameworkPropertyMetadata(typeof(StswComboBoxItem)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswComboBoxItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+    }
 }

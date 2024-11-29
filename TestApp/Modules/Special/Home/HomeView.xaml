@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:HomeContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:HomeContext}">
 
     <se:StswScrollView IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <DockPanel Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">

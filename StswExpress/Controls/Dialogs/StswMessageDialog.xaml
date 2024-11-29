@@ -101,6 +101,13 @@
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="1"
                                               Orientation="Horizontal"/>
+                            <!-- content -->
+                            <ContentPresenter x:Name="OPT_Content"
+                                              DockPanel.Dock="Bottom"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- details -->
                             <se:StswScrollView DockPanel.Dock="Top" IsDynamic="True">
                                 <DockPanel>
@@ -150,12 +157,6 @@
                                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </DockPanel>
                             </se:StswScrollView>
-                            <!-- content -->
-                            <ContentPresenter x:Name="OPT_Content"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswGroupBox>
                     <!-- triggers -->

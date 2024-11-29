@@ -16,6 +16,9 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswListBoxItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListBoxItem;
+
     #region Events & methods
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
@@ -129,4 +132,13 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
+}
+
+public class StswListBoxItem : ListBoxItem
+{
+    static StswListBoxItem()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBoxItem), new FrameworkPropertyMetadata(typeof(StswListBoxItem)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListBoxItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+    }
 }

@@ -16,6 +16,7 @@
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsContentVisible" Value="True"/>
 
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

@@ -18,6 +18,7 @@
 
         <Setter Property="AutoClose" Value="True"/>
 
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

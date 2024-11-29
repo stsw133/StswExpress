@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -713,33 +714,36 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Removes a <see cref="FrameworkElement"/> from its parent container.
+    /// Removes an item from an ItemsControl by using its container.
     /// </summary>
-    /// <param name="element">The <see cref="FrameworkElement"/> to be removed from its parent.</param>
-    public static void RemoveFromParent(FrameworkElement element)
+    /// <param name="itemsControl">The ItemsControl containing the item.</param>
+    /// <param name="item">The item to remove.</param>
+    public static void RemoveItemFromItemsControl(ItemsControl? itemsControl, object? item)
     {
-        var parent = element.Parent;
-        if (parent == null)
+        if (itemsControl == null || item == null)
             return;
 
-        switch (parent)
-        {
-            case ContentControl contentControl:
-                contentControl.Content = null;
-                break;
-            case ContentPresenter contentPresenter:
-                contentPresenter.Content = null;
-                break;
-            case Decorator decorator:
-                decorator.Child = null;
-                break;
-            case ItemsControl itemsControl:
-                itemsControl.Items.Remove(element);
-                break;
-            case Panel panel:
-                panel.Children.Remove(element);
-                break;
-        }
+        if (itemsControl.ItemsSource is IList itemsSource)
+            itemsSource.Remove(item);
+        else if (itemsControl.Items.Contains(item))
+            itemsControl.Items.Remove(item);
+    }
+
+    /// <summary>
+    /// Removes an item from an ItemsControl by using its container.
+    /// </summary>
+    /// <param name="itemsControl">The ItemsControl containing the item.</param>
+    /// <param name="container">The item to remove.</param>
+    public static void RemoveItemFromItemsControl(ItemsControl? itemsControl, DependencyObject? container)
+    {
+        if (itemsControl == null || container == null)
+            return;
+
+        var item = itemsControl.ItemContainerGenerator.ItemFromContainer(container);
+        if (itemsControl.ItemsSource is IList itemsSource)
+            itemsSource.Remove(item);
+        else if (itemsControl.Items.Contains(item))
+            itemsControl.Items.Remove(item);
     }
     #endregion
 

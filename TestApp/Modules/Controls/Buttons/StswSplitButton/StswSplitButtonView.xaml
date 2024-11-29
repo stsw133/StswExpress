@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:StswSplitButtonContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswSplitButtonContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -51,13 +51,6 @@
             <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding OnClickCommand}" CommandParameter="5">
                 <se:StswLabel Content="Option 5" IconData="{x:Static se:StswIcons.Dice5}"/>
             </se:StswButton>
-
-            <se:StswSplitButton.Resources>
-                <Style TargetType="{x:Type se:StswButton}">
-                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>
-                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment}"/>
-                </Style>
-            </se:StswSplitButton.Resources>
         </se:StswSplitButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

@@ -120,6 +120,7 @@
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
+                <se:StswNavigationElement Header="StswAlert" ContextNamespace="TestApp.StswAlertContext"/>
                 <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">
                     <se:StswNavigationElement.Header>
                         <DockPanel>
@@ -150,7 +151,6 @@
                 <se:StswNavigationElement Header="StswToggleSwitch" ContextNamespace="TestApp.StswToggleSwitchContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Typography" IconData="{x:Static se:StswIcons.Text}">
-                <se:StswNavigationElement Header="StswDropArrow" ContextNamespace="TestApp.StswDropArrowContext"/>
                 <se:StswNavigationElement Header="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>

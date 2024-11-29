@@ -41,12 +41,13 @@
                          StrokeThickness="1"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"/>
-            <se:StswDropArrow x:Name="OPT_Arrow"
-                              Fill="{DynamicResource StswText.Static.Foreground}"
-                              IsExpanded="{Binding ShowDetails}"
-                              IsHitTestVisible="False"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
+            <se:StswIcon x:Name="OPT_Arrow"
+                         Data="{x:Static se:StswIcons.ChevronDown}"
+                         Fill="{DynamicResource StswText.Static.Foreground}"
+                         IsHitTestVisible="False"
+                         IsRotated="{Binding ShowDetails, TargetNullValue=False}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
         </Grid>
         <!-- triggers -->
         <DataTemplate.Triggers>

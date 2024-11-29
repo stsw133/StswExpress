@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=local:ContractorsContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsContext}">
 
     <se:StswTabControl AreTabsVisible="True" BorderThickness="0 1 0 0" Margin="1" NewItem="{Binding NewTab}" NewItemCommand="{Binding NewTabCommand, Mode=OneWayToSource}">
         <se:StswTabItem>
