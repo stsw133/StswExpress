@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -551,6 +551,44 @@ public static class StswDatabaseHelper
                                                     ? $"'{part.Value}'"
                                                     : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")
                                             ));
+
+    /// <summary>
+    /// Adds a list of parameters to the <see cref="SqlCommand"/> by replacing the specified parameter name in the SQL query with the list of values.
+    /// If the list is null or empty, replaces the parameter with NULL in the SQL query.
+    /// </summary>
+    /// <param name="sqlCommand">The <see cref="SqlCommand"/> object.</param>
+    /// <param name="parameterName">The parameter name to be replaced in the SQL query.</param>
+    /// <param name="list">The list of values to be added as parameters.</param>
+    /// <exception cref="ArgumentException">Thrown when the list contains more than 20 elements.</exception>
+    public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
+    {
+        ArgumentNullException.ThrowIfNull(sqlCommand);
+        if (string.IsNullOrEmpty(parameterName))
+            throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
+
+        const int maxListSize = 20;
+        if (list?.Count > maxListSize)
+            throw new ArgumentException($"The list contains more than {maxListSize} elements, which exceeds the allowed limit.", nameof(list));
+
+        string replacementValue;
+
+        if (list == null || list.Count == 0 || !list.GetType().IsListType(out var innerType) || innerType == null)
+        {
+            replacementValue = "NULL";
+        }
+        else
+        {
+            var sqlDbType = innerType.InferSqlDbType();
+            replacementValue = string.Join(',', Enumerable.Range(0, list.Count).Select(i =>
+            {
+                var paramName = $"{parameterName}{i}";
+                sqlCommand.Parameters.Add(paramName, sqlDbType).Value = list[i] ?? DBNull.Value;
+                return paramName;
+            }));
+        }
+
+        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", replacementValue, RegexOptions.IgnoreCase);
+    }
 
     /// <summary>
     /// Prepares the specified SQL command by clearing existing parameters and adding new ones based on 

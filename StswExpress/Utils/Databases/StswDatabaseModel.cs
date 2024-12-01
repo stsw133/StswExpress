@@ -1,5 +1,5 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System;
 
 namespace StswExpress;
 /// <summary>
@@ -94,7 +94,7 @@ public class StswDatabaseModel : StswObservableObject
         set => SetProperty(ref _password, value);
     }
     private string? _password;
-
+    
     /// <summary>
     /// Gets or sets the version of the database.
     /// </summary>
@@ -116,6 +116,16 @@ public class StswDatabaseModel : StswObservableObject
     private int? _defaultTimeout;
 
     /// <summary>
+    /// Gets or sets the encrypt mode for the connection.
+    /// </summary>
+    public bool Encrypt
+    {
+        get => _encrypt;
+        set => SetProperty(ref _encrypt, value);
+    }
+    private bool _encrypt;
+
+    /// <summary>
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
@@ -126,9 +136,9 @@ public class StswDatabaseModel : StswObservableObject
 
         return Type switch
         {
-            StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
-            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
+            StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
+            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
             _ => throw new Exception("This type of database management system is not supported!")
         };
     }
