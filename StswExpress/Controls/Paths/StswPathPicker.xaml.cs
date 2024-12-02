@@ -68,7 +68,7 @@ public class StswPathPicker : StswBoxBase
     {
         if (IsShiftingEnabled && parentPath != null)
         {
-            if (SelectionMode == StswPathType.Directory)
+            if (SelectionUnit == StswPathType.Directory)
                 adjacentPaths = Directory.GetDirectories(parentPath).ToList();
             else
                 adjacentPaths = Directory.GetFiles(parentPath).ToList();
@@ -116,7 +116,7 @@ public class StswPathPicker : StswBoxBase
     /// <param name="e">The event arguments</param>
     private void PART_DialogButton_Click(object sender, RoutedEventArgs e)
     {
-        if (SelectionMode == StswPathType.Directory)
+        if (SelectionUnit == StswPathType.Directory)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -261,14 +261,14 @@ public class StswPathPicker : StswBoxBase
     /// <summary>
     /// Gets or sets the type of paths that can be selected (File or Directory).
     /// </summary>
-    public StswPathType SelectionMode
+    public StswPathType SelectionUnit
     {
-        get => (StswPathType)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
+        get => (StswPathType)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
     }
-    public static readonly DependencyProperty SelectionModeProperty
+    public static readonly DependencyProperty SelectionUnitProperty
         = DependencyProperty.Register(
-            nameof(SelectionMode),
+            nameof(SelectionUnit),
             typeof(StswPathType),
             typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)

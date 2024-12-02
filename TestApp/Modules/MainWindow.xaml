@@ -20,7 +20,7 @@
             </DockPanel>
         </se:StswToggleButton>
     </se:StswWindow.Components>
-    
+
     <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="200">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
@@ -121,15 +121,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Header="StswAlert" ContextNamespace="TestApp.StswAlertContext"/>
-                <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">
-                    <se:StswNavigationElement.Header>
-                        <DockPanel>
-                            <se:StswInfoBadge DockPanel.Dock="Right" Margin="2 0 0 0" Type="Error" Value="100"/>
-                            <se:StswInfoBadge DockPanel.Dock="Right" Margin="2 0 0 0" Type="Information" Value="12"/>
-                            <se:StswText Text="StswInfoBadge"/>
-                        </DockPanel>
-                    </se:StswNavigationElement.Header>
-                </se:StswNavigationElement>
+                <se:StswNavigationElement Header="StswInfoBadge" ContextNamespace="TestApp.StswInfoBadgeContext"/>
                 <se:StswNavigationElement Header="StswInfoBar" ContextNamespace="TestApp.StswInfoBarContext"/>
                 <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>

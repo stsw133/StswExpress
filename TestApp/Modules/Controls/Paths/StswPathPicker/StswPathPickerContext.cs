@@ -13,7 +13,7 @@ public class StswPathPickerContext : ControlsContext
         IsFileSizeVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFileSizeVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         IsShiftingEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsShiftingEnabled)))?.Value ?? default;
-        SelectionMode = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
+        SelectionUnit = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
     /// Icon
@@ -56,13 +56,13 @@ public class StswPathPickerContext : ControlsContext
     }
     private string? _selectedPath;
 
-    /// SelectionMode
-    public StswPathType? SelectionMode
+    /// SelectionUnit
+    public StswPathType? SelectionUnit
     {
-        get => _selectionMode;
-        set => SetProperty(ref _selectionMode, value);
+        get => _selectionUnit;
+        set => SetProperty(ref _selectionUnit, value);
     }
-    private StswPathType? _selectionMode;
+    private StswPathType? _selectionUnit;
 
     /// SubControls
     public bool SubControls

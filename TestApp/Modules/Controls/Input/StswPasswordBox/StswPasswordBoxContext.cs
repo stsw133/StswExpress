@@ -12,6 +12,7 @@ public class StswPasswordBoxContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         ShowPassword = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowPassword)))?.Value ?? default;
     }
 
@@ -22,6 +23,14 @@ public class StswPasswordBoxContext : ControlsContext
         set => SetProperty(ref _icon, value);
     }
     private bool _icon;
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
 
     /// Password
     public string? Password
@@ -37,7 +46,7 @@ public class StswPasswordBoxContext : ControlsContext
         get => _showPassword;
         set => SetProperty(ref _showPassword, value);
     }
-    private bool _showPassword = false;
+    private bool _showPassword;
 
     /// SubControls
     public bool SubControls
@@ -45,5 +54,5 @@ public class StswPasswordBoxContext : ControlsContext
         get => _subControls;
         set => SetProperty(ref _subControls, value);
     }
-    private bool _subControls = false;
+    private bool _subControls;
 }

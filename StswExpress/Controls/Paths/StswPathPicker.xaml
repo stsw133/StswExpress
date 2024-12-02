@@ -18,7 +18,7 @@
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         
         <Setter Property="IsShiftingEnabled" Value="False"/>
-        <Setter Property="SelectionMode" Value="File"/>
+        <Setter Property="SelectionUnit" Value="File"/>
         <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
 
         <Setter Property="Focusable" Value="True"/>

@@ -68,7 +68,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingPopupCornerRadius = new Binding { Path = new PropertyPath(StswPopup.CornerRadiusProperty), Source = this };
         var bindingPopupPadding = new Binding { Path = new PropertyPath(StswPopup.PaddingProperty), Source = this };
         var bindingSelectedValuePath = new Binding(nameof(SelectedValuePath)) { Source = this };
-        var bindingSelectionMode = new Binding(nameof(SelectionMode)) { Source = this };
+        var bindingSelectionUnit = new Binding(nameof(SelectionUnit)) { Source = this };
         var bindingSeparatorThickness = new Binding(nameof(SeparatorThickness)) { Source = this };
         var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
         var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
@@ -103,7 +103,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswDatePicker.SelectedDateProperty, bindingValue);
-                newControl.SetBinding(StswDatePicker.SelectionModeProperty, bindingSelectionMode);
+                newControl.SetBinding(StswDatePicker.SelectionUnitProperty, bindingSelectionUnit);
                 newControl.SetBinding(StswDatePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
@@ -326,17 +326,17 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selection mode of the control.
+    /// Gets or sets the selection unit of the control.
     /// </summary>
-    public StswCalendarMode SelectionMode
+    public StswCalendarUnit SelectionUnit
     {
-        get => (StswCalendarMode)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
+        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
     }
-    public static readonly DependencyProperty SelectionModeProperty
+    public static readonly DependencyProperty SelectionUnitProperty
         = DependencyProperty.Register(
-            nameof(SelectionMode),
-            typeof(StswCalendarMode),
+            nameof(SelectionUnit),
+            typeof(StswCalendarUnit),
             typeof(StswAdaptiveBox)
         );
 

@@ -16,7 +16,7 @@
         <local:ControlsBase.Properties>
             <!-- InitialPath -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf InitialPath, Type={x:Type se:StswPathTree}}"/>
-            <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionMode="Directory"/>
+            <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionUnit="Directory"/>
             <!-- ShowFiles -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowFiles, Type={x:Type se:StswPathTree}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowFiles}"/>

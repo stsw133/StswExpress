@@ -25,9 +25,9 @@
             <!-- IsShiftingEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
-            <!-- SelectionMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswPathPicker}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
+            <!-- SelectionUnit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
@@ -39,7 +39,7 @@
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
                            Placeholder="Select path..."
                            SelectedPath="{Binding SelectedPath}"
-                           SelectionMode="{Binding SelectionMode}"
+                           SelectionUnit="{Binding SelectionMode}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"

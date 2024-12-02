@@ -518,17 +518,17 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selection mode of the control.
+    /// Gets or sets the selection unit of the control.
     /// </summary>
-    public StswCalendarMode SelectionMode
+    public StswCalendarUnit SelectionUnit
     {
-        get => (StswCalendarMode)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
+        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
     }
-    public static readonly DependencyProperty SelectionModeProperty
+    public static readonly DependencyProperty SelectionUnitProperty
         = DependencyProperty.Register(
-            nameof(SelectionMode),
-            typeof(StswCalendarMode),
+            nameof(SelectionUnit),
+            typeof(StswCalendarUnit),
             typeof(StswFilterBox)
         );
 

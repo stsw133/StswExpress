@@ -128,4 +128,12 @@
         <Setter Property="Increment" Value="1"/>
     </Style>
 
+    <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
+        <Setter Property="Increment" Value="1"/>
+    </Style>
+
+    <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
+        <Setter Property="Increment" Value="1"/>
+    </Style>
+
 </ResourceDictionary>

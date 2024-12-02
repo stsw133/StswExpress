@@ -28,6 +28,45 @@ public static class StswSecurity
     private static string? key = "".PadRight(16, StswFn.AppName() ?? " ");
 
     /// <summary>
+    /// Computes the hash of data using the specified hashing algorithm.
+    /// </summary>
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
+    /// <param name="source">The data to hash.</param>
+    /// <returns>The hash of the data.</returns>
+    public static byte[] ComputeHash(Func<HashAlgorithm> algorithmFactory, byte[] source)
+    {
+        ArgumentNullException.ThrowIfNull(algorithmFactory);
+        ArgumentNullException.ThrowIfNull(source);
+
+        using var algorithm = algorithmFactory();
+        return algorithm.ComputeHash(source);
+    }
+
+    /// <summary>
+    /// Gets a hashed byte array using the specified hashing algorithm.
+    /// </summary>
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
+    /// <param name="text">The text to hash.</param>
+    /// <returns>A byte array containing the hashed text.</returns>
+    public static byte[] GetHash(Func<HashAlgorithm> algorithmFactory, string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        return ComputeHash(algorithmFactory, Encoding.UTF8.GetBytes(text));
+    }
+
+    /// <summary>
+    /// Gets a hashed string using the specified hashing algorithm.
+    /// </summary>
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
+    /// <param name="text">The text to hash.</param>
+    /// <returns>A string containing the hashed text.</returns>
+    public static string GetHashString(Func<HashAlgorithm> algorithmFactory, string text)
+    {
+        var hash = GetHash(algorithmFactory, text);
+        return BitConverter.ToString(hash).Replace("-", string.Empty);
+    }
+
+    /// <summary>
     /// Gets a hashed byte array using the SHA256 algorithm.
     /// </summary>
     /// <param name="text">The text to hash.</param>
@@ -119,7 +158,7 @@ public static class StswSecurity
     /// <returns>A randomly generated token.</returns>
     public static string GenerateRandomToken(int length)
     {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^*()-_=+[]{};:,.?/";
         var token = new char[length];
         var data = new byte[length];
 
@@ -165,3 +204,9 @@ public static class StswSecurity
         return true;
     }
 }
+
+/* usage:
+
+var sha256Hash = StswSecurity.GetHashString(() => SHA256.Create(), "Hello, World!");
+
+*/

@@ -151,8 +151,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (string.IsNullOrEmpty(FilterText))
             return true;
 
-        if (!string.IsNullOrEmpty(DisplayMemberPath) && obj.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
-            return propertyInfo.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        if (!string.IsNullOrEmpty(FilterMemberPath) && obj.GetType().GetProperty(FilterMemberPath) is PropertyInfo filterMemberPathProp)
+            return filterMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        else if (!string.IsNullOrEmpty(DisplayMemberPath) && obj.GetType().GetProperty(DisplayMemberPath) is PropertyInfo displayMemberPathProp)
+            return displayMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
         else
             return obj?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
     }
@@ -174,6 +176,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(StswComboBox)
         );
 
+    /// <summary>
+    /// Gets or sets the member path used for filtering the items in list.
+    /// </summary>
+    public string FilterMemberPath
+    {
+        get => (string)GetValue(FilterMemberPathProperty);
+        set => SetValue(FilterMemberPathProperty, value);
+    }
+    public static readonly DependencyProperty FilterMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(FilterMemberPath),
+            typeof(string),
+            typeof(StswComboBox)
+        );
+    
     /// <summary>
     /// Gets or sets the text used for filtering the items in list.
     /// </summary>

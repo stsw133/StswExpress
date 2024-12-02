@@ -9,8 +9,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
-                <ResourceDictionary Source="/Controls/StswDoubleBox.xaml"/>
-                <ResourceDictionary Source="/Controls/StswIntegerBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!--
             <Style TargetType="{x:Type se:StswWindowBar}">

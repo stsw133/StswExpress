@@ -65,7 +65,7 @@
                 <!-- port -->
                 <StackPanel DockPanel.Dock="Top" Margin="3">
                     <Label Content="Port:"/>
-                    <local:StswIntegerBox Value="{Binding Port}"/>
+                    <se:StswIntegerBox Value="{Binding Port}"/>
                 </StackPanel>
 
                 <!-- database -->

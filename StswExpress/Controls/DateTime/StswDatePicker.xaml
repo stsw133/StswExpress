@@ -58,7 +58,7 @@
                                                se:StswPopup.Padding="0">
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 SelectionMode="{TemplateBinding SelectionMode}"/>
+                                                 SelectionUnit="{TemplateBinding SelectionUnit}"/>
                             </se:StswDropButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"

@@ -15,7 +15,7 @@
         <local:ControlsBase.Properties>
             <!-- ItemsSource -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsSource, Type={x:Type se:StswMediaPlayer}}"/>
-            <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding SelectedPath}" SelectionMode="File"/>
+            <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding SelectedPath}" SelectionUnit="File"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswMediaPlayer IsEnabled="{Binding IsEnabled}"

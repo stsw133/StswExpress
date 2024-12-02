@@ -25,9 +25,9 @@ public enum StswAutoLayoutMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswCalendar.SelectionMode"/>.
+/// Enumeration for <see cref="StswCalendar.SelectionUnit"/>.
 /// </summary>
-public enum StswCalendarMode
+public enum StswCalendarUnit
 {
     Days,
     Months
@@ -183,7 +183,7 @@ public enum StswMenuMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswPathPicker.SelectionMode"/>.
+/// Enumeration for <see cref="StswPathPicker.SelectionUnit"/>.
 /// </summary>
 public enum StswPathType
 {

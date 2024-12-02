@@ -270,9 +270,10 @@ public class StswDecimalBox : StswNumberBoxBase<decimal>
     static StswDecimalBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDecimalBox), new FrameworkPropertyMetadata(typeof(StswDecimalBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDecimalBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
-/*
+
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
@@ -281,6 +282,7 @@ public class StswDoubleBox : StswNumberBoxBase<double>
     static StswDoubleBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDoubleBox), new FrameworkPropertyMetadata(typeof(StswDoubleBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDoubleBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
 
@@ -292,6 +294,6 @@ public class StswIntegerBox : StswNumberBoxBase<int>
     static StswIntegerBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIntegerBox), new FrameworkPropertyMetadata(typeof(StswIntegerBox)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswIntegerBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
-*/

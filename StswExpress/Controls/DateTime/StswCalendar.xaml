@@ -12,10 +12,6 @@
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
         
-        <Setter Property="ItemBorderThickness" Value="1"/>
-        <Setter Property="ItemCornerRadius" Value="10"/>
-        <Setter Property="ItemPadding" Value="3"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -45,11 +41,11 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubButton x:Name="PART_ButtonCurrentMode" Grid.Column="2" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch"/>
+                                <se:StswSubButton x:Name="PART_ButtonCurrentUnit" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch"/>
                             </Grid>
                         </se:StswGroupBox.Header>
 
@@ -58,37 +54,14 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <!-- resources -->
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="StswButton.Static.Background" Color="Transparent"/>
-                                <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent"/>
-                                <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
-                                <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent"/>
-                            </Grid.Resources>
-                            <!-- selection mode: months -->
-                            <Grid x:Name="OPT_ListMonths" Margin="{TemplateBinding Padding}" Visibility="Hidden">
-                                <!-- months of year -->
-                                <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding ListOfMonths}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="4" Rows="3"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <se:StswRadioButton Command="{Binding SelectMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Style="{DynamicResource StswCalendarButtonStyle}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Grid>
-                            <!-- selection mode: days -->
-                            <Grid x:Name="OPT_ListDays" Margin="{TemplateBinding Padding}" Visibility="Hidden">
+                            <!-- items -->
+                            <Grid x:Name="OPT_List" Margin="{TemplateBinding Padding}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="6*"/>
                                 </Grid.RowDefinitions>
                                 <!-- days of week -->
-                                <UniformGrid Grid.Row="0" Columns="7">
+                                <UniformGrid x:Name="OPT_DayNames" Grid.Row="0" Columns="7">
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -97,19 +70,8 @@
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </UniformGrid>
-                                <!-- days of month -->
-                                <ItemsControl Grid.Row="1" IsTabStop="False" ItemsSource="{TemplateBinding ListOfDays}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="7" Rows="6"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <se:StswRadioButton Command="{Binding SelectDayCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Style="{DynamicResource StswCalendarButtonStyle}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <!-- buttons for days or months -->
+                                <ItemsPresenter x:Name="OPT_Items" Focusable="False"/>
                             </Grid>
                             <!-- today button -->
                             <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
@@ -125,67 +87,139 @@
                     </se:StswGroupBox>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="CurrentMode" Value="Days">
+                        <Trigger Property="CurrentUnit" Value="Days">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronRight}" TargetName="PART_ButtonNextMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextYear"/>
-                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListMonths"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListDays"/>
+                            <Setter Property="Grid.Row" Value="1" TargetName="OPT_Items"/>
                         </Trigger>
-                        <Trigger Property="CurrentMode" Value="Months">
+                        <Trigger Property="CurrentUnit" Value="Months">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleLeft}" TargetName="PART_ButtonPreviousYear"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextMonth"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleRight}" TargetName="PART_ButtonNextYear"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ListMonths"/>
-                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_ListDays"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_Items"/>
+                            <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_Items"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DayNames"/>
                         </Trigger>
-                        <Trigger Property="SelectionMode" Value="Months">
-                            <Setter Property="Focusable" Value="False" TargetName="PART_ButtonCurrentMode"/>
-                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonCurrentMode"/>
-                            <Setter Property="IsTabStop" Value="False" TargetName="PART_ButtonCurrentMode"/>
+                        <Trigger Property="SelectionUnit" Value="Months">
+                            <Setter Property="Focusable" Value="False" TargetName="PART_ButtonCurrentUnit"/>
+                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonCurrentUnit"/>
+                            <Setter Property="IsTabStop" Value="False" TargetName="PART_ButtonCurrentUnit"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <!-- StswCalendarButtonStyle -->
-    <Style x:Key="StswCalendarButtonStyle" TargetType="{x:Type se:StswRadioButton}">
-        <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
-        <Setter Property="CommandParameter" Value="{Binding Date}"/>
-        <Setter Property="Content" Value="{Binding Name}"/>
-        <Setter Property="CornerClipping" Value="False"/>
-        <Setter Property="CornerRadius" Value="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
-        <Setter Property="IsChecked" Value="{Binding IsSelected, Mode=OneWay}"/>
-        
         <!-- triggers -->
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsSpecialDay}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
-                <Setter Property="Opacity" Value="0.6"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
-                <Setter Property="FontWeight" Value="Medium"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
-                <Setter Property="Visibility" Value="Hidden"/>
-            </DataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsSpecialDay}" Value="Sunday"/>
-                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Value="False"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
-            </MultiDataTrigger>
-            <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
-            </DataTrigger>
+            <Trigger Property="CurrentUnit" Value="Days">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" Rows="6"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="CurrentUnit" Value="Months">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" Rows="3"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type se:StswCalendarItem}">
+        <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
+        
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="3"/>
+
+        <Setter Property="Cursor" Value="Hand"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswCalendarItem}">
+                    <!-- main -->
+                    <Border x:Name="OPT_Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <!-- triggers -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsSelected" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsSpecialDay" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
+                        </Trigger>
+                        <Trigger Property="InCurrentMonth" Value="False">
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                        <Trigger Property="InCurrentMonth" Value="True">
+                            <Setter Property="FontWeight" Value="Medium"/>
+                        </Trigger>
+                        <Trigger Property="InMinMaxRange" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSpecialDay" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsCurrentDay" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
 </ResourceDictionary>

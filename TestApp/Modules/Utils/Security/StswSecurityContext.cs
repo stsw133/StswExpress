@@ -1,4 +1,6 @@
-﻿namespace TestApp;
+﻿using System.Security.Cryptography;
+
+namespace TestApp;
 public class StswSecurityContext : StswObservableObject
 {
     /// Key
@@ -13,7 +15,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputGetHashString
     {
         get => _inputGetHashString;
-        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = StswSecurity.GetHashString(value));
+        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = StswSecurity.GetHashString(SHA256.Create, value));
     }
     private string? _inputGetHashString;
 
