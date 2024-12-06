@@ -43,32 +43,34 @@
                                 </Grid.ColumnDefinitions>
                                 <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch"/>
-                                <se:StswSubButton x:Name="PART_ButtonCurrentUnit" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <se:StswSubButton x:Name="PART_ButtonCurrentUnit" Grid.Column="2" HorizontalAlignment="Stretch" Content="{TemplateBinding SelectedMonthName}"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch"/>
                                 <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch"/>
                             </Grid>
                         </se:StswGroupBox.Header>
 
-                        <Grid MinHeight="200" MinWidth="250" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Grid MinHeight="200" MinWidth="250"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- items -->
-                            <Grid x:Name="OPT_List" Margin="{TemplateBinding Padding}">
+                            <Grid x:Name="OPT_List">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="6*"/>
                                 </Grid.RowDefinitions>
                                 <!-- days of week -->
                                 <UniformGrid x:Name="OPT_DayNames" Grid.Row="0" Columns="7">
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding ItemPadding}" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </UniformGrid>
                                 <!-- buttons for days or months -->
                                 <ItemsPresenter x:Name="OPT_Items" Focusable="False"/>
@@ -80,7 +82,7 @@
                                                   Content="{se:Tr StswCalendar.Today}"
                                                   IconData="{x:Static se:StswIcons.CalendarToday}"
                                                   Margin="{TemplateBinding Padding}"
-                                                  Padding="{TemplateBinding ItemPadding}"
+                                                  Padding="3"
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DockPanel>
                         </Grid>
@@ -142,7 +144,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="4 2"/>
 
         <Setter Property="Cursor" Value="Hand"/>
 
@@ -181,7 +183,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="Transparent" TargetName="OPT_Border"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
                         </Trigger>
@@ -194,6 +196,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
+                        
                         <Trigger Property="IsSpecialDay" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
                         </Trigger>
