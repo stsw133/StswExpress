@@ -34,7 +34,10 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswDirectionView x:Name="OPT_DirectionView" Focusable="False" Orientation="{TemplateBinding Orientation}" Padding="{TemplateBinding Padding}">
+                        <se:StswDirectionView x:Name="OPT_DirectionView"
+                                              Focusable="False"
+                                              Orientation="{TemplateBinding Orientation}"
+                                              Padding="{TemplateBinding Padding}">
                             <ItemsPresenter/>
                         </se:StswDirectionView>
                     </se:StswBorder>
@@ -102,35 +105,38 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSegmentItem}">
                     <!-- main -->
-                    <Border x:Name="OPT_Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    <se:StswBorder x:Name="OPT_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter Focusable="False"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
+                    </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>
@@ -138,20 +144,14 @@
                                 <Condition Property="IsSelected" Value="True"/>
                                 <Condition Property="IsEnabled" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!-- triggers -->
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
-                <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

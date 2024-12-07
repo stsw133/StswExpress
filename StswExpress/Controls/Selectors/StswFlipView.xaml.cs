@@ -210,21 +210,6 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
             typeof(bool),
             typeof(StswFlipView)
         );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
-    /// </summary>
-    public bool UsesSelectionItems
-    {
-        get => (bool)GetValue(UsesSelectionItemsProperty);
-        set => SetValue(UsesSelectionItemsProperty, value);
-    }
-    public static readonly DependencyProperty UsesSelectionItemsProperty
-        = DependencyProperty.Register(
-            nameof(UsesSelectionItems),
-            typeof(bool),
-            typeof(StswFlipView)
-        );
     #endregion
 
     #region Style properties

@@ -40,14 +40,6 @@ public interface IStswSelectionControl
     static readonly DependencyProperty? SelectedValuePathProperty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement
-    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
-    /// This allows for enhanced functionality when items in the collection implement a specific interface.
-    /// </summary>
-    bool UsesSelectionItems { get; set; }
-    static readonly DependencyProperty? UsesSelectionItemsProperty;
-
-    /// <summary>
     /// 
     /// </summary>
     /// <param name="selectionControl"></param>
@@ -72,7 +64,7 @@ public interface IStswSelectionControl
     /// <summary>
     /// Handles changes to the ItemsSource property of the selection control.
     /// This method determines the underlying data source of the control, adjusting properties
-    /// such as <see cref="UsesSelectionItems"/>, <see cref="DisplayMemberPath"/>, and <see cref="SelectedValuePath"/>
+    /// such as <see cref="DisplayMemberPath"/> and <see cref="SelectedValuePath"/>
     /// based on the type of items in the source collection.
     /// </summary>
     /// <param name="selectionControl">The selection control whose ItemsSource has changed.</param>
@@ -88,8 +80,6 @@ public interface IStswSelectionControl
         /// continue with the logic using actualSource
         if (actualSource?.GetType()?.IsListType(out var innerType) == true)
         {
-            selectionControl.UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
-
             /// StswComboItem short usage
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {

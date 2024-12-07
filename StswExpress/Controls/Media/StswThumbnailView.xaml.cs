@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -13,6 +14,9 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswThumbnailView), new FrameworkPropertyMetadata(typeof(StswThumbnailView)));
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswThumbnailView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
+
+    protected override DependencyObject GetContainerForItemOverride() => new StswThumbnailItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswThumbnailItem;
 
     #region Events & methods
     /// <summary>
@@ -92,5 +96,30 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
             typeof(StswThumbnailView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class StswThumbnailItem : ListBoxItem
+{
+    static StswThumbnailItem()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswThumbnailItem), new FrameworkPropertyMetadata(typeof(StswThumbnailItem)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswThumbnailItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+    }
+
+    #region Events & methods
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+    }
     #endregion
 }

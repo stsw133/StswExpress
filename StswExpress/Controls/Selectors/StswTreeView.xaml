@@ -90,7 +90,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTreeViewItem}">
-                    <!-- main -->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -100,22 +99,29 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <se:StswSubCheck x:Name="OPT_Expander" Grid.Column="0"
+                        <!-- expander -->
+                        <se:StswSubCheck x:Name="OPT_Expander"
                                          Background="{TemplateBinding Background}"
                                          ClickMode="Press"
                                          IconChecked="{x:Static se:StswIcons.MenuDown}"
                                          IconUnchecked="{x:Static se:StswIcons.MenuRight}"
                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Padding="3"
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <Border x:Name="OPT_Border" Grid.Column="1"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}">
+                        <!-- header -->
+                        <se:StswBorder x:Name="OPT_MainBorder" Grid.Column="1"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerClipping="{TemplateBinding CornerClipping}"
+                                       CornerRadius="{TemplateBinding CornerRadius}">
                             <ContentPresenter ContentSource="Header"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
+                        </se:StswBorder>
+                        <!-- items -->
                         <ItemsPresenter x:Name="OPT_Items" Grid.Column="1" Grid.Row="1"/>
                     </Grid>
                     <!-- triggers -->
@@ -127,24 +133,28 @@
                             <Setter Property="Visibility" TargetName="OPT_Items" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_Border"/>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="OPT_Expander">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Expander"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="OPT_MainBorder">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_Expander"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>
@@ -152,8 +162,8 @@
                                 <Condition Property="IsSelected" Value="True"/>
                                 <Condition Property="IsEnabled" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_Border"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
@@ -162,9 +172,6 @@
         </Setter>
         <!-- triggers -->
         <Style.Triggers>
-            <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:IStswSelectionControl}}}" Value="True">
-                <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
-            </DataTrigger>
             <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
                 <Setter Property="ItemsPanel">
                     <Setter.Value>

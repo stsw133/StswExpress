@@ -23,9 +23,6 @@
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswCalendar}}"/>
             <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
-            <!-- SelectionMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswCalendar}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList SelectionMode}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
             <!-- SelectionUnit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswCalendar}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswCalendarUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
@@ -35,7 +32,6 @@
                          Maximum="{Binding Maximum}"
                          Minimum="{Binding Minimum}"
                          SelectedDate="{Binding SelectedDate}"
-                         SelectionMode="{Binding SelectionMode}"
                          SelectionUnit="{Binding SelectionUnit}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
