@@ -33,7 +33,7 @@ internal static class SQL
 	        )");
 
     /// GetContractors
-    internal static IEnumerable<ContractorModel> GetContractors(string filter, IList<SqlParameter> parameters) => DbCurrent.Get<ContractorModel>($@"
+    internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel filter) => DbCurrent.Get<ContractorModel>($@"
         select
             a.ID [{nameof(ContractorModel.ID)}],
             a.Type [{nameof(ContractorModel.Type)}],
@@ -47,8 +47,8 @@ internal static class SQL
             a.IsArchival [{nameof(ContractorModel.IsArchival)}],
             a.CreateDT [{nameof(ContractorModel.CreateDT)}]
         from dbo.StswExpressTEST_Contractors a with(nolock)
-        where {filter ?? "1=1"}
-        order by a.Name", parameters)!;
+        where {filter.SqlFilter ?? "1=1"}
+        order by a.Name", filter.SqlParameters)!;
 
     /// SetContractors
     internal static void SetContractors(StswBindingList<ContractorModel> list) => DbCurrent.Set(list,

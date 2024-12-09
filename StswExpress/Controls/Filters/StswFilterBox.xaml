@@ -45,120 +45,171 @@
                                         <se:StswContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
 
-                                            <se:StswMenuItem x:Name="OPT_ModeEqual" Header="{se:Tr StswFilterBox.Equal}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Equal}">
+                                            <se:StswMenuItem x:Name="OPT_ModeEqual"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Equal}"
+                                                             Header="{se:Tr StswFilterBox.Equal}"
+                                                             Visibility="Collapsed">
                                                 <se:StswMenuItem.Icon>
                                                     <se:StswOutlinedText Text="=" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </se:StswMenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNotEqual" Header="{se:Tr StswFilterBox.NotEqual}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotEqual}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNotEqual"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.NotEqual}"
+                                                             Header="{se:Tr StswFilterBox.NotEqual}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≠" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeGreater" Header="{se:Tr StswFilterBox.Greater}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Greater}">
+                                            <se:StswMenuItem x:Name="OPT_ModeGreater"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Greater}"
+                                                             Header="{se:Tr StswFilterBox.Greater}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="&#62;" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeGreaterEqual" Header="{se:Tr StswFilterBox.GreaterEqual}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.GreaterEqual}">
+                                            <se:StswMenuItem x:Name="OPT_ModeGreaterEqual"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.GreaterEqual}"
+                                                             Header="{se:Tr StswFilterBox.GreaterEqual}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≥" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeLess" Header="{se:Tr StswFilterBox.Less}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Less}">
+                                            <se:StswMenuItem x:Name="OPT_ModeLess"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Less}"
+                                                             Header="{se:Tr StswFilterBox.Less}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="&#60;" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeLessEqual" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.LessEqual}">
+                                            <se:StswMenuItem x:Name="OPT_ModeLessEqual"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.LessEqual}"
+                                                             Header="{se:Tr StswFilterBox.LessEqual}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≤" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeBetween" Header="{se:Tr StswFilterBox.LessEqual}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Between}">
+                                            <se:StswMenuItem x:Name="OPT_ModeBetween"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Between}"
+                                                             Header="{se:Tr StswFilterBox.LessEqual}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="≷" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeContains" Header="{se:Tr StswFilterBox.Contains}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Contains}">
+                                            <se:StswMenuItem x:Name="OPT_ModeContains"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Contains}"
+                                                             Header="{se:Tr StswFilterBox.Contains}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⊇" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNotContains" Header="{se:Tr StswFilterBox.NotContains}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotContains}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNotContains"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.NotContains}"
+                                                             Header="{se:Tr StswFilterBox.NotContains}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⊉" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeLike" Header="{se:Tr StswFilterBox.Like}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Like}">
+                                            <se:StswMenuItem x:Name="OPT_ModeLike"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Like}"
+                                                             Header="{se:Tr StswFilterBox.Like}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="%" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNotLike" Header="{se:Tr StswFilterBox.NotLike}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotLike}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNotLike"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.NotLike}"
+                                                             Header="{se:Tr StswFilterBox.NotLike}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="%" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeStartsWith" Header="{se:Tr StswFilterBox.StartsWith}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.StartsWith}">
+                                            <se:StswMenuItem x:Name="OPT_ModeStartsWith"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.StartsWith}"
+                                                             Header="{se:Tr StswFilterBox.StartsWith}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⟝" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeEndsWith" Header="{se:Tr StswFilterBox.EndsWith}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.EndsWith}">
+                                            <se:StswMenuItem x:Name="OPT_ModeEndsWith"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.EndsWith}"
+                                                             Header="{se:Tr StswFilterBox.EndsWith}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⟞" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeIn" Header="{se:Tr StswFilterBox.In}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.In}">
+                                            <se:StswMenuItem x:Name="OPT_ModeIn"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.In}"
+                                                             Header="{se:Tr StswFilterBox.In}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="◐" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNotIn" Header="{se:Tr StswFilterBox.NotIn}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotIn}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNotIn"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.NotIn}"
+                                                             Header="{se:Tr StswFilterBox.NotIn}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="◐" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNull" Header="{se:Tr StswFilterBox.Null}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Null}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNull"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.Null}"
+                                                             Header="{se:Tr StswFilterBox.Null}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="○" Fill="White" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
                                             </se:StswMenuItem>
 
-                                            <se:StswMenuItem x:Name="OPT_ModeNotNull" Header="{se:Tr StswFilterBox.NotNull}" Visibility="Collapsed"
-                                                      Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.NotNull}">
+                                            <se:StswMenuItem x:Name="OPT_ModeNotNull"
+                                                             Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{x:Static se:StswFilterMode.NotNull}"
+                                                             Header="{se:Tr StswFilterBox.NotNull}"
+                                                             Visibility="Collapsed">
                                                 <MenuItem.Icon>
                                                     <se:StswOutlinedText Text="⬤" Fill="#48D" Stroke="Black" StrokeThickness="2"/>
                                                 </MenuItem.Icon>
@@ -186,9 +237,9 @@
                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                         SelectionUnit="{TemplateBinding SelectionUnit}"
                                                         Type="{TemplateBinding FilterType}"
-                                                        Value="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                        se:StswPopup.CornerClipping="False"
-                                                        se:StswPopup.CornerRadius="0">
+                                                        Value="{Binding Value1, Mode=TwoWay, TargetNullValue='', RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswPopup.CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">
@@ -213,10 +264,10 @@
                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                         SelectionUnit="{TemplateBinding SelectionUnit}"
                                                         Type="{TemplateBinding FilterType}"
-                                                        Value="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        Value="{Binding Value2, Mode=TwoWay, TargetNullValue='', RelativeSource={RelativeSource TemplatedParent}}"
                                                         Visibility="Collapsed"
-                                                        se:StswPopup.CornerClipping="False"
-                                                        se:StswPopup.CornerRadius="0">
+                                                        se:StswPopup.CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">

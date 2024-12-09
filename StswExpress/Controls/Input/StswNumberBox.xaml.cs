@@ -64,6 +64,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             result = res;
 
         Value = Add(result, Increment);
+
+        Focus();
+        CaretIndex = Text?.Length ?? 0;
     }
 
     /// <summary>
@@ -79,6 +82,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             result = res;
 
         Value = Subtract(result, Increment);
+
+        Focus();
+        CaretIndex = Text?.Length ?? 0;
     }
 
     /// <summary>

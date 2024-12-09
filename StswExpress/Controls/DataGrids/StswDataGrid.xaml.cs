@@ -17,13 +17,21 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
-    public ICommand ClearFiltersCommand { get; set; }
+    public ICommand ClearFiltersCommand { get; }
+    public ICommand ApplyFiltersCommand { get; }
 
     public StswDataGrid()
     {
         Columns.CollectionChanged += Columns_CollectionChanged;
 
-        ClearFiltersCommand = new StswCommand(ActionClear);
+        ApplyFiltersCommand = new StswCommand(ApplyFilters);
+        ClearFiltersCommand = new StswCommand(ClearFilters);
+
+        FiltersData = new StswDataGridFiltersDataModel
+        {
+            Apply = ApplyFilters,
+            Clear = ClearFilters,
+        };
     }
     static StswDataGrid()
     {
@@ -32,6 +40,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     #region Events & methods
+    private StswFilterAggregator _filterAggregator = new();
+
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -44,13 +54,11 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         RowHeaderStyle = RowHeaderStyle;
 
         /// filters
-        FiltersData = new()
-        {
-            Clear = ActionClear,
-            Refresh = ActionRefresh,
-            SqlFilter = null,
-            SqlParameters = null
-        };
+        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this);
+        foreach (var filterBox in filterBoxes)
+            filterBox.FilterChanged += (s, e) => ApplyFilters();
+
+        ApplyFilters();
     }
 
     /// <summary>
@@ -157,73 +165,84 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Clears the filters.
     /// </summary>
-    private void ActionClear()
+    private void ClearFilters()
     {
-        var stswSqlFilters = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
-        foreach (var stswSqlFilter in stswSqlFilters)
+        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+
+        foreach (var filterBox in filterBoxes)
         {
-            stswSqlFilter.FilterMode = stswSqlFilter.DefaultFilterMode;
-            var itemsSource = stswSqlFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            var defaultItemsSource = stswSqlFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            filterBox.FilterMode = filterBox.DefaultFilterMode;
+            filterBox.Value1 = filterBox.DefaultValue1;
+            filterBox.Value2 = filterBox.DefaultValue2;
+
+            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
             itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
-            stswSqlFilter.Value1 = stswSqlFilter.DefaultValue1;
-            stswSqlFilter.Value2 = stswSqlFilter.DefaultValue2;
         }
+
+        filterBoxes.FirstOrDefault()?.Focus();
+        //RefreshFilters();
     }
 
     /// <summary>
-    /// Refreshes the filters and updates the SQL filter and parameters.
+    /// Applies the filters and updates the SQL filter and parameters.
     /// </summary>
-    private void ActionRefresh()
+    private void ApplyFilters()
     {
-        var stswSqlFilters = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
-
-        switch (FiltersType)
-        {
-            /*
-            case StswDataGridFiltersType.CollectionView:
-                {
-                    var view = (ICollectionView)ItemsSource;
-
-                    var filterPredicates = stswSqlFilters.Select(x => x.GenerateFilterPredicate()).Where(predicate => predicate != null).Cast<Predicate<object>>();
-
-                    Predicate<object>? combinedPredicate = item =>
-                    {
-                        foreach (var predicate in filterPredicates)
-                            if (!predicate(item))
-                                return false;
-                        return true;
-                    };
-
-                    view.Filter = combinedPredicate;
-                }
-                break;
-            */
-            case StswDataGridFiltersType.SQL:
-            default:
-                {
-                    FiltersData.SqlFilter = string.Empty;
-                    FiltersData.SqlParameters = [];
-
-                    foreach (var stswSqlFilter in stswSqlFilters)
-                        /// Header is StswColumnFilterData
-                        if (stswSqlFilter?.SqlString != null)
-                        {
-                            FiltersData.SqlFilter += " and " + stswSqlFilter.SqlString;
-                            if (stswSqlFilter.Value1 != null && stswSqlFilter.SqlParam != null)
-                                FiltersData.SqlParameters.Add(new(stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "1", stswSqlFilter.Value1 ?? DBNull.Value));
-                            if (stswSqlFilter.Value2 != null && stswSqlFilter.SqlParam != null)
-                                FiltersData.SqlParameters.Add(new(stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "2", stswSqlFilter.Value2 ?? DBNull.Value));
-                        }
-
-                    if (FiltersData.SqlFilter.StartsWith(" and "))
-                        FiltersData.SqlFilter = FiltersData.SqlFilter[5..];
-                    if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
-                        FiltersData.SqlFilter = "1=1";
-                }
-                break;
-        }
+        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+        UpdateSqlFilters(filterBoxes);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void RegisterExternalFilter(object key, Predicate<object>? filter)
+    {
+        _filterAggregator.RegisterFilter(key, filter);
+        ApplyFilters();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string SqlFilter
+    {
+        get => _sqlFilter;
+        private set => _sqlFilter = value;
+    }
+    private string _sqlFilter = "1=1";
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public IList<SqlParameter> SqlParameters
+    {
+        get => _sqlParameters;
+        private set => _sqlParameters = value;
+    }
+    private IList<SqlParameter> _sqlParameters = [];
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filterBoxes"></param>
+    private void UpdateSqlFilters(IEnumerable<StswFilterBox> filterBoxes)
+    {
+        FiltersData ??= new StswDataGridFiltersDataModel();
+        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes.Select(x => x.SqlString).Where(x => !string.IsNullOrWhiteSpace(x)));
+        FiltersData.SqlParameters = filterBoxes.SelectMany(x =>
+            new[]
+            {
+                new SqlParameter($"{x.SqlParam}1", x.Value1 ?? DBNull.Value),
+                new SqlParameter($"{x.SqlParam}2", x.Value2 ?? DBNull.Value)
+            })
+            .Where(p => p.Value != DBNull.Value)
+            .ToList();
+
+        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
+            FiltersData.SqlFilter = "1=1";
+    }
+
     #endregion
 
     #region Logic properties
@@ -254,8 +273,23 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(FiltersData),
             typeof(StswDataGridFiltersDataModel),
-            typeof(StswDataGrid)
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(
+                default(StswDataGridFiltersDataModel),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFiltersDataChanged)
         );
+    private static void OnFiltersDataChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswDataGrid stsw)
+        {
+            if (e.NewValue is StswDataGridFiltersDataModel filtersData)
+            {
+                filtersData.Clear = stsw.ClearFilters;
+                filtersData.Apply = stsw.ApplyFilters;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets the filters type for the control.
@@ -288,6 +322,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
     //TODO - double click row command
 
+    //TODO - replace UsesSelectionItems with custom DataGridRow and same logic as in stsw selector controls
     /// <summary>
     /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
     /// </summary>
@@ -381,29 +416,24 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 public class StswDataGridFiltersDataModel
 {
     /// <summary>
+    /// Gets or sets the action for applying the filters.
+    /// </summary>
+    public Action? Apply { get; internal set; }
+
+    /// <summary>
     /// Gets or sets the action for clearing the filters.
     /// </summary>
     public Action? Clear { get; internal set; }
 
     /// <summary>
-    /// Gets or sets the action for refreshing the filters.
-    /// </summary>
-    public Action? Refresh { get; internal set; }
-
-    /// <summary>
-    /// Gets or sets the predicate for CollectionView's Filter.
-    /// </summary>
-    public Predicate<object>? CollectionViewFilter { get; internal set; }
-
-    /// <summary>
     /// Gets or sets the SQL filter.
     /// </summary>
-    public string? SqlFilter { get; internal set; }
+    public string SqlFilter { get; internal set; } = "1=1";
 
     /// <summary>
     /// Gets or sets the list of SQL parameters.
     /// </summary>
-    public IList<SqlParameter>? SqlParameters { get; internal set; }
+    public IList<SqlParameter> SqlParameters { get; internal set; } = [];
 }
 
 [AttributeUsage(AttributeTargets.Property)]

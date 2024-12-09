@@ -30,6 +30,12 @@ public class ContractorsContext : StswObservableObject
         CloneCommand = new StswAsyncCommand(Clone, CloneCondition);
         EditCommand = new StswAsyncCommand(Edit, EditCondition);
         DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
+
+        SelectedContractor = null;
+        ListContractorsView = new(ListContractors)
+        {
+            AutoRefresh = true
+        };
     }
 
     /// Init
@@ -63,8 +69,17 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            FiltersContractors.Refresh?.Invoke();
-            await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter!, FiltersContractors.SqlParameters!).ToStswBindingList());
+            //var newList = await Task.Run(() => SQL.GetContractors(null).ToStswBindingList());
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    SelectedContractor = null;
+            //    ListContractors = newList;
+            //    ListContractorsView = new StswCollectionView<ContractorModel>(ListContractors);
+            //    Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
+            //});
+
+            FiltersContractors.Apply?.Invoke();
+            await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors).ToStswBindingList());
         }
         catch (Exception ex)
         {
@@ -229,6 +244,14 @@ public class ContractorsContext : StswObservableObject
         set => SetProperty(ref _listContractors, value);
     }
     private StswBindingList<ContractorModel> _listContractors = [];
+    
+    /// ListContractorsView
+    public StswCollectionView<ContractorModel> ListContractorsView
+    {
+        get => _listContractorsView;
+        set => SetProperty(ref _listContractorsView, value);
+    }
+    private StswCollectionView<ContractorModel> _listContractorsView;
 
     /// NewTab
     public StswTabItem NewTab

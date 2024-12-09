@@ -128,6 +128,11 @@ public class StswCalendar : Control, IStswCornerControl
         if (StswFn.GetParentPopup(this) is Popup popup)
         {
             popup.IsOpen = false;
+            if (StswFn.FindVisualAncestor<StswDatePicker>(popup) is StswDatePicker stsw)
+            {
+                stsw.Focus();
+                stsw.CaretIndex = stsw.Text?.Length ?? 0;
+            }
             return true;
         }
         return false;

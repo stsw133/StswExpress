@@ -73,12 +73,12 @@
                                     <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </UniformGrid>
                                 <!-- buttons for days or months -->
-                                <ListBox x:Name="PART_Selector"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         DisplayMemberPath="Content"
-                                         ItemContainerStyle="{StaticResource StswCalendarItemStyle}"
-                                         ItemsSource="{TemplateBinding Items}"/>
+                                <se:StswListBox x:Name="PART_Selector"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                DisplayMemberPath="Content"
+                                                ItemContainerStyle="{StaticResource StswCalendarItemStyle}"
+                                                ItemsSource="{TemplateBinding Items}"/>
                             </Grid>
                             <!-- today button -->
                             <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
@@ -135,7 +135,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="StswCalendarItemStyle" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="StswCalendarItemStyle" TargetType="{x:Type se:StswListBoxItem}">
         <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
@@ -150,7 +150,7 @@
         
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                <ControlTemplate TargetType="{x:Type se:StswListBoxItem}">
                     <!-- main -->
                     <Border x:Name="OPT_Border"
                             Background="{TemplateBinding Background}"

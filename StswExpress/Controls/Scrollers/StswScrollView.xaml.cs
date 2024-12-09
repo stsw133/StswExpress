@@ -61,7 +61,7 @@ public class StswScrollView : ScrollViewer
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         base.OnScrollChanged(e);
-        
+
         if (AutoScroll && !IsBusy)
         {
             if (e.ExtentHeightChange == 0)
