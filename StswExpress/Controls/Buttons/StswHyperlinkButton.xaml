@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswHyperlinkButton}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswColor.Neutral}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswButton.Link.Standard.Foreground}"/>
         
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
@@ -54,7 +54,7 @@
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="WasClicked" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswColor.Modify}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Link.Visited.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>

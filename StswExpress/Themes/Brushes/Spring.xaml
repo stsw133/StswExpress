@@ -40,7 +40,10 @@
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Border" Color="#e8fdde"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Foreground" Color="#675"/>
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#73e873"/>
-    
+    <SolidColorBrush x:Key="StswButton.Link.Standard.Foreground" Color="#006dcc"/>
+    <SolidColorBrush x:Key="StswButton.Link.Visited.Foreground" Color="#833399"/>
+    <SolidColorBrush x:Key="StswButton.Link.Active.Foreground" Color="#bd2c0f"/>
+
     <!-- Charts -->
     <SolidColorBrush x:Key="StswChart.Static.Background" Color="#FAFFF5"/>
     <SolidColorBrush x:Key="StswChart.Static.Border" Color="#191"/>
@@ -174,12 +177,18 @@
     <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Border" Color="#d3fac1"/>
     <SolidColorBrush x:Key="StswNavigationElement.Pressed.Background" Color="#cefab8"/>
     <SolidColorBrush x:Key="StswNavigationElement.Pressed.Border" Color="#c7f9ae"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Background" Color="#adf688"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Border" Color="#c7f9ae"/>
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Background" Color="#EFD"/>
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Border" Color="#DEC"/>
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#9A8"/>
-    <SolidColorBrush x:Key="StswNavigationElement.CheckedDisabled.Background" Color="#CFDFBF"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Background" Color="#adf688"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Background" Color="#9df471"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Background" Color="#8cf359"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Border" Color="#3B3"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Background" Color="#d8fbc6"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Border" Color="#e8fdde"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Foreground" Color="#675"/>
 
     <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#FAFFF5"/>
     <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#3B3"/>

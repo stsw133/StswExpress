@@ -10,11 +10,9 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
         
         <Setter Property="AutoClose" Value="True"/>
 
-        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -24,7 +22,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswControl.EnableRippleEffect" Value="True"/>
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
@@ -56,12 +53,6 @@
                             <DockPanel DockPanel.Dock="Right" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                 <se:StswIcon x:Name="OPT_DropArrow" Data="{x:Static se:StswIcons.ChevronDown}" IsRotated="{TemplateBinding IsDropDownOpen}"/>
                             </DockPanel>
-                            <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="Right"
-                                              BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
-                                              Orientation="Vertical"
-                                              Visibility="Hidden"/>
                             <!-- popup -->
                             <se:StswPopup x:Name="OPT_Popup"
                                           IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"

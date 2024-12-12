@@ -123,7 +123,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// When set to <see langword="true"/>, the popup with items is accessible, but all items within the popup are disabled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -189,22 +189,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             typeof(double),
             typeof(StswDropButton),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between arrow icon and main button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswDropButton),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

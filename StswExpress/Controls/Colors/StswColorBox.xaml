@@ -4,8 +4,6 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <sys:Double x:Key="StswColorBox.Size.Icon">16</sys:Double>
-
     <Style TargetType="{x:Type se:StswColorBox}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
@@ -94,7 +92,7 @@
                                          Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1"
-                                         Height="{DynamicResource StswColorBox.Size.Icon}" Width="{DynamicResource StswColorBox.Size.Icon}"/>
+                                         Height="16" Width="16"/>
                                 <Grid>
                                     <se:StswText x:Name="OPT_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"

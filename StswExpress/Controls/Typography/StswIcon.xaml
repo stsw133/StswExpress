@@ -20,6 +20,10 @@
                 <ControlTemplate TargetType="{x:Type se:StswIcon}">
                     <!-- main -->
                     <Viewbox x:Name="PART_Viewbox" RenderTransformOrigin=".5 .5">
+                        <Viewbox.RenderTransform>
+                            <RotateTransform x:Name="OPT_Rotate" Angle="0"/>
+                        </Viewbox.RenderTransform>
+                        <!-- content -->
                         <Canvas Background="{TemplateBinding Background}" Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
                             <Path x:Name="OPT_Path"
                                   Data="{TemplateBinding Data}"
@@ -28,10 +32,6 @@
                                   Stroke="{TemplateBinding Stroke}"
                                   StrokeThickness="{TemplateBinding StrokeThickness}"/>
                         </Canvas>
-                        
-                        <Viewbox.RenderTransform>
-                            <RotateTransform x:Name="OPT_Rotate" Angle="0"/>
-                        </Viewbox.RenderTransform>
                     </Viewbox>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>

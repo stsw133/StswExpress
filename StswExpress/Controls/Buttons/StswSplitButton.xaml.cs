@@ -123,7 +123,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// When set to <see langword="true"/>, the popup with items is accessible, but all items within the popup are disabled.
     /// </summary>
     public bool IsReadOnly
     {

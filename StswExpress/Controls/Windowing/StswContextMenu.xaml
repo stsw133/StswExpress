@@ -31,6 +31,7 @@
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </se:StswBorder.LayoutTransform>
+                        <!-- content -->
                         <se:StswDirectionView BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                               Focusable="False"
                                               Orientation="Vertical"

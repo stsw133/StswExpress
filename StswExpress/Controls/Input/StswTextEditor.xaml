@@ -418,7 +418,6 @@
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="{se:Tr StswTextEditor.Paragraph.StartList}"
                                                                    se:StswDropArrow.Data="{x:Static se:StswIcons.FormatListText}"
                                                                    se:StswDropArrow.IsRotated="False">
@@ -435,7 +434,6 @@
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="{se:Tr StswTextEditor.Paragraph.Interline}"
                                                                    se:StswDropArrow.Data="{x:Static se:StswIcons.ArrowExpandVertical}"
                                                                    se:StswDropArrow.IsRotated="False">

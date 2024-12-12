@@ -155,8 +155,8 @@
                     <Condition Binding="{Binding HasItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}" Value="False"/>
                     <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Background}" TargetName="OPT_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
             </MultiDataTrigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="OPT_MainBorder"/>
