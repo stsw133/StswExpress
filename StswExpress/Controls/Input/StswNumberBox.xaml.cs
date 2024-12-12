@@ -255,7 +255,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         if (obj is StswNumberBoxBase<T> stsw)
         {
-            stsw.ValueChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
         }
     }
     private static object? OnValueChanging(DependencyObject obj, object? baseValue)

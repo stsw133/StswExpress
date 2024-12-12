@@ -207,7 +207,8 @@ public class StswWindow : Window, IStswCornerControl
                 stsw.Activate();
                 stsw.Focus();
 
-                stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
+                /// event for non MVVM programming
+                stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
             }
         }
     }

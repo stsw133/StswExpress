@@ -117,8 +117,8 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -127,8 +127,8 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -110,7 +110,8 @@ public class StswColorBox : StswBoxBase
     {
         if (obj is StswColorBox stsw)
         {
-            stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
         }
     }
     private static object OnSelectedColorChanging(DependencyObject d, object baseValue)

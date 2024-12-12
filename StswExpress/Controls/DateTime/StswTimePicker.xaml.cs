@@ -262,7 +262,8 @@ public class StswTimePicker : StswBoxBase
                 }
                 stsw._isTimeChanging = false;
 
-                stsw.SelectedTimeChanged?.Invoke(stsw, EventArgs.Empty);
+                /// event for non MVVM programming
+                stsw.SelectedTimeChanged?.Invoke(stsw, new StswValueChangedEventArgs<TimeSpan?>((TimeSpan?)e.OldValue, (TimeSpan?)e.NewValue));
             }
         }
     }

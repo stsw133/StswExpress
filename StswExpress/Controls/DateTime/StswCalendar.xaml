@@ -55,6 +55,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- items -->
                             <Grid>
@@ -81,15 +82,19 @@
                                                 ItemsSource="{TemplateBinding Items}"/>
                             </Grid>
                             <!-- today button -->
-                            <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
-                                <se:StswSeparator DockPanel.Dock="Top"/>
-                                <se:StswSubButton x:Name="PART_ButtonToday"
-                                                  Content="{se:Tr StswCalendar.Today}"
+                            <se:StswSeparator Grid.Row="1"/>
+                            <UniformGrid Grid.Row="2" Rows="1">
+                                <se:StswButton x:Name="PART_ButtonToday" se:StswControl.IsBorderless="True">
+                                    <se:StswLabel Content="{se:Tr StswCalendar.Today}"
                                                   IconData="{x:Static se:StswIcons.CalendarToday}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  Padding="3"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                            </DockPanel>
+                                                  Padding="{TemplateBinding Padding}"/>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonClear" se:StswControl.IsBorderless="True">
+                                    <se:StswLabel Content="{se:Tr StswCalendar.Clear}"
+                                                  IconData="{x:Static se:StswIcons.CalendarBlank}"
+                                                  Padding="{TemplateBinding Padding}"/>
+                                </se:StswButton>
+                            </UniformGrid>
                         </Grid>
                     </se:StswGroupBox>
                     <!-- triggers -->

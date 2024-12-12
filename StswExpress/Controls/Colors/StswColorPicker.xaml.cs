@@ -189,7 +189,8 @@ public class StswColorPicker : Control, IStswCornerControl
             stsw.SelectedColorV = v;
             stsw._blockColorEllipse = false;
 
-            stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
         }
     }
 

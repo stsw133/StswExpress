@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -10,6 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control to display image with additional features such as context menu options.
 /// </summary>
+[ContentProperty(nameof(Source))]
 public class StswImage : Control, IStswCornerControl
 {
     static StswImage()

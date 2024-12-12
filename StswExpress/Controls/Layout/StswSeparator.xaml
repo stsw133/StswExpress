@@ -38,6 +38,8 @@
         </Setter>
     </Style>
 
+    
+    
     <!-- StswSeparatorEnabledTemplate -->
     <ControlTemplate x:Key="StswSeparatorEnabledTemplate" TargetType="{x:Type se:StswSeparator}">
         <!-- main -->

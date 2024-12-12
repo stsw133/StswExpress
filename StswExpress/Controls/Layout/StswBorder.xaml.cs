@@ -78,8 +78,7 @@ public class StswBorder : Border, IStswCornerControl
             nameof(CornerClipping),
             typeof(bool),
             typeof(StswBorder),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

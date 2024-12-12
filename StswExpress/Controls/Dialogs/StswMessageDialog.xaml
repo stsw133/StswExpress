@@ -217,7 +217,7 @@
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="OPT_Header"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagram}" TargetName="OPT_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Skull}" TargetName="OPT_Header"/>
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Subground}" TargetName="OPT_DetailsButton"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Information">

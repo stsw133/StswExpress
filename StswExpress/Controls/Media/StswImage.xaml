@@ -32,13 +32,13 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswBorder.ContextMenu>
                             <se:StswContextMenu x:Name="OPT_Menu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}"/>
-                                <se:StswMenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}"/>
-                                <se:StswMenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}"/>
-                                <se:StswMenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}" IconData="{x:Static se:StswIcons.CloseThick}" IconFill="{DynamicResource StswColor.Negative}"/>
+                                <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}" IconData="{x:Static se:StswIcons.CloseThick}" IconFill="{DynamicResource StswColor.Negative}" IsEnabled="False"/>
                                 <se:StswSeparator/>
-                                <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
-                                <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}"/>
+                                <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}" IsEnabled="False"/>
                             </se:StswContextMenu>
                         </se:StswBorder.ContextMenu>
                         <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
@@ -51,19 +51,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Menu"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Cut"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Copy"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Paste"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Delete"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Load"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Save"/>
                         </Trigger>
                         <Trigger Property="MenuMode" Value="ReadOnly">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Cut"/>
                             <Setter Property="IsEnabled" Value="True" TargetName="PART_Copy"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Paste"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Delete"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Load"/>
                             <Setter Property="IsEnabled" Value="True" TargetName="PART_Save"/>
                         </Trigger>
                         <Trigger Property="MenuMode" Value="Full">

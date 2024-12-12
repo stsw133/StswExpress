@@ -260,7 +260,8 @@ public class StswDatePicker : StswBoxBase
     {
         if (obj is StswDatePicker stsw)
         {
-            stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
         }
     }
     private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)

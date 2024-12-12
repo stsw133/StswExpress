@@ -34,7 +34,6 @@
                         <DockPanel>
                             <!-- header -->
                             <se:StswToggleButton x:Name="OPT_Header"
-                                                 se:StswControl.IsBorderless="True"
                                                  Background="{DynamicResource StswExpander.Static.Header}"
                                                  FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
                                                  FontFamily="{TemplateBinding FontFamily}"
@@ -46,7 +45,8 @@
                                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Padding="{TemplateBinding Padding}"
                                                  HorizontalContentAlignment="Stretch"
-                                                 VerticalContentAlignment="Stretch">
+                                                 VerticalContentAlignment="Stretch"
+                                                 se:StswControl.IsBorderless="True">
                                 <DockPanel>
                                     <DockPanel x:Name="OPT_DropArrowPanel" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                         <se:StswIcon x:Name="OPT_DropArrow" Data="{x:Static se:StswIcons.ChevronDown}" IsRotated="{TemplateBinding IsExpanded}"/>

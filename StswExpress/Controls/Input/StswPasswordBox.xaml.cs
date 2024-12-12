@@ -145,7 +145,8 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             if (stsw._passwordBox != null && !stsw._isPasswordChanging)
                 stsw._passwordBox.Password = stsw.Password;
 
-            stsw.PasswordChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
         }
     }
 

@@ -1,4 +1,8 @@
 {
+  "StswCalendar.Clear": {
+    "en": "Clear",
+    "pl": "Wyczyść"
+  },
   "StswCalendar.Today": {
     "en": "Today",
     "pl": "Dzisiaj"

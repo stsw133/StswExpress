@@ -128,15 +128,6 @@ public enum StswFilterMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswDatabaseModel.Set"/>.
-/// </summary>
-public enum StswInclusionMode
-{
-    Exclude,
-    Include
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswInfoBadge.Format"/>.
 /// </summary>
 public enum StswInfoFormat

@@ -31,6 +31,7 @@ public class StswCalendar : Control, IStswCornerControl
 
     #region Events & methods
     private ContentControl? _buttonToday;
+    private ContentControl? _buttonClear;
 
     /// <summary>
     /// Occurs when the selected date in the control changes.
@@ -74,6 +75,16 @@ public class StswCalendar : Control, IStswCornerControl
                 SelectDay(DateTime.Today);
             };
             _buttonToday = btnToday;
+        }
+        /// Button: clear
+        if (GetTemplateChild("PART_ButtonClear") is ButtonBase btnClear)
+        {
+            btnClear.Click += (_, _) =>
+            {
+                SelectedDate = null;
+                ClosePopupIfAny();
+            };
+            _buttonClear = btnClear;
         }
 
         /// set default month to create the initial view
@@ -443,12 +454,14 @@ public class StswCalendar : Control, IStswCornerControl
             /// marking new date in view (without this first date after loading calendar is not colored)
             if ((DateTime?)e.NewValue != (DateTime?)e.OldValue)
             {
-                if (stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == stsw.SelectedDate.Value.Date) is StswCalendarItem item)
-                    item.IsSelected = true;
+                if (stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.NewValue)?.Date) is StswCalendarItem newItem)
+                    newItem.IsSelected = true;
+                else if (!stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarItem oldItem)
+                    oldItem.IsSelected = false;
             }
 
-            /// event to non MVVM programming
-            stsw.SelectedDateChanged?.Invoke(stsw, new StswSelectedDateChangedEventArgs((DateTime?)e.OldValue, (DateTime?)e.NewValue));
+            /// event for non MVVM programming
+            stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
         }
     }
 
@@ -568,21 +581,6 @@ public class StswCalendar : Control, IStswCornerControl
     public static string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(5)).Capitalize();
     public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(6)).Capitalize();
     #endregion
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class StswSelectedDateChangedEventArgs : EventArgs
-    {
-        public DateTime? OldDate { get; }
-        public DateTime? NewDate { get; }
-
-        public StswSelectedDateChangedEventArgs(DateTime? oldDate, DateTime? newDate)
-        {
-            OldDate = oldDate;
-            NewDate = newDate;
-        }
-    }
 }
 
 /// <summary>

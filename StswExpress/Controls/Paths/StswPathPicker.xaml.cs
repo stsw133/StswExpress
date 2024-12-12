@@ -253,7 +253,8 @@ public class StswPathPicker : StswBoxBase
                 stsw.ListAdjacentPaths();
             }
 
-            stsw.SelectedPathChanged?.Invoke(stsw, EventArgs.Empty);
+            /// event for non MVVM programming
+            stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
         }
     }
     private string? parentPath;

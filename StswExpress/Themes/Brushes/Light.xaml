@@ -75,7 +75,7 @@
     <SolidColorBrush x:Key="StswDialog.Error.Border" Color="#e96363"/>
     <SolidColorBrush x:Key="StswDialog.Error.Foreground" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDialog.Error.Subground" Color="#f9d2d2"/>
-    <SolidColorBrush x:Key="StswDialog.Fatal.Background" Color="#db2461"/>
+    <SolidColorBrush x:Key="StswDialog.Fatal.Background" Color="#8f173f"/>
     <SolidColorBrush x:Key="StswDialog.Fatal.Border" Color="#e66590"/>
     <SolidColorBrush x:Key="StswDialog.Fatal.Foreground" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDialog.Fatal.Subground" Color="#f8d3df"/>
