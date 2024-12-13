@@ -108,6 +108,17 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+    {
+        base.OnMouseDoubleClick(e);
+        if (DoubleClickCommand != null && DoubleClickCommand.CanExecute(null))
+            DoubleClickCommand.Execute(DoubleClickCommandParameter);
+    }
+
+    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -262,6 +273,36 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
+    /// Gets or sets the command for double click on any row.
+    /// </summary>
+    public ICommand DoubleClickCommand
+    {
+        get => (ICommand)GetValue(DoubleClickCommandProperty);
+        set => SetValue(DoubleClickCommandProperty, value);
+    }
+    public static readonly DependencyProperty DoubleClickCommandProperty
+        = DependencyProperty.Register(
+            nameof(DoubleClickCommand),
+            typeof(ICommand),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the command parameter for double click on any row.
+    /// </summary>
+    public object? DoubleClickCommandParameter
+    {
+        get => (object?)GetValue(DoubleClickCommandParameterProperty);
+        set => SetValue(DoubleClickCommandParameterProperty, value);
+    }
+    public static readonly DependencyProperty DoubleClickCommandParameterProperty
+        = DependencyProperty.Register(
+            nameof(DoubleClickCommandParameter),
+            typeof(object),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
     /// Gets or sets the filters data for the control.
     /// </summary>
     public StswDataGridFiltersDataModel FiltersData
@@ -307,7 +348,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the command for refreshing the data (if Enter key is pressed inside filter box).
+    /// Gets or sets the command for refreshing the data (if Enter key is pressed inside any filter box).
     /// </summary>
     public ICommand RefreshCommand
     {
@@ -320,7 +361,21 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             typeof(ICommand),
             typeof(StswDataGrid)
         );
-    //TODO - double click row command
+
+    /// <summary>
+    /// Gets or sets the command parameter for refreshing the data (if Enter key is pressed inside any filter box).
+    /// </summary>
+    public object? RefreshCommandParameter
+    {
+        get => (object?)GetValue(RefreshCommandParameterProperty);
+        set => SetValue(RefreshCommandParameterProperty, value);
+    }
+    public static readonly DependencyProperty RefreshCommandParameterProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommandParameter),
+            typeof(object),
+            typeof(StswDataGrid)
+        );
 
     //TODO - replace UsesSelectionItems with custom DataGridRow and same logic as in stsw selector controls
     /// <summary>

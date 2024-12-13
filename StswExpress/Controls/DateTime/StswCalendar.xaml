@@ -65,34 +65,30 @@
                                 </Grid.RowDefinitions>
                                 <!-- days of week -->
                                 <UniformGrid x:Name="OPT_DayNames" Grid.Row="0" Columns="7">
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="3" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </UniformGrid>
                                 <!-- buttons for days or months -->
                                 <se:StswListBox x:Name="PART_Selector"
                                                 Background="Transparent"
-                                                BorderThickness="0"
                                                 DisplayMemberPath="Content"
                                                 ItemContainerStyle="{StaticResource StswCalendarItemStyle}"
-                                                ItemsSource="{TemplateBinding Items}"/>
+                                                ItemsSource="{TemplateBinding Items}"
+                                                se:StswControl.IsBorderless="True"/>
                             </Grid>
                             <!-- today button -->
                             <se:StswSeparator Grid.Row="1"/>
                             <UniformGrid Grid.Row="2" Rows="1">
                                 <se:StswButton x:Name="PART_ButtonToday" se:StswControl.IsBorderless="True">
-                                    <se:StswLabel Content="{se:Tr StswCalendar.Today}"
-                                                  IconData="{x:Static se:StswIcons.CalendarToday}"
-                                                  Padding="{TemplateBinding Padding}"/>
+                                    <se:StswLabel Content="{se:Tr StswCalendar.Today}" IconData="{x:Static se:StswIcons.CalendarToday}" Padding="{TemplateBinding Padding}"/>
                                 </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonClear" se:StswControl.IsBorderless="True">
-                                    <se:StswLabel Content="{se:Tr StswCalendar.Clear}"
-                                                  IconData="{x:Static se:StswIcons.CalendarBlank}"
-                                                  Padding="{TemplateBinding Padding}"/>
+                                    <se:StswLabel Content="{se:Tr StswCalendar.Clear}" IconData="{x:Static se:StswIcons.CalendarBlank}" Padding="{TemplateBinding Padding}"/>
                                 </se:StswButton>
                             </UniformGrid>
                         </Grid>
@@ -152,7 +148,7 @@
 
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListBoxItem}">

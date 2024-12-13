@@ -90,7 +90,38 @@ public class StswCalendar : Control, IStswCornerControl
         /// set default month to create the initial view
         var defMonth = (SelectedDate ?? DateTime.Now).Date;
         SelectedMonth = new DateTime(defMonth.Year, defMonth.Month, 1);
+
+        /// hide clear button
+        StswBindingWatcher.WatchBindingAssignment(this, SelectedDateProperty, () =>
+        {
+            if (_buttonClear != null && GetBindingExpression(SelectedDateProperty) is BindingExpression binding)
+            {
+                var dataItem = binding.ResolvedSource;
+                var propertyName = binding.ParentBinding.Path.Path;
+
+                if (dataItem != null && !string.IsNullOrEmpty(propertyName))
+                {
+                    var propertyInfo = dataItem.GetType().GetProperty(propertyName);
+                    _buttonClear.Visibility = propertyInfo?.PropertyType == typeof(DateTime?) ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        });
     }
+
+    /*
+    /// <summary>
+    /// Handles the MouseWheel event for the internal content host of the calendar.
+    /// Adjusts the selected month based on the mouse wheel's scrolling direction and the IncrementType property.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+        base.OnMouseWheel(e);
+
+        if (IsKeyboardFocusWithin)
+        SelectMonth(SelectedMonth.AddMonths(e.Delta > 0 ? 1 : -1));
+    }
+    */
 
     /// <summary>
     /// 
@@ -224,7 +255,6 @@ public class StswCalendar : Control, IStswCornerControl
             else if (Items.FirstOrDefault(x => x.Date == SelectedDate) is StswCalendarItem newItem2)
                 newItem2.IsSelected = true;
         }
-
         ClosePopupIfAny();
     }
 
@@ -246,7 +276,6 @@ public class StswCalendar : Control, IStswCornerControl
                     UpdateCalendarView();
             }
             else ClosePopupIfAny();
-
         }
         else if (SelectionUnit == StswCalendarUnit.Days && CurrentUnit != StswCalendarUnit.Days)
         {
@@ -265,7 +294,7 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Updates the calendar view based on the current unit (days or months).
+    /// Updates the calendar view based on the current unit (Days or Months).
     /// Adjusts the header and regenerates the day or month buttons.
     /// </summary>
     private void UpdateCalendarView()
@@ -317,13 +346,7 @@ public class StswCalendar : Control, IStswCornerControl
             return min;
 
         var newDate = SelectedMonth.AddMonths(months);
-
-        if (newDate > max)
-            return max;
-        if (newDate < min)
-            return min;
-
-        return newDate;
+        return newDate > max ? max : (newDate < min ? min : newDate);
     }
     #endregion
 
@@ -351,7 +374,7 @@ public class StswCalendar : Control, IStswCornerControl
             stsw.UpdateCalendarView();
         }
     }
-    
+
     /// <summary>
     /// Gets or sets the collection of days or months displayed in the control.
     /// </summary>
@@ -528,7 +551,7 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
-            /// because for selection unit by months, current unit cannot be switched between months and days unit, and can only stay at months unit
+            /// because for SelectionUnit == Months, CurrentUnit cannot be switched between Months and Days unit (can only stay at Months unit)
             if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
                 stsw.CurrentUnit = stswCalendarUnit;
         }

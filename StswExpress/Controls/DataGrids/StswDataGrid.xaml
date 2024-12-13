@@ -13,7 +13,7 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
-        
+
         <Setter Property="AreFiltersVisible" Value="True"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="FiltersType" Value="CollectionView"/>
