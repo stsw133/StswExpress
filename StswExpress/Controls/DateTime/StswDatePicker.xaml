@@ -16,9 +16,10 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
-        
+
         <Setter Property="Format" Value="d"/>
         <Setter Property="IncrementType" Value="Day"/>
+        <!-- <Setter Property="IncrementType" Value="{Binding DateTimeDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswDateTimeIncrementType}}"/> -->
         <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -47,27 +48,25 @@
                             <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               se:StswControl.IsBorderless="True"
                                                se:StswDropArrow.Data="{x:Static se:StswIcons.Calendar}"
                                                se:StswDropArrow.IsRotated="False"
-                                               se:StswControl.IsBorderless="True"
-                                               se:StswPopup.Background="Transparent"
-                                               se:StswPopup.BorderBrush="Transparent"
-                                               se:StswPopup.BorderThickness="0"
                                                se:StswPopup.CornerClipping="False"
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 SelectionUnit="{TemplateBinding SelectionUnit}"/>
+                                                 SelectionUnit="{TemplateBinding SelectionUnit}"
+                                                 se:StswControl.IsBorderless="True"/>
                             </se:StswDropButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

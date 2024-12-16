@@ -51,13 +51,13 @@
                                 </se:StswRepeatButton>
                             </UniformGrid>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
@@ -126,14 +126,17 @@
 
     <Style TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
+        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
     <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
+        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
     <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
+        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
 </ResourceDictionary>

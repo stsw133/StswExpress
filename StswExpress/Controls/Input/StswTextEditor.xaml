@@ -495,13 +495,12 @@
                                 </se:StswDirectionView>
                             </Grid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="OPT_Separator"
-                                              DockPanel.Dock="Top"
+                            <se:StswSeparator x:Name="OPT_Separator" DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

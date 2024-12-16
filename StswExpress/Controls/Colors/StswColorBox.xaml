@@ -50,17 +50,14 @@
                                                se:StswControl.IsBorderless="True"
                                                se:StswDropArrow.Data="{x:Static se:StswIcons.SelectColor}"
                                                se:StswDropArrow.IsRotated="False"
-                                               se:StswPopup.Background="Transparent"
-                                               se:StswPopup.BorderBrush="Transparent"
-                                               se:StswPopup.BorderThickness="0"
                                                se:StswPopup.CornerClipping="False"
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
-                                <se:StswTabControl NewItemButtonVisibility="Collapsed">
+                                <se:StswTabControl BorderThickness="0" NewItemButtonVisibility="Collapsed">
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                        <se:StswColorSelector se:StswControl.IsBorderless="True"
-                                                              Margin="-3"
-                                                              SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorSelector Margin="-3"
+                                                              SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              se:StswControl.IsBorderless="True"/>
                                     </se:StswTabItem>
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
                                         <se:StswColorPicker IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
@@ -69,13 +66,13 @@
                                 </se:StswTabControl>
                             </se:StswDropButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

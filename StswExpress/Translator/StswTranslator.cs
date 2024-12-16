@@ -27,7 +27,7 @@ public class StswTranslator : StswObservableObject
     /// <summary>
     /// List of all available languages where at least one translation is present.
     /// </summary>
-    public static ObservableCollection<string> AvailableLanguages = [""];
+    public static ObservableCollection<string> AvailableLanguages = [null];
 
     /// <summary>
     /// Current language used for displaying texts with the translator.

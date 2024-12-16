@@ -45,18 +45,18 @@
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <se:StswButton x:Name="PART_DialogButton" DockPanel.Dock="Right"
-                                           Focusable="True"
-                                           se:StswControl.IsBorderless="True" Padding="0" Width="24">
+                                           Focusable="True" Padding="0" Width="24"
+                                           se:StswControl.IsBorderless="True">
                                 <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}"/>
                             </se:StswButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

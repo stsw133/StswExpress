@@ -39,13 +39,49 @@
     "en": "Confirm",
     "pl": "Potwierdź"
   },
+  "StswConfig.Controls": {
+    "en": "Controls",
+    "pl": "Kontrolki"
+  },
+  "StswConfig.DateTimeDefaultIncrementValue": {
+    "en": "DateTime default increment value",
+    "pl": "Domyślna wartość inkrementacji daty i czasu"
+  },
+  "StswConfig.Day": {
+    "en": "Day",
+    "pl": "Dzień"
+  },
   "StswConfig.EnableAnimations": {
     "en": "Enable animations",
     "pl": "Włącz animacje"
   },
+  "StswConfig.Hour": {
+    "en": "Hour",
+    "pl": "Godzina"
+  },
   "StswConfig.Language": {
     "en": "Language",
     "pl": "Język"
+  },
+  "StswConfig.Language.Auto": {
+    "en": "Automatic",
+    "pl": "Automatyczny"
+  },
+  "StswConfig.General": {
+    "en": "General",
+    "pl": "Ogólne"
+  },
+  "StswConfig.Minute": {
+    "en": "Minute",
+    "pl": "Minuta"
+  },
+  "StswConfig.Month": {
+    "en": "Month",
+    "pl": "Miesiąc"
+  },
+  "StswConfig.NumberDefaultIncrementValue": {
+    "en": "Number default increment value",
+    "pl": "Domyślna wartość inkrementacji liczb"
   },
   "StswConfig.RestartMayBeRequired": {
     "en": "Application restart may be required!",
@@ -54,6 +90,10 @@
   "StswConfig.Scaling": {
     "en": "Scaling",
     "pl": "Skalowanie"
+  },
+  "StswConfig.Second": {
+    "en": "Second",
+    "pl": "Sekunda"
   },
   "StswConfig.Theme": {
     "en": "Theme",
@@ -78,6 +118,14 @@
   "StswConfig.Theme.Spring": {
     "en": "Spring",
     "pl": "Wiosenny"
+  },
+  "StswConfig.TimeSpanDefaultIncrementValue": {
+    "en": "TimeSpan default increment value",
+    "pl": "Domyślna wartość inkrementacji przedziału czasu"
+  },
+  "StswConfig.Year": {
+    "en": "Year",
+    "pl": "Rok"
   },
   "StswFilterBox.Between": {
     "en": "Is between",

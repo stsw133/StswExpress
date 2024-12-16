@@ -75,8 +75,7 @@
                                                   Orientation="Vertical"
                                                   Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}"/>
                                 <!-- sub controls -->
-                                <ItemsControl x:Name="OPT_SubControls"
-                                              DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                               IsTabStop="False"
                                               ItemsSource="{TemplateBinding SubControls}">
                                     <ItemsControl.ItemsPanel>

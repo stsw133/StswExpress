@@ -114,6 +114,13 @@ public static class StswControl
             typeof(StswControl),
             new PropertyMetadata(Dock.Right)
         );
-    public static Dock GetSubControlsDock(DependencyObject obj) => (Dock)obj.GetValue(SubControlsDockProperty);
     public static void SetSubControlsDock(DependencyObject obj, Dock value) => obj.SetValue(SubControlsDockProperty, value);
+    private static void OnSubControlsDockChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Control control)
+        {
+            if ((control.Template.FindName("OPT_SubControls", control) ?? control.Template.FindName("PART_SubControls", control)) is ItemsControl itemsControl)
+                DockPanel.SetDock(itemsControl, (Dock?)e.NewValue ?? (Dock)SubControlsDockProperty.DefaultMetadata.DefaultValue);
+        }
+    }
 }

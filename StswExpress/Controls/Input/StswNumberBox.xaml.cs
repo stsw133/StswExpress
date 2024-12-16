@@ -63,7 +63,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         if (TryParse(Text, out var res))
             result = res;
 
-        Value = Add(result, Increment);
+        Value = IsZero(Increment) ? Add(result, T.One) : Add(result, Increment);
 
         Focus();
         CaretIndex = Text?.Length ?? 0;
@@ -81,7 +81,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         if (TryParse(Text, out var res))
             result = res;
 
-        Value = Subtract(result, Increment);
+        Value = IsZero(Increment) ? Subtract(result, T.One) : Subtract(result, Increment);
 
         Focus();
         CaretIndex = Text?.Length ?? 0;

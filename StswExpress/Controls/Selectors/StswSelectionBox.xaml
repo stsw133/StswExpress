@@ -62,7 +62,7 @@
                                 <se:StswIcon x:Name="OPT_DropArrow" Data="{x:Static se:StswIcons.ChevronDown}" IsRotated="{TemplateBinding IsDropDownOpen}"/>
                             </DockPanel>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

@@ -16,9 +16,10 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
-        
+
         <!-- <Setter Property="Format" Value="dd\.hh\:mm\:ss"/> -->
         <Setter Property="IncrementType" Value="Second"/>
+        <!-- <Setter Property="IncrementType" Value="{Binding TimeSpanDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"/> -->
         <Setter Property="Text" Value="{Binding SelectedTime, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -47,9 +48,9 @@
                             <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               se:StswControl.IsBorderless="True"
                                                se:StswDropArrow.Data="{x:Static se:StswIcons.ClockOutline}"
                                                se:StswDropArrow.IsRotated="False"
-                                               se:StswControl.IsBorderless="True"
                                                se:StswPopup.CornerClipping="False"
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
@@ -75,36 +76,36 @@
                                     </se:StswBorder>
                                     <!-- hours -->
                                     <se:StswSegment Grid.Column="0" Grid.Row="1"
-                                                    se:StswControl.IsBorderless="True"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=24}"
                                                     Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    se:StswControl.IsBorderless="True"/>
                                     <!-- ... -->
                                     <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- minutes -->
                                     <se:StswSegment Grid.Column="2" Grid.Row="1"
-                                                    se:StswControl.IsBorderless="True"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
                                                     Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    se:StswControl.IsBorderless="True"/>
                                     <!-- ... -->
                                     <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- seconds -->
                                     <se:StswSegment Grid.Column="4" Grid.Row="1"
-                                                    se:StswControl.IsBorderless="True"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
                                                     Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    se:StswControl.IsBorderless="True"/>
                                 </Grid>
                             </se:StswDropButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

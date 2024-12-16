@@ -69,14 +69,6 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IconData" Value="{x:Null}"/>
-                                <Condition Property="IconSource" Value="{x:Null}"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
-                        </MultiTrigger>
                         <Trigger Property="IsBusy" Value="True">
                             <Setter Property="ContentTemplate" TargetName="OPT_Icon">
                                 <Setter.Value>
@@ -144,6 +136,14 @@
                             <Setter Property="HorizontalAlignment" Value="Center" TargetName="OPT_Content"/>
                             <Setter Property="Margin" Value="0 2 0 0" TargetName="OPT_Content"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IconData" Value="{x:Null}"/>
+                                <Condition Property="IconSource" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="OPT_Content"/>
                         </Trigger>
