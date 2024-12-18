@@ -144,7 +144,9 @@ public class StswTimePicker : StswBoxBase
             nameof(Format),
             typeof(string),
             typeof(StswTimePicker),
-            new PropertyMetadata(default(string?), OnFormatChanged)
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {

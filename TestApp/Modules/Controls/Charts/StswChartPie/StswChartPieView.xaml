@@ -21,7 +21,6 @@
             </Grid.ColumnDefinitions>
             <se:StswChartPie IsEnabled="{Binding IsEnabled}"
                              ItemsSource="{Binding Items}"
-                             MaxHeight="400"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswChartLegend Grid.Column="1" Columns="1"

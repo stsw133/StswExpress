@@ -39,7 +39,7 @@
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
                            Placeholder="Select path..."
                            SelectedPath="{Binding SelectedPath}"
-                           SelectionUnit="{Binding SelectionMode}"
+                           SelectionUnit="{Binding SelectionUnit}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"

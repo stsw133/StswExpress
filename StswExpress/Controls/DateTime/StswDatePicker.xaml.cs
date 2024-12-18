@@ -152,7 +152,9 @@ public class StswDatePicker : StswBoxBase
             nameof(Format),
             typeof(string),
             typeof(StswDatePicker),
-            new PropertyMetadata(default(string?), OnFormatChanged)
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {

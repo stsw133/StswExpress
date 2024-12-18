@@ -29,6 +29,9 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
+
     #region Events & methods
     /// <summary>
     /// Occurs when the selected path in the control changes.

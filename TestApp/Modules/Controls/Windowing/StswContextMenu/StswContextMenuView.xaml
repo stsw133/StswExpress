@@ -26,8 +26,11 @@
                         <se:StswMenuItem Header="Option 2e" IconData="{x:Static se:StswIcons.AlphaEBox}" IsCheckable="True"/>
                         <se:StswMenuItem Header="Option 2x"/>
                     </se:StswMenuItem>
-                    <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}" InputGestureText="Alt + F4"/>
-                    <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True"/>
+                    <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}">
+                        <se:StswMenuItem Header="Option 3a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
+                        <se:StswMenuItem Header="Option 3b" IconData="{x:Static se:StswIcons.AlphaBBox}"/>
+                    </se:StswMenuItem>
+                    <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True" InputGestureText="Alt + F4"/>
                     <se:StswMenuItem Header="Option 5" IconData="{x:Static se:StswIcons.Dice5}" IsCheckable="True"/>
                     <se:StswMenuItem Header="Option 6" IconData="{x:Static se:StswIcons.Dice6}" IsCheckable="True"/>
                     <se:StswMenuItem Header="Option 7"/>

@@ -164,7 +164,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             nameof(Format),
             typeof(string),
             typeof(StswNumberBoxBase<T>),
-            new PropertyMetadata(default(string?), OnFormatChanged)
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {

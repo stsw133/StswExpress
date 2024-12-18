@@ -217,7 +217,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
     /// <summary>

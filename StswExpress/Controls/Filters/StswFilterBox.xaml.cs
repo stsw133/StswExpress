@@ -376,7 +376,9 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
-            typeof(StswFilterBox)
+            typeof(StswFilterBox),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
     /// <summary>
