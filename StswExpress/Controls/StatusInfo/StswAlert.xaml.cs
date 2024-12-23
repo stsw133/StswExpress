@@ -43,7 +43,7 @@ public class StswAlert : ItemsControl
                         item.MouseUp += (s, e) =>
                         {
                             onClick.Invoke();
-                            StswFn.RemoveItemFromItemsControl(alert, item);
+                            RemoveItemFromItemsControl(alert, item);
                         };
                         alert.ItemContainerGenerator.StatusChanged -= OnStatusChanged;
                     }
@@ -52,8 +52,25 @@ public class StswAlert : ItemsControl
             alert.ItemContainerGenerator.StatusChanged += OnStatusChanged;
         }
     }
+
+    /// <summary>
+    /// Removes an item from an ItemsControl by using its container.
+    /// </summary>
+    /// <param name="itemsControl">The ItemsControl containing the item.</param>
+    /// <param name="container">The item to remove.</param>
+    internal static void RemoveItemFromItemsControl(ItemsControl? itemsControl, DependencyObject? container)
+    {
+        if (itemsControl == null || container == null)
+            return;
+
+        var item = itemsControl.ItemContainerGenerator.ItemFromContainer(container);
+        if (itemsControl.ItemsSource is IList itemsSource)
+            itemsSource.Remove(item);
+        else if (itemsControl.Items.Contains(item))
+            itemsControl.Items.Remove(item);
+    }
     #endregion
-    
+
     #region Logic properties
     /*
     /// <summary>
@@ -144,7 +161,7 @@ public class StswAlertItem : ContentControl
 
         /// Button: close
         if (GetTemplateChild("PART_CloseButton") is ButtonBase btnClose)
-            btnClose.Click += (s, e) => StswFn.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
+            btnClose.Click += (s, e) => StswAlert.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
     }
     #endregion
 

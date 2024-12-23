@@ -27,7 +27,7 @@ public class StswContentDialog : ContentControl
     }
 
     #region Events & methods
-    private static readonly HashSet<WeakReference<StswContentDialog>> LoadedInstances = new();
+    private static readonly HashSet<WeakReference<StswContentDialog>> LoadedInstances = [];
 
     private ContentControl? _popupContentElement;
 
@@ -143,7 +143,7 @@ public class StswContentDialog : ContentControl
             if (instance.TryGetTarget(out var dialogInstance))
             {
                 object? identifier = null;
-
+                
                 if (dialogInstance.CheckAccess())
                     identifier = dialogInstance.Identifier;
                 else
@@ -197,9 +197,7 @@ public class StswContentDialog : ContentControl
     /// <exception cref="ArgumentNullException">Thrown when the content is null.</exception>
     public static async Task<object?> Show(object content, object? dialogIdentifier)
     {
-        if (content is null)
-            throw new ArgumentNullException(nameof(content));
-
+        ArgumentNullException.ThrowIfNull(content);
         return await GetInstance(dialogIdentifier).ShowInternal(content);
     }
 
@@ -516,8 +514,7 @@ internal static class StswDialogExtensions
 {
     internal static IEnumerable<DependencyObject> VisualDepthFirstTraversal(this DependencyObject node)
     {
-        if (node is null)
-            throw new ArgumentNullException(nameof(node));
+        ArgumentNullException.ThrowIfNull(node);
 
         yield return node;
 

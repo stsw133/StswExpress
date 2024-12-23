@@ -31,7 +31,9 @@ public class StswInfoPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task LoadFromFiles() => Task.Run(async () => ItemsSource = (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now)).ToObservableCollection());
+    private Task<ObservableCollection<StswLogItem>> LoadFromFiles() => Task.Run(async () => ItemsSource = (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now))
+                                                                                                                        .OrderByDescending(x => x.DateTime)
+                                                                                                                        .ToObservableCollection());
     #endregion
 
     /// IsClosable
@@ -59,12 +61,12 @@ public class StswInfoPanelContext : ControlsContext
     private bool _isExpandable;
 
     /// ItemsSource
-    public ObservableCollection<StswLogItem?> ItemsSource
+    public ObservableCollection<StswLogItem> ItemsSource
     {
         get => _itemsSource;
         set => SetProperty(ref _itemsSource, value);
     }
-    private ObservableCollection<StswLogItem?> _itemsSource = [];
+    private ObservableCollection<StswLogItem> _itemsSource = [];
 
     /// ShowControlPanel
     public bool ShowControlPanel

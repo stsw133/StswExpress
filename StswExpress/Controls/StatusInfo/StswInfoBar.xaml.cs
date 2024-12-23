@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -46,28 +47,15 @@ public class StswInfoBar : Control, IStswCornerControl
     /// <param name="e">The event arguments</param>
     private void PART_ButtonClose_Click(object sender, RoutedEventArgs e)
     {
-        StswFn.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
-
-        //if (VisualParent is StswAlertItem)
-        //{
-        //    if (StswFn.FindVisualAncestor<StswAlert>(this) is StswAlert stsw)
-        //    {
-        //        var item = stsw.ItemContainerGenerator.ItemFromContainer(VisualParent);
-        //        if (stsw.ItemsSource is IList list)
-        //            list.Remove(item);
-        //        else
-        //            stsw.Items?.Remove(item);
-        //    }
-        //}
-        //else if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel)
-        //{
-        //    var item = panel.ItemContainerGenerator.ItemFromContainer(VisualParent);
-        //    if (panel.ItemsSource is IList list)
-        //        list.Remove(item);
-        //    else
-        //        panel.Items?.Remove(item);
-        //}
-        //else StswFn.RemoveFromParent(this);
+        if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel stsw)
+        {
+            var item = stsw.ItemContainerGenerator.ItemFromContainer(VisualParent);
+            if (stsw.ItemsSource is IList list)
+                list.Remove(item);
+            else
+                stsw.Items?.Remove(item);
+        }
+        else StswFn.RemoveFromParent(this);
     }
     #endregion
 

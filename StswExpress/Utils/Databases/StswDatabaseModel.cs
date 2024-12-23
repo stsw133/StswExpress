@@ -5,6 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
+//TODO - remove, change on SqlConnectionStringBuilder
 public class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
@@ -35,6 +36,7 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string? _name;
 
+    //TODO - remove
     /// <summary>
     /// Gets or sets the type of the database.
     /// </summary>
@@ -134,6 +136,7 @@ public class StswDatabaseModel : StswObservableObject
         if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database) || string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
             throw new InvalidOperationException("Connection details are incomplete.");
 
+        //TODO - change on ConnectionBuilder
         return Type switch
         {
             StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",

@@ -82,7 +82,13 @@
                                           FontWeight="Bold"
                                           Padding="1"/>
                             <!-- text -->
-                            <se:StswText x:Name="OPT_Text"  Grid.Row="1" Grid.RowSpan="2" Padding="3 0" Text="{TemplateBinding Text}" TextWrapping="Wrap"/>
+                            <se:StswText x:Name="OPT_Text"
+                                         Grid.ColumnSpan="2"
+                                         Grid.Row="1"
+                                         Grid.RowSpan="2"
+                                         Padding="3 0"
+                                         Text="{TemplateBinding Text}"
+                                         TextWrapping="Wrap"/>
                         </Grid>
                     </se:StswBorder>
                     <!-- triggers -->

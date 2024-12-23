@@ -93,7 +93,7 @@ public static class StswLog
     /// This method blocks the calling thread while the log files are being read. 
     /// For non-blocking operations, consider using the asynchronous version <see cref="ImportListAsync"/>.
     /// </remarks>
-    public static IEnumerable<StswLogItem?> ImportList(DateTime dateFrom, DateTime dateTo) => ImportListAsync(dateFrom, dateTo).GetAwaiter().GetResult();
+    public static IEnumerable<StswLogItem> ImportList(DateTime dateFrom, DateTime dateTo) => ImportListAsync(dateFrom, dateTo).GetAwaiter().GetResult();
 
     /// <summary>
     /// Asynchronously imports log entries from log files within the specified date range.
@@ -101,9 +101,9 @@ public static class StswLog
     /// <param name="dateFrom">The start date of the range.</param>
     /// <param name="dateTo">The end date of the range.</param>
     /// <returns>A task representing the asynchronous operation, with a result of a collection of log entries.</returns>
-    public static async Task<IEnumerable<StswLogItem?>> ImportListAsync(DateTime dateFrom, DateTime dateTo)
+    public static async Task<IEnumerable<StswLogItem>> ImportListAsync(DateTime dateFrom, DateTime dateTo)
     {
-        var logItems = new List<StswLogItem?>();
+        var logItems = new List<StswLogItem>();
 
         for (DateTime date = dateFrom.Date; date <= dateTo.Date; date = date.AddDays(1))
         {
@@ -123,7 +123,9 @@ public static class StswLog
                 {
                     if (currentLogItem.Count > 0)
                     {
-                        logItems.Add(ParseLogEntry(currentLogItem));
+                        var logItem = ParseLogEntry(currentLogItem);
+                        if (logItem.HasValue)
+                            logItems.Add(logItem.Value);
                         currentLogItem.Clear();
                     }
                 }
@@ -132,7 +134,11 @@ public static class StswLog
             }
 
             if (currentLogItem.Count > 0)
-                logItems.Add(ParseLogEntry(currentLogItem));
+            {
+                var logItem = ParseLogEntry(currentLogItem);
+                if (logItem.HasValue)
+                    logItems.Add(logItem.Value);
+            }
         }
 
         return logItems;

@@ -108,17 +108,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
-    {
-        base.OnMouseDoubleClick(e);
-        if (DoubleClickCommand != null && DoubleClickCommand.CanExecute(null))
-            DoubleClickCommand.Execute(DoubleClickCommandParameter);
-    }
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -269,36 +258,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(AreFiltersVisible),
             typeof(bool?),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the command for double click on any row.
-    /// </summary>
-    public ICommand DoubleClickCommand
-    {
-        get => (ICommand)GetValue(DoubleClickCommandProperty);
-        set => SetValue(DoubleClickCommandProperty, value);
-    }
-    public static readonly DependencyProperty DoubleClickCommandProperty
-        = DependencyProperty.Register(
-            nameof(DoubleClickCommand),
-            typeof(ICommand),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the command parameter for double click on any row.
-    /// </summary>
-    public object? DoubleClickCommandParameter
-    {
-        get => (object?)GetValue(DoubleClickCommandParameterProperty);
-        set => SetValue(DoubleClickCommandParameterProperty, value);
-    }
-    public static readonly DependencyProperty DoubleClickCommandParameterProperty
-        = DependencyProperty.Register(
-            nameof(DoubleClickCommandParameter),
-            typeof(object),
             typeof(StswDataGrid)
         );
 

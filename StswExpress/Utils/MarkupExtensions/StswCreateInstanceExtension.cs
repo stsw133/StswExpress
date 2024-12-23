@@ -13,7 +13,8 @@ namespace StswExpress;
 /// <param name="type">The type of the class to instantiate.</param>
 /// <param name="args">A comma-separated string of arguments to pass to the constructor of the class.</param>
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
-public class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
+[Obsolete("To either remove or repair")]
+internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the type of the class to instantiate.

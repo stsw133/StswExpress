@@ -714,36 +714,33 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Removes an item from an ItemsControl by using its container.
+    /// Removes a <see cref="FrameworkElement"/> from its parent container.
     /// </summary>
-    /// <param name="itemsControl">The ItemsControl containing the item.</param>
-    /// <param name="item">The item to remove.</param>
-    public static void RemoveItemFromItemsControl(ItemsControl? itemsControl, object? item)
+    /// <param name="element">The <see cref="FrameworkElement"/> to be removed from its parent.</param>
+    public static void RemoveFromParent(FrameworkElement element)
     {
-        if (itemsControl == null || item == null)
+        var parent = element.Parent;
+        if (parent == null)
             return;
 
-        if (itemsControl.ItemsSource is IList itemsSource)
-            itemsSource.Remove(item);
-        else if (itemsControl.Items.Contains(item))
-            itemsControl.Items.Remove(item);
-    }
-
-    /// <summary>
-    /// Removes an item from an ItemsControl by using its container.
-    /// </summary>
-    /// <param name="itemsControl">The ItemsControl containing the item.</param>
-    /// <param name="container">The item to remove.</param>
-    public static void RemoveItemFromItemsControl(ItemsControl? itemsControl, DependencyObject? container)
-    {
-        if (itemsControl == null || container == null)
-            return;
-
-        var item = itemsControl.ItemContainerGenerator.ItemFromContainer(container);
-        if (itemsControl.ItemsSource is IList itemsSource)
-            itemsSource.Remove(item);
-        else if (itemsControl.Items.Contains(item))
-            itemsControl.Items.Remove(item);
+        switch (parent)
+        {
+            case ContentControl contentControl:
+                contentControl.Content = null;
+                break;
+            case ContentPresenter contentPresenter:
+                contentPresenter.Content = null;
+                break;
+            case Decorator decorator:
+                decorator.Child = null;
+                break;
+            case ItemsControl itemsControl:
+                itemsControl.Items.Remove(element);
+                break;
+            case Panel panel:
+                panel.Children.Remove(element);
+                break;
+        }
     }
     #endregion
 
