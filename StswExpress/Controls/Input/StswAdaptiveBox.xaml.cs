@@ -49,6 +49,15 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         if (_contentPresenter == null || Type == StswAdaptiveType.Auto)
             return;
 
+        if (_contentPresenter.Content is FrameworkElement oldControl)
+        {
+            BindingOperations.ClearAllBindings(oldControl);
+            if (oldControl.DataContext is DependencyObject dataContext)
+                BindingOperations.ClearAllBindings(dataContext);
+        }
+
+        _contentPresenter.Content = null;
+
         var bindingBorderBrush = new Binding(nameof(BorderBrush)) { Source = this };
         var bindingBorderThickness = new Binding(nameof(BorderThickness)) { Source = this };
         var bindingCornerClipping = new Binding(nameof(CornerClipping)) { Source = this };

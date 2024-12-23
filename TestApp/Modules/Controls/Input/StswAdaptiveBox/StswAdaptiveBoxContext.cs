@@ -46,7 +46,7 @@ public class StswAdaptiveBoxContext : ControlsContext
         get => _selectedValue;
         set => SetProperty(ref _selectedValue, value);
     }
-    private object? _selectedValue = string.Empty;
+    private object? _selectedValue;
 
     /// SubControls
     public bool SubControls
