@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.14.0](#0-14-0)
 - [Version 0.13.1](#0-13-1)
 - [Version 0.13.0](#0-13-0)
 - [Version 0.12.1](#0-12-1)
@@ -30,6 +31,61 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-14-0">0.14.0</h1>
+
+**Release Date**: 2024-12-24
+
+## Additions
+
+### Controls
+- A new control called `StswAlert` was introduced and merged into `StswWindow`.
+- All clickable Stsw controls now show a hand cursor by default.
+- All Stsw selector controls have their own items (e.g., `StswComboBoxItem`, `StswListBoxItem`, etc.).
+- New controls `StswDoubleBox` and `StswIntegerBox` were added, both inheriting from `StswNumberBox`.
+- `StswCalendar` has new button for nullifying the selected date. The visibility of that button adapts based on `SelectedDate` property.
+- `StswComboBox` control introduces a `FilterMemberPath` property.
+
+### Utils
+- A new markup extension `StswEventToCommand` was introduced to handle events as commands.
+- A new SQL extension method called `TempTableInsert` was added.
+- A new XAML extension `StswDynamicColorExtension` was introduced.
+- A `StswBindingWatcher` class was introduced to observe bindings.
+- The `GetDivided` SQL extension was expanded with a new property.
+
+## Changes
+
+### Controls
+- Buttons in `StswWindowBar` control now have a window bar button style by default.
+- Logic related to `IsSelected` property binding in Stsw selector control items was modified to avoid using `UsesSelectionItems` property.
+- `SelectionMode` property was renamed to `SelectionUnit` in several controls, including `StswCalendar`, `StswDatePicker`, `StswFilterBox`, `StswAdaptiveBox`, and `StswPathPicker`.
+- `StswCalendar` control was experimentally remade using a `ListBox`.
+- `StswDropArrow` control is built into `StswIcon` control (with a new `IsRotated` property). The attached property `IsArrowless` was removed from `StswControl` class, and three new attached properties (`Data`, `IsRotated`, `Visibility`) were added to `StswDropArrow` class.  
+- `StswLabel` control includes a `Command` property that links to `IStswAsyncCommand`'s properties and allows displaying a `StswProgressRing` inside.
+- `StswProgressRing` control now supports a `Scale` property.
+- `StswSplitButton` control no longer requires its header to be a button.
+- Various optimizations were made to `StswDataGrid` and `StswFilterBox`, including the first attempt to use a `CollectionView` for filtering in `StswFilterBox`.
+
+### Utils
+- `IStswCommand` interface was renamed to `IStswAsyncCommand`, adding four new properties: `Minimum`, `Maximum`, `State`, and `Value`.
+- Some brushes were updated, and a more unique visual style for the "fatal" message type was introduced.
+- `StswContainsConverter` has been remade to handle `IEnumerable` as a parameter.
+- `StswSecurity` gained methods for generating hashes using any specified `HashAlgorithm`.
+- `System.SqlClient` package was replaced with `Microsoft.SqlClient`.
+
+## Fixes
+
+### Controls
+- A binding fix in `StswAdaptiveBox` control when the control type changes.
+- A margin bug was fixed in `StswLabel` control when there is no `Icon` or `Image` properties.
+- Binding for the `Format` property in some box controls was fixed, and `ContentAlignment` property bindings in selector item styles were also corrected.
+- Fixed automatic assignment to the `IsBusy` property in `StswLabel` control.
+- `StswCalendar` now focuses `StswDatePicker` after its popup closes. The same behavior applies to `StswNumberBox` after clicking the up/down buttons.
+- `StswInfoBar` control now spans text across multiple columns even if multiple functional buttons are visible.
+- `StswPasswordBox` control disallows password entry when in read-only mode.
+- The text box in `StswMessageDialog` control is stretched again.
 
 ---
 
