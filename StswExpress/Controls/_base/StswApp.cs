@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -16,8 +16,6 @@ namespace StswExpress;
 /// </summary>
 public class StswApp : Application
 {
-    private const string PipeName = "StswApp_SingleInstance_Pipe";
-
     /// <summary>
     /// Entry point that configures application settings, prevents multiple instances, 
     /// initializes resources, data templates, and translations, and sets global culture settings.
@@ -27,11 +25,9 @@ public class StswApp : Application
     {
         if (!AllowMultipleInstances && CheckForExistingInstance())
         {
-            SendRestoreCommandToExistingInstance();
             Current.Shutdown();
             return;
         }
-        StartListeningForRestoreCommand();
 
         base.OnStartup(e);
 
@@ -47,75 +43,63 @@ public class StswApp : Application
 
     /// <summary>
     /// Checks if another instance of the application is already running under the current user's session.
+    /// If found, restores the main window of the existing instance.
     /// </summary>
-    /// <returns><see langword="true"/> if an existing instance is found; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if an existing instance is found and restored; otherwise, <see langword="false"/>.</returns>
     private bool CheckForExistingInstance()
     {
         var thisProcessName = Process.GetCurrentProcess().ProcessName;
-        return Process.GetProcessesByName(thisProcessName).Any(x => x.Id != Environment.ProcessId && x.GetUser() == Environment.UserName);
+        var currentUser = Environment.UserName;
+
+        var existingProcess = Process.GetProcessesByName(thisProcessName)
+            .FirstOrDefault(x => x.Id != Environment.ProcessId && x.GetUser() == currentUser);
+
+        if (existingProcess != null)
+        {
+            RestoreWindow(existingProcess);
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
-    /// Sends a restore command to the existing application instance using a named pipe, prompting it to restore its window.
+    /// Restores the window of an existing application instance.
     /// </summary>
-    private void SendRestoreCommandToExistingInstance()
+    /// <param name="hWnd">The handle to the window.</param>
+    private void RestoreWindow(Process process)
     {
-        using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+        IntPtr hWnd = process.MainWindowHandle;
+
+        if (hWnd != IntPtr.Zero)
         {
-            try
-            {
-                client.Connect(200);
-                using var writer = new StreamWriter(client);
-                writer.WriteLine("Restore");
-            }
-            catch
-            {
-                // Log or handle exceptions, such as connection failure, if necessary
-            }
+            ShowWindow(hWnd, SW_RESTORE);
+            SetForegroundWindow(hWnd);
+        }
+        else
+        {
+            ActivateTrayWindow(process);
         }
     }
 
     /// <summary>
-    /// Asynchronously starts a named pipe server to listen for commands from additional application instances, 
-    /// restoring the main window if a "Restore" command is received.
+    /// 
     /// </summary>
-    private void StartListeningForRestoreCommand()
+    private void ActivateTrayWindow(Process process)
     {
-        Task.Run(() =>
+        foreach (ProcessThread thread in process.Threads)
         {
-            while (true)
+            EnumThreadWindows(thread.Id, (hWnd, lParam) =>
             {
-                using (var server = new NamedPipeServerStream(PipeName, PipeDirection.In))
+                if (IsWindowVisible(hWnd))
                 {
-                    try
-                    {
-                        server.WaitForConnection();
-
-                        using (var reader = new StreamReader(server))
-                        {
-                            var command = reader.ReadLine();
-                            if (command == "Restore")
-                            {
-                                Current.Dispatcher.Invoke(() =>
-                                {
-                                    if (Current.MainWindow != null)
-                                    {
-                                        Current.MainWindow.Show();
-                                        if (Current.MainWindow.WindowState == WindowState.Minimized)
-                                            Current.MainWindow.WindowState = WindowState.Normal;
-                                        Current.MainWindow.Activate();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // Handle exceptions if needed, such as IO errors when disconnecting
-                    }
+                    ShowWindow(hWnd, SW_RESTORE);
+                    SetForegroundWindow(hWnd);
+                    return false;
                 }
-            }
-        });
+                return true;
+            }, IntPtr.Zero);
+        }
     }
 
     /// <summary>
@@ -209,4 +193,24 @@ public class StswApp : Application
         }
     }
     private bool _allowMultipleInstances = true;
+
+
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool EnumThreadWindows(int dwThreadId, EnumThreadWndProc lpfn, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool IsIconic(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    private const int SW_RESTORE = 9;
+    private delegate bool EnumThreadWndProc(IntPtr hWnd, IntPtr lParam);
 }

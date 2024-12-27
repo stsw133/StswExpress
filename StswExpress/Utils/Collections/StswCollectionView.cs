@@ -32,9 +32,9 @@ public class StswCollectionView<T> : ICollectionView where T : IStswCollectionIt
     public StswCollectionView(StswBindingList<T> source)
     {
         _sourceCollection = source;
-        _filteredItems = new List<T>(_sourceCollection);
+        _filteredItems = new(_sourceCollection);
         _groupDescriptions = [];
-        _groups = new ReadOnlyObservableCollection<object>([]);
+        _groups = new([]);
 
         _sourceCollection.ListChanged += OnSourceCollectionChanged;
         _groupDescriptions.CollectionChanged += OnGroupDescriptionsChanged;
@@ -244,11 +244,10 @@ public class StswCollectionView<T> : ICollectionView where T : IStswCollectionIt
             foreach (var groupDescription in _groupDescriptions)
             {
                 var groups = _filteredItems.GroupBy(item => groupDescription.GroupNameFromItem(item, 0, CultureInfo.CurrentCulture))
-                                           .Select(g => new CustomCollectionViewGroup(g.Key, g.Cast<object>()));
+                                           .Select(g => new StswCollectionViewGroup(g.Key, g.Cast<object>()));
+
                 foreach (var group in groups)
-                {
                     groupedItems.Add(group);
-                }
             }
             _groups = new ReadOnlyObservableCollection<object>(groupedItems);
         }
@@ -333,14 +332,14 @@ public class StswCollectionView<T> : ICollectionView where T : IStswCollectionIt
 /// <summary>
 /// Represents a group of items in a collection view.
 /// </summary>
-public class CustomCollectionViewGroup : CollectionViewGroup
+public class StswCollectionViewGroup : CollectionViewGroup
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CustomCollectionViewGroup"/> class.
+    /// Initializes a new instance of the <see cref="StswCollectionViewGroup"/> class.
     /// </summary>
     /// <param name="name">The name of the group.</param>
     /// <param name="items">The items to include in the group.</param>
-    public CustomCollectionViewGroup(object name, IEnumerable<object> items) : base(name)
+    public StswCollectionViewGroup(object name, IEnumerable<object> items) : base(name)
     {
         foreach (var item in items)
             ProtectedItems.Add(item);

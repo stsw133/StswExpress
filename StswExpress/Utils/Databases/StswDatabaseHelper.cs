@@ -432,7 +432,7 @@ public static class StswDatabaseHelper
         var dt = items.ToDataTable();
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, false);
-        using var sqlCmd = new SqlCommand(GenerateCreateTableScript(dt, tableName), sqlConn, sqlTran);
+        using var sqlCmd = new SqlCommand(GenerateCreateTableScript(dt, tableName), factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
         sqlCmd.ExecuteNonQuery();
         
@@ -454,7 +454,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     public static void TempTableInsert<TModel>(this SqlTransaction sqlTran, IEnumerable<TModel> items, string tableName, int? timeout = null)
-        => sqlTran.Connection.BulkInsert(items, tableName, timeout, sqlTran);
+        => sqlTran.Connection.TempTableInsert(items, tableName, timeout, sqlTran);
 
     /// <summary>
     /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
@@ -466,7 +466,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     public static void TempTableInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().BulkInsert(items, tableName, timeout, sqlTran);
+        => model.OpenedConnection().TempTableInsert(items, tableName, timeout, sqlTran);
 
     /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswBindingList{TModel}"/>.
