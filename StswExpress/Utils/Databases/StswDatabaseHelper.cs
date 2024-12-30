@@ -564,6 +564,9 @@ public static class StswDatabaseHelper
         if (!StswDatabases.Config.IsEnabled)
             return false;
 
+        if (Application.Current == null)
+            return false;
+
         var isInDesignMode = false;
         if (StswDatabases.Config.ReturnIfInDesignerMode)
             Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new()));
