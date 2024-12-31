@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -28,6 +27,9 @@ namespace StswExpress;
 /// </summary>
 public static class StswFn
 {
+    public static readonly bool True = true;
+    public static readonly bool False = false;
+
     #region Assembly functions
     /// <summary>
     /// Gets the name of the currently executing application.
