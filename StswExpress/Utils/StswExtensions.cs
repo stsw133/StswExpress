@@ -587,6 +587,20 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Returns the first day of the month for the given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The source <see cref="DateTime"/>.</param>
+    /// <returns>A <see cref="DateTime"/> representing the first day of the month at 00:00:00.</returns>
+    public static DateTime ToFirstDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, 1);
+
+    /// <summary>
+    /// Returns the last day of the month for the given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The source <see cref="DateTime"/>.</param>
+    /// <returns>A <see cref="DateTime"/> representing the last day of the month at 00:00:00.</returns>
+    public static DateTime ToLastDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+
+    /// <summary>
     /// Converts a <see cref="DateTime"/> to a Unix timestamp.
     /// </summary>
     /// <param name="dateTime">The <see cref="DateTime"/> to convert.</param>
