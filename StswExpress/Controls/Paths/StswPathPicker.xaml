@@ -18,7 +18,7 @@
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         
         <Setter Property="IsShiftingEnabled" Value="False"/>
-        <Setter Property="SelectionUnit" Value="File"/>
+        <Setter Property="SelectionUnit" Value="OpenFile"/>
         <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -72,7 +72,7 @@
                                 <se:StswImage x:Name="OPT_Icon"
                                               Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                               MenuMode="Disabled"
-                                              Source="{TemplateBinding FileIcon}"
+                                              Source="{Binding SelectedPath, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswPathToIconConverter.Instance}}"
                                               Height="16" Width="16"/>
                                 <se:StswLabel x:Name="OPT_FileSize"
                                               Content="{TemplateBinding FileSize}"
@@ -103,10 +103,30 @@
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                                     <se:StswScrollView x:Name="PART_ContentHost"
-                                                         Focusable="False"
-                                                         IsDynamic="True"
-                                                         HorizontalScrollBarVisibility="Hidden"
-                                                         VerticalScrollBarVisibility="Hidden"/>
+                                                       Focusable="False"
+                                                       IsDynamic="True"
+                                                       HorizontalScrollBarVisibility="Hidden"
+                                                       VerticalScrollBarVisibility="Hidden"/>
+                                    <se:StswDropButton x:Name="OPT_Items"
+                                                       ItemsSource="{Binding SelectedPaths, RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Visibility="Collapsed"
+                                                       se:StswControl.IsBorderless="True">
+                                        <se:StswDropButton.Header>
+                                            <se:StswText>
+                                                <Run Text="{Binding SelectedPaths.Length, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswPathPicker}}}" FontWeight="Medium"/>
+                                                <Run Text="{se:Tr StswPathPicker.SelectedPaths}"/>
+                                            </se:StswText>
+                                        </se:StswDropButton.Header>
+                                        <se:StswDropButton.ItemTemplate>
+                                            <DataTemplate>
+                                                <se:StswLabel IconSource="{Binding Converter={x:Static se:StswPathToIconConverter.Instance}}">
+                                                    <se:StswText Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPathPicker}}}"
+                                                                 Text="{Binding}"
+                                                                 TextTrimming="CharacterEllipsis"/>
+                                                </se:StswLabel>
+                                            </DataTemplate>
+                                        </se:StswDropButton.ItemTemplate>
+                                    </se:StswDropButton>
                                 </Grid>
                             </DockPanel>
                         </DockPanel>
@@ -117,7 +137,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_IconSeparator"/>
                         </Trigger>
-                        <Trigger Property="FileIcon" Value="{x:Null}">
+                        <Trigger Property="Source" Value="{x:Null}" SourceName="OPT_Icon">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
                         </Trigger>
                         <Trigger Property="IsFileSizeVisible" Value="False">
@@ -129,6 +149,12 @@
                         </Trigger>
                         <Trigger Property="Text" Value="">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
+                        </Trigger>
+                        <Trigger Property="Multiselect" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_FileSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_IconSeparator"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Items"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>

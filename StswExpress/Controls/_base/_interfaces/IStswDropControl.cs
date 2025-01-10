@@ -18,4 +18,10 @@ public interface IStswDropControl
     /// </summary>
     public double MaxDropDownHeight { get; set; }
     public static readonly DependencyProperty? MaxDropDownHeightProperty;
+
+    /// <summary>
+    /// Gets or sets the maximum width of the drop-down portion of the control.
+    /// </summary>
+    public double MaxDropDownWidth { get; set; }
+    public static readonly DependencyProperty? MaxDropDownWidthProperty;
 }

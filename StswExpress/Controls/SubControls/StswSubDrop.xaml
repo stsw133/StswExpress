@@ -23,6 +23,7 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
+        <Setter Property="MaxDropDownWidth" Value="NaN"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -46,7 +47,8 @@
                         <!-- popup -->
                         <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                      MinWidth="{Binding ActualWidth, ElementName=OPT_MainButton}"
+                                      MaxWidth="{TemplateBinding MaxDropDownWidth}"
+                                      MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                       Placement="Bottom"
                                       PlacementTarget="{Binding ElementName=OPT_MainButton}"
                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"

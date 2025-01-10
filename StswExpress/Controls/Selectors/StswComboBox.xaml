@@ -19,7 +19,8 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-        
+
+        <Setter Property="MaxDropDownWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -101,7 +102,8 @@
                                                    CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
                                                    CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                   MinWidth="{Binding ActualWidth, ElementName=OPT_TemplateRoot}"
+                                                   MaxWidth="{TemplateBinding MaxDropDownWidth}"
+                                                   MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                                    Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                                         <DockPanel>
                                             <!-- filter -->

@@ -150,18 +150,18 @@
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                 <se:StswPopup x:Name="PART_Popup"
-                              se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                              se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                              se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                              se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                              se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                              se:StswPopup.Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                               Focusable="False"
                               IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                               Placement="Bottom"
                               PlacementTarget="{Binding ElementName=OPT_MainBorder}"
                               PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
-                              ScrollType="DirectionView">
+                              ScrollType="DirectionView"
+                              se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                     <Grid RenderOptions.ClearTypeHint="Enabled">
                         <ItemsPresenter x:Name="ItemsPresenter"
                                         Grid.IsSharedSizeScope="True"

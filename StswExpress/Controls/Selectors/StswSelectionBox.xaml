@@ -20,6 +20,7 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
+        <Setter Property="MaxDropDownWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -93,7 +94,8 @@
                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                MinWidth="{Binding ActualWidth, ElementName=OPT_MainButton}"
+                                                MaxWidth="{TemplateBinding MaxDropDownWidth}"
+                                                MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                                 Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"

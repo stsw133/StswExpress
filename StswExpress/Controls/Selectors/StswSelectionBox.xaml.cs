@@ -358,6 +358,21 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <summary>
+    /// Gets or sets the maximum width of the drop-down portion of the control.
+    /// </summary>
+    public double MaxDropDownWidth
+    {
+        get => (double)GetValue(MaxDropDownWidthProperty);
+        set => SetValue(MaxDropDownWidthProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownWidthProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownWidth),
+            typeof(double),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
     public double SeparatorThickness

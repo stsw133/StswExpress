@@ -178,8 +178,9 @@ public enum StswMenuMode
 /// </summary>
 public enum StswPathType
 {
-    Directory,
-    File
+    OpenDirectory,
+    OpenFile,
+    SaveFile
 }
 
 /// <summary>
