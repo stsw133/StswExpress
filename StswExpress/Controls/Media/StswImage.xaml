@@ -32,13 +32,13 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswBorder.ContextMenu>
                             <se:StswContextMenu x:Name="OPT_Menu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}" IsEnabled="False"/>
-                                <se:StswMenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}" IsEnabled="False"/>
-                                <se:StswMenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}" IsEnabled="False"/>
-                                <se:StswMenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}" IconData="{x:Static se:StswIcons.CloseThick}" IconFill="{DynamicResource StswColor.Negative}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Cut" Header="{se:StswTranslate StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Copy" Header="{se:StswTranslate StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Paste" Header="{se:StswTranslate StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Delete" Header="{se:StswTranslate StswImage.Remove}" IconData="{x:Static se:StswIcons.CloseThick}" IconFill="{DynamicResource StswColor.Negative}" IsEnabled="False"/>
                                 <se:StswSeparator/>
-                                <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}" IsEnabled="False"/>
-                                <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Load" Header="{se:StswTranslate StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}" IsEnabled="False"/>
+                                <se:StswMenuItem x:Name="PART_Save" Header="{se:StswTranslate StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}" IsEnabled="False"/>
                             </se:StswContextMenu>
                         </se:StswBorder.ContextMenu>
                         <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"

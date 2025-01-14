@@ -114,7 +114,7 @@
                                         <se:StswDropButton.Header>
                                             <se:StswText>
                                                 <Run Text="{Binding SelectedPaths.Length, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswPathPicker}}}" FontWeight="Medium"/>
-                                                <Run Text="{se:Tr StswPathPicker.SelectedPaths}"/>
+                                                <Run Text="{se:StswTranslate StswPathPicker.SelectedPaths}"/>
                                             </se:StswText>
                                         </se:StswDropButton.Header>
                                         <se:StswDropButton.ItemTemplate>

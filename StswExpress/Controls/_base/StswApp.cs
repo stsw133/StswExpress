@@ -33,7 +33,7 @@ public class StswApp : Application
 
         InitializeResources();
         RegisterDataTemplates("Context", "View");
-        InitializeTranslations();
+        Task.Run(() => StswTranslator.LoadTranslationsFromJsonString(StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, "Utils/Translator/Translations.json")));
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
@@ -116,29 +116,6 @@ public class StswApp : Application
             Resources.MergedDictionaries[dictIndex.Value] = new StswResources((StswTheme)StswSettings.Default.Theme);
         else
             Resources.MergedDictionaries.Add(new StswResources((StswTheme)StswSettings.Default.Theme));
-    }
-
-    /// <summary>
-    /// Configures language translations based on user settings, and loads them from the application's default translation file.
-    /// Creates the file if it does not already exist.
-    /// </summary>
-    private void InitializeTranslations()
-    {
-        StswTranslator.CurrentLanguage = string.IsNullOrEmpty(StswSettings.Default.Language)
-            ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName
-            : StswSettings.Default.Language;
-
-        var trFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "translations.stsw.json");
-
-        using (var stream = GetResourceStream(new Uri($"/{nameof(StswExpress)};component/Translator/Translations.json", UriKind.Relative)).Stream)
-        using (var reader = new StreamReader(stream))
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(trFileName)!);
-            File.WriteAllText(trFileName, reader.ReadToEnd());
-        }
-
-        if (File.Exists(trFileName))
-            Task.Run(() => StswTranslatorLanguagesLoader.Instance.AddFileAsync(trFileName));
     }
 
     /// <summary>

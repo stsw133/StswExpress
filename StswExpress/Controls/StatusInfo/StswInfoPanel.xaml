@@ -68,7 +68,7 @@
                                                       IconData="{x:Static se:StswIcons.Export}"
                                                       Margin="3 0 0 0">
                                         <se:StswSubButton.ToolTip>
-                                            <se:StswToolTip Content="{se:Tr StswInfoPanel.Export}"/>
+                                            <se:StswToolTip Content="{se:StswTranslate StswInfoPanel.Export}"/>
                                         </se:StswSubButton.ToolTip>
                                     </se:StswSubButton>
                                     -->
@@ -76,7 +76,7 @@
                                     <se:StswSubButton x:Name="PART_ButtonCopyAllToClipboard"
                                                       IconData="{x:Static se:StswIcons.ContentCopy}"
                                                       Margin="3 0 0 0"
-                                                      ToolTip="{se:Tr StswInfoPanel.CopyAllToClipboard}">
+                                                      ToolTip="{se:StswTranslate StswInfoPanel.CopyAllToClipboard}">
                                         <se:StswSubButton.Triggers>
                                             <EventTrigger RoutedEvent="Button.Click">
                                                 <BeginStoryboard>
@@ -96,12 +96,12 @@
                                                      IconChecked="{x:Static se:StswIcons.ChevronDown}"
                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Margin="3 0 0 0"
-                                                     ToolTip="{se:Tr StswInfoPanel.ExpandAll}"/>
+                                                     ToolTip="{se:StswTranslate StswInfoPanel.ExpandAll}"/>
                                     <!-- close all button -->
                                     <se:StswSubButton x:Name="PART_ButtonCloseAll"
                                                       IconData="{x:Static se:StswIcons.Close}"
                                                       Margin="3 0 0 0"
-                                                      ToolTip="{se:Tr StswInfoPanel.CloseAll}"/>
+                                                      ToolTip="{se:StswTranslate StswInfoPanel.CloseAll}"/>
                                 </StackPanel>
                             </DockPanel>
                             <!-- separator -->

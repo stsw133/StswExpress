@@ -57,7 +57,7 @@
                                 </DockPanel.Resources>
                                 
                                 <!-- close -->
-                                <se:StswButton x:Name="PART_ButtonClose" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
+                                <se:StswButton x:Name="PART_ButtonClose" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Close}">
                                     <se:StswOutlinedText Text="🗙"/>
                                     <se:StswButton.Resources>
                                         <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
@@ -65,11 +65,11 @@
                                     </se:StswButton.Resources>
                                 </se:StswButton>
                                 <!-- restore -->
-                                <se:StswButton x:Name="PART_ButtonRestate" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Maximize}">
+                                <se:StswButton x:Name="PART_ButtonRestate" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Maximize}">
                                     <se:StswOutlinedText x:Name="OPT_ButtonRestateText" Text="🗖"/>
                                 </se:StswButton>
                                 <!-- minimize -->
-                                <se:StswButton x:Name="PART_ButtonMinimize" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Minimize}">
+                                <se:StswButton x:Name="PART_ButtonMinimize" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Minimize}">
                                     <se:StswOutlinedText Text="🗕"/>
                                 </se:StswButton>
                                 <!-- custom components -->
@@ -104,11 +104,11 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="Maximized">
                             <Setter Property="Text" Value="🗗" TargetName="OPT_ButtonRestateText"/>
-                            <Setter Property="ToolTip" Value="{se:Tr StswWindow.Restore}" TargetName="PART_ButtonRestate"/>
+                            <Setter Property="ToolTip" Value="{se:StswTranslate StswWindow.Restore}" TargetName="PART_ButtonRestate"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Fullscreen, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="True">
                             <Setter Property="Text" Value="⛶" TargetName="OPT_ButtonRestateText"/>
-                            <Setter Property="ToolTip" Value="{se:Tr StswWindow.DisableFullscreen}" TargetName="PART_ButtonRestate"/>
+                            <Setter Property="ToolTip" Value="{se:StswTranslate StswWindow.DisableFullscreen}" TargetName="PART_ButtonRestate"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -120,39 +120,39 @@
                 <se:StswContextMenu Placement="MousePoint">
                     <!-- config -->
                     <se:StswMenuItem x:Name="PART_iConfig"
-                                     Header="{se:Tr StswWindow.Config}"
+                                     Header="{se:StswTranslate StswWindow.Config}"
                                      IconData="{x:Static se:StswIcons.Cog}"/>
                     <se:StswSeparator x:Name="PART_MenuConfigSeparator"/>
                     <!-- default -->
                     <se:StswMenuItem x:Name="PART_MenuDefault"
-                                     Header="{se:Tr StswWindow.DefaultSize}"
+                                     Header="{se:StswTranslate StswWindow.DefaultSize}"
                                      IconData="{x:Static se:StswIcons.Resize}"/>
                     <!-- minimize -->
                     <se:StswMenuItem x:Name="PART_MenuMinimize"
-                                     Header="{se:Tr StswWindow.Minimize}"
+                                     Header="{se:StswTranslate StswWindow.Minimize}"
                                      IconData="{x:Static se:StswIcons.WindowMinimize}"/>
                     <!-- maximize -->
                     <se:StswMenuItem x:Name="PART_MenuMaximize"
-                                     Header="{se:Tr StswWindow.Maximize}"
+                                     Header="{se:StswTranslate StswWindow.Maximize}"
                                      IconData="{x:Static se:StswIcons.WindowMaximize}"/>
                     <!-- restore -->
                     <se:StswMenuItem x:Name="PART_MenuRestore"
-                                     Header="{se:Tr StswWindow.Restore}"
+                                     Header="{se:StswTranslate StswWindow.Restore}"
                                      IconData="{x:Static se:StswIcons.WindowRestore}"/>
                     <!-- fullscreen -->
                     <se:StswMenuItem x:Name="PART_MenuFullscreen"
-                                     Header="{se:Tr StswWindow.Fullscreen}"
+                                     Header="{se:StswTranslate StswWindow.Fullscreen}"
                                      IconData="{x:Static se:StswIcons.Fullscreen}"
                                      InputGestureText="F11"/>
                     <!-- fullscreen exit -->
                     <se:StswMenuItem x:Name="PART_MenuFullscreenExit"
-                                     Header="{se:Tr StswWindow.FullscreenExit}"
+                                     Header="{se:StswTranslate StswWindow.FullscreenExit}"
                                      IconData="{x:Static se:StswIcons.FullscreenExit}"
                                      InputGestureText="F11"/>
                     <!-- close -->
                     <se:StswSeparator x:Name="PART_MenuCloseSeparator"/>
                     <se:StswMenuItem x:Name="PART_MenuClose"
-                                     Header="{se:Tr StswWindow.Close}"
+                                     Header="{se:StswTranslate StswWindow.Close}"
                                      IconData="{x:Static se:StswIcons.WindowClose}"
                                      IconFill="{DynamicResource StswColor.Negative}"
                                      InputGestureText="Alt + F4"/>
