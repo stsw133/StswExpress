@@ -608,6 +608,26 @@ public static partial class StswExtensions
     public static long ToUnixTimeSeconds(this DateTime dateTime) => new DateTimeOffset(dateTime).ToUnixTimeSeconds();
     #endregion
 
+    #region Dictionary extensions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="dict"></param>
+    /// <param name="oldKey"></param>
+    /// <param name="newKey"></param>
+    /// <returns></returns>
+    public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey)
+    {
+        if (!dict.Remove(oldKey, out var value))
+            return false;
+
+        dict[newKey] = value;
+        return true;
+    }
+    #endregion
+
     #region Enum extensions
     /// <summary>
     /// Gets an attribute of a specified type on an enum field value.
@@ -696,6 +716,18 @@ public static partial class StswExtensions
     public static void AddIfNotContains<T>(this IList<T> list, T item)
     {
         if (!list.Contains(item))
+            list.Add(item);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="items"></param>
+    public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
+    {
+        foreach (var item in items)
             list.Add(item);
     }
 

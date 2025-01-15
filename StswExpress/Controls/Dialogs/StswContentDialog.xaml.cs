@@ -122,6 +122,8 @@ public class StswContentDialog : ContentControl
 
         currentSession.CloseParameter = parameter;
         currentSession.IsEnded = true;
+        // TODO - stworzenie osobnych funkcji do trybu IsOpen
+        //DialogContent = null;
 
         SetCurrentValue(IsOpenProperty, false);
     }
