@@ -234,6 +234,7 @@ public enum StswSpinnerType
     Circles,
     Crescent,
     Dots,
+    Helix,
     Lines
 }
 

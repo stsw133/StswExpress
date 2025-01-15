@@ -51,12 +51,12 @@ public interface IStswSelectionControl
         {
             if (addedItems != null)
                 foreach (var selectedItem in addedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is Control item && item.Template.FindName("OPT_Border", item) is Border border)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
                         StswSharedAnimations.AnimateClick(selectionControl, border, true);
 
             if (removedItems != null)
                 foreach (var unselectedItem in removedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_Border", item) is Border border)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
                         StswSharedAnimations.AnimateClick(selectionControl, border, false);
         }
     }

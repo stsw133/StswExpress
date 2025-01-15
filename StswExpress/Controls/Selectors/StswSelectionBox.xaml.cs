@@ -369,7 +369,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(MaxDropDownWidth),
             typeof(double),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new PropertyMetadata(double.NaN)
         );
 
     /// <summary>

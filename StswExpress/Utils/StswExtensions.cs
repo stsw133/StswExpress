@@ -760,6 +760,22 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Performs the specified action on each element of the <see cref="IEnumerable{}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{}"/>.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{}"/> to iterate over.</param>
+    /// <param name="action">The action to perform on each element.</param>
+    /// <exception cref="ArgumentNullException">Thrown when source or action is <see langword="null"/>.</exception>
+    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(action);
+
+        foreach (var item in source)
+            action(item);
+    }
+
+    /// <summary>
     /// Applies a specified action to each element of the <see cref="IList{}"/>, allowing modification of 
     /// individual properties within each element.
     /// </summary>
@@ -823,7 +839,7 @@ public static partial class StswExtensions
     /// <param name="oldValue">The value to replace.</param>
     /// <param name="newValue">The value to replace with.</param>
     /// <returns>A new collection with the specified value replaced.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
     public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -837,7 +853,7 @@ public static partial class StswExtensions
     /// <param name="source">The source collection.</param>
     /// <param name="oldValue">The value to replace.</param>
     /// <param name="newValue">The value to replace with.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);

@@ -15,6 +15,7 @@ public class StswDatePickerContext : ControlsContext
         Format = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Format)))?.Value ?? default;
         IncrementType = (StswDateTimeIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        SelectionUnit = (StswCalendarUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
     /// Format
@@ -72,6 +73,14 @@ public class StswDatePickerContext : ControlsContext
         set => SetProperty(ref _selectedDate, value);
     }
     private DateTime? _selectedDate = DateTime.Now;
+
+    /// SelectionUnit
+    public StswCalendarUnit SelectionUnit
+    {
+        get => _selectionUnit;
+        set => SetProperty(ref _selectionUnit, value);
+    }
+    private StswCalendarUnit _selectionUnit;
 
     /// SubControls
     public bool SubControls

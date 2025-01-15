@@ -203,7 +203,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         = DependencyProperty.Register(
             nameof(MaxDropDownWidth),
             typeof(double),
-            typeof(StswDropButton)
+            typeof(StswDropButton),
+            new PropertyMetadata(double.NaN)
         );
     #endregion
 }

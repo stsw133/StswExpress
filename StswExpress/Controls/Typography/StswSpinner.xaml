@@ -22,7 +22,7 @@
                         <!-- StswSpinnerCirclesTemplate -->
                         <DataTemplate x:Key="StswSpinnerCirclesTemplate">
                             <DataTemplate.Resources>
-                                <Style TargetType="{x:Type Path}" x:Key="BasePath">
+                                <Style x:Key="BasePath" TargetType="{x:Type Path}">
                                     <Setter Property="Data" Value="M 12 6 a 3 3 0 1 1 0.01 0 z"/>
                                     <Setter Property="Fill" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
                                     <Setter Property="Opacity" Value="0"/>
@@ -460,6 +460,52 @@
                                 </UniformGrid>
                             </Viewbox>
                         </DataTemplate>
+                        <!-- StswSpinnerHelixTemplate -->
+                        <DataTemplate x:Key="StswSpinnerHelixTemplate">
+                            <DataTemplate.Resources>
+                                <Style x:Key="BaseEllipse" TargetType="{x:Type Ellipse}">
+                                    <Setter Property="Fill" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="Canvas.Left" Value="375"/>
+                                    <Setter Property="Canvas.Top" Value="375"/>
+                                    <Setter Property="Height" Value="100"/>
+                                    <Setter Property="Width" Value="100"/>
+                                </Style>
+                            </DataTemplate.Resources>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                <se:StswBusyAnimation2 Active="True">
+                                    <se:StswBusyAnimation2.Style>
+                                        <Style TargetType="{x:Type se:StswBusyAnimation2}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type se:StswBusyAnimation2}">
+                                                        <Canvas Width="850" Height="850">
+                                                            <Ellipse x:Name="PART_Ellipse1" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse2" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse3" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse4" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse5" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse6" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse7" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse8" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse9" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse10" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse11" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse12" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse13" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_Ellipse14" Style="{StaticResource BaseEllipse}"/>
+                                                            <Ellipse x:Name="PART_EllipseMain"
+                                                                     Canvas.Left="275" Canvas.Top="275"
+                                                                     Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
+                                                                     Height="300" Width="300"/>
+                                                        </Canvas>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </se:StswBusyAnimation2.Style>
+                                </se:StswBusyAnimation2>
+                            </Viewbox>
+                        </DataTemplate>
                         <!-- StswSpinnerLinesTemplate -->
                         <DataTemplate x:Key="StswSpinnerLinesTemplate">
                             <DataTemplate.Resources>
@@ -734,6 +780,9 @@
                         </Trigger>
                         <Trigger Property="Type" Value="Dots">
                             <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerDotsTemplate}" TargetName="OPT_MainContent"/>
+                        </Trigger>
+                        <Trigger Property="Type" Value="Helix">
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerHelixTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Lines">
                             <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="OPT_MainContent"/>

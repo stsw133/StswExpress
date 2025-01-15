@@ -269,7 +269,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(MaxDropDownWidth),
             typeof(double),
-            typeof(StswSubSelector)
+            typeof(StswSubSelector),
+            new PropertyMetadata(double.NaN)
         );
     #endregion
 }

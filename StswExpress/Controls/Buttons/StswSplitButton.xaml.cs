@@ -203,7 +203,8 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         = DependencyProperty.Register(
             nameof(MaxDropDownWidth),
             typeof(double),
-            typeof(StswSplitButton)
+            typeof(StswSplitButton),
+            new PropertyMetadata(double.NaN)
         );
 
     /// <summary>
