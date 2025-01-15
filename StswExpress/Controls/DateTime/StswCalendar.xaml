@@ -85,10 +85,10 @@
                             <se:StswSeparator Grid.Row="1"/>
                             <UniformGrid Grid.Row="2" Rows="1">
                                 <se:StswButton x:Name="PART_ButtonToday" se:StswControl.IsBorderless="True">
-                                    <se:StswLabel Content="{se:Tr StswCalendar.Today}" IconData="{x:Static se:StswIcons.CalendarToday}" Padding="{TemplateBinding Padding}"/>
+                                    <se:StswLabel Content="{se:StswTranslate StswCalendar.Today}" IconData="{x:Static se:StswIcons.CalendarToday}" Padding="{TemplateBinding Padding}"/>
                                 </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonClear" se:StswControl.IsBorderless="True">
-                                    <se:StswLabel Content="{se:Tr StswCalendar.Clear}" IconData="{x:Static se:StswIcons.CalendarBlank}" Padding="{TemplateBinding Padding}"/>
+                                    <se:StswLabel Content="{se:StswTranslate StswCalendar.Clear}" IconData="{x:Static se:StswIcons.CalendarBlank}" Padding="{TemplateBinding Padding}"/>
                                 </se:StswButton>
                             </UniformGrid>
                         </Grid>

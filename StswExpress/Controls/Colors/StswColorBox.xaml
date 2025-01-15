@@ -54,12 +54,12 @@
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
                                 <se:StswTabControl BorderThickness="0" NewItemButtonVisibility="Collapsed">
-                                    <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
+                                    <se:StswTabItem Header="{se:StswTranslate StswTextEditor.Font.ColorStandard}">
                                         <se:StswColorSelector Margin="-3"
                                                               SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                               se:StswControl.IsBorderless="True"/>
                                     </se:StswTabItem>
-                                    <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
+                                    <se:StswTabItem Header="{se:StswTranslate StswTextEditor.Font.ColorDetailed}">
                                         <se:StswColorPicker IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
                                                             SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>

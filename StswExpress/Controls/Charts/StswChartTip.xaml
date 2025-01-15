@@ -47,11 +47,11 @@
                             <se:StswSeparator x:Name="PART_NameSeparator" DockPanel.Dock="Top" BorderThickness="1" Margin="{TemplateBinding Padding}"/>
                             <!-- value & percentage -->
                             <se:StswText DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
-                                <Run Text="{se:Tr StswChartTooltip.Value}" FontSize="11"/>
+                                <Run Text="{se:StswTranslate StswChartTooltip.Value}" FontSize="11"/>
                                 <Run Text="{Binding Value, Mode=OneWay, StringFormat=N, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontSize="12" FontWeight="Medium"/>
                             </se:StswText>
                             <se:StswText DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
-                                <Run Text="{se:Tr StswChartTooltip.Percentage}" FontSize="11"/>
+                                <Run Text="{se:StswTranslate StswChartTooltip.Percentage}" FontSize="11"/>
                                 <Run Text="{Binding Percentage, Mode=OneWay, StringFormat=N3, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontSize="12" FontWeight="Medium"/>
                                 <Run Text="%" FontSize="12" FontWeight="Medium"/>
                             </se:StswText>

@@ -82,6 +82,22 @@ public static class StswFn
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="assemblyName"></param>
+    /// <param name="resourcePath"></param>
+    /// <returns></returns>
+    /// <exception cref="FileNotFoundException"></exception>
+    public static string GetResourceText(string assemblyName, string resourcePath)
+    {
+        var resourceUri = new Uri($"pack://application:,,,/{assemblyName};component/{resourcePath}", UriKind.Absolute);
+
+        using var stream = (Application.GetResourceStream(resourceUri)?.Stream) ?? throw new FileNotFoundException($"Resource '{resourcePath}' not found in assembly '{assemblyName}'.");
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
+    }
+
+    /// <summary>
     /// Determines whether the entry assembly was built in debug mode.
     /// </summary>
     /// <param name="assembly">The assembly to check.</param>
