@@ -39,7 +39,7 @@ Examples: `StswBindingProxy`, `StswBindingTrigger`.
 
 #### Collections
 Custom collection types and utilities for advanced data handling, such as binding lists, enhanced views, and dictionaries.  
-Examples: `StswBindingList`, `StswCollectionView`.
+Examples: `StswCollection`, `StswCollectionView`.
 
 #### Commands
 Command implementations for MVVM, supporting asynchronous, cancellable, and pausable commands.  

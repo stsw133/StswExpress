@@ -60,13 +60,13 @@
                 -->
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
-                <Run Text="{Binding Items.Unchanged, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text="{Binding Items, Mode=OneWay, Converter={x:Static se:StswLinqConverter.Instance}, ConverterParameter='count ItemState == Unchanged'}" FontWeight="Bold"/>
                 <Run Text=" unchanged rows, "/>
-                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                <Run Text="{Binding Items.AddedItems.Count, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=" added rows, "/>
-                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                <Run Text="{Binding Items.ModifiedItems.Count, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                 <Run Text=" modified rows, "/>
-                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                <Run Text="{Binding Items.RemovedItems.Count, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                 <Run Text=" deleted rows"/>
             </se:StswText>
         </local:ControlsBase.StatusPanel>

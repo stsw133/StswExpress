@@ -51,7 +51,7 @@ internal static class SQL
         order by a.Name", filter.SqlParameters)!;
 
     /// SetContractors
-    internal static void SetContractors(StswBindingList<ContractorModel> list) => DbCurrent.Set(list,
+    internal static void SetContractors(StswCollection<ContractorModel> list) => DbCurrent.Set(list,
         "dbo.StswExpressTEST_Contractors", typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
             nameof(ContractorModel.ID),
             nameof(ContractorModel.IconSource),

@@ -534,6 +534,14 @@ public static partial class StswExtensions
     /// <param name="value">The dictionary to convert.</param>
     /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
     public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) where T1 : notnull => new(value);
+
+    /// <summary>
+    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswCollection{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of objects in the list.</typeparam>
+    /// <param name="value">The enumerable to convert.</param>
+    /// <returns>The converted <see cref="StswCollection{T}"/>.</returns>
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
     #endregion
 
     #region Color extensions
@@ -725,7 +733,7 @@ public static partial class StswExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>
     /// <param name="items"></param>
-    public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
+    public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
     {
         foreach (var item in items)
             list.Add(item);
@@ -774,6 +782,14 @@ public static partial class StswExtensions
         foreach (var item in source)
             action(item);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
 
     /// <summary>
     /// Applies a specified action to each element of the <see cref="IList{}"/>, allowing modification of 
@@ -829,6 +845,20 @@ public static partial class StswExtensions
                 if (set.Contains(list[i]))
                     list.RemoveAt(i);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="newItems"></param>
+    public static void Renew<T>(this StswCollection<T> target, IEnumerable<T> newItems) where T : IStswCollectionItem
+    {
+        target.Clear();
+        foreach (var item in newItems)
+            target.Add(item);
+        target.AcceptChanges();
     }
 
     /// <summary>

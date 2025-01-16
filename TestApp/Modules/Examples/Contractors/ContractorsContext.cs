@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TestApp;
@@ -32,10 +34,8 @@ public class ContractorsContext : StswObservableObject
         DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
 
         SelectedContractor = null;
-        ListContractorsView = new(ListContractors)
-        {
-            AutoRefresh = true
-        };
+
+        ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
     }
 
     /// Init
@@ -56,7 +56,7 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            await Task.Run(() => ListContractors = []);
+            await Task.Run(ListContractors.Clear);
         }
         catch (Exception ex)
         {
@@ -69,7 +69,7 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            //var newList = await Task.Run(() => SQL.GetContractors(null).ToStswBindingList());
+            //var newList = await Task.Run(() => SQL.GetContractors(null).ToStswCollection());
             //Application.Current.Dispatcher.Invoke(() =>
             //{
             //    SelectedContractor = null;
@@ -79,7 +79,8 @@ public class ContractorsContext : StswObservableObject
             //});
 
             FiltersContractors.Apply?.Invoke();
-            await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors).ToStswBindingList());
+            await Task.Run(() => ListContractors.Renew(SQL.GetContractors(FiltersContractors)));
+            //ListContractorsView?.Refresh();
         }
         catch (Exception ex)
         {
@@ -238,20 +239,20 @@ public class ContractorsContext : StswObservableObject
     private StswDataGridFiltersDataModel _filtersContractors = new();
 
     /// ListContractors
-    public StswBindingList<ContractorModel> ListContractors
+    public StswCollection<ContractorModel> ListContractors
     {
         get => _listContractors;
         set => SetProperty(ref _listContractors, value);
     }
-    private StswBindingList<ContractorModel> _listContractors = [];
+    private StswCollection<ContractorModel> _listContractors = [];
     
     /// ListContractorsView
-    public StswCollectionView<ContractorModel> ListContractorsView
+    public ICollectionView? ListContractorsView
     {
         get => _listContractorsView;
         set => SetProperty(ref _listContractorsView, value);
     }
-    private StswCollectionView<ContractorModel> _listContractorsView;
+    private ICollectionView? _listContractorsView;
 
     /// NewTab
     public StswTabItem NewTab
