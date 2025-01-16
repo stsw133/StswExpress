@@ -768,6 +768,20 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="newItems"></param>
+    public static void ClearAndFill<T>(this StswCollection<T> target, IEnumerable<T> newItems) where T : IStswCollectionItem
+    {
+        target.Clear();
+        foreach (var item in newItems)
+            target.Add(item);
+        target.AcceptChanges();
+    }
+
+    /// <summary>
     /// Performs the specified action on each element of the <see cref="IEnumerable{}"/>.
     /// </summary>
     /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{}"/>.</typeparam>
@@ -845,20 +859,6 @@ public static partial class StswExtensions
                 if (set.Contains(list[i]))
                     list.RemoveAt(i);
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="target"></param>
-    /// <param name="newItems"></param>
-    public static void Renew<T>(this StswCollection<T> target, IEnumerable<T> newItems) where T : IStswCollectionItem
-    {
-        target.Clear();
-        foreach (var item in newItems)
-            target.Add(item);
-        target.AcceptChanges();
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -47,7 +48,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -60,7 +61,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -79,12 +80,12 @@ public class ContractorsContext : StswObservableObject
             //});
 
             FiltersContractors.Apply?.Invoke();
-            await Task.Run(() => ListContractors.Renew(SQL.GetContractors(FiltersContractors)));
+            await Task.Run(() => ListContractors.ClearAndFill(SQL.GetContractors(FiltersContractors)));
             //ListContractorsView?.Refresh();
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -99,7 +100,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -112,7 +113,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -138,7 +139,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -167,7 +168,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
@@ -197,7 +198,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
@@ -225,7 +226,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
