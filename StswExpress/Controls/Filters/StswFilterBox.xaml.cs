@@ -132,7 +132,10 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     /// </summary>
     public Predicate<object>? GenerateFilterPredicate()
     {
-        if (Value1 == null || string.IsNullOrEmpty(Value1.ToString()))
+        if (FilterMode == null)
+            return null;
+
+        if (Value1 == null && !FilterMode.In(StswFilterMode.Null, StswFilterMode.NotNull))
             return null;
 
         /// make list
@@ -141,77 +144,175 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
             .Select(item => SelectedValuePath != null
                 ? item.GetType().GetProperty(SelectedValuePath)?.GetValue(item) ?? item
                 : item)
-            .Select(value => value?.GetType().IsEnum == true ? value.ConvertTo<int>() : value)
-            .ToList() ?? [];
+            //.Select(value => value?.GetType().IsEnum == true ? value.ConvertTo<int>() : value)
+            .ToList()
+            ?? [];
 
-        /// result
-        return item =>
+        /// helper method to get value
+        object? GetValueForFilter(object rowItem)
         {
-            var value = item.GetPropertyValue(FilterValuePath)?.ToString();
-            var val1 = Value1?.ToString()?.ToLowerInvariant();
-            if (value == null && !IsFilterNullSensitive)
-                value = string.Empty;
-
-            return FilterMode switch
+            var rawValue = rowItem.GetPropertyValue(FilterValuePath);
+            if (rawValue == null && !IsFilterNullSensitive)
             {
-                StswFilterMode.Equal => value == val1,
-                StswFilterMode.In => listValues.Contains(value),
-                StswFilterMode.NotIn => !listValues.Contains(value),
-                _ => true
-            };
-        };
-        /*
-        return item =>
-        {
-            var value = GetValueForFilter(item);
-            var v = value?.ToString();
-            var val1 = Value1?.ToString();
-            var val2 = Value2?.ToString();
-
-            if (!IsFilterCaseSensitive)
-            {
-                v = v?.ToLower();
-                val1 = val1?.ToLower();
-                val2 = val2?.ToLower();
-            }
-
-            if (!IsFilterNullSensitive && v == null)
-            {
-                v = FilterType switch
+                return FilterType switch
                 {
-                    StswAdaptiveType.Check => false.ToString(),
-                    StswAdaptiveType.Date => new DateTime().ToString(),
+                    StswAdaptiveType.Check => false,
+                    StswAdaptiveType.Date => new DateTime(1900, 1, 1),
                     StswAdaptiveType.List => string.Empty,
-                    StswAdaptiveType.Number => 0.ToString(),
+                    StswAdaptiveType.Number => 0m,
                     StswAdaptiveType.Text => string.Empty,
                     _ => string.Empty
                 };
             }
+            return rawValue;
+        }
 
-            return FilterMode switch
+        /// result
+        return item =>
+        {
+            var rowValue = GetValueForFilter(item);
+
+            if (FilterMode == StswFilterMode.Null)
+                return rowValue == null;
+            if (FilterMode == StswFilterMode.NotNull)
+                return rowValue != null;
+
+            switch (FilterType)
             {
-                StswFilterMode.Equal => v == val1,
-                StswFilterMode.NotEqual => v != val1,
-                StswFilterMode.Greater => decimal.TryParse(v, out var decvG) && decimal.TryParse(val1, out var decval1G) && decvG > decval1G,
-                StswFilterMode.GreaterEqual => decimal.TryParse(v, out var decvGE) && decimal.TryParse(val1, out var decval1GE) && decvGE >= decval1GE,
-                StswFilterMode.Less => decimal.TryParse(v, out var decvL) && decimal.TryParse(val1, out var decval1L) && decvL < decval1L,
-                StswFilterMode.LessEqual => decimal.TryParse(v, out var decvLE) && decimal.TryParse(val1, out var decval1LE) && decvLE <= decval1LE,
-                StswFilterMode.Between => decimal.TryParse(v, out var decvB)
-                                        && decimal.TryParse(val1, out var decval1B)
-                                        && decimal.TryParse(val2, out var decval2B)
-                                        && decvB >= decval1B && decvB <= decval2B,
-                StswFilterMode.Contains => val1 != null && v?.Contains(val1) == true,
-                StswFilterMode.NotContains => val1 != null && !(v?.Contains(val1) == true),
-                StswFilterMode.StartsWith => val1 != null && v?.StartsWith(val1) == true,
-                StswFilterMode.EndsWith => val1 != null && v?.EndsWith(val1) == true,
-                StswFilterMode.In => listValues.Any(lv => lv?.ToString()?.Equals(v) == true),
-                StswFilterMode.NotIn => !listValues.Any(lv => lv?.ToString()?.Equals(v) == true),
-                StswFilterMode.Null => value == null,
-                StswFilterMode.NotNull => value != null,
-                _ => true,
-            };
+                case StswAdaptiveType.Number:
+                    {
+                        if (!decimal.TryParse(rowValue?.ToString(), out var decValue))
+                            return false;
+
+                        decimal.TryParse(Value1?.ToString(), out var decVal1);
+                        decimal.TryParse(Value2?.ToString(), out var decVal2);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => decValue == decVal1,
+                            StswFilterMode.NotEqual => decValue != decVal1,
+                            StswFilterMode.Greater => decValue > decVal1,
+                            StswFilterMode.GreaterEqual => decValue >= decVal1,
+                            StswFilterMode.Less => decValue < decVal1,
+                            StswFilterMode.LessEqual => decValue <= decVal1,
+                            StswFilterMode.Between => decValue >= decVal1 && decValue <= decVal2,
+                            _ => true
+                        };
+                    }
+                case StswAdaptiveType.Date:
+                    {
+                        if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
+                            return false;
+
+                        DateTime.TryParse(Value1?.ToString(), out var dateVal1);
+                        DateTime.TryParse(Value2?.ToString(), out var dateVal2);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => dateValue.Date == dateVal1.Date,
+                            StswFilterMode.NotEqual => dateValue.Date != dateVal1.Date,
+                            StswFilterMode.Greater => dateValue.Date > dateVal1.Date,
+                            StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
+                            StswFilterMode.Less => dateValue.Date < dateVal1.Date,
+                            StswFilterMode.LessEqual => dateValue.Date <= dateVal1.Date,
+                            StswFilterMode.Between => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
+                            _ => true
+                        };
+                    }
+                case StswAdaptiveType.Check:
+                    {
+                        if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
+                            return false;
+
+                        bool.TryParse(Value1?.ToString(), out var boolVal1);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => boolValue == boolVal1,
+                            StswFilterMode.NotEqual => boolValue != boolVal1,
+                            _ => true
+                        };
+                    }
+                case StswAdaptiveType.List:
+                case StswAdaptiveType.Text:
+                default:
+                    {
+                        var textValue = rowValue?.ToString();
+                        var val1 = Value1?.ToString();
+                        var val2 = Value2?.ToString() ?? string.Empty;
+
+                        if (!IsFilterCaseSensitive)
+                        {
+                            textValue = textValue?.ToLowerInvariant();
+                            val1 = val1?.ToLowerInvariant();
+                            val2 = val2?.ToLowerInvariant();
+                        }
+
+                        if (textValue == null && IsFilterNullSensitive)
+                            return false;
+
+                        if (FilterMode == StswFilterMode.In)
+                        {
+                            return listValues.Any(o =>
+                            {
+                                var str = o?.ToString();
+                                if (!IsFilterCaseSensitive)
+                                    str = str?.ToLowerInvariant();
+                                return str == textValue;
+                            });
+                        }
+                        if (FilterMode == StswFilterMode.NotIn)
+                        {
+                            return !listValues.Any(o =>
+                            {
+                                var str = o?.ToString();
+                                if (!IsFilterCaseSensitive)
+                                    str = str?.ToLowerInvariant();
+                                return str == textValue;
+                            });
+                        }
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => textValue == val1,
+                            StswFilterMode.NotEqual => textValue != val1,
+                            StswFilterMode.Contains => val1 != null && textValue?.Contains(val1) == true,
+                            StswFilterMode.NotContains => val1 != null && !(textValue?.Contains(val1) == true),
+                            StswFilterMode.StartsWith => val1 != null && textValue?.StartsWith(val1) == true,
+                            StswFilterMode.EndsWith => val1 != null && textValue?.EndsWith(val1) == true,
+                            StswFilterMode.Like => MatchesLikePattern(textValue, val1),
+                            StswFilterMode.NotLike => !MatchesLikePattern(textValue, val1),
+                            StswFilterMode.Between => textValue.Between(val1, val2),
+                            _ => true
+                        };
+                    }
+            }
         };
-        */
+    }
+
+    /// <summary>
+    /// Helper method to interpret "like" pattern in a naive way:
+    /// e.g. if val1 = "%abc%", we check contains "abc", etc.
+    /// You can refine it to handle '_' or other wildcard logic as you prefer.
+    /// </summary>
+    private bool MatchesLikePattern(string? text, string? pattern)
+    {
+        if (string.IsNullOrEmpty(pattern) || text == null)
+            return false;
+
+        var startsWithPercent = pattern.StartsWith('%');
+        var endsWithPercent = pattern.EndsWith('%');
+
+        var core = pattern.Trim('%');
+
+        if (startsWithPercent && endsWithPercent)
+            return text.Contains(core);
+        if (startsWithPercent)
+            return text.EndsWith(core);
+        if (endsWithPercent)
+            return text.StartsWith(core);
+
+        return text == core;
     }
 
     /// <summary>

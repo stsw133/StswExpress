@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -57,7 +59,7 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            await Task.Run(ListContractors.Clear);
+            ListContractors.Clear();
         }
         catch (Exception ex)
         {
@@ -70,17 +72,26 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            //var newList = await Task.Run(() => SQL.GetContractors(null).ToStswCollection());
+            // for CollectionView filters:
+            ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswCollection());
+            ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
+            FiltersContractors.Apply?.Invoke();
+            //Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
+
             //Application.Current.Dispatcher.Invoke(() =>
             //{
             //    SelectedContractor = null;
             //    ListContractors = newList;
-            //    ListContractorsView = new StswCollectionView<ContractorModel>(ListContractors);
+            //    ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             //    Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
             //});
 
-            FiltersContractors.Apply?.Invoke();
-            await Task.Run(() => ListContractors.ClearAndFill(SQL.GetContractors(FiltersContractors)));
+            // for SQL filters:
+            //FiltersContractors.Apply?.Invoke();
+
+            //IEnumerable<ContractorModel> list = [];
+            //await Task.Run(() => list = SQL.GetContractors(FiltersContractors));
+            //ListContractors = new(list);
             //ListContractorsView?.Refresh();
         }
         catch (Exception ex)

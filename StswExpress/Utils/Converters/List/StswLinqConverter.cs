@@ -178,7 +178,6 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
                 continue;
 
             var propVal = propInfo.GetValue(item);
-
             if (propVal == null)
                 continue;
 
@@ -222,7 +221,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
                 continue;
 
             var propVal = propInfo.GetValue(item);
-            bool isMatch = EvaluateCondition(propVal, op, targetValueString, propInfo.PropertyType);
+            var isMatch = EvaluateCondition(propVal, op, targetValueString, propInfo.PropertyType);
 
             if (isMatch)
                 filtered.Add(item);

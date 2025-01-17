@@ -54,13 +54,13 @@
                     <TextBlock Margin="3" VerticalAlignment="Center">
                         <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
                         <Run Text=" total rows, "/>
-                        <Run Text="{Binding ListContractors.Unchanged, Mode=OneWay}" FontWeight="Bold" Foreground="Gray"/>
+                        <Run Text="{Binding ListContractors.CountUnchanged, Mode=OneWay}" FontWeight="Bold" Foreground="Gray"/>
                         <Run Text=" unchanged rows, "/>
-                        <Run Text="{Binding ListContractors.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                        <Run Text="{Binding ListContractors.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                         <Run Text=" added rows, "/>
-                        <Run Text="{Binding ListContractors.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                        <Run Text="{Binding ListContractors.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                         <Run Text=" modified rows, "/>
-                        <Run Text="{Binding ListContractors.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                        <Run Text="{Binding ListContractors.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                         <Run Text=" deleted rows"/>
                     </TextBlock>
                 </DockPanel>
@@ -68,11 +68,10 @@
                 <!-- <se:StswScrollView HorizontalScrollBarVisibility="{Binding ListContractorsView.IsEmpty, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=True~Auto~Disabled}"
                                    VerticalScrollBarVisibility="Disabled"> -->
                 <se:StswDataGrid FiltersData="{Binding FiltersContractors}"
-                                 FiltersType="SQL"
+                                 FiltersType="CollectionView"
                                  FrozenColumnCount="1"
-                                 ItemsSource="{Binding ListContractors}"
+                                 ItemsSource="{Binding ListContractorsView}"
                                  Margin="3"
-                                 RefreshCommand="{Binding RefreshCommand}"
                                  SelectedItem="{Binding SelectedContractor}">
                     <se:StswDataGrid.Resources>
                         <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>

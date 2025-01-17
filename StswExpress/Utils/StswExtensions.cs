@@ -768,20 +768,6 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="target"></param>
-    /// <param name="newItems"></param>
-    public static void ClearAndFill<T>(this StswCollection<T> target, IEnumerable<T> newItems) where T : IStswCollectionItem
-    {
-        target.Clear();
-        foreach (var item in newItems)
-            target.Add(item);
-        target.AcceptChanges();
-    }
-
-    /// <summary>
     /// Performs the specified action on each element of the <see cref="IEnumerable{}"/>.
     /// </summary>
     /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{}"/>.</typeparam>
@@ -796,14 +782,6 @@ public static partial class StswExtensions
         foreach (var item in source)
             action(item);
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="source"></param>
-    /// <returns></returns>
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
 
     /// <summary>
     /// Applies a specified action to each element of the <see cref="IList{}"/>, allowing modification of 
@@ -1017,6 +995,22 @@ public static partial class StswExtensions
 
         return EqualityComparer<T>.Default.Equals(value, default);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty(this IEnumerable source) => source == null || !source.GetEnumerator().MoveNext();
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
 
     /// <summary>
     /// Determines whether a type is a numeric type.

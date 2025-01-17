@@ -21,6 +21,8 @@ namespace StswExpress;
 /// </param>
 public class StswCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
+    //TODO - handle changes in nested classes
+
     private readonly IList<T> _addedItems = [];
     private readonly IList<T> _removedItems = [];
     private readonly IList<T> _modifiedItems = [];

@@ -57,6 +57,13 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         foreach (var filterBox in filterBoxes)
             filterBox.FilterChanged += (s, e) => ApplyFilters();
 
+        if (FiltersType == StswDataGridFiltersType.CollectionView)
+        {
+            var collectionView = CollectionViewSource.GetDefaultView(ItemsSource);
+            if (collectionView != null)
+                collectionView.Filter = _filterAggregator.CombinedFilter;
+        }
+
         ApplyFilters();
     }
 
@@ -189,7 +196,19 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private void ApplyFilters()
     {
         var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
-        UpdateSqlFilters(filterBoxes);
+        if (FiltersType == StswDataGridFiltersType.CollectionView)
+        {
+            var cv = CollectionViewSource.GetDefaultView(ItemsSource);
+            if (cv != null)
+            {
+                cv.Filter = _filterAggregator.CombinedFilter;
+                cv.Refresh();
+            }
+        }
+        else if (FiltersType == StswDataGridFiltersType.SQL)
+        {
+            UpdateSqlFilters(filterBoxes);
+        }
     }
 
     /// <summary>

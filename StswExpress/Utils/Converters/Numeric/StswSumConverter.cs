@@ -11,6 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// Allows the user to sum up the values of a specified property of each item in a collection or a <see cref="DataTable"/>.
 /// </summary>
+[Obsolete($"Try to use {nameof(StswLinqConverter)} instead.")]
 public class StswSumConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
