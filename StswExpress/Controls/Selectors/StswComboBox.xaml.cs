@@ -392,7 +392,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 /// <summary>
 /// 
 /// </summary>
-public class StswComboBoxItem : ComboBoxItem
+public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
 {
     static StswComboBoxItem()
     {
@@ -408,7 +408,7 @@ public class StswComboBoxItem : ComboBoxItem
     {
         base.OnApplyTemplate();
 
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+        if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
     #endregion

@@ -16,9 +16,6 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
-    public ICommand ClearFiltersCommand { get; }
-    public ICommand ApplyFiltersCommand { get; }
-
     public StswDataGrid()
     {
         Columns.CollectionChanged += Columns_CollectionChanged;
@@ -38,9 +35,10 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
-    #region Events & methods
-    private StswFilterAggregator _filterAggregator = new();
+    protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
 
+    #region Events & methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -48,15 +46,17 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     {
         base.OnApplyTemplate();
 
+        /// force styles to refresh
         CellStyle = CellStyle;
         ColumnHeaderStyle = ColumnHeaderStyle;
         RowHeaderStyle = RowHeaderStyle;
 
-        /// filters
+        /// attach local event on all discovered FilterBoxes
         var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this);
         foreach (var filterBox in filterBoxes)
-            filterBox.FilterChanged += (s, e) => ApplyFilters();
+            filterBox.FilterChanged += (_, _) => ApplyFilters();
 
+        /// if we are using CollectionView filters, set aggregator now
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {
             var collectionView = CollectionViewSource.GetDefaultView(ItemsSource);
@@ -73,21 +73,21 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     /// <param name="e">Auto-generating column event arguments</param>
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
-        /// if exists column with the same binding
+        /// if a column with this same binding already exists, skip
         if (Columns.OfType<DataGridBoundColumn>().Any(x => x.Binding is Binding binding && binding.Path.Path == e.PropertyName))
         {
             e.Cancel = true;
             return;
         }
 
-        /// if exists attribute to ignore generating column for this property
+        /// skip generating column if StswIgnoreAutoGenerateColumnAttribute is present
         if (e.PropertyDescriptor is System.ComponentModel.PropertyDescriptor property && property.Attributes[typeof(StswIgnoreAutoGenerateColumnAttribute)] != null)
         {
             e.Cancel = true;
             return;
         }
 
-        /// skip columns without bounds
+        /// must be a DataGridBoundColumn
         if (e.Column is not DataGridBoundColumn boundColumn)
         {
             e.Cancel = true;
@@ -100,7 +100,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             return;
         }
 
-        /// auto generating
+        /// auto-generate columns based on property type
         e.Column = e.PropertyType switch
         {
             Type t when t == typeof(bool) || t == typeof(bool?) => new StswDataGridCheckColumn { Header = e.Column.Header, Binding = binding },
@@ -125,32 +125,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)
-    {
-        base.OnSelectedCellsChanged(e);
-
-        if (UsesSelectionItems && ItemsSource != null)
-        {
-            if (e.RemovedCells != null)
-            {
-                foreach (var item in e.RemovedCells.Select(x => x.Item).Distinct())
-                    if (item is IStswSelectionItem selectionItem)
-                        selectionItem.IsSelected = false;
-            }
-            if (e.AddedCells != null)
-            {
-                foreach (var item in e.AddedCells.Select(x => x.Item).Distinct())
-                    if (item is IStswSelectionItem selectionItem)
-                        selectionItem.IsSelected = true;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 
+    /// Occurs when columns collection changes (e.g. new column added).
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -167,6 +142,12 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
                     column.DataGridOwner = this;
         }
     }
+    #endregion
+
+    #region Filters
+    private StswFilterAggregator _filterAggregator = new();
+    public ICommand ClearFiltersCommand { get; }
+    public ICommand ApplyFiltersCommand { get; }
 
     /// <summary>
     /// Clears the filters.
@@ -187,7 +168,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         }
 
         filterBoxes.FirstOrDefault()?.Focus();
-        //RefreshFilters();
+
+        ApplyFilters();
     }
 
     /// <summary>
@@ -212,7 +194,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Allows external controls (e.g. <see cref="StswFilterBox"/>) to register/unregister filter predicates.
     /// </summary>
     public void RegisterExternalFilter(object key, Predicate<object>? filter)
     {
@@ -221,7 +203,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the final SQL filter text.
     /// </summary>
     public string SqlFilter
     {
@@ -231,7 +213,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private string _sqlFilter = "1=1";
 
     /// <summary>
-    /// 
+    /// Gets or sets the final collection of SQL parameters.
     /// </summary>
     public IList<SqlParameter> SqlParameters
     {
@@ -241,7 +223,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private IList<SqlParameter> _sqlParameters = [];
 
     /// <summary>
-    /// 
+    /// Builds the combined SQL filter from all filter boxes.
     /// </summary>
     /// <param name="filterBoxes"></param>
     private void UpdateSqlFilters(IEnumerable<StswFilterBox> filterBoxes)
@@ -353,22 +335,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             typeof(object),
             typeof(StswDataGrid)
         );
-
-    //TODO - replace UsesSelectionItems with custom DataGridRow and same logic as in stsw selector controls
-    /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
-    /// </summary>
-    public bool UsesSelectionItems
-    {
-        get => (bool)GetValue(UsesSelectionItemsProperty);
-        set => SetValue(UsesSelectionItemsProperty, value);
-    }
-    public static readonly DependencyProperty UsesSelectionItemsProperty
-        = DependencyProperty.Register(
-            nameof(UsesSelectionItems),
-            typeof(bool),
-            typeof(StswDataGrid)
-        );
     #endregion
 
     #region Style properties
@@ -471,4 +437,42 @@ public class StswDataGridFiltersDataModel
 [AttributeUsage(AttributeTargets.Property)]
 public class StswIgnoreAutoGenerateColumnAttribute : Attribute
 {
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class StswDataGridRow : DataGridRow
+{
+    static StswDataGridRow()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGridRow), new FrameworkPropertyMetadata(typeof(StswDataGridRow)));
+        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGridRow), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+    }
+
+    #region Events & methods
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelected(RoutedEventArgs e)
+    {
+        base.OnSelected(e);
+
+        if (DataContext is IStswSelectionItem item)
+            item.IsSelected = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnselected(RoutedEventArgs e)
+    {
+        base.OnUnselected(e);
+
+        if (DataContext is IStswSelectionItem item)
+            item.IsSelected = false;
+    }
+    #endregion
 }

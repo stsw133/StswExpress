@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="TestApp.ContractorsSingleDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsSingleDialogContext}"
+             Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.8}"
+             Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.8}">
+
+    <se:StswGroupBox>
+        <se:StswGroupBox.Header>
+            <DockPanel>
+                <se:StswSubButton DockPanel.Dock="Right"
+                                  Command="{x:Static se:StswCommands.CloseDialog}"
+                                  CommandParameter="{Binding Identifier, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                  IconData="{x:Static se:StswIcons.CloseBox}"
+                                  IconFill="{DynamicResource StswColor.Negative}"
+                                  IconScale="2"
+                                  Padding="0"
+                                  ToolTip="Zamknij"/>
+                <se:StswLabel Content="New contractor" FontWeight="Medium" IconData="{x:Static se:StswIcons.Plus}"/>
+            </DockPanel>
+        </se:StswGroupBox.Header>
+        <local:ContractorsSingleContext/>
+    </se:StswGroupBox>
+</UserControl>

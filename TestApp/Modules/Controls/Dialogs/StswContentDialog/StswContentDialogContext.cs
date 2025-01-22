@@ -11,18 +11,14 @@ public class StswContentDialogContext : ControlsContext
     /// Command: open content dialog
     private async Task OpenContentDialog()
     {
-        //if (await StswContentDialog.Show(new ContractorsContext(), nameof(StswContentDialogView)) is string result)
-        //    ContentDialogResult = result;
-
-        //StswContentDialog.Show(new ContractorsContext(), StswApp.StswWindow);
-        await Task.Run(() => IsOpen = true);
+        if (await StswContentDialog.Show(new ContractorsSingleDialogContext(), nameof(StswContentDialogView)) is string result)
+            ContentDialogResult = result;
     }
 
     /// Command: close content dialog
     private async Task CloseContentDialog()
     {
-        //StswContentDialog.Close(nameof(StswContentDialogView), true);
-        await Task.Run(() => IsOpen = false);
+        await Task.Run(() => StswContentDialog.Close(nameof(StswContentDialogView), true));
     }
     #endregion
 
@@ -33,12 +29,4 @@ public class StswContentDialogContext : ControlsContext
         set => SetProperty(ref _contentDialogResult, value);
     }
     private string? _contentDialogResult;
-
-    /// IsOpen
-    public bool IsOpen
-    {
-        get => _isOpen;
-        set => SetProperty(ref _isOpen, value);
-    }
-    private bool _isOpen;
 }

@@ -141,7 +141,7 @@
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerClipping="{TemplateBinding CornerClipping}"
                                            CornerRadius="{TemplateBinding CornerRadius}">
-                                <Grid x:Name="PART_ColorGrid" Background="White" SnapsToDevicePixels="False">
+                                <Grid x:Name="PART_ColorGrid" Background="White" Cursor="Cross" SnapsToDevicePixels="False">
                                     <Rectangle SnapsToDevicePixels="False">
                                         <Rectangle.Fill>
                                             <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
@@ -164,7 +164,11 @@
                                 </Grid>
                             </se:StswBorder>
                             <Canvas SnapsToDevicePixels="True">
-                                <Ellipse x:Name="PART_ColorEllipse" SnapsToDevicePixels="True" Stroke="Black" Height="5" Width="5"/>
+                                <Ellipse x:Name="PART_ColorEllipse"
+                                         IsHitTestVisible="False"
+                                         SnapsToDevicePixels="True"
+                                         Stroke="Black"
+                                         Height="5" Width="5"/>
                             </Canvas>
                         </Grid>
                     </DockPanel>

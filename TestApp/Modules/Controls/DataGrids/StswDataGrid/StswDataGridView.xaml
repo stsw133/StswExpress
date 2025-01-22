@@ -44,11 +44,17 @@
                 </DataGridTextColumn>
             </se:StswDataGrid.Columns>
             
-            <DataGrid.RowDetailsTemplate>
+            <se:StswDataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <TextBlock Text="There are some row details..." Margin="3"/>
+                    <se:StswText Margin="3" Text="There are some row details..."/>
                 </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+            </se:StswDataGrid.RowDetailsTemplate>
+
+            <se:StswDataGrid.RowStyle>
+                <Style TargetType="{x:Type se:StswDataGridRow}">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+            </se:StswDataGrid.RowStyle>
         </se:StswDataGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

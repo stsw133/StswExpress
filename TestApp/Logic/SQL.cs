@@ -32,7 +32,7 @@ internal static class SQL
 	        )");
 
     /// GetContractors
-    internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel filter) => DbCurrent.Get<ContractorModel>($@"
+    internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel? filter) => DbCurrent.Get<ContractorModel>($@"
         select a.ID [{nameof(ContractorModel.ID)}]
             , a.Type [{nameof(ContractorModel.Type)}]
             , a.Icon [{nameof(ContractorModel.Icon)}]

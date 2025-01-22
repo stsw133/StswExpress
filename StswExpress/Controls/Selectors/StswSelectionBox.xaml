@@ -74,7 +74,7 @@
                             <!-- error -->
                             <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- popup -->
-                            <Popup x:Name="OPT_Popup"
+                            <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
                                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
                                    IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"

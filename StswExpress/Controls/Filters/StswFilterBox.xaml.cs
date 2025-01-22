@@ -15,7 +15,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
-public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
+public class StswFilterBox : Control, IStswCornerControl
 {
     public ICommand SelectModeCommand { get; set; }
 
@@ -40,7 +40,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// IsInDataGrid
+        /// find if the control is placed in StswDataGrid
         _dataGrid = StswFn.FindVisualAncestor<StswDataGrid>(this);
         IsInDataGrid = _dataGrid != null;
 
@@ -61,6 +61,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         DefaultValue1 = Value1;
         DefaultValue2 = Value2;
 
+        /// force first evaluation
         OnFilterModeChanged(this, new DependencyPropertyChangedEventArgs());
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -92,7 +93,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
             _ => string.Empty
         } : string.Empty;
 
-        /// calculate SQL string
+        /// get any selected items (if ItemsSource uses IStswSelectionItem)
         var selectedItems = ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected).ToList();
         var listValues = selectedItems?
             .Select(item => SelectedValuePath != null
@@ -101,28 +102,28 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
             .Select(value => value?.GetType().IsEnum == true ? value.ConvertTo<int>() : value)
             .ToList() ?? [];
 
-        var listString = string.Join($"{s}{cs2},{cs1}{s}", listValues ?? Enumerable.Empty<object?>());
+        var listString = string.Join($"{s}{cs2},{cs1}{s}", listValues);
 
-        /// result
+        /// build final SQL
         SqlString = FilterMode switch
         {
-            StswFilterMode.Equal => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotEqual => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Greater => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Equal        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotEqual     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Greater      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
             StswFilterMode.GreaterEqual => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Less => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.LessEqual => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Between => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
-            StswFilterMode.Contains => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.NotContains => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.Like => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotLike => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.StartsWith => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
-            StswFilterMode.EndsWith => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
-            StswFilterMode.In => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} in ({cs1}{s}{listString}{s}{cs2})",
-            StswFilterMode.NotIn => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not in ({cs1}{s}{listString}{s}{cs2})",
-            StswFilterMode.Null => $"{FilterValuePath} is null",
-            StswFilterMode.NotNull => $"{FilterValuePath} is not null",
+            StswFilterMode.Less         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.LessEqual    => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Between      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
+            StswFilterMode.Contains     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.NotContains  => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.Like         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotLike      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.StartsWith   => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
+            StswFilterMode.EndsWith     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
+            StswFilterMode.In           => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} in ({cs1}{s}{listString}{s}{cs2})",
+            StswFilterMode.NotIn        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not in ({cs1}{s}{listString}{s}{cs2})",
+            StswFilterMode.Null         => $"{FilterValuePath} is null",
+            StswFilterMode.NotNull      => $"{FilterValuePath} is not null",
             _ => SqlString
         };
     }
@@ -138,13 +139,12 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         if (Value1 == null && !FilterMode.In(StswFilterMode.Null, StswFilterMode.NotNull))
             return null;
 
-        /// make list
+        /// build selection list if applicable
         var selectedItems = ItemsSource?.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
         var listValues = selectedItems?
             .Select(item => SelectedValuePath != null
                 ? item.GetType().GetProperty(SelectedValuePath)?.GetValue(item) ?? item
                 : item)
-            //.Select(value => value?.GetType().IsEnum == true ? value.ConvertTo<int>() : value)
             .ToList()
             ?? [];
 
@@ -189,13 +189,13 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal => decValue == decVal1,
-                            StswFilterMode.NotEqual => decValue != decVal1,
-                            StswFilterMode.Greater => decValue > decVal1,
+                            StswFilterMode.Equal        => decValue == decVal1,
+                            StswFilterMode.NotEqual     => decValue != decVal1,
+                            StswFilterMode.Greater      => decValue > decVal1,
                             StswFilterMode.GreaterEqual => decValue >= decVal1,
-                            StswFilterMode.Less => decValue < decVal1,
-                            StswFilterMode.LessEqual => decValue <= decVal1,
-                            StswFilterMode.Between => decValue >= decVal1 && decValue <= decVal2,
+                            StswFilterMode.Less         => decValue < decVal1,
+                            StswFilterMode.LessEqual    => decValue <= decVal1,
+                            StswFilterMode.Between      => decValue >= decVal1 && decValue <= decVal2,
                             _ => true
                         };
                     }
@@ -209,13 +209,13 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal => dateValue.Date == dateVal1.Date,
-                            StswFilterMode.NotEqual => dateValue.Date != dateVal1.Date,
-                            StswFilterMode.Greater => dateValue.Date > dateVal1.Date,
+                            StswFilterMode.Equal        => dateValue.Date == dateVal1.Date,
+                            StswFilterMode.NotEqual     => dateValue.Date != dateVal1.Date,
+                            StswFilterMode.Greater      => dateValue.Date > dateVal1.Date,
                             StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
-                            StswFilterMode.Less => dateValue.Date < dateVal1.Date,
-                            StswFilterMode.LessEqual => dateValue.Date <= dateVal1.Date,
-                            StswFilterMode.Between => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
+                            StswFilterMode.Less         => dateValue.Date < dateVal1.Date,
+                            StswFilterMode.LessEqual    => dateValue.Date <= dateVal1.Date,
+                            StswFilterMode.Between      => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
                             _ => true
                         };
                     }
@@ -228,8 +228,8 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal => boolValue == boolVal1,
-                            StswFilterMode.NotEqual => boolValue != boolVal1,
+                            StswFilterMode.Equal        => boolValue == boolVal1,
+                            StswFilterMode.NotEqual     => boolValue != boolVal1,
                             _ => true
                         };
                     }
@@ -274,15 +274,15 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal => textValue == val1,
-                            StswFilterMode.NotEqual => textValue != val1,
-                            StswFilterMode.Contains => val1 != null && textValue?.Contains(val1) == true,
-                            StswFilterMode.NotContains => val1 != null && !(textValue?.Contains(val1) == true),
-                            StswFilterMode.StartsWith => val1 != null && textValue?.StartsWith(val1) == true,
-                            StswFilterMode.EndsWith => val1 != null && textValue?.EndsWith(val1) == true,
-                            StswFilterMode.Like => MatchesLikePattern(textValue, val1),
-                            StswFilterMode.NotLike => !MatchesLikePattern(textValue, val1),
-                            StswFilterMode.Between => textValue.Between(val1, val2),
+                            StswFilterMode.Equal        => textValue == val1,
+                            StswFilterMode.NotEqual     => textValue != val1,
+                            StswFilterMode.Contains     => val1 != null && textValue?.Contains(val1) == true,
+                            StswFilterMode.NotContains  => val1 != null && !(textValue?.Contains(val1) == true),
+                            StswFilterMode.StartsWith   => val1 != null && textValue?.StartsWith(val1) == true,
+                            StswFilterMode.EndsWith     => val1 != null && textValue?.EndsWith(val1) == true,
+                            StswFilterMode.Like         => MatchesLikePattern(textValue, val1),
+                            StswFilterMode.NotLike      => !MatchesLikePattern(textValue, val1),
+                            StswFilterMode.Between      => textValue.Between(val1, val2),
                             _ => true
                         };
                     }
@@ -291,9 +291,8 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     }
 
     /// <summary>
-    /// Helper method to interpret "like" pattern in a naive way:
-    /// e.g. if val1 = "%abc%", we check contains "abc", etc.
-    /// You can refine it to handle '_' or other wildcard logic as you prefer.
+    /// Naive helper method to interpret LIKE patterns:
+    /// e.g. if pattern = "%abc%", we check 'contains("abc")', etc.
     /// </summary>
     private bool MatchesLikePattern(string? text, string? pattern)
     {
@@ -302,7 +301,6 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 
         var startsWithPercent = pattern.StartsWith('%');
         var endsWithPercent = pattern.EndsWith('%');
-
         var core = pattern.Trim('%');
 
         if (startsWithPercent && endsWithPercent)
@@ -396,10 +394,10 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     {
         if (obj is StswFilterBox stsw)
         {
-            /// visual change for mode box
+            /// update visual symbol if found
             if (stsw.FilterMode != null
              && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
-             && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
+             && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
             {
                 symbolBlock.Fill = newSymbolBlock.Fill;
                 symbolBlock.Text = newSymbolBlock.Text;
@@ -444,6 +442,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     {
         if (obj is StswFilterBox stsw)
         {
+            /// create param name by removing non-alphanumeric characters
             stsw.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
             OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
         }
@@ -543,7 +542,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Indicates whether the control is inside a StswDataGrid.
     /// </summary>
     internal bool IsInDataGrid
     {
@@ -583,7 +582,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
                 if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
                     throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
 
-                /// StswComboItem short usage
+                /// short usage for StswComboItem
                 if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
                 {
                     if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
@@ -677,18 +676,11 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     {
         if (obj is StswFilterBox stsw)
         {
-           //if (stsw.Value1 == null
-           //|| (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-           //|| stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
-           //    stsw.SqlString = null;
-           //else
-           //    stsw.GenerateSqlString();
-
             if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
             {
                 if (stsw.Value1 == null
-            || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-            || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
+                 || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
+                 || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
                     stsw.SqlString = null;
                 else
                     stsw.GenerateSqlString();
@@ -779,14 +771,14 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 }
 
 /// <summary>
-/// 
+/// Internal aggregator to combine multiple filters from external controls.
 /// </summary>
 internal class StswFilterAggregator
 {
     private readonly Dictionary<object, Predicate<object>> _registeredFilters = [];
 
     /// <summary>
-    /// 
+    /// Registers or updates a filter by a given key. Passing null removes the filter.
     /// </summary>
     public void RegisterFilter(object key, Predicate<object>? filter)
     {
@@ -797,7 +789,7 @@ internal class StswFilterAggregator
     }
 
     /// <summary>
-    /// 
+    /// Applies the combined filters in an AND fashion. Returns false if any filter fails.
     /// </summary>
     public bool CombinedFilter(object item)
     {
@@ -816,7 +808,7 @@ internal class StswFilterAggregator
     }
 
     /// <summary>
-    /// 
+    /// Indicates whether there are any registered filters.
     /// </summary>
     public bool HasFilters => _registeredFilters.Count > 0;
 }
