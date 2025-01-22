@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.14.1](#0-14-1)
 - [Version 0.14.0](#0-14-0)
 - [Version 0.13.1](#0-13-1)
 - [Version 0.13.0](#0-13-0)
@@ -31,6 +32,31 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-14-1">0.14.1</h1>
+
+**Release Date**: 2024-12-31
+
+## Additions
+
+### Utils
+- Added `True` and `False` static fields to the `StswFn` class for easier use of boolean values in XAML.
+
+## Changes
+
+### Utils
+- Prevented SQL queries from executing after the application has been closed.
+
+## Fixes
+
+### Controls
+- Resolved an issue in `StswCalendar` control where the year was reset to 1 when `SelectionUnit` was set to `Months`.
+- Reverted the original instance window restoring logic in `StswApp` class.
+
+### Utils
+- Fixed a bug in the `TempTableInsert` extension method.
 
 ---
 

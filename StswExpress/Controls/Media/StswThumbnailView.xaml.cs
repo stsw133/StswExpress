@@ -102,7 +102,7 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
 /// <summary>
 /// 
 /// </summary>
-public class StswThumbnailItem : ListBoxItem
+internal class StswThumbnailItem : ListBoxItem
 {
     static StswThumbnailItem()
     {
@@ -118,7 +118,7 @@ public class StswThumbnailItem : ListBoxItem
     {
         base.OnApplyTemplate();
 
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+        if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
     #endregion

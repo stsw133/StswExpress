@@ -123,7 +123,7 @@ public class StswTreeViewItem : TreeViewItem
     {
         base.OnApplyTemplate();
 
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+        if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
     #endregion

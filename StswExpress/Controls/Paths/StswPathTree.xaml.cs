@@ -113,10 +113,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         var files = ShowFiles ? await Task.Run(() => Directory.GetFiles(parentItem.FullPath)) : [];
 
         foreach (var directory in directories)
-            parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.Directory));
+            parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
 
         foreach (var file in files)
-            parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.File));
+            parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
     }
 
     /// <summary>
@@ -129,16 +129,16 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         if (string.IsNullOrEmpty(InitialPath))
         {
             foreach (var drive in Directory.GetLogicalDrives())
-                rootItems.Add(new StswPathTreeItem(drive, StswPathType.Directory));
+                rootItems.Add(new StswPathTreeItem(drive, StswPathType.OpenDirectory));
         }
         else
         {
             foreach (var directory in Directory.GetDirectories(InitialPath))
-                rootItems.Add(new StswPathTreeItem(directory, StswPathType.Directory));
+                rootItems.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
 
             if (ShowFiles)
                 foreach (var file in Directory.GetFiles(InitialPath))
-                    rootItems.Add(new StswPathTreeItem(file, StswPathType.File));
+                    rootItems.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
         }
 
         ItemsSource = rootItems;
@@ -365,7 +365,7 @@ internal class StswPathTreeItem : StswObservableObject
         FullPath = fullPath;
         Type = type;
 
-        if (type == StswPathType.Directory)
+        if (type == StswPathType.OpenDirectory)
             Children.Add(null);
 
         LoadIconAsync();

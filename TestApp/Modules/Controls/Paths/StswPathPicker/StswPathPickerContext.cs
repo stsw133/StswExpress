@@ -10,11 +10,22 @@ public class StswPathPickerContext : ControlsContext
     {
         base.SetDefaults();
 
+        Filter = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Filter)))?.Value ?? default;
         IsFileSizeVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFileSizeVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         IsShiftingEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsShiftingEnabled)))?.Value ?? default;
+        Multiselect = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Multiselect)))?.Value ?? default;
         SelectionUnit = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
+        SuggestedFilename = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SuggestedFilename)))?.Value ?? default;
     }
+
+    /// Filter
+    public string? Filter
+    {
+        get => _filter;
+        set => SetProperty(ref _filter, value);
+    }
+    private string? _filter;
 
     /// Icon
     public bool Icon
@@ -48,6 +59,14 @@ public class StswPathPickerContext : ControlsContext
     }
     private bool _isShiftingEnabled;
 
+    /// Multiselect
+    public bool Multiselect
+    {
+        get => _multiselect;
+        set => SetProperty(ref _multiselect, value);
+    }
+    private bool _multiselect;
+
     /// SelectedPath
     public string? SelectedPath
     {
@@ -71,4 +90,12 @@ public class StswPathPickerContext : ControlsContext
         set => SetProperty(ref _subControls, value);
     }
     private bool _subControls = false;
+
+    /// SuggestedFilename
+    public string? SuggestedFilename
+    {
+        get => _suggestedFilename;
+        set => SetProperty(ref _suggestedFilename, value);
+    }
+    private string? _suggestedFilename;
 }

@@ -30,19 +30,81 @@ Here's a breakdown:
 - **Windowing**: `StswContextMenu`, `StswNotifyIcon`, `StswPopup`, `StswToolTip`, `StswWindow`, `StswWindowBar`
 
 ### Utilities & Enhancements
-- **Commands & Converters**: Various command patterns and value converters for common WPF scenarios.
-- **Database Tools**: Query result mapping and database helpers.
-- **Extensions**: Useful extensions to simplify WPF development.
-- **Icons**: A wide collection of vector-based geometry icons that are easy to customize and scale for various UI needs.
-- **Logging System**: Built-in logging functionality for better debugging and monitoring.
-- **Mail Sending**: Utility for sending emails directly from the application.
-- **Scaling & Themes**: Easily scale the GUI, switch between multiple color themes, and localize the app for different languages.
+
+The `Utils` namespace in StswExpress provides a comprehensive set of tools to simplify WPF development. Here's an overview of its main categories:
+
+#### Bindings
+Tools to extend and enhance WPF bindings, including utilities for proxying, triggering, and monitoring bindings.  
+Examples: `StswBindingProxy`, `StswBindingTrigger`.
+
+#### Collections
+Custom collection types and utilities for advanced data handling, such as binding lists, enhanced views, and dictionaries.  
+Examples: `StswCollection`, `StswCollectionView`.
+
+#### Commands
+Command implementations for MVVM, supporting asynchronous, cancellable, and pausable commands.  
+Examples: `StswAsyncCommand`, `StswCommand`.
+
+#### Comparers
+Custom comparers for advanced sorting and comparison needs, including natural string comparison.  
+Example: `StswNaturalStringComparer`.
+
+#### Converters
+Value converters for common scenarios like boolean logic, color manipulation, formatting, and more.  
+Examples: `StswBoolConverter`, `StswColorConverter`, `StswIfElseConverter`.
+
+#### Databases
+Helpers for working with databases, including connection factories, query helpers, and configuration tools.  
+Examples: `StswDatabaseHelper`, `StswSqlConnectionFactory`.
+
+#### Events
+Classes and arguments for handling events, particularly for value change notifications.  
+Example: `StswValueChangedEventArgs`.
+
+#### Export
+Utilities for exporting data with support for customization via attributes and parameters.  
+Examples: `StswExport`, `StswExportAttribute`.
+
+#### Helpers
+General-purpose utilities for calculations, cloning, and object mapping.  
+Examples: `StswCalculator`, `StswMapping`.
+
+#### Logging
+An integrated logging system for debugging and monitoring, with configurable logging behavior.  
+Examples: `StswLog`, `StswLogConfig`.
+
+#### Mailboxes
+Email management tools for sending and handling emails directly from the application.  
+Examples: `StswMailboxes`, `StswMailboxModel`.
+
+#### Markup Extensions
+Extensions to enhance XAML development, such as dynamic resource binding and enum-to-list conversion.  
+Examples: `StswDynamicColorExtension`, `StswEnumToListExtension`.
+
+#### Messengers
+A lightweight messaging system for inter-component communication.  
+Example: `StswMessanger`.
+
+#### Stores
+State management tools for handling application data and refresh operations.  
+Examples: `StswStoreBase`, `StswRefreshBlocker`.
+
+#### Translator
+Localization tools to manage translations and bind them easily in XAML.  
+Examples: `StswTranslator`, `StswTranslateExtension`.
+
+#### Miscellaneous
+A variety of utilities including extensions, icons, observable objects, and security tools.  
+Examples: `StswExtensions`, `StswIcons`, `StswObservableObject`.
+
+---
+
+These tools provide essential building blocks for streamlining WPF application development, making it easier to build robust, scalable, and maintainable projects.
 
 ## Licensing & Acknowledgments
 
 - **Icons**: The icons in `StswIcons` are sourced from [Material Design Icons](https://pictogrammers.com/library/mdi/).
 - **Themes**: The light/dark themes are a modified version of [DynamicAero2](https://github.com/manju-summoner/DynamicAero2).
-- **Translator**: The translation functionality is based on [TranslateMe](https://github.com/codingseb/TranslateMe).
 
 ## Get Started
 

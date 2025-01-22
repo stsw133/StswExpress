@@ -178,8 +178,9 @@ public enum StswMenuMode
 /// </summary>
 public enum StswPathType
 {
-    Directory,
-    File
+    OpenDirectory,
+    OpenFile,
+    SaveFile
 }
 
 /// <summary>
@@ -233,6 +234,7 @@ public enum StswSpinnerType
     Circles,
     Crescent,
     Dots,
+    Helix,
     Lines
 }
 

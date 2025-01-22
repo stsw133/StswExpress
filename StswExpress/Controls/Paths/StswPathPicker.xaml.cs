@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -68,10 +67,10 @@ public class StswPathPicker : StswBoxBase
     {
         if (IsShiftingEnabled && parentPath != null)
         {
-            if (SelectionUnit == StswPathType.Directory)
-                adjacentPaths = Directory.GetDirectories(parentPath).ToList();
+            if (SelectionUnit == StswPathType.OpenDirectory)
+                adjacentPaths = [.. Directory.GetDirectories(parentPath)];
             else
-                adjacentPaths = Directory.GetFiles(parentPath).ToList();
+                adjacentPaths = [.. Directory.GetFiles(parentPath)];
         }
         else adjacentPaths = null;
     }
@@ -116,20 +115,45 @@ public class StswPathPicker : StswBoxBase
     /// <param name="e">The event arguments</param>
     private void PART_DialogButton_Click(object sender, RoutedEventArgs e)
     {
-        if (SelectionUnit == StswPathType.Directory)
+        if (SelectionUnit == StswPathType.OpenDirectory)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
                 SelectedPath = dialog.SelectedPath;
+                SelectedPaths = [dialog.SelectedPath];
+            }
         }
         else
         {
-            var dialog = new System.Windows.Forms.OpenFileDialog()
+            System.Windows.Forms.FileDialog dialog = SelectionUnit switch
             {
-                Filter = Filter
+                StswPathType.OpenFile => new System.Windows.Forms.OpenFileDialog(),
+                StswPathType.SaveFile => new System.Windows.Forms.SaveFileDialog(),
+                _ => throw new NotImplementedException()
             };
+
+            /// filter
+            try
+            {
+                dialog.Filter = Filter;
+            }
+            catch { }
+
+            /// multiselect
+            if (dialog is System.Windows.Forms.OpenFileDialog openFileDialog)
+                openFileDialog.Multiselect = Multiselect;
+
+            /// suggested file name
+            if (SuggestedFilename != null)
+                dialog.FileName = SuggestedFilename;
+
+            /// show
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
                 SelectedPath = dialog.FileName;
+                SelectedPaths = dialog.FileNames;
+            }
         }
     }
 
@@ -153,12 +177,12 @@ public class StswPathPicker : StswBoxBase
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the file icon source for the file picker.
+    /// Gets or sets the file icon source for the path picker.
     /// </summary>
     public ImageSource? FileIcon
     {
         get => (ImageSource?)GetValue(FileIconProperty);
-        internal set => SetValue(FileIconProperty, value);
+        private set => SetValue(FileIconProperty, value);
     }
     public static readonly DependencyProperty FileIconProperty
         = DependencyProperty.Register(
@@ -223,6 +247,21 @@ public class StswPathPicker : StswBoxBase
     }
 
     /// <summary>
+    /// Gets or sets the multiselect behavior for open file dialog.
+    /// </summary>
+    public bool Multiselect
+    {
+        get => (bool)GetValue(MultiselectProperty);
+        set => SetValue(MultiselectProperty, value);
+    }
+    public static readonly DependencyProperty MultiselectProperty
+        = DependencyProperty.Register(
+            nameof(Multiselect),
+            typeof(bool),
+            typeof(StswPathPicker)
+        );
+
+    /// <summary>
     /// Gets or sets the currently selected path in the control.
     /// </summary>
     public string? SelectedPath
@@ -259,6 +298,23 @@ public class StswPathPicker : StswBoxBase
     }
     private string? parentPath;
 
+
+    /// <summary>
+    /// Gets or sets the currently selected paths in the control.
+    /// </summary>
+    public string[] SelectedPaths
+    {
+        get => (string[])GetValue(SelectedPathsProperty);
+        set => SetValue(SelectedPathsProperty, value);
+    }
+    public static readonly DependencyProperty SelectedPathsProperty
+        = DependencyProperty.Register(
+            nameof(SelectedPaths),
+            typeof(string[]),
+            typeof(StswPathPicker),
+            new FrameworkPropertyMetadata(Array.Empty<string>())
+        );
+
     /// <summary>
     /// Gets or sets the type of paths that can be selected (File or Directory).
     /// </summary>
@@ -273,6 +329,21 @@ public class StswPathPicker : StswBoxBase
             typeof(StswPathType),
             typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the suggested file name for file dialog default file name.
+    /// </summary>
+    public string? SuggestedFilename
+    {
+        get => (string?)GetValue(SuggestedFilenameProperty);
+        set => SetValue(SuggestedFilenameProperty, value);
+    }
+    public static readonly DependencyProperty SuggestedFilenameProperty
+        = DependencyProperty.Register(
+            nameof(SuggestedFilename),
+            typeof(string),
+            typeof(StswPathPicker)
         );
     #endregion
 

@@ -6,13 +6,14 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
+/// Represents a control that combines the functionality of a <see cref="ComboBox"/> (drop-down) and <see cref="ListBox"/> (multiple selection).
+/// ItemsSource must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </summary>
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
@@ -28,6 +29,9 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     #region Events & methods
+    private Popup? _popup;
+    private ListBox? _listBox;
+
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -35,12 +39,19 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     {
         base.OnApplyTemplate();
 
-        /// ListBox
-        if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
-            listBox.SelectionChanged += (_, _) => SetTextCommand.Execute(null);
+        /// ensure the command is not null; if it wasn't set from outside, we create a default.
+        UpdateTextCommand ??= new StswCommand(UpdateText);
 
-        /// SetTextCommand
-        SetTextCommand ??= new StswCommand(SetText);
+        /// Popup
+        if (GetTemplateChild("PART_Popup") is Popup popup)
+            _popup = popup;
+
+        /// ListBox
+        if (GetTemplateChild("PART_ListBox") is ListBox listBox)
+        {
+            listBox.SelectionChanged += (_, _) => UpdateTextCommand?.Execute(null);
+            _listBox = listBox;
+        }
     }
     
     /// <summary>
@@ -53,9 +64,9 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
         {
             if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswSelectionBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+                throw new InvalidOperationException($"{nameof(StswSelectionBox)} ItemsSource must contain objects implementing {nameof(IStswSelectionItem)}!");
 
-            /// StswComboItem short usage
+            /// Optional: If using StswComboItem (short usage), set defaults
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
                 if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
@@ -67,7 +78,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         base.OnItemsSourceChanged(oldValue, newValue);
 
-        SetTextCommand?.Execute(null);
+        /// refresh displayed text whenever the ItemsSource changes.
+        UpdateTextCommand?.Execute(null);
     }
 
     /// <summary>
@@ -83,9 +95,10 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <summary>
-    /// Sets the text for the control based on the selected items.
+    /// Updates the Text property based on which items have IsSelected = true.
+    /// Also synchronizes the internal SelectedItems property with the currently selected items.
     /// </summary>
-    internal void SetText()
+    internal void UpdateText()
     {
         if (ItemsSource == null)
         {
@@ -93,29 +106,41 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             return;
         }
 
-        var itemsSource = ItemsSource.OfType<IStswSelectionItem>().ToList();
-        var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
-        var selectedText = new StringBuilder();
+        if (_popup?.IsLoaded == true && _listBox?.IsLoaded == false)
+            return;
 
-        SelectedItems = itemsSource.Where(x => x.IsSelected).ToList();
-        foreach (var selectedItem in SelectedItems)
+        var itemsSource = ItemsSource.OfType<IStswSelectionItem>();
+
+        /// build text from all selected items
+        var newlySelected = new ObservableCollection<IStswSelectionItem>();
+        var sb = new StringBuilder();
+
+        /// use the local list separator (e.g. ", ")
+        var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
+
+        foreach (var selectedItem in itemsSource.Where(x => x.IsSelected))
         {
-            if (!string.IsNullOrEmpty(DisplayMemberPath) && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
+            newlySelected.Add(selectedItem);
+
+            /// if we have a DisplayMemberPath, try to get that property
+            if (!string.IsNullOrEmpty(DisplayMemberPath) && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propInfo)
             {
-                var value = propertyInfo.GetValue(selectedItem);
-                selectedText.Append(value?.ToString());
-                selectedText.Append(listSeparator);
+                var value = propInfo.GetValue(selectedItem)?.ToString();
+                if (!string.IsNullOrEmpty(value))
+                    sb.Append(value).Append(listSeparator);
             }
             else
             {
-                selectedText.Append(selectedItem);
-                selectedText.Append(listSeparator);
+                sb.Append(selectedItem).Append(listSeparator);
             }
         }
-        if (selectedText.Length > listSeparator.Length)
-            selectedText.Length -= listSeparator.Length;
 
-        Text = selectedText.ToString();
+        /// remove the trailing separator if needed
+        if (sb.Length >= listSeparator.Length)
+            sb.Length -= listSeparator.Length;
+
+        /// final text
+        Text = sb.ToString();
     }
     #endregion
 
@@ -224,22 +249,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(string),
             typeof(StswSelectionBox)
         );
-
-    /// <summary>
-    /// Gets or sets the path to the value property of the selected items in the ItemsSource.
-    /// </summary>
-    public IList SelectedItems
-    {
-        get => (IList)GetValue(SelectedItemsProperty);
-        internal set => SetValue(SelectedItemsProperty, value);
-    }
-    public static readonly DependencyProperty SelectedItemsProperty
-        = DependencyProperty.Register(
-            nameof(SelectedItems),
-            typeof(IList),
-            typeof(StswSelectionBox)
-        );
-
+    
     /// <summary>
     /// Gets or sets the path to the value property of the selected items in the ItemsSource.
     /// </summary>
@@ -252,21 +262,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
-            typeof(StswSelectionBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the text value of the control.
-    /// </summary>
-    public ICommand SetTextCommand
-    {
-        get => (ICommand)GetValue(SetTextCommandProperty);
-        set => SetValue(SetTextCommandProperty, value);
-    }
-    public static readonly DependencyProperty SetTextCommandProperty
-        = DependencyProperty.Register(
-            nameof(SetTextCommand),
-            typeof(ICommand),
             typeof(StswSelectionBox)
         );
 
@@ -301,6 +296,21 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             new FrameworkPropertyMetadata(default(string),
                 FrameworkPropertyMetadataOptions.None,
                 null, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+
+    /// <summary>
+    /// Command used to refresh the text from the selection.
+    /// </summary>
+    public ICommand UpdateTextCommand
+    {
+        get => (ICommand)GetValue(UpdateTextCommandProperty);
+        set => SetValue(UpdateTextCommandProperty, value);
+    }
+    public static readonly DependencyProperty UpdateTextCommandProperty
+        = DependencyProperty.Register(
+            nameof(UpdateTextCommand),
+            typeof(ICommand),
+            typeof(StswSelectionBox)
         );
     #endregion
 
@@ -355,6 +365,22 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(double),
             typeof(StswSelectionBox),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum width of the drop-down portion of the control.
+    /// </summary>
+    public double MaxDropDownWidth
+    {
+        get => (double)GetValue(MaxDropDownWidthProperty);
+        set => SetValue(MaxDropDownWidthProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownWidthProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownWidth),
+            typeof(double),
+            typeof(StswSelectionBox),
+            new PropertyMetadata(double.NaN)
         );
 
     /// <summary>

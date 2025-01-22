@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Globalization;
 
 namespace StswExpress;
 
@@ -28,7 +27,7 @@ public sealed partial class StswSettings
         {
             case nameof(Default.Language):
                 {
-                    StswTranslator.CurrentLanguage = string.IsNullOrEmpty((string?)e.NewValue) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : (string)e.NewValue;
+                    StswTranslator.CurrentLanguage = (string)e.NewValue;
                     break;
                 }
             case nameof(Default.Theme):
@@ -58,11 +57,7 @@ public sealed partial class StswSettings
                 Default.iSize = (double)(Default.GetPreviousVersion(nameof(Default.iSize)) ?? Default.iSize);
                 Default.Language = (string)(Default.GetPreviousVersion(nameof(Default.Language)) ?? Default.Language);
                 Default.Theme = (int)(Default.GetPreviousVersion(nameof(Default.Theme)) ?? Default.Theme);
-                /*
-                Default.DateTimeDefaultIncrementValue = (int)(Default.GetPreviousVersion(nameof(Default.DateTimeDefaultIncrementValue)) ?? Default.DateTimeDefaultIncrementValue);
-                Default.TimeSpanDefaultIncrementValue = (int)(Default.GetPreviousVersion(nameof(Default.TimeSpanDefaultIncrementValue)) ?? Default.TimeSpanDefaultIncrementValue);
-                Default.NumberDefaultIncrementValue = (int)(Default.GetPreviousVersion(nameof(Default.NumberDefaultIncrementValue)) ?? Default.NumberDefaultIncrementValue);
-                */
+                
                 Default.Save();
             }
         }

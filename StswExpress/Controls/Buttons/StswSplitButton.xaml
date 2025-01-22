@@ -17,7 +17,7 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-        
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -67,6 +67,7 @@
                             <!-- popup -->
                             <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                          MaxWidth="{TemplateBinding MaxDropDownWidth}"
                                           MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                           Placement="Bottom"
                                           PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"

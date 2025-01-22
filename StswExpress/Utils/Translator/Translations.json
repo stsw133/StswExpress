@@ -275,6 +275,10 @@
     "en": "Yes",
     "pl": "Tak"
   },
+  "StswPathPicker.SelectedPaths": {
+    "en": "selected paths",
+    "pl": "wybranych ścieżek"
+  },
   "StswTextEditor": {
     "en": "Text editor",
     "pl": "Edytor tekstu"

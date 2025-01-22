@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -28,6 +27,9 @@ namespace StswExpress;
 /// </summary>
 public static class StswFn
 {
+    public static readonly bool True = true;
+    public static readonly bool False = false;
+
     #region Assembly functions
     /// <summary>
     /// Gets the name of the currently executing application.
@@ -78,6 +80,22 @@ public static class StswFn
     /// </summary>
     /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="assemblyName"></param>
+    /// <param name="resourcePath"></param>
+    /// <returns></returns>
+    /// <exception cref="FileNotFoundException"></exception>
+    public static string GetResourceText(string assemblyName, string resourcePath)
+    {
+        var resourceUri = new Uri($"pack://application:,,,/{assemblyName};component/{resourcePath}", UriKind.Absolute);
+
+        using var stream = (Application.GetResourceStream(resourceUri)?.Stream) ?? throw new FileNotFoundException($"Resource '{resourcePath}' not found in assembly '{assemblyName}'.");
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
+    }
 
     /// <summary>
     /// Determines whether the entry assembly was built in debug mode.

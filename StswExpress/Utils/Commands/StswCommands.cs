@@ -57,8 +57,8 @@ public static class StswCommands
                 stswPasswordBox.Password = default;
                 break;
             case StswSelectionBox stswSelectionBox:
-                stswSelectionBox.SelectedItems.Cast<IStswSelectionItem>().ToList().ForEach(x => x.IsSelected = false);
-                stswSelectionBox.SetTextCommand?.Execute(null);
+                stswSelectionBox.ItemsSource.Cast<IStswSelectionItem>().ToList().ForEach(x => x.IsSelected = false);
+                stswSelectionBox.UpdateTextCommand?.Execute(null);
                 break;
             case TextBox textBox:
                 textBox.Clear();
@@ -77,7 +77,7 @@ public static class StswCommands
         {
             Selector selector => selector.SelectedIndex >= 0,
             StswPasswordBox stswPasswordBox => !string.IsNullOrEmpty(stswPasswordBox.Password),
-            StswSelectionBox stswSelectionBox => stswSelectionBox.SelectedItems.Count > 0,
+            StswSelectionBox stswSelectionBox => stswSelectionBox.ItemsSource?.Cast<IStswSelectionItem>()?.Any(x => x.IsSelected) == true,
             TextBox textBox => !string.IsNullOrEmpty(textBox.Text),
             _ => false,
         };

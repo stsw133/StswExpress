@@ -190,5 +190,21 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             typeof(StswDropButton),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
+
+    /// <summary>
+    /// Gets or sets the maximum width of the drop-down portion of the control.
+    /// </summary>
+    public double MaxDropDownWidth
+    {
+        get => (double)GetValue(MaxDropDownWidthProperty);
+        set => SetValue(MaxDropDownWidthProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownWidthProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownWidth),
+            typeof(double),
+            typeof(StswDropButton),
+            new PropertyMetadata(double.NaN)
+        );
     #endregion
 }

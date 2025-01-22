@@ -31,6 +31,9 @@
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswDatePicker}}"/>
             <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
+            <!-- SelectionUnit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswCalendarUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswDatePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
@@ -44,6 +47,7 @@
                            Minimum="{Binding Minimum}"
                            Placeholder="Select date..."
                            SelectedDate="{Binding SelectedDate}"
+                           SelectionUnit="{Binding SelectionUnit}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"

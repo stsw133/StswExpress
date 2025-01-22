@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TestApp;
@@ -32,10 +35,8 @@ public class ContractorsContext : StswObservableObject
         DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
 
         SelectedContractor = null;
-        ListContractorsView = new(ListContractors)
-        {
-            AutoRefresh = true
-        };
+
+        ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
     }
 
     /// Init
@@ -47,7 +48,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -56,11 +57,11 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            await Task.Run(() => ListContractors = []);
+            ListContractors.Clear();
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -69,21 +70,31 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            //var newList = await Task.Run(() => SQL.GetContractors(null).ToStswBindingList());
+            // for CollectionView filters:
+            ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswCollection());
+            ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
+            FiltersContractors.Apply?.Invoke();
+            //Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
+
             //Application.Current.Dispatcher.Invoke(() =>
             //{
             //    SelectedContractor = null;
             //    ListContractors = newList;
-            //    ListContractorsView = new StswCollectionView<ContractorModel>(ListContractors);
+            //    ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             //    Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
             //});
 
-            FiltersContractors.Apply?.Invoke();
-            await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors).ToStswBindingList());
+            // for SQL filters:
+            //FiltersContractors.Apply?.Invoke();
+
+            //IEnumerable<ContractorModel> list = [];
+            //await Task.Run(() => list = SQL.GetContractors(FiltersContractors));
+            //ListContractors = new(list);
+            //ListContractorsView?.Refresh();
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -98,7 +109,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -111,7 +122,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -137,7 +148,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
 
@@ -166,7 +177,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
@@ -196,7 +207,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
@@ -224,7 +235,7 @@ public class ContractorsContext : StswObservableObject
         }
         catch (Exception ex)
         {
-            await StswMessageDialog.Show(ex, "Error");
+            await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
@@ -238,20 +249,20 @@ public class ContractorsContext : StswObservableObject
     private StswDataGridFiltersDataModel _filtersContractors = new();
 
     /// ListContractors
-    public StswBindingList<ContractorModel> ListContractors
+    public StswCollection<ContractorModel> ListContractors
     {
         get => _listContractors;
         set => SetProperty(ref _listContractors, value);
     }
-    private StswBindingList<ContractorModel> _listContractors = [];
+    private StswCollection<ContractorModel> _listContractors = [];
     
     /// ListContractorsView
-    public StswCollectionView<ContractorModel> ListContractorsView
+    public ICollectionView? ListContractorsView
     {
         get => _listContractorsView;
         set => SetProperty(ref _listContractorsView, value);
     }
-    private StswCollectionView<ContractorModel> _listContractorsView;
+    private ICollectionView? _listContractorsView;
 
     /// NewTab
     public StswTabItem NewTab

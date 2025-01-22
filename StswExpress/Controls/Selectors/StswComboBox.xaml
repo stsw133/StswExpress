@@ -19,7 +19,7 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-        
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -101,18 +101,18 @@
                                                    CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
                                                    CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                   MinWidth="{Binding ActualWidth, ElementName=OPT_TemplateRoot}"
+                                                   MaxWidth="{TemplateBinding MaxDropDownWidth}"
+                                                   MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                                    Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                                         <DockPanel>
                                             <!-- filter -->
                                             <se:StswTextBox x:Name="PART_Filter" DockPanel.Dock="Top"
                                                             se:StswControl.IsBorderless="True"
-                                                            se:StswControl.SubControlsDock="Left"
                                                             Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=200}"
                                                             Visibility="Collapsed">
-                                                <se:StswTextBox.SubControls>
-                                                    <se:StswSubLabel IconData="{x:Static se:StswIcons.Magnify}" Opacity="0.6"/>
-                                                </se:StswTextBox.SubControls>
+                                                <se:StswTextBox.Icon>
+                                                    <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="2 0 0 0" Padding="0" Opacity="0.6"/>
+                                                </se:StswTextBox.Icon>
                                             </se:StswTextBox>
                                             <se:StswSeparator x:Name="OPT_FilterSeparator" DockPanel.Dock="Top"
                                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"

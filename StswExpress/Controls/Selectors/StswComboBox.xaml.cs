@@ -356,6 +356,22 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
+    /// Gets or sets the maximum width of the drop-down portion of the control.
+    /// </summary>
+    public double MaxDropDownWidth
+    {
+        get => (double)GetValue(MaxDropDownWidthProperty);
+        set => SetValue(MaxDropDownWidthProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownWidthProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownWidth),
+            typeof(double),
+            typeof(StswComboBox),
+            new PropertyMetadata(double.NaN)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
     public double SeparatorThickness
@@ -376,7 +392,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 /// <summary>
 /// 
 /// </summary>
-public class StswComboBoxItem : ComboBoxItem
+public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
 {
     static StswComboBoxItem()
     {
@@ -392,7 +408,7 @@ public class StswComboBoxItem : ComboBoxItem
     {
         base.OnApplyTemplate();
 
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+        if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
     #endregion

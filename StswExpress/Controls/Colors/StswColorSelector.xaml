@@ -36,7 +36,7 @@
                             <se:StswButton se:StswControl.IsBorderless="True"
                                            Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandParameter="{TemplateBinding ColorAuto}">
-                                <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"
+                                <se:StswLabel Content="{se:StswTranslate StswColorSelector.Auto}"
                                               IconData="{x:Static se:StswIcons.Square}"
                                               IconFill="{TemplateBinding ColorAuto}"
                                               IconScale="1.75"
@@ -50,7 +50,7 @@
                                              Padding="0"
                                              SeparatorThickness="1">
                                 <se:StswGroupBox.Header>
-                                    <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
+                                    <se:StswLabel Content="{se:StswTranslate StswColorSelector.ThemeColors}"/>
                                 </se:StswGroupBox.Header>
 
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
@@ -96,7 +96,7 @@
                                              Padding="0"
                                              SeparatorThickness="1">
                                 <se:StswGroupBox.Header>
-                                    <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
+                                    <se:StswLabel Content="{se:StswTranslate StswColorSelector.StandardColors}"/>
                                 </se:StswGroupBox.Header>
 
                                 <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"

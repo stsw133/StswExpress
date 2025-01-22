@@ -24,9 +24,7 @@ public class StswDataGridContext : ControlsContext
         await Task.Run(() =>
         {
             Thread.Sleep(1000);
-            App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, () => {
-                Items.AddRange(Enumerable.Range((Items.LastOrDefault()?.ID ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }), StswItemState.Unchanged);
-            });
+            App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, () => Items.AddRange(Enumerable.Range((Items.LastOrDefault()?.ID ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false })));
         });
         IsBusy = false;
     }
@@ -49,12 +47,12 @@ public class StswDataGridContext : ControlsContext
     private bool _isReadOnly;
 
     /// Items
-    public StswBindingList<StswDataGridTestModel> Items
+    public StswCollection<StswDataGridTestModel> Items
     {
         get => _items;
         set => SetProperty(ref _items, value);
     }
-    private StswBindingList<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+    private StswCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem

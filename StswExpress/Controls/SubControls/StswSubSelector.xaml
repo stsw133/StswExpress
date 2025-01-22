@@ -44,6 +44,7 @@
                                       CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                       IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                      MaxWidth="{TemplateBinding MaxDropDownWidth}"
                                       Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                       Placement="Center"
                                       PlacementTarget="{Binding ElementName=OPT_MainBorder}"

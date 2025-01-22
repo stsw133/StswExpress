@@ -6,8 +6,8 @@
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsSingleContext}">
-    
+
     <Grid>
-        <TextBlock Text="{Binding ID}"/>
+        <se:StswText Text="{Binding ID}"/>
     </Grid>
 </UserControl>

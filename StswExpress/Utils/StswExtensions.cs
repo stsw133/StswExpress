@@ -534,6 +534,14 @@ public static partial class StswExtensions
     /// <param name="value">The dictionary to convert.</param>
     /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
     public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) where T1 : notnull => new(value);
+
+    /// <summary>
+    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswCollection{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of objects in the list.</typeparam>
+    /// <param name="value">The enumerable to convert.</param>
+    /// <returns>The converted <see cref="StswCollection{T}"/>.</returns>
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
     #endregion
 
     #region Color extensions
@@ -587,11 +595,45 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Returns the first day of the month for the given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The source <see cref="DateTime"/>.</param>
+    /// <returns>A <see cref="DateTime"/> representing the first day of the month at 00:00:00.</returns>
+    public static DateTime ToFirstDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, 1);
+
+    /// <summary>
+    /// Returns the last day of the month for the given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The source <see cref="DateTime"/>.</param>
+    /// <returns>A <see cref="DateTime"/> representing the last day of the month at 00:00:00.</returns>
+    public static DateTime ToLastDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+
+    /// <summary>
     /// Converts a <see cref="DateTime"/> to a Unix timestamp.
     /// </summary>
     /// <param name="dateTime">The <see cref="DateTime"/> to convert.</param>
     /// <returns>A long value representing the number of seconds since the Unix epoch (January 1, 1970).</returns>
     public static long ToUnixTimeSeconds(this DateTime dateTime) => new DateTimeOffset(dateTime).ToUnixTimeSeconds();
+    #endregion
+
+    #region Dictionary extensions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="dict"></param>
+    /// <param name="oldKey"></param>
+    /// <param name="newKey"></param>
+    /// <returns></returns>
+    public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey)
+    {
+        if (!dict.Remove(oldKey, out var value))
+            return false;
+
+        dict[newKey] = value;
+        return true;
+    }
     #endregion
 
     #region Enum extensions
@@ -686,6 +728,18 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="items"></param>
+    public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            list.Add(item);
+    }
+
+    /// <summary>
     /// Splits a collection into smaller batches of the specified size.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
@@ -711,6 +765,22 @@ public static partial class StswExtensions
 
         if (batch.Count != 0)
             yield return batch;
+    }
+
+    /// <summary>
+    /// Performs the specified action on each element of the <see cref="IEnumerable{}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{}"/>.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{}"/> to iterate over.</param>
+    /// <param name="action">The action to perform on each element.</param>
+    /// <exception cref="ArgumentNullException">Thrown when source or action is <see langword="null"/>.</exception>
+    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(action);
+
+        foreach (var item in source)
+            action(item);
     }
 
     /// <summary>
@@ -777,7 +847,7 @@ public static partial class StswExtensions
     /// <param name="oldValue">The value to replace.</param>
     /// <param name="newValue">The value to replace with.</param>
     /// <returns>A new collection with the specified value replaced.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
     public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -791,7 +861,7 @@ public static partial class StswExtensions
     /// <param name="source">The source collection.</param>
     /// <param name="oldValue">The value to replace.</param>
     /// <param name="newValue">The value to replace with.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -925,6 +995,22 @@ public static partial class StswExtensions
 
         return EqualityComparer<T>.Default.Equals(value, default);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty(this IEnumerable source) => source == null || !source.GetEnumerator().MoveNext();
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
 
     /// <summary>
     /// Determines whether a type is a numeric type.

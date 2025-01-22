@@ -81,7 +81,7 @@ internal class StswConfig : Control, IStswCornerControl
                 Owner = window,
                 ResizeMode = ResizeMode.NoResize,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                Title = StswTranslator.Tr(nameof(StswConfig)),
+                Title = StswTranslator.GetTranslation(nameof(StswConfig)),
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             WindowChrome.SetWindowChrome(newWindow, new());

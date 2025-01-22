@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- Filter -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Filter, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Filter}"/>
             <!-- Icon -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
@@ -25,21 +28,30 @@
             <!-- IsShiftingEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
+            <!-- Multiselect -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Multiselect, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Multiselect}"/>
             <!-- SelectionUnit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswPathPicker}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswPathPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
+            <!-- SuggestedFilename -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SuggestedFilename, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding SuggestedFilename}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswPathPicker IsEnabled="{Binding IsEnabled}"
+        <se:StswPathPicker Filter="{Binding Filter}"
+                           IsEnabled="{Binding IsEnabled}"
                            IsFileSizeVisible="{Binding IsFileSizeVisible}"
                            IsReadOnly="{Binding IsReadOnly}"
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
+                           Multiselect="{Binding Multiselect}"
                            Placeholder="Select path..."
                            SelectedPath="{Binding SelectedPath}"
                            SelectionUnit="{Binding SelectionUnit}"
+                           SuggestedFilename="{Binding SuggestedFilename}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"

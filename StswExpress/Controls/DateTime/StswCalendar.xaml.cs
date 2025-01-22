@@ -69,43 +69,23 @@ public class StswCalendar : Control, IStswCornerControl
         /// Button: today
         if (GetTemplateChild("PART_ButtonToday") is ButtonBase btnToday)
         {
-            btnToday.Click += (_, _) =>
-            {
-                SelectMonth(DateTime.Today);
-                SelectDay(DateTime.Today);
-            };
+            btnToday.Click += (_, _) => SelectDay(DateTime.Today);
             _buttonToday = btnToday;
         }
         /// Button: clear
         if (GetTemplateChild("PART_ButtonClear") is ButtonBase btnClear)
         {
-            btnClear.Click += (_, _) =>
-            {
-                SelectedDate = null;
-                ClosePopupIfAny();
-            };
+            btnClear.Click += (_, _) => SelectDay(null);
             _buttonClear = btnClear;
         }
 
         /// set default month to create the initial view
-        var defMonth = (SelectedDate ?? DateTime.Now).Date;
-        SelectedMonth = new DateTime(defMonth.Year, defMonth.Month, 1);
+        SelectedMonth = (SelectedDate ?? DateTime.Now).Date.ToFirstDayOfMonth();
+        //if (SelectedDate.HasValue)
+        //    SelectedDate = SelectedDate.Value.ToFirstDayOfMonth();
 
-        /// hide clear button
-        StswBindingWatcher.WatchBindingAssignment(this, SelectedDateProperty, () =>
-        {
-            if (_buttonClear != null && GetBindingExpression(SelectedDateProperty) is BindingExpression binding)
-            {
-                var dataItem = binding.ResolvedSource;
-                var propertyName = binding.ParentBinding.Path.Path;
-
-                if (dataItem != null && !string.IsNullOrEmpty(propertyName))
-                {
-                    var propertyInfo = dataItem.GetType().GetProperty(propertyName);
-                    _buttonClear.Visibility = propertyInfo?.PropertyType == typeof(DateTime?) ? Visibility.Visible : Visibility.Collapsed;
-                }
-            }
-        });
+        /// set clear button visibility
+        StswBindingWatcher.WatchBindingAssignment(this, SelectedDateProperty, SetClearButtonVisibility);
     }
 
     /*
@@ -134,8 +114,7 @@ public class StswCalendar : Control, IStswCornerControl
         if (ItemsControl.ContainerFromElement(sender as ItemsControl, e.OriginalSource as DependencyObject) is ContentControl item)
         {
             var date = (item.Content as StswCalendarItem)?.Date;
-
-            if (CurrentUnit == StswCalendarUnit.Days && date == SelectedDate?.Date)
+            if (date == SelectedDate?.Date && CurrentUnit == SelectionUnit)
                 SelectDay(date);
             else if (CurrentUnit == StswCalendarUnit.Months && SelectionUnit != StswCalendarUnit.Months && date.HasValue)
                 SelectMonth(date.Value);
@@ -150,14 +129,14 @@ public class StswCalendar : Control, IStswCornerControl
     /// <exception cref="NotImplementedException"></exception>
     private void Selector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (sender is Control control && !control.IsLoaded)
+            return;
+
         foreach (var item in e.AddedItems)
         {
             var date = (item as StswCalendarItem)?.Date;
-
-            if (CurrentUnit == StswCalendarUnit.Days && date != SelectedDate?.Date)
+            if (date != SelectedDate?.Date && CurrentUnit == SelectionUnit)
                 SelectDay(date);
-            else if (CurrentUnit == StswCalendarUnit.Months && SelectionUnit == StswCalendarUnit.Months && date.HasValue)
-                SelectMonth(date.Value);
         }
     }
 
@@ -219,8 +198,8 @@ public class StswCalendar : Control, IStswCornerControl
     private ObservableCollection<StswCalendarItem> GenerateMonths()
     {
         var collection = new ObservableCollection<StswCalendarItem>();
-        var min = Minimum ?? DateTime.MinValue; min = new DateTime(min.Year, min.Month, 1);
-        var max = Maximum ?? DateTime.MaxValue; max = new DateTime(max.Year, max.Month, DateTime.DaysInMonth(max.Year, max.Month));
+        var min = Minimum ?? DateTime.MinValue; min = min.ToFirstDayOfMonth();
+        var max = Maximum ?? DateTime.MaxValue; max = max.ToLastDayOfMonth();
 
         var today = DateTime.Today;
         for (var i = 1; i <= 12; i++)
@@ -247,14 +226,20 @@ public class StswCalendar : Control, IStswCornerControl
     /// <param name="date">The date to select.</param>
     private void SelectDay(DateTime? date)
     {
+        if (date.HasValue && SelectedMonth != date.Value)
+            SelectMonth(date.Value);
+
         if (date.HasValue)
         {
-            SelectedDate = date.Value.Date;
-            if (CurrentUnit == StswCalendarUnit.Months && Items.FirstOrDefault(x => x.Date == new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, 1)) is StswCalendarItem newItem1)
+            SelectedDate = SelectionUnit == StswCalendarUnit.Months ? date.Value.ToFirstDayOfMonth() : date.Value.Date;
+
+            if (CurrentUnit == StswCalendarUnit.Months && Items.FirstOrDefault(x => x.Date == SelectedDate.Value.ToFirstDayOfMonth()) is StswCalendarItem newItem1)
                 newItem1.IsSelected = true;
             else if (Items.FirstOrDefault(x => x.Date == SelectedDate) is StswCalendarItem newItem2)
                 newItem2.IsSelected = true;
         }
+        else SelectedDate = null;
+
         ClosePopupIfAny();
     }
 
@@ -265,7 +250,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// <param name="date">The month to select.</param>
     private void SelectMonth(DateTime date)
     {
-        SelectedMonth = new DateTime(date.Year, date.Month, 1);
+        SelectedMonth = date.ToFirstDayOfMonth();
 
         if (SelectionUnit == StswCalendarUnit.Months)
         {
@@ -284,14 +269,28 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    private void SetClearButtonVisibility()
+    {
+        if (_buttonClear != null && GetBindingExpression(SelectedDateProperty) is BindingExpression binding)
+        {
+            var dataItem = binding.ResolvedSource;
+            var propertyName = binding.ParentBinding.Path.Path;
+
+            if (dataItem != null && !string.IsNullOrEmpty(propertyName))
+            {
+                var propertyInfo = dataItem.GetType().GetProperty(propertyName);
+                _buttonClear.Visibility = propertyInfo?.PropertyType == typeof(DateTime?) ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+    }
+
+    /// <summary>
     /// Switches the currently displayed month in the control and updates the view.
     /// </summary>
     /// <param name="date">The new date to display.</param>
-    private void SwitchMonth(DateTime date)
-    {
-        SelectedMonth = new DateTime(date.Year, date.Month, 1);
-        UpdateCalendarView();
-    }
+    private void SwitchMonth(DateTime date) => SelectedMonth = date.ToFirstDayOfMonth();
 
     /// <summary>
     /// Updates the calendar view based on the current unit (Days or Months).
@@ -441,8 +440,8 @@ public class StswCalendar : Control, IStswCornerControl
             /// to update buttons (days or months based on current unit) visibilities
             if (stsw.CurrentUnit == StswCalendarUnit.Months)
             {
-                min = new DateTime(min.Year, min.Month, 1);
-                max = new DateTime(max.Year, max.Month, DateTime.DaysInMonth(max.Year, max.Month));
+                min = min.ToFirstDayOfMonth();
+                max = max.ToLastDayOfMonth();
             }
             foreach (var item in stsw.Items)
                 item.InMinMaxRange = item.Date.Between(min, max);
@@ -472,15 +471,25 @@ public class StswCalendar : Control, IStswCornerControl
         {
             /// without this, clicking on button with date from another month, will not change view to different (previous or next) month
             if (stsw.SelectedDate.HasValue)
-                stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
+                stsw.SelectedMonth = stsw.SelectedDate.Value.ToFirstDayOfMonth();
 
             /// marking new date in view (without this first date after loading calendar is not colored)
-            if ((DateTime?)e.NewValue != (DateTime?)e.OldValue)
+            if (stsw.SelectedDate.HasValue)
             {
-                if (stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.NewValue)?.Date) is StswCalendarItem newItem)
+                var newValue = ((DateTime?)e.NewValue).Value.Date;
+                if (stsw.SelectionUnit == StswCalendarUnit.Months)
+                    newValue = newValue.ToFirstDayOfMonth();
+
+                if (stsw.Items.FirstOrDefault(x => x.Date == newValue) is StswCalendarItem newItem)
                     newItem.IsSelected = true;
-                else if (!stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarItem oldItem)
-                    oldItem.IsSelected = false;
+            }
+            else if (!stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue).Value.Date) is StswCalendarItem oldItem)
+            {
+                var oldValue = ((DateTime?)e.OldValue).Value.Date;
+                if (stsw.SelectionUnit == StswCalendarUnit.Months)
+                    oldValue = oldValue.ToFirstDayOfMonth();
+
+                oldItem.IsSelected = false;
             }
 
             /// event for non MVVM programming
@@ -509,11 +518,15 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
-            stsw.UpdateCalendarViewName();
+            var oldValue = (DateTime)e.OldValue;
+            var newValue = (DateTime)e.NewValue;
 
-            /// without this, clicking on button with date from another month, will not change view to different (previous or next) month
-            if (stsw.CurrentUnit == StswCalendarUnit.Days && e.OldValue != e.NewValue)
+            if ((stsw.CurrentUnit == StswCalendarUnit.Days && (oldValue.Year != newValue.Year || oldValue.Month != newValue.Month))
+             || (stsw.CurrentUnit == StswCalendarUnit.Months && oldValue.Year != newValue.Year))
+            {
+                stsw.UpdateCalendarViewName();
                 stsw.UpdateCalendarView();
+            }
         }
     }
 
@@ -551,7 +564,7 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
-            /// because for SelectionUnit == Months, CurrentUnit cannot be switched between Months and Days unit (can only stay at Months unit)
+            /// for Months selection unit, only Months view is available
             if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
                 stsw.CurrentUnit = stswCalendarUnit;
         }
