@@ -14,6 +14,7 @@ namespace StswExpress;
 /// Provides a custom collection view for <see cref="StswBindingList{T}"/> that supports filtering, sorting, and grouping.
 /// </summary>
 /// <typeparam name="T">The type of elements in the collection, which must implement <see cref="IStswCollectionItem"/>.</typeparam>
+[Obsolete]
 public class StswCollectionView<T> : ICollectionView where T : IStswCollectionItem
 {
     private readonly StswBindingList<T> _sourceCollection;

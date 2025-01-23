@@ -676,7 +676,11 @@ public class StswFilterBox : Control, IStswCornerControl
     {
         if (obj is StswFilterBox stsw)
         {
-            if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
+            if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
+            {
+                stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
+            }
+            else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
             {
                 if (stsw.Value1 == null
                  || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
@@ -684,10 +688,6 @@ public class StswFilterBox : Control, IStswCornerControl
                     stsw.SqlString = null;
                 else
                     stsw.GenerateSqlString();
-            }
-            else
-            {
-                stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
             }
 
             stsw.NotifyFilterChanged();

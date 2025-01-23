@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace StswExpress;
 
@@ -35,7 +36,23 @@ public static class StswTranslator
         if (!File.Exists(filePath))
             return;
 
-        LoadTranslationsFromJsonString(File.ReadAllText(filePath));
+        var json = File.ReadAllText(filePath);
+        LoadTranslationsFromJsonString(json);
+    }
+
+    /// <summary>
+    /// Asynchronously loads translations from a JSON file.
+    /// </summary>
+    /// <param name="filePath">Path to the JSON file.</param>
+    public static async Task LoadTranslationsFromJsonFileAsync(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return;
+
+        using var stream = File.OpenRead(filePath);
+        using var reader = new StreamReader(stream);
+        var json = await reader.ReadToEndAsync();
+        await LoadTranslationsFromJsonStringAsync(json);
     }
 
     /// <summary>
@@ -62,7 +79,30 @@ public static class StswTranslator
         }
         catch
         {
-            
+            // Handle deserialization errors as needed.
+        }
+    }
+
+    /// <summary>
+    /// Asynchronously loads translations from a JSON string.
+    /// </summary>
+    /// <param name="json">A valid JSON string containing translations.</param>
+    public static async Task LoadTranslationsFromJsonStringAsync(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return;
+
+        try
+        {
+            var data = await JsonSerializer.DeserializeAsync<Dictionary<string, Dictionary<string, string>>>(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)));
+            if (data != null)
+                foreach (var kvp in data)
+                    foreach (var langPair in kvp.Value)
+                        AddOrUpdateTranslation(kvp.Key, langPair.Key, langPair.Value);
+        }
+        catch
+        {
+            // Handle deserialization errors as needed.
         }
     }
 

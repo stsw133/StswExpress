@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-internal class StswPathToIconConverter : MarkupExtension, IValueConverter
+public class StswPathToIconConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
     /// Gets the singleton instance of the converter.

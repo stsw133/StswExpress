@@ -11,8 +11,8 @@ namespace StswExpress;
 /// </summary>
 public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 {
-    private StswBindingProxy? bindingProxy;
-    private StswBindingTrigger? bindingTrigger;
+    private StswBindingProxy? _bindingProxy;
+    private StswBindingTrigger? _bindingTrigger;
 
     /// <summary>
     /// Gets or sets the converter used to modify the data as it is passed between the source and target.
@@ -52,11 +52,11 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var dynamicResource = new DynamicResourceExtension(ResourceKey);
-        bindingProxy = new StswBindingProxy() { Proxy = dynamicResource.ProvideValue(null) };
+        _bindingProxy = new StswBindingProxy() { Proxy = dynamicResource.ProvideValue(null) };
 
         var dynamicResourceBinding = new Binding()
         {
-            Source = bindingProxy,
+            Source = _bindingProxy,
             Path = new PropertyPath(StswBindingProxy.ProxyProperty),
             Mode = BindingMode.OneWay
         };
@@ -70,7 +70,7 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
             dynamicResourceBinding.TargetNullValue = TargetNullValue;
 
             if (dependencyObject is FrameworkElement targetFrameworkElement)
-                targetFrameworkElement.Resources[bindingProxy] = bindingProxy;
+                targetFrameworkElement.Resources[_bindingProxy] = _bindingProxy;
 
             return dynamicResourceBinding.ProvideValue(serviceProvider);
         }
@@ -80,14 +80,14 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
             RelativeSource = new RelativeSource(RelativeSourceMode.Self)
         };
 
-        bindingTrigger = new StswBindingTrigger();
+        _bindingTrigger = new StswBindingTrigger();
 
         var wrapperBinding = new MultiBinding()
         {
             Bindings = {
                 dynamicResourceBinding,
                 findTargetBinding,
-                bindingTrigger.Binding
+                _bindingTrigger.Binding
             },
             Converter = new StswInlineMultiConverter(WrapperConvert)
         };
@@ -116,11 +116,10 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
         else if (targetType == typeof(string) && StringFormat != null)
             dynamicResourceBindingResult = string.Format(StringFormat, dynamicResourceBindingResult);
 
-        if (bindingTargetObject is FrameworkElement targetFrameworkElement
-        && !targetFrameworkElement.Resources.Contains(bindingProxy))
+        if (bindingTargetObject is FrameworkElement targetFrameworkElement && !targetFrameworkElement.Resources.Contains(_bindingProxy))
         {
-            targetFrameworkElement.Resources[bindingProxy] = bindingProxy;
-            SynchronizationContext.Current?.Post((state) => bindingTrigger?.Refresh(), null);
+            targetFrameworkElement.Resources[_bindingProxy] = _bindingProxy;
+            SynchronizationContext.Current?.Post((state) => _bindingTrigger?.Refresh(), null);
         }
 
         return dynamicResourceBindingResult!;

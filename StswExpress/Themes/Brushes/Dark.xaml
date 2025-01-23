@@ -117,7 +117,7 @@
     <SolidColorBrush x:Key="StswRating.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-5%}"/>
     <SolidColorBrush x:Key="StswRating.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-15%}"/>
 
-    <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+    <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Circle}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#424242"/>
     <SolidColorBrush x:Key="StswSlider.Static.Border" Color="#616161"/>
     <SolidColorBrush x:Key="StswSlider.Static.Foreground" Color="#616161"/>
@@ -281,10 +281,10 @@
     <SolidColorBrush x:Key="StswProgressBar.Error.Background" Color="#8f3d3d"/>
 
     <!-- Toggles -->
-    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
+    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Minus}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>
-    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
-    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Check}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
+    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Circle}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswCheck.Static.Background" Color="#262626"/>
     <SolidColorBrush x:Key="StswCheck.Static.Border" Color="#616161"/>
     <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#616161"/>

@@ -117,7 +117,7 @@
     <SolidColorBrush x:Key="StswRating.Checked.Background" Color="#adf688"/>
     <SolidColorBrush x:Key="StswRating.Checked.Border" Color="#3B3"/>
 
-    <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
+    <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Leaf}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#DEC"/>
     <SolidColorBrush x:Key="StswSlider.Static.Border" Color="#3B3"/>
     <SolidColorBrush x:Key="StswSlider.Static.Foreground" Color="#BBB"/>
@@ -281,10 +281,10 @@
     <SolidColorBrush x:Key="StswProgressBar.Error.Background" Color="#d77575"/>
 
     <!-- Toggles -->
-    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
+    <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Minus}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>
-    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
-    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+    <PathGeometry x:Key="StswCheck.Checked.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Leaf}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
+    <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Circle}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswCheck.Static.Background" Color="#FAFFF5"/>
     <SolidColorBrush x:Key="StswCheck.Static.Border" Color="#3B3"/>
     <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#3B3"/>

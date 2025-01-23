@@ -82,8 +82,5 @@ public abstract class StswObservableObject : INotifyPropertyChanged
     /// <param name="condition">The condition that must be met for the property to be set.</param>
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetPropertyIf<T>(ref T field, T value, Func<bool> condition, [CallerMemberName] string propertyName = "")
-    {
-        return condition() && SetProperty(ref field, value, propertyName);
-    }
+    protected bool SetPropertyIf<T>(ref T field, T value, Func<bool> condition, [CallerMemberName] string propertyName = "") => condition() && SetProperty(ref field, value, propertyName);
 }

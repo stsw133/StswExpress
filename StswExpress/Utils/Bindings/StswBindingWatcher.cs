@@ -12,8 +12,9 @@ public class StswBindingWatcher
 {
     public static void WatchBindingAssignment(FrameworkElement target, DependencyProperty property, Action callback)
     {
-        if (target == null || property == null || callback == null)
-            throw new ArgumentNullException();
+        ArgumentNullException.ThrowIfNull(callback);
+        ArgumentNullException.ThrowIfNull(property);
+        ArgumentNullException.ThrowIfNull(target);
 
         var descriptor = DependencyPropertyDescriptor.FromProperty(property, target.GetType());
         descriptor?.AddValueChanged(target, (sender, args) =>

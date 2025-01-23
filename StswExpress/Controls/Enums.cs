@@ -58,6 +58,7 @@ public enum StswDatabaseType
 /// </summary>
 public enum StswDataGridFiltersType
 {
+    None,
     CollectionView,
     SQL
 }

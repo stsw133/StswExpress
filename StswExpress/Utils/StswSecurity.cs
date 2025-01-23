@@ -30,10 +30,10 @@ public static class StswSecurity
     /// <summary>
     /// Computes the hash of data using the specified hashing algorithm.
     /// </summary>
-    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <param name="source">The data to hash.</param>
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>The hash of the data.</returns>
-    public static byte[] ComputeHash(Func<HashAlgorithm> algorithmFactory, byte[] source)
+    public static byte[] ComputeHash(byte[] source, Func<HashAlgorithm> algorithmFactory)
     {
         ArgumentNullException.ThrowIfNull(algorithmFactory);
         ArgumentNullException.ThrowIfNull(source);
@@ -43,42 +43,49 @@ public static class StswSecurity
     }
 
     /// <summary>
-    /// Gets a hashed byte array using the specified hashing algorithm.
+    /// Computes the hash of data using the SHA256 algorithm.
     /// </summary>
-    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
-    /// <param name="text">The text to hash.</param>
-    /// <returns>A byte array containing the hashed text.</returns>
-    public static byte[] GetHash(Func<HashAlgorithm> algorithmFactory, string text)
-    {
-        ArgumentNullException.ThrowIfNull(text);
-        return ComputeHash(algorithmFactory, Encoding.UTF8.GetBytes(text));
-    }
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static byte[] ComputeHash(byte[] source) => ComputeHash(source, SHA256.Create);
 
     /// <summary>
-    /// Gets a hashed string using the specified hashing algorithm.
+    /// Gets a hashed byte array using the specified hashing algorithm.
     /// </summary>
-    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <param name="text">The text to hash.</param>
-    /// <returns>A string containing the hashed text.</returns>
-    public static string GetHashString(Func<HashAlgorithm> algorithmFactory, string text)
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
+    /// <returns>A byte array containing the hashed text.</returns>
+    public static byte[] GetHash(string text, Func<HashAlgorithm> algorithmFactory)
     {
-        var hash = GetHash(algorithmFactory, text);
-        return BitConverter.ToString(hash).Replace("-", string.Empty);
+        ArgumentNullException.ThrowIfNull(text);
+        return ComputeHash(Encoding.UTF8.GetBytes(text), algorithmFactory);
     }
 
     /// <summary>
     /// Gets a hashed byte array using the SHA256 algorithm.
     /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public static byte[] GetHash(string text) => GetHash(text, SHA256.Create);
+
+    /// <summary>
+    /// Gets a hashed string using the specified hashing algorithm.
+    /// </summary>
     /// <param name="text">The text to hash.</param>
-    /// <returns>A byte array containing the hashed text.</returns>
-    public static byte[] GetHash(string text) => SHA256.HashData(Encoding.UTF8.GetBytes(text));
+    /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
+    /// <returns>A string containing the hashed text.</returns>
+    public static string GetHashString(string text, Func<HashAlgorithm> algorithmFactory)
+    {
+        var hash = GetHash(text, algorithmFactory);
+        return BitConverter.ToString(hash).Replace("-", string.Empty);
+    }
 
     /// <summary>
     /// Gets a hashed string using the SHA256 algorithm.
     /// </summary>
     /// <param name="text">The text to hash.</param>
-    /// <returns>A string containing the hashed text.</returns>
-    public static string GetHashString(string text) => BitConverter.ToString(SHA256.HashData(Encoding.UTF8.GetBytes(text))).Replace("-", string.Empty);
+    /// <returns>A byte array containing the hashed text.</returns>
+    public static string GetHashString(string text) => GetHashString(text);
 
     /// <summary>
     /// Encrypts a string using AES encryption.
@@ -204,9 +211,3 @@ public static class StswSecurity
         return true;
     }
 }
-
-/* usage:
-
-var sha256Hash = StswSecurity.GetHashString(() => SHA256.Create(), "Hello, World!");
-
-*/

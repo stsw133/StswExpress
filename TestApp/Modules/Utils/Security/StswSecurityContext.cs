@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace TestApp;
+﻿namespace TestApp;
 public class StswSecurityContext : StswObservableObject
 {
     /// Key
@@ -15,7 +13,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputGetHashString
     {
         get => _inputGetHashString;
-        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = StswSecurity.GetHashString(SHA256.Create, value));
+        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = value == null ? null : StswSecurity.GetHashString(value));
     }
     private string? _inputGetHashString;
 
@@ -30,7 +28,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputEncrypt
     {
         get => _inputEncrypt;
-        set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = StswSecurity.Encrypt(value));
+        set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = value == null ? null : StswSecurity.Encrypt(value));
     }
     private string? _inputEncrypt;
 
@@ -45,7 +43,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputDecrypt
     {
         get => _inputDecrypt;
-        set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = StswSecurity.Decrypt(value));
+        set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = value == null ? null : StswSecurity.Decrypt(value));
     }
     private string? _inputDecrypt;
 
