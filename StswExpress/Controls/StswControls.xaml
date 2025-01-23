@@ -73,6 +73,7 @@
         <ResourceDictionary Source="Selectors/StswFlipView.xaml"/>
         <ResourceDictionary Source="Selectors/StswListBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswListView.xaml"/>
+        <ResourceDictionary Source="Selectors/StswReorderListBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswSegment.xaml"/>
         <ResourceDictionary Source="Selectors/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
