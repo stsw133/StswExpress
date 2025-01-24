@@ -78,11 +78,32 @@
                                                 <se:StswComboBoxItem Tag="">
                                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
                                                 </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="de" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='de'}">
+                                                    <se:StswLabel Content="Deutsch" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
                                                 <se:StswComboBoxItem Tag="en" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='en'}">
                                                     <se:StswLabel Content="English" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
                                                 </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="es" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='es'}">
+                                                    <se:StswLabel Content="Español" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="fr" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='fr'}">
+                                                    <se:StswLabel Content="Français" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="ja" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ja'}">
+                                                    <se:StswLabel Content="日本語" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="ko" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ko'}">
+                                                    <se:StswLabel Content="한국어" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
                                                 <se:StswComboBoxItem Tag="pl" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='pl'}">
                                                     <se:StswLabel Content="Polski" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="ru" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ru'}">
+                                                    <se:StswLabel Content="Русский" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                                </se:StswComboBoxItem>
+                                                <se:StswComboBoxItem Tag="zh-cn" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='zh-cn'}">
+                                                    <se:StswLabel Content="中文" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
                                                 </se:StswComboBoxItem>
                                             </se:StswComboBox>
                                             <!-- theme -->

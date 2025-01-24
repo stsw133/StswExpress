@@ -18,6 +18,52 @@ public static class StswTranslator
     private static Dictionary<string, Dictionary<string, string>> _translations = [];
 
     /// <summary>
+    /// Gets the list of available languages.
+    /// </summary>
+    public static List<string> AvailableLanguages { get; set; } = ["de", "en", "es", "fr", "ja", "ko", "pl", "ru", "zh-cn"];
+
+    /// <summary>
+    /// Gets or sets the current language used for translations.
+    /// If this is empty, the system language is used.
+    /// </summary>
+    public static string CurrentLanguage
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_currentLanguage))
+            {
+                var savedLanguage = StswSettings.Default.Language;
+                if (string.IsNullOrEmpty(savedLanguage))
+                {
+                    var systemLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    _currentLanguage = AvailableLanguages.Contains(systemLanguage) ? systemLanguage : "en";
+                }
+                else
+                {
+                    _currentLanguage = savedLanguage;
+                }
+            }
+
+            return _currentLanguage;
+        }
+        set
+        {
+            if (_currentLanguage != value)
+            {
+                ClearTranslationsForLanguage(_currentLanguage ?? "en");
+                _currentLanguage = string.IsNullOrEmpty(value) ? null : value;
+
+                Task.Run(async () =>
+                {
+                    await LoadTranslationsForCurrentLanguageAsync();
+                    Application.Current.Dispatcher.Invoke(() => OnPropertyChanged(nameof(CurrentLanguage)));
+                });
+            }
+        }
+    }
+    private static string? _currentLanguage;
+
+    /// <summary>
     /// Occurs when a property of the TranslationManager changes (e.g., CurrentLanguage).
     /// Used to notify the UI that translations need to be refreshed.
     /// </summary>
@@ -204,57 +250,6 @@ public static class StswTranslator
             // Handle deserialization errors as needed.
         }
     }
-
-    /// <summary>
-    /// Gets the list of available languages.
-    /// </summary>
-    public static List<string> AvailableLanguages
-    {
-        get => _availableLanguages;
-        set => _availableLanguages = value;
-    }
-    private static List<string> _availableLanguages = ["en", "pl"];
-
-    /// <summary>
-    /// Gets or sets the current language used for translations.
-    /// If this is empty, the system language is used.
-    /// </summary>
-    public static string CurrentLanguage
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(_currentLanguage))
-            {
-                var savedLanguage = StswSettings.Default.Language;
-                if (string.IsNullOrEmpty(savedLanguage))
-                {
-                    var systemLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    _currentLanguage = AvailableLanguages.Contains(systemLanguage) ? systemLanguage : "en";
-                }
-                else
-                {
-                    _currentLanguage = savedLanguage;
-                }
-            }
-
-            return _currentLanguage;
-        }
-        set
-        {
-            if (_currentLanguage != value)
-            {
-                ClearTranslationsForLanguage(_currentLanguage ?? "en");
-                _currentLanguage = string.IsNullOrEmpty(value) ? null : value;
-
-                Task.Run(async () =>
-                {
-                    await LoadTranslationsForCurrentLanguageAsync();
-                    Application.Current.Dispatcher.Invoke(() => OnPropertyChanged(nameof(CurrentLanguage)));
-                });
-            }
-        }
-    }
-    private static string? _currentLanguage;
 
     /// <summary>
     /// Returns the translated value for the given key, according to the currently selected language.
