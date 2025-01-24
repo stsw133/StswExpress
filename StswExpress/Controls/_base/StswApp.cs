@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -33,7 +31,8 @@ public class StswApp : Application
 
         InitializeResources();
         RegisterDataTemplates("Context", "View");
-        Task.Run(() => StswTranslator.LoadTranslationsFromJsonStringAsync(StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, "Utils/Translator/Translations.json")));
+        //Task.Run(() => StswTranslator.LoadTranslationsFromJsonStringAsync(StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, "Utils/Translator/Translations.json")));
+        Task.Run(() => StswTranslator.LoadTranslationsForCurrentLanguageAsync());
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;

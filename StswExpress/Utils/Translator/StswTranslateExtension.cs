@@ -9,9 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// A MarkupExtension that enables binding to translation strings in XAML.
 /// Usage example:
-/// <TextBlock Text="{local:Translate Key=Config.Confirmation, 
-///                              DefaultValue=Confirmation, 
-///                              Suffix=':'}" />
+/// <TextBlock Text="{local:Translate Key=Config.Confirmation, DefaultValue=Confirmation, Suffix=':'}" />
 /// </summary>
 [MarkupExtensionReturnType(typeof(string))]
 public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged

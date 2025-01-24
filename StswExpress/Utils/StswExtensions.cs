@@ -1010,7 +1010,7 @@ public static partial class StswExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="source"></param>
     /// <returns></returns>
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source) => source == null || !source.Any();
 
     /// <summary>
     /// Determines whether a type is a numeric type.

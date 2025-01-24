@@ -30,6 +30,8 @@
     <None Remove="Themes\Resources\pink_background.jpg" />
     <None Remove="Themes\Resources\spring_background.jpg" />
     <None Remove="Utils\StswIcons.cs~RFa51e7cef.TMP" />
+    <None Remove="Utils\Translator\Translations\en.json" />
+    <None Remove="Utils\Translator\Translations\pl.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +64,8 @@
     <Resource Include="Themes\Resources\pink_background.jpg" />
     <Resource Include="Themes\Resources\spring_background.jpg" />
     <Resource Include="Utils\Translator\Translations.json" />
+    <Resource Include="Utils\Translator\Translations\en.json" />
+    <Resource Include="Utils\Translator\Translations\pl.json" />
   </ItemGroup>
 
   <ItemGroup>

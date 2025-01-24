@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -46,17 +47,17 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// </returns>
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (value is ICollectionView collectionView)
+            value = collectionView.Cast<object>();
+
         if (value is not IEnumerable collection || parameter is not string paramString)
             return null;
 
         paramString = paramString.Trim();
 
         var spaceIndex = paramString.IndexOf(' ');
-        if (spaceIndex < 0)
-            return $"Invalid format: '{paramString}'";
-
-        var command = paramString[..spaceIndex].ToLower();
-        var commandParams = paramString[spaceIndex..].Trim();
+        var command = spaceIndex > 0 ? paramString[..spaceIndex].ToLower() : paramString.ToLower();
+        var commandParams = spaceIndex > 0 ? paramString[(spaceIndex + 1)..].Trim() : string.Empty;
 
         return command switch
         {

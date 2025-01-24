@@ -75,13 +75,13 @@
                                             <!-- language -->
                                             <se:StswLabel Content="{se:StswTranslate StswConfig.Language, Suffix=':'}" IconData="{x:Static se:StswIcons.Translate}" Margin="0 5 0 0"/>
                                             <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Language, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
-                                                <se:StswComboBoxItem Tag="" Visibility="{Binding Source={x:Static se:StswTranslator.Languages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter=''}">
+                                                <se:StswComboBoxItem Tag="">
                                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
                                                 </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="en" Visibility="{Binding Source={x:Static se:StswTranslator.Languages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='en'}">
+                                                <se:StswComboBoxItem Tag="en" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='en'}">
                                                     <se:StswLabel Content="English" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
                                                 </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="pl" Visibility="{Binding Source={x:Static se:StswTranslator.Languages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='pl'}">
+                                                <se:StswComboBoxItem Tag="pl" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='pl'}">
                                                     <se:StswLabel Content="Polski" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
                                                 </se:StswComboBoxItem>
                                             </se:StswComboBox>
