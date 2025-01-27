@@ -53,33 +53,6 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
     #endregion
 
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the items in control can be rearranged by drag and drop.
-    /// </summary>
-    internal bool CanRearrange  //TODO - CanRearrange
-    {
-        get => (bool)GetValue(CanRearrangeProperty);
-        set => SetValue(CanRearrangeProperty, value);
-    }
-    public static readonly DependencyProperty CanRearrangeProperty
-        = DependencyProperty.Register(
-            nameof(CanRearrange),
-            typeof(bool),
-            typeof(StswListBox),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnCanRearrangeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnCanRearrangeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswListBox stsw)
-        {
-            
-        }
-    }
-    #endregion
-
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.

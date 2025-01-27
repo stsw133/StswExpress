@@ -112,10 +112,10 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Selectors" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Header="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
+                <se:StswNavigationElement Header="StswDragBox" ContextNamespace="TestApp.StswDragBoxContext"/>
                 <se:StswNavigationElement Header="StswFlipView" ContextNamespace="TestApp.StswFlipViewContext"/>
                 <se:StswNavigationElement Header="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Header="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
-                <se:StswNavigationElement Header="StswReorderList" ContextNamespace="TestApp.StswReorderListContext"/>
                 <se:StswNavigationElement Header="StswSegment" ContextNamespace="TestApp.StswSegmentContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>

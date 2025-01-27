@@ -31,8 +31,7 @@ public class StswApp : Application
 
         InitializeResources();
         RegisterDataTemplates("Context", "View");
-        //Task.Run(() => StswTranslator.LoadTranslationsFromJsonStringAsync(StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, "Utils/Translator/Translations.json")));
-        Task.Run(() => StswTranslator.LoadTranslationsForCurrentLanguageAsync());
+        Task.Run(StswTranslator.LoadTranslationsForCurrentLanguageAsync);
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;

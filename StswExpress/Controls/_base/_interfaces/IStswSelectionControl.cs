@@ -69,9 +69,9 @@ public interface IStswSelectionControl
     /// </summary>
     /// <param name="selectionControl">The selection control whose ItemsSource has changed.</param>
     /// <param name="newValue">The new value of the ItemsSource property.</param>
-    static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable newValue)
+    static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
     {
-        IEnumerable actualSource = newValue;
+        IEnumerable? actualSource = newValue;
 
         /// check if newValue is a CollectionView and get the SourceCollection
         if (newValue is ICollectionView collectionView)
