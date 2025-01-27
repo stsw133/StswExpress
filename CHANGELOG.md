@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.15.0](#0-15-0)
 - [Version 0.14.1](#0-14-1)
 - [Version 0.14.0](#0-14-0)
 - [Version 0.13.1](#0-13-1)
@@ -32,6 +33,53 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-15-0">0.15.0</h1>
+
+**Release Date**: 2025-01-27
+
+## Additions
+
+### Controls
+- Added a `MaxDropDownWidth` property to the `IStswDropControl` interface and its derived controls. This property allows setting the maximum width of the dropdown popup.
+- Added a new animation type for `StswSpinner`, named "Helix".
+- Added a new control called `StswDragBox`, a `ListBox`-based control that supports reordering items and transferring items between boxes of the same type.
+- Introduced a new class `StswDataGridRow`, inheriting from `DataGridRow`. `StswDataGrid` now uses this class.
+
+### Utils
+- Added a new class `StswCollection`, which extends `ObservableCollection` to support property change tracking within items, similar to `DataTable`. This class is intended to replace `StswBindingList` in the future.
+- Added a new helper method in `StswFn`: `GetResourceText`, which retrieves text from files built as resources.
+- Added new converters:
+  - `StswLinqConverter`: Currently supports LINQ commands such as `any`, `count`, `sum`, and `where`. This converter is designed to replace `StswSumConverter` by embedding its functionality.
+  - `StswGeometryToPathFiguresConverter`: Converts `Geometry` objects to `PathFigure` collections.
+  - `StswPathToIconConverter`: Extracts icons from files or directories based on the path parameter.
+- Added new extension methods in `StswExtensions`:
+  - `ToStswCollection` for `IEnumerable`.
+  - `ToFirstDayOfMonth` and `ToLastDayOfMonth` for `DateTime`.
+  - `ChangeKey` for `IDictionary`.
+  - `AddRange` for `ICollection`.
+  - `ForEach` for `IEnumerable`.
+  - `IsNullOrEmpty` for `IEnumerable` and `IEnumerable<T>`.
+- Added translations for several new languages, expanding support from "en" and "pl" to include "de", "fr", "es", "ja", "ko", "ru", and "zh-cn".
+
+## Changes
+
+### Controls
+- Fixed an issue in `StswDataGrid` with binding errors related to the `UsesSelectionItems` property in scenarios such as grouping.
+- `StswFilterBox` and `StswDataGrid` now support filtering using `ICollectionView` in combination with `StswCollection`.
+- `StswPathPicker` now supports file save dialogs in addition to file or folder open dialogs. Additionally, it supports `Multiselect` and `SuggestedFilename` properties.
+
+### Utils
+- Completely revamped the translation system. The new markup extension, renamed from `TrExtension` to `StswTranslateExtension`, fetches translations asynchronously and only for the selected language instead of loading all languages at once.
+
+## Fixes
+
+### Controls
+- Fixed item selection animations in controls inheriting from `IStswSelectionControl`.
+- Resolved an issue in `StswCalendar` and `StswDatePicker` where the calendar popup closed on the first expansion when set to month selection mode using the `SelectionUnit` property.
+- Secured `StswSelectionBox` to prevent multiple `Text` property updates when the popup opens and code executes for each selected item. The `SetTextCommand` property was renamed to `UpdateTextCommand`.
 
 ---
 

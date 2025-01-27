@@ -15,14 +15,14 @@ Here's a breakdown:
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
 - **Filters**: `StswFilterBox`
-- **Input**: `StswAdaptiveBox`, `StswDecimalBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
+- **Input**: `StswAdaptiveBox`, `StswNumericBox`: [`StswDecimalBox`, `StswDoubleBox`, `StswIntegerBox`], `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswZoomControl`
 - **Media**: `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
 - **Panels**: `StswGrid`, `StswLabelPanel`, `StswSidePanel`
 - **Paths**: `StswPathPicker`, `StswPathTree`
 - **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
-- **Selectors**: `StswComboBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
+- **Selectors**: `StswComboBox`, `StswDragBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
 - **Status & Info**: `StswAlert`, `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`
 - **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
 - **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
