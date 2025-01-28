@@ -63,7 +63,6 @@
   <ItemGroup>
     <Resource Include="Themes\Resources\pink_background.jpg" />
     <Resource Include="Themes\Resources\spring_background.jpg" />
-    <Resource Include="Utils\Translator\Translations.json" />
     <Resource Include="Utils\Translator\Translations\ko.json" />
     <Resource Include="Utils\Translator\Translations\ja.json" />
     <Resource Include="Utils\Translator\Translations\ru.json" />

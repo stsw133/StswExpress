@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Shell;
@@ -111,6 +113,11 @@ internal class StswConfig : Control, IStswCornerControl
             typeof(object),
             typeof(StswConfig)
         );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Version { get; set; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Revision}" : string.Empty;
     #endregion
 
     #region Style properties

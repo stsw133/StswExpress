@@ -27,27 +27,33 @@ public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
     /// <summary>
     /// The default value if the key or language is missing.
     /// </summary>
-    public string DefaultValue { get; set; } = string.Empty;
+    public string? DefaultValue { get; set; }
 
     /// <summary>
     /// Optional prefix to be added to the returned translation string.
     /// </summary>
-    public string Prefix { get; set; } = string.Empty;
+    public string? Prefix { get; set; }
 
     /// <summary>
     /// Optional suffix to be added to the returned translation string.
     /// </summary>
-    public string Suffix { get; set; } = string.Empty;
+    public string? Suffix { get; set; }
+    
+    /// <summary>
+    /// Non-default language to use.
+    /// </summary>
+    public string? Language { get; set; }
 
     /// <summary>
     /// Occurs when the translation changes (e.g., language switch).
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     /// <summary>
     /// The text to display for the UI element. It is bound in XAML via the Binding returned by ProvideValue.
     /// </summary>
-    public string TranslatedText => StswTranslator.GetTranslation(Key, DefaultValue, Prefix, Suffix);
+    public string TranslatedText => StswTranslator.GetTranslation(Key, DefaultValue, Language, Prefix, Suffix);
 
     /// <summary>
     /// Returns the translation string for the specified key, prefix, suffix, etc.
@@ -76,10 +82,5 @@ public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
     {
         if (e.PropertyName == nameof(StswTranslator.CurrentLanguage))
             OnPropertyChanged(nameof(TranslatedText));
-    }
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

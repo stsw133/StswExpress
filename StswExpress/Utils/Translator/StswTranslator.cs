@@ -260,14 +260,14 @@ public static class StswTranslator
     /// <param name="prefix">Optional prefix to be added to the translated value.</param>
     /// <param name="suffix">Optional suffix to be added to the translated value.</param>
     /// <returns>Translated string with optional prefix and suffix.</returns>
-    public static string GetTranslation(string key, string? defaultValue = null, string? prefix = "", string? suffix = "")
+    public static string GetTranslation(string key, string? defaultValue = null, string? language = null, string? prefix = null, string? suffix = null)
     {
-        var languageToUse = string.IsNullOrEmpty(CurrentLanguage) ? "en" : CurrentLanguage;
+        var languageToUse = language ?? (!string.IsNullOrEmpty(CurrentLanguage) ? CurrentLanguage : "en");
 
         if (_translations.TryGetValue(key, out var langDict))
             if (langDict.TryGetValue(languageToUse, out var translation))
-                return prefix + translation + suffix;
+                return $"{prefix}{translation}{suffix}";
 
-        return prefix + defaultValue ?? key + suffix;
+        return $"{prefix}{defaultValue ?? key}{suffix}";
     }
 }

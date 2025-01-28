@@ -29,11 +29,15 @@
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswGroupBox.Header>
-                            <se:StswLabel x:Name="PART_Header"
-                                          Content="{se:StswTranslate StswConfig}"
-                                          FontWeight="Medium"
-                                          IconData="{x:Static se:StswIcons.Cog}"
-                                          Margin="{TemplateBinding Padding}"/>
+                            <se:StswLabel x:Name="PART_Header" IconData="{x:Static se:StswIcons.Cog}" Margin="{TemplateBinding Padding}">
+                                <StackPanel Margin="0 -3">
+                                    <se:StswText Text="{se:StswTranslate StswConfig}" FontWeight="Medium"/>
+                                    <se:StswText FontSize="9">
+                                        <Run Text="StswExpress"/>
+                                        <Run Text="{Binding Version, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswConfig}}}" FontWeight="Medium"/>
+                                    </se:StswText>
+                                </StackPanel>
+                            </se:StswLabel>
                         </se:StswGroupBox.Header>
                         
                         <DockPanel>
@@ -46,141 +50,85 @@
                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
                                 </se:StswButton>
                             </UniformGrid>
+                            <se:StswSeparator DockPanel.Dock="Bottom" BorderThickness="1"/>
                             <!-- options -->
-                            <se:StswTabControl BorderThickness="0" Padding="0" Width="400">
-                                <!-- general -->
-                                <se:StswTabItem Padding="0">
-                                    <se:StswTabItem.Header>
-                                        <se:StswLabel Content="{se:StswTranslate StswConfig.General}" Margin="3"/>
-                                    </se:StswTabItem.Header>
-
-                                    <se:StswScrollView Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                        <se:StswLabelPanel Height="200" Margin="3" Orientation="Vertical">
-                                            <!-- isize -->
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}" Margin="0 5 0 0"/>
-                                            <DockPanel>
-                                                <se:StswText Padding="3 0 0 0" VerticalAlignment="Center" Width="40">
-                                                    <Run Text="{Binding Value, ElementName=PART_iSize, StringFormat=N0, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*100}"/>
-                                                    <Run Text="%"/>
-                                                </se:StswText>
-                                                <se:StswSlider x:Name="PART_iSize"
-                                                               IsSnapToTickEnabled="True"
-                                                               LargeChange="0.5"
-                                                               Maximum="3"
-                                                               Minimum="0.5"
-                                                               TickFrequency="0.1"
-                                                               TickPlacement="BottomRight"
-                                                               Value="{Binding iSize, Mode=OneWay, Source={x:Static se:StswSettings.Default}}"/>
-                                            </DockPanel>
-                                            <!-- language -->
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Language, Suffix=':'}" IconData="{x:Static se:StswIcons.Translate}" Margin="0 5 0 0"/>
-                                            <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Language, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
-                                                <se:StswComboBoxItem Tag="">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="de" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='de'}">
-                                                    <se:StswLabel Content="Deutsch" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="en" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='en'}">
-                                                    <se:StswLabel Content="English" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="es" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='es'}">
-                                                    <se:StswLabel Content="Español" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="fr" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='fr'}">
-                                                    <se:StswLabel Content="Français" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="ja" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ja'}">
-                                                    <se:StswLabel Content="日本語" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="ko" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ko'}">
-                                                    <se:StswLabel Content="한국어" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="pl" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='pl'}">
-                                                    <se:StswLabel Content="Polski" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="ru" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ru'}">
-                                                    <se:StswLabel Content="Русский" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="zh-cn" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='zh-cn'}">
-                                                    <se:StswLabel Content="中文" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                            </se:StswComboBox>
-                                            <!-- theme -->
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme, Suffix=':'}" IconData="{x:Static se:StswIcons.ThemeLightDark}" Margin="0 5 0 0"/>
-                                            <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Theme, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
-                                                <se:StswComboBoxItem Tag="-1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Auto}}">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="0" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Light}}">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Light}" IconData="{x:Static se:StswIcons.WeatherSunny}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Dark}}">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Dark}" IconData="{x:Static se:StswIcons.WeatherNight}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="2" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Pink}}">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Pink}" IconData="{x:Static se:StswIcons.HeartOutline}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                                <se:StswComboBoxItem Tag="3" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Spring}}">
-                                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Spring}" IconData="{x:Static se:StswIcons.Leaf}" Padding="0"/>
-                                                </se:StswComboBoxItem>
-                                            </se:StswComboBox>
-                                            <!-- animations -->
-                                            <se:StswCheckBox IsChecked="{Binding EnableAnimations, Source={x:Static se:StswSettings.Default}}" Margin="0 10 0 0">
-                                                <se:StswLabel Content="{se:StswTranslate StswConfig.EnableAnimations}"/>
-                                            </se:StswCheckBox>
-                                        </se:StswLabelPanel>
-                                    </se:StswScrollView>
-                                </se:StswTabItem>
-                                <!-- controls
-                                <se:StswTabItem Padding="0">
-                                    <se:StswTabItem.Header>
-                                        <se:StswLabel Content="{se:StswTranslate StswConfig.Controls}" Margin="3"/>
-                                    </se:StswTabItem.Header>
-
-                                    <se:StswScrollView Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                        <se:StswLabelPanel Height="200" Orientation="Vertical"> -->
-                                            <!-- DateTime default increment value
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.DateTimeDefaultIncrementValue, Suffix=':'}" IconData="{x:Static se:StswIcons.CalendarPlus}" Margin="0 5 0 0"/>
-                                            <se:StswSegment SelectedValue="{Binding DateTimeDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswDateTimeIncrementType}}"
-                                                            SelectedValuePath="Tag">
-                                                <se:StswSegmentItem Content="-" Tag="{x:Static se:StswDateTimeIncrementType.None}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Year}" Tag="{x:Static se:StswDateTimeIncrementType.Year}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Month}" Tag="{x:Static se:StswDateTimeIncrementType.Month}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Day}" Tag="{x:Static se:StswDateTimeIncrementType.Day}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Hour}" Tag="{x:Static se:StswDateTimeIncrementType.Hour}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Minute}" Tag="{x:Static se:StswDateTimeIncrementType.Minute}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Second}" Tag="{x:Static se:StswDateTimeIncrementType.Second}"/>
-                                            </se:StswSegment> -->
-                                            <!-- TimeSpan default increment value
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.TimeSpanDefaultIncrementValue, Suffix=':'}" IconData="{x:Static se:StswIcons.ClockPlusOutline}" Margin="0 5 0 0"/>
-                                            <se:StswSegment SelectedValue="{Binding TimeSpanDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"
-                                                            SelectedValuePath="Tag">
-                                                <se:StswSegmentItem Content="-" Tag="{x:Static se:StswTimeSpanIncrementType.None}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Day}" Tag="{x:Static se:StswTimeSpanIncrementType.Day}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Hour}" Tag="{x:Static se:StswTimeSpanIncrementType.Hour}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Minute}" Tag="{x:Static se:StswTimeSpanIncrementType.Minute}"/>
-                                                <se:StswSegmentItem Content="{se:StswTranslate StswConfig.Second}" Tag="{x:Static se:StswTimeSpanIncrementType.Second}"/>
-                                            </se:StswSegment> -->
-                                            <!-- Number default increment value
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.NumberDefaultIncrementValue, Suffix=':'}" IconData="{x:Static se:StswIcons.DecimalIncrease}" Margin="0 5 0 0"/>
-                                            <se:StswSegment SelectedValue="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"
-                                                            SelectedValuePath="Tag">
-                                                <se:StswSegmentItem Content="-" Tag="0"/>
-                                                <se:StswSegmentItem Content="0.01" Tag="0.01"/>
-                                                <se:StswSegmentItem Content="0.1" Tag="0.1"/>
-                                                <se:StswSegmentItem Content="1" Tag="1"/>
-                                                <se:StswSegmentItem Content="10" Tag="10"/>
-                                                <se:StswSegmentItem Content="100" Tag="100"/>
-                                                <se:StswSegmentItem Content="1k" Tag="1000"/>
-                                                <se:StswSegmentItem Content="10k" Tag="10000"/>
-                                                <se:StswSegmentItem Content="100k" Tag="100000"/>
-                                                <se:StswSegmentItem Content="1M" Tag="1000000"/>
-                                            </se:StswSegment>
-                                        </se:StswLabelPanel>
-                                    </se:StswScrollView>
-                                </se:StswTabItem> -->
-                            </se:StswTabControl>
+                            <se:StswScrollView Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="200" Width="400">
+                                <StackPanel>
+                                    <!-- isize -->
+                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}" Margin="0 5 0 0"/>
+                                    <DockPanel>
+                                        <se:StswText Padding="3 0 0 0" VerticalAlignment="Center" Width="40">
+                                            <Run Text="{Binding Value, ElementName=PART_iSize, StringFormat=N0, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*100}"/>
+                                            <Run Text="%"/>
+                                        </se:StswText>
+                                        <se:StswSlider x:Name="PART_iSize"
+                                                       IsSnapToTickEnabled="True"
+                                                       LargeChange="0.5"
+                                                       Maximum="3"
+                                                       Minimum="0.5"
+                                                       TickFrequency="0.1"
+                                                       TickPlacement="BottomRight"
+                                                       Value="{Binding iSize, Mode=OneWay, Source={x:Static se:StswSettings.Default}}"/>
+                                    </DockPanel>
+                                    <!-- language -->
+                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Language, Suffix=':'}" IconData="{x:Static se:StswIcons.Translate}" Margin="0 5 0 0"/>
+                                    <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Language, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
+                                        <se:StswComboBoxItem Tag="">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="de" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='de'}">
+                                            <se:StswLabel Content="Deutsch" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="en" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='en'}">
+                                            <se:StswLabel Content="English" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="es" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='es'}">
+                                            <se:StswLabel Content="Español" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="fr" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='fr'}">
+                                            <se:StswLabel Content="Français" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="ja" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ja'}">
+                                            <se:StswLabel Content="日本語" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="ko" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ko'}">
+                                            <se:StswLabel Content="한국어" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="pl" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='pl'}">
+                                            <se:StswLabel Content="Polski" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="ru" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='ru'}">
+                                            <se:StswLabel Content="Русский" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="zh-cn" Visibility="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='zh-cn'}">
+                                            <se:StswLabel Content="中文" IconData="{x:Static se:StswIcons.Flag}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                    </se:StswComboBox>
+                                    <!-- theme -->
+                                    <se:StswLabel Content="{se:StswTranslate StswConfig.Theme, Suffix=':'}" IconData="{x:Static se:StswIcons.ThemeLightDark}" Margin="0 5 0 0"/>
+                                    <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Theme, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
+                                        <se:StswComboBoxItem Tag="-1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Auto}}">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="0" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Light}}">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Light}" IconData="{x:Static se:StswIcons.WeatherSunny}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Dark}}">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Dark}" IconData="{x:Static se:StswIcons.WeatherNight}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="2" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Pink}}">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Pink}" IconData="{x:Static se:StswIcons.HeartOutline}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                        <se:StswComboBoxItem Tag="3" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Spring}}">
+                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Spring}" IconData="{x:Static se:StswIcons.Leaf}" Padding="0"/>
+                                        </se:StswComboBoxItem>
+                                    </se:StswComboBox>
+                                    <!-- animations -->
+                                    <se:StswCheckBox IsChecked="{Binding EnableAnimations, Source={x:Static se:StswSettings.Default}}" Margin="0 10 0 0">
+                                        <se:StswLabel Content="{se:StswTranslate StswConfig.EnableAnimations}"/>
+                                    </se:StswCheckBox>
+                                </StackPanel>
+                            </se:StswScrollView>
                         </DockPanel>
                     </se:StswGroupBox>
 
