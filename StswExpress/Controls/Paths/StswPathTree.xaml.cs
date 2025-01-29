@@ -49,20 +49,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Handles item selection changes and animations.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
-    protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
-    {
-        base.OnSelectedItemChanged(e);
-        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
-
-        if (!_isSelectingPath)
-            SelectedPath = e.NewValue is StswPathTreeItem fileItem ? fileItem.FullPath : null;
-    }
-    private bool _isSelectingPath = false;
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -82,6 +68,45 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+    }
+
+    /// <summary>
+    /// Handles item selection changes and animations.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        base.OnSelectedItemChanged(e);
+        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
+
+        if (!_isSelectingPath)
+            SelectedPath = e.NewValue is StswPathTreeItem fileItem ? fileItem.FullPath : null;
+    }
+    private bool _isSelectingPath = false;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswTreeViewItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
     }
 
     /// <summary>
@@ -245,6 +270,22 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             // TODO - SelectedPath resets
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswPathTree)
+        );
 
     /// <summary>
     /// Gets or sets the currently selected path in the control.

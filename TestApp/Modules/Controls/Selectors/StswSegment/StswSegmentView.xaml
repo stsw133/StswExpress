@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswSegment}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSegment}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
@@ -23,6 +26,7 @@
         <!-- content -->
         <se:StswSegment DisplayMemberPath="Name"
                         IsEnabled="{Binding IsEnabled}"
+                        IsReadOnly="{Binding IsReadOnly}"
                         ItemsSource="{Binding Items}"
                         Orientation="{Binding Orientation}"
                         SelectionMode="{Binding SelectionMode}"

@@ -22,16 +22,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
-    {
-        base.OnSelectedItemChanged(e);
-        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
-    }
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -60,6 +50,59 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        base.OnSelectedItemChanged(e);
+        IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswTreeViewItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswTreeView)
+        );
     #endregion
 
     #region Style properties
@@ -126,6 +169,42 @@ public class StswTreeViewItem : TreeViewItem
         if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswTreeViewItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswTreeViewItem)
+        );
     #endregion
 
     #region Style properties

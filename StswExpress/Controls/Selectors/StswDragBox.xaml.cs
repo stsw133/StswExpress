@@ -76,8 +76,33 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// <param name="e"></param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswDragBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswDragBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
     }
     #endregion
 
@@ -112,6 +137,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// </summary>
     private void OnDrop(object sender, DragEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
         if (ItemsSource is not IList targetList)
             return;
 
@@ -140,6 +171,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// </summary>
     private void OnItemMouseMove(object sender, MouseEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
         if (e.LeftButton == MouseButtonState.Pressed && sender is FrameworkElement element)
         {
             _dragDropItem = element.DataContext;
@@ -198,6 +235,24 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
         (list[index2], list[index1]) = (list[index1], list[index2]);
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswDragBox)
+        );
     #endregion
 
     #region Style properties
@@ -261,6 +316,23 @@ public class StswDragBoxItem : ListBoxItem
         if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswDragBoxItem)
+        );
     #endregion
 
     #region Style properties

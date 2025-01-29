@@ -16,6 +16,7 @@ public class StswListViewContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? SelectionMode.Multiple;//default;
     }
 
@@ -29,6 +30,14 @@ public class StswListViewContext : ControlsContext
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
 
     /// SelectionMode
     public SelectionMode SelectionMode

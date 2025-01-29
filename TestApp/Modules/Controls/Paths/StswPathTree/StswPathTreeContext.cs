@@ -8,6 +8,7 @@ public class StswPathTreeContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         ShowFiles = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowFiles)))?.Value ?? default;
     }
 
@@ -18,7 +19,15 @@ public class StswPathTreeContext : ControlsContext
         set => SetProperty(ref _initialPath, value);
     }
     private string? _initialPath;
-    
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
+
     /// SelectedPath
     public string? SelectedPath
     {

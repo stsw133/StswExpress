@@ -50,7 +50,7 @@
                                            PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                            HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                            VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ItemsPresenter/>
+                            <ItemsPresenter x:Name="OPT_Items"/>
                         </se:StswScrollView>
                     </se:StswBorder>
                     <!-- triggers -->
@@ -62,6 +62,10 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False" TargetName="OPT_Items"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="OPT_Items"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="OPT_MainBorder"/>
@@ -116,6 +120,20 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.ReadOnly.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsReadOnly" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.ReadOnly.Foreground}"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_MainBorder"/>

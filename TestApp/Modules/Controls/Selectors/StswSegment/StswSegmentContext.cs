@@ -16,6 +16,7 @@ public class StswSegmentContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
         SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
     }
@@ -28,6 +29,17 @@ public class StswSegmentContext : ControlsContext
     }
     private BindingList<StswSegmentTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswSegmentTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
 
+    /// SelectionCounter
+    public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
+
     /// Orientation
     public Orientation Orientation
     {
@@ -35,9 +47,6 @@ public class StswSegmentContext : ControlsContext
         set => SetProperty(ref _orientation, value);
     }
     private Orientation _orientation;
-
-    /// SelectionCounter
-    public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
 
     /// SelectionMode
     public SelectionMode SelectionMode

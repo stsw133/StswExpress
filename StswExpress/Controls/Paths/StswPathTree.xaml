@@ -51,7 +51,7 @@
                                            PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                            HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                            VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ItemsPresenter/>
+                            <ItemsPresenter x:Name="OPT_Items"/>
                         </se:StswScrollView>
                     </se:StswBorder>
                     <!-- triggers -->
@@ -65,6 +65,10 @@
                         </MultiTrigger>
                         <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
                             <Setter Property="CanContentScroll" Value="True" TargetName="OPT_ScrollView"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False" TargetName="OPT_Items"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="OPT_Items"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>

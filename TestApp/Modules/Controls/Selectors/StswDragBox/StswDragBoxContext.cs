@@ -16,6 +16,7 @@ public class StswDragBoxContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
     }
 
@@ -37,6 +38,14 @@ public class StswDragBoxContext : ControlsContext
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
 
     /// SelectionMode
     public SelectionMode SelectionMode

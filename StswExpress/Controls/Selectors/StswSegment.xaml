@@ -38,7 +38,7 @@
                                               Focusable="False"
                                               Orientation="{TemplateBinding Orientation}"
                                               Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter/>
+                            <ItemsPresenter x:Name="OPT_Items"/>
                         </se:StswDirectionView>
                     </se:StswBorder>
                     <!-- triggers -->
@@ -57,6 +57,10 @@
                         <Trigger Property="Orientation" Value="Vertical">
                             <Setter Property="BBtnThickness" Value="0 0 0 1" TargetName="OPT_DirectionView"/>
                             <Setter Property="FBtnThickness" Value="0 1 0 0" TargetName="OPT_DirectionView"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False" TargetName="OPT_Items"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="OPT_Items"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
@@ -133,6 +137,20 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.ReadOnly.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsReadOnly" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.ReadOnly.Foreground}"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_MainBorder"/>

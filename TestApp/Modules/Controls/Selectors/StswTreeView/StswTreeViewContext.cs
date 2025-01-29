@@ -11,6 +11,13 @@ public class StswTreeViewContext : ControlsContext
         Items.ListChanged += (_, _) => OnPropertyChanged(nameof(SelectedItem));
     }
 
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+    }
+
     /// Items
     public BindingList<StswTreeViewTestModel> Items
     {
@@ -26,6 +33,14 @@ public class StswTreeViewContext : ControlsContext
     /// SelectedItem
     public object? SelectedItem => Items.AsEnumerable().FirstOrDefault(x => x.IsSelected)?.Name ?? "none or one of sub-items";
     //public object? SelectedItem => Items.SelectMany(item => new[] { item }.Concat(item.SubItems?.SelectMany(subItem => new[] { subItem }.Concat(subItem.SubItems ?? Enumerable.Empty<StswTreeViewTestModel>())) ?? Enumerable.Empty<StswTreeViewTestModel>())).FirstOrDefault(item => item.IsSelected);
+
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
 }
 
 public class StswTreeViewTestModel : StswObservableObject, IStswSelectionItem

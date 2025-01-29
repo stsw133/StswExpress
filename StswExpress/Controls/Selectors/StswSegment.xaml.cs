@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
@@ -20,6 +21,26 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswSegmentItem;
 
     #region Events & methods
+    /*
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (GetTemplateChild("OPT_DirectionView") is StswDirectionView directionView)
+        {
+            var binding = new Binding(nameof(IsDragging))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            };
+            directionView.SetBinding(StswDirectionView.IsDraggingProperty, binding);
+        }
+    }
+    */
+
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
@@ -48,12 +69,91 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     /// <param name="e"></param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswSegmentItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswSegmentItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
     #endregion
+    /*
+    #region Dragging
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsDragging
+    {
+        get => (bool)GetValue(IsDraggingProperty);
+        set => SetValue(IsDraggingProperty, value);
+    }
+    public static readonly DependencyProperty IsDraggingProperty =
+        DependencyProperty.Register(
+            nameof(IsDragging),
+            typeof(bool),
+            typeof(StswSegment),
+            new FrameworkPropertyMetadata(false));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+        base.OnPreviewMouseLeftButtonDown(e);
+        IsDragging = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+    {
+        base.OnPreviewMouseLeftButtonUp(e);
+        IsDragging = false;
+    }
+    #endregion
+    */
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswSegment)
+        );
+
     /// <summary>
     /// Gets or sets the orientation of the control.
     /// </summary>
@@ -132,6 +232,23 @@ public class StswSegmentItem : ListBoxItem, IStswCornerControl
         if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswSegmentItem)
+        );
     #endregion
 
     #region Style properties

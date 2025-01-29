@@ -19,6 +19,13 @@ public interface IStswSelectionControl
     static readonly DependencyProperty? DisplayMemberPathProperty;
 
     /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    bool IsReadOnly { get; set; }
+    static readonly DependencyProperty? IsReadOnlyProperty;
+    
+    /// <summary>
     /// Gets or sets the collection used to generate the content of the control.
     /// This property allows binding the control to a collection of items that will be displayed.
     /// </summary>

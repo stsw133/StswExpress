@@ -13,8 +13,11 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDragBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SelectionMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswListBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswDragBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList SelectionMode}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -22,6 +25,7 @@
         <UniformGrid Columns="2">
             <se:StswDragBox DisplayMemberPath="Name"
                             IsEnabled="{Binding IsEnabled}"
+                            IsReadOnly="{Binding IsReadOnly}"
                             ItemsSource="{Binding Items}"
                             Margin="0 0 3 0"
                             SelectionMode="{Binding SelectionMode}"
@@ -32,6 +36,7 @@
                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswDragBox Grid.Column="1" DisplayMemberPath="Name"
                             IsEnabled="{Binding IsEnabled}"
+                            IsReadOnly="{Binding IsReadOnly}"
                             ItemsSource="{Binding Items2}"
                             Margin="3 0 0 0"
                             SelectionMode="{Binding SelectionMode}"

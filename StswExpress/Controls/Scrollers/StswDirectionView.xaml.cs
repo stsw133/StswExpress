@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -30,24 +31,32 @@ public class StswDirectionView : ScrollViewer
         /// Button: down
         if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
+            //btnDown.MouseEnter += HandleMouseEnterOnButton;
+            //btnDown.MouseLeave += HandleMouseLeaveFromButton;
             btnDown.Click += (_, _) => ScrollInfo.MouseWheelDown();
             _btnDown = btnDown;
         }
         /// Button: left
         if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
+            //btnLeft.MouseEnter += HandleMouseEnterOnButton;
+            //btnLeft.MouseLeave += HandleMouseLeaveFromButton;
             btnLeft.Click += (_, _) => ScrollInfo.MouseWheelLeft();
             _btnLeft = btnLeft;
         }
         /// Button: right
         if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
+            //btnRight.MouseEnter += HandleMouseEnterOnButton;
+            //btnRight.MouseLeave += HandleMouseLeaveFromButton;
             btnRight.Click += (_, _) => ScrollInfo.MouseWheelRight();
             _btnRight = btnRight;
         }
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
+            //btnUp.MouseEnter += HandleMouseEnterOnButton;
+            //btnUp.MouseLeave += HandleMouseLeaveFromButton;
             btnUp.Click += (_, _) => ScrollInfo.MouseWheelUp();
             _btnUp = btnUp;
         }
@@ -163,7 +172,61 @@ public class StswDirectionView : ScrollViewer
         }
     }
     #endregion
+    /*
+    #region Dragging
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsDragging
+    {
+        get => (bool)GetValue(IsDraggingProperty);
+        set => SetValue(IsDraggingProperty, value);
+    }
+    public static readonly DependencyProperty IsDraggingProperty
+        = DependencyProperty.Register(
+            nameof(IsDragging),
+            typeof(bool),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(false)
+        );
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void HandleMouseEnterOnButton(object sender, MouseEventArgs e)
+    {
+        if (IsDragging && sender is RepeatButton repeatButton)
+        {
+            var mouseDownEvent = new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
+            {
+                RoutedEvent = UIElement.MouseLeftButtonDownEvent,
+                Source = repeatButton
+            };
+            InputManager.Current.ProcessInput(mouseDownEvent);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void HandleMouseLeaveFromButton(object sender, MouseEventArgs e)
+    {
+        if (IsDragging && sender is RepeatButton repeatButton)
+        {
+            var mouseUpEvent = new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
+            {
+                RoutedEvent = UIElement.MouseLeftButtonUpEvent,
+                Source = repeatButton
+            };
+            InputManager.Current.ProcessInput(mouseUpEvent);
+        }
+    }
+    #endregion
+    */
     #region Logic properties
     /// <summary>
     /// Gets or sets the orientation of the control.

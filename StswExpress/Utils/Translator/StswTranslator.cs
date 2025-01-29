@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -15,7 +16,7 @@ namespace StswExpress;
 /// </summary>
 public static class StswTranslator
 {
-    private static Dictionary<string, Dictionary<string, string>> _translations = [];
+    private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _translations = [];
 
     /// <summary>
     /// Gets the list of available languages.
@@ -187,10 +188,8 @@ public static class StswTranslator
     /// <param name="value">Translated string value.</param>
     public static void AddOrUpdateTranslation(string key, string language, string value)
     {
-        if (!_translations.ContainsKey(key))
-            _translations[key] = [];
-
-        _translations[key][language] = value;
+        var langDict = _translations.GetOrAdd(key, _ => new());
+        langDict[language] = value;
     }
 
     /// <summary>
@@ -205,9 +204,13 @@ public static class StswTranslator
 
         foreach (var key in keysToRemove)
         {
-            _translations[key].Remove(language);
-            if (_translations[key].Count == 0)
-                _translations.Remove(key);
+            if (_translations.TryGetValue(key, out var langDict))
+            {
+                langDict.TryRemove(language, out _);
+
+                if (langDict.IsEmpty)
+                    _translations.TryRemove(key, out _);
+            }
         }
     }
 

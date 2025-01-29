@@ -48,9 +48,52 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// <param name="e"></param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+        
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswListBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswListBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether control is in read-only mode.
+    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswListBox)
+        );
     #endregion
 
     #region Style properties
@@ -93,7 +136,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 }
 
 /// <summary>
-/// 
+/// Represents an item inside the <see cref="StswListBox"/>.
 /// </summary>
 public class StswListBoxItem : ListBoxItem, IStswCornerControl
 {
@@ -114,6 +157,23 @@ public class StswListBoxItem : ListBoxItem, IStswCornerControl
         if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswListBoxItem)
+        );
     #endregion
 
     #region Style properties

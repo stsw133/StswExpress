@@ -17,6 +17,9 @@
             <!-- InitialPath -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf InitialPath, Type={x:Type se:StswPathTree}}"/>
             <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionUnit="OpenDirectory"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswListBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- ShowFiles -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowFiles, Type={x:Type se:StswPathTree}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowFiles}"/>
@@ -24,6 +27,7 @@
         <!-- content -->
         <se:StswPathTree InitialPath="{Binding InitialPath}"
                          IsEnabled="{Binding IsEnabled}"
+                         IsReadOnly="{Binding IsReadOnly}"
                          SelectedPath="{Binding SelectedPath}"
                          ShowFiles="{Binding ShowFiles}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
