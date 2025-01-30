@@ -38,7 +38,7 @@
 
 <h1 id="0-15-0">0.15.0</h1>
 
-**Release Date**: 2025-01-27
+**Release Date**: 2025-01-30
 
 ## Additions
 
@@ -46,6 +46,7 @@
 - Added a `MaxDropDownWidth` property to the `IStswDropControl` interface and its derived controls. This property allows setting the maximum width of the dropdown popup.
 - Added a new animation type for `StswSpinner`, named "Helix".
 - Added a new control called `StswDragBox`, a `ListBox`-based control that supports reordering items and transferring items between boxes of the same type.
+- Added read-only modes to selector controls and updated the read-only mode style for `StswComboBox` and `StswSelectionBox` controls.
 - Introduced a new class `StswDataGridRow`, inheriting from `DataGridRow`. `StswDataGrid` now uses this class.
 
 ### Utils
@@ -67,7 +68,9 @@
 ## Changes
 
 ### Controls
+- Added the library version in `StswConfig`'s header.
 - Fixed an issue in `StswDataGrid` with binding errors related to the `UsesSelectionItems` property in scenarios such as grouping.
+- Modified templates for toggle controls and set their default horizontal alignment to left.
 - `StswFilterBox` and `StswDataGrid` now support filtering using `ICollectionView` in combination with `StswCollection`.
 - `StswPathPicker` now supports file save dialogs in addition to file or folder open dialogs. Additionally, it supports `Multiselect` and `SuggestedFilename` properties.
 

@@ -18,7 +18,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     #region Events & methods
-    private Border? _mainBorder, _checkedBorder, _switchBorder;
+    private Border? _mainBorder, _backgroundBorder, _circleBorder;
 
     private bool _isLoaded = false;
     private double _width = 0;
@@ -32,12 +32,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
-            _mainBorder = mainBorder;
-        if (GetTemplateChild("PART_CheckBorder") is Border checkedBorder)
-            _checkedBorder = checkedBorder;
-        if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
-            _switchBorder = switchBorder;
+        _mainBorder = GetTemplateChild("PART_MainBorder") as Border;
+        _backgroundBorder = GetTemplateChild("PART_BackgroundBorder") as Border;
+        _circleBorder = GetTemplateChild("PART_CircleBorder") as Border;
 
         Loaded += (_, _) => SetSwitch();
         _isLoaded = true;
@@ -50,7 +47,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-        if (_switchBorder != null)
+        if (_circleBorder != null)
             AnimateChecked();
     }
 
@@ -61,7 +58,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-        if (_switchBorder != null)
+        if (_circleBorder != null)
             AnimateUnhecked();
     }
 
@@ -72,7 +69,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
-        if (_switchBorder != null)
+        if (_circleBorder != null)
             AnimateIndeterminate();
     }
 
@@ -98,7 +95,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
 
         _width = _mainBorder!.RenderSize.Width;
         _height = _mainBorder!.RenderSize.Height;
-        _switchSize = _switchBorder!.RenderSize.Height;
+        _switchSize = _circleBorder!.RenderSize.Height;
 
         SetSwitch();
     }
@@ -110,18 +107,18 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         if (_mainBorder != null)
         {
-            _switchBorder!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
-            _switchBorder!.Width = _switchSize;
-            _switchBorder!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
-            _switchBorder.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
+            _circleBorder!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
+            _circleBorder!.Width = _switchSize;
+            _circleBorder!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
+            _circleBorder.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
             InstantSwitch();
-            _checkedBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);
-            _checkedBorder!.CornerRadius = new CornerRadius(_height / 2.0);
+            _backgroundBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);
+            _backgroundBorder!.CornerRadius = new CornerRadius(_height / 2.0);
             _mainBorder!.CornerRadius = new CornerRadius(_height / 2.0);
             if (IsChecked == true)
-                _checkedBorder.Opacity = 1;
+                _backgroundBorder.Opacity = 1;
             else
-                _checkedBorder.Opacity = 0;
+                _backgroundBorder.Opacity = 0;
         }
     }
 
@@ -237,7 +234,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             TimeSpan.Zero,
             FillBehavior.HoldEnd);
         sb.Children.Add(switchMarginAnim);
-        Storyboard.SetTarget(switchMarginAnim, _switchBorder);
+        Storyboard.SetTarget(switchMarginAnim, _circleBorder);
         Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
         var switchWidthAnim = new DoubleAnimation(
@@ -245,7 +242,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             TimeSpan.Zero,
             FillBehavior.HoldEnd);
         sb.Children.Add(switchWidthAnim);
-        Storyboard.SetTarget(switchWidthAnim, _switchBorder);
+        Storyboard.SetTarget(switchWidthAnim, _circleBorder);
         Storyboard.SetTargetProperty(switchWidthAnim, new PropertyPath(WidthProperty));
 
         sb.Begin();
@@ -266,7 +263,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(switchMarginAnim);
-        Storyboard.SetTarget(switchMarginAnim, _switchBorder);
+        Storyboard.SetTarget(switchMarginAnim, _circleBorder);
         Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
         var backgroundOpacityAnim = new DoubleAnimation()
@@ -277,7 +274,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(backgroundOpacityAnim);
-        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBorder);
+        Storyboard.SetTarget(backgroundOpacityAnim, _backgroundBorder);
         Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();
@@ -298,7 +295,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(switchMarginAnim);
-        Storyboard.SetTarget(switchMarginAnim, _switchBorder);
+        Storyboard.SetTarget(switchMarginAnim, _circleBorder);
         Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
         var backgroundOpacityAnim = new DoubleAnimation()
@@ -309,7 +306,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(backgroundOpacityAnim);
-        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBorder);
+        Storyboard.SetTarget(backgroundOpacityAnim, _backgroundBorder);
         Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();
@@ -330,7 +327,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(switchMarginAnim);
-        Storyboard.SetTarget(switchMarginAnim, _switchBorder);
+        Storyboard.SetTarget(switchMarginAnim, _circleBorder);
         Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
         var backgroundOpacityAnim = new DoubleAnimation()
@@ -341,7 +338,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
         sb.Children.Add(backgroundOpacityAnim);
-        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBorder);
+        Storyboard.SetTarget(backgroundOpacityAnim, _backgroundBorder);
         Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();

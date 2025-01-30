@@ -88,7 +88,11 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         switch (Type)
         {
             case StswAdaptiveType.Check:
-                newControl = new StswCheckBox();
+                newControl = new StswCheckBox()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
                 newControl.SetBinding(StswCheckBox.BorderBrushProperty, bindingBorderBrush);
                 newControl.SetBinding(StswCheckBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswCheckBox.CornerClippingProperty, bindingCornerClipping);
@@ -101,7 +105,11 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
                 break;
             case StswAdaptiveType.Date:
-                newControl = new StswDatePicker();
+                newControl = new StswDatePicker()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
                 newControl.SetBinding(StswDatePicker.BorderBrushProperty, bindingBorderBrush);
                 newControl.SetBinding(StswDatePicker.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDatePicker.CornerClippingProperty, bindingCornerClipping);
@@ -119,7 +127,11 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
                 break;
             case StswAdaptiveType.List:
-                newControl = new StswSelectionBox();
+                newControl = new StswSelectionBox()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
                 newControl.SetBinding(StswSelectionBox.BorderBrushProperty, bindingBorderBrush);
                 newControl.SetBinding(StswSelectionBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswSelectionBox.CornerClippingProperty, bindingCornerClipping);
@@ -144,7 +156,11 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswPopup.PaddingProperty, bindingPopupPadding);
                 break;
             case StswAdaptiveType.Number:
-                newControl = new StswDecimalBox();
+                newControl = new StswDecimalBox()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
                 newControl.SetBinding(StswDecimalBox.BorderBrushProperty, bindingBorderBrush);
                 newControl.SetBinding(StswDecimalBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswDecimalBox.CornerClippingProperty, bindingCornerClipping);
@@ -161,7 +177,11 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
                 break;
             case StswAdaptiveType.Text:
-                newControl = new StswTextBox();
+                newControl = new StswTextBox()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
                 newControl.SetBinding(StswTextBox.BorderBrushProperty, bindingBorderBrush);
                 newControl.SetBinding(StswTextBox.BorderThicknessProperty, bindingBorderThickness);
                 newControl.SetBinding(StswTextBox.CornerClippingProperty, bindingCornerClipping);

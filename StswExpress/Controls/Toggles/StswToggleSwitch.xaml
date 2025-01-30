@@ -18,7 +18,7 @@
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -38,20 +38,19 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       HorizontalAlignment="Left">
+                                       CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid Margin="{TemplateBinding Padding}"
                                   Height="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*12}"
                                   Width="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*24}">
-                                <Border x:Name="PART_CheckBorder"
+                                <Border x:Name="PART_BackgroundBorder"
                                         Background="{Binding Background, ElementName=PART_MainBorder}"
                                         BorderThickness="0"/>
-                                <Border x:Name="PART_SwitchBorder"
+                                <Border x:Name="PART_CircleBorder"
                                         Background="{TemplateBinding ToggleBrush}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="0"
-                                        VerticalAlignment="Stretch"
-                                        HorizontalAlignment="Left">
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Stretch">
                                     <Border.Effect>
                                         <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="3" Opacity="0.6"/>
                                     </Border.Effect>
@@ -69,17 +68,17 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>
-                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Toggle}" TargetName="PART_CircleBorder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.MouseOver.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Toggle}" TargetName="PART_CircleBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -88,12 +87,12 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Toggle}" TargetName="PART_CircleBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Toggle}" TargetName="PART_CircleBorder"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -102,7 +101,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Toggle}" TargetName="PART_CircleBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.ReadOnly.Background}" TargetName="PART_MainBorder"/>
@@ -117,7 +116,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Toggle}" TargetName="PART_CircleBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>
@@ -127,7 +126,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Toggle}" TargetName="PART_SwitchBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Toggle}" TargetName="PART_CircleBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

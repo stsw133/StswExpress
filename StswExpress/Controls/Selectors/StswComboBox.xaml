@@ -55,7 +55,7 @@
                                              CornerClipping="{TemplateBinding CornerClipping}"
                                              CornerRadius="{TemplateBinding CornerRadius}"
                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                             Padding="2 0 0 0"
+                                             Padding="0"
                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                              HorizontalContentAlignment="Stretch"
@@ -149,7 +149,7 @@
                                     </se:StswBorder>
                                 </Popup>
                                 <!-- content -->
-                                <Grid>
+                                <Grid Margin="2 0 0 0">
                                     <se:StswText x:Name="OPT_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                                  IsHitTestVisible="False"
@@ -172,6 +172,7 @@
                                                     se:StswControl.IsBorderless="True"
                                                     AllowDrop="True"
                                                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                                                    Margin="-2 0 0 0"
                                                     Padding="{TemplateBinding Padding}"
                                                     Placeholder="{TemplateBinding Placeholder}"
                                                     Text="{TemplateBinding Text}"
@@ -236,7 +237,9 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainButton"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_Items"/>
+                            <Setter Property="Focusable" Value="False" TargetName="OPT_Items"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="OPT_Items"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="OPT_Items"/> <!-- without this items can be changed anyway -->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="Transparent" TargetName="PART_EditableTextBox"/>
@@ -295,6 +298,20 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.ReadOnly.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsReadOnly" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.ReadOnly.Background}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.ReadOnly.Foreground}"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="OPT_MainBorder"/>

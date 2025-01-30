@@ -135,10 +135,36 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
         base.OnSelectionChanged(e);
+        IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
 
         if (IsDropDownOpen && IsFilterEnabled)
             Keyboard.Focus(_filter);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="item"></param>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswComboBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswComboBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
     }
 
     /// <summary>
@@ -411,6 +437,23 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
         if (DataContext is IStswSelectionItem)
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswComboBoxItem)
+        );
     #endregion
 
     #region Style properties

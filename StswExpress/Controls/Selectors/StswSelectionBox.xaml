@@ -48,7 +48,7 @@
                                          CornerClipping="{TemplateBinding CornerClipping}"
                                          CornerRadius="{TemplateBinding CornerRadius}"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                         Padding="2 0 0 0"
+                                         Padding="0"
                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -90,6 +90,7 @@
                                                 CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                 Focusable="False"
+                                                IsReadOnly="{TemplateBinding IsReadOnly}"
                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
@@ -117,7 +118,7 @@
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
                             <!-- content -->
-                            <Grid>
+                            <Grid Margin="2 0 0 0">
                                 <se:StswText x:Name="OPT_Placeholder"
                                              Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                              IsHitTestVisible="False"
@@ -159,7 +160,6 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="OPT_MainButton"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ListBox"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="OPT_MainButton"/>

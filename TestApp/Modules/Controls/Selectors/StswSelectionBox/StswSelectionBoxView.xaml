@@ -30,7 +30,6 @@
                              ItemsSource="{Binding Items}"
                              Placeholder="Select items..."
                              SelectedValuePath="Name"
-                             UpdateTextCommand="{Binding UpdateTextCommand, Mode=OneWayToSource}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"

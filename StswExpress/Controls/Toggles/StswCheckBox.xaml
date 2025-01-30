@@ -23,7 +23,7 @@
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -43,9 +43,7 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                       CornerRadius="{TemplateBinding CornerRadius}">
                             <se:StswIcon x:Name="OPT_Icon"
                                          Fill="{TemplateBinding GlyphBrush}"
                                          Margin="{TemplateBinding Padding}"
@@ -64,9 +62,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_MainBorder"/>
-                            <Setter Property="Margin" Value="0" TargetName="OPT_Content"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="OPT_MainBorder"/>
-                            <Setter Property="VerticalAlignment" Value="Stretch" TargetName="OPT_MainBorder"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Icon"/>
