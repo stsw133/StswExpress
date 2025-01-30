@@ -22,7 +22,7 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
-    <Copyright>© 2024 Karol Staszewski</Copyright>
+    <Copyright>© 2025 Karol Staszewski</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
