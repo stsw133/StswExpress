@@ -44,7 +44,7 @@
                             </AdornerDecorator>
                             <!-- title bar -->
                             <se:StswSidePanel x:Name="OPT_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">
-                                <se:StswWindowBar x:Name="PART_WindowBar" Background="{TemplateBinding Background}" Components="{TemplateBinding Components}"/>
+                                <se:StswWindowBar x:Name="PART_WindowBar" Components="{TemplateBinding Components}"/>
                             </se:StswSidePanel>
                         </Grid>
                     </se:StswBorder>

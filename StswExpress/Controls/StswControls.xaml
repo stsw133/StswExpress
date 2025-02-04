@@ -2,6 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="_base/_internal/StswConfig.xaml"/>
+        <ResourceDictionary Source="_base/StswFocusVisual.xaml"/>
 
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
@@ -44,6 +45,7 @@
 
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
+        <ResourceDictionary Source="Layout/StswGridSplitter.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
         <ResourceDictionary Source="Layout/StswTimedSwitch.xaml"/>

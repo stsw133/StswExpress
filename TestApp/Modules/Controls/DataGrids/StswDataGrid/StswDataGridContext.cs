@@ -47,12 +47,12 @@ public class StswDataGridContext : ControlsContext
     private bool _isReadOnly;
 
     /// Items
-    public StswCollection<StswDataGridTestModel> Items
+    public StswObservableCollection<StswDataGridTestModel> Items
     {
         get => _items;
         set => SetProperty(ref _items, value);
     }
-    private StswCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+    private StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem

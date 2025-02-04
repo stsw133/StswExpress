@@ -527,21 +527,21 @@ public static partial class StswExtensions
     public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
 
     /// <summary>
-    /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswDictionary{TKey, TValue}"/>.
-    /// </summary>
-    /// <typeparam name="T1">The type of the dictionary keys.</typeparam>
-    /// <typeparam name="T2">The type of the dictionary values.</typeparam>
-    /// <param name="value">The dictionary to convert.</param>
-    /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
-    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) where T1 : notnull => new(value);
-
-    /// <summary>
-    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswCollection{T}"/>.
+    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects in the list.</typeparam>
     /// <param name="value">The enumerable to convert.</param>
-    /// <returns>The converted <see cref="StswCollection{T}"/>.</returns>
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
+    /// <returns>The converted <see cref="StswObservableCollection{T}"/>.</returns>
+    public static StswObservableCollection<T> ToStswObservableCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
+
+    /// <summary>
+    /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswObservableDictionary{TKey, TValue}"/>.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the dictionary keys.</typeparam>
+    /// <typeparam name="TValue">The type of the dictionary values.</typeparam>
+    /// <param name="value">The dictionary to convert.</param>
+    /// <returns>The converted <see cref="StswObservableDictionary{TKey, TValue}"/>.</returns>
+    public static StswObservableDictionary<TKey, TValue> ToStswObservableDictionary<TKey, TValue>(this IDictionary<TKey, TValue> value, bool autoAddOnGet = true) where TKey : notnull => new(value) { AutoAddOnGet = autoAddOnGet };
     #endregion
 
     #region Color extensions

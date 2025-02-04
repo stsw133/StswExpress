@@ -14,12 +14,12 @@ namespace StswExpress;
 /// </summary>
 /// <typeparam name="T">Item type implementing <see cref="IStswCollectionItem"/></typeparam>
 /// <remarks>
-/// Creates a new instance of <see cref="StswCollection{T}"/>.
+/// Creates a new instance of <see cref="StswObservableCollection{T}"/>.
 /// </remarks>
 /// <param name="ignoredPropertyNames">
 /// A list of property names to ignore when checking modifications.
 /// </param>
-public class StswCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
+public class StswObservableCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     //TODO - handle changes in nested classes
 
@@ -61,7 +61,7 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
     /// <param name="ignoredPropertyNames">
     /// A list of property names to ignore when checking modifications.
     /// </param>
-    public StswCollection(bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
+    public StswObservableCollection(bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
     {
         _showRemovedItems = showRemovedItems;
 
@@ -78,7 +78,7 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
     /// <param name="ignoredPropertyNames">
     /// A list of property names to ignore when checking modifications.
     /// </param>
-    public StswCollection(IEnumerable<T> collection, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
+    public StswObservableCollection(IEnumerable<T> collection, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
     {
         _showRemovedItems = showRemovedItems;
 

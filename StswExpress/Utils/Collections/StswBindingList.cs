@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// An extension of <see cref="BindingList{T}"/> that adds tracking of changes to the collection items' states.
 /// </summary>
-[Obsolete($"Use {nameof(StswCollection<T>)} instead since it supports {nameof(ICollectionView)}.")]
+[Obsolete($"Use {nameof(StswObservableCollection<T>)} instead since it supports {nameof(ICollectionView)}.")]
 public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T : IStswCollectionItem
 {
     //TODO - handle changes in nested classes

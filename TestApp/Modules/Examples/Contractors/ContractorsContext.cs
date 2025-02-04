@@ -71,7 +71,7 @@ public class ContractorsContext : StswObservableObject
         try
         {
             // for CollectionView filters:
-            ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswCollection());
+            ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswObservableCollection());
             ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             FiltersContractors.Apply?.Invoke();
             //Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
@@ -249,12 +249,12 @@ public class ContractorsContext : StswObservableObject
     private StswDataGridFiltersDataModel _filtersContractors = new();
 
     /// ListContractors
-    public StswCollection<ContractorModel> ListContractors
+    public StswObservableCollection<ContractorModel> ListContractors
     {
         get => _listContractors;
         set => SetProperty(ref _listContractors, value);
     }
-    private StswCollection<ContractorModel> _listContractors = [];
+    private StswObservableCollection<ContractorModel> _listContractors = [];
     
     /// ListContractorsView
     public ICollectionView? ListContractorsView

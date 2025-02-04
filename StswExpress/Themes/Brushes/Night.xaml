@@ -18,10 +18,7 @@
     <SolidColorBrush x:Key="StswColor.Modify" Color="#b666cc"/>
     <SolidColorBrush x:Key="StswColor.Structure" Color="#e7c24b"/>
     <SolidColorBrush x:Key="StswColor.Designer" Color="#47ebe0"/>
-
-    <!-- FocusVisual -->
-    <SolidColorBrush x:Key="StswFocusVisual.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=13%}"/>
-
+    
     <!-- Buttons -->
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#424242"/>
     <SolidColorBrush x:Key="StswButton.Static.Border" Color="#616161"/>
@@ -341,7 +338,7 @@
     
     <FontFamily x:Key="StswWindow.Font.Family">Segoe UI</FontFamily>
     <sys:Double x:Key="StswWindow.Font.Size">12</sys:Double>
-    <SolidColorBrush x:Key="StswWindow.Static.Background" Color="#262626"/>
+    <ImageBrush x:Key="StswWindow.Static.Background" Stretch="UniformToFill" ImageSource="/StswExpress;component/Themes/Resources/night_background.webp"/>
     <SolidColorBrush x:Key="StswWindow.Active.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}}"/>
     <SolidColorBrush x:Key="StswWindow.Active.Foreground" Color="#efefef"/>
     <SolidColorBrush x:Key="StswWindow.Inactive.Border" Color="#616161"/>

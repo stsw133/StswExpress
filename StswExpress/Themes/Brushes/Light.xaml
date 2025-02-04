@@ -19,6 +19,9 @@
     <SolidColorBrush x:Key="StswColor.Structure" Color="#b48f18"/> <!-- #c29c1a -->
     <SolidColorBrush x:Key="StswColor.Designer" Color="#14b8ad"/> <!-- #04a0c8 -->
     
+    <!-- FocusVisual -->
+    <SolidColorBrush x:Key="StswFocusVisual.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=25%}"/>
+
     <!-- Buttons -->
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#DDD"/>
     <SolidColorBrush x:Key="StswButton.Static.Border" Color="#BBB"/>

@@ -21,7 +21,18 @@ public static class StswTranslator
     /// <summary>
     /// Gets the list of available languages.
     /// </summary>
-    public static List<string> AvailableLanguages { get; set; } = ["de", "en", "es", "fr", "ja", "ko", "pl", "ru", "zh-cn"];
+    public static Dictionary<string, string> AvailableLanguages { get; set; } = new()
+    {
+        { "de", "Deutsch" },
+        { "en", "English" },
+        { "es", "Español" },
+        { "fr", "Français" },
+        { "ja", "日本語" },
+        { "ko", "한국어" },
+        { "pl", "Polski" },
+        { "ru", "Русский" },
+        { "zh-cn", "中文" }
+    };
 
     /// <summary>
     /// Gets or sets the current language used for translations.
@@ -37,7 +48,7 @@ public static class StswTranslator
                 if (string.IsNullOrEmpty(savedLanguage))
                 {
                     var systemLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    _currentLanguage = AvailableLanguages.Contains(systemLanguage) ? systemLanguage : "en";
+                    _currentLanguage = AvailableLanguages.ContainsKey(systemLanguage) ? systemLanguage : "en";
                 }
                 else
                 {

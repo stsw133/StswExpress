@@ -18,7 +18,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-        SetValue(ContextsProperty, new StswDictionary<string, object?>());
+        SetValue(ContextsProperty, new StswObservableDictionary<string, object?>());
         SetValue(ItemsProperty, new ObservableCollection<StswNavigationElement>());
         SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationElement>());
         SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationElement>());
@@ -109,15 +109,15 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets the collection of contexts associated with this navigation control.
     /// </summary>
-    public StswDictionary<string, object?> Contexts
+    public StswObservableDictionary<string, object?> Contexts
     {
-        get => (StswDictionary<string, object?>)GetValue(ContextsProperty);
+        get => (StswObservableDictionary<string, object?>)GetValue(ContextsProperty);
         set => SetValue(ContextsProperty, value);
     }
     public static readonly DependencyProperty ContextsProperty
         = DependencyProperty.Register(
             nameof(Contexts),
-            typeof(StswDictionary<string, object?>),
+            typeof(StswObservableDictionary<string, object?>),
             typeof(StswNavigation)
         );
 

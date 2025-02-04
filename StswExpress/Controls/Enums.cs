@@ -248,7 +248,11 @@ public enum StswTheme
     Light,
     Dark,
     Pink,
-    Spring
+    Spring,
+    Summer,
+    Fall,
+    Winter,
+    Night,
 }
 
 /// <summary>

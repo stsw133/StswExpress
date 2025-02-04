@@ -469,7 +469,7 @@ public static class StswDatabaseHelper
         => model.OpenedConnection().TempTableInsert(items, tableName, timeout, sqlTran);
 
     /// <summary>
-    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswCollection{TModel}"/>.
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswObservableCollection{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
     /// <param name="sqlConn">The SQL connection to use.</param>
@@ -481,9 +481,9 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <remarks>
-    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswCollection{TModel}"/>.
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this SqlConnection sqlConn, StswCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
+    public static void Set<TModel>(this SqlConnection sqlConn, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
     {
         if (!CheckQueryConditions())
             return;
@@ -522,7 +522,7 @@ public static class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswCollection{TModel}"/>.
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswObservableCollection{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
     /// <param name="items">The list of items to insert, update, or delete.</param>
@@ -532,13 +532,13 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <remarks>
-    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswCollection{T}{TModel}"/>.
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{T}{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this SqlTransaction sqlTran, StswCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
+    public static void Set<TModel>(this SqlTransaction sqlTran, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
         => sqlTran.Connection.Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
     /// <summary>
-    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswCollection{TModel}"/>.
+    /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswObservableCollection{TModel}"/>.
     /// </summary>
     /// <typeparam name="TModel">The type of the items in the list.</typeparam>
     /// <param name="items">The list of items to insert, update, or delete.</param>
@@ -548,9 +548,9 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <remarks>
-    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswCollection{TModel}"/>.
+    /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    public static void Set<TModel>(this StswDatabaseModel model, StswCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
+    public static void Set<TModel>(this StswDatabaseModel model, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
         => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
     /// <summary>

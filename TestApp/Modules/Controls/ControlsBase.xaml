@@ -68,7 +68,7 @@
                     </StackPanel>
                 </se:StswScrollView>
                 <!-- splitter -->
-                <GridSplitter Grid.Column="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <se:StswGridSplitter Grid.Column="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!-- control -->
                 <se:StswScrollView Grid.Column="2">
                     <Grid>
@@ -80,7 +80,7 @@
                         <!-- content -->
                         <ContentPresenter Grid.Row="0" Margin="5"/>
                         <!-- splitter -->
-                        <GridSplitter Grid.Row="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <se:StswGridSplitter Grid.Row="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <!-- status panel -->
                         <ContentControl Grid.Row="2" Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Focusable="False" Margin="5"/>
                     </Grid>

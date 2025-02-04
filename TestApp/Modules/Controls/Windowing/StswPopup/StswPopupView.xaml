@@ -22,7 +22,7 @@
             <se:StswPopup IsEnabled="{Binding IsEnabled}"
                           IsOpen="{Binding IsOpen}"
                           MaxHeight="180"
-                          Placement="MousePoint"
+                          Placement="Bottom"
                           ScrollType="{Binding ScrollType}"
                           StaysOpen="False"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
