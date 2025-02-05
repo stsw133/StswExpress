@@ -7,6 +7,19 @@
         <Setter Property="FBtnThickness" Value="2"/>
 
         <Setter Property="Focusable" Value="True"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
@@ -30,7 +43,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <!-- content -->
-                        <ScrollContentPresenter x:Name="OPT_ScrollContentPresenter" Grid.Column="1" Grid.Row="1"
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="1" Grid.Row="1"
                                                 CanContentScroll="{TemplateBinding CanContentScroll}"
                                                 CanVerticallyScroll="False"
                                                 Content="{TemplateBinding Content}"
@@ -81,10 +94,10 @@
                                 <Condition Property="ComputedHorizontalScrollBarVisibility" Value="Collapsed"/>
                                 <Condition Property="ComputedVerticalScrollBarVisibility" Value="Collapsed"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Grid.Column" Value="0" TargetName="OPT_ScrollContentPresenter"/>
-                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="OPT_ScrollContentPresenter"/>
-                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_ScrollContentPresenter"/>
-                            <Setter Property="Grid.RowSpan" Value="3" TargetName="OPT_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -95,8 +108,8 @@
                             <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ButtonLeft"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ButtonRight"/>
                             <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ButtonRight"/>
-                            <Setter Property="Grid.Row" Value="0" TargetName="OPT_ScrollContentPresenter"/>
-                            <Setter Property="Grid.RowSpan" Value="3" TargetName="OPT_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -107,8 +120,8 @@
                             <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ButtonUp"/>
                             <Setter Property="Grid.Column" Value="0" TargetName="PART_ButtonDown"/>
                             <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ButtonDown"/>
-                            <Setter Property="Grid.Column" Value="0" TargetName="OPT_ScrollContentPresenter"/>
-                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="OPT_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

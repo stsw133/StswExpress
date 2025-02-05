@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswWindowBar}">
-        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
@@ -12,6 +12,19 @@
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Focusable" Value="False"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 

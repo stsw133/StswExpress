@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    
     <Geometry x:Key="ToolBarCheckmark">M 0,2.5 L 2.5,5 L 7,0.5</Geometry>
 
     <Style x:Key="ToolBarMainPanelBorderStyle" TargetType="{x:Type Border}">

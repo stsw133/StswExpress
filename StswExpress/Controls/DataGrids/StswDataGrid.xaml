@@ -21,6 +21,19 @@
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
 
         <Setter Property="Focusable" Value="True"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="2" CornerRadius="0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
@@ -148,62 +161,6 @@
         </Setter>
     </Style>
     -->
-
-    <!-- StswDataGridRowStyle -->
-    <Style TargetType="{x:Type se:StswDataGridRow}">
-        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Row.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Row.Static.Border}"/>
-        
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
-        <Setter Property="ValidationErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <se:StswText Foreground="Red" Margin="2 0 0 0" Text="!" VerticalAlignment="Center"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswDataGridRow}">
-                    <!-- main -->
-                    <Border x:Name="DGR_Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="True">
-                        <SelectiveScrollingGrid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <DataGridCellsPresenter Grid.Column="1"
-                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                    Style="{DynamicResource StswDataGridCellsPresenterStyle}"/>
-                            <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1"
-                                                      SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}}"
-                                                      Visibility="{TemplateBinding DetailsVisibility}"/>
-                            <DataGridRowHeader Grid.RowSpan="2"
-                                               SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                                               Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
-                        </SelectiveScrollingGrid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <!-- triggers -->
-        <Style.Triggers>
-            <Trigger Property="IsNewItem" Value="True">
-                <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
 
     <!-- StswDataGridCellsPresenterStyle -->
     <Style x:Key="StswDataGridCellsPresenterStyle" TargetType="{x:Type DataGridCellsPresenter}">

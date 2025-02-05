@@ -27,9 +27,6 @@ namespace StswExpress;
 /// </summary>
 public static class StswFn
 {
-    public static readonly bool True = true;
-    public static readonly bool False = false;
-
     #region Assembly functions
     /// <summary>
     /// Gets the name of the currently executing application.
@@ -592,6 +589,21 @@ public static class StswFn
 
         return null;
     }
+    #endregion
+
+    #region List functions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static IEnumerable<T> CreateRandomItems<T>(int count) => StswRandomGenerator.CreateRandomItems<T>(count);
+    #endregion
+
+    #region Logical functions
+    public static readonly bool True = true;
+    public static readonly bool False = false;
     #endregion
 
     #region Numeric functions

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -75,10 +76,10 @@ public static class StswTranslator
     }
     private static string? _currentLanguage;
 
-    /// <summary>
+    /// <<summary>
     /// Occurs when a property of the TranslationManager changes (e.g., CurrentLanguage).
     /// Used to notify the UI that translations need to be refreshed.
-    /// </summary>
+    /// </summary>>
     public static event PropertyChangedEventHandler? PropertyChanged;
     private static void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 
@@ -226,6 +227,11 @@ public static class StswTranslator
     }
 
     /// <summary>
+    /// Event triggered before loading default translations, allowing custom translations to be added.
+    /// </summary>
+    public static event Func<string, Task<string?>>? CustomTranslationLoader;
+
+    /// <summary>
     /// Loads translations for the current language asynchronously.
     /// </summary>
     internal static async Task LoadTranslationsForCurrentLanguageAsync()
@@ -235,6 +241,16 @@ public static class StswTranslator
 
         var json = StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
         await LoadTranslationsFromJsonStringAsync(json, language);
+
+        if (CustomTranslationLoader != null)
+        {
+            foreach (var handler in CustomTranslationLoader.GetInvocationList().Cast<Func<string, Task<string?>>>())
+            {
+                var customJson = await handler.Invoke(language);
+                if (!string.IsNullOrEmpty(customJson))
+                    await LoadTranslationsFromJsonStringAsync(customJson, language);
+            }
+        }
     }
 
     /// <summary>

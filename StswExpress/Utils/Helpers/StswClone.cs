@@ -33,10 +33,7 @@ public static class StswClone
     /// <typeparam name="T">The type of the object to clone.</typeparam>
     /// <param name="original">The object to be cloned.</param>
     /// <returns>A deep clone of the original object, or null if the input is null.</returns>
-    public static T? DeepCopy<T>(this T original)
-    {
-        return (T?)DeepCopy((object?)original);
-    }
+    public static T? DeepCopy<T>(this T original) => (T?)DeepCopy((object?)original);
 
     /// <summary>
     /// Checks if a given type is primitive (including strings).
@@ -150,17 +147,8 @@ public static class StswClone
     /// </summary>
     internal class ReferenceEqualityComparer : EqualityComparer<object>
     {
-        public override bool Equals(object? x, object? y)
-        {
-            return ReferenceEquals(x, y);
-        }
-
-        public override int GetHashCode(object obj)
-        {
-            if (obj == null)
-                return 0;
-            return obj.GetHashCode();
-        }
+        public override bool Equals(object? x, object? y) => ReferenceEquals(x, y);
+        public override int GetHashCode(object obj) => obj == null ? 0 : obj.GetHashCode();
     }
 
     /// <summary>

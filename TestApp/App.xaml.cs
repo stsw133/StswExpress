@@ -23,10 +23,18 @@ public partial class App : StswApp
         /// example for overriding security key:
         //StswSecurity.Key = "myOwnStswHashKey";
         /// example for removing language from config:
-        //StswTranslator.AvailableLanguages.Clear();
-        //StswTranslator.AvailableLanguages.Add(string.Empty);
-        //StswTranslator.AvailableLanguages.Add("en");
-        //StswSettings.Default.Language = "en";
+        //StswTranslator.AvailableLanguages = new() { { "en", "English" } };
+        //StswTranslator.CurrentLanguage = "en"; //or `string.Empty` to get default language
+        /// example for adding custom translations:
+        //StswTranslator.CustomTranslationLoader += async (language) =>
+        //{
+        //    var customFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomTranslations", $"{language}.json");
+        //
+        //    if (File.Exists(customFilePath))
+        //        return await File.ReadAllTextAsync(customFilePath);
+        //
+        //    return null;
+        //};
         /// example for removing theme from config:
         //StswResources.AvailableThemes.Clear();
         //StswResources.AvailableThemes.Add(StswTheme.Auto);

@@ -519,14 +519,6 @@ public static partial class StswExtensions
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new(value);
 
     /// <summary>
-    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswBindingList{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of objects in the list.</typeparam>
-    /// <param name="value">The enumerable to convert.</param>
-    /// <returns>The converted <see cref="StswBindingList{T}"/>.</returns>
-    public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
-
-    /// <summary>
     /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of objects in the list.</typeparam>
@@ -618,16 +610,30 @@ public static partial class StswExtensions
 
     #region Dictionary extensions
     /// <summary>
-    /// 
+    /// Changes the key of an existing entry in the dictionary.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="dict"></param>
-    /// <param name="oldKey"></param>
-    /// <param name="newKey"></param>
-    /// <returns></returns>
-    public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey)
+    /// <typeparam name="TKey">Type of dictionary keys.</typeparam>
+    /// <typeparam name="TValue">Type of dictionary values.</typeparam>
+    /// <param name="dict">The dictionary where the key should be changed.</param>
+    /// <param name="oldKey">The existing key to be replaced.</param>
+    /// <param name="newKey">The new key to assign.</param>
+    /// <param name="overwriteExisting">
+    /// If true, replaces the value of an existing newKey. 
+    /// If false, throws an exception if newKey already exists.
+    /// </param>
+    /// <returns>True if the key was successfully changed; otherwise, false.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if dictionary is null.</exception>
+    /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is false.</exception>
+    public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey, bool overwriteExisting = false)
     {
+        ArgumentNullException.ThrowIfNull(dict);
+
+        if (EqualityComparer<TKey>.Default.Equals(oldKey, newKey))
+            return false;
+
+        if (dict.ContainsKey(newKey) && !overwriteExisting)
+            throw new ArgumentException($"The key '{newKey}' already exists in the dictionary.", nameof(newKey));
+
         if (!dict.Remove(oldKey, out var value))
             return false;
 
@@ -981,14 +987,11 @@ public static partial class StswExtensions
         if (type == typeof(bool))
             return false;
 
-        if (type == typeof(string))
-            return string.IsNullOrEmpty(value as string);
-
         if (type.IsEnum)
             return EqualityComparer<T>.Default.Equals(value, default);
 
         if (value is IEnumerable enumerable)
-            return !enumerable.GetEnumerator().MoveNext();
+            return enumerable.IsNullOrEmpty();
 
         if (type.IsClass)
             return value.IsSimilarTo((T?)Activator.CreateInstance(type));

@@ -11,8 +11,21 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
-        
+
         <Setter Property="Focusable" Value="True"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="2" CornerRadius="6"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
@@ -144,6 +157,7 @@
         <Setter Property="Padding" Value="4 2"/>
 
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource StswFocusVisual}"/>
         <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

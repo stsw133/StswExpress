@@ -490,7 +490,7 @@ public static class StswDatabaseHelper
 
         idColumns ??= ["ID"];
         setColumns ??= typeof(TModel).GetProperties().Select(x => x.Name);
-        setColumns = setColumns.Except(items.IgnoredPropertyNames);
+        setColumns = setColumns.Except(items.IgnoredPropertyNames.Append(nameof(IStswCollectionItem.ItemState)));
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
@@ -498,7 +498,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(insertQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.AddedItems)
+            foreach (var item in items.GetItemsByState(StswItemState.Added))
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
@@ -506,7 +506,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(updateQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.ModifiedItems)
+            foreach (var item in items.GetItemsByState(StswItemState.Modified))
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
@@ -514,7 +514,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(deleteQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.RemovedItems)
+            foreach (var item in items.GetItemsByState(StswItemState.Deleted))
                 PrepareCommand(sqlCmd, GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
 
