@@ -11,7 +11,7 @@
     -->
     
     <!-- StswColors -->
-    <SolidColorBrush x:Key="StswColor.Primary" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
+    <SolidColorBrush x:Key="StswColor.Primary" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B50%'}"/>
     <SolidColorBrush x:Key="StswColor.Positive" Color="#3d9438"/>
     <SolidColorBrush x:Key="StswColor.Negative" Color="#bd2c0f"/>
     <SolidColorBrush x:Key="StswColor.Neutral" Color="#006dcc"/>
@@ -20,7 +20,7 @@
     <SolidColorBrush x:Key="StswColor.Designer" Color="#14b8ad"/>
 
     <!-- FocusVisual -->
-    <SolidColorBrush x:Key="StswFocusVisual.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=25%}"/>
+    <SolidColorBrush x:Key="StswFocusVisual.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B25%'}"/>
 
     <!-- Buttons -->
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#ECD"/>

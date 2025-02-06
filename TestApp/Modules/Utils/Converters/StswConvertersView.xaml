@@ -95,7 +95,7 @@
                         <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[NotNull]}"/>
                         <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
                         <se:StswCheckBox Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="5 0 5 5" IsReadOnly="True"
-                                         IsChecked="{se:StswBindableParameter Values[NotNull], Mode=TwoWay, Converter={x:Static se:StswNotNullConverter.Instance}, ConverterParameter={Binding Parameters[NotNull]}}"/>
+                                         IsChecked="{se:StswBindableParameter Values[NotNull], Mode=TwoWay, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter={Binding Parameters[NotNull]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     <!-- Radio -->
@@ -122,8 +122,8 @@
                     <se:StswLabel Content="Color converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
-                    <!-- ColorAdvanced -->
-                    <se:StswLabel Content="StswColorAdvancedConverter" FontSize="16" FontWeight="Bold"/>
+                    <!-- Color -->
+                    <se:StswLabel Content="StswColorConverter" FontSize="16" FontWeight="Bold"/>
                     <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
                         <Run Text="Used for color manipulation and conversion based on the provided parameters."/>
                         <LineBreak/>
@@ -131,92 +131,14 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" SelectedColor="{Binding Values[ColorAdvanced]}"/>
+                        <se:StswColorBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" SelectedColor="{Binding Values[Color]}"/>
                         <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ColorAdvanced]}"/>
+                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[Color]}"/>
                         <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
                         <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{se:StswBindableParameter Values[ColorAdvanced], Mode=TwoWay, Converter={x:Static se:StswColorAdvancedConverter.Instance}, ConverterParameter={Binding Parameters[ColorAdvanced]}}"/>
+                                         SelectedColor="{se:StswBindableParameter Values[Color], Mode=TwoWay, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter={Binding Parameters[Color]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- ColorAlpha -->
-                    <se:StswLabel Content="StswColorAlphaConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Takes a color value as input and changes its alpha based on the provided parameters."/>
-                        <LineBreak/>
-                        <Run Text="EXAMPLES:  '80'  '125'  '180'  '245'  '16%'  '26%'  '36%'  '50%'"/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" SelectedColor="{Binding Values[ColorAlpha]}"/>
-                        <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ColorAlpha]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{se:StswBindableParameter Values[ColorAlpha], Mode=TwoWay, Converter={x:Static se:StswColorAlphaConverter.Instance}, ConverterParameter={Binding Parameters[ColorAlpha]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- ColorBrightness -->
-                    <se:StswLabel Content="StswColorBrightnessConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Takes a color value as input and changes its brightness based on the provided parameters."/>
-                        <LineBreak/>
-                        <Run Text="EXAMPLES:  '16'  '+25'  '-36'  '?49'  '8%'  '+13%'  '-18%'  '?25%'"/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" SelectedColor="{Binding Values[ColorBrightness]}"/>
-                        <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ColorBrightness]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{se:StswBindableParameter Values[ColorBrightness], Mode=TwoWay, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter={Binding Parameters[ColorBrightness]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- Color -->
-                    <se:StswLabel Content="StswColorConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Used for type conversion between different types."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Values[Color]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{Binding Values[Color], Mode=TwoWay, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- ColorGenerator -->
-                    <se:StswLabel Content="StswColorGeneratorConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Generate new color based on passed value and the provided seed (brightness) as parameter."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Values[ColorGenerator]}"/>
-                        <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ColorGenerator]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{se:StswBindableParameter Values[ColorGenerator], Mode=TwoWay, Converter={x:Static se:StswColorGeneratorConverter.Instance}, ConverterParameter={Binding Parameters[ColorGenerator]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- ColorSaturation -->
-                    <se:StswLabel Content="StswColorSaturationConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Takes a color value as input and changes its saturation based on the provided parameters."/>
-                        <LineBreak/>
-                        <Run Text="EXAMPLES:  '8%'  '13%'  '18%'  '25%'"/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" SelectedColor="{Binding Values[ColorSaturation]}"/>
-                        <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ColorSaturation]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswColorBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                         SelectedColor="{se:StswBindableParameter Values[ColorSaturation], Mode=TwoWay, Converter={x:Static se:StswColorSaturationConverter.Instance}, ConverterParameter={Binding Parameters[ColorSaturation]}}"/>
-                    </se:StswGrid>
                 </StackPanel>
             </se:StswExpander>
             <!-- format converters -->
@@ -236,41 +158,6 @@
                         <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
                         <se:StswTextBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                         Text="{Binding Values[MultiCultureNumber], Mode=TwoWay, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
-                    </se:StswGrid>
-                </StackPanel>
-            </se:StswExpander>
-            <!-- list converters -->
-            <se:StswExpander Margin="5">
-                <se:StswExpander.Header>
-                    <se:StswLabel Content="List converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswExpander.Header>
-                <StackPanel>
-                    <!-- EnumDescription -->
-                    <se:StswLabel Content="StswEnumDescriptionConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="A converter that converts an enumeration value to its description, using the DescriptionAttribute. If no description is found, it returns the enumeration value as a string."/>
-                    </se:StswText>
-                    <!--
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{se:StswEnumToList local:ContractorType}" Margin="5 0 5 5" SelectedValue="{Binding Values[EnumDescription]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="False"
-                                        Text="{se:StswBindableParameter Values[EnumDescription], Mode=TwoWay, Converter={x:Static se:StswEnumDescriptionConverter.Instance}, ConverterParameter={Binding Parameters[EnumDescription]}}"/>
-                    </se:StswGrid>
-                    -->
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- ListFromRange -->
-                    <se:StswLabel Content="StswListFromRangeConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Converts a range specified by the parameter to a list of integers for data binding purposes. The converter expects the parameter to be a string representing a range in the format 'start-end' or 'end' (e.g., '2-5' or '3'). The generated list contains integers in the specified range using Enumerable.Range."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswLabel Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[ListFromRange]}"/>
-                        <se:StswLabel Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswComboBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="False"
-                                         ItemsSource="{se:StswBindableParameter Values[ListFromRange], Mode=TwoWay, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter={Binding Parameters[ListFromRange]}}"/>
                     </se:StswGrid>
                 </StackPanel>
             </se:StswExpander>

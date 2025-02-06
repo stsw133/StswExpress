@@ -48,3 +48,19 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
 public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);
+
+/* usage:
+
+public StswCommand<string> SaveCommand { get; }
+
+public MainViewModel()
+{
+    SaveCommand = new(Save, () => SomeCondition);
+}
+
+private void Save(string? parameter)
+{
+    // some action here
+}
+
+*/

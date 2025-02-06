@@ -89,7 +89,7 @@
                                     </se:StswBorder>
                                     <!-- hours -->
                                     <se:StswSegment Grid.Column="0" Grid.Row="1"
-                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=24}"
+                                                    ItemsSource="{se:StswListFromRange '24'}"
                                                     Orientation="Vertical"
                                                     SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
                                                     se:StswControl.IsBorderless="True"/>
@@ -97,7 +97,7 @@
                                     <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- minutes -->
                                     <se:StswSegment Grid.Column="2" Grid.Row="1"
-                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
+                                                    ItemsSource="{se:StswListFromRange '60'}"
                                                     Orientation="Vertical"
                                                     SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
                                                     se:StswControl.IsBorderless="True"/>
@@ -105,7 +105,7 @@
                                     <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- seconds -->
                                     <se:StswSegment Grid.Column="4" Grid.Row="1"
-                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
+                                                    ItemsSource="{se:StswListFromRange '60'}"
                                                     Orientation="Vertical"
                                                     SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
                                                     se:StswControl.IsBorderless="True"/>

@@ -6,11 +6,13 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Converts <see cref="bool"/> to the targetType.
-/// Use '!' at the beginning of the converter parameter to reverse the output value.
+/// A value converter that transforms a <see cref="bool"/> value to a specified target type.
 /// <br/>
-/// When targetType is <see cref="Visibility"/>, the output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.
-/// When targetType is anything else, it returns <see cref="bool"/> with a value depending on the converter result.
+/// If the parameter starts with '!', the conversion result is inverted.
+/// <br/>
+/// When converting to <see cref="Visibility"/>, <see langword="true"/> results in <see cref="Visibility.Visible"/>, 
+/// while <see langword="false"/> results in <see cref="Visibility.Collapsed"/>.
+/// For other target types, the boolean value is directly converted.
 /// </summary>
 public class StswBoolConverter : MarkupExtension, IValueConverter
 {
@@ -21,34 +23,31 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
     private static StswBoolConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Converts a <see cref="bool"/> value to the specified targetType.
+    /// Converts a <see cref="bool"/> value to a specified target type.
     /// </summary>
-    /// <param name="value">The value produced by the binding source.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="value">The source value to convert.</param>
+    /// <param name="targetType">The type to convert to.</param>
+    /// <param name="parameter">Optional parameter; if prefixed with '!', inverts the boolean value.</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
-    /// A <see cref="Visibility"/> value if the targetType is <see cref="Visibility"/>;
-    /// otherwise, a <see cref="bool"/> value.
+    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
+    /// - A <see cref="bool"/> or its equivalent for other types.
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (!bool.TryParse(value?.ToString(), out var val))
-            return value;
+        if (value is not bool val && !bool.TryParse(value?.ToString(), out val))
+            return Binding.DoNothing;
 
-        var isReversed = parameter?.ToString()?.StartsWith('!') == true;
+        var isReversed = parameter is string param && param.StartsWith('!');
 
-        if (targetType == typeof(Visibility))
-            return (val ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
-        else
-            return (val ^ isReversed).ConvertTo(targetType);
+        return StswConverterHelper.ConvertToTargetType(val ^ isReversed, targetType);
     }
 
     /// <summary>
@@ -61,3 +60,13 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
+
+/* usage:
+
+<Button Content="Save" Visibility="{Binding CanSave, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+
+<Button Content="Edit" Visibility="{Binding IsEditing, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!' }"/>
+
+<TextBlock Text="{Binding IsAdmin, Converter={x:Static se:StswBoolConverter.Instance}, TargetType={x:Type sys:Int32}}"/>
+
+*/

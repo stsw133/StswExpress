@@ -135,3 +135,19 @@ public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute 
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
 public class StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null) : StswAsyncCommand<object>(_ => execute(), canExecute);
+
+/* usage:
+
+public StswAsyncCommand<string> RefreshCommand { get; }
+
+public MainViewModel()
+{
+    RefreshCommand = new(Refresh, () => SomeCondition);
+}
+
+private async Task Refresh(string? parameter)
+{
+    // some action here
+}
+
+*/

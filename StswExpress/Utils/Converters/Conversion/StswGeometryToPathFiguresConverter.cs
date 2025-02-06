@@ -6,7 +6,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Converts a <see cref="Geometry"/> object into a collection of <see cref="PathFigure"/> elements.
+/// This allows extracting path data from a geometry for use in path-based UI elements.
 /// </summary>
 public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConverter
 {
@@ -17,26 +18,28 @@ public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConvert
     private static StswGeometryToPathFiguresConverter? _instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// 
+    /// Converts a <see cref="Geometry"/> object into its corresponding <see cref="PathFigureCollection"/>.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="targetType"></param>
-    /// <param name="parameter"></param>
-    /// <param name="culture"></param>
-    /// <returns></returns>
+    /// <param name="value">The <see cref="Geometry"/> object to convert.</param>
+    /// <param name="targetType">The expected type of the binding target (ignored).</param>
+    /// <param name="parameter">An optional converter parameter (ignored).</param>
+    /// <param name="culture">The culture to use in the converter (ignored).</param>
+    /// <returns>
+    /// A <see cref="PathFigureCollection"/> extracted from the provided <see cref="Geometry"/>, 
+    /// or <see cref="Binding.DoNothing"/> if conversion is not possible.
+    /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is Geometry geometry)
-            return geometry.GetFlattenedPathGeometry().Figures;
-
-        return null;
+        return value is Geometry geometry
+            ? geometry.GetFlattenedPathGeometry().Figures
+            : Binding.DoNothing;
     }
 
     /// <summary>

@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Performs a mathematical operation on the value parameter based on the converter parameter.
-/// Supports <see cref="CornerRadius"/>, <see cref="GridLength"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).
-/// Supported operations: '+', '-', '*', '/', '%', '^'.
+/// A value converter that performs mathematical operations on the input value based on the provided parameter.
+/// <br/>
+/// - Supports operations: `+`, `-`, `*`, `/`, `%`, `^`.  
+/// - Supports numeric types (`int`, `double`), as well as `CornerRadius`, `Thickness`, and `GridLength`.  
+/// - The parameter must start with the operator (`+`, `-`, etc.) followed by a number or multiple values (for `CornerRadius` and `Thickness`).  
+/// <br/>
+/// Example usages:  
+/// - `"*2"` (multiplies the input value by 2)  
+/// - `"+5"` (adds 5 to the input value)  
+/// - `"*0.5"` (scales the value by 50%)  
+/// - `"*1.2,1.2,1.2,1.2"` (scales all `CornerRadius` values by 1.2)  
 /// </summary>
 public class StswCalculateConverter : MarkupExtension, IValueConverter
 {
@@ -19,39 +28,52 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     private static StswCalculateConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Performs a mathematical operation on the value parameter based on the converter parameter.
+    /// Performs a mathematical operation on the input value.
     /// </summary>
     /// <param name="value">The value produced by the binding source.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to use for the operation.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="targetType">The type of the target property.</param>
+    /// <param name="parameter">A string defining the operation (e.g., "*2" or "+10,10,10,10").</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>The result of the mathematical operation.</returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var input = value?.ToString() ?? string.Empty;
-        var pmr = parameter?.ToString() ?? string.Empty;
+        if (value == null || parameter is not string pmr || pmr.Length < 2 || !StswCalculator.IsOperator(pmr[0].ToString()))
+            return Binding.DoNothing;
 
-        if (pmr.Length < 2 || !StswCalculator.IsOperator(pmr[0].ToString()))
-            return value;
+        var operation = pmr[0].ToString();
+        var paramValues = pmr[1..].Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
+                                  .Select(p => double.TryParse(p, NumberStyles.Number, culture, out var num) ? num : (double?)null)
+                                  .Where(p => p.HasValue)
+                                  .Select(p => p!.Value)
+                                  .ToArray();
 
-        if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
-            return HandleCornerRadius(value, pmr[0].ToString(), pmr[1..], culture);
-        else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
-            return HandleThickness(value, pmr[0].ToString(), pmr[1..], culture);
-        else if (targetType.In(typeof(GridLength), typeof(GridLength?)))
-            return HandleGridLength(value, pmr[0].ToString(), pmr[1..], culture);
-        else if (value?.GetType()?.IsNumericType() == true && double.TryParse(pmr[1..], NumberStyles.Number, culture, out var num))
-            return Math.Round(StswCalculator.ApplyOperator(pmr[0].ToString(), System.Convert.ToDouble(value, culture), num), 10).ConvertTo(targetType);
-        else
-            return value;
+        return targetType switch
+        {
+            Type t when t == typeof(CornerRadius) || t == typeof(CornerRadius?) =>
+                ApplyCornerRadiusOperation(value, operation, paramValues),
+
+            Type t when t == typeof(Thickness) || t == typeof(Thickness?) =>
+                ApplyThicknessOperation(value, operation, paramValues),
+
+            Type t when t == typeof(GridLength) || t == typeof(GridLength?) =>
+                ApplyGridLengthOperation(value, operation, paramValues.FirstOrDefault()),
+
+            Type t when t.IsNumericType() && paramValues.Length > 0 =>
+                StswConverterHelper.ConvertToTargetType(
+                    Math.Round(StswCalculator.ApplyOperator(operation, System.Convert.ToDouble(value, culture), paramValues[0]), 10),
+                    targetType),
+
+            _ => Binding.DoNothing
+        };
     }
+
 
     /// <summary>
     /// This converter does not support converting back from target value to source value.
@@ -64,132 +86,85 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>
-    /// Handles mathematical operations for CornerRadius type.
+    /// Applies a mathematical operation to a <see cref="CornerRadius"/> value.
     /// </summary>
-    /// <param name="value">The value to be converted.</param>
-    /// <param name="operation">The mathematical operation to perform.</param>
-    /// <param name="parameters">The parameters for the operation.</param>
-    /// <param name="culture">The culture to use for parsing.</param>
-    /// <returns>A new CornerRadius with the applied operation.</returns>
-    private static object HandleCornerRadius(object? value, string operation, string parameters, CultureInfo culture)
+    /// <param name="value">The value to be converted. It must be of type <see cref="CornerRadius"/>.</param>
+    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
+    /// <param name="parameters">An array of numbers used in the operation.</param>
+    /// <returns>A new <see cref="CornerRadius"/> with the applied operation, or the original value if invalid.</returns>
+    private static CornerRadius ApplyCornerRadiusOperation(object? value, string operation, double[] parameters)
     {
-        var pmrArray = Array.ConvertAll(parameters.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries), i => System.Convert.ToDouble(i, culture));
-        if (value is CornerRadius val1)
+        if (value is not CornerRadius cr)
+            return new CornerRadius();
+
+        return parameters.Length switch
         {
-            return pmrArray.Length switch
-            {
-                4 => new CornerRadius(
-                    StswCalculator.ApplyOperator(operation, val1.TopLeft, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.TopRight, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val1.BottomRight, pmrArray[2]),
-                    StswCalculator.ApplyOperator(operation, val1.BottomLeft, pmrArray[3])
-                ),
-                2 => new CornerRadius(
-                    StswCalculator.ApplyOperator(operation, val1.TopLeft, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.TopRight, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val1.BottomRight, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.BottomLeft, pmrArray[1])
-                ),
-                1 => new CornerRadius(StswCalculator.ApplyOperator(operation, val1.TopLeft, pmrArray[0])),
-                _ => new CornerRadius(val1.TopLeft)
-            };
-        }
-        else
-        {
-            var val2 = System.Convert.ToDouble(value, culture);
-            return pmrArray.Length switch
-            {
-                4 => new CornerRadius(
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[2]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[3])
-                ),
-                2 => new CornerRadius(
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1])
-                ),
-                1 => new CornerRadius(StswCalculator.ApplyOperator(operation, val2, pmrArray[0])),
-                _ => new CornerRadius(val2)
-            };
-        }
+            4 => new CornerRadius(
+                StswCalculator.ApplyOperator(operation, cr.TopLeft, parameters[0]),
+                StswCalculator.ApplyOperator(operation, cr.TopRight, parameters[1]),
+                StswCalculator.ApplyOperator(operation, cr.BottomRight, parameters[2]),
+                StswCalculator.ApplyOperator(operation, cr.BottomLeft, parameters[3])),
+            2 => new CornerRadius(
+                StswCalculator.ApplyOperator(operation, cr.TopLeft, parameters[0]),
+                StswCalculator.ApplyOperator(operation, cr.TopRight, parameters[1]),
+                StswCalculator.ApplyOperator(operation, cr.BottomRight, parameters[0]),
+                StswCalculator.ApplyOperator(operation, cr.BottomLeft, parameters[1])),
+            1 => new CornerRadius(StswCalculator.ApplyOperator(operation, cr.TopLeft, parameters[0])),
+            _ => cr
+        };
     }
 
     /// <summary>
-    /// Handles mathematical operations for Thickness type.
+    /// Applies a mathematical operation to a <see cref="Thickness"/> value.
     /// </summary>
-    /// <param name="value">The value to be converted.</param>
-    /// <param name="operation">The mathematical operation to perform.</param>
-    /// <param name="parameters">The parameters for the operation.</param>
-    /// <param name="culture">The culture to use for parsing.</param>
-    /// <returns>A new Thickness with the applied operation.</returns>
-    private static object HandleThickness(object? value, string operation, string parameters, CultureInfo culture)
+    /// <param name="value">The value to be converted. It must be of type <see cref="Thickness"/>.</param>
+    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
+    /// <param name="parameters">An array of numbers used in the operation.</param>
+    /// <returns>A new <see cref="Thickness"/> with the applied operation, or the original value if invalid.</returns>
+    private static Thickness ApplyThicknessOperation(object? value, string operation, double[] parameters)
     {
-        var pmrArray = Array.ConvertAll(parameters.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries), i => System.Convert.ToDouble(i, culture));
-        if (value is Thickness val1)
+        if (value is not Thickness th)
+            return new Thickness();
+
+        return parameters.Length switch
         {
-            return pmrArray.Length switch
-            {
-                4 => new Thickness(
-                    StswCalculator.ApplyOperator(operation, val1.Left, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.Top, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val1.Right, pmrArray[2]),
-                    StswCalculator.ApplyOperator(operation, val1.Bottom, pmrArray[3])
-                ),
-                2 => new Thickness(
-                    StswCalculator.ApplyOperator(operation, val1.Left, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.Top, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val1.Right, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val1.Bottom, pmrArray[1])
-                ),
-                1 => new Thickness(StswCalculator.ApplyOperator(operation, val1.Left, pmrArray[0])),
-                _ => new Thickness(val1.Left)
-            };
-        }
-        else
-        {
-            var val2 = System.Convert.ToDouble(value, culture);
-            return pmrArray.Length switch
-            {
-                4 => new Thickness(
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[2]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[3])
-                ),
-                2 => new Thickness(
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[0]),
-                    StswCalculator.ApplyOperator(operation, val2, pmrArray[1])
-                ),
-                1 => new Thickness(StswCalculator.ApplyOperator(operation, val2, pmrArray[0])),
-                _ => new Thickness(val2)
-            };
-        }
+            4 => new Thickness(
+                StswCalculator.ApplyOperator(operation, th.Left, parameters[0]),
+                StswCalculator.ApplyOperator(operation, th.Top, parameters[1]),
+                StswCalculator.ApplyOperator(operation, th.Right, parameters[2]),
+                StswCalculator.ApplyOperator(operation, th.Bottom, parameters[3])),
+            2 => new Thickness(
+                StswCalculator.ApplyOperator(operation, th.Left, parameters[0]),
+                StswCalculator.ApplyOperator(operation, th.Top, parameters[1]),
+                StswCalculator.ApplyOperator(operation, th.Right, parameters[0]),
+                StswCalculator.ApplyOperator(operation, th.Bottom, parameters[1])),
+            1 => new Thickness(StswCalculator.ApplyOperator(operation, th.Left, parameters[0])),
+            _ => th
+        };
     }
 
     /// <summary>
-    /// Handles mathematical operations for GridLength type.
+    /// Applies a mathematical operation to a <see cref="GridLength"/> value.
     /// </summary>
-    /// <param name="value">The value to be converted.</param>
-    /// <param name="operation">The mathematical operation to perform.</param>
-    /// <param name="parameters">The parameters for the operation.</param>
-    /// <param name="culture">The culture to use for parsing.</param>
-    /// <returns>A new GridLength with the applied operation.</returns>
-    private static object HandleGridLength(object? value, string operation, string parameters, CultureInfo culture)
+    /// <param name="value">The value to be converted. It must be of type <see cref="GridLength"/>.</param>
+    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
+    /// <param name="parameter">The number used in the operation.</param>
+    /// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
+    private static GridLength ApplyGridLengthOperation(object? value, string operation, double parameter)
     {
-        double.TryParse(parameters, NumberStyles.Number, culture, out var pmr);
-        if (value is GridLength val1)
-        {
-            return new GridLength(StswCalculator.ApplyOperator(operation, val1.Value, pmr), val1.GridUnitType);
-        }
-        else
-        {
-            var val2 = System.Convert.ToDouble(value, culture);
-            return new GridLength(StswCalculator.ApplyOperator(operation, val2, pmr));
-        }
+        if (value is not GridLength gl)
+            return new GridLength(1, GridUnitType.Pixel);
+
+        return new GridLength(StswCalculator.ApplyOperator(operation, gl.Value, parameter), gl.GridUnitType);
     }
 }
+
+/*
+
+<Border BorderThickness="{Binding MarginValue, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1.2'}"/>
+
+<Button CornerRadius="{Binding CornerSize, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='+5'}"/>
+
+<RowDefinition Height="{Binding RowHeight, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1.5'}"/>
+
+*/

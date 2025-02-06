@@ -10,11 +10,12 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Checks if the value parameter contains the converter parameter.
-/// Use '!' at the beginning of the converter parameter to invert the output value.
+/// A value converter that checks if the input value contains a specified parameter.
 /// <br/>
-/// When targetType is <see cref="Visibility"/>, the output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.
-/// When targetType is anything else, it returns <see cref="bool"/> with a value depending on the converter result.
+/// The converter parameter can be a single value or a collection.  
+/// - Use `!` before a parameter value to specify disallowed elements.  
+/// - If the target type is <see cref="Visibility"/>, the output will be <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
+/// - Otherwise, the output is a <see cref="bool"/> value.
 /// </summary>
 public class StswContainsConverter : MarkupExtension, IValueConverter
 {
@@ -25,7 +26,7 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     private static StswContainsConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
@@ -34,35 +35,36 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     /// <summary>
     /// Checks if the value parameter contains the converter parameter.
     /// </summary>
-    /// <param name="value">The value produced by the binding source.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to check for containment.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="value">The source value to check.</param>
+    /// <param name="targetType">The type to convert to.</param>
+    /// <param name="parameter">The expected value(s) to check against.</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
-    /// A <see cref="Visibility"/> value if the targetType is <see cref="Visibility"/>;
-    /// otherwise, a <see cref="bool"/> value indicating whether the value contains the parameter.
+    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
+    /// - A <see cref="bool"/> value indicating whether the value contains the parameter.
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var val = ConvertToStringList(value);
         var pmr = ConvertToStringList(parameter);
 
-        var allowed = pmr.Where(x => !x.StartsWith('!'));
-        var disallowed = pmr.Where(x => x.StartsWith('!')).Select(x => x[1..]);
+        var allowed = pmr.Where(x => !x.StartsWith('!')).ToHashSet();
+        var disallowed = pmr.Where(x => x.StartsWith('!')).Select(x => x[1..]).ToHashSet();
 
-        /// result
-        var result = val.Any(v => allowed.Contains(v)) && val.All(v => !disallowed.Contains(v));
+        var result = val.Any(allowed.Contains) && val.All(v => !disallowed.Contains(v));
 
-        return targetType switch
-        {
-            Type t when t == typeof(Visibility) => result ? Visibility.Visible : Visibility.Collapsed,
-            _ => result.ConvertTo(targetType)
-        };
+        return StswConverterHelper.ConvertToTargetType(result, targetType);
     }
+
+    /// <summary>
+    /// Converts an object into a collection of strings.
+    /// </summary>
+    /// <param name="input">The input value.</param>
+    /// <returns>A collection of strings representing the input value.</returns>
     private static IEnumerable<string> ConvertToStringList(object? input) => input switch
     {
         null => [],
-        string s => [s],
+        string s => s.Split([','], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries),
         IEnumerable e => e.Cast<object>().Select(x => x?.ToString() ?? string.Empty),
         _ => [input.ToString() ?? string.Empty],
     };
@@ -77,3 +79,15 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
+
+/* usage:
+
+<TextBlock Text="Found" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1'}"/>
+
+<TextBlock Text="Match" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,Item3'}"/>
+
+<CheckBox Content="Option available" Visibility="{Binding AvailableOptions, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Premium'}"/>
+
+<TextBlock Text="Acceptable" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,!Item5'}"/>
+
+*/

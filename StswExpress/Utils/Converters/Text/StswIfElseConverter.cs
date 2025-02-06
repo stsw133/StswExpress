@@ -5,10 +5,14 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Takes in an input value and a set of parameters in the form of a string separated by a tilde (~) character.
-/// The first part is the condition to evaluate against the input value,
-/// the second part is the value to return if the condition is <see langword="true"/>,
-/// and the third part is the value to return if the condition is <see langword="false"/>.
+/// A value converter that conditionally returns different values based on an input condition.
+/// <br/>
+/// The converter parameter must be a string with three parts separated by a tilde (`~`):  
+/// - The first part is the condition to evaluate against the input value.  
+/// - The second part is the value to return if the condition is <see langword="true"/>.  
+/// - The third part is the value to return if the condition is <see langword="false"/>.  
+/// <br/>
+/// Example usage: `"Admin~Yes~No"` will return `"Yes"` if the input value is `"Admin"`, otherwise `"No"`.
 /// </summary>
 public class StswIfElseConverter : MarkupExtension, IValueConverter
 {
@@ -19,7 +23,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     private static StswIfElseConverter? _instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
@@ -30,24 +34,24 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     /// </summary>
     /// <param name="value">The input value.</param>
     /// <param name="targetType">The type of the target property.</param>
-    /// <param name="parameter">A string containing the condition and values separated by a tilde (~) character.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="parameter">A string containing the condition and values separated by a tilde (`~`).</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
     /// The value to return if the condition is <see langword="true"/>, or the value to return if the condition is <see langword="false"/>.
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (parameter == null)
-            return null;
+        if (parameter is not string paramStr)
+            return Binding.DoNothing;
 
-        var val = value?.ToString() ?? string.Empty;
-        var pmr = parameter?.ToString()?.Split('~');
+        var parts = paramStr.Split('~');
 
-        /// result
-        if (pmr?.Length >= 3)
-            return val == pmr?[0] ? pmr?[1] : pmr?[2];
-        
-        return null;
+        if (parts.Length < 3)
+            return Binding.DoNothing;
+
+        var conditionMet = (value?.ToString() ?? string.Empty) == parts[0];
+
+        return StswConverterHelper.ConvertToTargetType(conditionMet ? parts[1] : parts[2], targetType);
     }
 
     /// <summary>
@@ -60,3 +64,15 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
+
+/* usage:
+
+<TextBlock Text="{Binding UserRole, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Admin~Yes~No'}"/>
+
+<Button Content="{Binding Status, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Active~Stop~Start'}"/>
+
+<TextBlock Text="Only for Admins" Visibility="{Binding UserRole, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Admin~Visible~Collapsed'}"/>
+
+<CheckBox IsChecked="{Binding UserRole, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Admin~True~False'}"/>
+
+*/

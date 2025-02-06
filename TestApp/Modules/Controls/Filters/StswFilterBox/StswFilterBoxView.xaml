@@ -47,14 +47,14 @@
                                   Padding="5"
                                   VerticalAlignment="Top"/>
                 <StackPanel>
-                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value1, Converter={x:Static se:StswNotNullConverter.Instance}}">
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value1, Converter={x:Static se:StswExistenceConverter.Instance}}">
                         <Run Text="{Binding SqlParam1, Mode=OneWay}"/>
                         <Run Text="="/>
                         <Run Text="'"/>
                         <Run Text="{Binding Value1, Mode=OneWay}"/>
                         <Run Text="'"/>
                     </se:StswText>
-                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value2, Converter={x:Static se:StswNotNullConverter.Instance}}">
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value2, Converter={x:Static se:StswExistenceConverter.Instance}}">
                         <Run Text="{Binding SqlParam2, Mode=OneWay}"/>
                         <Run Text="="/>
                         <Run Text="'"/>

@@ -7,27 +7,27 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// Provides custom commands for controls.
+/// Provides custom commands for common UI interactions.
 /// </summary>
 public static class StswCommands
 {
     /// <summary>
-    /// A command to clear the text or selection in a control.
+    /// A command to clear the text, password, or selection in a supported control.
     /// </summary>
     public static readonly RoutedUICommand Clear = new(nameof(Clear), nameof(Clear), typeof(StswCommands));
-    
+
     /// <summary>
-    /// A command to clear the text or selection in a control.
+    /// A command to close a dialog by triggering the closing mechanism.
     /// </summary>
     public static readonly RoutedUICommand CloseDialog = new(nameof(CloseDialog), nameof(CloseDialog), typeof(StswCommands));
 
     /// <summary>
-    /// A command to clear the text in a control.
+    /// A command to select all available items in a selection-based control.
     /// </summary>
     public static readonly RoutedUICommand SelectAll = new(nameof(SelectAll), nameof(SelectAll), typeof(StswCommands));
 
     /// <summary>
-    /// Static constructor to register command bindings for controls.
+    /// Static constructor to register command bindings for relevant UI controls.
     /// </summary>
     static StswCommands()
     {
@@ -42,7 +42,7 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Executes the <see cref="Clear"/> command by clearing the text or selection in the target control.
+    /// Determines whether the <see cref="Clear"/> command can execute on the target control.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
@@ -67,10 +67,10 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Determines whether the <see cref="Clear"/> command can execute on the target control.
+    /// Executes the <see cref="CloseDialog"/> command by closing the associated dialog window.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
-    /// <param name="e">The event data.</param>
+    /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
     private static void Clear_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = sender switch
@@ -84,10 +84,10 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Executes the <see cref="CloseDialog"/> command by selecting all checks in the target control.
+    /// Executes the <see cref="CloseDialog"/> command by closing the associated dialog window.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
-    /// <param name="e">The event data.</param>
+    /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
     private static void CloseDialog_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (sender is ButtonBase buttonBase)
@@ -105,10 +105,10 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Executes the <see cref="SelectAll"/> command by selecting all checks in the target control.
+    /// Executes the <see cref="SelectAll"/> command by selecting all available items in a selection-based control.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
-    /// <param name="e">The event data.</param>
+    /// <param name="e">The event data, where the parameter is the name of the property to set.</param>
     private static void SelectAll_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (sender is ToggleButton toggleButton)

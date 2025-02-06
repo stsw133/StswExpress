@@ -423,10 +423,9 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         }
     }
 
-    /// <<summary>
-    /// 
+    /// <summary>
+    /// Triggers change notifications for property changes.
     /// </summary>
-    /// <param name="propertyName"></param>>
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) => base.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 
     /// <summary>

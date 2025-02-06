@@ -6,11 +6,11 @@ using System.Windows;
 
 namespace StswExpress;
 /// <summary>
-/// Compares the value parameter to the converter parameter.
-/// Use '!' at the beginning of the converter parameter to invert the output value.
+/// A value converter that checks whether the input value matches the specified parameter.
 /// <br/>
-/// When targetType is <see cref="Visibility"/>, the output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.
-/// When targetType is anything else, it returns <see cref="bool"/> with a value depending on the converter result.
+/// - Use `!` at the beginning of the converter parameter to invert the output value.  
+/// - If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
+/// - Otherwise, it returns a <see cref="bool"/> indicating whether the value matches the parameter.
 /// </summary>
 public class StswRadioConverter : MarkupExtension, IValueConverter
 {
@@ -21,40 +21,36 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
     private static StswRadioConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Compares the value parameter to the converter parameter.
+    /// Compares the input value with the converter parameter.
     /// </summary>
-    /// <param name="value">The value produced by the binding source.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to compare against the value.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="value">The source value to compare.</param>
+    /// <param name="targetType">The type to convert to.</param>
+    /// <param name="parameter">The expected value.</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
-    /// A <see cref="Visibility"/> value if the targetType is <see cref="Visibility"/>;
-    /// otherwise, a <see cref="bool"/> value indicating whether the value matches the parameter.
+    /// - <see cref="Visibility.Visible"/> if the value matches the parameter (when targetType is <see cref="Visibility"/>).  
+    /// - <see langword="true"/> if the value matches the parameter (when targetType is a boolean type).  
+    /// - The boolean result converted to the specified <paramref name="targetType"/>.
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var val = value?.ToString() ?? string.Empty;
         var pmr = parameter?.ToString() ?? string.Empty;
 
-        /// parameters
         var isReversed = pmr.StartsWith('!');
         if (isReversed)
             pmr = pmr[1..];
 
-        /// result
         var result = (val == pmr) ^ isReversed;
 
-        if (targetType == typeof(Visibility))
-            return result ? Visibility.Visible : Visibility.Collapsed;
-        else
-            return result.ConvertTo(targetType);
+        return StswConverterHelper.ConvertToTargetType(result, targetType);
     }
 
     /// <summary>
@@ -67,3 +63,19 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
     /// <returns>The converter parameter.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => parameter;
 }
+
+/* usage:
+
+<TabControl SelectedItem="{Binding SelectedTab}">
+    <TabItem Header="Option 1" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab1}"/>
+    <TabItem Header="Option 2" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab2}"/>
+</TabControl>
+
+<RadioButton Content="Option A" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=0}"/>
+<RadioButton Content="Option B" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=1}"/>
+
+<TextBlock Text="Only for users" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Admin}"/>
+
+<TextBlock Text="Limited access" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/>
+
+*/

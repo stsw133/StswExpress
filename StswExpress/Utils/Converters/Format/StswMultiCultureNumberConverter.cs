@@ -5,7 +5,11 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Converts a numeric value into a string with a decimal separator that is appropriate for a given culture.
+/// Converts a numeric value into a string with a culture-specific decimal separator, 
+/// allowing both dot (`.`) and comma (`,`) as valid input separators.
+/// <br/>
+/// This converter is particularly useful in `DataGrid` or `TextBox` bindings where users 
+/// may enter decimal numbers using different separator conventions.
 /// </summary>
 public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
@@ -16,37 +20,58 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
     private static StswMultiCultureNumberConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Converts a numeric value into a string with a decimal separator that is appropriate for a given culture.
+    /// Converts a numeric value into a string formatted according to the culture, 
+    /// ensuring the decimal separator is correctly applied.
     /// </summary>
     /// <param name="value">The numeric value to convert.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
+    /// <param name="targetType">The type of the target property.</param>
+    /// <param name="parameter">An optional parameter (not used).</param>
     /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>A string representation of the numeric value with a culture-specific decimal separator.</returns>
+    /// <returns>A string representation of the number with a culture-specific decimal separator.</returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value == null || !decimal.TryParse(value.ToString(), NumberStyles.Any, culture, out var val))
-            return value;
+        if (value == null || !decimal.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var val))
+            return Binding.DoNothing;
 
-        var ci = (CultureInfo)CultureInfo.InvariantCulture.Clone();
-        ci.NumberFormat.NumberDecimalSeparator = ",";
+        var ci = (CultureInfo)culture.Clone();
+        ci.NumberFormat.NumberDecimalSeparator = culture.NumberFormat.NumberDecimalSeparator;
+
         return val.ToString("G", ci);
     }
 
     /// <summary>
-    /// This converter does not support converting back from target value to source value.
+    /// Converts a string with a flexible decimal separator (dot or comma) into a numeric value.
+    /// This allows users to enter numbers using either `.` or `,` as the decimal separator.
     /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+    /// <param name="value">The string representation of the number.</param>
+    /// <param name="targetType">The type to convert to (e.g., `decimal`, `double`, `float`).</param>
+    /// <param name="parameter">An optional parameter (not used).</param>
+    /// <param name="culture">The culture to use in the conversion.</param>
+    /// <returns>The converted numeric value or <see cref="Binding.DoNothing"/> if conversion fails.</returns>
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is not string input || string.IsNullOrWhiteSpace(input))
+            return Binding.DoNothing;
+
+        var normalizedInput = input.Replace(',', '.');
+        if (decimal.TryParse(normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
+            return System.Convert.ChangeType(result, targetType, culture);
+
+        return Binding.DoNothing;
+    }
 }
+
+/* usage:
+
+<TextBox Text="{Binding Amount, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
+
+<DataGridTextColumn Binding="{Binding Price, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
+
+*/

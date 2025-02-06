@@ -5,41 +5,40 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Generates a new color based on the passed value and the provided seed (brightness) as a parameter.
+/// Converts a file path into an icon representation as an <see cref="System.Windows.Media.ImageSource"/>.
+/// This converter extracts the associated icon of a file or folder and converts it into an image source.
 /// </summary>
-public class StswColorGeneratorConverter : MarkupExtension, IValueConverter
+internal class StswPathToIconConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
     /// Gets the singleton instance of the converter.
     /// </summary>
-    public static StswColorGeneratorConverter Instance => instance ??= new StswColorGeneratorConverter();
-    private static StswColorGeneratorConverter? instance;
+    public static StswPathToIconConverter Instance => instance ??= new StswPathToIconConverter();
+    private static StswPathToIconConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Converts a value to a new color based on the provided seed (brightness) parameter.
+    /// Converts a file path into its associated icon as an <see cref="System.Windows.Media.ImageSource"/>.
     /// </summary>
-    /// <param name="value">The input value used to generate the color.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The seed (brightness) parameter to use for generating the color.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>The generated color based on the input value and seed parameter.</returns>
+    /// <param name="value">The file path as a string.</param>
+    /// <param name="targetType">The expected type of the binding target (ignored).</param>
+    /// <param name="parameter">An optional converter parameter (ignored).</param>
+    /// <param name="culture">The culture to use in the converter (ignored).</param>
+    /// <returns>
+    /// The extracted icon as an <see cref="System.Windows.Media.ImageSource"/>,
+    /// or <see cref="Binding.DoNothing"/> if the conversion fails.
+    /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var pmr = parameter?.ToString() ?? string.Empty;
-        var val = value?.ToString() ?? string.Empty;
-        if (!int.TryParse(pmr, out var seed))
-            seed = -1;
-
-        var color = StswFn.GenerateColor(val, seed);
-
-        return StswColorConverter.GetResultFromColor(color, targetType);
+        return value is string path && !string.IsNullOrWhiteSpace(path)
+            ? StswFn.ExtractAssociatedIcon(path)?.ToImageSource()
+            : Binding.DoNothing;
     }
 
     /// <summary>

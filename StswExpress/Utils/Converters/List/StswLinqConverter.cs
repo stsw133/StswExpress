@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace StswExpress;
 
 /// <summary>
-/// A flexible converter that allows basic "commands" in ConverterParameter,
-/// such as "where", "any", "select", etc.
-/// Example usage:
-///   ConverterParameter="where ItemState == Unchanged"
-///   ConverterParameter="any IsEnabled != false"
-/// 
-/// This version can be easily extended by adding more cases in the switch statement.
+/// A flexible converter that applies basic LINQ-like queries to collections in XAML.
+/// Supports the following commands in `ConverterParameter`:
+/// - `"any Property Operator Value"` → Returns `true` if at least one item matches the condition.
+/// - `"count Property Operator Value"` → Returns the count of matching elements.
+/// - `"sum Property"` → Returns the sum of a numeric property.
+/// - `"where Property Operator Value"` → Returns a filtered collection.
 /// </summary>
+/// <example>
+/// Example XAML usage:
+/// ```xml
+/// <TextBlock Text="{Binding Items, Converter={StaticResource StswLinqConverter}, ConverterParameter='count IsVisible == true'}"/>
+/// ```
+/// </example>
 public class StswLinqConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -28,22 +31,30 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     private static StswLinqConverter? instance;
 
     /// <summary>
-    /// Provides the singleton instance of the converter.
+    /// Provides the singleton instance of the converter for XAML bindings.
     /// </summary>
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>
-    /// Converts the provided collection based on the command specified in the ConverterParameter.
-    /// Supports commands like "where", "any", etc., which can filter, check, or manipulate the collection.
+    /// Processes a collection based on the command in `ConverterParameter`.
     /// </summary>
-    /// <param name="value">The input value, expected to be an IEnumerable collection.</param>
+    /// <param name="value">The collection to process.</param>
     /// <param name="targetType">The target type of the binding.</param>
-    /// <param name="parameter">The ConverterParameter string containing the command and its arguments.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
+    /// <param name="parameter">
+    /// A query string defining the operation (e.g., `"count IsEnabled == true"`).
+    /// The format is: `<operation> <property> <operator> <value>`.
+    /// Supported operations: `any`, `count`, `sum`, `where`.
+    /// Supported operators: `==`, `!=`, `>`, `<`, `>=`, `<=`.
+    /// </param>
+    /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
-    /// The result of applying the specified command to the collection. For example, "where" returns the count of items matching the condition, and "any" returns a boolean.
+    /// The result of the specified operation:
+    /// - `any` → `true`/`false`
+    /// - `count` → `int`
+    /// - `sum` → `double`
+    /// - `where` → `List<object>`
     /// </returns>
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -70,263 +81,159 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     }
 
     /// <summary>
-    /// This converter does not support converting back from the target value to the source value.
+    /// This converter does not support converting back from target value to source value.
     /// </summary>
     /// <param name="value">The value produced by the binding target.</param>
     /// <param name="targetType">The type to convert to.</param>
     /// <param name="parameter">The converter parameter to use.</param>
     /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>
-    /// Always returns <see cref="Binding.DoNothing"/> as this converter does not support backward conversion.
-    /// </returns>
+    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>
-    /// Evaluates whether any element in the collection satisfies the specified condition.
+    /// Checks if any element in the collection satisfies the given condition.
     /// </summary>
     /// <param name="collection">The collection to evaluate.</param>
-    /// <param name="condition">The condition in the format "PropertyName Operator Value".</param>
-    /// <returns>
-    /// <see langword="true"/> if at least one element satisfies the condition; otherwise, <see langword="false"/>.
-    /// </returns>
-    private object HandleAny(IEnumerable collection, string condition)
+    /// <param name="condition">
+    /// A condition string in the format: `Property Operator Value`.
+    /// Example: `"IsEnabled == true"`, `"Age > 18"`, `"Status != Inactive"`.
+    /// </param>
+    /// <returns><see langword="true"/> if at least one item matches the condition; otherwise, <see langword="false"/>.</returns>
+    private static bool HandleAny(IEnumerable collection, string condition)
     {
-        var (propertyName, op, targetValueString) = ParseCondition(condition);
-        if (propertyName == null)
-            return false;
-
-        foreach (var item in collection)
-        {
-            if (item == null)
-                continue;
-
-            var propInfo = item.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (propInfo == null)
-                continue;
-
-            var propVal = propInfo.GetValue(item);
-            var isMatch = EvaluateCondition(propVal, op, targetValueString, propInfo.PropertyType);
-
-            if (isMatch)
-                return true;
-        }
-
-        return false;
+        return collection.Cast<object>().Any(item => EvaluateCondition(item, condition));
     }
 
     /// <summary>
-    /// Counts the number of elements in the collection that satisfy the specified condition.
-    /// If no condition is provided, returns the total count of elements.
+    /// Counts the number of elements in the collection that satisfy the given condition.
     /// </summary>
     /// <param name="collection">The collection to evaluate.</param>
-    /// <param name="condition">The condition in the format "PropertyName Operator Value" or empty.</param>
-    /// <returns>
-    /// The count of elements that match the condition, or the total count if no condition is provided.
-    /// </returns>
-    private object HandleCount(IEnumerable collection, string condition)
+    /// <param name="condition">
+    /// A condition string in the format: `Property Operator Value`.
+    /// Example: `"IsVisible == false"`, `"Quantity >= 10"`.
+    /// </param>
+    /// <returns>The number of elements that match the condition.</returns>
+    private static int HandleCount(IEnumerable collection, string condition)
     {
-        if (string.IsNullOrWhiteSpace(condition))
-            return collection.Cast<object>().Count();
-
-        var (propertyName, op, targetValueString) = ParseCondition(condition);
-        if (propertyName == null)
-            return $"Invalid condition format: '{condition}'";
-
-        var count = 0;
-
-        foreach (var item in collection)
-        {
-            if (item == null)
-                continue;
-
-            var propInfo = item.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (propInfo == null)
-                continue;
-
-            var propVal = propInfo.GetValue(item);
-            var isMatch = EvaluateCondition(propVal, op, targetValueString, propInfo.PropertyType);
-
-            if (isMatch)
-                count++;
-        }
-
-        return count;
+        return collection.Cast<object>().Count(item => EvaluateCondition(item, condition));
     }
 
     /// <summary>
     /// Sums the values of a specified numeric property for all elements in the collection.
     /// </summary>
     /// <param name="collection">The collection to evaluate.</param>
-    /// <param name="condition">The property to sum, e.g., "PropertyName".</param>
+    /// <param name="propertyName">The name of the numeric property to sum.</param>
     /// <returns>
-    /// The sum of the property values across all elements.
+    /// The sum of the property values across all elements, or an error message if the property is not numeric.
     /// </returns>
-    private object HandleSum(IEnumerable collection, string condition)
+    private static object HandleSum(IEnumerable collection, string propertyName)
     {
-        if (string.IsNullOrWhiteSpace(condition))
+        if (string.IsNullOrWhiteSpace(propertyName))
             return $"Invalid format: property name required for 'sum'";
 
-        var propertyName = condition.Trim();
-        var sum = 0.0;
-
-        foreach (var item in collection)
-        {
-            if (item == null)
-                continue;
-
-            var propInfo = item.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (propInfo == null)
-                continue;
-
-            var propVal = propInfo.GetValue(item);
-            if (propVal == null)
-                continue;
-
-            try
-            {
-                var numericValue = System.Convert.ToDouble(propVal, CultureInfo.InvariantCulture);
-                sum += numericValue;
-            }
-            catch
-            {
-                return $"Property '{propertyName}' is not numeric and cannot be summed.";
-            }
-        }
-
-        return sum;
+        return collection.Cast<object>()
+                         .Select(item => item.GetPropertyValue(propertyName))
+                         .Where(value => value is double or int)
+                         .Sum(value => System.Convert.ToDouble(value, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
-    /// Filters the collection based on the specified condition and returns the count of items that match the condition.
+    /// Filters the collection based on the given condition.
     /// </summary>
     /// <param name="collection">The collection to filter.</param>
-    /// <param name="condition">The condition in the format "PropertyName Operator Value".</param>
-    /// <returns>
-    /// The number of items in the collection that satisfy the condition.
-    /// </returns>
-    private object HandleWhere(IEnumerable collection, string condition)
+    /// <param name="condition">
+    /// A condition string in the format: `Property Operator Value`.
+    /// Example: `"Category == 'Electronics'"`, `"Price < 500"`.
+    /// </param>
+    /// <returns>A filtered collection containing only the elements that match the condition.</returns>
+    private static IEnumerable HandleWhere(IEnumerable collection, string condition)
     {
-        var (propertyName, op, targetValueString) = ParseCondition(condition);
+        return collection.Cast<object>().Where(item => EvaluateCondition(item, condition)).ToList();
+    }
+
+    /// <summary>
+    /// Evaluates whether an item satisfies the given condition.
+    /// </summary>
+    /// <param name="item">The item to evaluate.</param>
+    /// <param name="condition">
+    /// A condition string in the format: `Property Operator Value`.
+    /// Example: `"IsActive == true"`, `"Level >= 5"`, `"Name != 'John'"`.
+    /// </param>
+    /// <returns><see langword="true"/> if the item matches the condition; otherwise, <see langword="false"/>.</returns>
+    private static bool EvaluateCondition(object? item, string condition)
+    {
+        if (item == null || string.IsNullOrWhiteSpace(condition))
+            return false;
+
+        var (propertyName, op, targetValue) = ParseCondition(condition);
         if (propertyName == null)
-            return $"Invalid condition format: '{condition}'";
+            return false;
 
-        var filtered = new List<object>();
-
-        foreach (var item in collection)
-        {
-            if (item == null)
-                continue;
-
-            var propInfo = item.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (propInfo == null)
-                continue;
-
-            var propVal = propInfo.GetValue(item);
-            var isMatch = EvaluateCondition(propVal, op, targetValueString, propInfo.PropertyType);
-
-            if (isMatch)
-                filtered.Add(item);
-        }
-
-        return filtered.Count;
+        var propValue = item.GetPropertyValue(propertyName);
+        return CompareValues(propValue, targetValue, op);
     }
 
     /// <summary>
     /// Parses a condition string into its components: the property name, operator, and target value.
     /// </summary>
-    /// <param name="condition">The condition string in the format "PropertyName Operator Value".</param>
+    /// <param name="condition">
+    /// A condition string in the format: `Property Operator Value`.
+    /// Example: `"Status == Active"`, `"Age >= 18"`, `"IsEnabled != false"`.
+    /// </param>
     /// <returns>
-    /// A tuple containing the property name, operator, and target value.
-    /// If the condition is invalid, the tuple contains nulls.
+    /// A tuple containing:
+    /// - `propertyName` → The name of the property.
+    /// - `op` → The comparison operator (`==`, `!=`, `>`, `<`, `>=`, `<=`).
+    /// - `targetValue` → The target value for comparison.
     /// </returns>
-    private (string? propertyName, string? op, string? targetValue) ParseCondition(string condition)
+    private static (string? propertyName, string? op, string? targetValue) ParseCondition(string condition)
     {
-        var parts = condition.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var parts = condition.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length < 3)
             return (null, null, null);
 
-        var propertyName = parts[0];
-        var op = parts[1];
-        var targetValue = string.Join(' ', parts.Skip(2));
-
-        return (propertyName, op, targetValue);
+        return (parts[0], parts[1], parts[2]);
     }
 
     /// <summary>
-    /// Evaluates a condition for a specific property value using the provided operator and target value.
+    /// Compares the actual property value with the target value using the given operator.
+    /// Supports numeric types, booleans, enums, and strings.
     /// </summary>
-    /// <param name="propVal">The current value of the property.</param>
-    /// <param name="op">The operator to use for comparison (e.g., "==", "!=", "&gt;", "&lt;").</param>
-    /// <param name="targetValueString">The target value as a string.</param>
-    /// <param name="propType">The type of the property being evaluated.</param>
+    /// <param name="actualValue">The current value of the property.</param>
+    /// <param name="targetValue">The target value as a string.</param>
+    /// <param name="op">The comparison operator (`==`, `!=`, `>`, `<`, `>=`, `<=`).</param>
     /// <returns>
-    /// <see langword="true"/> if the condition is satisfied; otherwise, <see langword="false"/>.
+    /// <see langword="true"/> if the comparison is valid based on the operator; otherwise, <see langword="false"/>.
     /// </returns>
-    private bool EvaluateCondition(object? propVal, string? op, string? targetValueString, Type propType) => op switch
+    private static bool CompareValues(object? actualValue, string? targetValue, string? op)
     {
-        "==" => CompareValues(propVal, targetValueString, propType) == 0,
-        "!=" => CompareValues(propVal, targetValueString, propType) != 0,
-        ">" => CompareValues(propVal, targetValueString, propType) > 0,
-        ">=" => CompareValues(propVal, targetValueString, propType) >= 0,
-        "<" => CompareValues(propVal, targetValueString, propType) < 0,
-        "<=" => CompareValues(propVal, targetValueString, propType) <= 0,
-        _ => false,
-    };
-
-    /// <summary>
-    /// Compares the actual property value with the target value, considering the property's type.
-    /// Supports enums, numeric types, booleans, and strings.
-    /// </summary>
-    /// <param name="propVal">The current value of the property.</param>
-    /// <param name="targetValueString">The target value as a string.</param>
-    /// <param name="propType">The type of the property being compared.</param>
-    /// <returns>
-    /// An integer that indicates the relative order of the values being compared:
-    /// - <c>0</c> if they are equal,
-    /// - less than <c>0</c> if the property value is less than the target value,
-    /// - greater than <c>0</c> if the property value is greater than the target value.
-    /// </returns>
-    private int CompareValues(object? propVal, string? targetValueString, Type propType)
-    {
-        if (propVal == null && targetValueString == null)
-            return 0;
-        if (propVal == null)
-            return -1;
-        if (targetValueString == null)
-            return 1;
+        if (actualValue == null || targetValue == null || op == null)
+            return false;
 
         try
         {
-            if (propType.IsEnum)
+            return op switch
             {
-                var enumVal = Enum.Parse(propType, targetValueString, ignoreCase: true);
-                return Comparer.DefaultInvariant.Compare(propVal, enumVal);
-            }
-            else if (propType == typeof(int))
-            {
-                var intVal = int.Parse(targetValueString);
-                return ((int)propVal).CompareTo(intVal);
-            }
-            else if (propType.IsNumericType())
-            {
-                var doubleVal = double.Parse(targetValueString, CultureInfo.InvariantCulture);
-                return ((double)propVal).CompareTo(doubleVal);
-            }
-            else if (propType == typeof(bool))
-            {
-                var boolVal = bool.Parse(targetValueString);
-                return ((bool)propVal).CompareTo(boolVal);
-            }
-            else
-            {
-                var strPropVal = propVal.ToString();
-                return string.Compare(strPropVal, targetValueString, StringComparison.OrdinalIgnoreCase);
-            }
+                "==" => actualValue.ToString() == targetValue,
+                "!=" => actualValue.ToString() != targetValue,
+                ">" when double.TryParse(targetValue, out var num) => System.Convert.ToDouble(actualValue) > num,
+                "<" when double.TryParse(targetValue, out var num) => System.Convert.ToDouble(actualValue) < num,
+                ">=" when double.TryParse(targetValue, out var num) => System.Convert.ToDouble(actualValue) >= num,
+                "<=" when double.TryParse(targetValue, out var num) => System.Convert.ToDouble(actualValue) <= num,
+                _ => false
+            };
         }
         catch
         {
-            var strPropVal = propVal.ToString();
-            return string.Compare(strPropVal, targetValueString, StringComparison.OrdinalIgnoreCase);
+            return false;
         }
     }
 }
+
+/*
+
+<TextBlock Text="{Binding Items, Converter={x:Static se:StswLinqConverter.Instance}, ConverterParameter='any IsEnabled == true'}"/>
+
+<TextBlock Text="{Binding Items, Converter={x:Static se:StswLinqConverter.Instance}, ConverterParameter='count Visibility == Collapsed'}"/>
+
+*/

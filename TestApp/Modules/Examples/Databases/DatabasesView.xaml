@@ -48,7 +48,7 @@
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
         <!-- selected database model -->
         <se:StswScrollView IsDynamic="True" Padding="3">
-            <StackPanel DataContext="{Binding SelectedDatabase}" IsEnabled="{Binding Converter={x:Static se:StswNotNullConverter.Instance}}">
+            <StackPanel DataContext="{Binding SelectedDatabase}" IsEnabled="{Binding Converter={x:Static se:StswExistenceConverter.Instance}}">
                 
                 <!-- name -->
                 <StackPanel DockPanel.Dock="Top" Margin="3">
