@@ -51,7 +51,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
 
         var conditionMet = (value?.ToString() ?? string.Empty) == parts[0];
 
-        return StswConverterHelper.ConvertToTargetType(conditionMet ? parts[1] : parts[2], targetType);
+        return (conditionMet ? parts[1] : parts[2]).ConvertTo(targetType);
     }
 
     /// <summary>

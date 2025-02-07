@@ -277,9 +277,8 @@ public static class StswLog
         if (type == null)
             return true;
 
-        if (StswFn.IsInDebug())
-            return type.Value.In(Config.LogTypes_DEBUG);
-        else
-            return type.Value.In(Config.LogTypes_RELEASE);
+        return StswFn.IsInDebug()
+            ? type.Value.In(Config.LogTypes_DEBUG)
+            : type.Value.In(Config.LogTypes_RELEASE);
     }
 }

@@ -5,32 +5,32 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// A XAML markup extension that supports bindable parameters in multi-bindings.
+/// A XAML markup extension that allows using bindable parameters in multi-bindings.
 /// </summary>
 /// <remarks>
-/// This extension allows for creating multi-bindings with a bindable converter parameter, 
-/// which can be useful for complex binding scenarios in XAML.
+/// This extension enables multi-bindings with a dynamically bound converter parameter, 
+/// making it useful for complex data binding scenarios in XAML.
 /// </remarks>
 [ContentProperty(nameof(Binding))]
 public class StswBindableParameterExtension : MarkupExtension
 {
     /// <summary>
-    /// Gets or sets the main binding.
+    /// Gets or sets the primary binding that provides the main value.
     /// </summary>
     public Binding? Binding { get; set; }
 
     /// <summary>
-    /// Gets or sets the binding mode.
+    /// Gets or sets the binding mode for the main binding.
     /// </summary>
     public BindingMode Mode { get; set; }
 
     /// <summary>
-    /// Gets or sets the value converter.
+    /// Gets or sets the value converter that will be applied to the binding.
     /// </summary>
     public IValueConverter? Converter { get; set; }
 
     /// <summary>
-    /// Gets or sets the converter parameter binding.
+    /// Gets or sets the binding that provides the parameter for the value converter.
     /// </summary>
     public Binding? ConverterParameter { get; set; }
 
@@ -42,9 +42,9 @@ public class StswBindableParameterExtension : MarkupExtension
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StswBindableParameterExtension"/> class with the specified path.
+    /// Initializes a new instance of the <see cref="StswBindableParameterExtension"/> class with the specified binding path.
     /// </summary>
-    /// <param name="path">The binding path.</param>
+    /// <param name="path">The path to the property to bind to.</param>
     public StswBindableParameterExtension(string path)
     {
         Binding = new Binding(path);
@@ -53,17 +53,17 @@ public class StswBindableParameterExtension : MarkupExtension
     /// <summary>
     /// Initializes a new instance of the <see cref="StswBindableParameterExtension"/> class with the specified binding.
     /// </summary>
-    /// <param name="binding">The binding instance.</param>
+    /// <param name="binding">The binding instance to use.</param>
     public StswBindableParameterExtension(Binding binding)
     {
         Binding = binding;
     }
 
     /// <summary>
-    /// Provides the value for the XAML markup extension.
+    /// Creates and returns a MultiBinding instance that incorporates the provided bindings and converter.
     /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>A MultiBinding instance with the configured bindings and converter.</returns>
+    /// <param name="serviceProvider">A service provider that supplies services for the markup extension.</param>
+    /// <returns>A configured <see cref="MultiBinding"/> instance.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var multiBinding = new MultiBinding();
@@ -87,26 +87,26 @@ public class StswBindableParameterExtension : MarkupExtension
     }
 
     /// <summary>
-    /// A class that adapts a single value converter to a multi-value converter.
+    /// A helper class that adapts a single value converter to work in a multi-binding scenario.
     /// </summary>
     [ContentProperty(nameof(Converter))]
     private class MultiValueConverterAdapter : IMultiValueConverter
     {
         /// <summary>
-        /// Gets or sets the single value converter.
+        /// Gets or sets the single value converter to be adapted for multi-binding.
         /// </summary>
         public IValueConverter? Converter { get; set; }
 
         private object? _lastParameter;
 
         /// <summary>
-        /// Converts source values to a value for the binding target.
+        /// Converts multiple source values into a single value for the binding target.
         /// </summary>
-        /// <param name="values">The array of values that the source bindings in the MultiBinding produces.</param>
-        /// <param name="targetType">The type of the binding target property.</param>
-        /// <param name="parameter">The converter parameter to use.</param>
-        /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>A converted value.</returns>
+        /// <param name="values">The values provided by the source bindings.</param>
+        /// <param name="targetType">The expected type of the target property.</param>
+        /// <param name="parameter">The converter parameter (unused in this implementation).</param>
+        /// <param name="culture">The culture information for the conversion.</param>
+        /// <returns>The converted value.</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (Converter == null)
@@ -119,13 +119,13 @@ public class StswBindableParameterExtension : MarkupExtension
         }
 
         /// <summary>
-        /// Converts a binding target value to the source binding values.
+        /// Converts a value from the target back to multiple source values.
         /// </summary>
-        /// <param name="value">The value that the binding target produces.</param>
-        /// <param name="targetTypes">The array of types to convert to.</param>
-        /// <param name="parameter">The converter parameter to use.</param>
-        /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>An array of values that have been converted from the target value back to the source values.</returns>
+        /// <param name="value">The value to be converted back.</param>
+        /// <param name="targetTypes">The expected types of the source values.</param>
+        /// <param name="parameter">The converter parameter (unused in this implementation).</param>
+        /// <param name="culture">The culture information for the conversion.</param>
+        /// <returns>An array of converted values.</returns>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             if (Converter == null)
@@ -135,3 +135,20 @@ public class StswBindableParameterExtension : MarkupExtension
         }
     }
 }
+
+/* usage:
+
+<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter SomeOtherValue}}"/>
+
+<TextBlock>
+    <TextBlock.Text>
+        <MultiBinding Converter="{StaticResource ExampleMultiConverter}">
+            <Binding Path="MainValue"/>
+            <se:StswBindableParameter Binding="{Binding AdditionalValue}"/>
+        </MultiBinding>
+    </TextBlock.Text>
+</TextBlock>
+
+<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter FormatString}}"/>
+
+*/

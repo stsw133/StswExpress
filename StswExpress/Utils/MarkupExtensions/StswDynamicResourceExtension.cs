@@ -5,10 +5,15 @@ using System.Windows.Markup;
 using System.Windows;
 using System.Threading;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
-/// Provides a way to dynamically bind to resources in XAML with support for value conversion and formatting.
+/// A XAML markup extension that dynamically binds to a resource with support for value conversion and formatting.
 /// </summary>
+/// <remarks>
+/// This extension allows binding to dynamic resources in XAML, enabling automatic updates when the resource changes.
+/// It supports converters, formatting, and fallback values.
+/// </remarks>
 public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 {
     private StswBindingProxy? _bindingProxy;
@@ -32,7 +37,7 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
     /// <summary>
     /// Gets or sets the key of the resource to bind to.
     /// </summary>
-    public object? ResourceKey { get; set; } = resourceKey ?? throw new ArgumentNullException(nameof(resourceKey));
+    public object ResourceKey { get; } = resourceKey ?? throw new ArgumentNullException(nameof(resourceKey));
 
     /// <summary>
     /// Gets or sets the string format to use when converting the resource value to a string.
@@ -45,50 +50,41 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
     public object? TargetNullValue { get; set; }
 
     /// <summary>
-    /// Provides the value for the target property.
+    /// Provides the value for the target property by creating a dynamic binding to the specified resource.
     /// </summary>
     /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
     /// <returns>The object to set on the target property.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var dynamicResource = new DynamicResourceExtension(ResourceKey);
-        _bindingProxy = new StswBindingProxy() { Proxy = dynamicResource.ProvideValue(null) };
+        _bindingProxy = new StswBindingProxy { Proxy = dynamicResource.ProvideValue(null) };
 
         var dynamicResourceBinding = new Binding()
         {
             Source = _bindingProxy,
             Path = new PropertyPath(StswBindingProxy.ProxyProperty),
-            Mode = BindingMode.OneWay
+            Mode = BindingMode.OneWay,
+            Converter = Converter,
+            ConverterParameter = ConverterParameter,
+            ConverterCulture = ConverterCulture,
+            StringFormat = StringFormat,
+            TargetNullValue = TargetNullValue
         };
 
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget { TargetObject: DependencyObject dependencyObject })
         {
-            dynamicResourceBinding.Converter = Converter;
-            dynamicResourceBinding.ConverterParameter = ConverterParameter;
-            dynamicResourceBinding.ConverterCulture = ConverterCulture;
-            dynamicResourceBinding.StringFormat = StringFormat;
-            dynamicResourceBinding.TargetNullValue = TargetNullValue;
-
             if (dependencyObject is FrameworkElement targetFrameworkElement)
                 targetFrameworkElement.Resources[_bindingProxy] = _bindingProxy;
 
             return dynamicResourceBinding.ProvideValue(serviceProvider);
         }
 
-        var findTargetBinding = new Binding()
-        {
-            RelativeSource = new RelativeSource(RelativeSourceMode.Self)
-        };
-
+        var findTargetBinding = new Binding { RelativeSource = new RelativeSource(RelativeSourceMode.Self) };
         _bindingTrigger = new StswBindingTrigger();
 
         var wrapperBinding = new MultiBinding()
         {
-            Bindings = {
-                dynamicResourceBinding,
-                findTargetBinding,
-                _bindingTrigger.Binding
-            },
+            Bindings = { dynamicResourceBinding, findTargetBinding, _bindingTrigger.Binding },
             Converter = new StswInlineMultiConverter(WrapperConvert)
         };
 
@@ -125,3 +121,15 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
         return dynamicResourceBindingResult!;
     }
 }
+
+/* usage:
+
+<TextBlock Text="Dynamic Color" Foreground="{Binding Source={se:StswDynamicResource MyBrushResource}, Converter={StaticResource BrushToColorConverter}}"/>
+
+<Border BorderBrush="{se:StswDynamicResource MyBorderBrush}" BorderThickness="2"/>
+
+<TextBlock Text="{se:StswDynamicResource MyNumberResource, StringFormat='Value: {0:F2}'}"/>
+
+<TextBlock Text="{se:StswDynamicResource NonExistingResource, TargetNullValue='Default Text'}" />
+
+*/

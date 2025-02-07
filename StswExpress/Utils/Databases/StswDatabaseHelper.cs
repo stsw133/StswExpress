@@ -20,7 +20,7 @@ public static class StswDatabaseHelper
     /// Opens a new SQL connection using the connection string.
     /// </summary>
     /// <returns>An open <see cref="SqlConnection"/>.</returns>
-    public static SqlConnection Opened(this SqlConnection connection)
+    public static SqlConnection GetOpened(this SqlConnection connection)
     {
         if (connection.State != ConnectionState.Open)
             connection.Open();
@@ -41,7 +41,7 @@ public static class StswDatabaseHelper
     {
         if (!CheckQueryConditions())
             return;
-
+        
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
         using var sqlBulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);

@@ -53,7 +53,9 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
 
         var result = val.Any(allowed.Contains) && val.All(v => !disallowed.Contains(v));
 
-        return StswConverterHelper.ConvertToTargetType(result, targetType);
+        return targetType == typeof(Visibility)
+            ? result ? Visibility.Visible : Visibility.Collapsed
+            : result.ConvertTo(targetType);
     }
 
     /// <summary>

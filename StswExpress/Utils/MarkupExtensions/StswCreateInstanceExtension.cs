@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
-/// A XAML markup extension that allows for the inline instantiation of a specified class type.
+/// A XAML markup extension that creates an instance of a specified class type with optional constructor parameters.
 /// </summary>
 /// <remarks>
-/// This extension simplifies the creation of instances of classes within XAML, providing a concise one-line syntax.
+/// This extension enables inline instantiation of objects in XAML, allowing the use of constructor parameters.
+/// It supports automatic type conversion and correctly handles string arguments containing commas.
 /// </remarks>
-/// <param name="type">The type of the class to instantiate.</param>
-/// <param name="args">A comma-separated string of arguments to pass to the constructor of the class.</param>
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
-[Obsolete("To either remove or repair")]
+/// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
 internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
     /// <summary>
@@ -22,30 +23,62 @@ internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExte
     public Type Type { get; set; } = type ?? throw new ArgumentNullException(nameof(type));
 
     /// <summary>
-    /// Gets or sets the comma-separated string of arguments to pass to the constructor of the class.
+    /// Gets or sets the comma-separated string of arguments to pass to the constructor.
     /// </summary>
     public string Args { get; set; } = args ?? string.Empty;
 
     /// <summary>
-    /// Provides the value for the XAML markup extension.
+    /// Creates and returns an instance of the specified class type using the provided constructor arguments.
     /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The newly created instance of the specified class type.</returns>
+    /// <param name="serviceProvider">A service provider that provides services for the markup extension.</param>
+    /// <returns>The newly created instance of the specified type.</returns>
+    /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        var args = Args.Split(',')
-                       .Select(arg => ConvertArgument(arg.Trim()))
-                       .ToArray();
-        return Activator.CreateInstance(Type, args);
+        var parsedArgs = ParseArguments(Args);
+        return CreateInstanceWithBestConstructor(Type, parsedArgs);
     }
 
     /// <summary>
-    /// Converts a string argument to the appropriate type.
+    /// Parses a comma-separated argument string into individual arguments, handling quoted values correctly.
     /// </summary>
-    /// <param name="arg">The string argument to convert.</param>
-    /// <returns>The converted argument.</returns>
+    private static object?[] ParseArguments(string args)
+    {
+        if (string.IsNullOrWhiteSpace(args))
+            return Array.Empty<object?>();
+
+        var matches = Regex.Matches(args, "\"(.*?)\"|([^,]+)")
+                           .Cast<Match>()
+                           .Select(m => m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value.Trim())
+                           .Select(ConvertArgument)
+                           .ToArray();
+
+        return matches;
+    }
+
+    /// <summary>
+    /// Attempts to find the best matching constructor and create an instance of the specified type.
+    /// </summary>
+    private static object CreateInstanceWithBestConstructor(Type type, object?[] args)
+    {
+        var constructors = type.GetConstructors();
+
+        var bestConstructor = constructors
+            .Select(ctor => new { Constructor = ctor, Parameters = ctor.GetParameters() })
+            .Where(c => c.Parameters.Length == args.Length)
+            .OrderByDescending(c => c.Parameters.Count(p => p.ParameterType.IsInstanceOfType(args[p.Position]) || args[p.Position] == null))
+            .FirstOrDefault() ?? throw new MissingMethodException($"No suitable constructor found for {type.FullName} with {args.Length} parameters.");
+
+        return bestConstructor.Constructor.Invoke(args);
+    }
+
+    /// <summary>
+    /// Converts a string argument into an appropriate data type.
+    /// </summary>
     private static object? ConvertArgument(string arg)
     {
+        if (string.IsNullOrEmpty(arg)) return null;
+
         if (int.TryParse(arg, out int intValue))
             return intValue;
 
@@ -55,6 +88,21 @@ internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExte
         if (bool.TryParse(arg, out bool boolValue))
             return boolValue;
 
+        if (DateTime.TryParse(arg, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+            return dateValue;
+
         return arg;
     }
 }
+
+/* usage:
+
+<TextBlock Text="{se:StswCreateInstance local:MyClass}"/>
+
+<TextBlock Text="{se:StswCreateInstance local:MyClass, '7, false, \"Test Name\", 2023-12-31'}"/>
+
+<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswCreateInstance local:MyClass, '99'} }"/>
+
+<ListBox ItemsSource="{se:StswCreateInstance local:MyCollection, '\"Item 1\", \"Item 2\", \"Item 3\"'}"/>
+
+*/

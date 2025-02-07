@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
-//TODO - remove, change on SqlConnectionStringBuilder
+//TODO - remove or base it on SqlConnectionStringBuilder
 public class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
@@ -150,5 +150,5 @@ public class StswDatabaseModel : StswObservableObject
     /// Opens a new SQL connection using the connection string.
     /// </summary>
     /// <returns>An open <see cref="SqlConnection"/>.</returns>
-    public SqlConnection OpenedConnection() => new SqlConnection(GetConnString()).Opened();
+    public SqlConnection OpenedConnection() => new SqlConnection(GetConnString()).GetOpened();
 }

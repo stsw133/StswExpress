@@ -8,48 +8,38 @@ using System.Reflection;
 namespace StswExpress;
 
 /// <summary>
-/// A multi-event MarkupExtension that allows binding event handlers to ICommand in MVVM,
+/// A XAML markup extension that allows binding event handlers to <see cref="ICommand"/> in MVVM,
 /// with a fallback for events that have the signature (object sender, EventArgs e).
-/// Supports optional AllowedKey filtering and passing event args as CommandParameter.
+/// Supports optional <see cref="AllowedKey"/> filtering and passing event args as <see cref="CommandParameter"/>.
 /// </summary>
 [MarkupExtensionReturnType(typeof(Delegate))]
 public class StswEventToCommandExtension : MarkupExtension
 {
     /// <summary>
-    /// 
+    /// Gets or sets the binding for the command to execute.
     /// </summary>
     public BindingBase? CommandBinding { get; set; }
 
     /// <summary>
-    /// 
-    /// </summary>
-    public ICommand? Command { get; set; }
-
-    /// <summary>
-    /// 
+    /// Gets or sets the binding for the command parameter.
     /// </summary>
     public BindingBase? CommandParameterBinding { get; set; }
 
     /// <summary>
-    /// 
-    /// </summary>
-    public object? CommandParameter { get; set; }
-    
-    /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the event args should be passed as the command parameter.
     /// </summary>
     public bool PassEventArgsAsParameter { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets an optional key filter for key events.
     /// </summary>
     public Key? AllowedKey { get; set; }
 
     /// <summary>
-    /// 
+    /// Provides the event handler delegate to bind to an event in XAML.
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
+    /// <param name="serviceProvider">A service provider for the markup extension.</param>
+    /// <returns>A delegate bound to the specified event.</returns>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget pvt)
@@ -74,12 +64,12 @@ public class StswEventToCommandExtension : MarkupExtension
     }
 
     /// <summary>
-    /// 
+    /// Creates a delegate handler for the specified event type.
     /// </summary>
-    /// <param name="eventHandlerType"></param>
-    /// <param name="targetObject"></param>
-    /// <returns></returns>
-    private Delegate? CreateHandler(Type eventHandlerType, DependencyObject targetObject)
+    /// <param name="eventHandlerType">The event handler type.</param>
+    /// <param name="targetObject">The target dependency object.</param>
+    /// <returns>A delegate to handle the event.</returns>
+    private Delegate? CreateHandler(Type? eventHandlerType, DependencyObject? targetObject)
     {
         if (targetObject == null || eventHandlerType == null)
             return null;
@@ -115,20 +105,26 @@ public class StswEventToCommandExtension : MarkupExtension
     }
 
     /// <summary>
-    /// 
+    /// Executes the bound command when the event is triggered.
     /// </summary>
+    /// <param name="targetObject">The dependency object where the event occurred.</param>
+    /// <param name="e">The event arguments.</param>
     private void ExecuteCommand(DependencyObject targetObject, EventArgs e)
     {
-        var cmd = Command ?? EvaluateBinding<ICommand>(targetObject, CommandBinding);
-        var param = PassEventArgsAsParameter ? e : CommandParameter ?? EvaluateBinding<object>(targetObject, CommandParameterBinding);
+        var cmd = EvaluateBinding<ICommand>(targetObject, CommandBinding!);
+        var param = PassEventArgsAsParameter ? e : EvaluateBinding<object>(targetObject, CommandParameterBinding!);
 
         if (cmd?.CanExecute(param) == true)
             cmd.Execute(param);
     }
 
     /// <summary>
-    /// 
+    /// Evaluates a binding expression and retrieves its value.
     /// </summary>
+    /// <typeparam name="T">The expected return type.</typeparam>
+    /// <param name="target">The dependency object.</param>
+    /// <param name="bindingBase">The binding to evaluate.</param>
+    /// <returns>The resolved binding value.</returns>
     private T? EvaluateBinding<T>(DependencyObject target, BindingBase bindingBase)
     {
         if (bindingBase == null)
@@ -149,12 +145,12 @@ public class StswEventToCommandExtension : MarkupExtension
     }
 
     /// <summary>
-    /// 
+    /// Creates an event handler delegate using an expression tree.
     /// </summary>
-    /// <param name="delegateType"></param>
-    /// <param name="targetObj"></param>
-    /// <param name="ext"></param>
-    /// <returns></returns>
+    /// <param name="delegateType">The event delegate type.</param>
+    /// <param name="targetObj">The dependency object where the event occurs.</param>
+    /// <param name="ext">The extension instance.</param>
+    /// <returns>An event delegate for handling the event.</returns>
     private static object CreateDefaultHandlerViaExpression(
         Type delegateType,
         DependencyObject targetObj,
@@ -181,3 +177,15 @@ public class StswEventToCommandExtension : MarkupExtension
         return lambda.Compile();
     }
 }
+
+/* usage:
+
+<Button Content="Click Me" Click="{se:StswEventToCommand CommandBinding={Binding MyCommand}}"/>
+
+<TextBox KeyDown="{se:StswEventToCommand CommandBinding={Binding EnterCommand}, AllowedKey=Enter}"/>
+
+<Button Content="Details" Click="{se:StswEventToCommand CommandBinding={Binding ShowDetailsCommand}, PassEventArgsAsParameter=True}"/>
+
+<Button Content="Delete" Click="{se:StswEventToCommand CommandBinding={Binding DeleteCommand}, CommandParameterBinding={Binding SelectedItem}}"/>
+
+*/

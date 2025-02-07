@@ -57,10 +57,7 @@
                                     <!-- isize -->
                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}" Margin="0 5 0 0"/>
                                     <DockPanel>
-                                        <se:StswText Padding="3 0 0 0" VerticalAlignment="Center" Width="40">
-                                            <Run Text="{Binding Value, ElementName=PART_iSize, StringFormat=N0, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*100}"/>
-                                            <Run Text="%"/>
-                                        </se:StswText>
+                                        <se:StswText Padding="3 0 0 0" Text="{Binding Value, ElementName=PART_iSize, Converter={x:Static se:StswPercentageConverter.Instance}}" VerticalAlignment="Center" Width="40"/>
                                         <se:StswSlider x:Name="PART_iSize"
                                                        IsSnapToTickEnabled="True"
                                                        LargeChange="0.5"

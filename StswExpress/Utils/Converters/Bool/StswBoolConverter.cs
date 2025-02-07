@@ -46,8 +46,11 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
             return Binding.DoNothing;
 
         var isReversed = parameter is string param && param.StartsWith('!');
+        val ^= isReversed;
 
-        return StswConverterHelper.ConvertToTargetType(val ^ isReversed, targetType);
+        return targetType == typeof(Visibility)
+            ? val ? Visibility.Visible : Visibility.Collapsed
+            : val.ConvertTo(targetType);
     }
 
     /// <summary>

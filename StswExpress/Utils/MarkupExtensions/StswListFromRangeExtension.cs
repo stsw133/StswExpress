@@ -5,7 +5,7 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// A XAML MarkupExtension that generates a list of integers based on the specified range.
+/// A XAML markup extension that generates a list of integers based on the specified range.
 /// The range can be provided in two formats:
 /// - `"start-end"` (e.g., `"2-5"`) → Generates numbers from `start` to `end` (inclusive).
 /// - `"count"` (e.g., `"3"`) → Generates numbers from `0` to `count - 1`.

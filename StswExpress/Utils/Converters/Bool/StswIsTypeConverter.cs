@@ -43,7 +43,7 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null)
-            return StswConverterHelper.ConvertToTargetType(false, targetType);
+            return targetType == typeof(Visibility) ? Visibility.Collapsed : false;
 
         var expectedType = parameter switch
         {
@@ -57,7 +57,9 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
 
         var isSameType = expectedType.IsAssignableFrom(value.GetType());
 
-        return StswConverterHelper.ConvertToTargetType(isSameType, targetType);
+        return targetType == typeof(Visibility)
+            ? isSameType ? Visibility.Visible : Visibility.Collapsed
+            : isSameType.ConvertTo(targetType);
     }
 
     /// <summary>

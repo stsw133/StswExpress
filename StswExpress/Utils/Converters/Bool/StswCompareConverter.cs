@@ -96,7 +96,9 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
             };
         }
 
-        return StswConverterHelper.ConvertToTargetType(result, targetType);
+        return targetType == typeof(Visibility)
+            ? result ? Visibility.Visible : Visibility.Collapsed
+            : result.ConvertTo(targetType);
     }
 
     /// <summary>

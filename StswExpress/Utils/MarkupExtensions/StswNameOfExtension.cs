@@ -3,12 +3,14 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A XAML markup extension that retrieves the name of a specified property or field as a string.
 /// </summary>
 /// <remarks>
-/// This extension allows for obtaining the name of a property or field in XAML, typically used for debugging purposes or when working with reflection.
+/// This extension is useful for debugging, reflection, and binding scenarios where the name of a property
+/// or field needs to be obtained dynamically in XAML.
 /// </remarks>
 /// <param name="member">The name of the property or field.</param>
 public class StswNameOfExtension(string? member) : MarkupExtension
@@ -37,14 +39,25 @@ public class StswNameOfExtension(string? member) : MarkupExtension
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
 
-        if (Type == null || string.IsNullOrEmpty(Member) || Member.Contains('.'))
-            throw new ArgumentException("Syntax for x:NameOf is Type={x:Type [className]} Member=[propertyName]");
+        if (Type == null || string.IsNullOrWhiteSpace(Member) || Member.Contains('.'))
+            throw new ArgumentException("Syntax for StswNameOfExtension is Type={x:Type [ClassName]} Member=[PropertyName]");
 
-        var pinfo = Type.GetRuntimeProperties().FirstOrDefault(pi => pi.Name == Member);
-        var finfo = Type.GetRuntimeFields().FirstOrDefault(fi => fi.Name == Member);
-        if (pinfo == null && finfo == null)
-            throw new ArgumentException($"No property or field found for {Member} in {Type}");
+        if (!Type.GetRuntimeProperties().Any(pi => pi.Name == Member) &&
+            !Type.GetRuntimeFields().Any(fi => fi.Name == Member))
+        {
+            throw new ArgumentException($"No property or field found for '{Member}' in type '{Type.FullName}'");
+        }
 
         return Member;
     }
 }
+
+/* usage:
+
+<TextBlock Text="{se:StswNameOf Type={x:Type local:MyClass}, Member=MyProperty}"/>
+
+<TextBlock Text="{se:StswNameOf Type={x:Type local:Constants}, Member=StaticField}"/>
+
+<TextBlock Text="{Binding Path={se:StswNameOf Type={x:Type local:UserModel}, Member=UserName}}"/>
+
+*/

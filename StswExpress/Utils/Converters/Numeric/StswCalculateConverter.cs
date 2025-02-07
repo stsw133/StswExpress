@@ -54,24 +54,16 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
                                   .Select(p => p!.Value)
                                   .ToArray();
 
-        return targetType switch
+        object result = value switch
         {
-            Type t when t == typeof(CornerRadius) || t == typeof(CornerRadius?) =>
-                ApplyCornerRadiusOperation(value, operation, paramValues),
-
-            Type t when t == typeof(Thickness) || t == typeof(Thickness?) =>
-                ApplyThicknessOperation(value, operation, paramValues),
-
-            Type t when t == typeof(GridLength) || t == typeof(GridLength?) =>
-                ApplyGridLengthOperation(value, operation, paramValues.FirstOrDefault()),
-
-            Type t when t.IsNumericType() && paramValues.Length > 0 =>
-                StswConverterHelper.ConvertToTargetType(
-                    Math.Round(StswCalculator.ApplyOperator(operation, System.Convert.ToDouble(value, culture), paramValues[0]), 10),
-                    targetType),
-
-            _ => Binding.DoNothing
+            CornerRadius cr => ApplyCornerRadiusOperation(cr, operation, paramValues),
+            Thickness th => ApplyThicknessOperation(th, operation, paramValues),
+            GridLength gl => ApplyGridLengthOperation(gl, operation, paramValues.FirstOrDefault()),
+            _ when paramValues.Length > 0 => Math.Round(StswCalculator.ApplyOperator(operation, System.Convert.ToDouble(value, culture), paramValues[0]), 10),
+            _ => value
         };
+
+        return result.ConvertTo(targetType);
     }
 
 

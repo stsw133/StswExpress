@@ -31,7 +31,7 @@ internal class StswSqlConnectionFactory : IDisposable
         }
         else
         {
-            Connection = sqlConn.Opened();
+            Connection = sqlConn.GetOpened();
             if (useTransaction)
                 Transaction = Connection.BeginTransaction();
         }
