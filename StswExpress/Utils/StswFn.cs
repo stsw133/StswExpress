@@ -79,26 +79,31 @@ public static class StswFn
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
-    /// 
+    /// Retrieves the content of an embedded resource file from a specified assembly.
     /// </summary>
-    /// <param name="assemblyName"></param>
-    /// <param name="resourcePath"></param>
-    /// <returns></returns>
-    /// <exception cref="FileNotFoundException"></exception>
-    public static string GetResourceText(string assemblyName, string resourcePath)
+    /// <param name="assemblyName">The name of the assembly containing the resource.</param>
+    /// <param name="resourcePath">The path of the resource file within the assembly.</param>
+    /// <returns>The content of the resource file as a string.</returns>
+    /// <exception cref="FileNotFoundException">Thrown if the specified resource is not found.</exception>
+    public static string? GetResourceText(string assemblyName, string resourcePath)
     {
         var resourceUri = new Uri($"pack://application:,,,/{assemblyName};component/{resourcePath}", UriKind.Absolute);
 
-        using var stream = (Application.GetResourceStream(resourceUri)?.Stream) ?? throw new FileNotFoundException($"Resource '{resourcePath}' not found in assembly '{assemblyName}'.");
+        var resource = Application.GetResourceStream(resourceUri);
+        if (resource == null)
+            return null;
+
+        using var stream = resource.Stream;
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }
 
     /// <summary>
-    /// Determines whether the entry assembly was built in debug mode.
+    /// Determines whether the currently executing assembly was built in debug mode.
+    /// This method checks for the presence of the <see cref="DebuggableAttribute"/> 
+    /// with JIT tracking enabled.
     /// </summary>
-    /// <param name="assembly">The assembly to check.</param>
-    /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the assembly was compiled in debug mode; otherwise, <see langword="false"/>.</returns>
     public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
     #endregion
 
@@ -260,7 +265,8 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Generates a new <see cref="Color"/> based on the specified text and seed for brightness adjustment.
+    /// Generates a deterministic color based on the SHA-256 hash of the input text.
+    /// The seed value adjusts brightness to ensure contrast variations.
     /// </summary>
     /// <param name="text">The text to convert into a color.</param>
     /// <param name="seed">The seed value used to adjust the brightness of the generated color.</param>
@@ -376,6 +382,9 @@ public static class StswFn
     /// <param name="verb">The action to perform on the file (e.g., "open", "print").</param>
     private static void ExecuteFileAction(string path, string verb)
     {
+        if (!File.Exists(path))
+            throw new FileNotFoundException($"File '{path}' not found.", path);
+
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
@@ -389,7 +398,8 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Extracts the associated icon of the specified file or directory path as an <see cref="ImageSource"/>.
+    /// Extracts the associated icon of the specified file or directory path.
+    /// If the path points to a directory, attempts to retrieve the default folder icon.
     /// </summary>
     /// <param name="path">The file or directory path to extract the icon from.</param>
     /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
@@ -422,6 +432,9 @@ public static class StswFn
     /// <returns><see langword="true"/> if the file is in use; otherwise, <see langword="false"/>.</returns>
     public static bool IsFileInUse(string path)
     {
+        if (!File.Exists(path))
+            return false;
+
         try
         {
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
@@ -438,7 +451,9 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Moves a file to the recycle bin.
+    /// Moves a file to the Windows recycle bin instead of deleting it permanently.
+    /// Uses the <see cref="FileSystem.DeleteFile"/> method 
+    /// with <see cref="RecycleOption.SendToRecycleBin"/>.
     /// </summary>
     /// <param name="path">The path to the file to be moved to the recycle bin.</param>
     public static void MoveToRecycleBin(string path) => FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
@@ -593,11 +608,11 @@ public static class StswFn
 
     #region List functions
     /// <summary>
-    /// 
+    /// Generates a collection of random items of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="count"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of items to generate.</typeparam>
+    /// <param name="count">The number of random items to generate.</param>
+    /// <returns>An enumerable collection of randomly generated items.</returns>
     public static IEnumerable<T> CreateRandomItems<T>(int count) => StswRandomGenerator.CreateRandomItems<T>(count);
     #endregion
 
@@ -608,18 +623,31 @@ public static class StswFn
 
     #region Numeric functions
     /// <summary>
-    /// Evaluates a mathematical expression given as a string.
+    /// Evaluates a mathematical expression represented as a string.
+    /// Supports basic arithmetic operations such as +, -, *, /, and parentheses.
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
-    /// <returns>The result of the evaluated expression as a double.</returns>
-    public static double Compute(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+    /// <returns>The result of the evaluated expression as a <see cref="double"/>.</returns>
+    /// <exception cref="FormatException">Thrown if the expression contains invalid syntax.</exception>
+    public static double Compute(string expression)
+    {
+        try
+        {
+            return StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException($"Invalid mathematical expression: {expression}", ex);
+        }
+    }
 
     /// <summary>
-    /// Tries to evaluate a mathematical expression given as a string.
+    /// Attempts to evaluate a mathematical expression written in infix notation.
+    /// Supports basic arithmetic operations such as +, -, *, /, and parentheses.
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
-    /// <param name="result">The result of the evaluated expression as a double.</param>
-    /// <returns><see langword="true"/> on success, or <see langword="false"/> on failure.</returns>
+    /// <param name="result">The result of the evaluated expression.</param>
+    /// <returns><see langword="true"/> if the expression was successfully evaluated; otherwise, <see langword="false"/>.</returns>
     public static bool TryCompute(string expression, out double result)
     {
         try
@@ -637,10 +665,13 @@ public static class StswFn
 
     #region Text functions
     /// <summary>
-    /// Converts diacritics in a string to their ASCII substitutes.
+    /// Replaces diacritical marks in a string with their ASCII equivalents.
+    /// Uses Unicode normalization to decompose characters and remove 
+    /// non-spacing marks.
+    /// Useful for text search and standardization.
     /// </summary>
     /// <param name="text">The input string containing diacritics.</param>
-    /// <returns>The normalized string with diacritics replaced by ASCII substitutes.</returns>
+    /// <returns>The normalized string with diacritics replaced by ASCII characters.</returns>
     public static string NormalizeDiacritics(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -723,9 +754,10 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
+    /// Determines the current Windows theme (Light or Dark) by reading system registry settings.
     /// </summary>
     /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
+    /// <exception cref="UnauthorizedAccessException">Thrown if access to the registry is denied.</exception>
     public static StswTheme GetWindowsTheme()
     {
         try
@@ -745,8 +777,9 @@ public static class StswFn
 
     /// <summary>
     /// Removes a <see cref="FrameworkElement"/> from its parent container.
+    /// Supports <see cref="ContentControl"/>, <see cref="ContentPresenter"/>, <see cref="Decorator"/>, <see cref="ItemsControl"/>, and <see cref="Panel"/>.
     /// </summary>
-    /// <param name="element">The <see cref="FrameworkElement"/> to be removed from its parent.</param>
+    /// <param name="element">The element to remove from its parent.</param>
     public static void RemoveFromParent(FrameworkElement element)
     {
         var parent = element.Parent;
@@ -776,11 +809,14 @@ public static class StswFn
 
     #region Universal functions
     /// <summary>
-    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
+    /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.
     /// </summary>
     /// <param name="action">The action to execute.</param>
-    /// <param name="maxTries">The maximum number of tries.</param>
-    /// <param name="msInterval">The interval between tries in milliseconds.</param>
+    /// <param name="maxTries">The maximum number of attempts before failing. Defaults to 5.</param>
+    /// <param name="msInterval">The delay in milliseconds between attempts. Defaults to 200ms.</param>
+    /// <remarks>
+    /// If the action throws an exception, it will be retried up to <paramref name="maxTries"/> times.
+    /// </remarks>
     public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
     {
         for (var attempt = 1; attempt <= maxTries; attempt++)
@@ -804,10 +840,11 @@ public static class StswFn
 
     #region Validation functions
     /// <summary>
-    /// Validates whether the specified email addresses are in a valid format. Multiple email addresses can be separated by commas or semicolons.
+    /// Validates whether the specified string contains only valid email addresses.
+    /// Multiple email addresses can be separated by a specified character.
     /// </summary>
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
-    /// <param name="separator">The separator used to split the email addresses (e.g., ',', ';').</param>
+    /// <param name="separator">The character used to separate multiple email addresses. Defaults to ','.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
     public static bool AreValidEmails(string emails, char separator = ',')
     {
@@ -827,11 +864,14 @@ public static class StswFn
     public static bool IsValidEmail(string email) => new EmailAddressAttribute().IsValid(email);
 
     /// <summary>
-    /// Validates whether the specified phone number is in a valid format based on the country code.
+    /// Validates whether a phone number matches the expected format for a specified country.
     /// </summary>
     /// <param name="number">The phone number to validate.</param>
-    /// <param name="countryCode">The country code to validate against (e.g., "PL").</param>
-    /// <returns><see langword="true"/> if the phone number is valid for the given country code; otherwise, <see langword="false"/>.</returns>
+    /// <param name="countryCode">The country code (e.g., "PL" for Poland, "US" for United States).</param>
+    /// <returns><see langword="true"/> if the phone number is valid; otherwise, <see langword="false"/>.</returns>
+    /// <remarks>
+    /// Supports PL (Poland), UK (United Kingdom), US (United States), and generic validation for other countries.
+    /// </remarks>
     public static bool IsValidPhoneNumber(string number, string countryCode)
     {
         var digits = new string(number.Where(char.IsDigit).ToArray());

@@ -84,3 +84,18 @@ public abstract class StswObservableObject : INotifyPropertyChanged
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
     protected bool SetPropertyIf<T>(ref T field, T value, Func<bool> condition, [CallerMemberName] string propertyName = "") => condition() && SetProperty(ref field, value, propertyName);
 }
+
+/* usage:
+
+using StswExpress;
+public class MainViewModel : StswObservableObject
+{
+    private string _message;
+    public string Message
+    {
+        get => _message;
+        set => SetProperty(ref _message, value);
+    }
+}
+
+*/

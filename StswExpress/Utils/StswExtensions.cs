@@ -29,7 +29,9 @@ public static partial class StswExtensions
 {
     #region Clone extensions
     /// <summary>
-    /// Clones a <see cref="BindingBase"/> object.
+    /// Clones a <see cref="BindingBase"/> object, creating a deep copy of its settings.
+    /// Supports <see cref="Binding"/>, <see cref="MultiBinding"/>, and <see cref="PriorityBinding"/>.
+    /// Does not support cyclic references.
     /// </summary>
     /// <param name="bindingBase">The <see cref="BindingBase"/> to clone.</param>
     /// <returns>A cloned <see cref="BindingBase"/> object.</returns>
@@ -96,7 +98,7 @@ public static partial class StswExtensions
                         UpdateSourceExceptionFilter = multiBinding.UpdateSourceExceptionFilter,
                         UpdateSourceTrigger = multiBinding.UpdateSourceTrigger,
                         ValidatesOnDataErrors = multiBinding.ValidatesOnDataErrors,
-                        ValidatesOnExceptions = multiBinding.ValidatesOnDataErrors,
+                        ValidatesOnExceptions = multiBinding.ValidatesOnExceptions,
                     };
 
                     foreach (var validationRule in multiBinding.ValidationRules)
@@ -131,6 +133,9 @@ public static partial class StswExtensions
 
     /// <summary>
     /// Creates a deep copy of the specified object using JSON serialization.
+    /// Suitable for serializable objects, including primitives, collections, and simple POCOs.
+    /// Ignores properties marked with <see cref="JsonIgnoreAttribute"/>.
+    /// Does not handle cyclic references.
     /// </summary>
     /// <typeparam name="T">The type of the object being cloned.</typeparam>
     /// <param name="original">The original object to clone.</param>
@@ -146,12 +151,21 @@ public static partial class StswExtensions
         if (original == null)
             return default;
 
-        var jsonString = JsonSerializer.Serialize(original);
-        return JsonSerializer.Deserialize<T>(jsonString);
+        try
+        {
+            var jsonString = JsonSerializer.Serialize(original);
+            return JsonSerializer.Deserialize<T>(jsonString);
+        }
+        catch (JsonException)
+        {
+            return default;
+        }
     }
 
     /// <summary>
-    /// Attempts to clone each item in an <see cref="IEnumerable"/> and returns a new IEnumerable with the cloned items.
+    /// Attempts to create a shallow copy of each item in an <see cref="IEnumerable"/>.
+    /// Items implementing <see cref="ICloneable"/> are cloned, others are returned as-is.
+    /// This does not guarantee deep copying of complex objects.
     /// </summary>
     /// <param name="source">The source enumerable to clone.</param>
     /// <returns>A new <see cref="IEnumerable"/> containing cloned items when possible; if an item does not implement <see cref="ICloneable"/>, the original item is returned. This method ensures that the original collection remains unmodified.</returns>
@@ -174,11 +188,12 @@ public static partial class StswExtensions
 
     #region Convert extensions
     /// <summary>
-    /// Converts an <see cref="object"/> to a specified type.
+    /// Converts an object to a specified type, supporting nullable types, enums, and primitive conversions.
+    /// If conversion fails, it returns the default value of the target type.
     /// </summary>
-    /// <param name="o">The object to convert.</param>
-    /// <param name="t">The type to convert to.</param>
-    /// <returns>The converted <see cref="object"/> of the specified type.</returns>
+    /// <param name="o">The object to convert. If <see langword="null"/>, the <see langword="null"/> is returned.</param>
+    /// <param name="t">The target type to convert to.</param>
+    /// <returns>The converted object of type <paramref name="t"/>, or <see langword="null"/> if conversion fails.</returns>
     public static object? ConvertTo(this object? o, Type t)
     {
         var underlyingType = Nullable.GetUnderlyingType(t);
@@ -205,18 +220,20 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Converts an <see cref="object"/> to a specified type.
+    /// Converts an object to a specified type, supporting nullable types, enums, and primitive conversions.
+    /// If conversion fails, it returns the default value of the target type.
     /// </summary>
-    /// <typeparam name="T">The type to convert to.</typeparam>
-    /// <param name="o">The object to convert.</param>
-    /// <returns>The converted <see cref="object"/> of type <see cref="{T}"/>.</returns>
+    /// <typeparam name="T">The target type to convert to.</typeparam>
+    /// <param name="o">The object to convert. If null, the default value of <typeparamref name="T"/> is returned.</param>
+    /// <returns>The converted object of type <typeparamref name="T"/>, or default if conversion fails.</returns>
     public static T? ConvertTo<T>(this object o) => o.ConvertTo(typeof(T)) is T tResult ? tResult : default;
 
     /// <summary>
-    /// Converts a <see cref="Type"/> to a <see cref="SqlDbType"/>.
+    /// Infers the corresponding <see cref="SqlDbType"/> for a given .NET <see cref="Type"/>.
+    /// Defaults to <see cref="SqlDbType.NVarChar"/> if no matching type is found.
     /// </summary>
     /// <param name="type">The type to convert.</param>
-    /// <returns>The corresponding <see cref="SqlDbType"/>, or null if no matching type is found.</returns>
+    /// <returns>The corresponding <see cref="SqlDbType"/>, or <see langword="null"/> if no matching type is found.</returns>
     public static SqlDbType InferSqlDbType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -435,6 +452,8 @@ public static partial class StswExtensions
 
     /// <summary>
     /// Converts a <see cref="System.Drawing.Bitmap"/> to an <see cref="ImageSource"/>.
+    /// Frees the underlying HBitmap handle after conversion.
+    /// Throws an exception if the bitmap is invalid.
     /// </summary>
     /// <param name="bmp">The bitmap to convert.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
@@ -458,6 +477,8 @@ public static partial class StswExtensions
 
     /// <summary>
     /// Converts an <see cref="Icon"/> to an <see cref="ImageSource"/>.
+    /// Frees the underlying HBitmap handle after conversion.
+    /// Throws an exception if the bitmap is invalid.
     /// </summary>
     /// <param name="icon">The <see cref="Icon"/> to convert.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
@@ -520,11 +541,12 @@ public static partial class StswExtensions
 
     /// <summary>
     /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
+    /// Supports tracking removed items and ignoring specified property changes.
     /// </summary>
     /// <typeparam name="T">The type of objects in the list.</typeparam>
     /// <param name="value">The enumerable to convert.</param>
     /// <returns>The converted <see cref="StswObservableCollection{T}"/>.</returns>
-    public static StswObservableCollection<T> ToStswObservableCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new(value);
+    public static StswObservableCollection<T> ToStswObservableCollection<T>(this IEnumerable<T> value, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) where T : IStswCollectionItem => new(value, showRemovedItems, ignoredPropertyNames);
 
     /// <summary>
     /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswObservableDictionary{TKey, TValue}"/>.
@@ -648,7 +670,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <typeparam name="T">The type of the attribute to retrieve.</typeparam>
     /// <param name="enumVal">The enum value.</param>
-    /// <returns>The attribute of type <see cref="{T}"/> that exists on the enum value, or <see langword="null"/> if no such attribute is found.</returns>
+    /// <returns>The attribute of type <typeparamref name="T"/> that exists on the enum value, or <see langword="null"/> if no such attribute is found.</returns>
     public static T? GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
     {
         var memberInfo = enumVal.GetType().GetMember(enumVal.ToString());
@@ -734,11 +756,11 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
+    /// Adds multiple items to the collection.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="list"></param>
-    /// <param name="items"></param>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
+    /// <param name="list">The collection to add items to.</param>
+    /// <param name="items">The items to add.</param>
     public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
     {
         foreach (var item in items)
@@ -966,7 +988,8 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Checks if the given value is null, the default value for its type, or a value that indicates absence of meaningful data.
+    /// Checks if a value is null, the default for its type, or an empty collection.
+    /// Supports reference types, value types, and collections.
     /// </summary>
     /// <typeparam name="T">The type of the value to check.</typeparam>
     /// <param name="value">The value to check.</param>
@@ -1000,19 +1023,18 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
+    /// Checks if the given enumerable is null or empty.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="source"></param>
-    /// <returns></returns>
+    /// <param name="source">The enumerable to check.</param>
+    /// <returns><see langword="true"/> if the enumerable is null or empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsNullOrEmpty(this IEnumerable source) => source == null || !source.GetEnumerator().MoveNext();
-    
+
     /// <summary>
-    /// 
+    /// Checks if the given generic enumerable is null or empty.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="source"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of elements in the enumerable.</typeparam>
+    /// <param name="source">The enumerable to check.</param>
+    /// <returns><see langword="true"/> if the enumerable is null or empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source) => source == null || !source.Any();
 
     /// <summary>

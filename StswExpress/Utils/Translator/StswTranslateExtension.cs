@@ -84,3 +84,13 @@ public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
             OnPropertyChanged(nameof(TranslatedText));
     }
 }
+
+/* usage:
+
+<TextBlock Text="{se:StswTranslate 'WelcomeMessage', DefaultValue='Welcome'}"/>
+
+<TextBlock Text="{se:StswTranslate 'Save', Prefix='[', Suffix=']'}"/>
+
+<Label Content="{se:StswTranslate 'Goodbye', Language='en'}"/>
+
+*/

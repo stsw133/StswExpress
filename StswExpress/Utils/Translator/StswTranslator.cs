@@ -301,3 +301,15 @@ public static class StswTranslator
         return $"{prefix}{defaultValue ?? key}{suffix}";
     }
 }
+
+/* usage:
+
+StswTranslator.CurrentLanguage = "pl";
+
+
+
+StswTranslator.AddOrUpdateTranslation("Hello", "en", "Hello");
+StswTranslator.AddOrUpdateTranslation("Hello", "pl", "Cześć");
+var translatedText = StswTranslator.GetTranslation("Hello", prefix: "[", suffix: "]");
+
+*/

@@ -211,3 +211,26 @@ public static class StswSecurity
         return true;
     }
 }
+
+/* usage:
+
+var password = "SuperSecretPassword123!";
+var hashedPassword = StswSecurity.GetHashString(password);
+
+
+
+StswSecurity.Key = "MySecureEncryptionKey";
+string secretMessage = "This is secret message";
+string encryptedMessage = StswSecurity.Encrypt(secretMessage);
+string decryptedMessage = StswSecurity.Decrypt(encryptedMessage);
+
+
+
+var password = "WeakPass1!";
+var isStrong = StswSecurity.ValidatePasswordStrength(password);
+
+
+
+var token = StswSecurity.GenerateRandomToken(32);
+
+*/

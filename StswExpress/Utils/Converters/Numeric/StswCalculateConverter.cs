@@ -44,28 +44,31 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <returns>The result of the mathematical operation.</returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value == null || parameter is not string pmr || pmr.Length < 2 || !StswCalculator.IsOperator(pmr[0].ToString()))
+        if (value == null || parameter is not string pmr || pmr.Length < 2)
             return Binding.DoNothing;
 
         var operation = pmr[0].ToString();
+        if (!StswCalculator.IsOperator(operation))
+            return Binding.DoNothing;
+
         var paramValues = pmr[1..].Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
                                   .Select(p => double.TryParse(p, NumberStyles.Number, culture, out var num) ? num : (double?)null)
                                   .Where(p => p.HasValue)
                                   .Select(p => p!.Value)
                                   .ToArray();
 
-        object result = value switch
+        return value switch
         {
             CornerRadius cr => ApplyCornerRadiusOperation(cr, operation, paramValues),
             Thickness th => ApplyThicknessOperation(th, operation, paramValues),
             GridLength gl => ApplyGridLengthOperation(gl, operation, paramValues.FirstOrDefault()),
-            _ when paramValues.Length > 0 => Math.Round(StswCalculator.ApplyOperator(operation, System.Convert.ToDouble(value, culture), paramValues[0]), 10),
-            _ => value
+            double d when targetType == typeof(CornerRadius) => new CornerRadius(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
+            double d when targetType == typeof(Thickness) => new Thickness(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
+            double d when targetType == typeof(GridLength) => new GridLength(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
+            _ when paramValues.Length > 0 => Math.Round(StswCalculator.ApplyOperator(operation, System.Convert.ToDouble(value, culture), paramValues[0]), 10).ConvertTo(targetType),
+            _ => value.ConvertTo(targetType)
         };
-
-        return result.ConvertTo(targetType);
     }
-
 
     /// <summary>
     /// This converter does not support converting back from target value to source value.
@@ -84,12 +87,8 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
     /// <param name="parameters">An array of numbers used in the operation.</param>
     /// <returns>A new <see cref="CornerRadius"/> with the applied operation, or the original value if invalid.</returns>
-    private static CornerRadius ApplyCornerRadiusOperation(object? value, string operation, double[] parameters)
-    {
-        if (value is not CornerRadius cr)
-            return new CornerRadius();
-
-        return parameters.Length switch
+    private static CornerRadius ApplyCornerRadiusOperation(CornerRadius cr, string operation, double[] parameters)
+        => parameters.Length switch
         {
             4 => new CornerRadius(
                 StswCalculator.ApplyOperator(operation, cr.TopLeft, parameters[0]),
@@ -104,7 +103,6 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             1 => new CornerRadius(StswCalculator.ApplyOperator(operation, cr.TopLeft, parameters[0])),
             _ => cr
         };
-    }
 
     /// <summary>
     /// Applies a mathematical operation to a <see cref="Thickness"/> value.
@@ -113,12 +111,8 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
     /// <param name="parameters">An array of numbers used in the operation.</param>
     /// <returns>A new <see cref="Thickness"/> with the applied operation, or the original value if invalid.</returns>
-    private static Thickness ApplyThicknessOperation(object? value, string operation, double[] parameters)
-    {
-        if (value is not Thickness th)
-            return new Thickness();
-
-        return parameters.Length switch
+    private static Thickness ApplyThicknessOperation(Thickness th, string operation, double[] parameters)
+        => parameters.Length switch
         {
             4 => new Thickness(
                 StswCalculator.ApplyOperator(operation, th.Left, parameters[0]),
@@ -133,7 +127,6 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             1 => new Thickness(StswCalculator.ApplyOperator(operation, th.Left, parameters[0])),
             _ => th
         };
-    }
 
     /// <summary>
     /// Applies a mathematical operation to a <see cref="GridLength"/> value.
@@ -142,10 +135,10 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
     /// <param name="parameter">The number used in the operation.</param>
     /// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
-    private static GridLength ApplyGridLengthOperation(object? value, string operation, double parameter)
+    private static GridLength ApplyGridLengthOperation(GridLength gl, string operation, double parameter)
     {
-        if (value is not GridLength gl)
-            return new GridLength(1, GridUnitType.Pixel);
+        if (gl.IsAuto || gl.IsStar)
+            return gl;
 
         return new GridLength(StswCalculator.ApplyOperator(operation, gl.Value, parameter), gl.GridUnitType);
     }
