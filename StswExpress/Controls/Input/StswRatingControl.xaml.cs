@@ -36,6 +36,9 @@ public class StswRatingControl : Control, IStswIconControl
         if (e.Key == Key.Tab)
             return;
 
+        if (!IsReadOnly)
+            return;
+
         switch (e.Key)
         {
             case Key.Back when IsResetEnabled:
@@ -101,7 +104,7 @@ public class StswRatingControl : Control, IStswIconControl
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
-        if (e.LeftButton == MouseButtonState.Pressed)
+        if (e.LeftButton == MouseButtonState.Pressed && !IsReadOnly)
             Value = Placeholder;
         Focus();
     }
@@ -194,6 +197,21 @@ public class StswRatingControl : Control, IStswIconControl
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
             typeof(StswRatingControl)
         );
 

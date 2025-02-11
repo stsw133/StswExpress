@@ -106,7 +106,7 @@
                                        Placement="Bottom"
                                        PlacementTarget="{Binding ElementName=OPT_MainButton}"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                       StaysOpen="False">
+                                       StaysOpen="True">
                                     <se:StswBorder x:Name="DropDownBorder"
                                                    Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
                                                    BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"

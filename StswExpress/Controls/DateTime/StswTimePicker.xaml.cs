@@ -127,6 +127,43 @@ public class StswTimePicker : StswBoxBase
                 bindingExpression.UpdateSource();
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void UpdateVisibilityBasedOnFormat()
+    {
+        if (string.IsNullOrEmpty(Format))
+        {
+            IsHoursVisible = true;
+            IsMinutesVisible = true;
+            IsSecondsVisible = true;
+            return;
+        }
+
+        switch (Format)
+        {
+            case "c":  // "c" = "[-][d.]hh:mm:ss[.fffffff]"
+            case "G":  // "G" = "d:hh:mm:ss"
+            case "t":  // "t" = "hh:mm:ss"
+            case "T":  // "T" = "hh:mm:ss.fffffff"
+                IsHoursVisible = true;
+                IsMinutesVisible = true;
+                IsSecondsVisible = true;
+                return;
+            case "f":  // "f" = "hh:mm"
+            case "F":  // "F" = "hh:mm.fffffff"
+            case "g":  // "g" = "d:hh:mm"
+                IsHoursVisible = true;
+                IsMinutesVisible = true;
+                IsSecondsVisible = false;
+                return;
+        }
+
+        IsHoursVisible = Format.Contains('h');
+        IsMinutesVisible = Format.Contains('m');
+        IsSecondsVisible = Format.Contains('s');
+    }
     #endregion
 
     #region Logic properties
@@ -152,6 +189,8 @@ public class StswTimePicker : StswBoxBase
     {
         if (obj is StswTimePicker stsw)
         {
+            stsw.UpdateVisibilityBasedOnFormat();
+
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
                 var newBinding = binding.Clone();
@@ -174,6 +213,54 @@ public class StswTimePicker : StswBoxBase
             nameof(IsDropDownOpen),
             typeof(bool),
             typeof(StswTimePicker)
+        );
+
+    /// <summary>
+    /// Czy widoczna sekcja godzin?
+    /// </summary>
+    public bool IsHoursVisible
+    {
+        get => (bool)GetValue(IsHoursVisibleProperty);
+        private set => SetValue(IsHoursVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsHoursVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsHoursVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Czy widoczna sekcja minut?
+    /// </summary>
+    public bool IsMinutesVisible
+    {
+        get => (bool)GetValue(IsMinutesVisibleProperty);
+        private set => SetValue(IsMinutesVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsMinutesVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsMinutesVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Czy widoczna sekcja sekund?
+    /// </summary>
+    public bool IsSecondsVisible
+    {
+        get => (bool)GetValue(IsSecondsVisibleProperty);
+        private set => SetValue(IsSecondsVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsSecondsVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsSecondsVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
         );
 
     /// <summary>

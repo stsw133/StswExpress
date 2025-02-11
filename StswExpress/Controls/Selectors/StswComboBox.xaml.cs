@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
@@ -146,6 +147,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
         if (IsDropDownOpen && IsFilterEnabled)
             Keyboard.Focus(_filter);
+
+        /// moved here from StswComboItem, cause was bugged with multiple instances binded to same ItemsSource
+        if (SelectedItem is IStswSelectionItem item)
+            item.IsSelected = true;
     }
 
     /// <summary>

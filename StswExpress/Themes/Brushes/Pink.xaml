@@ -117,8 +117,10 @@
     <SolidColorBrush x:Key="StswRating.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswRating.Static.Border" Color="#D55"/>
     <SolidColorBrush x:Key="StswRating.MouseOver.Border" Color="#423"/>
-    <SolidColorBrush x:Key="StswRating.Checked.Background" Color="#f688ad"/>
-    <SolidColorBrush x:Key="StswRating.Checked.Border" Color="#D55"/>
+    <SolidColorBrush x:Key="StswRating.ReadOnly.Background" Color="#FDE"/>
+    <SolidColorBrush x:Key="StswRating.Checked.Static.Background" Color="#f688ad"/>
+    <SolidColorBrush x:Key="StswRating.Checked.Static.Border" Color="#D55"/>
+    <SolidColorBrush x:Key="StswRating.Checked.ReadOnly.Background" Color="#fbc6d8"/>
 
     <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Heart}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#ECD"/>

@@ -15,6 +15,7 @@ public class StswRatingControlContext : ControlsContext
 
         Direction = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Direction)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         IsResetEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsResetEnabled)))?.Value ?? default;
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
         ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
@@ -36,6 +37,14 @@ public class StswRatingControlContext : ControlsContext
     }
     private GridLength _iconScale;
 
+    /// IsReadOnly
+    public bool IsReadOnly
+    {
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
+    }
+    private bool _isReadOnly;
+    
     /// IsResetEnabled
     public bool IsResetEnabled
     {

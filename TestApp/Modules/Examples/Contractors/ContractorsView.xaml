@@ -88,7 +88,7 @@
                         </se:StswDataGridDecimalColumn>
 
                         <!-- Type -->
-                        <se:StswDataGridComboColumn DisplayMemberPath="Display" ItemsSource="{se:StswEnumToList local:ContractorType}" SelectedValueBinding="{Binding Type}" SelectedValuePath="Value">
+                        <se:StswDataGridComboColumn DisplayMemberPath="Display" ItemsSource="{se:StswEnumToList local:ContractorType}" SelectedValueBinding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Value">
                             <se:StswDataGridComboColumn.Header>
                                 <se:StswFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="Type" ItemsSource="{se:StswEnumToList local:ContractorType}"/>
                             </se:StswDataGridComboColumn.Header>

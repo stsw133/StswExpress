@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -50,7 +51,9 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (parameter == null)
-            return value != null;
+            return targetType == typeof(Visibility)
+                ? (value != null ? Visibility.Visible : Visibility.Collapsed)
+                : value != null;
 
         var conditions = ParseConditions(parameter);
 
@@ -58,7 +61,9 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
             conditions.Add("null", true);
 
         var result = conditions.Any(condition => EvaluateCondition(value, condition.Key) ^ condition.Value);
-        return result;
+        return targetType == typeof(Visibility)
+            ? (result ? Visibility.Visible : Visibility.Collapsed)
+            : result;
     }
 
     /// <summary>

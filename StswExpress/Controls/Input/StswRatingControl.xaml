@@ -87,9 +87,19 @@
                                 
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked}" Value="True">
-                                        <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Background}" TargetName="OPT_Icon"/>
-                                        <Setter Property="Stroke" Value="{DynamicResource StswRating.Checked.Border}" TargetName="OPT_Icon"/>
+                                        <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Static.Background}" TargetName="OPT_Icon"/>
+                                        <Setter Property="Stroke" Value="{DynamicResource StswRating.Checked.Static.Border}" TargetName="OPT_Icon"/>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="True">
+                                        <Setter Property="Fill" Value="{DynamicResource StswRating.ReadOnly.Background}" TargetName="OPT_Icon"/>
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsChecked}" Value="True"/>
+                                            <Condition Binding="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.ReadOnly.Background}" TargetName="OPT_Icon"/>
+                                    </MultiDataTrigger>
                                     <DataTrigger Binding="{Binding IsMouseOver}" Value="True">
                                         <Setter Property="Stroke" Value="{DynamicResource StswRating.MouseOver.Border}" TargetName="OPT_Icon"/>
                                     </DataTrigger>

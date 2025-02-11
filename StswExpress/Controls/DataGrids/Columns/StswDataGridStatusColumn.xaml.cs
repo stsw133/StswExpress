@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,58 +11,62 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
-    public new StswDataGrid? DataGridOwner { get; internal set; }
-
     public StswDataGridStatusColumn()
     {
-        Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+        Dispatcher.CurrentDispatcher.InvokeAsync(InitializeColumn, DispatcherPriority.Background);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void InitializeColumn()
+    {
+        HeaderTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
+        CellTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
+
+        if (GetDataGridOwner() is not StswDataGrid dataGrid)
+            return;
+
+        var baseCellStyle = Application.Current.TryFindResource("StswDataGridCellStyle") as Style ?? new Style(typeof(DataGridCell));
+        CellStyle = new Style(typeof(DataGridCell), baseCellStyle)
         {
-            HeaderTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
-            CellTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
-            //CellEditingTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnCellEditingTemplate") as DataTemplate;
+            Setters = { new Setter(Control.IsTabStopProperty, false) }
+        };
 
-            if (DataGridOwner == null)
-                return;
+        CanUserReorder = false;
+        CanUserResize = false;
+        IsReadOnly = true;
 
-            var newCellStyle = new Style(typeof(DataGridCell));
-            newCellStyle.Setters.Add(new Setter(Control.IsTabStopProperty, false));
-            CellStyle = newCellStyle;
+        var baseStyle = dataGrid.RowStyle;
+        if (baseStyle == null || baseStyle.BasedOn == null)
+        {
+            baseStyle = new Style(typeof(StswDataGridRow));
+            dataGrid.RowStyle = baseStyle;
+        }
+        var newStyle = new Style(typeof(StswDataGridRow), baseStyle);
 
-            CanUserReorder = false;
-            CanUserResize = false;
-            IsReadOnly = true;
-
-            /// set visibility for header
-            //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid)
-            //    grid.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
-
-            /// triggers
-            var style = DataGridOwner.RowStyle ?? new Style(typeof(DataGridRow));
-            var newStyle = new Style(typeof(DataGridRow))
+        if (!baseStyle.Triggers.OfType<DataTrigger>().Any(x => x.Binding is Binding binding && binding.Path?.Path == nameof(IStswCollectionItem.ShowDetails)))
+            newStyle.Triggers.Add(new DataTrigger
             {
-                Resources = style.Resources
-            };
+                Binding = new Binding(nameof(IStswCollectionItem.ShowDetails)),
+                Value = true,
+                Setters = { new Setter(StswDataGridRow.DetailsVisibilityProperty, Visibility.Visible) }
+            });
 
-            foreach (var setter in style.Setters)
-                newStyle.Setters.Add(setter);
+        if (!baseStyle.Setters.OfType<Setter>().Any(setter => setter.Property == StswDataGridRow.DetailsVisibilityProperty))
+            newStyle.Setters.Add(new Setter(StswDataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
 
-            foreach (var trigger in style.Triggers)
-                newStyle.Triggers.Add(trigger);
+        dataGrid.RowStyle = newStyle;
+    }
 
-            if (style.Triggers.OfType<DataTrigger>().FirstOrDefault(
-                    trigger => trigger.Binding is Binding binding &&
-                    binding.Path != null && binding.Path.Path == nameof(IStswCollectionItem.ShowDetails)
-                ) == null)
-            {
-                var t = new DataTrigger() { Binding = new Binding(nameof(IStswCollectionItem.ShowDetails)), Value = true };
-                t.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible));
-                newStyle.Triggers.Add(t);
-            }
 
-            if (style.Setters.OfType<Setter>().FirstOrDefault(setter => setter.Property == DataGridRow.DetailsVisibilityProperty) == null)
-                newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
-
-            DataGridOwner.RowStyle = newStyle;
-        }, DispatcherPriority.DataBind);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private StswDataGrid? GetDataGridOwner()
+    {
+        var property = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.NonPublic | BindingFlags.Instance);
+        return property?.GetValue(this) as StswDataGrid;
     }
 }

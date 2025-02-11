@@ -31,17 +31,17 @@
             <se:StswDataGrid.Columns>
                 <se:StswDataGridStatusColumn/>
                 <!-- ID -->
-                <DataGridTextColumn Binding="{Binding ID}" Width="100">
-                    <DataGridTextColumn.Header>
+                <se:StswDataGridDecimalColumn Binding="{Binding ID}" Width="100">
+                    <se:StswDataGridDecimalColumn.Header>
                         <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                    </se:StswDataGridDecimalColumn.Header>
+                </se:StswDataGridDecimalColumn>
                 <!-- Name -->
-                <DataGridTextColumn Binding="{Binding Name}" Width="*">
-                    <DataGridTextColumn.Header>
+                <se:StswDataGridTextColumn Binding="{Binding Name}" TextAlignment="Justify" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Width="*">
+                    <se:StswDataGridTextColumn.Header>
                         <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains"/>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                    </se:StswDataGridTextColumn.Header>
+                </se:StswDataGridTextColumn>
             </se:StswDataGrid.Columns>
             
             <se:StswDataGrid.RowDetailsTemplate>

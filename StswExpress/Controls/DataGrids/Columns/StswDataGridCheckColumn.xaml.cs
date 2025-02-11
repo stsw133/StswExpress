@@ -9,7 +9,6 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
-    public string? Format { get; set; }
 
     private static readonly Style StswDisplayElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))
     {
@@ -18,16 +17,10 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             new Setter(StswCheckBox.BorderThicknessProperty, new Thickness(1)),
             new Setter(StswCheckBox.CornerClippingProperty, false),
             new Setter(StswCheckBox.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswCheckBox.PaddingProperty, new Thickness(0)),
-
             new Setter(StswCheckBox.FocusableProperty, false),
+            new Setter(StswCheckBox.FocusVisualStyleProperty, null),
             new Setter(StswCheckBox.IsHitTestVisibleProperty, false),
-            new Setter(StswCheckBox.IsTabStopProperty, false),
-
-            new Setter(StswCheckBox.HorizontalAlignmentProperty, HorizontalAlignment.Center),
-            new Setter(StswCheckBox.HorizontalContentAlignmentProperty, HorizontalAlignment.Center),
-            new Setter(StswCheckBox.VerticalAlignmentProperty, VerticalAlignment.Center),
-            new Setter(StswCheckBox.VerticalContentAlignmentProperty, VerticalAlignment.Center)
+            new Setter(StswCheckBox.IsTabStopProperty, false)
         }
     };
     private static readonly Style StswEditingElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))
@@ -37,12 +30,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             new Setter(StswCheckBox.BorderThicknessProperty, new Thickness(1)),
             new Setter(StswCheckBox.CornerClippingProperty, false),
             new Setter(StswCheckBox.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswCheckBox.PaddingProperty, new Thickness(0)),
-
-            new Setter(StswCheckBox.HorizontalAlignmentProperty, HorizontalAlignment.Center),
-            new Setter(StswCheckBox.HorizontalContentAlignmentProperty, HorizontalAlignment.Center),
-            new Setter(StswCheckBox.VerticalAlignmentProperty, VerticalAlignment.Center),
-            new Setter(StswCheckBox.VerticalContentAlignmentProperty, VerticalAlignment.Center)
+            new Setter(StswCheckBox.FocusVisualStyleProperty, null)
         }
     };
 
@@ -54,14 +42,19 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <returns></returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
-        var displayElement = new StswCheckBox();
+        var displayElement = new StswCheckBox()
+        {
+            Style = StswDisplayElementStyle,
+            Padding = Padding,
+            HorizontalAlignment = HorizontalContentAlignment,
+            HorizontalContentAlignment = HorizontalContentAlignment,
+            VerticalAlignment = VerticalContentAlignment,
+            VerticalContentAlignment = VerticalContentAlignment
+        };
 
         /// bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, StswCheckBox.IsCheckedProperty, Binding);
-
-        /// assign style
-        displayElement.Style = StswDisplayElementStyle;
 
         return displayElement;
     }
@@ -74,15 +67,69 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <returns></returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
-        var editingElement = new StswCheckBox();
+        var editingElement = new StswCheckBox()
+        {
+            Style = StswEditingElementStyle,
+            Padding = Padding,
+            HorizontalAlignment = HorizontalContentAlignment,
+            HorizontalContentAlignment = HorizontalContentAlignment,
+            VerticalAlignment = VerticalContentAlignment,
+            VerticalContentAlignment = VerticalContentAlignment
+        };
 
         /// bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswCheckBox.IsCheckedProperty, Binding);
 
-        /// assign style
-        editingElement.Style = StswEditingElementStyle;
-
         return editingElement;
     }
+
+    #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(PaddingProperty),
+            typeof(Thickness),
+            typeof(StswDataGridCheckColumn)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public HorizontalAlignment HorizontalContentAlignment
+    {
+        get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
+        set => SetValue(HorizontalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty HorizontalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(HorizontalContentAlignment),
+            typeof(HorizontalAlignment),
+            typeof(StswDataGridCheckColumn),
+            new PropertyMetadata(HorizontalAlignment.Center)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public VerticalAlignment VerticalContentAlignment
+    {
+        get => (VerticalAlignment)GetValue(VerticalContentAlignmentProperty);
+        set => SetValue(VerticalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty VerticalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(VerticalContentAlignment),
+            typeof(VerticalAlignment),
+            typeof(StswDataGridCheckColumn),
+            new PropertyMetadata(VerticalAlignment.Center)
+        );
+    #endregion
 }

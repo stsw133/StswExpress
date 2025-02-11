@@ -8,16 +8,20 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public abstract class StswDataGridNumberColumn<T> : DataGridTextColumn where T : struct, INumber<T>
+public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
-    public string? Format { get; set; }
-
-    private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)))
+    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
+    private static readonly Style StswEditingElementStyle = new(typeof(TControl), (Style)Application.Current.FindResource(typeof(TControl)))
     {
         Setters =
         {
-            new Setter(StswText.HorizontalAlignmentProperty, HorizontalAlignment.Right),
-            new Setter(StswText.VerticalAlignmentProperty, VerticalAlignment.Top)
+            new Setter(StswNumberBoxBase<T>.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswNumberBoxBase<T>.CornerClippingProperty, false),
+            new Setter(StswNumberBoxBase<T>.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswNumberBoxBase<T>.FocusVisualStyleProperty, null),
+            new Setter(StswNumberBoxBase<T>.SeparatorThicknessProperty, 0.0),
+            new Setter(StswNumberBoxBase<T>.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswNumberBoxBase<T>.VerticalAlignmentProperty, VerticalAlignment.Stretch)
         }
     };
 
@@ -29,40 +33,22 @@ public abstract class StswDataGridNumberColumn<T> : DataGridTextColumn where T :
     /// <returns></returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
-        var displayElement = new StswText();
+        var displayElement = new StswText()
+        {
+            //Style = StswDisplayElementStyle,
+            Margin = new Thickness(2, 0, 2, 0),
+            Padding = Padding,
+            TextAlignment = TextAlignment,
+            TextTrimming = TextTrimming,
+            TextWrapping = TextWrapping
+        };
 
         /// bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, StswText.TextProperty, Binding);
 
-        /// assign style
-        displayElement.Style = StswDisplayElementStyle;
-
         return displayElement;
     }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class StswDataGridDecimalColumn : StswDataGridNumberColumn<decimal>
-{
-    private static readonly Style StswEditingElementStyle = new(typeof(StswDecimalBox), (Style)Application.Current.FindResource(typeof(StswDecimalBox)))
-    {
-        Setters =
-        {
-            new Setter(StswDecimalBox.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswDecimalBox.CornerClippingProperty, false),
-            new Setter(StswDecimalBox.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswDecimalBox.PaddingProperty, new Thickness(0)),
-            new Setter(StswDecimalBox.SeparatorThicknessProperty, 0d),
-
-            new Setter(StswDecimalBox.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswDecimalBox.HorizontalContentAlignmentProperty, HorizontalAlignment.Right),
-            new Setter(StswDecimalBox.VerticalAlignmentProperty, VerticalAlignment.Stretch),
-            new Setter(StswDecimalBox.VerticalContentAlignmentProperty, VerticalAlignment.Top)
-        }
-    };
 
     /// <summary>
     /// 
@@ -72,15 +58,171 @@ public class StswDataGridDecimalColumn : StswDataGridNumberColumn<decimal>
     /// <returns></returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
-        var editingElement = new StswDecimalBox();
+        return GenerateEditingElement<TControl>();
+    }
 
-        /// bindings
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TControl"></typeparam>
+    /// <returns></returns>
+    private TControl GenerateEditingElement<TControl>() where TControl : StswNumberBoxBase<T>, new()
+    {
+        var editingElement = new TControl
+        {
+            Style = StswEditingElementStyle,
+            Format = Format,
+            Padding = Padding,
+            Placeholder = Placeholder,
+            HorizontalContentAlignment = HorizontalContentAlignment,
+            VerticalContentAlignment = VerticalContentAlignment
+        };
+
         if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswDecimalBox.ValueProperty, Binding);
-
-        /// assign style
-        editingElement.Style = StswEditingElementStyle;
+            BindingOperations.SetBinding(editingElement, StswNumberBoxBase<T>.ValueProperty, Binding);
 
         return editingElement;
     }
+
+
+    #region Logic properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(FormatProperty),
+            typeof(string),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(PlaceholderProperty),
+            typeof(string),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(PaddingProperty),
+            typeof(Thickness),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public TextAlignment TextAlignment
+    {
+        get => (TextAlignment)GetValue(TextAlignmentProperty);
+        set => SetValue(TextAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty TextAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(TextAlignmentProperty),
+            typeof(TextAlignment),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public TextTrimming TextTrimming
+    {
+        get => (TextTrimming)GetValue(TextTrimmingProperty);
+        set => SetValue(TextTrimmingProperty, value);
+    }
+    public static readonly DependencyProperty TextTrimmingProperty
+        = DependencyProperty.Register(
+            nameof(TextTrimmingProperty),
+            typeof(TextTrimming),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public TextWrapping TextWrapping
+    {
+        get => (TextWrapping)GetValue(TextWrappingProperty);
+        set => SetValue(TextWrappingProperty, value);
+    }
+    public static readonly DependencyProperty TextWrappingProperty
+        = DependencyProperty.Register(
+            nameof(TextWrappingProperty),
+            typeof(TextWrapping),
+            typeof(StswDataGridNumberColumn<T, TControl>)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public HorizontalAlignment HorizontalContentAlignment
+    {
+        get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
+        set => SetValue(HorizontalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty HorizontalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(HorizontalContentAlignment),
+            typeof(HorizontalAlignment),
+            typeof(StswDataGridNumberColumn<T, TControl>),
+            new PropertyMetadata(HorizontalAlignment.Left)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public VerticalAlignment VerticalContentAlignment
+    {
+        get => (VerticalAlignment)GetValue(VerticalContentAlignmentProperty);
+        set => SetValue(VerticalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty VerticalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(VerticalContentAlignment),
+            typeof(VerticalAlignment),
+            typeof(StswDataGridNumberColumn<T, TControl>),
+            new PropertyMetadata(VerticalAlignment.Top)
+        );
+    #endregion
 }
+
+/// <summary>
+/// 
+/// </summary>
+public class StswDataGridDecimalColumn : StswDataGridNumberColumn<decimal, StswDecimalBox> { }
+
+/// <summary>
+/// 
+/// </summary>
+public class StswDataGridDoubleColumn : StswDataGridNumberColumn<double, StswDoubleBox> { }
+
+/// <summary>
+/// 
+/// </summary>
+public class StswDataGridIntegerColumn : StswDataGridNumberColumn<int, StswIntegerBox> { }

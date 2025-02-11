@@ -117,8 +117,10 @@
     <SolidColorBrush x:Key="StswRating.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswRating.Static.Border" Color="#BBB"/>
     <SolidColorBrush x:Key="StswRating.MouseOver.Border" Color="#333"/>
-    <SolidColorBrush x:Key="StswRating.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B50%'}"/>
-    <SolidColorBrush x:Key="StswRating.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
+    <SolidColorBrush x:Key="StswRating.ReadOnly.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswRating.Checked.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B50%'}"/>
+    <SolidColorBrush x:Key="StswRating.Checked.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
+    <SolidColorBrush x:Key="StswRating.Checked.ReadOnly.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B75%'}"/>
 
     <PathGeometry x:Key="StswSlider.Thumb.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Circle}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#DDD"/>

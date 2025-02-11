@@ -24,6 +24,9 @@
                     <se:StswSubButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsResetEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsResetEnabled, Type={x:Type se:StswRatingControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsResetEnabled}"/>
@@ -38,6 +41,7 @@
         <se:StswRatingControl Direction="{Binding Direction}"
                               IconScale="{Binding IconScale}"
                               IsEnabled="{Binding IsEnabled}"
+                              IsReadOnly="{Binding IsReadOnly}"
                               IsResetEnabled="{Binding IsResetEnabled}"
                               ItemsNumber="{Binding ItemsNumber}"
                               ItemsNumberVisibility="{Binding ItemsNumberVisibility}"

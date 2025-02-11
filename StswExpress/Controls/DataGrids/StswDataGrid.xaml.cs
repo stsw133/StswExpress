@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,8 +17,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     public StswDataGrid()
     {
-        Columns.CollectionChanged += Columns_CollectionChanged;
-
         ApplyFiltersCommand = new StswCommand(ApplyFilters);
         ClearFiltersCommand = new StswCommand(ClearFilters);
 
@@ -122,25 +119,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
-    }
-
-    /// <summary>
-    /// Occurs when columns collection changes (e.g. new column added).
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    private void Columns_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.NewItems == null)
-            return;
-
-        if (e.Action == NotifyCollectionChangedAction.Add)
-        {
-            foreach (var newColumn in e.NewItems)
-                if (newColumn is StswDataGridStatusColumn column)
-                    column.DataGridOwner = this;
-        }
     }
     #endregion
 

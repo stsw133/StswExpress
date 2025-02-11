@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace StswExpress;
 /// <summary>
@@ -22,8 +21,9 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (DataContext is IStswSelectionItem)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+        /// moved to StswComboBox, cause it causes bugs that opening second instance changes selection to selection of first instance
+        //if (DataContext is IStswSelectionItem)
+        //    SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
     #endregion
 

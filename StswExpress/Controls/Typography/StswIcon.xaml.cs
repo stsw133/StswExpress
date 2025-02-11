@@ -297,22 +297,9 @@ public static class StswDropArrow
             nameof(DataProperty)[..^8],
             typeof(Geometry),
             typeof(StswDropArrow),
-            new PropertyMetadata(default(Geometry), OnDataChanged)
+            new PropertyMetadata(default(Geometry), OnPropertyChanged)
         );
     public static void SetData(DependencyObject obj, Geometry value) => obj.SetValue(DataProperty, value);
-    private static void OnDataChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is Control control)
-        {
-            if (control.Template == null)
-            {
-                control.Loaded += Control_Loaded;
-                return;
-            }
-
-            UpdateDropArrowData(control, (Geometry)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// 
@@ -322,22 +309,9 @@ public static class StswDropArrow
             nameof(IsRotatedProperty)[..^8],
             typeof(bool),
             typeof(StswDropArrow),
-            new PropertyMetadata(default(bool), OnIsRotatedChanged)
+            new PropertyMetadata(default(bool), OnPropertyChanged)
         );
     public static void SetIsRotated(DependencyObject obj, bool value) => obj.SetValue(IsRotatedProperty, value);
-    private static void OnIsRotatedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is Control control)
-        {
-            if (control.Template == null)
-            {
-                control.Loaded += Control_Loaded;
-                return;
-            }
-
-            UpdateDropArrowRotation(control, (bool)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Identifies the IsArrowless attached property.
@@ -348,20 +322,51 @@ public static class StswDropArrow
             nameof(VisibilityProperty)[..^8],
             typeof(Visibility),
             typeof(StswDropArrow),
-            new PropertyMetadata(default(Visibility), OnVisibilityChanged)
+            new PropertyMetadata(default(Visibility), OnPropertyChanged)
         );
     public static void SetVisibility(DependencyObject obj, Visibility value) => obj.SetValue(VisibilityProperty, value);
-    private static void OnVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="e"></param>
+    private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is Control control)
         {
-            if (control.Template == null)
-            {
-                control.Loaded += Control_Loaded;
-                return;
-            }
+            EnsureTemplate(control);
+        }
+    }
 
-            UpdateDropArrowVisibility(control, (Visibility)e.NewValue);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="control"></param>
+    private static void EnsureTemplate(Control control)
+    {
+        if (control.Template == null)
+        {
+            if (!control.IsLoaded)
+                control.Loaded += Control_Loaded;
+            return;
+        }
+
+        ApplyDropArrowProperties(control);
+        TrackPropertyChanges(control);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="control"></param>
+    private static void ApplyDropArrowProperties(Control control)
+    {
+        if (control.Template?.FindName("OPT_DropArrow", control) is StswIcon dropArrow)
+        {
+            dropArrow.Data = (Geometry)control.GetValue(DataProperty);
+            dropArrow.IsRotated = (bool)control.GetValue(IsRotatedProperty);
+            dropArrow.Visibility = (Visibility)control.GetValue(VisibilityProperty);
         }
     }
 
@@ -375,10 +380,7 @@ public static class StswDropArrow
         if (sender is Control control)
         {
             control.Loaded -= Control_Loaded;
-
-            UpdateDropArrowData(control, (Geometry)control.GetValue(DataProperty));
-            UpdateDropArrowRotation(control, (bool)control.GetValue(IsRotatedProperty));
-            UpdateDropArrowVisibility(control, (Visibility)control.GetValue(VisibilityProperty));
+            EnsureTemplate(control);
         }
     }
 
@@ -386,32 +388,10 @@ public static class StswDropArrow
     /// 
     /// </summary>
     /// <param name="control"></param>
-    /// <param name="newValue"></param>
-    private static void UpdateDropArrowData(Control control, Geometry newValue)
+    private static void TrackPropertyChanges(Control control)
     {
-        if ((control.Template?.FindName("OPT_DropArrow", control) ?? control.Template?.FindName("PART_DropArrow", control)) is StswIcon dropArrow)
-            dropArrow.Data = newValue;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="newValue"></param>
-    private static void UpdateDropArrowRotation(Control control, bool newValue)
-    {
-        if ((control.Template?.FindName("OPT_DropArrow", control) ?? control.Template?.FindName("PART_DropArrow", control)) is StswIcon dropArrow)
-            dropArrow.IsRotated = newValue;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="newValue"></param>
-    private static void UpdateDropArrowVisibility(Control control, Visibility newValue)
-    {
-        if ((control.Template?.FindName("OPT_DropArrow", control) ?? control.Template?.FindName("PART_DropArrow", control)) is StswIcon dropArrow)
-            dropArrow.Visibility = newValue;
+        DependencyPropertyDescriptor.FromProperty(DataProperty, typeof(StswDropArrow))?.AddValueChanged(control, (s, e) => ApplyDropArrowProperties(control));
+        DependencyPropertyDescriptor.FromProperty(IsRotatedProperty, typeof(StswDropArrow))?.AddValueChanged(control, (s, e) => ApplyDropArrowProperties(control));
+        DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(StswDropArrow))?.AddValueChanged(control, (s, e) => ApplyDropArrowProperties(control));
     }
 }

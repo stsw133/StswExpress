@@ -67,49 +67,40 @@
                                                se:StswPopup.CornerClipping="False"
                                                se:StswPopup.CornerRadius="0"
                                                se:StswPopup.Padding="0">
-                                <Grid MaxHeight="500">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <!-- labels -->
-                                    <se:StswBorder Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" BorderThickness="0 0 0 1">
-                                        <UniformGrid Rows="1">
-                                            <se:StswLabel Content="Hours:"/>
-                                            <se:StswLabel Content="Minutes:"/>
-                                            <se:StswLabel Content="Seconds:"/>
-                                        </UniformGrid>
-                                    </se:StswBorder>
+                                <StackPanel MaxHeight="400" Orientation="Horizontal">
                                     <!-- hours -->
-                                    <se:StswSegment Grid.Column="0" Grid.Row="1"
-                                                    ItemsSource="{se:StswListFromRange '24'}"
-                                                    Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    se:StswControl.IsBorderless="True"/>
+                                    <DockPanel Width="100" Visibility="{Binding IsHoursVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Hours, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                        <se:StswSegment ItemsSource="{se:StswListFromRange 24}"
+                                                        Orientation="Vertical"
+                                                        SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswControl.IsBorderless="True"/>
+                                    </DockPanel>
                                     <!-- ... -->
-                                    <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
+                                    <se:StswSeparator BorderThickness="1"
+                                                      Orientation="Vertical"
+                                                      Visibility="{Binding IsHoursVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                     <!-- minutes -->
-                                    <se:StswSegment Grid.Column="2" Grid.Row="1"
-                                                    ItemsSource="{se:StswListFromRange '60'}"
-                                                    Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    se:StswControl.IsBorderless="True"/>
+                                    <DockPanel Width="100" Visibility="{Binding IsMinutesVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Minutes, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                        <se:StswSegment ItemsSource="{se:StswListFromRange 60}"
+                                                        Orientation="Vertical"
+                                                        SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswControl.IsBorderless="True"/>
+                                    </DockPanel>
                                     <!-- ... -->
-                                    <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
+                                    <se:StswSeparator BorderThickness="1"
+                                                      Orientation="Vertical"
+                                                      Visibility="{Binding IsSecondsVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                     <!-- seconds -->
-                                    <se:StswSegment Grid.Column="4" Grid.Row="1"
-                                                    ItemsSource="{se:StswListFromRange '60'}"
-                                                    Orientation="Vertical"
-                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    se:StswControl.IsBorderless="True"/>
-                                </Grid>
+                                    <DockPanel Width="100" Visibility="{Binding IsSecondsVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Seconds, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                        <se:StswSegment ItemsSource="{se:StswListFromRange 60}"
+                                                        Orientation="Vertical"
+                                                        SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswControl.IsBorderless="True"/>
+                                    </DockPanel>
+                                </StackPanel>
                             </se:StswDropButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
