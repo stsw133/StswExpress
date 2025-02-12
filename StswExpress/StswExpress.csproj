@@ -27,7 +27,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Themes\Resources\fall_background.webp" />
     <None Remove="Themes\Resources\night_background.webp" />
     <None Remove="Themes\Resources\pink_background.jpg" />
     <None Remove="Themes\Resources\pink_background.webp" />
@@ -67,7 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Themes\Resources\fall_background.webp" />
     <Resource Include="Themes\Resources\night_background.webp" />
     <Resource Include="Themes\Resources\pink_background.webp" />
     <Resource Include="Themes\Resources\spring_background.webp" />

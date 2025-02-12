@@ -240,22 +240,6 @@ public enum StswSpinnerType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswResources.Theme"/>.
-/// </summary>
-public enum StswTheme
-{
-    Auto = -1,
-    Light,
-    Dark,
-    Pink,
-    Spring,
-    Summer,
-    Fall,
-    Winter,
-    Night,
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswTimePicker.IncrementType"/>.
 /// </summary>
 public enum StswTimeSpanIncrementType

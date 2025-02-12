@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
+public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
     //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
     private static readonly Style StswEditingElementStyle = new(typeof(TControl), (Style)Application.Current.FindResource(typeof(TControl)))
@@ -98,7 +98,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(FormatProperty),
             typeof(string),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
     /// <summary>
@@ -113,7 +113,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(PlaceholderProperty),
             typeof(string),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
     #endregion
 
@@ -130,7 +130,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(PaddingProperty),
             typeof(Thickness),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
     /// <summary>
@@ -145,7 +145,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextAlignmentProperty),
             typeof(TextAlignment),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
     /// <summary>
@@ -160,7 +160,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextTrimmingProperty),
             typeof(TextTrimming),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
     /// <summary>
@@ -175,7 +175,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridNumberColumn<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
     /// <summary>
@@ -190,7 +190,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(HorizontalContentAlignment),
             typeof(HorizontalAlignment),
-            typeof(StswDataGridNumberColumn<T, TControl>),
+            typeof(StswDataGridNumberColumnBase<T, TControl>),
             new PropertyMetadata(HorizontalAlignment.Left)
         );
 
@@ -206,7 +206,7 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(VerticalContentAlignment),
             typeof(VerticalAlignment),
-            typeof(StswDataGridNumberColumn<T, TControl>),
+            typeof(StswDataGridNumberColumnBase<T, TControl>),
             new PropertyMetadata(VerticalAlignment.Top)
         );
     #endregion
@@ -215,14 +215,14 @@ public abstract class StswDataGridNumberColumn<T, TControl> : DataGridTextColumn
 /// <summary>
 /// 
 /// </summary>
-public class StswDataGridDecimalColumn : StswDataGridNumberColumn<decimal, StswDecimalBox> { }
+public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
 /// <summary>
 /// 
 /// </summary>
-public class StswDataGridDoubleColumn : StswDataGridNumberColumn<double, StswDoubleBox> { }
+public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
 /// <summary>
 /// 
 /// </summary>
-public class StswDataGridIntegerColumn : StswDataGridNumberColumn<int, StswIntegerBox> { }
+public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

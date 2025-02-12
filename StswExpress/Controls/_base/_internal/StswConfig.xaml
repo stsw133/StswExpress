@@ -72,7 +72,7 @@
                                     <se:StswComboBox DisplayMemberPath="Value"
                                                      HorizontalContentAlignment="Left"
                                                      ItemsSource="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}}"
-                                                     Placeholder="{se:StswTranslate StswConfig.Theme.Auto}"
+                                                     Placeholder="{se:StswTranslate StswConfig.Language.Auto}"
                                                      SelectedValue="{Binding Language, Source={x:Static se:StswSettings.Default}}"
                                                      SelectedValuePath="Key">
                                         <se:StswComboBox.SubControls>
@@ -81,36 +81,13 @@
                                     </se:StswComboBox>
                                     <!-- theme -->
                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Theme, Suffix=':'}" IconData="{x:Static se:StswIcons.ThemeLightDark}" Margin="0 5 0 0"/>
-                                    <se:StswComboBox HorizontalContentAlignment="Left" SelectedValue="{Binding Theme, Source={x:Static se:StswSettings.Default}}" SelectedValuePath="Tag">
-                                        <se:StswComboBoxItem Tag="-1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Auto}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Auto}" IconData="{x:Static se:StswIcons.Cogs}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="0" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Light}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Light}" IconData="{x:Static se:StswIcons.WeatherSunny}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="1" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Dark}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Dark}" IconData="{x:Static se:StswIcons.WeatherNight}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="2" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Pink}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Pink}" IconData="{x:Static se:StswIcons.HeartOutline}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="3" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Spring}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Spring}" IconData="{x:Static se:StswIcons.Leaf}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <!--
-                                        <se:StswComboBoxItem Tag="4" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Summer}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Summer}" IconData="{x:Static se:StswIcons.WeatherSunny}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="5" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Fall}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Fall}" IconData="{x:Static se:StswIcons.ForestOutline}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="6" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Winter}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Winter}" IconData="{x:Static se:StswIcons.Snowflake}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        <se:StswComboBoxItem Tag="7" Visibility="{Binding Source={x:Static se:StswResources.AvailableThemes}, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter={x:Static se:StswTheme.Night}}">
-                                            <se:StswLabel Content="{se:StswTranslate StswConfig.Theme.Night}" IconData="{x:Static se:StswIcons.WeatherNight}" Padding="0"/>
-                                        </se:StswComboBoxItem>
-                                        -->
+                                    <se:StswComboBox HorizontalContentAlignment="Left"
+                                                     ItemsSource="{Binding Source={x:Static se:StswResources.AvailableThemes}}"
+                                                     Placeholder="{se:StswTranslate StswConfig.Theme.Auto}"
+                                                     SelectedValue="{Binding Theme, Source={x:Static se:StswSettings.Default}}">
+                                        <se:StswComboBox.SubControls>
+                                            <se:StswSubButton Command="{x:Static se:StswCommands.Clear}" IconData="{x:Static se:StswIcons.Close}"/>
+                                        </se:StswComboBox.SubControls>
                                     </se:StswComboBox>
                                     <!-- animations -->
                                     <se:StswCheckBox IsChecked="{Binding EnableAnimations, Source={x:Static se:StswSettings.Default}}" Margin="0 10 0 0">

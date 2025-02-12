@@ -8,7 +8,7 @@
         <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Padding" Value="3"/>
         <Setter Property="Scale" Value="1.5"/>
 
         <Setter Property="State" Value="Running"/>

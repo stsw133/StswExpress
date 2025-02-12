@@ -32,8 +32,8 @@ public sealed partial class StswSettings
                 }
             case nameof(Default.Theme):
                 {
-                    if (StswResources.GetInstance() is StswResources theme)
-                        theme.Theme = (StswTheme)e.NewValue;
+                    if (StswResources.GetInstance() is StswResources resources)
+                        resources.CurrentTheme = (string)e.NewValue;
                     break;
                 }
         }
@@ -56,7 +56,7 @@ public sealed partial class StswSettings
                 Default.EnableAnimations = (bool)(Default.GetPreviousVersion(nameof(Default.EnableAnimations)) ?? Default.EnableAnimations);
                 Default.iSize = (double)(Default.GetPreviousVersion(nameof(Default.iSize)) ?? Default.iSize);
                 Default.Language = (string)(Default.GetPreviousVersion(nameof(Default.Language)) ?? Default.Language);
-                Default.Theme = (int)(Default.GetPreviousVersion(nameof(Default.Theme)) ?? Default.Theme);
+                Default.Theme = (string)(Default.GetPreviousVersion(nameof(Default.Theme)) ?? Default.Theme);
                 
                 Default.Save();
             }

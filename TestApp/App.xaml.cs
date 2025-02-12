@@ -25,22 +25,9 @@ public partial class App : StswApp
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages = new() { { "en", "English" } };
         //StswTranslator.CurrentLanguage = "en"; //or `string.Empty` to get default language
-        /// example for adding custom translations:
-        //StswTranslator.CustomTranslationLoader += async (language) =>
-        //{
-        //    var customFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomTranslations", $"{language}.json");
-        //
-        //    if (File.Exists(customFilePath))
-        //        return await File.ReadAllTextAsync(customFilePath);
-        //
-        //    return null;
-        //};
         /// example for removing theme from config:
-        //StswResources.AvailableThemes.Clear();
-        //StswResources.AvailableThemes.Add(StswTheme.Auto);
-        //StswResources.AvailableThemes.Add(StswTheme.Light);
-        //StswResources.AvailableThemes.Add(StswTheme.Dark);
-        //StswSettings.Default.Theme = (int)StswTheme.Light;
+        //StswResources.AvailableThemes = ["Light", "Dark"];
+        //StswResources.CurrentTheme = "Light"; //or `string.Empty` to get default theme
     }
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

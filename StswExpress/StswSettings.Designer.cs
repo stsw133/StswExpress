@@ -49,10 +49,10 @@ namespace StswExpress {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public int Theme {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Theme {
             get {
-                return ((int)(this["Theme"]));
+                return ((string)(this["Theme"]));
             }
             set {
                 this["Theme"] = value;

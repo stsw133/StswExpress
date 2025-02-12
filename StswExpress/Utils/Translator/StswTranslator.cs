@@ -312,4 +312,16 @@ StswTranslator.AddOrUpdateTranslation("Hello", "en", "Hello");
 StswTranslator.AddOrUpdateTranslation("Hello", "pl", "Cześć");
 var translatedText = StswTranslator.GetTranslation("Hello", prefix: "[", suffix: "]");
 
+
+
+StswTranslator.CustomTranslationLoader += async (language) =>
+{
+    var customFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomTranslations", $"{language}.json");
+
+    if (File.Exists(customFilePath))
+        return await File.ReadAllTextAsync(customFilePath);
+
+    return null;
+};
+
 */

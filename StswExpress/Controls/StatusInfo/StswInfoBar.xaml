@@ -139,7 +139,7 @@
                         <Trigger Property="Type" Value="Fatal">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Subground}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="OPT_MainBorder"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagram}" TargetName="OPT_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Skull}" TargetName="OPT_Header"/>
                             <Setter Property="IconFill" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="OPT_Header"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Information">

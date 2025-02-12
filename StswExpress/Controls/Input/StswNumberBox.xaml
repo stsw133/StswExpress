@@ -56,11 +56,11 @@
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
                             <UniformGrid DockPanel.Dock="Right" Columns="1" Width="24">
-                                <se:StswRepeatButton x:Name="PART_ButtonUp" se:StswControl.IsBorderless="True" Focusable="False" Padding="0">
-                                    <se:StswIcon Data="M2,17L12,7L22,17H2Z" Scale="0.9"/>
+                                <se:StswRepeatButton x:Name="PART_ButtonUp" Focusable="False" Padding="0" se:StswControl.IsBorderless="True">
+                                    <se:StswIcon Data="M2,17L12,7L22,17H2Z" Margin="-3" Scale="1"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonDown" se:StswControl.IsBorderless="True" Focusable="False" Padding="0">
-                                    <se:StswIcon Data="M2,7L12,17L22,7H2Z" Scale="0.9"/>
+                                <se:StswRepeatButton x:Name="PART_ButtonDown" Focusable="False" Padding="0" se:StswControl.IsBorderless="True">
+                                    <se:StswIcon Data="M2,7L12,17L22,7H2Z" Margin="-3" Scale="1"/>
                                 </se:StswRepeatButton>
                             </UniformGrid>
                             <!-- separator -->

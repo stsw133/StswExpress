@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswSlider}">
         <Setter Property="Background" Value="{DynamicResource StswSlider.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Foreground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Ticks}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ThumbBorderThickness" Value="1"/>
@@ -203,6 +203,8 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswSlider.Disabled.Background}" TargetName="OPT_TrackBackground"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Disabled.Border}" TargetName="OPT_TrackBackground"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswSlider.Disabled.Ticks}" TargetName="OPT_TopTick"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswSlider.Disabled.Ticks}" TargetName="OPT_BottomTick"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

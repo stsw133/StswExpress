@@ -758,21 +758,21 @@ public static class StswFn
     /// </summary>
     /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
     /// <exception cref="UnauthorizedAccessException">Thrown if access to the registry is denied.</exception>
-    public static StswTheme GetWindowsTheme()
+    public static string? GetWindowsTheme()
     {
         try
         {
             using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
             var registryValueObject = key?.GetValue("AppsUseLightTheme");
             if (registryValueObject is int registryValue)
-                return registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
+                return registryValue > 0 ? "Light" : "Dark";
         }
         catch (Exception)
         {
             // Optionally log the exception here if needed
         }
 
-        return StswTheme.Light;
+        return "Light";
     }
 
     /// <summary>
