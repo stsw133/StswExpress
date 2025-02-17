@@ -20,7 +20,7 @@ public class StswOutlinedTextContext : ControlsContext
         get => _fill;
         set => SetProperty(ref _fill, value);
     }
-    private Color _fill = ((SolidColorBrush)App.Current.Resources["StswWindow.Static.Background"]).Color;
+    private Color _fill = ((SolidColorBrush)App.Current.Resources["StswBox.Static.Background"]).Color;
 
     /// FontSize
     public double FontSize

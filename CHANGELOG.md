@@ -150,7 +150,7 @@
 - Some brushes were updated, and a more unique visual style for the "fatal" message type was introduced.
 - `StswContainsConverter` has been remade to handle `IEnumerable` as a parameter.
 - `StswSecurity` gained methods for generating hashes using any specified `HashAlgorithm`.
-- `System.SqlClient` package was replaced with `Microsoft.SqlClient`.
+- `System.Data.SqlClient` package was replaced with `Microsoft.Data.SqlClient`.
 
 ## Fixes
 

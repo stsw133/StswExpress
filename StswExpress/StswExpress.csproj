@@ -112,7 +112,7 @@
     <Page Update="Controls\DataGrids\StswDataPager.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Layout\StswGridSplitter.xaml">
+    <Page Update="Controls\Panels\StswGridSplitter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Selectors\Items\StswComboBoxItem.xaml">

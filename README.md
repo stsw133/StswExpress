@@ -15,15 +15,15 @@ Here's a breakdown:
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
 - **Filters**: `StswFilterBox`
-- **Input**: `StswAdaptiveBox`, `StswNumericBox`: [`StswDecimalBox`, `StswDoubleBox`, `StswIntegerBox`], `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
-- **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswZoomControl`
+- **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
+- **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
 - **Media**: `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
-- **Panels**: `StswGrid`, `StswLabelPanel`, `StswSidePanel`
+- **Panels**: `StswGrid`, `StswGridSplitter`, `StswLabelPanel`, `StswSidePanel`
 - **Paths**: `StswPathPicker`, `StswPathTree`
 - **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
 - **Selectors**: `StswComboBox`, `StswDragBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
-- **Status & Info**: `StswAlert`, `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`
+- **Status & Info**: `StswAlert`, `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`, `StswStatusBar`
 - **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
 - **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
 - **Typography**: `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
@@ -38,8 +38,8 @@ Tools to extend and enhance WPF bindings, including utilities for proxying, trig
 Examples: `StswBindingProxy`, `StswBindingTrigger`.
 
 #### Collections
-Custom collection types and utilities for advanced data handling, such as binding lists, enhanced views, and dictionaries.  
-Examples: `StswCollection`, `StswCollectionView`.
+Custom collection types and utilities for advanced data handling, such as observable collections, enhanced views, and dictionaries.  
+Examples: `StswObservableCollection`, `StswObservableDictionary`.
 
 #### Commands
 Command implementations for MVVM, supporting asynchronous, cancellable, and pausable commands.  
@@ -104,7 +104,6 @@ These tools provide essential building blocks for streamlining WPF application d
 ## Licensing & Acknowledgments
 
 - **Icons**: The icons in `StswIcons` are sourced from [Material Design Icons](https://pictogrammers.com/library/mdi/).
-- **Themes**: The light/dark themes are a modified version of [DynamicAero2](https://github.com/manju-summoner/DynamicAero2).
 
 ## Get Started
 

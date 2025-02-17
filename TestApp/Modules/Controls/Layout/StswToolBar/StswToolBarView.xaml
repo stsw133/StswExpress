@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="TestApp.StswToolBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswToolBarContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents an information bar control that can display a description, title, and type information, with an optional close button.
+        </local:ControlsBase.Description>
+        <!-- properties
+        <local:ControlsBase.Properties>
+            
+        </local:ControlsBase.Properties> -->
+        <!-- content -->
+        <se:StswToolBarTray>
+            <se:StswToolBar IsEnabled="{Binding IsEnabled}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Fill="{DynamicResource StswColor.Positive}"/>
+                </se:StswButton>
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Minus}" Fill="{DynamicResource StswColor.Negative}"/>
+                </se:StswButton>
+                
+                <se:StswSeparator BorderThickness="1" IsEnabled="False" Margin="2 6" Orientation="Vertical"/>
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Fill="{DynamicResource StswColor.Neutral}"/>
+                </se:StswButton>
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Fill="{DynamicResource StswColor.Modify}"/>
+                </se:StswButton>
+                
+            </se:StswToolBar>
+            
+            <se:StswToolBar IsEnabled="{Binding IsEnabled}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.RotateLeft}" Fill="{DynamicResource StswColor.Designer}"/>
+                </se:StswButton>
+                
+                <se:StswButton Background="Transparent" BorderBrush="Transparent">
+                    <se:StswIcon Data="{x:Static se:StswIcons.RotateRight}" Fill="{DynamicResource StswColor.Designer}"/>
+                </se:StswButton>
+                
+                <se:StswSeparator BorderThickness="1" IsEnabled="False" Margin="2 6" Orientation="Vertical"/>
+                
+            </se:StswToolBar>
+        </se:StswToolBarTray>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

@@ -45,10 +45,10 @@
 
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
-        <ResourceDictionary Source="Layout/StswGridSplitter.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
         <ResourceDictionary Source="Layout/StswTimedSwitch.xaml"/>
+        <ResourceDictionary Source="Layout/StswToolBar.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
 
         <ResourceDictionary Source="Media/StswImage.xaml"/>
@@ -62,6 +62,7 @@
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
 
+        <ResourceDictionary Source="Panels/StswGridSplitter.xaml"/>
         <ResourceDictionary Source="Panels/StswSidePanel.xaml"/>
 
         <ResourceDictionary Source="Paths/StswPathPicker.xaml"/>
@@ -86,6 +87,7 @@
         <ResourceDictionary Source="Selectors/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
 
+        <ResourceDictionary Source="StatusInfo/Items/StswStatusBarItem.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswAlert.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>
@@ -93,7 +95,6 @@
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswStatusBar.xaml"/>
-        <ResourceDictionary Source="StatusInfo/StswToolBar.xaml"/>
 
         <ResourceDictionary Source="SubControls/StswSubButton.xaml"/>
         <ResourceDictionary Source="SubControls/StswSubCheck.xaml"/>

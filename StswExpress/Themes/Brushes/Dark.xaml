@@ -2,10 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="_brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-    
+
     <!-- rules:
         * get matching item from Light theme, invert its brightness and add 15% of missing lightness to it (30% for WindowGlassColor)
     -->
@@ -348,33 +345,5 @@
     <SolidColorBrush x:Key="StswWindow.Active.Foreground" Color="#efefef"/>
     <SolidColorBrush x:Key="StswWindow.Inactive.Border" Color="#616161"/>
     <SolidColorBrush x:Key="StswWindow.Inactive.Foreground" Color="#666"/>
-
-
-    
-    
-
-    <!-- . . . -->
-    <Color x:Key="Color50">#fffcfcfc</Color>
-    <Color x:Key="Color100">#fff8f8f8</Color>
-    <Color x:Key="Color200">#fff3f3f3</Color>
-    <Color x:Key="Color300">#ffeaeaea</Color>
-    <Color x:Key="Color400">#ffc2c2c2</Color>
-    <Color x:Key="Color500">#ff9d9d9d</Color>
-    <Color x:Key="Color600">#ff6d6d6d</Color>
-    <Color x:Key="Color700">#ff555555</Color>
-    <Color x:Key="Color800">#ff323232</Color>
-    <Color x:Key="Color850">#ff1d1d1d</Color>
-    <Color x:Key="Color900">#ff101010</Color>
-
-    <Color x:Key="SelectionColor1">#ff2a4652</Color>
-    <Color x:Key="SelectionColor2">#ff24a2e4</Color>
-
-    <Color x:Key="ForegroundColor">#e5ffffff</Color>
-    <Color x:Key="ForegroundSecondaryColor">#b3ffffff</Color>
-    <Color x:Key="ForegroundDisabledColor">#50ffffff</Color>
-
-    <Color x:Key="GreenColor">#ff1a771d</Color>
-
-    <Color x:Key="ButtonColor">#ff4d4c4d</Color>
 
 </ResourceDictionary>

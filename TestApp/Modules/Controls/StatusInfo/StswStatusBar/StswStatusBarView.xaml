@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="TestApp.StswStatusBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswStatusBarContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents an information bar control that can display a description, title, and type information, with an optional close button.
+        </local:ControlsBase.Description>
+        <!-- properties
+        <local:ControlsBase.Properties>
+            
+        </local:ControlsBase.Properties> -->
+        <!-- content -->
+        <se:StswStatusBar IsEnabled="{Binding IsEnabled}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
+
+            <se:StswStatusBarItem>
+                <se:StswText>
+                    <Run Text="Status:" FontWeight="Medium"/>
+                    <Run Text="Ready"/>
+                </se:StswText>
+            </se:StswStatusBarItem>
+
+            <se:StswSeparator BorderThickness="1" Margin="2 4" Orientation="Vertical"/>
+
+            <se:StswStatusBarItem>
+                <se:StswText>
+                    <Run Text="User:" FontWeight="Medium"/>
+                    <Run Text="stsw"/>
+                </se:StswText>
+            </se:StswStatusBarItem>
+
+            <se:StswSeparator BorderThickness="1" Margin="2 4" Orientation="Vertical"/>
+
+            <se:StswStatusBarItem HorizontalAlignment="Right">
+                <se:StswText Text="12:45 PM"/>
+            </se:StswStatusBarItem>
+
+        </se:StswStatusBar>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>
