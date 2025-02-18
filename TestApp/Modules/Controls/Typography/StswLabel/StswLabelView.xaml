@@ -30,6 +30,9 @@
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswLabel}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <!-- TextTrimming -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TextTrimming, Type={x:Type se:StswLabel}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList TextTrimming}" Margin="0 0 0 3" SelectedValue="{Binding TextTrimming}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswLabel Command="{Binding ProcessCommand}"
@@ -40,6 +43,7 @@
                       IsContentVisible="{Binding IsContentVisible}"
                       IsEnabled="{Binding IsEnabled}"
                       Orientation="{Binding Orientation}"
+                      TextTrimming="{Binding TextTrimming}"
                       HorizontalAlignment="{Binding HorizontalAlignment}"
                       HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                       VerticalAlignment="{Binding VerticalAlignment}"

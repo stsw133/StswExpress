@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.16.0](#0-16-0)
 - [Version 0.15.0](#0-15-0)
 - [Version 0.14.1](#0-14-1)
 - [Version 0.14.0](#0-14-0)
@@ -33,6 +34,58 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-16-0">0.16.0</h1>
+
+**Release Date**: 2025-02-??
+
+## Additions
+
+### Controls
+- A new `FocusVisualStyle` has been applied to almost every `Stsw` control.
+- Added experimental versions of `StswGridSplitter`, `StswStatusBar` and `StswToolBar`.
+- `StswDirectionView` now supports scrolling by clicking and holding the left mouse button inside its content, then moving the cursor over one of its buttons.
+- `StswLabel` has a new `TextTrimming` property.
+- `StswRatingControl` now supports an `IsReadOnly` property.
+- `StswTimePicker` now hides time sections in the popup that are not mentioned in the `Format` property. Time parts are also translated into multiple languages.
+
+### Utils
+- Added `StswHasAttributeConverter` to check if a property or enum value has a specific attribute.
+- Introduced `StswRandomGenerator` to populate `IEnumerable<T>` with random data.
+- `StswTranslator` now allows loading custom translations dynamically when the language changes.
+
+## Changes
+
+### Controls
+- `StswDataGrid` columns have been optimized and extended with new properties such as `TextTrimming` and `TextAlignment`.
+- `StswDataGridStatusColumn` now determines its `DataGridOwner` more effectively.
+- `StswDropArrow` attached properties now perform more efficiently.
+- `StswNumberBox` has smaller buttons in the data grid number column.
+- `StswProgressRing` is slightly thicker.
+
+### Utils
+- `AvailableLanguages` in `StswTranslator` is now a dictionary.
+- Most converters have been improved, including:
+  - New `StswPercentageConverter`.
+  - `StswColorConverter` (merged from multiple color-related converters).
+  - `StswExistenceConverter` (formerly `StswNotNullConverter`).
+  - `StswMultiCultureNumberConverter`.
+- `StswDictionary` has been redesigned as `StswObservableDictionary`, removing XML serialization.
+- `StswListFromRangeConverter` has been reworked into a markup extension called `StswListFromRangeExtension`.
+- `StswObservableCollection` has been upgraded, replacing `StswBindingList` and `StswCollectionView`, which are no longer needed.
+- The `ChangeKey` extension method has been upgraded to either throw an exception or overwrite the key value based on a provided argument.
+
+## Fixes
+
+### Controls
+- Fixed a scrolling bug in `StswConfig`.
+- Fixed an issue with `StaticResource` for `ButtonBase` style in custom components in `StswWindowBar`.
+- `StswComboBox` no longer changes selection while open if `ItemsSource` implements `IStswSelectionItem`.
+
+### Utils
+- Fixed various bugs in converters and improved examples for markup extensions.
 
 ---
 

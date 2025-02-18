@@ -296,7 +296,7 @@
     <PathGeometry x:Key="StswCheck.Radio.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Circle}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>
     <SolidColorBrush x:Key="StswCheck.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswCheck.Static.Border" Color="#BBB"/>
-    <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswCheck.Static.Toggle" Color="#CCC"/>
     <SolidColorBrush x:Key="StswCheck.MouseOver.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswCheck.MouseOver.Border" Color="#AAA"/>
     <SolidColorBrush x:Key="StswCheck.MouseOver.Toggle" Color="#AAA"/>

@@ -53,7 +53,13 @@
                             <!-- icon -->
                             <ContentControl x:Name="OPT_Icon" Focusable="False" Margin="0 -1"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="OPT_Content" Focusable="False"/>
+                            <ContentPresenter x:Name="OPT_Content" Focusable="False">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextTrimming" Value="{Binding TextTrimming, RelativeSource={RelativeSource AncestorType={x:Type se:StswLabel}}}"/>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
                         </DockPanel>
                     </se:StswBorder>
                     <!-- triggers -->

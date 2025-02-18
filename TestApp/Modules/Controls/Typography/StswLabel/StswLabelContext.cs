@@ -25,6 +25,7 @@ public class StswLabelContext : ControlsContext
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
+        TextTrimming = (TextTrimming?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextTrimming)))?.Value ?? default;
     }
 
     /// <summary>
@@ -87,4 +88,12 @@ public class StswLabelContext : ControlsContext
         set => SetProperty(ref _orientation, value);
     }
     private Orientation _orientation;
+
+    /// TextTrimming
+    public TextTrimming TextTrimming
+    {
+        get => _textTrimming;
+        set => SetProperty(ref _textTrimming, value);
+    }
+    private TextTrimming _textTrimming;
 }

@@ -9,7 +9,7 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="Scale" Value="1.5"/>
+        <Setter Property="Scale" Value="1.66"/>
 
         <Setter Property="State" Value="Running"/>
         <Setter Property="TextMode" Value="Value"/>
@@ -49,12 +49,12 @@
                                          Opacity="0.2"
                                          RenderTransformOrigin="0.5 0.5"
                                          Stroke="{TemplateBinding BorderBrush}"
-                                         Height="12" Width="12"/>
+                                         Height="8" Width="8"/>
                                 <Ellipse x:Name="Indicator"
                                          RenderTransformOrigin="0.5 0.5"
                                          Stroke="{TemplateBinding Fill}"
                                          StrokeDashArray="{TemplateBinding StrokeDashArray}"
-                                         Height="12" Width="12">
+                                         Height="8" Width="8">
                                     <Ellipse.RenderTransform>
                                         <RotateTransform Angle="-90"/>
                                     </Ellipse.RenderTransform>
@@ -62,8 +62,8 @@
                                 <Ellipse x:Name="Animation"
                                          RenderTransformOrigin="0.5 0.5"
                                          Stroke="{TemplateBinding Fill}"
-                                         StrokeDashArray="8"
-                                         Height="12" Width="12">
+                                         StrokeDashArray="6"
+                                         Height="8" Width="8">
                                     <Ellipse.RenderTransform>
                                         <RotateTransform x:Name="OPT_Rotation" Angle="0"/>
                                     </Ellipse.RenderTransform>

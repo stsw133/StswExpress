@@ -256,5 +256,22 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(double),
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public TextTrimming TextTrimming
+    {
+        get => (TextTrimming)GetValue(TextTrimmingProperty);
+        set => SetValue(TextTrimmingProperty, value);
+    }
+    public static readonly DependencyProperty TextTrimmingProperty
+        = DependencyProperty.Register(
+            nameof(TextTrimming),
+            typeof(TextTrimming),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(TextTrimming),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
     #endregion
 }

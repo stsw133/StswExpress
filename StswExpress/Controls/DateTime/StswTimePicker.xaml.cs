@@ -216,7 +216,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// Czy widoczna sekcja godzin?
+    /// 
     /// </summary>
     public bool IsHoursVisible
     {
@@ -232,7 +232,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// Czy widoczna sekcja minut?
+    /// 
     /// </summary>
     public bool IsMinutesVisible
     {
@@ -248,7 +248,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// Czy widoczna sekcja sekund?
+    /// 
     /// </summary>
     public bool IsSecondsVisible
     {

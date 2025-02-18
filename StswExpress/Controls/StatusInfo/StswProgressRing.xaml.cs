@@ -55,7 +55,7 @@ public class StswProgressRing : ProgressBar
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = new DoubleCollection() { (Value - Minimum) / (Maximum - Minimum) * 34.4589, 34.4589 };
+    private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = [(Value - Minimum) / (Maximum - Minimum) * 21.89204, 21.89204];
     #endregion
 
     #region Logic properties
