@@ -39,6 +39,7 @@ public partial class StswResources
     public static ObservableCollection<string?> AvailableThemes { get; set; } =
     [
         "Dark",
+        "Halloween",
         "Light",
         "Pink",
         "Night",

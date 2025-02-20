@@ -13,7 +13,6 @@ public interface IStswSelectionControl
 {
     /// <summary>
     /// Gets or sets the path to a value on the source object to serve as the visual representation of the object.
-    /// This property is typically used to specify a member of an item in a collection to display in the control.
     /// </summary>
     string DisplayMemberPath { get; set; }
     static readonly DependencyProperty? DisplayMemberPathProperty;
@@ -24,34 +23,31 @@ public interface IStswSelectionControl
     /// </summary>
     bool IsReadOnly { get; set; }
     static readonly DependencyProperty? IsReadOnlyProperty;
-    
+
     /// <summary>
     /// Gets or sets the collection used to generate the content of the control.
-    /// This property allows binding the control to a collection of items that will be displayed.
     /// </summary>
     IEnumerable ItemsSource { get; set; }
     static readonly DependencyProperty? ItemsSourceProperty;
 
     /// <summary>
     /// Gets or sets the template used to display each item in the control.
-    /// This property allows customization of how each item appears in the control by specifying a <see cref="DataTemplate"/>.
     /// </summary>
     DataTemplate ItemTemplate { get; set; }
     static readonly DependencyProperty? ItemTemplateProperty;
 
     /// <summary>
     /// Gets or sets the path to a value on the source object that should be used to identify the selected item.
-    /// This is useful for scenarios where you want to bind the selected value of the control to a specific property.
     /// </summary>
     string SelectedValuePath { get; set; }
     static readonly DependencyProperty? SelectedValuePathProperty;
 
     /// <summary>
-    /// 
+    /// Handles selection changes by triggering animations on selected and unselected items.
     /// </summary>
-    /// <param name="selectionControl"></param>
-    /// <param name="addedItems"></param>
-    /// <param name="removedItems"></param>
+    /// <param name="selectionControl">The selection control.</param>
+    /// <param name="addedItems">The newly selected items.</param>
+    /// <param name="removedItems">The deselected items.</param>
     static void SelectionChanged(ItemsControl selectionControl, IList? addedItems, IList? removedItems)
     {
         if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(selectionControl))
@@ -69,13 +65,10 @@ public interface IStswSelectionControl
     }
 
     /// <summary>
-    /// Handles changes to the ItemsSource property of the selection control.
-    /// This method determines the underlying data source of the control, adjusting properties
-    /// such as <see cref="DisplayMemberPath"/> and <see cref="SelectedValuePath"/>
-    /// based on the type of items in the source collection.
+    /// Handles changes to the <see cref="ItemsSource"/> property, adjusting properties like <see cref="DisplayMemberPath"/> and <see cref="SelectedValuePath"/>.
     /// </summary>
-    /// <param name="selectionControl">The selection control whose ItemsSource has changed.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="selectionControl">The selection control.</param>
+    /// <param name="newValue">The new ItemsSource value.</param>
     static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
     {
         IEnumerable? actualSource = newValue;
@@ -99,12 +92,10 @@ public interface IStswSelectionControl
     }
 
     /// <summary>
-    /// Handles changes to the ItemTemplate property of the selection control.
-    /// This method clears the <see cref="DisplayMemberPath"/> property if a new template is provided,
-    /// ensuring that the control uses the DataTemplate to display items rather than a simple string path.
+    /// Handles changes to the <see cref="ItemTemplate"/> property, ensuring <see cref="DisplayMemberPath"/> is cleared when a template is used.
     /// </summary>
-    /// <param name="selectionControl">The selection control whose ItemTemplate has changed.</param>
-    /// <param name="itemTemplate">The new DataTemplate to be used for displaying items.</param>
+    /// <param name="selectionControl">The selection control.</param>
+    /// <param name="itemTemplate">The new ItemTemplate value.</param>
     static void ItemTemplateChanged(IStswSelectionControl selectionControl, DataTemplate itemTemplate)
     {
         if (itemTemplate != null && !string.IsNullOrEmpty(selectionControl.DisplayMemberPath))

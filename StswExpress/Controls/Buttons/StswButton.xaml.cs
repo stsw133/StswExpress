@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that provides a user interface element used to trigger actions upon being clicked.
+/// Represents a customizable button control that extends the standard <see cref="Button"/> functionality.
+/// Supports additional styling options, including corner clipping and rounded corners.
 /// </summary>
 public class StswButton : Button, IStswCornerControl
 {
@@ -15,11 +16,7 @@ public class StswButton : Button, IStswCornerControl
     }
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -33,11 +30,7 @@ public class StswButton : Button, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -52,3 +45,9 @@ public class StswButton : Button, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswButton Command="{Binding MyCommand}" Content="Click Me" CornerClipping="True" CornerRadius="10"/>
+
+*/

@@ -7,8 +7,13 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// A toggle switch control that provides an animated on/off state transition.
+/// Supports custom brushes, animations, and read-only mode.
 /// </summary>
+/// <remarks>
+/// The control includes built-in animations for smooth state transitions, 
+/// as well as an optional read-only mode to prevent user interaction.
+/// </remarks>
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     static StswToggleSwitch()
@@ -25,9 +30,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     private double _height = 0;
     private double _switchSize = 0;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -40,10 +43,11 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         _isLoaded = true;
     }
 
+    /// <inheritdoc/>
     /// <summary>
-    /// 
+    /// Handles the checked event and triggers the animation for the switch moving to the "on" position.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -51,10 +55,11 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateChecked();
     }
 
+    /// <inheritdoc/>
     /// <summary>
-    /// 
+    /// Handles the unchecked event and triggers the animation for the switch moving to the "off" position.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -62,10 +67,11 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateUnhecked();
     }
 
+    /// <inheritdoc/>
     /// <summary>
-    /// 
+    /// Handles the indeterminate state event and centers the switch.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
@@ -74,7 +80,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// Prevents state changes when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
+    /// Prevents the toggle state from changing when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
     /// </summary>
     protected override void OnToggle()
     {
@@ -83,9 +89,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the switch layout when the control is resized.
     /// </summary>
-    /// <param name="sizeInfo"></param>
+    /// <param name="sizeInfo">The size information.</param>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -101,7 +107,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Initializes and updates the visual properties of the toggle switch.
+    /// This method ensures correct positioning, padding, and styling of elements
+    /// based on the current state and dimensions of the control.
     /// </summary>
     void SetSwitch()
     {
@@ -123,10 +131,16 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Calculates the padding for the toggle switch based on its current state.
+    /// This determines the position of the circular toggle button.
     /// </summary>
-    /// <param name="state"></param>
-    /// <returns></returns>
+    /// <param name="state">
+    /// The state of the switch: <see langword="true"/> for checked, 
+    /// <see langword="false"/> for unchecked, or <see langword="null"/> for indeterminate.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Thickness"/> value representing the calculated padding for the toggle button.
+    /// </returns>
     Thickness SwitchPadding(bool? state) => state switch
     {
         false => new Thickness(0),
@@ -137,7 +151,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the scale of the icon in the box.
+    /// Gets or sets the scale of the switch's toggle button.
     /// </summary>
     public GridLength IconScale
     {
@@ -152,7 +166,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control is in read-only mode.
+    /// Gets or sets a value indicating whether the toggle switch is in read-only mode.
+    /// When set to <see langword="true"/>, the switch cannot be toggled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -168,11 +183,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -186,11 +197,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -205,7 +212,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the brush used to render the toggle.
+    /// Gets or sets the brush used to render the toggle button.
     /// </summary>
     public Brush? ToggleBrush
     {
@@ -223,7 +230,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
 
     #region Animations
     /// <summary>
-    /// 
+    /// Instantly sets the switch position without animations.
     /// </summary>
     void InstantSwitch()
     {
@@ -249,7 +256,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Animates the switch to the checked state.
     /// </summary>
     void AnimateChecked()
     {
@@ -281,7 +288,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Animates the switch to the unchecked state.
     /// </summary>
     void AnimateUnhecked()
     {
@@ -313,7 +320,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Animates the switch to the indeterminate (centered) state.
     /// </summary>
     void AnimateIndeterminate()
     {
@@ -345,3 +352,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswToggleSwitch Content="Dark Mode" IsChecked="True"/>
+
+*/

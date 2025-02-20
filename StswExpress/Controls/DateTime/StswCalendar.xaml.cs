@@ -12,9 +12,9 @@ using System.Windows.Markup;
 namespace StswExpress;
 /// <summary>
 /// Represents a custom calendar control with date selection functionality.
-/// The control allows users to navigate between months and years, select individual days or months, and provides 
-/// support for minimum and maximum date ranges. It also includes functionality for quick selection of the current date
-/// and offers support for customization, such as corner radius and item appearance.
+/// Supports navigation between months and years, selecting individual days or months, 
+/// and setting minimum/maximum date ranges. Includes quick selection of the current date 
+/// and UI customization options.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : Control, IStswCornerControl
@@ -35,12 +35,11 @@ public class StswCalendar : Control, IStswCornerControl
 
     /// <summary>
     /// Occurs when the selected date in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedDateChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -104,11 +103,11 @@ public class StswCalendar : Control, IStswCornerControl
     */
 
     /// <summary>
-    /// 
+    /// Handles the mouse left button down event on the calendar selector.
+    /// Determines whether the clicked date should be selected or whether the month should be switched.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="sender">The event source.</param>
+    /// <param name="e">The mouse button event arguments.</param>
     private void Selector_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (ItemsControl.ContainerFromElement(sender as ItemsControl, e.OriginalSource as DependencyObject) is ContentControl item)
@@ -122,11 +121,11 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the selection change event in the calendar selector.
+    /// Updates the selected date if a new date is chosen.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="sender">The event source.</param>
+    /// <param name="e">The selection changed event arguments.</param>
     private void Selector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (sender is Control control && !control.IsLoaded)
@@ -269,7 +268,8 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the visibility of the clear button based on the binding type of <see cref="SelectedDate"/>.
+    /// The button is only visible if <see cref="SelectedDate"/> is bound to a nullable <see cref="DateTime"/> property.
     /// </summary>
     private void SetClearButtonVisibility()
     {
@@ -319,7 +319,7 @@ public class StswCalendar : Control, IStswCornerControl
     private bool _isUpdatingView;
 
     /// <summary>
-    /// 
+    /// Updates the display name of the currently selected month or year based on the current view mode.
     /// </summary>
     private void UpdateCalendarViewName() => SelectedMonthName = CurrentUnit switch
     {
@@ -351,7 +351,8 @@ public class StswCalendar : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the current unit of the control.
+    /// Gets or sets the current view mode of the calendar (days or months).
+    /// Controls how the calendar displays and interacts with date selection.
     /// </summary>
     public StswCalendarUnit CurrentUnit
     {
@@ -546,7 +547,8 @@ public class StswCalendar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selection unit of the control.
+    /// Gets or sets the unit used for date selection.
+    /// Determines whether the calendar selects individual days or whole months.
     /// </summary>
     public StswCalendarUnit SelectionUnit
     {
@@ -572,11 +574,7 @@ public class StswCalendar : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -590,11 +588,7 @@ public class StswCalendar : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -619,78 +613,8 @@ public class StswCalendar : Control, IStswCornerControl
     #endregion
 }
 
-/// <summary>
-/// Data model for <see cref="StswCalendar"/>'s items.
-/// </summary>
-internal class StswCalendarItem : StswObservableObject, IStswSelectionItem
-{
-    /// <summary>
-    /// Gets or sets the content associated with the calendar item.
-    /// </summary>
-    public object? Content
-    {
-        get => _content;
-        set => SetProperty(ref _content, value);
-    }
-    private object? _content;
-    
-    /// <summary>
-    /// Gets or sets the date associated with the calendar item.
-    /// </summary>
-    public DateTime? Date
-    {
-        get => _date;
-        set => SetProperty(ref _date, value);
-    }
-    private DateTime? _date;
+/* usage:
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the calendar item is within the selected month.
-    /// </summary>
-    public bool? InCurrentMonth
-    {
-        get => _inCurrentMonth;
-        set => SetProperty(ref _inCurrentMonth, value);
-    }
-    private bool? _inCurrentMonth;
+<se:StswCalendar SelectedDate="{Binding SelectedMonth}" SelectionUnit="Months" Maximum="2025-12-31"/>
 
-    /// <summary>
-    /// Gets a value indicating whether the calendar item is within the allowable date range.
-    /// </summary>
-    public bool? InMinMaxRange
-    {
-        get => _inMinMaxRange;
-        set => SetProperty(ref _inMinMaxRange, value);
-    }
-    private bool? _inMinMaxRange;
-
-    /// <summary>
-    /// Gets a value indicating whether the calendar item represents the current day.
-    /// </summary>
-    public bool? IsCurrentDay
-    {
-        get => _isCurrentDay;
-        set => SetProperty(ref _isCurrentDay, value);
-    }
-    private bool? _isCurrentDay;
-
-    /// <summary>
-    /// Gets or sets the selection associated with the item.
-    /// </summary>
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set => SetProperty(ref _isSelected, value);
-    }
-    private bool _isSelected;
-
-    /// <summary>
-    /// Gets a value indicating whether the calendar item represents the special day (e.g., sunday).
-    /// </summary>
-    public bool? IsSpecialDay
-    {
-        get => _isSpecialDay;
-        set => SetProperty(ref _isSpecialDay, value);
-    }
-    private bool? _isSpecialDay;
-}
+*/

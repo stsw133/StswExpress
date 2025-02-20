@@ -9,7 +9,9 @@ using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
+/// A <see cref="ScrollViewer"/> extension with additional directional buttons for scrolling.
+/// Supports automatic scrolling when hovering over navigation buttons.
+/// This control provides extra navigation buttons for controlling scroll behavior in both horizontal and vertical directions.
 /// </summary>
 public class StswDirectionView : ScrollViewer
 {
@@ -25,9 +27,7 @@ public class StswDirectionView : ScrollViewer
     private DispatcherTimer? _autoScrollTimer;
     private Action? _currentScrollAction;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -70,7 +70,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Overrides the preview mouse left button down event to detect when the left mouse button is pressed.
+    /// Detects when the left mouse button is pressed and sets a flag to start auto-scrolling when hovering over directional buttons.
     /// </summary>
     /// <param name="e">The event arguments.</param>
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -80,8 +80,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Overrides the preview mouse left button up event to detect when the left mouse button is released.
-    /// Stops any active auto-scrolling.
+    /// Detects when the left mouse button is released, stopping any active auto-scrolling.
     /// </summary>
     /// <param name="e">The event arguments.</param>
     protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
@@ -92,8 +91,8 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Overrides the MouseWheel event to handle scrolling behavior.
-    /// When the scroll reaches the top or bottom, it raises the MouseWheel event for the parent UIElement.
+    /// Handles scrolling behavior using the mouse wheel.
+    /// Supports both vertical and horizontal scrolling, and raises events for parent elements when the scroll reaches the top or bottom.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -129,7 +128,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Handles the ScrollChanged event to provide additional functionality on scroll change.
+    /// Handles the ScrollChanged event, enabling or disabling the directional buttons based on the current scroll offsets.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
@@ -152,7 +151,7 @@ public class StswDirectionView : ScrollViewer
 
     /// <summary>
     /// Handles changes in horizontal offset.
-    /// Updates the state of directional buttons based on horizontal offset.
+    /// Enables or disables the left and right directional buttons based on horizontal scroll position.
     /// </summary>
     private void OnHorizontalOffsetChanged()
     {
@@ -176,7 +175,7 @@ public class StswDirectionView : ScrollViewer
 
     /// <summary>
     /// Handles changes in vertical offset.
-    /// Updates the state of directional buttons based on vertical offset.
+    /// Enables or disables the up and down directional buttons based on vertical scroll position.
     /// </summary>
     private void OnVerticalOffsetChanged()
     {
@@ -199,8 +198,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Handles MouseEnter on a directional button. If the left mouse button is pressed,
-    /// starts auto-scrolling in the button’s direction.
+    /// Starts auto-scrolling when the mouse enters a directional button and the left mouse button is held down.
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
@@ -226,7 +224,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Handles MouseLeave from a directional button by stopping any active auto-scrolling.
+    /// Stops any active auto-scrolling when the mouse leaves a directional button.
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
@@ -237,6 +235,7 @@ public class StswDirectionView : ScrollViewer
 
     /// <summary>
     /// Starts a timer to repeatedly invoke the current scroll action using the specified interval.
+    /// The action will be invoked at regular intervals while the mouse is over the button and the left mouse button is pressed.
     /// </summary>
     /// <param name="interval">The interval to use for auto-scrolling.</param>
     private void StartAutoScrollTimer(TimeSpan interval)
@@ -251,7 +250,8 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <summary>
-    /// Timer tick event handler that repeatedly calls the scroll action.
+    /// Timer tick event handler that repeatedly calls the scroll action while the left mouse button is pressed.
+    /// Stops the timer if the left mouse button is released.
     /// </summary>
     /// <param name="sender">The timer instance.</param>
     /// <param name="e">The event arguments.</param>
@@ -280,7 +280,7 @@ public class StswDirectionView : ScrollViewer
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the orientation of the control.
+    /// Gets or sets the orientation of the control (horizontal or vertical).
     /// </summary>
     public Orientation Orientation
     {
@@ -358,3 +358,15 @@ public class StswDirectionView : ScrollViewer
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
+
+/* usage:
+
+<se:StswDirectionView Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="Item 1"/>
+        <TextBlock Text="Item 2"/>
+        <TextBlock Text="Item 3"/>
+    </StackPanel>
+</se:StswDirectionView>
+
+*/

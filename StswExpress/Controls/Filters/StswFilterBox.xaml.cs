@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,8 +10,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// A control used for filtering data in a <see cref="StswDataGrid"/>.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
+/// A filtering control designed for use with <see cref="StswDataGrid"/>.
+/// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
 /// </summary>
 [ContentProperty(nameof(Header))]
 public class StswFilterBox : Control, IStswCornerControl
@@ -33,9 +32,7 @@ public class StswFilterBox : Control, IStswCornerControl
     private ButtonBase? _filterModeButton;
     private StswDataGrid? _dataGrid;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -67,7 +64,7 @@ public class StswFilterBox : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Generates the SQL string based on the current filter settings.
+    /// Generates an SQL WHERE clause string based on the current filter settings.
     /// </summary>
     public void GenerateSqlString()
     {
@@ -129,8 +126,9 @@ public class StswFilterBox : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Generates the CollectionView's Filter predicate based on the current filter settings.
+    /// Generates a filter predicate for use in a CollectionView filter.
     /// </summary>
+    /// <returns>A predicate function that evaluates whether an item should be included.</returns>
     public Predicate<object>? GenerateFilterPredicate()
     {
         if (FilterMode == null)
@@ -291,9 +289,11 @@ public class StswFilterBox : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Naive helper method to interpret LIKE patterns:
-    /// e.g. if pattern = "%abc%", we check 'contains("abc")', etc.
+    /// Interprets SQL-style LIKE patterns (e.g., "%abc%" for contains).
     /// </summary>
+    /// <param name="text">The text to compare.</param>
+    /// <param name="pattern">The LIKE pattern.</param>
+    /// <returns><see langword="true"/> if the text matches the pattern, otherwise <see langword="false"/>.</returns>
     private bool MatchesLikePattern(string? text, string? pattern)
     {
         if (string.IsNullOrEmpty(pattern) || text == null)
@@ -314,9 +314,9 @@ public class StswFilterBox : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Event handler for handling the KeyDown event.
+    /// Handles the KeyDown event. Pressing "Enter" refreshes the associated data grid.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -324,6 +324,18 @@ public class StswFilterBox : Control, IStswCornerControl
             _dataGrid?.RefreshCommand?.Execute(null);
     }
 
+    /// <summary>
+    /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
+    /// </summary>
+    private void NotifyFilterChanged()
+    {
+        RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
+    }
+    public event RoutedEventHandler FilterChanged
+    {
+        add => AddHandler(FilterChangedEvent, value);
+        remove => RemoveHandler(FilterChangedEvent, value);
+    }
     public static readonly RoutedEvent FilterChangedEvent
         = EventManager.RegisterRoutedEvent(
             nameof(FilterChanged),
@@ -331,15 +343,6 @@ public class StswFilterBox : Control, IStswCornerControl
             typeof(RoutedEventHandler),
             typeof(StswFilterBox)
         );
-    public event RoutedEventHandler FilterChanged
-    {
-        add => AddHandler(FilterChangedEvent, value);
-        remove => RemoveHandler(FilterChangedEvent, value);
-    }
-    private void NotifyFilterChanged()
-    {
-        RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
-    }
     #endregion
 
     #region Logic properties
@@ -374,7 +377,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the current filter mode.
+    /// Gets or sets the current filtering mode (e.g., Equals, Contains, Between).
     /// </summary>
     public StswFilterMode? FilterMode
     {
@@ -409,7 +412,8 @@ public class StswFilterBox : Control, IStswCornerControl
     internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
     /// <summary>
-    /// Gets or sets the type of filter to be applied.
+    /// Gets or sets the data type of the filtered column (Text, Number, Date, etc.).
+    /// Determines the appropriate filtering behavior.
     /// </summary>
     public StswAdaptiveType FilterType
     {
@@ -424,7 +428,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets either the SQL column name or model's property name used for filtering.
+    /// Gets or sets the database column name or object property used for filtering.
     /// </summary>
     public string FilterValuePath
     {
@@ -497,7 +501,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -512,7 +516,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the filter is case-sensitive.
+    /// Gets or sets whether filtering is case-sensitive.
     /// </summary>
     public bool IsFilterCaseSensitive
     {
@@ -527,7 +531,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the filter is null-sensitive.
+    /// Gets or sets whether filtering is case-sensitive.
     /// </summary>
     public bool IsFilterNullSensitive
     {
@@ -626,7 +630,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets the SQL parameter used in the SQL string generation.
+    /// Gets the parameter name used in the generated SQL filter query.
     /// </summary>
     public string SqlParam
     {
@@ -641,7 +645,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets the generated SQL string used for filtering data.
+    /// Gets the generated SQL WHERE clause used for filtering data.
     /// </summary>
     public string? SqlString
     {
@@ -656,7 +660,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the first value used in filtering.
+    /// Gets or sets the first filter value (used for most conditions like Equals, GreaterThan).
     /// </summary>
     public object? Value1
     {
@@ -696,7 +700,7 @@ public class StswFilterBox : Control, IStswCornerControl
     internal object? DefaultValue1 { get; set; } = null;
 
     /// <summary>
-    /// Gets or sets the second value used in filtering (e.g., for range filters).
+    /// Gets or sets the second filter value (used in range-based conditions like Between).
     /// </summary>
     public object? Value2
     {
@@ -716,11 +720,7 @@ public class StswFilterBox : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -734,11 +734,7 @@ public class StswFilterBox : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -753,7 +749,7 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between the filter box and dropdown button.
     /// </summary>
     public double SeparatorThickness
     {
@@ -770,45 +766,8 @@ public class StswFilterBox : Control, IStswCornerControl
     #endregion
 }
 
-/// <summary>
-/// Internal aggregator to combine multiple filters from external controls.
-/// </summary>
-internal class StswFilterAggregator
-{
-    private readonly Dictionary<object, Predicate<object>> _registeredFilters = [];
+/* usage:
 
-    /// <summary>
-    /// Registers or updates a filter by a given key. Passing null removes the filter.
-    /// </summary>
-    public void RegisterFilter(object key, Predicate<object>? filter)
-    {
-        if (filter == null)
-            _registeredFilters.Remove(key);
-        else
-            _registeredFilters[key] = filter;
-    }
+<se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
 
-    /// <summary>
-    /// Applies the combined filters in an AND fashion. Returns false if any filter fails.
-    /// </summary>
-    public bool CombinedFilter(object item)
-    {
-        if (_registeredFilters.Count == 0)
-            return true;
-
-        foreach (var filter in _registeredFilters.Values)
-        {
-            if (filter == null)
-                continue;
-
-            if (!filter(item))
-                return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// Indicates whether there are any registered filters.
-    /// </summary>
-    public bool HasFilters => _registeredFilters.Count > 0;
-}
+*/

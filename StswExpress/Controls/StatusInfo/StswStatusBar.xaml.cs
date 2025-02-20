@@ -5,8 +5,13 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A customizable status bar for displaying application state and notifications.
+/// Supports corner radius customization and custom status items.
 /// </summary>
+/// <remarks>
+/// This control provides a structured way to present status information in an application.
+/// It allows for dynamic updates and styling of individual status bar items.
+/// </remarks>
 public class StswStatusBar : StatusBar
 {
     static StswStatusBar()
@@ -19,11 +24,7 @@ public class StswStatusBar : StatusBar
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswStatusBarItem;
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -37,11 +38,7 @@ public class StswStatusBar : StatusBar
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -56,3 +53,12 @@ public class StswStatusBar : StatusBar
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswStatusBar>
+    <se:StswStatusBarItem Content="Ready"/>
+    <se:StswStatusBarItem Content="Connection: Stable"/>
+</se:StswStatusBar>
+
+*/

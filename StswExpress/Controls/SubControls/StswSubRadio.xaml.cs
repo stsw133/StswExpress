@@ -4,8 +4,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a sub control and displays an icon.
+/// A compact radio button with an icon, designed for use as a sub-control.
+/// Supports busy state, content visibility, custom icon styling, and corner customization.
 /// </summary>
+/// <remarks>
+/// This control is designed for use in compact UI areas where a small, icon-based radio button is needed.
+/// It provides enhanced styling options for better visual integration in toolbars, panels, or custom forms.
+/// </remarks>
 public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRadio()
@@ -15,9 +20,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
     }
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -30,9 +33,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             typeof(StswSubRadio)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -45,9 +46,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             typeof(StswSubRadio)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
@@ -60,9 +59,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             typeof(StswSubRadio)
         );
 
-    /// <summary>
-    /// Gets or sets whether the the content within the control is visible or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsContentVisible
     {
         get => (bool)GetValue(IsContentVisibleProperty);
@@ -75,9 +72,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             typeof(StswSubRadio)
         );
 
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -93,9 +88,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -109,9 +102,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -125,9 +116,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -142,3 +131,9 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubRadio Content="Option 2" GroupName="Settings" IconData="{StaticResource SelectIcon}"/>
+
+*/

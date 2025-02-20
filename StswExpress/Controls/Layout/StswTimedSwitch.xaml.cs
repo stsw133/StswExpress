@@ -5,7 +5,8 @@ using System;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that manages the display of different content for a specified duration when the timer is enabled.
+/// A switch control that automatically reverts to its default state after a specified duration.
+/// Supports custom content display during the active period.
 /// </summary>
 public class StswTimedSwitch : CheckBox
 {
@@ -18,9 +19,7 @@ public class StswTimedSwitch : CheckBox
     #region Events & methods
     private readonly Timer timer = new() { AutoReset = false };
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -31,9 +30,9 @@ public class StswTimedSwitch : CheckBox
     }
 
     /// <summary>
-    /// 
+    /// Handles the checked event, starting the timer if the switch time is greater than zero.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -42,9 +41,9 @@ public class StswTimedSwitch : CheckBox
     }
 
     /// <summary>
-    /// 
+    /// Handles the unchecked event, stopping the timer immediately.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -52,9 +51,9 @@ public class StswTimedSwitch : CheckBox
     }
 
     /// <summary>
-    /// Handles the Elapsed event of the Timer to switch back to the default content.
+    /// Handles the timer's elapsed event, reverting the switch to its default state after the specified duration.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="sender">The timer triggering the event</param>
     /// <param name="e">The event arguments</param>
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     {
@@ -71,7 +70,8 @@ public class StswTimedSwitch : CheckBox
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the duration for how long the content is switched from default content to timed content.
+    /// Gets or sets the duration after which the switch automatically reverts to its default state.
+    /// If set to zero, the switch remains in the active state indefinitely.
     /// </summary>
     public TimeSpan SwitchTime
     {
@@ -103,7 +103,8 @@ public class StswTimedSwitch : CheckBox
     }
 
     /// <summary>
-    /// Gets or sets the content to be displayed for a specific duration after enabling the timer.
+    /// Gets or sets the content displayed during the active state of the switch.
+    /// Once the <see cref="SwitchTime"/> duration elapses, the content reverts to the default state.
     /// </summary>
     public object TimedContent
     {
@@ -118,7 +119,7 @@ public class StswTimedSwitch : CheckBox
         );
 
     /// <summary>
-    /// Gets or sets a composite string format that specifies how to format the timed content if it is displayed as a string.
+    /// Gets or sets a format string applied to the <see cref="TimedContent"/> when displayed as text.
     /// </summary>
     public string TimedContentStringFormat
     {
@@ -133,7 +134,7 @@ public class StswTimedSwitch : CheckBox
         );
 
     /// <summary>
-    /// Gets or sets the data template used to display the timed content.
+    /// Gets or sets the data template used to display the <see cref="TimedContent"/>.
     /// </summary>
     public DataTemplate TimedContentTemplate
     {
@@ -148,7 +149,7 @@ public class StswTimedSwitch : CheckBox
         );
 
     /// <summary>
-    /// Gets or sets the custom logic for choosing the template used to display the timed content.
+    /// Gets or sets a template selector that determines which template to apply to the <see cref="TimedContent"/>.
     /// </summary>
     public DataTemplateSelector TimedContentTemplateSelector
     {
@@ -163,3 +164,9 @@ public class StswTimedSwitch : CheckBox
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/>
+
+*/

@@ -8,12 +8,17 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// Provides attached properties for customizing the appearance and behavior of controls.
+/// Provides attached properties for customizing the appearance and behavior of WPF controls. 
+/// Includes support for animations, ripple effects, borderless styling, and sub-control docking.
 /// </summary>
+/// <remarks>
+/// This static class offers flexible property extensions that can be applied to various controls 
+/// without modifying their base implementation.
+/// </remarks>
 public static class StswControl
 {
     /// <summary>
-    /// When set to <see langword="true"/>, it enables animations within the control.
+    /// Enables or disables animations within the control.
     /// </summary>
     public static readonly DependencyProperty EnableAnimationsProperty
         = DependencyProperty.RegisterAttached(
@@ -26,8 +31,8 @@ public static class StswControl
     public static void SetEnableAnimations(DependencyObject obj, bool value) => obj.SetValue(EnableAnimationsProperty, value);
 
     /// <summary>
-    /// When set to <see langword="true"/>, it enables a ripple effect that is triggered upon a mouse click within the control.
-    /// The ripple effect is visualized as a circular animation starting from the point of click and expanding outward.
+    /// Enables or disables a ripple effect triggered upon mouse click.
+    /// The ripple effect is a circular animation starting from the click point and expanding outward.
     /// </summary>
     public static readonly DependencyProperty EnableRippleEffectProperty
         = DependencyProperty.RegisterAttached(
@@ -71,9 +76,8 @@ public static class StswControl
     }
 
     /// <summary>
-    /// Attached property to control the borderless appearance of controls implementing the <see cref="IStswCornerControl"/> interface.
-    /// When set to <see langword="true"/>, it hides the border by setting BorderThickness to <c>0</c>,
-    /// CornerClipping to <see langword="false"/>, and CornerRadius to <c>0</c>.
+    /// Enables or disables borderless appearance for controls implementing <see cref="IStswCornerControl"/>.
+    /// When enabled, the control's border thickness is set to zero, and corner rounding is disabled.
     /// </summary>
     public static readonly DependencyProperty IsBorderlessProperty
         = DependencyProperty.RegisterAttached(
@@ -104,8 +108,7 @@ public static class StswControl
     }
 
     /// <summary>
-    /// Identifies the SubControlsDock attached property.
-    /// Determines the docking position of sub-controls.
+    /// Determines the docking position of sub-controls within a parent control.
     /// </summary>
     public static readonly DependencyProperty SubControlsDockProperty
         = DependencyProperty.RegisterAttached(

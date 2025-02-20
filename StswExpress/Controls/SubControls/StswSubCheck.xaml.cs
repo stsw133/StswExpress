@@ -4,8 +4,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a sub control and displays an icon.
+/// A compact checkbox control designed for use as a sub-control.
+/// Supports busy state, content visibility, custom icon styling, and corner customization.
 /// </summary>
+/// <remarks>
+/// This control is intended for use in toolbars, panels, and other compact UI areas where
+/// a small, checkbox-based toggle is needed.
+/// </remarks>
 public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//, IStswIconControl
 {
     static StswSubCheck()
@@ -15,9 +20,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
     }
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
@@ -30,9 +33,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
             typeof(StswSubCheck)
         );
 
-    /// <summary>
-    /// Gets or sets whether the the content within the control is visible or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsContentVisible
     {
         get => (bool)GetValue(IsContentVisibleProperty);
@@ -45,9 +46,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
             typeof(StswSubCheck)
         );
 
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -64,7 +63,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the fill brush of the icon.
+    /// Gets or sets the brush used to fill the checkbox's icon.
     /// </summary>
     public Brush IconFill
     {
@@ -80,7 +79,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         );
 
     /// <summary>
-    /// Gets or sets the stroke brush of the icon.
+    /// Gets or sets the brush used for the checkbox's stroke (outline).
     /// </summary>
     public Brush IconStroke
     {
@@ -96,7 +95,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         );
 
     /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
+    /// Gets or sets the thickness of the checkbox's stroke.
     /// </summary>
     public double IconStrokeThickness
     {
@@ -112,3 +111,9 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubCheck IsBusy="True" IconFill="Red"/>
+
+*/

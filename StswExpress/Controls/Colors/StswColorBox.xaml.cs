@@ -8,7 +8,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
+/// Represents a color input control that allows users to select colors either by entering values manually 
+/// or using an integrated color picker and selector.
+/// Supports alpha channel selection, dynamic color updates, and text-based color input.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorBox : StswBoxBase
@@ -22,13 +24,15 @@ public class StswColorBox : StswBoxBase
     #region Events & methods
     /// <summary>
     /// Occurs when the selected color in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
     /// <summary>
-    /// Updates the main property associated with the selected color in the control based on user input.
+    /// Updates the selected color property based on user input in the text field.
+    /// Supports various input formats, including ARGB, RGB, and named colors.
     /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <param name="alwaysUpdate">If set to <see langword="true"/>, forces an update even if the color has not changed.</param>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedColor ?? default;
@@ -60,7 +64,8 @@ public class StswColorBox : StswBoxBase
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
+    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
+    /// When disabled, the selected color will always have full opacity.
     /// </summary>
     public bool IsAlphaEnabled
     {
@@ -75,7 +80,7 @@ public class StswColorBox : StswBoxBase
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -90,7 +95,8 @@ public class StswColorBox : StswBoxBase
         );
 
     /// <summary>
-    /// Gets or sets the selected color in the control.
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding for seamless color selection and updates.
     /// </summary>
     public Color? SelectedColor
     {
@@ -123,3 +129,9 @@ public class StswColorBox : StswBoxBase
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswColorBox SelectedColor="{Binding BackgroundColor}" IsAlphaEnabled="False"/>
+
+*/

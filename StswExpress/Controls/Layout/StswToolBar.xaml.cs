@@ -4,9 +4,9 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A customizable toolbar control for grouping command buttons and tools.
 /// </summary>
-public class StswToolBar : ToolBar
+public class StswToolBar : ToolBar, IStswCornerControl
 {
     static StswToolBar()
     {
@@ -15,11 +15,7 @@ public class StswToolBar : ToolBar
     }
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -33,11 +29,7 @@ public class StswToolBar : ToolBar
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -53,8 +45,18 @@ public class StswToolBar : ToolBar
     #endregion
 }
 
+/* usage:
+
+<se:StswToolBar>
+    <Button Content="Save"/>
+    <Button Content="Open"/>
+</se:StswToolBar>
+
+*/
+
 /// <summary>
-/// 
+/// A container control designed for managing multiple toolbars in a flexible and customizable layout.
+/// Allows positioning and arranging toolbars dynamically.
 /// </summary>
 public class StswToolBarTray : ToolBarTray
 {
@@ -64,3 +66,15 @@ public class StswToolBarTray : ToolBarTray
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToolBarTray), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
+
+/* usage:
+
+<se:StswToolBarTray>
+    <se:StswToolBar>
+        <Button Content="Cut"/>
+        <Button Content="Copy"/>
+        <Button Content="Paste"/>
+    </se:StswToolBar>
+</se:StswToolBarTray>
+
+*/

@@ -10,8 +10,12 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that allows shifting through items using arrow buttons or keyboard input.
+/// A flip view control that allows users to navigate through items using arrow buttons, keyboard, or mouse wheel.
+/// Supports looping, selection binding, read-only mode, and customizable corner styling.
 /// </summary>
+/// <remarks>
+/// This control enables intuitive navigation through a collection of items, providing smooth user interaction.
+/// </remarks>
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
     public StswFlipView()
@@ -27,10 +31,8 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     private ButtonBase? _buttonPrevious, _buttonNext;
-    
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -52,10 +54,11 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsSource"/> property changes.
+    /// Updates selection binding accordingly.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
+    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -63,10 +66,11 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
+    /// Called when the <see cref="ItemTemplate"/> property changes.
+    /// Updates selection control logic based on the new item template.
     /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <param name="oldItemTemplate">The previous data template for items.</param>
+    /// <param name="newItemTemplate">The new data template for items.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -74,9 +78,10 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Overrides the behavior for mouse wheel input to shift through items if the control has focus and is not read-only.
+    /// Handles mouse wheel scrolling to navigate through items.
+    /// Allows item selection changes if the control has focus and is not read-only.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">Mouse wheel event arguments.</param>
     protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
     {
         base.OnPreviewMouseWheel(e);
@@ -88,9 +93,10 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Overrides the behavior for keyboard input to shift through items if the control has focus and is not read-only.
+    /// Handles keyboard navigation within the flip view.
+    /// Supports arrow keys, Page Up/Down, Home, End, and Tab navigation.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">Key event arguments.</param>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         base.OnPreviewKeyDown(e);
@@ -130,10 +136,10 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Determines whether shifting by a specified step is possible based on the current selected index and item count.
+    /// Determines whether shifting by a specified step is possible, considering item count and looping settings.
     /// </summary>
-    /// <param name="step">The step value for shifting through items</param>
-    /// <returns><see langword="true"/> if shifting by the given step is possible; <see langword="false"/> otherwise</returns>
+    /// <param name="step">The step value for shifting through items.</param>
+    /// <returns><see langword="true"/> if shifting is possible; otherwise, <see langword="false"/>.</returns>
     private bool CanShiftBy(int step)
     {
         if (SelectedIndex + step >= Items.Count || SelectedIndex + step < 0)
@@ -142,9 +148,9 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Shifts the selected index by the specified step, considering looping and boundary conditions.
+    /// Changes the selected index by the specified step, considering looping and boundary conditions.
     /// </summary>
-    /// <param name="step">The step value for shifting through items</param>
+    /// <param name="step">The number of positions to shift.</param>
     private void ShiftBy(int step)
     {
         if (Items.Count == 0)
@@ -156,10 +162,10 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Checks the accessibility and updates the enabled state of the previous and next shift buttons based on current conditions.
+    /// Updates the enabled state of the previous and next buttons based on current selection, looping, and read-only state.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">Event arguments.</param>
     private void CheckButtonAccessibility(object? sender, EventArgs e)
     {
         if (_buttonPrevious != null && _buttonNext != null)
@@ -172,7 +178,8 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether looping through items is enabled when reaching the beginning or end.
+    /// Gets or sets a value indicating whether looping is enabled when reaching the first or last item.
+    /// When enabled, navigating past the last item wraps around to the first, and vice versa.
     /// </summary>
     public bool IsLoopingEnabled
     {
@@ -196,9 +203,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -213,11 +218,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -231,11 +232,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -250,3 +247,9 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswFlipView ItemsSource="{Binding NewsArticles}" IsLoopingEnabled="True"/>
+
+*/

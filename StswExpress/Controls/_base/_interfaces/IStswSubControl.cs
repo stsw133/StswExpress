@@ -21,7 +21,8 @@ public interface IStswSubControl
     public static readonly DependencyProperty? IconScaleProperty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
+    /// Gets or sets a value indicating whether the button is in a busy or loading state.
+    /// When set to <see langword="true"/>, the button visually indicates a processing state.
     /// </summary>
     public bool IsBusy { get; set; }
     public static readonly DependencyProperty? IsBusyProperty;

@@ -6,7 +6,8 @@ using System.Windows.Data;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows users to enter a secured password.
+/// A secure password input control that hides the entered text.
+/// Supports placeholder text, show/hide password functionality, and validation.
 /// </summary>
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
@@ -29,9 +30,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     /// </summary>
     public event EventHandler? PasswordChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -46,11 +45,12 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the PasswordChanged event for the internal PasswordBox, updating the Password property accordingly.
+    /// Handles the PasswordChanged event of the internal <see cref="PasswordBox"/>. 
+    /// Synchronizes the Password dependency property with the <see cref="PasswordBox"/>'s actual value.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    public void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    /// <param name="sender">The <see cref="PasswordBox"/> instance that triggered the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
         _isPasswordChanging = true;
         if (sender is PasswordBox passwordBox)
@@ -60,9 +60,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
-    /// </summary>
+    /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -75,9 +73,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswPasswordBox)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
-    /// </summary>
+    /// <inheritdoc/>
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -90,9 +86,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswPasswordBox)
         );
 
-    /// <summary>
-    /// Gets or sets the icon section of the box.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -105,10 +99,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswPasswordBox)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -150,9 +141,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         }
     }
 
-    /// <summary>
-    /// Gets or sets the placeholder text to display in the box when no value is provided.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -180,9 +169,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswPasswordBox)
         );
 
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
+    /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
@@ -197,11 +184,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -215,11 +198,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -234,3 +213,9 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/>
+
+*/

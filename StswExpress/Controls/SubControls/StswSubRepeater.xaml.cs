@@ -4,8 +4,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a sub control and displays an icon.
+/// A compact repeat button with an icon, designed for use as a sub-control.
+/// Supports busy state, content visibility, customizable orientation, and icon styling.
 /// </summary>
+/// <remarks>
+/// This control is useful for scenarios requiring repeated actions when a button is held down,
+/// such as volume adjustment, scrolling, or incremental value changes.
+/// </remarks>
 public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRepeater()
@@ -15,9 +20,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
     }
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -30,9 +33,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             typeof(StswSubRepeater)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -45,9 +46,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             typeof(StswSubRepeater)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
@@ -60,9 +59,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             typeof(StswSubRepeater)
         );
 
-    /// <summary>
-    /// Gets or sets whether the the content within the control is visible or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsContentVisible
     {
         get => (bool)GetValue(IsContentVisibleProperty);
@@ -75,9 +72,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             typeof(StswSubRepeater)
         );
 
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -93,9 +88,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -109,9 +102,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -125,9 +116,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -142,3 +131,9 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubRepeater IconData="{StaticResource PlusIcon}" Command="{Binding MyCommand}"/>
+
+*/

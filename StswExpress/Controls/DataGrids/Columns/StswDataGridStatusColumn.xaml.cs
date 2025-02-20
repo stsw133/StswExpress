@@ -7,7 +7,8 @@ using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Represents a status column for <see cref="StswDataGrid"/> that visually indicates row states.
+/// The column is read-only and automatically binds to row visibility properties.
 /// </summary>
 public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
@@ -17,7 +18,8 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
     }
 
     /// <summary>
-    /// 
+    /// Initializes the status column by setting up templates, styles, and behaviors.
+    /// This method is invoked asynchronously to ensure it runs after the <see cref="DataGrid"/> is fully loaded.
     /// </summary>
     private void InitializeColumn()
     {
@@ -59,14 +61,20 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         dataGrid.RowStyle = newStyle;
     }
 
-
     /// <summary>
-    /// 
+    /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.
+    /// Uses reflection to access the internal `DataGridOwner` property.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The parent <see cref="StswDataGrid"/> instance, or null if unavailable.</returns>
     private StswDataGrid? GetDataGridOwner()
     {
         var property = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.NonPublic | BindingFlags.Instance);
         return property?.GetValue(this) as StswDataGrid;
     }
 }
+
+/* usage:
+
+<se:StswDataGridStatusColumn/>
+
+*/

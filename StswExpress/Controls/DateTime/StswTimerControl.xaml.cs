@@ -7,9 +7,8 @@ using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a customizable timer control that can count up or down,
-/// display the elapsed time in various formats, and provides properties
-/// for controlling the start time, end time, and running state of the timer.
+/// Represents a customizable timer control that can count up or down.
+/// Supports different time formats, adjustable start and end times, and automatic updates using a <see cref="DispatcherTimer"/>.
 /// </summary>
 [ContentProperty(nameof(EndTime))]
 public class StswTimerControl : Control
@@ -29,10 +28,8 @@ public class StswTimerControl : Control
 
     #region Events & methods
     private TextBlock? _display;
-    
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -44,8 +41,8 @@ public class StswTimerControl : Control
     }
 
     /// <summary>
-    /// Handles the tick event of the timer, updating the current time based on the elapsed time 
-    /// since the last tick, and stops the timer when the end time is reached.
+    /// Handles the tick event of the timer, updating the <see cref="CurrentTime"/> based on the elapsed time 
+    /// since the last tick. Stops the timer when the end time is reached.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The event data.</param>
@@ -78,8 +75,8 @@ public class StswTimerControl : Control
     }
 
     /// <summary>
-    /// Updates the timer's interval based on the current format string. The interval is adjusted to match
-    /// the precision required by the format, such as milliseconds or seconds.
+    /// Adjusts the timer's interval based on the <see cref="Format"/>.
+    /// The interval is dynamically set to match the required precision, such as milliseconds, seconds, or minutes.
     /// </summary>
     private void UpdateTimerInterval()
     {
@@ -105,8 +102,8 @@ public class StswTimerControl : Control
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the current time displayed by the timer. This value is updated during each tick event
-    /// based on whether the timer is counting up or down.
+    /// Gets or sets the current time displayed by the timer.
+    /// This value updates dynamically as the timer progresses.
     /// </summary>
     public TimeSpan CurrentTime
     {
@@ -121,8 +118,8 @@ public class StswTimerControl : Control
         );
 
     /// <summary>
-    /// Gets or sets the end time for the timer. When the timer is counting down, this represents the target time to reach.
-    /// When the timer is counting up, it represents the maximum time allowed.
+    /// Gets or sets the end time for the timer.
+    /// Defines the target time when counting down or the maximum time when counting up.
     /// </summary>
     public TimeSpan EndTime
     {
@@ -137,8 +134,8 @@ public class StswTimerControl : Control
         );
 
     /// <summary>
-    /// Gets or sets the format string used to display the current time. This string controls the precision 
-    /// and appearance of the time display, such as including seconds, milliseconds, etc.
+    /// Gets or sets the format string used to display the current time.
+    /// Controls the precision and appearance of the displayed time.
     /// </summary>
     public string Format
     {
@@ -182,8 +179,8 @@ public class StswTimerControl : Control
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the timer is currently running. When set to <see langword="true"/>, the timer starts 
-    /// counting. When set to <see langword="false"/>, the timer stops. This property is typically controlled internally by the control.
+    /// Gets or sets a value indicating whether the timer is currently running.
+    /// When set to <see langword="true"/>, the timer starts counting. When set to <see langword="false"/>, it stops.
     /// </summary>
     public bool IsRunning
     {
@@ -212,9 +209,9 @@ public class StswTimerControl : Control
     }
 
     /// <summary>
-    /// Gets or sets a value that controls the start, stop, and reset behavior of the timer. 
-    /// When set to <see langword="true"/>, the timer starts or continues. When set to <see langword="false"/>, the timer stops. 
-    /// When set to <see langword="null"/>, the timer resets to the start time.
+    /// Gets or sets a value that controls the start, stop, and reset behavior of the timer.
+    /// <see langword="true"/> starts or continues the timer, <see langword="false"/> stops it,
+    /// and <see langword="null"/> resets it to the start time.
     /// </summary>
     public bool? StartStopReset
     {
@@ -251,7 +248,8 @@ public class StswTimerControl : Control
     }
 
     /// <summary>
-    /// Gets or sets the start time for the timer. This value is used as the initial time from which the timer begins counting.
+    /// Gets or sets the start time for the timer.
+    /// This is the initial time from which the timer begins counting.
     /// </summary>
     public TimeSpan StartTime
     {
@@ -267,11 +265,7 @@ public class StswTimerControl : Control
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -285,11 +279,7 @@ public class StswTimerControl : Control
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -304,3 +294,9 @@ public class StswTimerControl : Control
         );
     #endregion
 }
+
+/* usage:
+
+<StswTimerControl StartTime="01:00:00" EndTime="00:00:00" Format="hh\:mm\:ss" IsCountingDown="True" IsRunning="True"/>
+
+*/

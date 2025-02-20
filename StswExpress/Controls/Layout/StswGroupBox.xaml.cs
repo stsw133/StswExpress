@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that provides a container for a group of controls with an optional header.
+/// A container control that groups related UI elements under a common header.
 /// </summary>
 public class StswGroupBox : GroupBox, IStswCornerControl
 {
@@ -14,11 +14,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
     }
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -32,11 +28,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -51,7 +43,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between header and content.
+    /// Gets or sets the thickness of the separator between the header and the content.
     /// </summary>
     public double SeparatorThickness
     {
@@ -67,3 +59,11 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswGroupBox Header="Settings">
+    <CheckBox Content="Enable dark mode"/>
+</se:StswGroupBox>
+
+*/

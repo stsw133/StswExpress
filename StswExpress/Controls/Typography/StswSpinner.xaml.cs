@@ -9,8 +9,12 @@ using System.Windows.Shapes;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control representing that the app is loading content or performing another process that the user needs to wait on.
+/// A loading spinner control for indicating ongoing background processes.
+/// Supports different animation styles, scaling, and color customization.
 /// </summary>
+/// <remarks>
+/// The control provides visual feedback for loading states, making it useful for asynchronous operations.
+/// </remarks>
 public class StswSpinner : Control
 {
     static StswSpinner()
@@ -22,6 +26,7 @@ public class StswSpinner : Control
     #region Logic properties
     /// <summary>
     /// Gets or sets the scale of the loading circle.
+    /// Determines the overall size of the spinner.
     /// </summary>
     public GridLength Scale
     {
@@ -47,7 +52,8 @@ public class StswSpinner : Control
     }
 
     /// <summary>
-    /// Gets or sets type of spinner icon.
+    /// Gets or sets the type of spinner animation.
+    /// Allows selecting different visual styles.
     /// </summary>
     public StswSpinnerType Type
     {
@@ -146,8 +152,15 @@ public class StswSpinner : Control
     #endregion
 }
 
+/* usage:
+
+<se:StswSpinner Type="Dots" Scale="2" Fill="Red"/>
+
+*/
+
 /// <summary>
-/// 
+/// Represents a secondary busy animation with dynamic movement.
+/// Used as part of the <see cref="StswSpinner"/> control.
 /// </summary>
 internal class StswBusyAnimation2 : Control
 {
@@ -159,9 +172,7 @@ internal class StswBusyAnimation2 : Control
     private Ellipse? _ellipseMain;
     private Ellipse?[] _ellipses = new Ellipse[15];
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -174,7 +185,7 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the animation is active.
     /// </summary>
     public bool Active
     {
@@ -203,7 +214,7 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Starts the animation sequence when the control becomes active.
     /// </summary>
     private void InitAnimation()
     {
@@ -253,11 +264,11 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Starts the orbiting animation of an ellipse, creating a circular movement effect.
     /// </summary>
-    /// <param name="ellipse"></param>
-    /// <param name="timeOffset"></param>
-    /// <param name="fromBack"></param>
+    /// <param name="ellipse">The ellipse to animate.</param>
+    /// <param name="timeOffset">Delay before the animation starts.</param>
+    /// <param name="fromBack">Indicates whether the animation should play in reverse.</param>
     private void StartOrbitingAnimation(Ellipse ellipse, int timeOffset, bool fromBack)
     {
         var sb = new Storyboard()
@@ -456,11 +467,11 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Moves an ellipse to its starting position before the animation begins.
     /// </summary>
-    /// <param name="ellipse"></param>
-    /// <param name="left"></param>
-    /// <param name="sb"></param>
+    /// <param name="ellipse">The ellipse to animate.</param>
+    /// <param name="left">The target position on the canvas.</param>
+    /// <param name="sb">The storyboard managing the animation.</param>
     private void GoToStartPositionAnimation(Ellipse? ellipse, int left, Storyboard sb)
     {
         var leftEllipseAnim = new DoubleAnimation(
@@ -476,7 +487,7 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Ends the animation sequence when the control is deactivated.
     /// </summary>
     private void EndAnimation()
     {
@@ -523,9 +534,9 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Removes the animation effects from an ellipse and resets its properties.
     /// </summary>
-    /// <param name="ellipse"></param>
+    /// <param name="ellipse">The ellipse to reset.</param>
     private void RemoveEllipseAnimation(Ellipse ellipse)
     {
         ellipse.BeginAnimation(WidthProperty, null);
@@ -539,10 +550,10 @@ internal class StswBusyAnimation2 : Control
     }
 
     /// <summary>
-    /// 
+    /// Adds an animation effect that moves an ellipse inward, simulating a "slide-in" effect.
     /// </summary>
-    /// <param name="ellipse"></param>
-    /// <param name="sb"></param>
+    /// <param name="ellipse">The ellipse to animate.</param>
+    /// <param name="sb">The storyboard managing the animation.</param>
     private void AddEllipseSlideInAnimation(Ellipse ellipse, Storyboard sb)
     {
         var ellipseLeftAnim = new DoubleAnimation(

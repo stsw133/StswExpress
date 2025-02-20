@@ -7,7 +7,8 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that extends the <see cref="ScrollBar"/> class with additional functionality.
+/// A <see cref="ScrollBar"/> extension with dynamic visibility and animated resizing.
+/// Supports automatic expansion when hovered over.
 /// </summary>
 public class StswScrollBar : ScrollBar
 {
@@ -21,9 +22,7 @@ public class StswScrollBar : ScrollBar
     private Border? _border;
     private RepeatButton? _arrowButton1, _arrowButton2;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -54,6 +53,7 @@ public class StswScrollBar : ScrollBar
 
     /// <summary>
     /// Handles the MouseEnter event for dynamic behavior.
+    /// Triggers an animation when the mouse enters the scroll bar, expanding its visibility and width if dynamic mode is enabled.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseEnter(MouseEventArgs e)
@@ -65,6 +65,7 @@ public class StswScrollBar : ScrollBar
 
     /// <summary>
     /// Handles the MouseLeave event for dynamic behavior.
+    /// Triggers an animation to collapse the scroll bar's visibility and width when the mouse leaves, if dynamic mode is enabled.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
@@ -76,6 +77,7 @@ public class StswScrollBar : ScrollBar
 
     /// <summary>
     /// Handles the ValueChanged event for dynamic behavior.
+    /// Triggers an animation when the value of the scroll bar changes, making it more noticeable if not hovering.
     /// </summary>
     /// <param name="oldValue">The old value</param>
     /// <param name="newValue">The new value</param>
@@ -90,6 +92,7 @@ public class StswScrollBar : ScrollBar
     #region Style properties
     /// <summary>
     /// Gets or sets the width of the scroll bar when collapsed.
+    /// This width is applied when the scroll bar is not being interacted with (in dynamic mode).
     /// </summary>
     public double CollapsedWidth
     {
@@ -106,6 +109,7 @@ public class StswScrollBar : ScrollBar
 
     /// <summary>
     /// Gets or sets the width of the scroll bar when expanded.
+    /// This width is applied when the scroll bar is actively being used or hovered over in dynamic mode.
     /// </summary>
     public double ExpandedWidth
     {
@@ -121,7 +125,8 @@ public class StswScrollBar : ScrollBar
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hide when is not used).
+    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
+    /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
     /// </summary>
     public bool IsDynamic
     {
@@ -162,7 +167,8 @@ public class StswScrollBar : ScrollBar
 
     #region Animations
     /// <summary>
-    /// Animates the control when mouse enters.
+    /// Animates the control when the mouse enters.
+    /// Expands the scroll bar's width, increases opacity, and shows arrow buttons with a smooth animation.
     /// </summary>
     private void MouseEnterAnimation()
     {
@@ -224,7 +230,8 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// Animates the control when mouse leaves.
+    /// Animates the control when the mouse leaves.
+    /// Collapses the scroll bar's width and hides the content (arrows and border) with a smooth animation.
     /// </summary>
     private void MouseLeaveAnimation()
     {
@@ -287,7 +294,8 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// Animates the control when value changes.
+    /// Animates the control when the value changes.
+    /// Makes the scroll bar more visible for a short time and then fades out if not hovered over.
     /// </summary>
     private void ValueChangedAnimation()
     {
@@ -323,3 +331,9 @@ public class StswScrollBar : ScrollBar
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswScrollBar Orientation="Vertical" IsDynamic="True" CollapsedWidth="5" ExpandedWidth="15"/>
+
+*/

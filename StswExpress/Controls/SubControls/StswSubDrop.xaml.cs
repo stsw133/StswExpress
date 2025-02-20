@@ -5,8 +5,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a sub control and displays an icon.
+/// A drop-down control with an icon, designed for use as a sub-control.
+/// Supports custom templates, busy state, content visibility, and customizable icon styles.
 /// </summary>
+/// <remarks>
+/// This control is intended for use in toolbars, menus, and other compact UI areas where 
+/// a small, icon-based drop-down button is needed.
+/// </remarks>
 [ContentProperty(nameof(Items))]
 public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
@@ -17,9 +22,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
     }
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the header content of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Content
     {
         get => (object?)GetValue(ContentProperty);
@@ -33,7 +36,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a string format applied to the <see cref="Content"/>.
+    /// Useful for formatting text-based content.
     /// </summary>
     public string? ContentStringFormat
     {
@@ -48,7 +52,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the data template used to display the <see cref="Content"/>.
     /// </summary>
     public DataTemplate? ContentTemplate
     {
@@ -63,7 +67,8 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a data template selector for the <see cref="Content"/>.
+    /// Allows dynamic selection of templates based on content type.
     /// </summary>
     public DataTemplateSelector? ContentTemplateSelector
     {
@@ -77,9 +82,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             typeof(StswSubDrop)
         );
 
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -92,9 +95,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             typeof(StswSubDrop)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -107,9 +108,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             typeof(StswSubDrop)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
@@ -122,9 +121,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             typeof(StswSubDrop)
         );
 
-    /// <summary>
-    /// Gets or sets whether the the content within the control is visible or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsContentVisible
     {
         get => (bool)GetValue(IsContentVisibleProperty);
@@ -137,9 +134,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             typeof(StswSubDrop)
         );
 
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -155,9 +150,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -171,9 +164,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -187,9 +178,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -204,3 +193,12 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubDrop Header="Options">
+    <MenuItem Header="Action 1"/>
+    <MenuItem Header="Action 2"/>
+</se:StswSubDrop>
+
+*/

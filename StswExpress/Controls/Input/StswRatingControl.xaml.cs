@@ -10,7 +10,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
+/// A rating control that allows users to select a rating level.
+/// Supports customizable number of items, reset option, and different expand directions.
 /// </summary>
 public class StswRatingControl : Control, IStswIconControl
 {
@@ -26,9 +27,11 @@ public class StswRatingControl : Control, IStswIconControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the key down event.
+    /// Handles keyboard input for the rating control.
+    /// Allows users to change the rating using numeric keys (1-9, 0 for 10), arrow keys for navigation,
+    /// and Backspace for resetting the rating (if reset is enabled).
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments containing key input data.</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -98,9 +101,10 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <summary>
-    /// Handles the mouse down event.
+    /// Handles mouse click events for the rating control.
+    /// Left-clicking on the control resets the rating to the placeholder value if it's not read-only.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments containing mouse input data.</param>
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
@@ -110,9 +114,10 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <summary>
-    /// Handles the mouse move event.
+    /// Handles mouse movement over the rating control.
+    /// Updates the placeholder rating based on the cursor position, providing visual feedback.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments containing mouse movement data.</param>
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
@@ -133,9 +138,10 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <summary>
-    /// Handles the mouse leave event.
+    /// Handles mouse leave events for the rating control.
+    /// Clears the placeholder rating when the mouse leaves the control.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
@@ -145,7 +151,8 @@ public class StswRatingControl : Control, IStswIconControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the direction of the control.
+    /// Gets or sets the expansion direction of the rating items.
+    /// Determines how rating items are laid out (Left, Right, Up, or Down).
     /// </summary>
     public ExpandDirection Direction
     {
@@ -170,9 +177,7 @@ public class StswRatingControl : Control, IStswIconControl
         }
     }
 
-    /// <summary>
-    /// Gets or sets the geometry data of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -185,9 +190,7 @@ public class StswRatingControl : Control, IStswIconControl
             typeof(StswRatingControl)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -201,7 +204,8 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the rating control is read-only.
+    /// When set to <see langword="true"/>, user input (mouse and keyboard) is disabled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -216,7 +220,8 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
-    /// Gets or sets the reseting behaviour of the control.
+    /// Gets or sets whether the rating control allows resetting to zero.
+    /// If enabled, users can clear the rating by pressing the Backspace key.
     /// </summary>
     public bool IsResetEnabled
     {
@@ -231,7 +236,8 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
-    /// Gets or sets the items for control.
+    /// Gets or sets the collection of rating items.
+    /// Each item represents a selectable rating level.
     /// </summary>
     internal ObservableCollection<StswRatingItem> Items
     {
@@ -246,7 +252,8 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
-    /// Gets or sets the number of items (icons).
+    /// Gets or sets the number of rating items (icons).
+    /// Defines how many selectable levels exist within the control.
     /// </summary>
     public int ItemsNumber
     {
@@ -297,7 +304,8 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <summary>
-    /// Gets or sets the visibility of the number of items.
+    /// Gets or sets the visibility of the rating item count.
+    /// This property controls whether the number of rating levels is displayed.
     /// </summary>
     public Visibility ItemsNumberVisibility
     {
@@ -312,7 +320,8 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
-    /// Gets or sets the numeric value of the control.
+    /// Gets or sets a temporary rating value based on mouse hover.
+    /// Provides a visual preview of the rating before selection.
     /// </summary>
     public int? Placeholder
     {
@@ -361,7 +370,8 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <summary>
-    /// Gets or sets the numeric value of the control.
+    /// Gets or sets the currently selected rating value.
+    /// Represents the user's chosen rating level within the control.
     /// </summary>
     public int? Value
     {
@@ -410,9 +420,7 @@ public class StswRatingControl : Control, IStswIconControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -426,9 +434,7 @@ public class StswRatingControl : Control, IStswIconControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -442,9 +448,7 @@ public class StswRatingControl : Control, IStswIconControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -476,38 +480,8 @@ public class StswRatingControl : Control, IStswIconControl
     #endregion
 }
 
-/// <summary>
-/// Data model for <see cref="StswRatingControl"/>'s items.
-/// </summary>
-internal class StswRatingItem : StswObservableObject
-{
-    /// <summary>
-    /// Gets or sets a value indicating whether the item is checked.
-    /// </summary>
-    public bool IsChecked
-    {
-        get => _isChecked;
-        internal set => SetProperty(ref _isChecked, value);
-    }
-    private bool _isChecked;
+/* usage:
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the mouse is over the item.
-    /// </summary>
-    public bool IsMouseOver
-    {
-        get => _isMouseOver;
-        internal set => SetProperty(ref _isMouseOver, value);
-    }
-    private bool _isMouseOver;
+<se:StswRatingControl Value="{Binding ProductRating}" ItemsNumber="10" IconData="{StaticResource StarIcon}" Direction="Right"/>
 
-    /// <summary>
-    /// Gets or sets the value associated with the item.
-    /// </summary>
-    public int Value
-    {
-        get => _value;
-        internal set => SetProperty(ref _value, value);
-    }
-    private int _value;
-}
+*/

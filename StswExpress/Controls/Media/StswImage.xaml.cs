@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control to display image with additional features such as context menu options.
+/// A customizable image control that supports context menu actions such as copy, paste, load, and save.
 /// </summary>
 [ContentProperty(nameof(Source))]
 public class StswImage : Control, IStswCornerControl
@@ -21,9 +21,7 @@ public class StswImage : Control, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -131,10 +129,10 @@ public class StswImage : Control, IStswCornerControl
         }
     }
     #endregion
-    
+
     #region Logic properties
     /// <summary>
-    /// Gets or sets the menu mode for the control.
+    /// Gets or sets the menu mode for the image control, defining how the context menu behaves.
     /// </summary>
     public StswMenuMode MenuMode
     {
@@ -149,7 +147,7 @@ public class StswImage : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the scale of the image.
+    /// Gets or sets the scale factor for the image, adjusting its width and height accordingly.
     /// </summary>
     public GridLength Scale
     {
@@ -173,7 +171,7 @@ public class StswImage : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="ImageSource"/> of the control.
+    /// Gets or sets the image source displayed in the control.
     /// </summary>
     public ImageSource? Source
     {
@@ -188,7 +186,7 @@ public class StswImage : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the stretch behavior of the control.
+    /// Gets or sets the stretch mode of the image, determining how it fits within the control's boundaries.
     /// </summary>
     public Stretch Stretch
     {
@@ -203,7 +201,7 @@ public class StswImage : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the stretch direction of the control.
+    /// Gets or sets the stretch direction, specifying whether the image can scale up, down, or both.
     /// </summary>
     public StretchDirection StretchDirection
     {
@@ -219,11 +217,7 @@ public class StswImage : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -237,11 +231,7 @@ public class StswImage : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -256,3 +246,9 @@ public class StswImage : Control, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswImage Source="example.png" Stretch="Uniform"/>
+
+*/

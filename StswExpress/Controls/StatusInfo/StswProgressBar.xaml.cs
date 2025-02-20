@@ -7,8 +7,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+/// A progress bar control with additional display options such as text representation and different states.
+/// Supports percentage, value, and custom text display modes.
 /// </summary>
+/// <remarks>
+/// This control provides a flexible progress visualization, allowing the display of progress in percentage,
+/// absolute values, or custom text.
+/// </remarks>
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
@@ -27,10 +32,11 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Event handler to update the text displayed on the progress bar based on its state.
+    /// Handles changes to the progress text based on the current value and display mode.
+    /// Updates the <see cref="Text"/> property dynamically.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
@@ -49,7 +55,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the current state of the progress bar.
+    /// Gets or sets the current state of the progress bar, which can be used for styling purposes.
     /// </summary>
     public StswProgressState State
     {
@@ -64,7 +70,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets the text to display on the progress bar indicating the progress status.
+    /// Gets or sets the text displayed on the progress bar.
+    /// Updates dynamically based on the selected <see cref="TextMode"/>.
     /// </summary>
     public string? Text
     {
@@ -79,7 +86,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether to display the progress text in percents or the current value range.
+    /// Gets or sets the mode used to display progress text.
+    /// Determines whether the progress bar shows a percentage, an absolute value, or custom text.
     /// </summary>
     public StswProgressTextMode TextMode
     {
@@ -106,11 +114,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -124,11 +128,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -143,7 +143,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the fill brush for the control.
+    /// Gets or sets the fill brush used for the progress bar's visual representation.
     /// </summary>
     public Brush Fill
     {
@@ -159,3 +159,9 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/>
+
+*/

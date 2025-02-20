@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Data model for chart items.
+/// Represents a base data model for chart elements, containing values, descriptions, colors, and interactive properties.
 /// </summary>
 public class StswChartElementModel : StswObservableObject
 {

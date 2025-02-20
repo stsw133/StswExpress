@@ -5,7 +5,8 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that provides a user interface element used to repeatedly trigger actions when pressed and held.
+/// Represents a button control that continuously triggers an action while it is pressed and held.
+/// This control extends <see cref="RepeatButton"/>, providing additional styling options such as corner rounding.
 /// </summary>
 public class StswRepeatButton : RepeatButton, IStswCornerControl
 {
@@ -16,11 +17,7 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
     }
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -34,11 +31,7 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -53,3 +46,9 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswRepeatButton Command="{Binding MyCommand}" Content="Hold Me"/>
+
+*/

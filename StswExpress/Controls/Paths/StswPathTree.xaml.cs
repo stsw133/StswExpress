@@ -9,12 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
-using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom file tree control that displays folders and files in a hierarchical structure.
-/// This control allows for folder expansion and item selection with support for animations and custom paths.
+/// A hierarchical file tree control for navigating directories and files.
+/// Supports dynamic folder expansion and custom root paths.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
@@ -38,9 +37,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     public event EventHandler? SelectedPathChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -111,6 +108,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Handles the expansion of a <see cref="TreeViewItem"/> and asynchronously loads its child items if not already loaded.
+    /// This method is triggered when a tree item is expanded and loads the directory contents if necessary.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -125,6 +123,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Loads folder contents asynchronously.
+    /// This method retrieves the directories and files from a specified path and adds them to the parent item.
     /// </summary>
     /// <param name="parentItem">The parent folder item to load children for.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -146,6 +145,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Reloads the initial path into the file tree, populating the root items based on the initial path or logical drives.
+    /// This method is invoked when the initial path is set or when files/folders should be reloaded.
     /// </summary>
     private void ReloadInitialPath()
     {
@@ -171,7 +171,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Asynchronously selects an item in the tree based on the given file or folder path.
-    /// Expands the tree hierarchy and ensures the item is brought into view.
+    /// This method expands the tree hierarchy and ensures the item is brought into view.
     /// </summary>
     /// <param name="fullPath">The full file or folder path to select.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -221,6 +221,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Finds a <see cref="TreeViewItem"/> in the tree based on the specified full path.
+    /// This method searches the tree recursively and returns the TreeViewItem corresponding to the provided path.
     /// </summary>
     /// <param name="container">The parent container to search within.</param>
     /// <param name="fullPath">The full path of the file or folder to find.</param>
@@ -247,6 +248,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Gets or sets the initial path to be loaded into the file tree.
     /// If not set, logical drives will be displayed as the root items.
+    /// This property defines the starting point for loading directories or files in the control.
     /// </summary>
     public string? InitialPath
     {
@@ -271,10 +273,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether control is in read-only mode.
-    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -289,6 +288,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Gets or sets the currently selected path in the control.
+    /// This property represents the file or directory that is currently selected by the user.
     /// </summary>
     public string? SelectedPath
     {
@@ -318,6 +318,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
     /// <summary>
     /// Gets or sets a value indicating whether files should be shown in addition to folders in the tree.
+    /// If true, both files and directories are shown in the control. If false, only directories are shown.
     /// </summary>
     public bool ShowFiles
     {
@@ -340,29 +341,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             stsw.ReloadInitialPath();
         }
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the control uses selection items that implement the <see cref="IStswSelectionItem"/> interface.
-    /// </summary>
-    public bool UsesSelectionItems
-    {
-        get => (bool)GetValue(UsesSelectionItemsProperty);
-        set => SetValue(UsesSelectionItemsProperty, value);
-    }
-    public static readonly DependencyProperty UsesSelectionItemsProperty
-        = DependencyProperty.Register(
-            nameof(UsesSelectionItems),
-            typeof(bool),
-            typeof(StswPathTree)
-        );
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -376,11 +358,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -396,65 +374,8 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     #endregion
 }
 
-/// <summary>
-/// Represents a file or folder item in the <see cref="StswPathTree"/> control.
-/// </summary>
-internal class StswPathTreeItem : StswObservableObject
-{
-    public StswPathTreeItem(string fullPath, StswPathType type)
-    {
-        FullPath = fullPath;
-        Type = type;
+/* usage:
 
-        if (type == StswPathType.OpenDirectory)
-            Children.Add(null);
+<se:StswPathTree InitialPath="C:\" SelectedPath="{Binding SelectedFile}" ShowFiles="True"/>
 
-        LoadIconAsync();
-    }
-
-    /// <summary>
-    /// Gets or sets the full path of the file or folder.
-    /// </summary>
-    public string FullPath { get; set; }
-
-    /// <summary>
-    /// Gets or sets the icon representing the file or folder.
-    /// </summary>
-    public ImageSource? Icon { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name of the file or folder (derived from the full path).
-    /// </summary>
-    public string? Name => Path.GetFileName(FullPath) is string fileName && !string.IsNullOrEmpty(fileName) ? fileName : FullPath;
-
-    /// <summary>
-    /// Gets or sets the type of the item (file or directory).
-    /// </summary>
-    public StswPathType Type { get; set; }
-
-    /// <summary>
-    /// Gets or sets the collection of child items for this folder.
-    /// </summary>
-    public ObservableCollection<StswPathTreeItem?> Children { get; set; } = [];
-
-    /// <summary>
-    /// Asynchronously loads the associated icon for the file or folder and updates the <see cref="Icon"/> property.
-    /// </summary>
-    private async void LoadIconAsync()
-    {
-        var icon = await Task.Run(() => StswFn.ExtractAssociatedIcon(FullPath));
-        if (icon != null)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Icon = icon.ToImageSource();
-                OnPropertyChanged(nameof(Icon));
-            });
-        }
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether the folder's children have been loaded.
-    /// </summary>
-    public bool IsLoaded => Children.Count != 1 || Children[0] != null;
-}
+*/

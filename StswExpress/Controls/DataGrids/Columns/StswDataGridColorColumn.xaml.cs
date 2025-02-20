@@ -1,11 +1,11 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a color column for <see cref="StswDataGrid"/> that allows selecting and displaying colors.
 /// </summary>
 public class StswDataGridColorColumn : DataGridTextColumn
 {
@@ -25,11 +25,12 @@ public class StswDataGridColorColumn : DataGridTextColumn
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for displaying color values within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's color data.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -50,11 +51,12 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable color picker element for selecting color values within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswColorBox"/> as the editing element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswColorBox"/> element bound to the column's color data.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswColorBox()
@@ -75,7 +77,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the editing element when no color is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -92,7 +94,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the color box inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -107,7 +109,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -122,7 +124,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -137,7 +139,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -152,7 +154,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the color box inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -168,7 +170,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the color box inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -184,3 +186,9 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDataGridColorColumn Header="Theme Color" Binding="{Binding ThemeColor}" Placeholder="Select color"/>
+
+*/

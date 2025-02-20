@@ -13,7 +13,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
+/// A rich text editor control for creating and formatting text content.
+/// Supports file operations (open, save, print), text styling, and color selection.
 /// </summary>
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
@@ -57,9 +58,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     private StswComboBox? _fontFamily;
     private StswDecimalBox? _fontSize;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -83,7 +82,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Occurs when the editor's selection changes.
+    /// Occurs when the selection in the editor changes.
+    /// Updates font family and font size dropdowns based on the currently selected text.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(RoutedEventArgs e)
@@ -114,13 +114,15 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Checks whether there are any changes in the editor's content compared to the original content loaded from a file.
+    /// Determines whether the content of the editor has been modified
+    /// since the last save or load operation.
     /// </summary>
+    /// <returns><see langword="true"/> if there are unsaved changes, otherwise <see langword="false"/>.</returns>
     private bool HasChanges() => CanUndo || CanRedo;
 
-    /// Command: new
     /// <summary>
-    /// Creates a new empty document in the editor, discarding any unsaved changes if present.
+    /// Creates a new empty document in the editor.
+    /// If there are unsaved changes, prompts the user for confirmation before clearing the content.
     /// </summary>
     private async void FileNew()
     {
@@ -137,9 +139,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// Command: open
     /// <summary>
-    /// Opens a file dialog to load a Rich Text Format (.rtf) file into the editor, discarding any unsaved changes if present.
+    /// Opens a file dialog to allow the user to load a Rich Text Format (.rtf) file.
+    /// If there are unsaved changes, prompts the user before replacing the current content.
     /// </summary>
     private async void FileOpen()
     {
@@ -163,9 +165,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         }
     }
 
-    /// Command: save
     /// <summary>
-    /// Saves the content of the editor to the associated file path, or prompts the user to choose a file if the path is not set.
+    /// Saves the current document.
+    /// If no file path is set, prompts the user to specify a location.
     /// </summary>
     private void FileSave()
     {
@@ -178,9 +180,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         else FileSaveAs();
     }
 
-    /// Command: save as
     /// <summary>
-    /// Prompts the user to choose a file path and saves the content of the editor to the selected location in Rich Text Format (.rtf).
+    /// Opens a "Save As" dialog, allowing the user to save the document
+    /// under a new file name in Rich Text Format (.rtf).
     /// </summary>
     private void FileSaveAs()
     {
@@ -196,9 +198,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         }
     }
 
-    /// Command: reload
     /// <summary>
-    /// Reloads the content of the editor from the associated file path, discarding any unsaved changes if present.
+    /// Reloads the document from its associated file path.
+    /// If there are unsaved changes, prompts the user for confirmation before reloading.
     /// </summary>
     private async void FileReload()
     {
@@ -213,9 +215,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
     private bool FileReloadCondition() => FilePath != null;
 
-    /// Command: info
     /// <summary>
-    /// Opens the file explorer with the currently associated file selected, if available.
+    /// Opens the Windows Explorer and selects the currently associated file in the file system.
     /// </summary>
     private void FileInfo()
     {
@@ -224,9 +225,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
     private bool FileInfoCondition() => FilePath != null;
 
-    /// Command: print
     /// <summary>
-    /// Prints the content of the editor using the system's default print dialog.
+    /// Opens the system print dialog and prints the current content of the editor.
     /// </summary>
     private void FilePrint()
     {
@@ -249,9 +249,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         UpdateLayout();
     }
 
-    /// Command: mail
     /// <summary>
-    /// Opens the default email client with the editor's content as the email body for sharing.
+    /// Opens the default email client with the editor's content as the email body,
+    /// allowing the user to send the text as an email.
     /// </summary>
     private void FileMail()
     {
@@ -294,9 +294,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         Focus();
     }
 
-    /// Command: strikethrough
     /// <summary>
-    /// Toggles the strikethrough formatting for the selected text.
+    /// Toggles strikethrough formatting for the selected text.
     /// </summary>
     private void FontStrikethrough()
     {
@@ -308,22 +307,20 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
     private bool FontStrikethroughCondition() => EditingCommands.ToggleUnderline.CanExecute(null, this);
 
-    /// Command: color
     /// <summary>
-    /// Applies the selected color to the text of the selected portion in the editor.
+    /// Applies the selected foreground color to the currently selected text in the editor.
     /// </summary>
     private void FontColorText() => Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(SelectedColorText));
 
-    /// Command: highlight
     /// <summary>
-    /// Applies the selected color as a highlight to the selected portion in the editor.
+    /// Applies the selected background highlight color to the currently selected text.
     /// </summary>
     private void FontColorHighlight() => Selection.ApplyPropertyValue(Inline.BackgroundProperty, new SolidColorBrush(SelectedColorHighlight));
 
-    /// Command: interline
     /// <summary>
     /// Adjusts the interline spacing for the selected paragraph(s) in the editor.
     /// </summary>
+    /// <param name="parameter">The desired spacing value. If null, defaults to standard spacing.</param>
     private void SectionInterline(object? parameter)
     {
         parameter ??= double.NaN;
@@ -337,7 +334,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the file path associated with the content of the editor.
+    /// Gets or sets the file path associated with the current document.
+    /// When changed, the content of the editor is updated accordingly.
     /// </summary>
     public string? FilePath
     {
@@ -380,7 +378,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Gets or sets the selected text color in the editor.
+    /// Gets or sets the currently selected text color in the editor.
+    /// Changing this property applies the color to the selected text.
     /// </summary>
     public Color SelectedColorText
     {
@@ -405,7 +404,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Gets or sets the selected highlight color in the editor.
+    /// Gets or sets the currently selected highlight color in the editor.
+    /// Changing this property applies the highlight to the selected text.
     /// </summary>
     public Color SelectedColorHighlight
     {
@@ -430,7 +430,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// Gets or sets the collection of sub-controls associated with the editor.
+    /// These can be used for adding additional UI elements like buttons or dropdowns.
     /// </summary>
     public ObservableCollection<IStswSubControl> SubControls
     {
@@ -445,7 +446,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control shows tool bar and how many options.
+    /// Gets or sets the visibility and number of options displayed in the toolbar.
     /// </summary>
     public StswCompactibility ToolbarMode
     {
@@ -461,11 +462,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -479,11 +476,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -496,9 +489,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             typeof(StswTextEditor),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    
+
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and subs.
+    /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
     /// </summary>
     public double SeparatorThickness
     {
@@ -514,7 +507,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the buttons in the control.
+    /// Gets or sets the border thickness of buttons and controls within the editor.
     /// </summary>
     public Thickness SubBorderThickness
     {
@@ -530,7 +523,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets the corner radius of the buttons in the control.
+    /// Gets or sets the corner radius for buttons and additional UI elements in the editor.
     /// </summary>
     public CornerRadius SubCornerRadius
     {
@@ -546,7 +539,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets the margin of the buttons in the control.
+    /// Gets or sets the padding applied to buttons and other UI elements inside the editor.
     /// </summary>
     public Thickness SubPadding
     {
@@ -562,3 +555,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/>
+
+*/

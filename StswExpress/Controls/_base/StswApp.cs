@@ -10,13 +10,18 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a custom application class with additional functionality and customization options, 
-/// including single-instance enforcement and inter-process communication for restoring a minimized or hidden instance.
+/// including single-instance enforcement, inter-process communication for restoring a minimized instance,
+/// automatic registration of data templates, and resource initialization.
 /// </summary>
+/// <remarks>
+/// If <see cref="AllowMultipleInstances"/> is set to <see langword="false"/>, only one instance of the application
+/// is allowed per user session. If a second instance is launched, it will attempt to bring the existing instance to the foreground.
+/// </remarks>
 public class StswApp : Application
 {
     /// <summary>
-    /// Entry point that configures application settings, prevents multiple instances, 
-    /// initializes resources, data templates, and translations, and sets global culture settings.
+    /// Entry point that configures application settings, prevents multiple instances if needed, 
+    /// initializes resources, loads translations asynchronously, and registers data templates if enabled.
     /// </summary>
     /// <param name="e">The startup event arguments.</param>
     protected override void OnStartup(StartupEventArgs e)
@@ -37,7 +42,7 @@ public class StswApp : Application
 
     /// <summary>
     /// Checks if another instance of the application is already running under the current user's session.
-    /// If found, restores the main window of the existing instance.
+    /// If found, attempts to restore the main window of the existing instance.
     /// </summary>
     /// <returns><see langword="true"/> if an existing instance is found and restored; otherwise, <see langword="false"/>.</returns>
     private bool CheckForExistingInstance()
@@ -58,9 +63,10 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Restores the window of an existing application instance.
+    /// Restores the main window of an existing application instance, bringing it to the foreground.
+    /// If the window is minimized, it is restored.
     /// </summary>
-    /// <param name="hWnd">The handle to the window.</param>
+    /// <param name="process">The process instance of the running application.</param>
     private void RestoreWindow(Process process)
     {
         IntPtr hWnd = process.MainWindowHandle;
@@ -77,8 +83,9 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// 
+    /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
     /// </summary>
+    /// <param name="process">The process instance of the running application.</param>
     private void ActivateTrayWindow(Process process)
     {
         foreach (ProcessThread thread in process.Threads)
@@ -98,8 +105,10 @@ public class StswApp : Application
 
     /// <summary>
     /// Dynamically registers data templates for each context-view pair within the application assembly.
-    /// Maps each context type ending with "Context" to a view type ending with "View" if available.
+    /// Maps each context type ending with <see cref="ContextSuffix"/> to a view type ending with <see cref="ViewSuffix"/> if available.
     /// </summary>
+    /// <param name="contextSuffix">The suffix used to identify context classes.</param>
+    /// <param name="viewSuffix">The suffix used to identify view classes.</param>
     private static void RegisterDataTemplates(string contextSuffix, string viewSuffix)
     {
         if (Assembly.GetEntryAssembly()?.GetTypes() is Type[] types)
@@ -121,12 +130,14 @@ public class StswApp : Application
     }
 
     /// <summary>
-    /// Gets the current application's main <see cref="StswWindow"/>, throwing an exception if it is not of the expected type.
+    /// Gets the current application's main <see cref="StswWindow"/> instance.
+    /// Throws an exception if the main window is not of the expected type.
     /// </summary>
     public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
 
     /// <summary>
     /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
+    /// When set to <see langword="false"/>, a second instance will attempt to bring the first instance to the foreground and then shut down.
     /// </summary>
     public bool AllowMultipleInstances
     {
@@ -140,17 +151,19 @@ public class StswApp : Application
     private bool _allowMultipleInstances = true;
 
     /// <summary>
-    /// Gets or sets whether the automatic registration of data templates is enabled.
+    /// Gets or sets a value indicating whether automatic registration of data templates is enabled.
     /// </summary>
     public bool IsRegisterDataTemplatesEnabled { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the suffix used to identify context types.
+    /// Gets or sets the suffix used to identify context types when registering data templates.
+    /// Defaults to "Context".
     /// </summary>
     public string ContextSuffix { get; set; } = "Context";
 
     /// <summary>
-    /// Gets or sets the suffix used to identify view types.
+    /// Gets or sets the suffix used to identify view types when registering data templates.
+    /// Defaults to "View".
     /// </summary>
     public string ViewSuffix { get; set; } = "View";
 

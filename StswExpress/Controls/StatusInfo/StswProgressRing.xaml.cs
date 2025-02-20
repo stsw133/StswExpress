@@ -7,8 +7,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+/// A circular progress indicator with text and scaling support.
+/// Can display percentage, value, or custom text inside the ring.
 /// </summary>
+/// <remarks>
+/// This control provides a visual representation of progress in a ring format.
+/// It supports different text display modes and scaling for various UI requirements.
+/// </remarks>
 public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()
@@ -31,10 +36,11 @@ public class StswProgressRing : ProgressBar
 
     #region Events & methods
     /// <summary>
-    /// Event handler to update the text displayed on the progress ring based on its state.
+    /// Handles changes to the progress text based on the current value and display mode.
+    /// Updates the <see cref="Text"/> property dynamically.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
@@ -51,16 +57,18 @@ public class StswProgressRing : ProgressBar
     }
 
     /// <summary>
-    /// 
+    /// Handles changes to the progress value and updates the stroke dash array
+    /// to reflect the correct progress visualization in the ring.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = [(Value - Minimum) / (Maximum - Minimum) * 21.89204, 21.89204];
     #endregion
 
     #region Logic properties
     /// <summary>
     /// Gets or sets the scale of the progress ring.
+    /// Determines the size of the ring in proportion to its default dimensions.
     /// </summary>
     public GridLength Scale
     {
@@ -86,7 +94,7 @@ public class StswProgressRing : ProgressBar
     }
 
     /// <summary>
-    /// Gets or sets the current state of the progress ring.
+    /// Gets or sets the current state of the progress ring, which can be used for styling purposes.
     /// </summary>
     public StswProgressState State
     {
@@ -101,7 +109,8 @@ public class StswProgressRing : ProgressBar
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the stroke dash array used to control the visibility of the ring's progress arc.
+    /// This property dynamically updates based on the <see cref="Value"/>.
     /// </summary>
     internal DoubleCollection StrokeDashArray
     {
@@ -116,7 +125,8 @@ public class StswProgressRing : ProgressBar
         );
 
     /// <summary>
-    /// Gets the text to display on the progress ring indicating the progress status.
+    /// Gets or sets the text displayed inside the progress ring.
+    /// Updates dynamically based on the selected <see cref="TextMode"/>.
     /// </summary>
     public string? Text
     {
@@ -131,7 +141,8 @@ public class StswProgressRing : ProgressBar
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether to display the progress text in percents or the current value range.
+    /// Gets or sets the mode used to display progress text.
+    /// Determines whether the progress ring shows a percentage, an absolute value, or custom text.
     /// </summary>
     public StswProgressTextMode TextMode
     {
@@ -159,7 +170,7 @@ public class StswProgressRing : ProgressBar
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the fill brush used for the progress ring's visual representation.
     /// </summary>
     public Brush Fill
     {
@@ -175,3 +186,9 @@ public class StswProgressRing : ProgressBar
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/>
+
+*/

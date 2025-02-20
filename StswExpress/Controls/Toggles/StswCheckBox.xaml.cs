@@ -4,8 +4,13 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
+/// A customizable checkbox control that supports three states: checked, unchecked, and indeterminate.
+/// Includes animations, icon customization, and read-only mode.
 /// </summary>
+/// <remarks>
+/// The control provides enhanced visual customization, including the ability to change icons 
+/// for different states and prevent state changes when read-only mode is enabled.
+/// </remarks>
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
     static StswCheckBox()
@@ -23,11 +28,11 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         if (!IsReadOnly)
             base.OnToggle();
     }
-    
+
     /// <summary>
-    /// 
+    /// Handles the checked event and triggers an animation if animations are enabled.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -40,9 +45,9 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the unchecked event and triggers an animation if animations are enabled.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -57,7 +62,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the scale of the icon in the box.
+    /// Gets or sets the scale of the icon inside the checkbox.
     /// </summary>
     public GridLength IconScale
     {
@@ -72,7 +77,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control is in read-only mode.
+    /// Gets or sets a value indicating whether the checkbox is in read-only mode.
+    /// When set to <see langword="true"/>, the checkbox cannot be toggled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -88,11 +94,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -106,11 +108,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -125,7 +123,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the brush used to render the glyph (icon).
+    /// Gets or sets the brush used to render the checkbox glyph (icon).
     /// </summary>
     public Brush? GlyphBrush
     {
@@ -141,7 +139,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the geometry used for the icon in the checked state.
+    /// Gets or sets the geometry used for the icon when the checkbox is in the checked state.
     /// </summary>
     public Geometry? IconChecked
     {
@@ -157,7 +155,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the geometry used for the icon in the indeterminate state.
+    /// Gets or sets the geometry used for the icon when the checkbox is in the indeterminate state.
     /// </summary>
     public Geometry? IconIndeterminate
     {
@@ -173,7 +171,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the geometry used for the icon in the unchecked state.
+    /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
     /// </summary>
     public Geometry? IconUnchecked
     {
@@ -189,3 +187,9 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/>
+
+*/

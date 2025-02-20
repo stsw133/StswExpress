@@ -6,8 +6,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on the child elements.
-/// </remarks>
+/// A custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on its children.
+/// Supports different auto-layout modes.
+/// </summary>
 public class StswGrid : Grid
 {
     public StswGrid()
@@ -17,9 +18,7 @@ public class StswGrid : Grid
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -28,6 +27,7 @@ public class StswGrid : Grid
 
     /// <summary>
     /// Overrides the MeasureOverride method to ensure proper layout when AutoDefinitions is enabled.
+    /// Ensures the grid's definitions are adjusted based on the number of children.
     /// </summary>
     /// <param name="constraint">The size constraint for the control.</param>
     /// <returns>The desired size of the control.</returns>
@@ -39,6 +39,7 @@ public class StswGrid : Grid
 
     /// <summary>
     /// Ensures the correct number of RowDefinitions and ColumnDefinitions based on the child elements.
+    /// Updates layout based on the selected <see cref="AutoLayoutMode"/> (e.g., Auto, Increment Rows/Columns).
     /// </summary>
     private void EnsureDefinitions()
     {
@@ -157,6 +158,7 @@ public class StswGrid : Grid
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.
+    /// Defines how the grid layout should adjust based on its children (e.g., Auto, Increment Rows, Increment Columns).
     /// </summary>
     public StswAutoLayoutMode AutoLayoutMode
     {
@@ -179,7 +181,8 @@ public class StswGrid : Grid
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.
+    /// Gets or sets the widths of the columns.
+    /// This property controls the width of each column when <see cref="AutoLayoutMode"/> is enabled.
     /// </summary>
     public List<GridLength> ColumnWidths
     {
@@ -195,7 +198,8 @@ public class StswGrid : Grid
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.
+    /// Gets or sets the heights of the rows.
+    /// This property controls the height of each row when <see cref="AutoLayoutMode"/> is enabled.
     /// </summary>
     public List<GridLength> RowHeights
     {
@@ -211,3 +215,12 @@ public class StswGrid : Grid
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswGrid AutoLayoutMode="AutoDefinitions">
+    <TextBlock Grid.Row="0" Text="Item 1"/>
+    <TextBlock Grid.Row="1" Text="Item 2"/>
+</se:StswGrid>
+
+*/

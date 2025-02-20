@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a date column for <see cref="StswDataGrid"/> that allows selecting and displaying dates.
 /// </summary>
 public class StswDataGridDateColumn : DataGridTextColumn
 {
@@ -26,11 +26,12 @@ public class StswDataGridDateColumn : DataGridTextColumn
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for displaying the selected date within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's selected date.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -51,11 +52,12 @@ public class StswDataGridDateColumn : DataGridTextColumn
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable date picker element for selecting a date within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswDatePicker"/> as the editing element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswDatePicker"/> element bound to the column's selected date.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswDatePicker()
@@ -78,7 +80,8 @@ public class StswDataGridDateColumn : DataGridTextColumn
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the date format displayed in the column.
+    /// Example: "dd/MM/yyyy".
     /// </summary>
     public string? Format
     {
@@ -93,7 +96,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the date picker when no value is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -108,7 +111,8 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the selection unit for the date picker.
+    /// Determines whether users can select days, months, or years.
     /// </summary>
     public StswCalendarUnit SelectionUnit
     {
@@ -126,7 +130,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the content inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -141,7 +145,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -156,7 +160,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -171,7 +175,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -186,7 +190,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the date picker inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -202,7 +206,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the date picker inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -218,3 +222,9 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDataGridDateColumn Header="Birth Date" Binding="{Binding BirthDate}" Format="dd/MM/yyyy"/>
+
+*/

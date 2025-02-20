@@ -45,6 +45,7 @@
 
 ### Controls
 - A new `FocusVisualStyle` has been applied to almost every `Stsw` control.
+- A new `StswDataGridTimeColumn` for selecting time in data grids.
 - Added experimental versions of `StswGridSplitter`, `StswStatusBar` and `StswToolBar`.
 - `StswDirectionView` now supports scrolling by clicking and holding the left mouse button inside its content, then moving the cursor over one of its buttons.
 - `StswLabel` has a new `TextTrimming` property.
@@ -52,6 +53,7 @@
 - `StswTimePicker` now hides time sections in the popup that are not mentioned in the `Format` property. Time parts are also translated into multiple languages.
 
 ### Utils
+- Added a new helper method in `StswFn`: `ShowFileInExplorer`, which opens file in explorer.
 - Added `StswHasAttributeConverter` to check if a property or enum value has a specific attribute.
 - Introduced `StswRandomGenerator` to populate `IEnumerable<T>` with random data.
 - `StswTranslator` now allows loading custom translations dynamically when the language changes.

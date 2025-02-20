@@ -11,7 +11,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+/// A numeric input control allowing users to enter a number manually or adjust the value using up/down buttons.
+/// Supports custom formats, increment steps, and min/max value validation.
 /// </summary>
 [ContentProperty(nameof(Value))]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
@@ -28,9 +29,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     /// </summary>
     public event EventHandler? ValueChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -53,6 +52,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
     /// <summary>
     /// Handles the click event for the "Up" button, incrementing the numeric value.
+    /// The increment is determined by the <see cref="Increment"/> property.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -71,6 +71,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
     /// <summary>
     /// Handles the click event for the "Down" button, decrementing the numeric value.
+    /// The decrement is determined by the <see cref="Increment"/> property.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -88,7 +89,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <summary>
-    /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
+    /// Handles the mouse wheel event, adjusting the numeric value based on scroll direction.
+    /// The value is incremented or decremented according to <see cref="Increment"/>.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -107,7 +109,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <summary>
-    /// 
+    /// Ensures that the provided value does not exceed the <see cref="Maximum"/> or fall below the <see cref="Minimum"/>.
+    /// Returns the validated value.
     /// </summary>
     private T? MinMaxValidate(T? newValue)
     {
@@ -124,7 +127,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <summary>
-    /// Updates the main property associated with the selected value in the control based on user input.
+    /// Updates the main property associated with the control's value based on user input.
+    /// If the entered text is a valid number, it updates the bound value. If empty, it sets the value to null.
+    /// Also supports evaluating mathematical expressions.
     /// </summary>
     /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     protected override void UpdateMainProperty(bool alwaysUpdate)
@@ -151,8 +156,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the custom number format string used to display the value in the control.
-    /// When set, the value is formatted according to the provided format string.
+    /// Gets or sets the custom numeric format string used to display the value in the control.
+    /// Example: "C2" for currency, "N0" for whole numbers.
     /// </summary>
     public string? Format
     {
@@ -182,7 +187,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <summary>
-    /// Gets or sets the increment value used when clicking the "Up" or "Down" button.
+    /// Gets or sets the step value used when adjusting the number using the up/down buttons or mouse wheel.
     /// </summary>
     public T Increment
     {
@@ -197,7 +202,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
 
     /// <summary>
-    /// Gets or sets the maximum allowable value in the control.
+    /// Gets or sets the maximum allowable value in the control. 
+    /// The input value will be clamped to this maximum if exceeded.
     /// </summary>
     public T? Maximum
     {
@@ -221,7 +227,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <summary>
-    /// Gets or sets the minimum allowable value in the control.
+    /// Gets or sets the minimum allowable value in the control. 
+    /// The input value will be clamped to this minimum if lower.
     /// </summary>
     public T? Minimum
     {
@@ -237,7 +244,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
 
     /// <summary>
-    /// Gets or sets the numeric value of the control.
+    /// Gets or sets the numeric value of the control. 
+    /// Supports data binding and updates when the user enters a new value or uses increment/decrement controls.
     /// </summary>
     public T? Value
     {
@@ -270,6 +278,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/>
+
+*/
 
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.

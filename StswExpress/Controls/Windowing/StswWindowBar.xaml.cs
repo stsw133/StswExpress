@@ -5,9 +5,13 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a window bar control with integrated window management and dynamic context menu.
-/// Provides options for minimizing, maximizing, restoring, and entering/exiting fullscreen mode.
+/// A window bar control that provides integrated window management options.
+/// Supports minimize, maximize, restore, fullscreen toggle, and context menu actions.
 /// </summary>
+/// <remarks>
+/// Designed to be used inside a <see cref="StswWindow"/> to offer window control buttons and a context menu.
+/// The bar automatically detects its parent window and configures its actions accordingly.
+/// </remarks>
 [ContentProperty(nameof(Components))]
 public class StswWindowBar : Control
 {
@@ -23,9 +27,7 @@ public class StswWindowBar : Control
     #region Events & methods
     private StswWindow? _window;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -37,7 +39,7 @@ public class StswWindowBar : Control
     }
 
     /// <summary>
-    /// Assigns click event handlers to window control buttons: minimize, restore, and close.
+    /// Configures window control buttons, assigning event handlers to enable minimize, maximize, restore, and close actions.
     /// </summary>
     private void ConfigureButtons()
     {
@@ -64,7 +66,7 @@ public class StswWindowBar : Control
     }
 
     /// <summary>
-    /// Initializes handlers and visibility settings for context menu items based on window state.
+    /// Initializes the context menu with appropriate event handlers and dynamically adjusts menu visibility based on the window's state.
     /// </summary>
     private void ConfigureMenu()
     {
@@ -85,8 +87,9 @@ public class StswWindowBar : Control
 
     /// <summary>
     /// Configures the event handlers for a context menu item based on its name.
+    /// Ensures that each item performs the correct action when clicked.
     /// </summary>
-    /// <param name="item">The context menu item.</param>
+    /// <param name="item">The context menu item to configure.</param>
     private void ConfigureMenuItemHandlers(FrameworkElement item)
     {
         if (_window == null || string.IsNullOrEmpty(item.Name) || item is not MenuItem menuItem)
@@ -129,9 +132,10 @@ public class StswWindowBar : Control
     }
 
     /// <summary>
-    /// Configures the visibility of a context menu item based on its name.
+    /// Adjusts the visibility of context menu items based on the current window state.
+    /// Ensures that only relevant options are displayed at any given moment.
     /// </summary>
-    /// <param name="item">The context menu item.</param>
+    /// <param name="item">The context menu item whose visibility is being updated.</param>
     private void ConfigureMenuItemVisibility(FrameworkElement item)
     {
         if (_window == null || string.IsNullOrEmpty(item.Name))
@@ -156,7 +160,8 @@ public class StswWindowBar : Control
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the collection of elements used in the window's title bar.
+    /// Gets or sets the collection of UI elements displayed in the window bar.
+    /// Allows customization by adding additional controls to the bar.
     /// </summary>
     public IList Components
     {
@@ -172,11 +177,7 @@ public class StswWindowBar : Control
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -190,11 +191,7 @@ public class StswWindowBar : Control
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -209,3 +206,11 @@ public class StswWindowBar : Control
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswWindow>
+    <se:StswWindowBar/>
+</se:StswWindow>
+
+*/

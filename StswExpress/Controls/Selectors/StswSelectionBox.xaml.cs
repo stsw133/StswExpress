@@ -10,11 +10,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace StswExpress;
-/// <summary>
-/// Represents a control that combines the functionality of a <see cref="ComboBox"/> (drop-down) and <see cref="ListBox"/> (multiple selection).
-/// ItemsSource must contain elements implementing <see cref="IStswSelectionItem"/>.
+namespace StswExpress;/// <summary>
+/// A multi-selection combo box that allows users to select multiple items from a drop-down list.
+/// Supports item binding, selection tracking, drop-down customization, and error indication.
 /// </summary>
+/// <remarks>
+/// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
+/// </remarks>
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     public StswSelectionBox()
@@ -32,9 +34,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     private Popup? _popup;
     private ListBox? _listBox;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -53,12 +53,13 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             _listBox = listBox;
         }
     }
-    
+
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsSource"/> property changes.
+    /// Validates item compatibility and updates selection tracking.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
+    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
@@ -83,10 +84,11 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
+    /// Called when the <see cref="ItemTemplate"/> property changes.
+    /// Resets the <see cref="DisplayMemberPath"/> if a custom template is applied.
     /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <param name="oldItemTemplate">The previous data template for items.</param>
+    /// <param name="newItemTemplate">The new data template for items.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
@@ -95,8 +97,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <summary>
-    /// Updates the Text property based on which items have IsSelected = true.
-    /// Also synchronizes the internal SelectedItems property with the currently selected items.
+    /// Updates the displayed text based on the selected items.
+    /// Also synchronizes the internal selection state.
     /// </summary>
     internal void UpdateText()
     {
@@ -145,9 +147,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
-    /// </summary>
+    /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -160,9 +160,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(StswSelectionBox)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
-    /// </summary>
+    /// <inheritdoc/>
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -175,9 +173,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(StswSelectionBox)
         );
 
-    /// <summary>
-    /// Gets or sets the icon section of the box.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -190,9 +186,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(StswSelectionBox)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
@@ -219,10 +213,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
     private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -235,9 +226,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(StswSelectionBox)
         );
 
-    /// <summary>
-    /// Gets or sets the placeholder text displayed in the control when no item is selected.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -249,9 +238,9 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(string),
             typeof(StswSelectionBox)
         );
-    
+
     /// <summary>
-    /// Gets or sets the path to the value property of the selected items in the ItemsSource.
+    /// Gets or sets the property path used to retrieve the value of selected items.
     /// </summary>
     public string? SelectedValuePath
     {
@@ -265,9 +254,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(StswSelectionBox)
         );
 
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
+    /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
@@ -281,7 +268,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <summary>
-    /// Gets or sets the text value of the control.
+    /// Gets or sets the text representation of the selected items.
+    /// This property updates dynamically based on selection changes.
     /// </summary>
     public string Text
     {
@@ -299,7 +287,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <summary>
-    /// Command used to refresh the text from the selection.
+    /// Gets or sets the command that updates the displayed text based on selected items.
     /// </summary>
     public ICommand UpdateTextCommand
     {
@@ -315,11 +303,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -333,11 +317,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -351,9 +331,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownHeight
     {
         get => (double)GetValue(MaxDropDownHeightProperty);
@@ -367,9 +345,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum width of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -384,7 +360,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// Gets or sets the thickness of the separator between the drop-down button and the main input field.
     /// </summary>
     public double SeparatorThickness
     {
@@ -400,3 +376,9 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/>
+
+*/

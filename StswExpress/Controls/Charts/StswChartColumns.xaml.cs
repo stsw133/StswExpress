@@ -8,7 +8,8 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control designed for displaying column charts.
+/// Represents a chart control that visualizes data as vertical columns. 
+/// Automatically adjusts column heights based on data values and resizes dynamically with the control.
 /// </summary>
 public class StswChartColumns : ItemsControl
 {
@@ -20,10 +21,11 @@ public class StswChartColumns : ItemsControl
 
     #region Events & methods
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsControl.ItemsSource"/> property changes.
+    /// Recalculates chart data and updates column heights dynamically.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);
@@ -35,9 +37,10 @@ public class StswChartColumns : ItemsControl
     }
 
     /// <summary>
-    /// Occurs when the render size changes.
+    /// Called when the render size of the control changes.
+    /// Triggers a recalculation of column sizes to maintain proper chart proportions.
     /// </summary>
-    /// <param name="sizeInfo">The size info.</param>
+    /// <param name="sizeInfo">The size change details.</param>
     protected override async void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -45,9 +48,11 @@ public class StswChartColumns : ItemsControl
     }
 
     /// <summary>
-    /// Generates chart data based on the provided items source.
+    /// Generates and updates the chart based on the provided data source.
+    /// Ensures column heights are proportional to data values.
     /// </summary>
-    /// <param name="itemsSource">The items source to generate the chart data from.</param>
+    /// <param name="itemsSource">The collection of data items used to generate the chart.</param>
+    /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
     public virtual void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
@@ -75,8 +80,10 @@ public class StswChartColumns : ItemsControl
     }
 
     /// <summary>
-    /// Resizes chart based on the percentage values and number of columns.
+    /// Adjusts the size of the chart columns based on updated percentage values and available space.
+    /// Ensures the chart remains properly scaled after control resizing.
     /// </summary>
+    /// <exception cref="Exception">Thrown if the <see cref="ItemsControl.ItemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
     private void ResizeChart()
     {
         if (ItemsSource == null)
@@ -100,3 +107,9 @@ public class StswChartColumns : ItemsControl
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswChartColumns ItemsSource="{Binding RevenueData}" Width="400" Height="300"/>
+
+*/

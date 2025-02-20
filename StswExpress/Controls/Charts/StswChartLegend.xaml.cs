@@ -7,7 +7,9 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control designed for displaying chart's legend.
+/// Represents a legend control for charts, displaying labels and corresponding colors.
+/// Supports dynamic updates, customizable grid layout with adjustable rows and columns, 
+/// and optional percentage visibility inside legend items.
 /// </summary>
 public class StswChartLegend : HeaderedItemsControl
 {
@@ -19,10 +21,11 @@ public class StswChartLegend : HeaderedItemsControl
 
     #region Events & methods
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsControl.ItemsSource"/> property changes.
+    /// Recalculates legend data and updates displayed percentages dynamically.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);
@@ -34,9 +37,11 @@ public class StswChartLegend : HeaderedItemsControl
     }
 
     /// <summary>
-    /// Generates chart data based on the provided items source.
+    /// Generates and updates the legend based on the provided data source.
+    /// Ensures that percentage values are calculated correctly for each legend item.
     /// </summary>
-    /// <param name="itemsSource">The items source to generate the chart data from.</param>
+    /// <param name="itemsSource">The collection of data items used to generate the legend.</param>
+    /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
     public virtual void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
@@ -58,6 +63,7 @@ public class StswChartLegend : HeaderedItemsControl
     #region Logic properties
     /// <summary>
     /// Gets or sets the number of columns in the chart legend.
+    /// Determines how legend items are arranged in a grid format.
     /// </summary>
     public int Columns
     {
@@ -74,6 +80,7 @@ public class StswChartLegend : HeaderedItemsControl
 
     /// <summary>
     /// Gets or sets the number of rows in the chart legend.
+    /// Controls how legend items are distributed vertically within the available space.
     /// </summary>
     public int Rows
     {
@@ -89,7 +96,8 @@ public class StswChartLegend : HeaderedItemsControl
         );
 
     /// <summary>
-    /// Gets or sets whether options show percentage inside their color rectangles.
+    /// Gets or sets a value indicating whether percentage values should be displayed 
+    /// inside the color rectangles of the legend items.
     /// </summary>
     public bool ShowDetails
     {
@@ -105,11 +113,7 @@ public class StswChartLegend : HeaderedItemsControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -123,11 +127,7 @@ public class StswChartLegend : HeaderedItemsControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -142,3 +142,9 @@ public class StswChartLegend : HeaderedItemsControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswChartLegend ItemsSource="{Binding ChartData}" Columns="3" Rows="2" ShowDetails="True"/>
+
+*/

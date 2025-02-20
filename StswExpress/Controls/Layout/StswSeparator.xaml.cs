@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that can be used to visually divide content in a user interface.
+/// A visual separator used to divide UI elements.
 /// </summary>
 public class StswSeparator : Separator
 {
@@ -17,7 +17,9 @@ public class StswSeparator : Separator
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the orientation of the control.
+    /// Gets or sets the orientation of the separator.
+    /// When set to <see cref="Orientation.Horizontal"/>, the separator spans horizontally across the layout.
+    /// When set to <see cref="Orientation.Vertical"/>, the separator is displayed as a vertical line.
     /// </summary>
     public Orientation Orientation
     {
@@ -35,7 +37,8 @@ public class StswSeparator : Separator
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the thickness of the separator.
+    /// Gets or sets the thickness of the separator line.
+    /// A higher value results in a thicker visual divider.
     /// </summary>
     public new double BorderThickness
     {
@@ -52,7 +55,8 @@ public class StswSeparator : Separator
     #endregion
 
     #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
+    /// The following properties are hidden from the designer and serialization
+    /// because they are not relevant to the appearance or behavior of the control:
 
     [Bindable(false)]
     [Browsable(false)]
@@ -103,3 +107,13 @@ public class StswSeparator : Separator
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
+
+/* usage:
+
+<StackPanel>
+    <TextBlock Text="Section 1"/>
+    <se:StswSeparator Orientation="Horizontal" BorderThickness="2"/>
+    <TextBlock Text="Section 2"/>
+</StackPanel>
+
+*/

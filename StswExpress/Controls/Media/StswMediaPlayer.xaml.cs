@@ -10,7 +10,8 @@ using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control to display media element with additional features such as management panel.
+/// A media player control that supports playing audio and video files.
+/// Includes playback controls, timeline slider, and mute option.
 /// </summary>
 public class StswMediaPlayer : ItemsControl
 {
@@ -24,9 +25,7 @@ public class StswMediaPlayer : ItemsControl
     private MediaElement? _mediaElement;
     private readonly Timer timer = new() { AutoReset = true };
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -68,26 +67,32 @@ public class StswMediaPlayer : ItemsControl
         timer.Elapsed += Timer_Elapsed;
     }
 
-    /// Slider: timeline
+    /// <summary>
+    /// Handles the mouse up event on the timeline slider.
+    /// Updates the media position based on the user's input.
+    /// </summary>
+    /// <param name="sender">The sender object (slider)</param>
+    /// <param name="e">The event arguments</param>
     private void PART_Timeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
         if (_mediaElement != null)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                isUserChangingTimeline = true;
+                _isUserChangingTimeline = true;
             if (e.LeftButton == MouseButtonState.Released)
             {
                 _mediaElement.Position = new TimeSpan((long)((Slider)sender).Value * 10000);
-                isUserChangingTimeline = false;
+                _isUserChangingTimeline = false;
             }
         }
     }
-    private bool isUserChangingTimeline;
+    private bool _isUserChangingTimeline;
 
     /// <summary>
-    /// 
+    /// Determines whether the media source can be shifted forward or backward in the playlist.
     /// </summary>
     /// <param name="step">The step value for shifting through items</param>
+    /// <returns>True if shifting is possible, otherwise false.</returns>
     private bool CanShiftBy(int step)
     {
         if (HasItems)
@@ -105,7 +110,7 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
-    /// 
+    /// Changes the currently playing media to the next or previous item in the playlist.
     /// </summary>
     /// <param name="step">The step value for shifting through items</param>
     private void ShiftBy(int step)
@@ -133,15 +138,15 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the current playback position of the media periodically.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="sender">The timer triggering the update</param>
     /// <param name="e">The event arguments</param>
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     {
         Dispatcher.Invoke(() =>
         {
-            if (_mediaElement != null && !isUserChangingTimeline)
+            if (_mediaElement != null && !_isUserChangingTimeline)
                 TimeCurrent = _mediaElement.Position;
         });
     }
@@ -149,7 +154,7 @@ public class StswMediaPlayer : ItemsControl
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the media is muted.
     /// </summary>
     public bool IsMuted
     {
@@ -175,7 +180,8 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the media is currently playing.
+    /// <see langword="null"/> represents a stopped state.
     /// </summary>
     public bool? IsPlaying
     {
@@ -218,7 +224,7 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets the source of the control.
+    /// Gets or sets the source URI of the media file being played.
     /// </summary>
     public Uri Source
     {
@@ -233,7 +239,7 @@ public class StswMediaPlayer : ItemsControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the current playback time of the media.
     /// </summary>
     public TimeSpan TimeCurrent
     {
@@ -248,7 +254,7 @@ public class StswMediaPlayer : ItemsControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the total duration of the media file.
     /// </summary>
     public TimeSpan TimeMax
     {
@@ -264,11 +270,7 @@ public class StswMediaPlayer : ItemsControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -282,11 +284,7 @@ public class StswMediaPlayer : ItemsControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -301,7 +299,7 @@ public class StswMediaPlayer : ItemsControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between media element and option panel.
+    /// Gets or sets the thickness of the separator between the media element and the control panel.
     /// </summary>
     public double SeparatorThickness
     {
@@ -317,3 +315,9 @@ public class StswMediaPlayer : ItemsControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/>
+
+*/

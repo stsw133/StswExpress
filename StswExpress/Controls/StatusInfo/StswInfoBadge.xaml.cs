@@ -5,8 +5,12 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that can be customized to display a number, icon, or a simple dot.
+/// A badge control for displaying numerical values, icons, or dots.
+/// Supports customizable limits, formatting, icon integration, and rounded corner styling.
 /// </summary>
+/// <remarks>
+/// This control allows displaying notifications, counters, or status indicators in a compact format.
+/// </remarks>
 public class StswInfoBadge : Control, IStswCornerControl
 {
     static StswInfoBadge()
@@ -16,9 +20,7 @@ public class StswInfoBadge : Control, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -26,13 +28,13 @@ public class StswInfoBadge : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Converts a given integer to a string representation, using 'k' for thousands, 'M' for millions,
-    /// and 'B' for billions if applicable.
+    /// Converts a numerical value into a shortened string representation.
+    /// Uses 'k' for thousands, 'M' for millions, and 'B' for billions if applicable.
     /// </summary>
-    /// <param name="number">The integer to be converted.</param>
+    /// <param name="number">The integer value to convert.</param>
     /// <returns>
-    /// A string representing the number with 'k' for thousands, 'M' for millions,
-    /// and 'B' for billions, or the number itself if it is less than 1000.
+    /// A formatted string representing the number with 'k' (thousands), 'M' (millions),
+    /// or 'B' (billions), or the number itself if it is less than 1000.
     /// </returns>
     public static string SeparateByThousands(int number) => Math.Abs(number) switch
     {
@@ -43,7 +45,8 @@ public class StswInfoBadge : Control, IStswCornerControl
     };
 
     /// <summary>
-    /// 
+    /// Updates the displayed value based on the <see cref="Value"/> and <see cref="Limit"/> properties.
+    /// If the value exceeds the limit, it is truncated and appended with a '+'.
     /// </summary>
     public void UpdateValue()
     {
@@ -53,8 +56,8 @@ public class StswInfoBadge : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Represents the displayed value in the control, dynamically updated to show the actual value
-    /// or a truncated version followed by a '+' if it exceeds the specified limit.
+    /// Gets or sets the formatted string representation of the displayed value.
+    /// Updates dynamically based on the <see cref="Value"/> and <see cref="Limit"/> properties.
     /// </summary>
     public string? DisplayedValue
     {
@@ -69,7 +72,8 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Specifies the format of the displayed information, allowing customization of the presentation style.
+    /// Gets or sets the format used to display the information.
+    /// Determines whether the badge shows a number, icon, or other visual representation.
     /// </summary>
     public StswInfoFormat Format
     {
@@ -84,7 +88,7 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the geometry used for the icon.
+    /// Gets or sets the geometry data for the icon displayed within the badge.
     /// </summary>
     public Geometry? IconData
     {
@@ -99,9 +103,8 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Sets a maximum limit for the displayed value.
-    /// If the assigned value surpasses this limit,
-    /// the displayed value is truncated and appended with a '+'.
+    /// Gets or sets the maximum value that can be displayed before being truncated with a '+' suffix.
+    /// If the value exceeds this limit, it is shown as "<see cref="Limit"/>+".
     /// </summary>
     public int? Limit
     {
@@ -117,8 +120,8 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Represents the type of information displayed, allowing
-    /// customization based on different data representations.
+    /// Gets or sets the type of information displayed in the badge.
+    /// Determines the purpose or meaning of the displayed value.
     /// </summary>
     public StswInfoType Type
     {
@@ -133,7 +136,8 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Defines the numerical value, used to reflect specific information or statistics.
+    /// Gets or sets the numerical value displayed in the badge.
+    /// This value is dynamically formatted and constrained by the <see cref="Limit"/> property.
     /// </summary>
     public int Value
     {
@@ -157,11 +161,7 @@ public class StswInfoBadge : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -175,11 +175,7 @@ public class StswInfoBadge : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -194,3 +190,9 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswInfoBadge Value="1500" Limit="999" Format="Number"/>
+
+*/

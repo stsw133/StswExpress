@@ -8,7 +8,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
+/// A navigation element that can contain sub-elements and interact with a parent navigation control.
+/// Supports icons, busy states, and dynamic context loading.
 /// </summary>
 /// <remarks>
 /// WARNING: There are bugs when switching from <see cref="StswCompactibility.Compact"/> mode
@@ -26,9 +27,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     #region Events & methods
     private StswNavigation? _stswNavigation;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -42,9 +41,10 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     }
 
     /// <summary>
-    /// FOR BUGFIX - temporary method for repairing bug with changing indendation.
+    /// Temporary method for fixing indentation issues when switching between compact and full modes.
+    /// Forces an update to the indentation of sub-items.
     /// </summary>
-    /// <param name="drawingContext"></param>
+    /// <param name="drawingContext">The drawing context for rendering.</param>
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);
@@ -55,6 +55,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     #region Logic properties
     /// <summary>
     /// Gets or sets the namespace of the context associated with this navigation element.
+    /// This defines the view or logical context to be loaded when the element is selected.
     /// </summary>
     public object ContextNamespace
     {
@@ -70,6 +71,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets a value indicating whether to create a new instance of the context object when the element is checked.
+    /// If set to <see langword="true"/>, a fresh instance of the context is created each time the navigation element is selected.
     /// </summary>
     public bool CreateNewInstance
     {
@@ -83,9 +85,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             typeof(StswNavigationElement)
         );
 
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -98,9 +98,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             typeof(StswNavigationElement)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -115,6 +113,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets the source used for the icon image.
+    /// Supports bitmap-based icons in addition to vector-based ones.
     /// </summary>
     public ImageSource? IconSource
     {
@@ -130,6 +129,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets a value indicating whether the navigation element is in the busy state.
+    /// Used to display a loading indicator when processing a navigation change.
     /// </summary>
     public bool IsBusy
     {
@@ -144,7 +144,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the navigation element is inside the compact panel.
+    /// This is relevant when switching between compact and full navigation modes.
     /// </summary>
     public bool IsInCompactPanel
     {
@@ -160,6 +161,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets a value indicating whether the navigation element is checked.
+    /// When checked, the element is highlighted and may trigger a context switch.
     /// </summary>
     public bool IsChecked
     {
@@ -240,6 +242,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets a value indicating whether the navigation element is in the compact state.
+    /// Determines how the element is displayed within the navigation structure.
     /// </summary>
     public StswCompactibility TabStripMode
     {
@@ -266,11 +269,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -284,11 +283,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -302,9 +297,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -318,9 +311,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -334,9 +325,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -351,7 +340,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
 
     /// <summary>
-    /// Gets or sets the indentation value for items. Checks and updates the item padding based on the ancestors and compact state.
+    /// Gets or sets the indentation value for items.
+    /// Determines the horizontal spacing of child elements within the navigation structure.
     /// </summary>
     public double ItemsIndentation
     {
@@ -385,7 +375,8 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     }
 
     /// <summary>
-    /// Gets or sets the indentation value for items.
+    /// Gets or sets the indentation margin for nested items.
+    /// Adjusts the alignment and spacing of child elements.
     /// </summary>
     internal Thickness? ItemsMargin
     {
@@ -402,6 +393,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
     /// <summary>
     /// Gets or sets the thickness of the sub-item border.
+    /// Defines the visual separation between navigation elements.
     /// </summary>
     public double SeparatorThickness
     {
@@ -417,3 +409,9 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswNavigationElement Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/>
+
+*/

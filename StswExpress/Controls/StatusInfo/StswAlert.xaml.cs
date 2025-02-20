@@ -7,8 +7,12 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A notification control for displaying temporary alerts.
+/// Supports dynamic content, click actions, and automatic removal of notifications.
 /// </summary>
+/// <remarks>
+/// This control allows notifications to be dynamically added, clicked for interaction, and removed after a specified duration.
+/// </remarks>
 public class StswAlert : ItemsControl
 {
     static StswAlert()
@@ -21,11 +25,11 @@ public class StswAlert : ItemsControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Displays a new alert notification with the specified content and an optional click action.
     /// </summary>
-    /// <param name="content"></param>
-    /// <param name="onClick"></param>
-    /// <param name="window"></param>
+    /// <param name="content">The content of the alert.</param>
+    /// <param name="onClick">The action to perform when the alert is clicked.</param>
+    /// <param name="window">The target window where the alert should be displayed (optional).</param>
     public static void Show(object content, Action onClick, StswWindow? window = null)
     {
         window ??= StswApp.StswWindow;
@@ -54,10 +58,11 @@ public class StswAlert : ItemsControl
     }
 
     /// <summary>
-    /// Removes an item from an ItemsControl by using its container.
+    /// Removes an item from the alert control.
+    /// This method removes the specified alert item from the control's item collection or its bound source.
     /// </summary>
-    /// <param name="itemsControl">The ItemsControl containing the item.</param>
-    /// <param name="container">The item to remove.</param>
+    /// <param name="itemsControl">The <see cref="ItemsControl"/> containing the alert item.</param>
+    /// <param name="container">The alert item to remove.</param>
     internal static void RemoveItemFromItemsControl(ItemsControl? itemsControl, DependencyObject? container)
     {
         if (itemsControl == null || container == null)
@@ -74,7 +79,7 @@ public class StswAlert : ItemsControl
     #region Logic properties
     /*
     /// <summary>
-    /// Gets or sets a value indicating whether the items are closable and have a close button.
+    /// Gets or sets a value indicating whether alerts are closable, providing a close button for each alert.
     /// </summary>
     public bool IsClosable
     {
@@ -89,7 +94,7 @@ public class StswAlert : ItemsControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are copyable and have a copy button.
+    /// Gets or sets a value indicating whether alerts are copyable, providing a copy button for each alert.
     /// </summary>
     public bool IsCopyable
     {
@@ -104,7 +109,7 @@ public class StswAlert : ItemsControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are expandable and have an expand button.
+    /// Gets or sets a value indicating whether alerts are expandable, providing an expand button for detailed view.
     /// </summary>
     public bool IsExpandable
     {
@@ -123,7 +128,8 @@ public class StswAlert : ItemsControl
     #region Style properties
     /*
     /// <summary>
-    /// 
+    /// Gets or sets the duration for which alerts are displayed before being automatically removed.
+    /// Defaults to 5 seconds.
     /// </summary>
     public TimeSpan DisplayDuration
     {
@@ -141,65 +147,8 @@ public class StswAlert : ItemsControl
     #endregion
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class StswAlertItem : ContentControl
-{
-    static StswAlertItem()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAlertItem), new FrameworkPropertyMetadata(typeof(StswAlertItem)));
-    }
+/* usage:
 
-    #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
+<se:StswAlert/>
 
-        /// Button: close
-        if (GetTemplateChild("PART_CloseButton") is ButtonBase btnClose)
-            btnClose.Click += (s, e) => StswAlert.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswAlertItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswAlertItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-    #endregion
-}
+*/

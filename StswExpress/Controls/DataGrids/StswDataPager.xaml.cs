@@ -8,7 +8,8 @@ using System.Windows.Data;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that provides pagination for a collection of items with navigation buttons.
+/// Represents a pagination control for navigating through a large dataset by displaying a subset of items per page.
+/// Provides navigation buttons for switching pages, including automatic handling of page limits.
 /// </summary>
 public class StswDataPager : ContentControl, IStswCornerControl
 {
@@ -24,13 +25,14 @@ public class StswDataPager : ContentControl, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Gets the command that changes the current page.
+    /// The command parameter is the target page number.
     /// </summary>
     public StswCommand<int> PageChangeCommand => new((x) => CurrentPage = x);
 
     /// <summary>
-    /// Calculates the total number of pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/> values.
-    /// Sets <see cref="CurrentPage"/> to the highest valid page if it exceeds the total.
+    /// Recalculates the total number of pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
+    /// Ensures that <see cref="CurrentPage"/> remains within valid bounds and updates displayed items.
     /// </summary>
     private void RecalculatePagination()
     {
@@ -47,8 +49,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Displays items on the currently selected page by setting <see cref="ItemsOnPage"/> 
-    /// and updates the navigation buttons to reflect the current page selection.
+    /// Updates the displayed items for the currently selected page.
+    /// Populates <see cref="ItemsOnPage"/> with the correct subset of data and regenerates navigation buttons.
     /// </summary>
     private void RefreshCurrentPageItems()
     {
@@ -68,8 +70,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Generates the collection of navigation buttons based on the current page and total pages,
-    /// including "..." buttons when there are too many pages to display at once.
+    /// Generates navigation buttons dynamically based on the total number of pages.
+    /// Includes "..." buttons for compact pagination when the page count is large.
     /// </summary>
     private void GenerateNavigationButtons()
     {
@@ -128,6 +130,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
     #region Logic properties
     /// <summary>
     /// Gets or sets the currently selected page number.
+    /// Changing this property updates the displayed items accordingly.
     /// </summary>
     public int CurrentPage
     {
@@ -152,7 +155,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the list of items currently displayed on the page.
+    /// Gets or sets the collection of items currently displayed on the selected page.
+    /// This property updates automatically when the page changes.
     /// </summary>
     public IList ItemsOnPage
     {
@@ -168,6 +172,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the number of items displayed per page.
+    /// Changing this property triggers a recalculation of pagination.
     /// </summary>
     public int ItemsPerPage
     {
@@ -184,6 +189,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the full collection of items to be paginated.
+    /// The data pager divides this collection into multiple pages.
     /// </summary>
     public IList ItemsSource
     {
@@ -208,7 +214,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets the collection of navigation buttons for the data pager.
+    /// Gets the collection of navigation buttons used for paging.
+    /// Includes numbered buttons, previous/next controls, and optional "..." buttons for large datasets.
     /// </summary>
     internal ObservableCollection<StswDataPagerPage> Pages
     {
@@ -223,7 +230,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Total number of available pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
+    /// Gets or sets the total number of available pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
     /// </summary>
     internal int TotalPages
     {
@@ -239,11 +246,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -257,11 +260,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -276,7 +275,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between the page panel and the items section.
     /// </summary>
     public double SeparatorThickness
     {
@@ -293,28 +292,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
     #endregion
 }
 
-/// <summary>
-/// Data model for <see cref="StswDataPager"/>'s page buttons.
-/// </summary>
-internal struct StswDataPagerPage(string description, int page, bool isEnabled)
-{
-    /// <summary>
-    /// Gets or sets the content displayed on the button.
-    /// </summary>
-    public string Description { get; set; } = description;
+/* usage:
 
-    /// <summary>
-    /// Gets or sets the page number to which the button navigates when clicked.
-    /// </summary>
-    public int Page { get; set; } = page;
+<se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/>
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the button is enabled for interaction.
-    /// </summary>
-    public bool IsEnabled { get; set; } = isEnabled;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the button is selected.
-    /// </summary>
-    public bool IsSelected { get; set; }
-}
+*/

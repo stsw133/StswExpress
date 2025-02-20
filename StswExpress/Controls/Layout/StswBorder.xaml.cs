@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom border control that applies clipping to its child element with rounded corners.
+/// A custom border control that applies clipping to its child element with rounded corners.
 /// </summary>
 /// <remarks>
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
@@ -24,8 +24,10 @@ public class StswBorder : Border, IStswCornerControl
     private object? _oldClip;
 
     /// <summary>
-    /// Called when the control is rendered.
+    /// Called when the control is rendered. If <see cref="CornerClipping"/> is enabled and a child element is present, 
+    /// applies rounded clipping to the child.
     /// </summary>
+    /// <param name="dc">The drawing context for rendering the control.</param>
     protected override void OnRender(DrawingContext dc)
     {
         if (CornerClipping && Child is UIElement child)
@@ -35,8 +37,12 @@ public class StswBorder : Border, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the child element of the border control and applies clipping with rounded corners.
+    /// Overrides the <see cref="Border.Child"/> property to apply rounded clipping and restore the previous Clip value 
+    /// when changing the child.
     /// </summary>
+    /// <remarks>
+    /// Stores the original Clip value of the child and restores it when the child is removed.
+    /// </remarks>
     public override UIElement Child
     {
         get => base.Child;
@@ -52,8 +58,9 @@ public class StswBorder : Border, IStswCornerControl
     }
 
     /// <summary>
-    /// Applies the clipping with rounded corners to the child element of the border control.
+    /// Applies a rounded clipping region to the child element based on <see cref="CornerRadius"/> and <see cref="BorderThickness"/>.
     /// </summary>
+    /// <param name="child">The child element to apply clipping to.</param>
     protected virtual void OnApplyChildClip(UIElement child)
     {
         _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
@@ -63,11 +70,7 @@ public class StswBorder : Border, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -82,3 +85,11 @@ public class StswBorder : Border, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswBorder CornerClipping="True" CornerRadius="20">
+    <Image Source="example.jpg"/>
+</se:StswBorder>
+
+*/

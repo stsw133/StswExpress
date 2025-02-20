@@ -5,7 +5,9 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that allows users to switch between two states: <c>on</c> and <c>off</c>.
+/// Represents a toggle button control that allows users to switch between two states: <c>On</c> and <c>Off</c>.
+/// This control extends <see cref="ToggleButton"/>, providing additional styling options such as corner rounding
+/// and optional animations for state transitions.
 /// </summary>
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
@@ -17,10 +19,11 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the event triggered when the toggle button is checked. If animations are enabled in the settings,
-    /// the method animates the control's main border to provide visual feedback for the checked state.
+    /// Invoked when the button is checked.
+    /// If animations are enabled in the settings, the method triggers an animation 
+    /// on the control's main border to visually indicate the checked state.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments associated with the checked event.</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -33,10 +36,11 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the event triggered when the toggle button is unchecked. If animations are enabled in the settings,
-    /// the method animates the control's main border to provide visual feedback for the unchecked state.
+    /// Invoked when the button is unchecked.
+    /// If animations are enabled in the settings, the method triggers an animation 
+    /// on the control's main border to visually indicate the unchecked state.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments associated with the unchecked event.</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -50,11 +54,7 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -68,11 +68,7 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -87,3 +83,9 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswToggleButton Content="Enable Feature" IsChecked="True"/>
+
+*/

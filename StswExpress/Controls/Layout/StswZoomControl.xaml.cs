@@ -6,7 +6,8 @@ using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom border control that enable user to zoom and move content.
+/// A zoomable container that enables users to zoom and pan its child content.
+/// Supports mouse wheel zooming and drag-based panning.
 /// </summary>
 public class StswZoomControl : Border
 {
@@ -21,9 +22,10 @@ public class StswZoomControl : Border
     private Point _origin, _start;
 
     /// <summary>
-    /// 
+    /// Initializes the zoom control with the specified UI element,
+    /// setting up necessary transformations for scaling and translation.
     /// </summary>
-    /// <param name="element"></param>
+    /// <param name="element">The UI element to be zoomed and panned.</param>
     public void Initialize(UIElement element)
     {
         if (_child == element)
@@ -53,21 +55,21 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Retrieves the scale transformation of the specified UI element.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UI element whose scale transform is retrieved.</param>
+    /// <returns>The scale transformation applied to the element.</returns>
     private ScaleTransform GetScaleTransform(UIElement element) => (ScaleTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is ScaleTransform);
-    
+
     /// <summary>
-    /// 
+    /// Retrieves the translation transformation of the specified UI element.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UI element whose translation transform is retrieved.</param>
+    /// <returns>The translation transformation applied to the element.</returns>
     private TranslateTransform GetTranslateTransform(UIElement element) => (TranslateTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is TranslateTransform);
 
     /// <summary>
-    /// 
+    /// Resets the zoom level and panning position of the zoom control.
     /// </summary>
     public void Reset()
     {
@@ -92,10 +94,10 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Handles the mouse wheel event to apply zooming based on the scroll direction.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void child_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (_child != null)
@@ -120,10 +122,11 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Handles the left mouse button down event to initiate panning.
+    /// Captures the mouse for dragging operations.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (_child != null)
@@ -137,10 +140,11 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Handles the left mouse button up event to stop panning.
+    /// Releases the mouse capture.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (_child != null)
@@ -151,17 +155,17 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Handles the right mouse button down event to reset the zoom and panning.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event arguments.</param>
     void child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) => Reset();
 
     /// <summary>
-    /// 
+    /// Handles the mouse move event to apply panning when the left mouse button is held down.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void child_MouseMove(object sender, MouseEventArgs e)
     {
         if (_child?.IsMouseCaptured == true)
@@ -176,7 +180,8 @@ public class StswZoomControl : Border
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the child element of the zoom control.
+    /// When a new child is assigned, it automatically initializes zoom and pan support.
     /// </summary>
     public override UIElement Child
     {
@@ -190,7 +195,8 @@ public class StswZoomControl : Border
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the minimum zoom scale.
+    /// This prevents the content from being scaled below the specified value.
     /// </summary>
     public double MinScale
     {
@@ -206,3 +212,11 @@ public class StswZoomControl : Border
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswZoomControl MinScale="0.5">
+    <Image Source="example.jpg"/>
+</se:StswZoomControl>
+
+*/

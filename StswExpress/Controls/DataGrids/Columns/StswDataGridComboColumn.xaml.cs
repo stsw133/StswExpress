@@ -2,12 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a combo box column for <see cref="StswDataGrid"/> that allows selecting values from a dropdown list.
 /// </summary>
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
@@ -30,11 +29,12 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for displaying the selected value within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's selected value.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         cell.PreviewKeyDown += OnPreviewKeyDown;
@@ -63,11 +63,12 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable combo box element for selecting a value within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswComboBox"/> as the editing element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswComboBox"/> element bound to the column's selected value.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswComboBox()
@@ -90,10 +91,11 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
 
     /// <summary>
-    /// 
+    /// Handles key press events within the column. Ensures that pressing any key (except Tab)
+    /// switches the cell to editing mode.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The key event arguments.</param>
     private void OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Tab)
@@ -105,7 +107,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the property path used for filtering the combo box items.
     /// </summary>
     public string FilterMemberPath
     {
@@ -120,7 +122,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the text value used for filtering the combo box items.
     /// </summary>
     public string FilterText
     {
@@ -135,7 +137,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether filtering is enabled for the combo box.
     /// </summary>
     public bool IsFilterEnabled
     {
@@ -150,7 +152,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the combo box when no value is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -167,7 +169,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the content inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -182,7 +184,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -197,7 +199,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -212,7 +214,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -227,7 +229,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the combo box inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -243,7 +245,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the combo box inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -259,3 +261,9 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDataGridComboColumn Header="Category" SelectedItemBinding="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
+
+*/

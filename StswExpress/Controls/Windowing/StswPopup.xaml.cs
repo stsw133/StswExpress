@@ -7,8 +7,12 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom popup control with additional functionality and customization options.
+/// A customizable popup control that supports content, corner radius customization, and different scrolling behaviors.
+/// Allows flexible placement and styling options, including animations and background customization.
 /// </summary>
+/// <remarks>
+/// The popup adapts to different scroll types and supports dynamic content updates.
+/// </remarks>
 [ContentProperty(nameof(Content))]
 public class StswPopup : Popup, IStswCornerControl
 {
@@ -23,7 +27,7 @@ public class StswPopup : Popup, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Initializes the popup's child content based on the selected <see cref="ScrollType"/>.
     /// </summary>
     private void Init()
     {
@@ -42,7 +46,7 @@ public class StswPopup : Popup, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the data used to generate the child element of this control.
+    /// Gets or sets the content displayed inside the popup.
     /// </summary>
     public object? Content
     {
@@ -57,7 +61,8 @@ public class StswPopup : Popup, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the type of scroll viewer used for child element of this control.
+    /// Gets or sets the type of scroll viewer used within the popup content.
+    /// Determines whether a directional or standard scroll view is used.
     /// </summary>
     public StswScrollType ScrollType
     {
@@ -119,9 +124,7 @@ public class StswPopup : Popup, IStswCornerControl
     public static Brush GetBorderBrush(DependencyObject obj) => (Brush)obj.GetValue(BorderBrushProperty);
     public static void SetBorderBrush(DependencyObject obj, Brush value) => obj.SetValue(BorderBrushProperty, value);
 
-    /// <summary>
-    /// Gets or sets the thickness of the border for the popup.
-    /// </summary>
+    /// <inheritdoc/>
     public Thickness BorderThickness
     {
         get => (Thickness)GetValue(BorderThicknessProperty);
@@ -137,9 +140,7 @@ public class StswPopup : Popup, IStswCornerControl
     public static Thickness GetBorderThickness(DependencyObject obj) => (Thickness)obj.GetValue(BorderThicknessProperty);
     public static void SetBorderThickness(DependencyObject obj, Thickness value) => obj.SetValue(BorderThicknessProperty, value);
 
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the popup.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -155,9 +156,7 @@ public class StswPopup : Popup, IStswCornerControl
     public static bool GetCornerClipping(DependencyObject obj) => (bool)obj.GetValue(CornerClippingProperty);
     public static void SetCornerClipping(DependencyObject obj, bool value) => obj.SetValue(CornerClippingProperty, value);
 
-    /// <summary>
-    /// Gets or sets the corner radius for the popup.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -174,7 +173,7 @@ public class StswPopup : Popup, IStswCornerControl
     public static void SetCornerRadius(DependencyObject obj, CornerRadius value) => obj.SetValue(CornerRadiusProperty, value);
 
     /// <summary>
-    /// Gets or sets the padding for the popup.
+    /// Gets or sets the padding inside the popup, defining the spacing between its border and content.
     /// </summary>
     public Thickness Padding
     {
@@ -192,3 +191,11 @@ public class StswPopup : Popup, IStswCornerControl
     public static void SetPadding(DependencyObject obj, Thickness value) => obj.SetValue(PaddingProperty, value);
     #endregion
 }
+
+/* usage:
+
+<se:StswPopup IsOpen="True" CornerRadius="8" ScrollType="ScrollView">
+    <TextBlock Text="This is a popup message"/>
+</se:StswPopup>
+
+*/

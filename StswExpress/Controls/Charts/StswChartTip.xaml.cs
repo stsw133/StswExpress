@@ -4,7 +4,9 @@ using System.Windows;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a tooltip for displaying info about chart element.
+/// Represents a tooltip used for displaying additional information about a chart element.
+/// Supports showing the element's name and description based on configurable properties.
+/// This control extends <see cref="StswToolTip"/> and is intended for internal use with chart components.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class StswChartTip : StswToolTip
@@ -16,7 +18,8 @@ public class StswChartTip : StswToolTip
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets whether the <see cref="StswChartElementModel.Description"/> property will be shown.
+    /// Gets or sets a value indicating whether the <see cref="StswChartElementModel.Description"/> property 
+    /// should be displayed in the tooltip.
     /// </summary>
     public bool ShowDescription
     {
@@ -31,7 +34,8 @@ public class StswChartTip : StswToolTip
         );
 
     /// <summary>
-    /// Gets or sets whether the <see cref="StswChartElementModel.Name"/> property will be shown.
+    /// Gets or sets a value indicating whether the <see cref="StswChartElementModel.Name"/> property 
+    /// should be displayed in the tooltip.
     /// </summary>
     public bool ShowName
     {
@@ -46,3 +50,9 @@ public class StswChartTip : StswToolTip
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswChartTip ShowName="True" ShowDescription="True"/>
+
+*/

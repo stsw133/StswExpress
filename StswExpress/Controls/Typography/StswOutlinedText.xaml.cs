@@ -9,8 +9,12 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom outlined text control with various text formatting options.
+/// A custom text control that displays outlined text with adjustable stroke thickness and fill.
+/// Supports text alignment, decorations, font customization, and wrapping options.
 /// </summary>
+/// <remarks>
+/// The text is rendered with a configurable outline and fill, making it ideal for stylized UI elements.
+/// </remarks>
 [ContentProperty(nameof(Text))]
 public class StswOutlinedText : FrameworkElement
 {
@@ -31,7 +35,8 @@ public class StswOutlinedText : FrameworkElement
     private Pen? _Pen;
 
     /// <summary>
-    /// Updates the pen used for text outline.
+    /// Updates the pen used for drawing the text outline.
+    /// Adjusts stroke properties such as thickness and line caps.
     /// </summary>
     private void UpdatePen()
     {
@@ -52,7 +57,9 @@ public class StswOutlinedText : FrameworkElement
 
     /// <summary>
     /// Renders the outlined text.
+    /// Draws both the stroke and fill geometry based on the configured properties.
     /// </summary>
+    /// <param name="drawingContext">The drawing context used for rendering.</param>
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
@@ -67,8 +74,11 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Measures the size of the outlined text.
+    /// Measures the required size for rendering the outlined text.
+    /// Considers text wrapping and alignment settings.
     /// </summary>
+    /// <param name="availableSize">The available space for rendering.</param>
+    /// <returns>The desired size of the control.</returns>
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
@@ -82,8 +92,11 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Arranges the outlined text.
+    /// Arranges the text within the allocated space.
+    /// Adjusts the maximum width and height for proper rendering.
     /// </summary>
+    /// <param name="finalSize">The final size of the control.</param>
+    /// <returns>The arranged size of the control.</returns>
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();
@@ -98,8 +111,10 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Event handler for the invalidation of the formatted text.
+    /// Handles changes that require invalidating the formatted text and updating the visual display.
     /// </summary>
+    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
+    /// <param name="e">Event data containing the changed property.</param>
     private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
@@ -111,8 +126,10 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Event handler for the updated formatted text.
+    /// Updates the formatted text properties when certain attributes such as font or text alignment change.
     /// </summary>
+    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
+    /// <param name="e">Event data containing the changed property.</param>
     private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
@@ -124,7 +141,8 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Ensures the availability of the formatted text.
+    /// Ensures that the formatted text object is initialized.
+    /// Creates a new formatted text instance if necessary.
     /// </summary>
     private void EnsureFormattedText()
     {
@@ -137,7 +155,7 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Updates the properties of the formatted text.
+    /// Updates the properties of the formatted text object, such as font size, weight, alignment, and decorations.
     /// </summary>
     private void UpdateFormattedText()
     {
@@ -157,7 +175,7 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Ensures the availability of the text geometry.
+    /// Ensures that the text geometry is generated for rendering.
     /// </summary>
     private void EnsureGeometry()
     {
@@ -172,6 +190,7 @@ public class StswOutlinedText : FrameworkElement
     #region Properties
     /// <summary>
     /// Gets or sets the fill color of the text.
+    /// The fill applies to the interior of the text glyphs.
     /// </summary>
     public Brush Fill
     {
@@ -218,6 +237,7 @@ public class StswOutlinedText : FrameworkElement
 
     /// <summary>
     /// Gets or sets the font stretch of the text.
+    /// Controls how the font is expanded or condensed.
     /// </summary>
     public FontStretch FontStretch
     {
@@ -232,6 +252,7 @@ public class StswOutlinedText : FrameworkElement
 
     /// <summary>
     /// Gets or sets the font style of the text.
+    /// Defines whether the text is normal, italic, or oblique.
     /// </summary>
     public FontStyle FontStyle
     {
@@ -246,6 +267,7 @@ public class StswOutlinedText : FrameworkElement
 
     /// <summary>
     /// Gets or sets the font weight of the text.
+    /// Determines how bold the text appears.
     /// </summary>
     public FontWeight FontWeight
     {
@@ -259,7 +281,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the outline color of the text.
+    /// Gets or sets the stroke (outline) color of the text.
     /// </summary>
     public Brush Stroke
     {
@@ -279,6 +301,7 @@ public class StswOutlinedText : FrameworkElement
 
     /// <summary>
     /// Gets or sets the thickness of the text outline.
+    /// A larger value increases the stroke width.
     /// </summary>
     public double StrokeThickness
     {
@@ -296,7 +319,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the text to display.
+    /// Gets or sets the text to be displayed.
     /// </summary>
     public string Text
     {
@@ -312,7 +335,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the text alignment of the text.
+    /// Gets or sets the alignment of the text within the control.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -328,7 +351,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the text decorations of the text.
+    /// Gets or sets the text decorations applied to the text, such as underline or strikethrough.
     /// </summary>
     public TextDecorationCollection TextDecorations
     {
@@ -344,7 +367,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the text trimming behavior of the text.
+    /// Gets or sets the text trimming behavior for overflowing text.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -360,7 +383,7 @@ public class StswOutlinedText : FrameworkElement
         );
 
     /// <summary>
-    /// Gets or sets the text wrapping behavior of the text.
+    /// Gets or sets the text wrapping behavior for multiline text rendering.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -376,3 +399,9 @@ public class StswOutlinedText : FrameworkElement
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswOutlinedText Text="Outlined Text" FontSize="24" FontWeight="Bold" Stroke="Red" Fill="Blue"/>
+
+*/

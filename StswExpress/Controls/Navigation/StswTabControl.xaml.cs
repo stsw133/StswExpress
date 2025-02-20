@@ -7,7 +7,8 @@ using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a tab control with extended functionality, including support for creating new tab items.
+/// A tab control with extended functionality, including dynamic tab creation, 
+/// visibility toggling, and command-based item management.
 /// </summary>
 public class StswTabControl : TabControl
 {
@@ -18,9 +19,7 @@ public class StswTabControl : TabControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -28,21 +27,12 @@ public class StswTabControl : TabControl
         NewItemCommand = new StswCommand(CreateItem);
     }
 
-    /// <summary>
-    /// Creates or identifies the container used for a tab item.
-    /// </summary>
-    /// <returns>A new instance of <see cref="StswTabItem"/>.</returns>
     protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
-
-    /// <summary>
-    /// Determines whether the specified item is its own container or if a new container is needed.
-    /// </summary>
-    /// <param name="item">The item to check.</param>
-    /// <returns><see langword="true"/> if the item is a <see cref="StswTabItem"/>; otherwise, <see langword="false"/>.</returns>
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
 
     /// <summary>
-    /// Creates a new tab item and adds it to the tab control.
+    /// Creates a new tab item and adds it to the tab control. 
+    /// Supports both bound item sources and direct tab item collections.
     /// </summary>
     private void CreateItem()
     {
@@ -64,7 +54,7 @@ public class StswTabControl : TabControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the tabs are visible in the tab control.
+    /// Gets or sets a value indicating whether the tab headers are visible in the tab control.
     /// </summary>
     public bool AreTabsVisible
     {
@@ -79,7 +69,7 @@ public class StswTabControl : TabControl
         );
 
     /// <summary>
-    /// Gets or sets the newly added item.
+    /// Gets or sets the newly created tab item when a new tab is added.
     /// </summary>
     public object? NewItem
     {
@@ -95,7 +85,7 @@ public class StswTabControl : TabControl
         );
 
     /// <summary>
-    /// Gets or sets the command that creates a new item in the tab control.
+    /// Gets or sets the command responsible for creating a new tab item in the tab control.
     /// </summary>
     public ICommand? NewItemCommand
     {
@@ -110,7 +100,7 @@ public class StswTabControl : TabControl
         );
 
     /// <summary>
-    /// Gets or sets the visibility of the new item button in the tab control.
+    /// Gets or sets the visibility of the button used for adding new tab items.
     /// </summary>
     public Visibility NewItemButtonVisibility
     {
@@ -125,3 +115,12 @@ public class StswTabControl : TabControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible">
+    <se:StswTabItem Header="Home"/>
+    <se:StswTabItem Header="Settings"/>
+</se:StswTabControl>
+
+*/

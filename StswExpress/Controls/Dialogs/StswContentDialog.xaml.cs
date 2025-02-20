@@ -12,6 +12,7 @@ using System.Windows.Threading;
 namespace StswExpress;
 /// <summary>
 /// Represents a customizable content dialog control for displaying various types of content.
+/// Can be used as a modal popup with asynchronous handling of dialog results.
 /// </summary>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
 public class StswContentDialog : ContentControl
@@ -35,9 +36,7 @@ public class StswContentDialog : ContentControl
     private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
     private IInputElement? _restoreFocusDialogClose;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -47,10 +46,10 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Handles the Loaded event to track the instances of the dialog.
+    /// Handles the Loaded event to track instances of the dialog and ensure it is correctly managed in memory.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         foreach (var weakRef in LoadedInstances.ToList())
@@ -60,10 +59,10 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Handles the Unloaded event to remove the instances of the dialog.
+    /// Handles the Unloaded event to remove instances of the dialog and prevent memory leaks.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         foreach (var weakRef in LoadedInstances.ToList())
@@ -75,15 +74,15 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Gets the name of the current state of the dialog (Open or Closed).
+    /// Retrieves the current visual state of the dialog.
     /// </summary>
-    /// <returns>The name of the current state.</returns>
+    /// <returns>The string representing the current state ("Open" or "Closed").</returns>
     private string GetStateName() => IsOpen ? "Open" : "Closed";
 
     /// <summary>
-    /// Focuses the popup content element within the dialog, if available.
+    /// Attempts to focus on the first focusable UI element within the dialog.
     /// </summary>
-    /// <returns>The focused UI element within the popup content.</returns>
+    /// <returns>The first focusable UI element, or null if none are available.</returns>
     internal UIElement? FocusPopup()
     {
         var child = _popupContentElement;
@@ -102,9 +101,9 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Asserts that the content can be targeted for display in the dialog.
+    /// Ensures that the dialog content can be modified without interfering with existing bindings.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when content cannot be passed to the dialog.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the content is already bound and cannot be changed dynamically.</exception>
     internal void AssertTargetableContent()
     {
         if (BindingOperations.GetBindingExpression(this, DialogContentProperty) != null)
@@ -112,10 +111,10 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Closes the dialog internally with the specified parameter.
+    /// Closes the dialog and sets the provided close parameter.
     /// </summary>
-    /// <param name="parameter">The parameter to pass on dialog closure.</param>
-    /// <exception cref="InvalidOperationException">Thrown when content dialog does not have a current session.</exception>
+    /// <param name="parameter">The parameter to pass when closing the dialog.</param>
+    /// <exception cref="InvalidOperationException">Thrown if there is no active dialog session.</exception>
     internal void InternalClose(object? parameter)
     {
         var currentSession = CurrentSession ?? throw new InvalidOperationException($"{nameof(StswContentDialog)} does not have a current session");
@@ -131,9 +130,9 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// Retrieves an instance of the dialog based on the provided identifier.
     /// </summary>
-    /// <param name="dialogIdentifier">The identifier of the dialog instance.</param>
-    /// <returns>The instance of the dialog.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when no matching dialog instance is found.</exception>
+    /// <param name="dialogIdentifier">The identifier used to find the corresponding dialog instance.</param>
+    /// <returns>The matching instance of the <see cref="StswContentDialog"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if no matching instance is found or if multiple instances share the same identifier.</exception>
     internal static StswContentDialog GetInstance(object? dialogIdentifier)
     {
         if (LoadedInstances.Count == 0)
@@ -166,11 +165,11 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Shows the dialog internally with the specified content.
+    /// Displays the dialog with the specified content.
     /// </summary>
-    /// <param name="content">The content to display in the dialog.</param>
-    /// <returns>A task representing the asynchronous operation with the dialog.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the dialog is already open.</exception>
+    /// <param name="content">The content to display within the dialog.</param>
+    /// <returns>A task representing the asynchronous operation that completes when the dialog is closed.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the dialog is already open.</exception>
     internal async Task<object?> ShowInternal(object content)
     {
         if (IsOpen)
@@ -194,9 +193,9 @@ public class StswContentDialog : ContentControl
     /// Shows a modal dialog with the specified content and identifier.
     /// </summary>
     /// <param name="content">The content to display in the dialog.</param>
-    /// <param name="dialogIdentifier">The identifier of the dialog instance.</param>
-    /// <returns>A task representing the asynchronous operation with the dialog.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the content is null.</exception>
+    /// <param name="dialogIdentifier">The identifier used to locate the dialog instance.</param>
+    /// <returns>A task representing the asynchronous operation that completes when the dialog is closed.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the content is null.</exception>
     public static async Task<object?> Show(object content, object? dialogIdentifier)
     {
         ArgumentNullException.ThrowIfNull(content);
@@ -206,14 +205,14 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// Closes a modal dialog.
     /// </summary>
-    /// <param name="dialogIdentifier">The identifier of the dialog instance to be closed.</param>
+    /// <param name="dialogIdentifier">The identifier of the dialog instance to close.</param>
     public static void Close(object? dialogIdentifier) => Close(dialogIdentifier, null);
 
     /// <summary>
-    /// Closes a modal dialog with a specified parameter.
+    /// Closes a modal dialog and passes a result parameter.
     /// </summary>
-    /// <param name="dialogIdentifier">The identifier of the dialog instance to be closed.</param>
-    /// <param name="parameter">The parameter to pass on dialog closure.</param>
+    /// <param name="dialogIdentifier">The identifier of the dialog instance to close.</param>
+    /// <param name="parameter">The parameter to return when the dialog is closed.</param>
     public static void Close(object? dialogIdentifier, object? parameter)
     {
         if (GetInstance(dialogIdentifier).CurrentSession is { } currentSession)
@@ -227,7 +226,7 @@ public class StswContentDialog : ContentControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the content to be displayed within the dialog.
+    /// Gets or sets the content displayed within the dialog.
     /// </summary>
     public object? DialogContent
     {
@@ -242,7 +241,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the string format for the dialog content.
+    /// Gets or sets the string format applied to the dialog content.
     /// </summary>
     public string? DialogContentStringFormat
     {
@@ -257,7 +256,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the data template for the dialog content.
+    /// Gets or sets the data template used to display the dialog content.
     /// </summary>
     public DataTemplate? DialogContentTemplate
     {
@@ -272,7 +271,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the data template selector for the dialog content.
+    /// Gets or sets the template selector used to determine the appropriate data template for the dialog content.
     /// </summary>
     public DataTemplateSelector? DialogContentTemplateSelector
     {
@@ -287,7 +286,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the margin for the dialog.
+    /// Gets or sets the margin applied to the dialog.
     /// </summary>
     public Thickness DialogMargin
     {
@@ -303,7 +302,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Identifier which is used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// Gets or sets the identifier used to determine where a dialog should be displayed.
     /// </summary>
     public object? Identifier
     {
@@ -318,7 +317,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the content dialog is open or not.
+    /// Gets or sets a value indicating whether the content dialog is currently open.
     /// </summary>
     public bool IsOpen
     {
@@ -380,7 +379,7 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the focus restoration after dialog closure is disabled.
+    /// Gets or sets a value indicating whether the focus restoration after the dialog is closed is disabled.
     /// </summary>
     public bool IsRestoreFocusDisabled
     {
@@ -427,7 +426,7 @@ public class StswContentDialog : ContentControl
         );
 
     /// <summary>
-    /// Represents the brush for the Dialog's background
+    /// Gets or sets the background brush of the dialog.
     /// </summary>
     public Brush DialogBackground
     {
@@ -444,8 +443,15 @@ public class StswContentDialog : ContentControl
     #endregion
 }
 
+/* usage:
+
+<se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/>
+
+*/
+
 /// <summary>
-/// Allows an open dialog to be managed. Use is only permitted during a single display operation.
+/// Represents a session for managing an open dialog instance.
+/// Allows updating the content and closing the dialog with a result.
 /// </summary>
 public class StswDialogSession
 {
@@ -457,11 +463,8 @@ public class StswDialogSession
     }
 
     /// <summary>
-    /// Indicates if the dialog session has ended.  Once ended no further method calls will be permitted.
+    /// Gets a value indicating whether the dialog session has ended.
     /// </summary>
-    /// <remarks>
-    /// Client code cannot set this directly, this is internally managed.  To end the dialog session use <see cref="Close()"/>.
-    /// </remarks>
     public bool IsEnded { get; internal set; }
 
     /// <summary>
@@ -470,14 +473,14 @@ public class StswDialogSession
     internal object? CloseParameter { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="StswContentDialog.DialogContent"/> which is currently displayed, so this could be a view model or a UI element.
+    /// Gets the content currently displayed in the dialog.
     /// </summary>
     public object? Content => _owner.DialogContent;
 
     /// <summary>
-    /// Update the current content in the dialog.
+    /// Updates the content of the currently displayed dialog.
     /// </summary>
-    /// <param name="content"></param>
+    /// <param name="content">The new content to display.</param>
     public void UpdateContent(object? content)
     {
         _owner.AssertTargetableContent();
@@ -486,9 +489,8 @@ public class StswDialogSession
     }
 
     /// <summary>
-    /// Closes the dialog.
+    /// Closes the dialog without passing a result.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if the dialog session has ended, or a close operation is currently in progress.</exception>
     public void Close()
     {
         if (IsEnded)
@@ -497,10 +499,9 @@ public class StswDialogSession
     }
 
     /// <summary>
-    /// Closes the dialog.
+    /// Closes the dialog and passes a result parameter.
     /// </summary>
-    /// <param name="parameter">Result parameter which will be returned in <see cref="DialogClosingEventArgs.Parameter"/> or from <see cref="StswContentDialog.Show(object)"/> method.</param>
-    /// <exception cref="InvalidOperationException">Thrown if the dialog session has ended, or a close operation is currently in progress.</exception>
+    /// <param name="parameter">The parameter returned when closing the dialog.</param>
     public void Close(object? parameter)
     {
         if (IsEnded)
@@ -510,10 +511,16 @@ public class StswDialogSession
 }
 
 /// <summary>
-/// Contains extension methods for visual tree traversal.
+/// Provides extension methods for traversing the visual tree in WPF.
 /// </summary>
 internal static class StswDialogExtensions
 {
+    /// <summary>
+    /// Performs a depth-first traversal of the visual tree, returning all child elements.
+    /// </summary>
+    /// <param name="node">The starting node for traversal.</param>
+    /// <returns>An enumerable collection of all descendant elements.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided node is null.</exception>
     internal static IEnumerable<DependencyObject> VisualDepthFirstTraversal(this DependencyObject node)
     {
         ArgumentNullException.ThrowIfNull(node);

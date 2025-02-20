@@ -11,7 +11,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
+/// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
+/// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
 /// </summary>
 public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
@@ -36,9 +37,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -65,9 +64,10 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Custom auto-generating columns for specific property types.
+    /// Customizes the auto-generation of columns based on property types.
+    /// Skips duplicate columns and applies specific column types based on data types.
     /// </summary>
-    /// <param name="e">Auto-generating column event arguments</param>
+    /// <param name="e">The event arguments containing details about the generated column.</param>
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
         /// if a column with this same binding already exists, skip
@@ -111,10 +111,10 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Occurs when the <see cref="ItemsSource"/> property value changes.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -128,7 +128,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     public ICommand ApplyFiltersCommand { get; }
 
     /// <summary>
-    /// Clears the filters.
+    /// Clears all applied filters in the data grid.
+    /// Resets each filter box to its default state and applies the updated filtering logic.
     /// </summary>
     private void ClearFilters()
     {
@@ -151,7 +152,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Applies the filters and updates the SQL filter and parameters.
+    /// Applies the current filtering criteria to the data grid.
+    /// Updates either CollectionView-based or SQL-based filtering depending on the selected filter type.
     /// </summary>
     private void ApplyFilters()
     {
@@ -172,8 +174,11 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Allows external controls (e.g. <see cref="StswFilterBox"/>) to register/unregister filter predicates.
+    /// Registers an external filter predicate for the data grid.
+    /// Used to dynamically filter data based on external conditions (e.g., additional UI elements).
     /// </summary>
+    /// <param name="key">The key representing the external filter.</param>
+    /// <param name="filter">The filtering predicate to apply.</param>
     public void RegisterExternalFilter(object key, Predicate<object>? filter)
     {
         _filterAggregator.RegisterFilter(key, filter);
@@ -181,7 +186,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Gets or sets the final SQL filter text.
+    /// Gets or sets the final SQL filter text used for querying the data source.
+    /// This property is updated dynamically based on the selected filters.
     /// </summary>
     public string SqlFilter
     {
@@ -191,7 +197,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private string _sqlFilter = "1=1";
 
     /// <summary>
-    /// Gets or sets the final collection of SQL parameters.
+    /// Gets or sets the collection of SQL parameters associated with the SQL filter.
+    /// These parameters are applied dynamically based on user-selected filters.
     /// </summary>
     public IList<SqlParameter> SqlParameters
     {
@@ -201,9 +208,10 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private IList<SqlParameter> _sqlParameters = [];
 
     /// <summary>
-    /// Builds the combined SQL filter from all filter boxes.
+    /// Builds and updates the combined SQL filter from all filter boxes.
+    /// Generates the SQL condition string and assigns appropriate parameters for filtering.
     /// </summary>
-    /// <param name="filterBoxes"></param>
+    /// <param name="filterBoxes">The list of filter boxes used to construct the SQL filter.</param>
     private void UpdateSqlFilters(IEnumerable<StswFilterBox> filterBoxes)
     {
         FiltersData ??= new StswDataGridFiltersDataModel();
@@ -226,6 +234,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the filters are visible.
+    /// When set to <see langword="true"/>, filtering controls are displayed inside the data grid headers.
     /// </summary>
     public bool? AreFiltersVisible
     {
@@ -240,7 +249,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the filters data for the control.
+    /// Gets or sets the filters data model that stores filter criteria, SQL filters, and related parameters.
     /// </summary>
     public StswDataGridFiltersDataModel FiltersData
     {
@@ -270,7 +279,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Gets or sets the filters type for the control.
+    /// Gets or sets the filtering mode for the data grid.
+    /// Supports either collection-based filtering or SQL-based filtering.
     /// </summary>
     public StswDataGridFiltersType FiltersType
     {
@@ -285,7 +295,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the command for refreshing the data (if Enter key is pressed inside any filter box).
+    /// Gets or sets the command that refreshes the data grid.
+    /// This command is typically executed when the Enter key is pressed inside a filter box.
     /// </summary>
     public ICommand RefreshCommand
     {
@@ -300,7 +311,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the command parameter for refreshing the data (if Enter key is pressed inside any filter box).
+    /// Gets or sets the parameter to be passed to the <see cref="RefreshCommand"/> when executed.
     /// </summary>
     public object? RefreshCommandParameter
     {
@@ -316,11 +327,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -334,11 +341,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -353,7 +356,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the background brush for the header.
+    /// Gets or sets the background brush for the data grid's column headers.
     /// </summary>
     public Brush HeaderBackground
     {
@@ -369,7 +372,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the border brush for the header.
+    /// Gets or sets the border brush applied to the column headers.
     /// </summary>
     public SolidColorBrush HeaderBorderBrush
     {
@@ -386,33 +389,12 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     #endregion
 }
 
-/// <summary>
-/// Data model for <see cref="StswDataGrid"/>'s filters.
-/// </summary>
-public class StswDataGridFiltersDataModel
-{
-    /// <summary>
-    /// Gets or sets the action for applying the filters.
-    /// </summary>
-    public Action? Apply { get; internal set; }
+/* usage:
 
-    /// <summary>
-    /// Gets or sets the action for clearing the filters.
-    /// </summary>
-    public Action? Clear { get; internal set; }
+<se:StswDataGrid ItemsSource="{Binding Products}">
+    <se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+    <se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}"/>
+    <se:StswDataGridDateColumn Header="Added Date" Binding="{Binding AddedDate}"/>
+</se:StswDataGrid>
 
-    /// <summary>
-    /// Gets or sets the SQL filter.
-    /// </summary>
-    public string SqlFilter { get; internal set; } = "1=1";
-
-    /// <summary>
-    /// Gets or sets the list of SQL parameters.
-    /// </summary>
-    public IList<SqlParameter> SqlParameters { get; internal set; } = [];
-}
-
-[AttributeUsage(AttributeTargets.Property)]
-public class StswIgnoreAutoGenerateColumnAttribute : Attribute
-{
-}
+*/

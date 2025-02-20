@@ -12,6 +12,11 @@ namespace StswExpress;
 /// Provides a visual ripple effect that is applied as an adorner to a UI element.
 /// The ripple effect is centered at the click position and is animated within the bounds of a specified border.
 /// </summary>
+/// <remarks>
+/// The ripple effect is created using an expanding and fading <see cref="Ellipse"/>.
+/// It is clipped to the provided <see cref="Border"/> to ensure it does not exceed its bounds.
+/// The animation scales the ripple from 0 to full size while gradually reducing its opacity.
+/// </remarks>
 internal class RippleAdorner : Adorner
 {
     private readonly Ellipse _ellipse;

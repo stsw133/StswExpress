@@ -8,8 +8,13 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a panel control that displays information bars in a scrollable list, providing optional functionality for a close button.
+/// A container for displaying multiple information bars in a scrollable list.
+/// Supports batch closing, copying messages, and expandable notifications.
 /// </summary>
+/// <remarks>
+/// This control provides a structured way to display multiple notifications, allowing bulk operations like 
+/// closing all notifications at once or copying their content to the clipboard.
+/// </remarks>
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
     static StswInfoPanel()
@@ -19,9 +24,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -34,9 +37,12 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
             btnCloseAll.Click += PART_ButtonCloseAll_Click;
     }
 
+
     /// <summary>
-    /// 
+    /// Copies the content of all displayed information bars (titles and texts) to the clipboard.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
     {
         var sb = new StringBuilder();
@@ -47,10 +53,11 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
+    /// Handles the close-all button click event.
+    /// Clears all items from the panel, either from the <see cref="ItemsSource"/> collection or the internal <see cref="Items"/> list.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_ButtonCloseAll_Click(object sender, RoutedEventArgs e)
     {
         if (ItemsSource is IList list)
@@ -62,7 +69,8 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the items are closable and have a close button.
+    /// Gets or sets a value indicating whether each information bar can be closed individually.
+    /// When enabled, each item will have a close button.
     /// </summary>
     public bool IsClosable
     {
@@ -77,7 +85,8 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are copyable and have a copy button.
+    /// Gets or sets a value indicating whether each information bar can be copied to the clipboard individually.
+    /// When enabled, each item will have a copy button.
     /// </summary>
     public bool IsCopyable
     {
@@ -92,7 +101,8 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are expandable and have an expand button.
+    /// Gets or sets a value indicating whether each information bar can be expanded for more details.
+    /// When enabled, an expand button will be displayed for each item.
     /// </summary>
     public bool IsExpandable
     {
@@ -107,7 +117,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the items are currently expanded.
+    /// Gets or sets a value indicating whether the information bars are currently expanded.
     /// </summary>
     public bool IsExpanded
     {
@@ -122,7 +132,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control panel is visible or not.
+    /// Gets or sets a value indicating whether the control panel (containing batch operations) is visible.
     /// </summary>
     public bool ShowControlPanel
     {
@@ -138,11 +148,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -156,11 +162,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -175,7 +177,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between panel and subs.
+    /// Gets or sets the thickness of the separator between the control panel and the information bars.
     /// </summary>
     public double SeparatorThickness
     {
@@ -191,3 +193,12 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswInfoPanel ShowControlPanel="True">
+    <se:StswInfoBar Title="Success" Text="Operation completed!" Type="Success"/>
+    <se:StswInfoBar Title="Error" Text="Something went wrong." Type="Error"/>
+</se:StswInfoPanel>
+
+*/

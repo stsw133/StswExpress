@@ -1,11 +1,11 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a file path column for <see cref="StswDataGrid"/> that allows selecting file or folder paths.
 /// </summary>
 public class StswDataGridPathColumn : DataGridTextColumn
 {
@@ -25,11 +25,12 @@ public class StswDataGridPathColumn : DataGridTextColumn
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for displaying the file or folder path within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's file or folder path.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -50,11 +51,12 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable path picker element for selecting a file or folder within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswPathPicker"/> as the editing element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswPathPicker"/> element bound to the column's file or folder path.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswPathPicker()
@@ -78,7 +80,8 @@ public class StswDataGridPathColumn : DataGridTextColumn
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the file filter used in the file selection dialog.
+    /// Example: "Image Files (*.png;*.jpg)|*.png;*.jpg".
     /// </summary>
     public string Filter
     {
@@ -93,7 +96,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether multiple file or folder selections are allowed.
     /// </summary>
     public bool Multiselect
     {
@@ -108,7 +111,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the path picker when no value is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -123,7 +126,8 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the selection unit for the path picker.
+    /// Determines whether users can select files, folders, or save locations.
     /// </summary>
     public StswPathType SelectionUnit
     {
@@ -141,7 +145,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the content inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -156,7 +160,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -171,7 +175,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -186,7 +190,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -201,7 +205,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the path picker inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -217,7 +221,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the path picker inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -233,3 +237,9 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDataGridPathColumn Header="File Path" Binding="{Binding FilePath}" SelectionUnit="OpenFile"/>
+
+*/

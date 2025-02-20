@@ -4,7 +4,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a menu item with extended functionality, including support for icons and corner customization.
+/// A menu item with extended functionality, including support for icons, 
+/// busy/loading states, and corner customization.
 /// </summary>
 public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
 {
@@ -15,9 +16,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
     }
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -30,9 +29,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             typeof(StswMenuItem)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -46,7 +43,8 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
+    /// Gets or sets a value indicating whether the menu item is in a busy or loading state. 
+    /// This can be used to visually indicate ongoing operations.
     /// </summary>
     public bool IsBusy
     {
@@ -62,11 +60,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -80,11 +74,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -98,9 +88,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -114,9 +102,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -130,9 +116,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -147,3 +131,9 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswMenuItem Header="Settings" IconData="{StaticResource SettingsIcon}"/>
+
+*/

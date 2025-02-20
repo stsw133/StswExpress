@@ -6,8 +6,13 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a sub control displaying error icon.
+/// A sub-control that displays an error icon when validation errors occur.
+/// The tooltip provides additional error details.
 /// </summary>
+/// <remarks>
+/// This control is designed to be used inside input fields or forms to indicate validation issues.
+/// It automatically updates visibility and tooltip content based on validation errors.
+/// </remarks>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class StswSubError : StswSubLabel
 {
@@ -19,7 +24,7 @@ public class StswSubError : StswSubLabel
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
+    /// Gets or sets a read-only collection of validation errors displayed in the control's tooltip.
     /// </summary>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
@@ -34,7 +39,8 @@ public class StswSubError : StswSubLabel
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// Gets or sets a value indicating whether the error indicator is visible.
+    /// When set to <see langword="true"/>, the error icon is displayed inside the control.
     /// </summary>
     public bool HasError
     {
@@ -49,3 +55,9 @@ public class StswSubError : StswSubLabel
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubError HasError="True"/>
+
+*/

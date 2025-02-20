@@ -3,11 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace StswExpress;
-/// <summary>
-/// Represents a control that displays a collection of options in a horizontal or vertical list.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
+namespace StswExpress;/// <summary>
+/// A segmented control that displays a collection of selectable options in a horizontal or vertical layout.
+/// Supports selection binding, read-only mode, and customizable corner styling.
 /// </summary>
+/// <remarks>
+/// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
+/// </remarks>
 public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswSegment()
@@ -20,31 +22,12 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswSegmentItem;
 
     #region Events & methods
-    /*
     /// <summary>
-    /// 
+    /// Called when the <see cref="ItemsSource"/> property changes.
+    /// Updates the selection state and propagates changes to the selection control logic.
     /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (GetTemplateChild("OPT_DirectionView") is StswDirectionView directionView)
-        {
-            var binding = new Binding(nameof(IsDragging))
-            {
-                Source = this,
-                Mode = BindingMode.OneWay
-            };
-            directionView.SetBinding(StswDirectionView.IsDraggingProperty, binding);
-        }
-    }
-    */
-
-    /// <summary>
-    /// Occurs when the ItemsSource property value changes.
-    /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
+    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -52,10 +35,11 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
+    /// Called when the <see cref="ItemTemplate"/> property changes.
+    /// Updates the selection control logic based on the new item template.
     /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <param name="oldItemTemplate">The previous data template for items.</param>
+    /// <param name="newItemTemplate">The new data template for items.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -63,9 +47,11 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Handles selection changes within the segmented control.
+    /// If the control is in read-only mode, the selection change is prevented.
+    /// Otherwise, the selection state is updated accordingly.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         if (IsReadOnly)
@@ -79,10 +65,11 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Prepares the specified element to display the given item.
+    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
     /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <param name="element">The element used to display the specified item.</param>
+    /// <param name="item">The data item to be displayed.</param>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -97,12 +84,9 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         }
     }
     #endregion
-    
+
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether control is in read-only mode.
-    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -116,7 +100,8 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         );
 
     /// <summary>
-    /// Gets or sets the orientation of the control.
+    /// Gets or sets the orientation of the segmented control.
+    /// Determines whether options are arranged horizontally or vertically.
     /// </summary>
     public Orientation Orientation
     {
@@ -133,11 +118,7 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -151,11 +132,7 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -170,3 +147,12 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSegment ItemsSource="{Binding Categories}" IsReadOnly="True">
+    <se:StswSegmentItem Content="Option 1"/>
+    <se:StswSegmentItem Content="Option 2"/>
+</se:StswSegment>
+
+*/

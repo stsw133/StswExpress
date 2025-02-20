@@ -10,7 +10,9 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that provides a user interface element with a collapsible content area.
+/// Represents a button control with an expandable drop-down menu. 
+/// Supports customizable items, automatic closure when an item is selected, 
+/// and additional styling options such as corner rounding.
 /// </summary>
 [ContentProperty(nameof(Items))]
 public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
@@ -26,9 +28,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -36,10 +36,10 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     }
 
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Occurs when the <see cref="ItemsSource"/> property value changes.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
@@ -61,7 +61,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets whether to close popup after clicking anything inside it.
+    /// Gets or sets a value indicating whether the drop-down should automatically close 
+    /// after an item inside it is clicked.
     /// </summary>
     public bool AutoClose
     {
@@ -92,9 +93,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
@@ -122,8 +121,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
 
     /// <summary>
-    /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to <see langword="true"/>, the popup with items is accessible, but all items within the popup are disabled.
+    /// Gets or sets a value indicating whether the control is in read-only mode.
+    /// When set to <see langword="true"/>, the drop-down can be opened, but all items inside are disabled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -139,11 +138,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -157,11 +152,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -175,9 +166,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownHeight
     {
         get => (double)GetValue(MaxDropDownHeightProperty);
@@ -191,9 +180,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum width of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -208,3 +195,12 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDropButton Header="Options" AutoClose="True">
+    <StswButton Content="Option 1"/>
+    <StswButton Content="Option 2"/>
+</se:StswDropButton>
+
+*/

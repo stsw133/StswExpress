@@ -10,8 +10,12 @@ using System.Windows.Interop;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control for managing a system tray icon with customizable properties, including icons, tooltips, and notifications.
+/// A system tray icon control that supports context menus, notifications, and custom icons.
+/// Allows minimizing the application to the system tray and displaying balloon tooltips.
 /// </summary>
+/// <remarks>
+/// The control manages application state visibility and interaction with the system tray.
+/// </remarks>
 public class StswNotifyIcon : FrameworkElement
 {
     public StswNotifyIcon()
@@ -27,8 +31,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Initializes the <see cref="NotifyIcon"/> instance and sets up event handlers for tray icon actions and application state changes.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">Event arguments.</param>
     private void Initialize(object? sender, RoutedEventArgs e)
     {
         _window = ContextControl as Window ?? Window.GetWindow(this);
@@ -62,8 +66,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Cleans up resources related to the <see cref="NotifyIcon"/> instance and detaches event handlers when the control is unloaded.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">Event arguments.</param>
     private void Cleanup(object? sender, RoutedEventArgs e)
     {
         _tray?.Dispose();
@@ -73,10 +77,11 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     /// <summary>
-    /// Updates the <see cref="NotifyIcon"/> visibility based on the current window state (e.g., minimizing or restoring the window).
+    /// Handles window state changes, hiding the window when minimized if <see cref="IsAlwaysVisible"/> is false.
+    /// Ensures the tray icon remains visible.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">Event arguments.</param>
     private void HandleWindowStateChange(object? sender, EventArgs e)
     {
         if (_window == null || _tray == null || !IsEnabled)
@@ -92,6 +97,7 @@ public class StswNotifyIcon : FrameworkElement
     /// Loads an <see cref="System.Drawing.Icon"/> from a specified file path, enabling dynamic icon assignment.
     /// </summary>
     /// <param name="path">Path to the icon file.</param>
+    /// <returns>An <see cref="Icon"/> instance loaded from the specified file.</returns>
     private static Icon LoadIcon(string path)
     {
         using var stream = System.Windows.Application.GetResourceStream(new Uri(path, UriKind.RelativeOrAbsolute)).Stream;
@@ -113,8 +119,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles application exit, releasing any resources tied to the <see cref="NotifyIcon"/> instance.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">Event arguments.</param>
     private void OnApplicationExit(object? sender, ExitEventArgs e) => _tray?.Dispose();
 
     /// <summary>
@@ -312,7 +318,8 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     /// <summary>
-    /// Displays a static notification balloon with specified title, text, and icon in the system tray. Allows custom icon and tooltip text.
+    /// Displays a static notification balloon with a specified title, text, and icon in the system tray.
+    /// Allows setting a custom icon and tooltip text.
     /// </summary>
     /// <param name="tipTitle">Title text for the notification.</param>
     /// <param name="tipText">Notification content text.</param>
@@ -338,23 +345,8 @@ public class StswNotifyIcon : FrameworkElement
     }
 }
 
-/// <summary>
-/// Data model representing the details of a notification tip in the <see cref="StswNotifyIcon"/> control, including title, text, and icon type.
-/// </summary>
-public struct StswNotifyIconTip(string title, string text, ToolTipIcon icon)
-{
-    /// <summary>
-    /// Gets or sets the title of the notification tip.
-    /// </summary>
-    public string TipTitle { get; set; } = title;
+/* usage:
 
-    /// <summary>
-    /// Gets or sets the text of the notification tip.
-    /// </summary>
-    public string TipText { get; set; } = text;
+<se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/>
 
-    /// <summary>
-    /// Gets or sets the icon type of the notification tip.
-    /// </summary>
-    public ToolTipIcon TipIcon { get; set; } = icon;
-}
+*/

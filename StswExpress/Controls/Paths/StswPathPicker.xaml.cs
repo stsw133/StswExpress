@@ -12,7 +12,8 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// A control that allows users to select file or directory path with additional features.
+/// A file and directory path selection control with a built-in file dialog.
+/// Supports file filtering, multi-selection, and displaying file sizes.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
 public class StswPathPicker : StswBoxBase
@@ -29,9 +30,7 @@ public class StswPathPicker : StswBoxBase
     /// </summary>
     public event EventHandler? SelectedPathChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -62,6 +61,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Lists adjacent paths based on the current selected path and path type.
+    /// The paths listed depend on whether the selection unit is a directory or a file.
     /// </summary>
     private void ListAdjacentPaths()
     {
@@ -78,6 +78,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Shifts the selected path by a specified step, updating it with an adjacent path.
+    /// This allows for navigating between files or directories in the current folder.
     /// </summary>
     /// <param name="step">The step value for shifting the path by</param>
     private void ShiftBy(int step)
@@ -97,7 +98,9 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Updates the main property associated with the selected path in the control based on user input.
+    /// Forces a binding update if the alwaysUpdate flag is set to true.
     /// </summary>
+    /// <param name="alwaysUpdate">Indicates whether to force an update of the binding</param>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         if (alwaysUpdate)
@@ -110,6 +113,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Handles the Click event for the file dialog button, triggering a file or directory selection dialog.
+    /// Opens either a folder browser dialog or a file dialog depending on the selection unit.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -159,6 +163,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Generates a textual representation of the file size to display it as a string.
+    /// The size is converted to one of the following units: B, KB, MB, or GB based on the file's size.
     /// </summary>
     /// <param name="filePath">Path to file</param>
     /// <returns>A textual representation of the file size in one of the following units: B, KB, MB, GB.</returns>
@@ -178,6 +183,7 @@ public class StswPathPicker : StswBoxBase
     #region Logic properties
     /// <summary>
     /// Gets or sets the file icon source for the path picker.
+    /// Represents the icon to display for the selected file or directory.
     /// </summary>
     public ImageSource? FileIcon
     {
@@ -192,7 +198,8 @@ public class StswPathPicker : StswBoxBase
         );
 
     /// <summary>
-    /// Gets or sets the info about file's length.
+    /// Gets or sets the info about the file's length.
+    /// Displays the size of the selected file, if applicable.
     /// </summary>
     internal string? FileSize
     {
@@ -208,6 +215,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the filter string for file dialog filters.
+    /// Specifies the types of files that can be selected within the file dialog.
     /// </summary>
     public string Filter
     {
@@ -223,6 +231,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.
+    /// If enabled, users can navigate between directories or files in the current folder using mouse wheel or keyboard keys.
     /// </summary>
     public bool IsShiftingEnabled
     {
@@ -248,6 +257,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the multiselect behavior for open file dialog.
+    /// If <see langword="true"/>, multiple files can be selected at once in the file dialog.
     /// </summary>
     public bool Multiselect
     {
@@ -263,6 +273,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the currently selected path in the control.
+    /// Represents the file or directory currently selected by the user.
     /// </summary>
     public string? SelectedPath
     {
@@ -300,7 +311,8 @@ public class StswPathPicker : StswBoxBase
 
 
     /// <summary>
-    /// Gets or sets the currently selected paths in the control.
+    /// Gets or sets the currently selected path in the control.
+    /// Represents the file or directory currently selected by the user.
     /// </summary>
     public string[] SelectedPaths
     {
@@ -317,6 +329,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the type of paths that can be selected (File or Directory).
+    /// This determines whether the control allows selection of files or directories within the dialog.
     /// </summary>
     public StswPathType SelectionUnit
     {
@@ -333,6 +346,7 @@ public class StswPathPicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the suggested file name for file dialog default file name.
+    /// Provides a default name for files when the save dialog is shown.
     /// </summary>
     public string? SuggestedFilename
     {
@@ -349,7 +363,8 @@ public class StswPathPicker : StswBoxBase
 
     #region Style properties
     /// <summary>
-    /// Gets or sets whether to show or not file size.
+    /// Gets or sets whether to show or not the file size.
+    /// If true, the size of the selected file is displayed next to the selected path.
     /// </summary>
     public bool IsFileSizeVisible
     {
@@ -364,3 +379,9 @@ public class StswPathPicker : StswBoxBase
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswPathPicker SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile" Filter="Text Files|*.txt"/>
+
+*/

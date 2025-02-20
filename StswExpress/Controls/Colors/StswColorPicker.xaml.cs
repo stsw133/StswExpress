@@ -8,7 +8,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
+/// Represents a color picker control that allows users to select colors using a color spectrum or hue/saturation palette.
+/// Supports alpha channel selection, dynamic color updates, and precise color adjustments.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorPicker : Control, IStswCornerControl
@@ -26,12 +27,11 @@ public class StswColorPicker : Control, IStswCornerControl
 
     /// <summary>
     /// Occurs when the selected color in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -50,11 +50,11 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the MouseDown event on the color grid element in the control.
-    /// Triggers the MouseMove event if the left mouse button is pressed.
+    /// Handles the <see cref="UIElement.MouseDown"/> event on the color grid.
+    /// Initiates color selection and triggers a position update if the left mouse button is pressed.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The color grid element.</param>
+    /// <param name="e">The mouse event arguments.</param>
     private void PART_ColorGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
@@ -64,11 +64,11 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the MouseMove event on the color grid element in the control.
-    /// Updates the selected color and the position of the color ellipse.
+    /// Handles the <see cref="UIElement.MouseMove"/> event on the color grid.
+    /// Updates the selected color and adjusts the position of the selection indicator.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The color grid element.</param>
+    /// <param name="e">The mouse event arguments.</param>
     private void PART_ColorGrid_MouseMove(object sender, MouseEventArgs e)
     {
         if (sender is FrameworkElement grid && e.LeftButton == MouseButtonState.Pressed)
@@ -93,10 +93,11 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the <see cref="FrameworkElement.SizeChanged"/> event on the color grid.
+    /// Updates the position of the selection indicator to reflect the current selected color.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The color grid element.</param>
+    /// <param name="e">The event arguments containing size change details.</param>
     private void PART_ColorGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (sender is FrameworkElement grid)
@@ -104,9 +105,10 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the position of the selection indicator (color ellipse) within the color grid
+    /// based on the currently selected color's hue and saturation values.
     /// </summary>
-    /// <param name="grid"></param>
+    /// <param name="grid">The color grid element.</param>
     private void UpdateEllipsePosition(FrameworkElement grid)
     {
         StswFn.ColorToHsv(SelectedColor, out var h, out var s, out _);
@@ -123,7 +125,8 @@ public class StswColorPicker : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
+    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
+    /// When enabled, users can adjust the opacity of the selected color.
     /// </summary>
     public bool IsAlphaEnabled
     {
@@ -139,6 +142,7 @@ public class StswColorPicker : Control, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the picked color in the control.
+    /// This represents the color selected from the color spectrum, before applying modifications.
     /// </summary>
     public Color PickedColor
     {
@@ -153,7 +157,8 @@ public class StswColorPicker : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selected color in the control.
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding for real-time color adjustments.
     /// </summary>
     public Color SelectedColor
     {
@@ -195,7 +200,8 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the Alpha channel of selected color.
+    /// Gets or sets the alpha (transparency) component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
     /// </summary>
     internal byte SelectedColorA
     {
@@ -216,7 +222,8 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the Red channel of selected color.
+    /// Gets or sets the red component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
     /// </summary>
     internal byte SelectedColorR
     {
@@ -237,12 +244,14 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the Green channel of selected color.
+    /// Gets or sets the green component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
     /// </summary>
-    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    internal byte SelectedColorG
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
+        get => (byte)GetValue(SelectedColorGProperty);
+        set => SetValue(SelectedColorGProperty, value);
     }
     public static readonly DependencyProperty SelectedColorGProperty
         = DependencyProperty.Register(
@@ -251,14 +260,15 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorGChanged)
         );
-    internal byte SelectedColorG
+    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        get => (byte)GetValue(SelectedColorGProperty);
-        set => SetValue(SelectedColorGProperty, value);
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
     }
 
     /// <summary>
-    /// Gets or sets the Blue channel of selected color.
+    /// Gets or sets the blue component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
     /// </summary>
     internal byte SelectedColorB
     {
@@ -279,7 +289,7 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the Value channel of selected color.
+    /// Gets or sets the value (brightness) component of the selected color in HSV color space.
     /// </summary>
     internal double SelectedColorV
     {
@@ -305,11 +315,7 @@ public class StswColorPicker : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -323,11 +329,7 @@ public class StswColorPicker : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -342,7 +344,8 @@ public class StswColorPicker : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the minimum height and width of color selection grid.
+    /// Gets or sets the minimum height and width of the color selection grid.
+    /// This value determines the size of the color selection area within the control.
     /// </summary>
     public double SelectorSize
     {
@@ -357,3 +360,9 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswColorPicker SelectedColor="{Binding SelectedThemeColor}" IsAlphaEnabled="True" SelectorSize="200"/>
+
+*/

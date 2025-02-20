@@ -6,7 +6,8 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a button control that functions as a hyperlink, allowing navigation to a specified URI when clicked.
+/// Represents a button styled as a hyperlink, allowing navigation to a specified URI when clicked.
+/// This control provides a visually distinct link-like appearance while maintaining button behavior.
 /// </summary>
 public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
@@ -18,7 +19,9 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the click event of the hyperlink button to open the specified URI if available.
+    /// Invoked when the hyperlink button is clicked. 
+    /// If a valid <see cref="NavigateUri"/> is set, it opens the specified URI in the default web browser.
+    /// Also sets <see cref="WasClicked"/> to <see langword="true"/> after navigation.
     /// </summary>
     protected override void OnClick()
     {
@@ -34,7 +37,8 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the URI source that the hyperlink button navigates to when clicked.
+    /// Gets or sets the URI to which the hyperlink button navigates when clicked. 
+    /// If the URI is valid, it is opened in the default web browser.
     /// </summary>
     public Uri NavigateUri
     {
@@ -50,11 +54,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -68,11 +68,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -87,7 +83,8 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets whether the button was clicked at least once.
+    /// Gets or sets a value indicating whether the button has been clicked at least once.
+    /// This can be used to track user interaction with the hyperlink button.
     /// </summary>
     public bool WasClicked
     {
@@ -102,3 +99,9 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/>
+
+*/

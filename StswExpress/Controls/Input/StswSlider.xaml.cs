@@ -4,7 +4,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that lets the user select from a range of values by moving a Thumb control along a track.
+/// A slider control that allows users to select a numeric value within a range.
+/// Supports custom thumb size, track size, and optional icon inside the thumb.
 /// </summary>
 public class StswSlider : Slider
 {
@@ -34,7 +35,8 @@ public class StswSlider : Slider
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border around the slider thumb.
+    /// Gets or sets the thickness of the border around the slider's thumb.
+    /// Controls the outline width of the draggable element.
     /// </summary>
     public double ThumbBorderThickness
     {
@@ -50,7 +52,8 @@ public class StswSlider : Slider
         );
 
     /// <summary>
-    /// Gets or sets the icon displayed in the slider thumb.
+    /// Gets or sets the icon displayed inside the slider thumb.
+    /// Allows adding a visual representation, such as a symbol or indicator, within the draggable element.
     /// </summary>
     public Geometry? ThumbIcon
     {
@@ -67,6 +70,7 @@ public class StswSlider : Slider
 
     /// <summary>
     /// Gets or sets the size of the slider thumb.
+    /// Defines the dimensions of the draggable element, affecting usability and visual prominence.
     /// </summary>
     public double ThumbSize
     {
@@ -82,7 +86,8 @@ public class StswSlider : Slider
         );
 
     /// <summary>
-    /// Gets or sets the size of the slider track.
+    /// Gets or sets the size (height or width) of the slider track.
+    /// Adjusts the thickness of the track where the thumb moves.
     /// </summary>
     public double TrackSize
     {
@@ -98,3 +103,9 @@ public class StswSlider : Slider
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSlider Minimum="1" Maximum="10" Value="{Binding UserPreference}" ThumbIcon="{StaticResource CustomIcon}" ThumbSize="20" TrackSize="4"/>
+
+*/

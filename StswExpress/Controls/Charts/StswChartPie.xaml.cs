@@ -9,7 +9,9 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control designed for displaying pie charts.
+/// Represents a control for displaying pie charts.
+/// Supports dynamic updates, percentage-based calculations, and customizable appearance,
+/// including stroke thickness and visibility thresholds for percentage labels.
 /// </summary>
 public class StswChartPie : ItemsControl
 {
@@ -21,10 +23,11 @@ public class StswChartPie : ItemsControl
 
     #region Events & methods
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsControl.ItemsSource"/> property changes.
+    /// Recalculates the chart data and updates the pie segment properties dynamically.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);
@@ -36,9 +39,11 @@ public class StswChartPie : ItemsControl
     }
 
     /// <summary>
-    /// Generates chart data based on the provided items source.
+    /// Generates and updates the pie chart based on the provided data source.
+    /// Ensures that segment angles, percentage labels, and positioning are properly calculated.
     /// </summary>
-    /// <param name="itemsSource">The items source to generate the chart data from.</param>
+    /// <param name="itemsSource">The collection of data items used to generate the chart.</param>
+    /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
     public virtual void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
@@ -80,7 +85,8 @@ public class StswChartPie : ItemsControl
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the percentage threshold below which percentages should not be visible.
+    /// Gets or sets the minimum percentage threshold below which percentage labels are hidden.
+    /// Segments with a percentage value lower than this threshold will not display their labels.
     /// </summary>
     public double MinPercentageRender
     {
@@ -109,7 +115,8 @@ public class StswChartPie : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets the stroke thickness of the ellipse (between 1 and 500).
+    /// Gets or sets the stroke thickness of the pie chart's segments.
+    /// Valid values range between 1 and 500, affecting the width of the pie slices.
     /// </summary>
     public double StrokeThickness
     {
@@ -138,3 +145,9 @@ public class StswChartPie : ItemsControl
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswChartPie ItemsSource="{Binding SalesData}" StrokeThickness="10" MinPercentageRender="5"/>
+
+*/

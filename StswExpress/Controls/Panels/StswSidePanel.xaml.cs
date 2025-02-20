@@ -4,7 +4,8 @@ using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a custom border control that enable user to zoom and move content.
+/// A collapsible side panel that expands on mouse hover and hides when the cursor leaves.
+/// Supports always-visible mode.
 /// </summary>
 public class StswSidePanel : ContentControl
 {
@@ -14,9 +15,7 @@ public class StswSidePanel : ContentControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -30,7 +29,8 @@ public class StswSidePanel : ContentControl
     }
 
     /// <summary>
-    /// 
+    /// Occurs when the mouse leaves the control.
+    /// If the control is not in always-visible mode and is expanded, it collapses when the mouse leaves.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
@@ -43,7 +43,8 @@ public class StswSidePanel : ContentControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets whether the control is always visible.
+    /// Gets or sets a value indicating whether the side panel is always visible.
+    /// If true, the panel remains expanded and doesn't collapse, overriding mouse hover behavior.
     /// </summary>
     public bool IsAlwaysVisible
     {
@@ -68,7 +69,8 @@ public class StswSidePanel : ContentControl
     }
 
     /// <summary>
-    /// Gets or sets whether the control is collapsed.
+    /// Gets or sets a value indicating whether the control is collapsed.
+    /// When collapsed, the side panel is hidden until the mouse hovers over it, unless it is in always-visible mode.
     /// </summary>
     internal bool IsCollapsed
     {
@@ -84,3 +86,14 @@ public class StswSidePanel : ContentControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSidePanel IsAlwaysVisible="True">
+    <StackPanel>
+        <Button Content="Option 1"/>
+        <Button Content="Option 2"/>
+    </StackPanel>
+</se:StswSidePanel>
+
+*/

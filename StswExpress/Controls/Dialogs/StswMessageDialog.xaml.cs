@@ -8,7 +8,8 @@ using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control behaving like content dialog with various properties for customization.
+/// Represents a message dialog control that behaves like a content dialog.
+/// Supports customizable title, message, details, and predefined button layouts.
 /// </summary>
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
@@ -24,9 +25,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     #region Events & methods
     private ButtonBase? _buttonCopyToClipboard;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -40,10 +39,11 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the copy-to-clipboard button click event.
+    /// Copies the dialog's message and details (if available) to the clipboard.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The button triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
@@ -52,39 +52,39 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Gets the command that closes the dialog.
     /// </summary>
     public ICommand CloseCommand { get; set; }
 
     /// <summary>
-    /// 
+    /// Closes the message dialog and sets the result.
     /// </summary>
-    /// <param name="result"></param>
+    /// <param name="result">The result value as a string, which is parsed into a boolean if not null.</param>
     private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
     #endregion
 
     #region Show methods
     /// <summary>
-    /// Shows the message dialog asynchronously.
+    /// Shows the message dialog asynchronously with an exception message and details.
     /// </summary>
-    /// <param name="ex">The exception to display content and details of the dialog.</param>
-    /// <param name="title">The title of the dialog.</param>
-    /// <param name="saveLog">Set if details or content should be saved to log file.</param>
-    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <param name="ex">The exception whose message and details are displayed in the dialog.</param>
+    /// <param name="title">The title of the dialog (optional).</param>
+    /// <param name="saveLog">Indicates whether the message should be logged.</param>
+    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
     public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = true, object? identifier = null)
         => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
 
     /// <summary>
-    /// Shows the message dialog asynchronously.
+    /// Shows the message dialog asynchronously with customizable content and options.
     /// </summary>
-    /// <param name="message">The message of the dialog.</param>
-    /// <param name="title">The title of the dialog.</param>
-    /// <param name="details">The details of the dialog.</param>
-    /// <param name="buttons">The buttons to be displayed in the dialog.</param>
-    /// <param name="image">The image to be displayed in the dialog.</param>
-    /// <param name="saveLog">Set if details or content should be saved to log file.</param>
-    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <param name="message">The primary message displayed in the dialog.</param>
+    /// <param name="title">The title of the dialog (optional).</param>
+    /// <param name="details">Additional details displayed in the dialog (optional).</param>
+    /// <param name="buttons">The button layout of the dialog.</param>
+    /// <param name="image">The icon displayed in the dialog.</param>
+    /// <param name="saveLog">Indicates whether the message should be logged.</param>
+    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
     public static async Task<bool?> Show(string message, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
     {
@@ -109,7 +109,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the buttons displayed in the dialog (e.g., OK, Yes/No, Cancel).
     /// </summary>
     public StswDialogButtons Buttons
     {
@@ -124,7 +124,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the additional details displayed in the dialog.
     /// </summary>
     public string? Details
     {
@@ -139,7 +139,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Identifier which is used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// Gets or sets the identifier used to determine where the dialog should be displayed.
     /// </summary>
     public object? Identifier
     {
@@ -154,7 +154,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the image/icon displayed in the dialog.
     /// </summary>
     public StswDialogImage Image
     {
@@ -169,7 +169,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the content dialog is open or not.
+    /// Gets or sets a value indicating whether the message dialog is currently open.
     /// </summary>
     public bool IsOpen
     {
@@ -187,7 +187,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the primary message displayed in the dialog.
     /// </summary>
     public string Message
     {
@@ -202,7 +202,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the details section of the dialog is visible.
     /// </summary>
     public bool ShowDetails
     {
@@ -220,7 +220,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the title of the dialog.
     /// </summary>
     public string? Title
     {
@@ -236,11 +236,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -255,11 +251,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -275,3 +267,9 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswMessageDialog Title="Warning" Message="Are you sure?" Buttons="YesNoCancel" IsOpen="True"/>
+
+*/

@@ -10,7 +10,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a navigation control that allows managing multiple contexts and navigation elements.
+/// A navigation control that manages multiple contexts and navigation elements.
+/// Supports pinned items, compact/full modes, and dynamic content switching.
 /// </summary>
 [ContentProperty(nameof(Items))]
 public class StswNavigation : ContentControl, IStswCornerControl
@@ -32,9 +33,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     #region Events & methods
     internal StswNavigationElement? CompactedExpander;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -45,7 +44,11 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Changes the current context and optionally creates a new instance of the context object.
+    /// Supports switching between different views dynamically.
     /// </summary>
+    /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
+    /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
+    /// <returns>The newly assigned content.</returns>
     public object? ChangeContext(object context, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
@@ -77,10 +80,10 @@ public class StswNavigation : ContentControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the click event for toggling between compact and full tab strip modes.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_TabStripModeButton_Click(object sender, RoutedEventArgs e)
     {
         if (TabStripMode == StswCompactibility.Full)
@@ -93,6 +96,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     #region Logic properties
     /// <summary>
     /// Gets or sets the collection of UI elements used in the custom window's title bar.
+    /// Allows adding extra controls such as buttons, search fields, or indicators.
     /// </summary>
     public ObservableCollection<UIElement> Components
     {
@@ -108,6 +112,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets the collection of contexts associated with this navigation control.
+    /// Each context represents a separate view that can be dynamically switched.
     /// </summary>
     public StswObservableDictionary<string, object?> Contexts
     {
@@ -122,7 +127,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the collection of navigation elements.
+    /// Gets or sets the collection of navigation elements displayed in the control.
     /// </summary>
     public ObservableCollection<StswNavigationElement> Items
     {
@@ -137,7 +142,8 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the collection of navigation elements.
+    /// Gets or sets the collection of navigation elements when the control is in compact mode.
+    /// Items are displayed in a more condensed form.
     /// </summary>
     public ObservableCollection<StswNavigationElement> ItemsCompact
     {
@@ -153,6 +159,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the collection of pinned navigation elements.
+    /// Pinned items remain accessible regardless of mode changes.
     /// </summary>
     public ObservableCollection<StswNavigationElement> ItemsPinned
     {
@@ -168,6 +175,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the last selected independent item.
+    /// Ensures that only one item remains selected at a time.
     /// </summary>
     internal StswNavigationElement LastSelectedItem
     {
@@ -210,6 +218,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets a value indicating whether the navigation shows elements and their names.
+    /// Controls the navigation layout between compact and full modes.
     /// </summary>
     public StswCompactibility TabStripMode
     {
@@ -250,6 +259,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the alignment of navigation elements.
+    /// Determines the placement of the tab strip within the control.
     /// </summary>
     public Dock TabStripPlacement
     {
@@ -265,11 +275,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -283,11 +289,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -300,9 +302,10 @@ public class StswNavigation : ContentControl, IStswCornerControl
             typeof(StswNavigation),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    
+
     /// <summary>
     /// Gets or sets the thickness of the separator between items and content.
+    /// Affects the spacing and visual separation in the navigation layout.
     /// </summary>
     public double SeparatorThickness
     {
@@ -319,6 +322,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
     /// <summary>
     /// Gets or sets the width of the navigation items list.
+    /// Adjusts the size of the tab strip for a custom layout.
     /// </summary>
     public double TabStripWidth
     {
@@ -334,3 +338,12 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswNavigation TabStripMode="Full">
+    <se:StswNavigationElement Header="Dashboard"/>
+    <se:StswNavigationElement Header="Settings"/>
+</se:StswNavigation>
+
+*/

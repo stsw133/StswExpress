@@ -10,9 +10,12 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Custom ListBox that supports reordering items within the same list
-/// and moving items between different lists by Drag and Drop.
+/// A <see cref="ListBox"/> that supports drag-and-drop reordering of items within the same list
+/// and transferring items between different lists. Also supports selection binding and read-only mode.
 /// </summary>
+/// <remarks>
+/// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
+/// </remarks>
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswDragBox()
@@ -28,9 +31,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     private object? _dragDropItem;
     private IList? _sourceList;
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -45,10 +46,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Called when the <see cref="ItemsSource"/> property changes.
+    /// Ensures that the new <see cref="ItemsSource"/> is an <see cref="ObservableCollection{T}"/> and 
+    /// updates selection binding accordingly.
     /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
+    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         var type = newValue?.GetType();
@@ -60,10 +63,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
+    /// Called when the <see cref="ItemTemplate"/> property changes.
+    /// Updates selection control logic based on the new item template.
     /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <param name="oldItemTemplate">The previous data template for items.</param>
+    /// <param name="newItemTemplate">The new data template for items.</param>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -71,9 +75,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Handles selection changes within the drag box.
+    /// If the control is in read-only mode, the selection change is prevented.
+    /// Otherwise, the selection state is updated accordingly.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         if (IsReadOnly)
@@ -87,10 +93,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Prepares the specified element to display the given item.
+    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
     /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <param name="element">The element used to display the specified item.</param>
+    /// <param name="item">The data item to be displayed.</param>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -106,10 +113,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
     #endregion
 
-    #region Drag and Drop logic
+    #region Drag & Drop logic
     /// <summary>
-    /// Reordering / swapping in the same list is triggered when we DragOver a specific item container.
+    /// Handles the drag-over event for individual list items, allowing item reordering within the same list.
     /// </summary>
+    /// <param name="sender">The item being dragged over.</param>
+    /// <param name="e">Drag event arguments.</param>
     private void OnItemDragOver(object sender, DragEventArgs e)
     {
         if (sender is FrameworkElement targetElement && ItemsSource is IList currentList)
@@ -124,8 +133,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// If we are dragging over the empty part of the ListBox (not on an item), or just to show a correct cursor.
+    /// Handles the drag-over event on the empty space of the list.
+    /// Ensures the correct cursor appearance and move effect during the operation.
     /// </summary>
+    /// <param name="sender">The drag box receiving the event.</param>
+    /// <param name="e">Drag event arguments.</param>
     private void OnDragOver(object sender, DragEventArgs e)
     {
         e.Effects = DragDropEffects.Move;
@@ -133,8 +145,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Final step: if it's a drop from a different list, remove from source and add to this list.
+    /// Handles the drop event, moving items between lists.
+    /// Removes the dragged item from the source list and inserts it into the target list at the correct position.
     /// </summary>
+    /// <param name="sender">The drop target list box.</param>
+    /// <param name="e">Drag event arguments.</param>
     private void OnDrop(object sender, DragEventArgs e)
     {
         if (IsReadOnly)
@@ -147,9 +162,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
             return;
 
         var draggedItem = e.Data.GetData("StswDraggedItem");
-        var sourceList = e.Data.GetData("StswSourceList") as IList;
-
-        if (draggedItem == null || sourceList == null)
+        if (draggedItem == null || e.Data.GetData("StswSourceList") is not IList sourceList)
             return;
 
         if (!ReferenceEquals(sourceList, targetList))
@@ -167,8 +180,10 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Starts the DragDrop operation when user moves the mouse with left button pressed on a ListBoxItem.
+    /// Detects when an item is being dragged and starts the drag-and-drop operation.
     /// </summary>
+    /// <param name="sender">The item being dragged.</param>
+    /// <param name="e">Mouse event arguments.</param>
     private void OnItemMouseMove(object sender, MouseEventArgs e)
     {
         if (IsReadOnly)
@@ -197,10 +212,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Returns the index at which to insert an item, based on a Point (mouse position).
-    /// If the mouse is outside the items, returns the Count (end of the list).
-    /// If the mouse is over a specific item, returns that item's index in the list.
+    /// Determines the index at which to insert a dropped item based on the cursor position.
+    /// Returns the appropriate index or the end of the list if the mouse is outside any item.
     /// </summary>
+    /// <param name="point">The point where the drop occurs.</param>
+    /// <returns>The index for inserting the dropped item.</returns>
     private int GetIndexFromPoint(Point point)
     {
         var hitResult = VisualTreeHelper.HitTest(this, point);
@@ -223,8 +239,11 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Simple function to swap positions of two objects in an IList (used for reorder in same list).
+    /// Swaps the positions of two objects in a list, used for reordering items within the same list.
     /// </summary>
+    /// <param name="list">The list containing the items.</param>
+    /// <param name="obj1">The first item to swap.</param>
+    /// <param name="obj2">The second item to swap.</param>
     private void SwapInList(IList list, object obj1, object obj2)
     {
         var index1 = list.IndexOf(obj1);
@@ -238,10 +257,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether control is in read-only mode.
-    /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -256,11 +272,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -274,11 +286,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -293,3 +301,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDragBox ItemsSource="{Binding Employees}" IsReadOnly="True">
+    <se:StswDragBoxItem Content="John Doe"/>
+    <se:StswDragBoxItem Content="Jane Smith"/>
+</se:StswDragBox>
+
+*/

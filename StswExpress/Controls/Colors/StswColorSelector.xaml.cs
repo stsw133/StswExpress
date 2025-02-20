@@ -9,6 +9,7 @@ using System.Windows.Media;
 namespace StswExpress;
 /// <summary>
 /// Represents a color selector control that provides a selection of standard and theme colors.
+/// Supports automatic color selection, customizable palettes, and two-way binding for the selected color.
 /// </summary>
 [ContentProperty(nameof(ColorPaletteStandard))]
 public class StswColorSelector : Control, IStswCornerControl
@@ -28,13 +29,15 @@ public class StswColorSelector : Control, IStswCornerControl
     #region Events & methods
     /// <summary>
     /// Occurs when the selected color in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// Command: select color
     /// <summary>
     /// Executes the command to select a color in the color selector.
+    /// Updates the <see cref="SelectedColor"/> property when a new color is chosen.
     /// </summary>
+    /// <param name="brush">The selected color as a <see cref="SolidColorBrush"/>.</param>
     private void SelectColor(SolidColorBrush? brush)
     {
         if (brush != null)
@@ -44,7 +47,8 @@ public class StswColorSelector : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the auto color used in the color selector.
+    /// Gets or sets the automatic color option used in the color selector.
+    /// This color is typically used as a default or fallback selection.
     /// </summary>
     public SolidColorBrush ColorAuto
     {
@@ -59,7 +63,7 @@ public class StswColorSelector : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the standard color palette used in the color selector.
+    /// Gets or sets the array of standard colors available for selection in the color selector.
     /// </summary>
     public SolidColorBrush[] ColorPaletteStandard
     {
@@ -74,7 +78,8 @@ public class StswColorSelector : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the theme color palette used in the color selector.
+    /// Gets or sets the array of theme colors available for selection in the color selector.
+    /// These colors typically follow a predefined theme for consistency across UI elements.
     /// </summary>
     public SolidColorBrush[] ColorPaletteTheme
     {
@@ -89,7 +94,8 @@ public class StswColorSelector : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selected color in the control.
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding to allow dynamic updates.
     /// </summary>
     public Color SelectedColor
     {
@@ -116,11 +122,7 @@ public class StswColorSelector : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -134,11 +136,7 @@ public class StswColorSelector : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -153,7 +151,7 @@ public class StswColorSelector : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// Gets or sets the thickness of the separator between the color selection areas.
     /// </summary>
     public double SeparatorThickness
     {
@@ -169,3 +167,9 @@ public class StswColorSelector : Control, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswColorSelector SelectedColor="{Binding UserPreferredColor}"/>
+
+*/

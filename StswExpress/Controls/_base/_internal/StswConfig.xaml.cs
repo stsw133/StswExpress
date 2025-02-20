@@ -11,6 +11,10 @@ namespace StswExpress;
 /// Represents a configuration dialog box that behaves like a content dialog.
 /// This control is used to manage application settings within a window or dialog context.
 /// </summary>
+/// <remarks>
+/// The dialog can be displayed as a standalone window or embedded within a content dialog.
+/// It includes options for saving and discarding settings, as well as handling UI preferences.
+/// </remarks>
 internal class StswConfig : Control, IStswCornerControl
 {
     internal StswConfig(object? identifier)
@@ -23,9 +27,7 @@ internal class StswConfig : Control, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -115,17 +117,13 @@ internal class StswConfig : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets the application version from the calling assembly in "Major.Minor.Revision" format.
     /// </summary>
-    public string Version { get; set; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Revision}" : string.Empty;
+    public string Version { get; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Revision}" : string.Empty;
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -139,11 +137,7 @@ internal class StswConfig : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);

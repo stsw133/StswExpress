@@ -6,8 +6,13 @@ using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 /// <summary>
-/// Represents an information bar control that can display a description, title, and type information, with an optional close button.
+/// An information bar control for displaying messages with optional close and copy buttons.
+/// Supports different message types such as info, warning, and error.
 /// </summary>
+/// <remarks>
+/// This control provides a compact way to display notifications with additional functionality like copying text 
+/// to the clipboard, expanding for more details, and dismissing messages.
+/// </remarks>
 public class StswInfoBar : Control, IStswCornerControl
 {
     static StswInfoBar()
@@ -17,9 +22,7 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -33,18 +36,22 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Copies the content of the information bar (title and text) to the clipboard.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText($"{Title}{Environment.NewLine}{Text}");
     }
 
     /// <summary>
-    /// Handles the click event of the function button, used for closing the info bar if it's placed within an <see cref="StswInfoPanel"/>.
+    /// Handles the close button click event.
+    /// Removes the information bar from its parent container if it is placed inside an <see cref="StswInfoPanel"/>.
+    /// Otherwise, it is removed from its visual parent.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void PART_ButtonClose_Click(object sender, RoutedEventArgs e)
     {
         if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel stsw)
@@ -61,7 +68,8 @@ public class StswInfoBar : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the bar is closable and has a close button.
+    /// Gets or sets a value indicating whether the info bar can be closed by the user.
+    /// When enabled, a close button is displayed.
     /// </summary>
     public bool IsClosable
     {
@@ -76,7 +84,8 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the bar is copyable and has a copy button.
+    /// Gets or sets a value indicating whether the info bar content can be copied to the clipboard.
+    /// When enabled, a copy button is displayed.
     /// </summary>
     public bool IsCopyable
     {
@@ -89,9 +98,10 @@ public class StswInfoBar : Control, IStswCornerControl
             typeof(bool),
             typeof(StswInfoBar)
         );
-    
+
     /// <summary>
-    /// Gets or sets a value indicating whether the bar is expandable and has an expand button.
+    /// Gets or sets a value indicating whether the info bar can be expanded.
+    /// When enabled, an expand button is displayed to show additional content.
     /// </summary>
     public bool IsExpandable
     {
@@ -106,7 +116,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the bar is currently expanded.
+    /// Gets or sets a value indicating whether the info bar is currently expanded.
     /// </summary>
     public bool IsExpanded
     {
@@ -121,7 +131,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the text displayed within the control.
+    /// Gets or sets the main text content displayed inside the information bar.
     /// </summary>
     public string? Text
     {
@@ -136,7 +146,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the title displayed within the control.
+    /// Gets or sets the title displayed at the top of the information bar.
     /// </summary>
     public string? Title
     {
@@ -151,7 +161,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the type of information represented by the control.
+    /// Gets or sets the type of information displayed in the info bar, such as "Info," "Warning," or "Error."
     /// </summary>
     public StswInfoType Type
     {
@@ -167,11 +177,7 @@ public class StswInfoBar : Control, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -185,11 +191,7 @@ public class StswInfoBar : Control, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -204,3 +206,9 @@ public class StswInfoBar : Control, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswInfoBar Title="Info" Text="Update available" Type="Info" IsCopyable="True"/>
+
+*/

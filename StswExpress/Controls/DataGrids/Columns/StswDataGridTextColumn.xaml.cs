@@ -1,11 +1,11 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a text column for <see cref="StswDataGrid"/> that allows displaying and editing text.
 /// </summary>
 public class StswDataGridTextColumn : DataGridTextColumn
 {
@@ -24,11 +24,12 @@ public class StswDataGridTextColumn : DataGridTextColumn
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for display within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's data.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -49,11 +50,12 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable text element for inline editing within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswTextBox"/> as the editing element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswTextBox"/> element bound to the column's data.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswTextBox()
@@ -76,7 +78,8 @@ public class StswDataGridTextColumn : DataGridTextColumn
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the <see cref="StswTextBox"/> 
+    /// in the column supports multi-line text input by accepting the Enter key.
     /// </summary>
     public bool AcceptsReturn
     {
@@ -91,7 +94,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the maximum number of characters allowed in the editable text box.
     /// </summary>
     public int MaxLength
     {
@@ -106,7 +109,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the editing element when it is empty.
     /// </summary>
     public string? Placeholder
     {
@@ -123,7 +126,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the text inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -136,9 +139,9 @@ public class StswDataGridTextColumn : DataGridTextColumn
             typeof(Thickness),
             typeof(StswDataGridTextColumn)
         );
-    
+
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -151,9 +154,9 @@ public class StswDataGridTextColumn : DataGridTextColumn
             typeof(TextAlignment),
             typeof(StswDataGridTextColumn)
         );
-    
+
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -166,9 +169,9 @@ public class StswDataGridTextColumn : DataGridTextColumn
             typeof(TextTrimming),
             typeof(StswDataGridTextColumn)
         );
-    
+
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -181,9 +184,9 @@ public class StswDataGridTextColumn : DataGridTextColumn
             typeof(TextWrapping),
             typeof(StswDataGridTextColumn)
         );
-    
+
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the text content inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -199,7 +202,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the text content inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -215,3 +218,9 @@ public class StswDataGridTextColumn : DataGridTextColumn
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}" Placeholder="Enter name"/>
+
+*/

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -15,13 +14,11 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswThumbnailView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswThumbnailItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswThumbnailItem;
+    protected override DependencyObject GetContainerForItemOverride() => new StswThumbnailViewItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswThumbnailViewItem;
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -61,11 +58,7 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -79,11 +72,7 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -96,30 +85,5 @@ internal class StswThumbnailView : ListBox, IStswCornerControl
             typeof(StswThumbnailView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-internal class StswThumbnailItem : ListBoxItem
-{
-    static StswThumbnailItem()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswThumbnailItem), new FrameworkPropertyMetadata(typeof(StswThumbnailItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswThumbnailItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
-    }
-
-    #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (DataContext is IStswSelectionItem)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
-    }
     #endregion
 }

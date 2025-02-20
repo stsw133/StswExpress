@@ -469,6 +469,18 @@ public static class StswFn
     /// </summary>
     /// <param name="path">The path to the file to be printed.</param>
     public static void PrintFile(string path) => ExecuteFileAction(path, "print");
+
+    /// <summary>
+    /// Opens Windows Explorer and selects the specified file.
+    /// </summary>
+    /// <param name="path">The path to the file to be selected in Windows Explorer.</param>
+    public static void ShowFileInExplorer(string path)
+    {
+        if (!File.Exists(path))
+            throw new FileNotFoundException($"File '{path}' not found.", path);
+
+        Process.Start("explorer.exe", $"/select,\"{path}\"");
+    }
     #endregion
 
     #region Finding functions

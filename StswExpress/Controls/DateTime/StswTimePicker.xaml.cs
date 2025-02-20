@@ -8,7 +8,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// A control that allows users to select and display time.
+/// A time picker control that allows users to select a time using a text box and a drop-down time selector.
+/// Supports different time formats, min/max validation, and incremental adjustments via mouse scroll.
 /// </summary>
 [ContentProperty(nameof(SelectedTime))]
 public class StswTimePicker : StswBoxBase
@@ -22,12 +23,11 @@ public class StswTimePicker : StswBoxBase
     #region Events & methods
     /// <summary>
     /// Occurs when the selected time in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedTimeChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -87,8 +87,11 @@ public class StswTimePicker : StswBoxBase
     }
 
     /// <summary>
-    /// 
+    /// Ensures that the provided time value is within the defined minimum and maximum limits.
+    /// If the value is outside the allowed range, it is adjusted accordingly.
     /// </summary>
+    /// <param name="newValue">The new time value to validate.</param>
+    /// <returns>The validated <see cref="TimeSpan"/> value within the allowable range.</returns>
     private TimeSpan? MinMaxValidate(TimeSpan? newValue)
     {
         if (newValue == null)
@@ -129,7 +132,7 @@ public class StswTimePicker : StswBoxBase
     }
 
     /// <summary>
-    /// 
+    /// Adjusts the visibility of the hour, minute, and second input fields based on the current <see cref="Format"/>.
     /// </summary>
     private void UpdateVisibilityBasedOnFormat()
     {
@@ -201,7 +204,22 @@ public class StswTimePicker : StswBoxBase
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// Gets or sets the increment type that determines how the time changes when scrolling with the mouse wheel.
+    /// </summary>
+    public StswTimeSpanIncrementType IncrementType
+    {
+        get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+            nameof(IncrementType),
+            typeof(StswTimeSpanIncrementType),
+            typeof(StswTimePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -216,7 +234,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether the hours input field is visible based on the selected <see cref="Format"/>.
     /// </summary>
     public bool IsHoursVisible
     {
@@ -232,7 +250,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether the minutes input field is visible based on the selected <see cref="Format"/>.
     /// </summary>
     public bool IsMinutesVisible
     {
@@ -248,7 +266,7 @@ public class StswTimePicker : StswBoxBase
         );
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether the seconds input field is visible based on the selected <see cref="Format"/>.
     /// </summary>
     public bool IsSecondsVisible
     {
@@ -261,22 +279,6 @@ public class StswTimePicker : StswBoxBase
             typeof(bool),
             typeof(StswTimePicker),
             new PropertyMetadata(true)
-        );
-
-    /// <summary>
-    /// Gets or sets the type of increment to be applied when scrolling the mouse wheel over the time picker.
-    /// This property defines how the time changes when the mouse wheel is scrolled up or down.
-    /// </summary>
-    public StswTimeSpanIncrementType IncrementType
-    {
-        get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
-        set => SetValue(IncrementTypeProperty, value);
-    }
-    public static readonly DependencyProperty IncrementTypeProperty
-        = DependencyProperty.Register(
-            nameof(IncrementType),
-            typeof(StswTimeSpanIncrementType),
-            typeof(StswTimePicker)
         );
 
     /// <summary>
@@ -456,3 +458,9 @@ public class StswTimePicker : StswBoxBase
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswTimePicker SelectedTime="{Binding StartTime}" Format="HH:mm" IncrementType="Minute"/>
+
+*/

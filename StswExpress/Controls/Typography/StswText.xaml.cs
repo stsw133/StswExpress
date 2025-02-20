@@ -4,7 +4,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that is displaying a text.
+/// A text control that extends <see cref="TextBlock"/> with additional styling options.
+/// Supports inline text elements for rich text formatting.
 /// </summary>
 [ContentProperty(nameof(Inlines))]
 public class StswText : TextBlock
@@ -15,3 +16,12 @@ public class StswText : TextBlock
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswText), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
+
+/* usage:
+
+<se:StswText>
+    <Run Text="Styled " FontWeight="Bold"/>
+    <Run Text="Text" Foreground="Blue"/>
+</se:StswText>
+
+*/

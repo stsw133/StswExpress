@@ -8,8 +8,8 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control used for automatically selecting input box based on its value type.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type are automatically bound to selected items.
+/// A dynamic input control that automatically selects the appropriate input box based on the value type.
+/// Supports text, number, date, checkbox, and selection inputs.
 /// </summary>
 [ContentProperty(nameof(Value))]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
@@ -26,10 +26,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Events & methods
     private ContentPresenter? _contentPresenter;
-    
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -42,7 +40,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Dynamically creates and assigns the appropriate input control based on the specified <see cref="Type"/>.
+    /// Ensures correct bindings and properties are applied.
     /// </summary>
     protected void CreateControlBasedOnType()
     {
@@ -218,9 +217,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox)
         );
 
-    /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
-    /// </summary>
+    /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -234,8 +231,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the custom format string used to display the value in the control.
-    /// When set, the value is formatted according to the provided format string.
+    /// Gets or sets the custom format string used to display the value in the control. 
+    /// Applicable for types such as Date and Number.
     /// </summary>
     public string? Format
     {
@@ -251,9 +248,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
-    /// </summary>
+    /// <inheritdoc/>
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -266,9 +261,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox)
         );
 
-    /// <summary>
-    /// Gets or sets the icon section of the box.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -281,9 +274,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in read-only mode.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -297,7 +288,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control supports three states.
+    /// Gets or sets a value indicating whether the checkbox input (if applicable) supports three states (Checked, Unchecked, Indeterminate).
     /// </summary>
     public bool IsThreeState
     {
@@ -312,7 +303,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
+    /// Gets or sets the collection of items used to populate a selection-based input (e.g., dropdown).
+    /// Used when <see cref="Type"/> is set to List.
     /// </summary>
     public IList ItemsSource
     {
@@ -326,9 +318,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox)
         );
 
-    /// <summary>
-    /// Gets or sets the placeholder text to display in the box when no value is provided.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -342,7 +332,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the path to the value property of the selected items in the ItemsSource (for <see cref="StswSelectionBox"/>).
+    /// Gets or sets the property path used to extract values from the <see cref="ItemsSource"/>.
+    /// Used when <see cref="Type"/> is set to List.
     /// </summary>
     public string SelectedValuePath
     {
@@ -357,7 +348,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the selection unit of the control.
+    /// Gets or sets the selection unit for the date picker input.
     /// </summary>
     public StswCalendarUnit SelectionUnit
     {
@@ -371,9 +362,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox)
         );
 
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
+    /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
@@ -389,7 +378,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the type of box to be applied.
+    /// Gets or sets the type of input box to display. 
+    /// If set to <see cref="StswAdaptiveType.Auto"/>, the control attempts to determine the type based on the bound value.
     /// </summary>
     public StswAdaptiveType Type
     {
@@ -452,7 +442,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Gets or sets the first value used in filtering.
+    /// Gets or sets the value of the input box. 
+    /// The type of control is determined based on the value if <see cref="Type"/> is set to Auto.
     /// </summary>
     public object? Value
     {
@@ -471,11 +462,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -489,11 +476,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -508,7 +491,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between the input field and additional elements (if applicable).
     /// </summary>
     public double SeparatorThickness
     {
@@ -524,3 +507,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswAdaptiveBox Type="Text" Value="{Binding UserName}" Placeholder="Enter name"/>
+
+*/

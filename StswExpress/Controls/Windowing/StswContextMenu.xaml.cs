@@ -4,8 +4,13 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a context menu with extended functionality, including support for corner customization.
+/// A context menu with extended functionality, including support for corner radius customization.
+/// Automatically applies styles to menu items when opened, ensuring a consistent visual appearance.
 /// </summary>
+/// <remarks>
+/// This control enhances the standard WPF context menu by providing automatic styling updates for menu items,
+/// including text, background, and border properties.
+/// </remarks>
 public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerControl
 {
     static StswContextMenu()
@@ -14,9 +19,10 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
     }
 
     /// <summary>
-    /// Called when the context menu is opened. Applies custom styling and layout updates to menu items.
+    /// Called when the context menu is opened. 
+    /// Applies custom styling and layout updates to ensure consistency across menu items.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnOpened(RoutedEventArgs e)
     {
         base.OnOpened(e);
@@ -41,13 +47,9 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
             SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
         UpdateLayout();
     }
-    
+
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -61,11 +63,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -80,3 +78,16 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         );
     #endregion
 }
+
+/* usage:
+
+<Button Content="Right Click Me">
+    <Button.ContextMenu>
+        <se:StswContextMenu>
+            <MenuItem Header="Option 1"/>
+            <MenuItem Header="Option 2"/>
+        </se:StswContextMenu>
+    </Button.ContextMenu>
+</Button>
+
+*/

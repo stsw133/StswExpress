@@ -8,8 +8,12 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control displaying vector icon.
+/// A control for displaying vector-based icons.
+/// Supports scaling, rotation, stroke thickness, and color customization.
 /// </summary>
+/// <remarks>
+/// The control allows for various transformations, including scaling and rotation, making it a versatile choice for UI design.
+/// </remarks>
 [ContentProperty(nameof(Data))]
 public class StswIcon : Control
 {
@@ -20,9 +24,7 @@ public class StswIcon : Control
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -33,7 +35,7 @@ public class StswIcon : Control
     #region Logic properties
     /// <summary>
     /// Gets or sets the canvas size of the icon.
-    /// This determines the width and height of the canvas on which the icon is drawn.
+    /// This determines the width and height of the drawing area for the icon.
     /// </summary>
     public double CanvasSize
     {
@@ -152,7 +154,7 @@ public class StswIcon : Control
 
     /// <summary>
     /// Gets or sets the thickness of the icon's stroke.
-    /// This value determines the width of the outline drawn around the icon.
+    /// Determines the width of the outline drawn around the icon.
     /// </summary>
     public double StrokeThickness
     {
@@ -229,8 +231,8 @@ public class StswIcon : Control
 
     #region Animations
     /// <summary>
-    /// Configures animations for the control, including rotation animations for the icon.
-    /// Animations are triggered based on the value of the <see cref="IsRotated"/> property.
+    /// Configures animations for the control, including rotation effects.
+    /// Animations are triggered when the <see cref="IsRotated"/> property changes.
     /// </summary>
     public void AssignAnimations()
     {
@@ -284,13 +286,21 @@ public class StswIcon : Control
     #endregion
 }
 
+/* usage:
+
+<se:StswIcon Data="{StaticResource HomeIcon}" Fill="Blue" Stroke="Black" StrokeThickness="1"/>
+
+*/
+
 /// <summary>
-/// 
+/// Provides attached properties to control the behavior and appearance of a drop-down arrow.
+/// Enables customization of the arrow's visibility, rotation, and geometry.
 /// </summary>
 public static class StswDropArrow
 {
     /// <summary>
-    /// 
+    /// Gets or sets the geometry data for the drop-down arrow.
+    /// Defines the vector shape of the arrow.
     /// </summary>
     public static readonly DependencyProperty DataProperty
         = DependencyProperty.RegisterAttached(
@@ -302,7 +312,8 @@ public static class StswDropArrow
     public static void SetData(DependencyObject obj, Geometry value) => obj.SetValue(DataProperty, value);
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the drop-down arrow is rotated.
+    /// When set to <see langword="true"/>, the arrow is rotated to indicate an expanded state.
     /// </summary>
     public static readonly DependencyProperty IsRotatedProperty
         = DependencyProperty.RegisterAttached(
@@ -314,8 +325,8 @@ public static class StswDropArrow
     public static void SetIsRotated(DependencyObject obj, bool value) => obj.SetValue(IsRotatedProperty, value);
 
     /// <summary>
-    /// Identifies the IsArrowless attached property.
-    /// When set to <see langword="true"/>, it hides the drop-down arrow by setting its visibility to <see cref="Visibility.Collapsed"/>.
+    /// Identifies the <see cref="Visibility"/> attached property.
+    /// When set to <see cref="Visibility.Collapsed"/>, the drop-down arrow is hidden.
     /// </summary>
     public static readonly DependencyProperty VisibilityProperty
         = DependencyProperty.RegisterAttached(
@@ -327,10 +338,10 @@ public static class StswDropArrow
     public static void SetVisibility(DependencyObject obj, Visibility value) => obj.SetValue(VisibilityProperty, value);
 
     /// <summary>
-    /// 
+    /// Applies changes to the drop-down arrow when a property value changes.
     /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="e"></param>
+    /// <param name="obj">The dependency object.</param>
+    /// <param name="e">The event arguments containing the changed property.</param>
     private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is Control control)
@@ -340,9 +351,9 @@ public static class StswDropArrow
     }
 
     /// <summary>
-    /// 
+    /// Ensures that the control has a template before applying drop-arrow properties.
     /// </summary>
-    /// <param name="control"></param>
+    /// <param name="control">The control instance to check.</param>
     private static void EnsureTemplate(Control control)
     {
         if (control.Template == null)
@@ -357,9 +368,9 @@ public static class StswDropArrow
     }
 
     /// <summary>
-    /// 
+    /// Applies drop-arrow properties such as geometry, rotation, and visibility to the target control.
     /// </summary>
-    /// <param name="control"></param>
+    /// <param name="control">The control to update.</param>
     private static void ApplyDropArrowProperties(Control control)
     {
         if (control.Template?.FindName("OPT_DropArrow", control) is StswIcon dropArrow)
@@ -371,10 +382,10 @@ public static class StswDropArrow
     }
 
     /// <summary>
-    /// 
+    /// Handles the <see cref="FrameworkElement.Loaded"/> event to apply drop-arrow settings once the control is fully loaded.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The control that triggered the event.</param>
+    /// <param name="e">Event data.</param>
     private static void Control_Loaded(object sender, RoutedEventArgs e)
     {
         if (sender is Control control)
@@ -385,9 +396,9 @@ public static class StswDropArrow
     }
 
     /// <summary>
-    /// 
+    /// Tracks changes to drop-arrow-related properties and updates the control accordingly.
     /// </summary>
-    /// <param name="control"></param>
+    /// <param name="control">The control to monitor for property changes.</param>
     private static void TrackPropertyChanges(Control control)
     {
         DependencyPropertyDescriptor.FromProperty(DataProperty, typeof(StswDropArrow))?.AddValueChanged(control, (s, e) => ApplyDropArrowProperties(control));

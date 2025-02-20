@@ -9,7 +9,8 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// A control that allows users to select and display date.
+/// A date picker control that allows users to select a date using a text box and a drop-down calendar.
+/// Supports custom date formats, min/max date validation, and incremental adjustments via mouse scroll.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
 public class StswDatePicker : StswBoxBase
@@ -23,12 +24,11 @@ public class StswDatePicker : StswBoxBase
     #region Events & methods
     /// <summary>
     /// Occurs when the selected date in the control changes.
+    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
     /// </summary>
     public event EventHandler? SelectedDateChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -95,8 +95,11 @@ public class StswDatePicker : StswBoxBase
     }
 
     /// <summary>
-    /// 
+    /// Ensures the provided date value is within the defined minimum and maximum limits.
+    /// If the value is outside the allowed range, it is adjusted accordingly.
     /// </summary>
+    /// <param name="newValue">The new date value to validate.</param>
+    /// <returns>The validated <see cref="DateTime"/> value within the allowable range.</returns>
     private DateTime? MinMaxValidate(DateTime? newValue)
     {
         if (newValue == null)
@@ -171,7 +174,7 @@ public class StswDatePicker : StswBoxBase
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -186,8 +189,7 @@ public class StswDatePicker : StswBoxBase
         );
 
     /// <summary>
-    /// Gets or sets the type of increment to be applied when scrolling the mouse wheel over the date picker.
-    /// This property defines how the date changes when the mouse wheel is scrolled up or down.
+    /// Gets or sets the increment type that determines how the date changes when scrolling with the mouse wheel.
     /// </summary>
     public StswDateTimeIncrementType IncrementType
     {
@@ -276,6 +278,7 @@ public class StswDatePicker : StswBoxBase
 
     /// <summary>
     /// Gets or sets the selection unit of the control.
+    /// Determines whether the user selects an individual day or an entire month.
     /// </summary>
     public StswCalendarUnit SelectionUnit
     {
@@ -290,3 +293,9 @@ public class StswDatePicker : StswBoxBase
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswDatePicker SelectedDate="{Binding BirthDate}" Format="dd/MM/yyyy" IncrementType="Day"/>
+
+*/

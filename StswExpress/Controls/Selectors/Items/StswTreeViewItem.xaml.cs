@@ -2,10 +2,13 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace StswExpress;
-/// <summary>
-/// 
+namespace StswExpress;/// <summary>
+/// Represents an individual item inside the <see cref="StswTreeView"/>.
+/// Supports selection state binding, hierarchical data, read-only mode, and corner customization.
 /// </summary>
+/// <remarks>
+/// When <see cref="DataContext"/> implements <see cref="IStswSelectionItem"/>, selection binding is automatically applied.
+/// </remarks>
 public class StswTreeViewItem : TreeViewItem
 {
     static StswTreeViewItem()
@@ -18,9 +21,7 @@ public class StswTreeViewItem : TreeViewItem
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -30,10 +31,11 @@ public class StswTreeViewItem : TreeViewItem
     }
 
     /// <summary>
-    /// 
+    /// Prepares the specified element to display the given item.
+    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
     /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <param name="element">The element used to display the specified item.</param>
+    /// <param name="item">The data item to be displayed.</param>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -51,7 +53,8 @@ public class StswTreeViewItem : TreeViewItem
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the item is in read-only mode.
+    /// When set to <see langword="true"/>, the item cannot be selected or interacted with.
     /// </summary>
     public bool IsReadOnly
     {
@@ -67,11 +70,7 @@ public class StswTreeViewItem : TreeViewItem
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -85,11 +84,7 @@ public class StswTreeViewItem : TreeViewItem
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -104,3 +99,14 @@ public class StswTreeViewItem : TreeViewItem
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswTreeView>
+    <se:StswTreeViewItem Header="Root">
+        <se:StswTreeViewItem Header="Child 1"/>
+        <se:StswTreeViewItem Header="Child 2"/>
+    </se:StswTreeViewItem>
+</se:StswTreeView>
+
+*/

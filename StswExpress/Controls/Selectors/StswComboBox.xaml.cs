@@ -9,9 +9,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace StswExpress;
-/// <summary>
-/// Represents a control that allows selection from a drop-down list of items.
+namespace StswExpress;/// <summary>
+/// A combo box control that allows users to select an item from a drop-down list.
+/// Supports filtering, selection binding, and corner customization.
+/// This control allows filtering of items based on user input and supports displaying icons and custom placeholders.
 /// </summary>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
@@ -32,9 +33,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     #region Events & methods
     private TextBoxBase? _filter;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -51,7 +50,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <summary>
-    /// Handles the event when the IsDropDownOpen property changes.
+    /// Handles the event when the drop-down opens or closes. 
+    /// If filtering is enabled, focuses the filter input field.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
@@ -99,7 +99,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
     */
     /// <summary>
-    /// Occurs when the ItemsSource property value changes.
+    /// Handles changes in the <see cref="ItemsSource"/> property.
+    /// Ensures that filtering is enabled only for <see cref="ICollectionView"/> sources.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
     /// <param name="newValue">The new value of the ItemsSource property.</param>
@@ -120,6 +121,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
     /// <summary>
     /// Occurs when the ItemTemplate property value changes.
+    /// Handles updates to the ItemTemplate and notifies selection control.
     /// </summary>
     /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
     /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
@@ -130,7 +132,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <summary>
-    /// Occurs when the SelectedItem property value changes.
+    /// Handles selection changes. Prevents selection if <see cref="IsReadOnly"/> is set.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
@@ -153,10 +155,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <summary>
-    /// 
+    /// Prepares the container for item override, setting bindings for read-only state.
     /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <param name="element">The element to prepare</param>
+    /// <param name="item">The item to bind</param>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -172,10 +174,11 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <summary>
-    /// Filters the collection view based on the FilterText property.
+    /// Filters the collection based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
+    /// Returns <see langword="true"/> if the item matches, otherwise <see langword="false"/>.
     /// </summary>
     /// <param name="obj">The object to filter</param>
-    /// <returns><see langword="true"/> if the object should be included in the view, otherwise <see langword="false"/></returns>
+    /// <returns><see langword="true"/> if the object should be included, otherwise <see langword="false"/></returns>
     private bool CollectionViewFilter(object obj)
     {
         if (string.IsNullOrEmpty(FilterText))
@@ -191,9 +194,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
-    /// </summary>
+    /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -207,7 +208,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
-    /// Gets or sets the member path used for filtering the items in list.
+    /// Gets or sets the member path used for filtering.
     /// </summary>
     public string FilterMemberPath
     {
@@ -220,13 +221,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(string),
             typeof(StswComboBox)
         );
-    
+
     /// <summary>
     /// Gets or sets the text used for filtering the items in list.
     /// </summary>
-    /// <remarks>
-    /// Setting this property will trigger filtering of the items displayed in list based on the specified text.
-    /// </remarks>
     public string FilterText
     {
         get => (string)GetValue(FilterTextProperty);
@@ -250,9 +248,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
-    /// </summary>
+    /// <inheritdoc/>
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -265,9 +261,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(StswComboBox)
         );
 
-    /// <summary>
-    /// Gets or sets the icon section of the box.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -281,11 +275,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether filtering of items in list is enabled.
+    /// Gets or sets whether filtering is enabled.
+    /// Requires <see cref="ICollectionView"/> as <see cref="ItemsSource"/>.
     /// </summary>
-    /// <remarks>
-    /// Enabling filtering allows the control to filter its items based on the text specified in the <see cref="FilterText"/> property.
-    /// </remarks>
     public bool IsFilterEnabled
     {
         get => (bool)GetValue(IsFilterEnabledProperty);
@@ -317,9 +309,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         }
     }
 
-    /// <summary>
-    /// Gets or sets the placeholder text displayed in the control when no item is selected.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -332,9 +322,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(StswComboBox)
         );
 
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
+    /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
@@ -349,11 +337,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -367,11 +351,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -385,9 +365,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum width of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -402,7 +380,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// Gets or sets the thickness of the separator between the arrow icon and main button.
     /// </summary>
     public double SeparatorThickness
     {
@@ -418,3 +396,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswComboBox ItemsSource="{Binding Cities}" IsFilterEnabled="True" Placeholder="Select a city"/>
+
+*/

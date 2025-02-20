@@ -6,7 +6,8 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
+/// A <see cref="ScrollViewer"/> extension with dynamic scrolling behavior.
+/// Supports automatic scrolling to the bottom and dynamic visibility of scrollbars.
 /// </summary>
 public class StswScrollView : ScrollViewer
 {
@@ -19,7 +20,8 @@ public class StswScrollView : ScrollViewer
     #region Events & methods
     /// <summary>
     /// Overrides the MouseWheel event to handle scrolling behavior.
-    /// When the scroll reaches the top or bottom, it raises the MouseWheel event for the parent UIElement.
+    /// This method allows horizontal scrolling if the vertical scrollbar is visible and the shift key is held down.
+    /// It raises the MouseWheel event for the parent UIElement when scrolling reaches the top or bottom.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -56,6 +58,7 @@ public class StswScrollView : ScrollViewer
 
     /// <summary>
     /// Handles the ScrollChanged event to provide additional functionality on scroll change.
+    /// This method checks for auto-scrolling and triggers a command when reaching the bottom of the content.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
@@ -82,6 +85,7 @@ public class StswScrollView : ScrollViewer
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether auto-scrolling is enabled.
+    /// If set to true, the content automatically scrolls to the bottom when new content is added.
     /// </summary>
     public bool AutoScroll
     {
@@ -97,9 +101,10 @@ public class StswScrollView : ScrollViewer
         );
     public static bool GetAutoScroll(DependencyObject obj) => (bool)obj.GetValue(AutoScrollProperty);
     public static void SetAutoScroll(DependencyObject obj, bool value) => obj.SetValue(AutoScrollProperty, value);
-    
+
     /// <summary>
     /// Gets or sets the command associated with the control.
+    /// This property allows binding a command to the scroll control that is executed under certain conditions.
     /// </summary>
     public ICommand? Command
     {
@@ -118,6 +123,7 @@ public class StswScrollView : ScrollViewer
 
     /// <summary>
     /// Gets or sets the parameter to pass to the command associated with the control.
+    /// This allows passing additional data to the command when it is executed.
     /// </summary>
     public object? CommandParameter
     {
@@ -136,6 +142,7 @@ public class StswScrollView : ScrollViewer
 
     /// <summary>
     /// Gets or sets the target element on which to execute the command associated with the control.
+    /// This allows specifying a target element to run the command on, different from the control itself.
     /// </summary>
     public IInputElement? CommandTarget
     {
@@ -154,6 +161,7 @@ public class StswScrollView : ScrollViewer
 
     /// <summary>
     /// Gets or sets a value indicating whether the scroll viewer is in a busy state.
+    /// When set to true, the scroll viewer prevents user interactions, indicating a loading or processing state.
     /// </summary>
     public bool IsBusy
     {
@@ -171,7 +179,8 @@ public class StswScrollView : ScrollViewer
     public static void SetIsBusy(DependencyObject obj, bool value) => obj.SetValue(IsBusyProperty, value);
 
     /// <summary>
-    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when are not used).
+    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when not in use).
+    /// If set to <see langword="true"/>, the scrollbars are shown only when scrolling is needed, hiding when idle.
     /// </summary>
     public bool IsDynamic
     {
@@ -217,3 +226,14 @@ public class StswScrollView : ScrollViewer
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
+
+/* usage:
+
+<se:StswScrollView AutoScroll="True">
+    <StackPanel>
+        <TextBlock Text="Scrollable Content"/>
+        <TextBlock Text="More Content"/>
+    </StackPanel>
+</se:StswScrollView>
+
+*/

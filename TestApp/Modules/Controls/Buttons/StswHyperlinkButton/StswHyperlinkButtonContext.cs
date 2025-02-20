@@ -10,5 +10,5 @@ public class StswHyperlinkButtonContext : ControlsContext
         get => _navigateUri;
         set => SetProperty(ref _navigateUri, value);
     }
-    private Uri _navigateUri = new Uri("https://www.google.com/");
+    private Uri _navigateUri = new Uri("https://example.com");
 }

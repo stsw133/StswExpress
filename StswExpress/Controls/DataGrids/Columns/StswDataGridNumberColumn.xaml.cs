@@ -1,12 +1,12 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Numerics;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a numeric column for <see cref="StswDataGrid"/> that allows entering and displaying numbers.
 /// </summary>
 public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
@@ -26,11 +26,12 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     };
 
     /// <summary>
-    /// 
+    /// Generates a non-editable text element for displaying numeric values within the <see cref="DataGrid"/> column.
+    /// Uses <see cref="StswText"/> as the display element.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>A <see cref="StswText"/> element bound to the column's numeric value.</returns>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -51,21 +52,24 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable numeric input element for entering values within the <see cref="DataGrid"/> column.
+    /// Uses a generic numeric input control that extends <see cref="StswNumberBoxBase{T}"/>.
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="dataItem"></param>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         return GenerateEditingElement<TControl>();
     }
 
     /// <summary>
-    /// 
+    /// Generates an editable numeric input element for entering values within the <see cref="DataGrid"/> column.
+    /// Uses a generic numeric input control that extends <see cref="StswNumberBoxBase{T}"/>.
     /// </summary>
-    /// <typeparam name="TControl"></typeparam>
-    /// <returns></returns>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
     private TControl GenerateEditingElement<TControl>() where TControl : StswNumberBoxBase<T>, new()
     {
         var editingElement = new TControl
@@ -87,7 +91,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets the numeric format used for displaying values (e.g., "N2" for two decimal places, "C2" for currency).
     /// </summary>
     public string? Format
     {
@@ -102,7 +106,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the numeric input when no value is entered.
     /// </summary>
     public string? Placeholder
     {
@@ -119,7 +123,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the padding around the numeric input inside the column's cells.
     /// </summary>
     public Thickness Padding
     {
@@ -134,7 +138,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
     public TextAlignment TextAlignment
     {
@@ -149,7 +153,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
     public TextTrimming TextTrimming
     {
@@ -164,7 +168,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
     public TextWrapping TextWrapping
     {
@@ -179,7 +183,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal alignment of the numeric input inside the editing element.
     /// </summary>
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -195,7 +199,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical alignment of the numeric input inside the editing element.
     /// </summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -212,17 +216,27 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     #endregion
 }
 
+/* usage:
+
+<se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}" Format="C2"/>
+<se:StswDataGridIntegerColumn Header="Quantity" Binding="{Binding Quantity}"/>
+
+*/
+
 /// <summary>
-/// 
+/// Represents a numeric column for decimal values within <see cref="StswDataGrid"/>.
+/// Uses <see cref="StswDecimalBox"/> as the editing control.
 /// </summary>
 public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
 /// <summary>
-/// 
+/// Represents a numeric column for double-precision floating-point values within <see cref="StswDataGrid"/>.
+/// Uses <see cref="StswDoubleBox"/> as the editing control.
 /// </summary>
 public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
 /// <summary>
-/// 
+/// Represents a numeric column for integer values within <see cref="StswDataGrid"/>.
+/// Uses <see cref="StswIntegerBox"/> as the editing control.
 /// </summary>
 public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

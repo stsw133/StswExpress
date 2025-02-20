@@ -3,7 +3,8 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a control that functions as a label container with configurable layout and label styling options.
+/// A label container that automatically arranges its child elements.
+/// Supports vertical/horizontal layout and configurable label styling.
 /// </summary>
 public class StswLabelPanel : Grid
 {
@@ -184,3 +185,12 @@ public class StswLabelPanel : Grid
     }
     #endregion
 }
+
+/* usage:
+
+<se:StswLabelPanel Orientation="Horizontal" LabelWidth="100">
+    <Label Content="Name:"/>
+    <TextBox Width="200"/>
+</se:StswLabelPanel>
+
+*/

@@ -5,7 +5,8 @@ using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a tab item with additional functionality, including support for a close button.
+/// A tab item with additional functionality, including support for a close button.
+/// Allows users to remove tabs dynamically from the tab control.
 /// </summary>
 public class StswTabItem : TabItem
 {
@@ -16,9 +17,7 @@ public class StswTabItem : TabItem
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -29,10 +28,11 @@ public class StswTabItem : TabItem
     }
 
     /// <summary>
-    /// Handles the click event of the close tab button. Removes the current tab item from the parent tab control.
+    /// Handles the click event of the close tab button.
+    /// Removes the current tab item from its parent <see cref="StswTabControl"/>.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
     public void PART_CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
         if (StswFn.FindVisualAncestor<StswTabControl>(this) is StswTabControl tabControl)
@@ -47,7 +47,8 @@ public class StswTabItem : TabItem
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the tab item can be closed by the user. When true, a close button is displayed.
+    /// Gets or sets a value indicating whether the tab item can be closed by the user. 
+    /// When set to <see langword="true"/>, a close button is displayed in the tab.
     /// </summary>
     public bool IsClosable
     {
@@ -62,3 +63,9 @@ public class StswTabItem : TabItem
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswTabItem Header="Documents" IsClosable="True"/>
+
+*/

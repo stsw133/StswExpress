@@ -8,9 +8,12 @@ using System.Windows.Media;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a panel control that functions as a sub control and displays an icon. 
-/// It can expand to show additional sub controls when the mouse is over an icon.
+/// A sub-control that expands to show additional sub-controls when hovered over.
+/// Supports a primary icon, customizable drop-down content, and various styling options.
 /// </summary>
+/// <remarks>
+/// This control is useful for compact UI designs where a small, expandable selector provides access to multiple actions.
+/// </remarks>
 [ContentProperty(nameof(Items))]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
@@ -25,9 +28,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -38,9 +39,9 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     }
 
     /// <summary>
-    /// 
+    /// Handles the mouse enter event to automatically open the drop-down portion of the control.
     /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <param name="e">The event arguments.</param>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -49,9 +50,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -64,9 +63,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the arrow icon.
-    /// </summary>
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -79,9 +76,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in a busy/loading state.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
@@ -94,9 +89,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector)
         );
 
-    /// <summary>
-    /// Gets or sets whether the the content within the control is visible or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsContentVisible
     {
         get => (bool)GetValue(IsContentVisibleProperty);
@@ -109,9 +102,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector)
         );
 
-    /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
@@ -125,7 +116,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// Gets or sets the collection of sub-controls to be displayed inside the drop-down.
     /// </summary>
     public ObservableCollection<IStswSubControl> Items
     {
@@ -139,9 +130,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector)
         );
 
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -157,11 +146,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -175,11 +160,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -193,9 +174,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -209,9 +188,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -225,9 +202,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the stroke thickness of the icon.
-    /// </summary>
+    /// <inheritdoc/>
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -240,10 +215,8 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    
-    /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the control.
-    /// </summary>
+
+    /// <inheritdoc/>
     public double MaxDropDownHeight
     {
         get => (double)GetValue(MaxDropDownHeightProperty);
@@ -257,9 +230,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
 
-    /// <summary>
-    /// Gets or sets the maximum width of the drop-down portion of the control.
-    /// </summary>
+    /// <inheritdoc/>
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -274,3 +245,12 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
     #endregion
 }
+
+/* usage:
+
+<se:StswSubSelector IconData="{StaticResource MoreIcon}">
+    <se:StswSubButton Content="Option 1"/>
+    <se:StswSubButton Content="Option 2"/>
+</se:StswSubSelector>
+
+*/

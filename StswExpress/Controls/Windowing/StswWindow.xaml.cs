@@ -10,9 +10,15 @@ using System.Windows.Shell;
 
 namespace StswExpress;
 /// <summary>
-/// Represents a window control with additional functionality and customization options,
-/// such as full-screen toggle, default size management, and custom window chrome.
+/// A custom window control with extended functionality, including fullscreen toggle,
+/// window state management, and support for custom window chrome.
+/// Provides additional features such as window centering, default size restoration, 
+/// and integration with custom UI components.
 /// </summary>
+/// <remarks>
+/// This control enhances the standard WPF window by enabling fullscreen mode, 
+/// managing custom window chrome, and supporting additional UI elements in the title bar.
+/// </remarks>
 public class StswWindow : Window, IStswCornerControl
 {
     public StswWindow()
@@ -37,9 +43,7 @@ public class StswWindow : Window, IStswCornerControl
     /// </summary>
     public event EventHandler? FullscreenChanged;
 
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
+    /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -56,7 +60,8 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     /// <summary>
-    /// Centers the window on the screen based on monitor work area.
+    /// Centers the window on the screen based on the monitor's available work area.
+    /// Ensures proper alignment even with multiple monitors.
     /// </summary>
     private void Center()
     {
@@ -76,7 +81,7 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     /// <summary>
-    /// Resets the window to its default size and centers it on the screen.
+    /// Restores the window to its default size and repositions it at the center of the screen.
     /// </summary>
     public void Default()
     {
@@ -89,7 +94,7 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles entering or exiting fullscreen mode and adjusts visibility and window state accordingly.
+    /// Handles transitioning into and out of fullscreen mode, managing window visibility and state changes.
     /// </summary>
     /// <param name="enteringFullscreen"><see langword="true"/> if entering fullscreen, <see langword="false"/> if exiting.</param>
     private void HandleEnteringFullscreen(bool enteringFullscreen)
@@ -149,6 +154,7 @@ public class StswWindow : Window, IStswCornerControl
     #region Logic properties
     /// <summary>
     /// Gets or sets the collection of elements used in the window's title bar.
+    /// Allows adding custom UI components such as buttons or labels.
     /// </summary>
     public IList Components
     {
@@ -163,7 +169,7 @@ public class StswWindow : Window, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the presentation mode for the config dialog, allowing customization of appearance and behavior.
+    /// Gets or sets the presentation mode for the config dialog, allowing customization of its appearance and behavior.
     /// </summary>
     public StswPresentationMode? ConfigPresentationMode
     {
@@ -179,6 +185,7 @@ public class StswWindow : Window, IStswCornerControl
 
     /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.
+    /// When enabled, the window takes up the entire screen, hiding the taskbar and borders.
     /// </summary>
     public bool Fullscreen
     {
@@ -215,11 +222,7 @@ public class StswWindow : Window, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
+    /// <inheritdoc/>
     public bool CornerClipping
     {
         get => (bool)GetValue(CornerClippingProperty);
@@ -233,11 +236,7 @@ public class StswWindow : Window, IStswCornerControl
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
+    /// <inheritdoc/>
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -264,9 +263,7 @@ public class StswWindow : Window, IStswCornerControl
     #endregion
 
     #region Advanced logic
-    /// <summary>
-    /// Initializes the window's source, attaches the WndProc hook, and saves default height and width.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnSourceInitialized(EventArgs e)
     {
         base.OnSourceInitialized(e);
@@ -283,6 +280,7 @@ public class StswWindow : Window, IStswCornerControl
 
     /// <summary>
     /// Processes window messages, including handling fullscreen and maximization behavior.
+    /// Ensures that the taskbar remains visible when maximizing the window.
     /// </summary>
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
@@ -301,7 +299,8 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     /// <summary>
-    /// Updates the window's maximized size to avoid covering the taskbar.
+    /// Updates the window's maximized size to prevent covering the taskbar.
+    /// Adjusts positioning and dimensions based on the monitor's work area.
     /// </summary>
     private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
@@ -394,3 +393,13 @@ public class StswWindow : Window, IStswCornerControl
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 }
+
+/* usage:
+
+<se:StswWindow Title="My Application" Width="800" Height="600">
+    <Grid>
+        <TextBlock Text="Welcome to the custom window!" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</se:StswWindow>
+
+*/
