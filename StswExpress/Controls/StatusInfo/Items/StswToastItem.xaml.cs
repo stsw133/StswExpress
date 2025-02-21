@@ -5,17 +5,17 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Represents an individual alert item inside the <see cref="StswAlert"/> control.
+/// Represents an individual toast item inside the <see cref="StswToaster"/> control.
 /// Supports customizable styling, corner clipping, and a close button.
 /// </summary>
 /// <remarks>
 /// This control is designed to display temporary notifications that can be dismissed individually.
 /// </remarks>
-public class StswAlertItem : ContentControl, IStswCornerControl
+public class StswToastItem : ContentControl, IStswCornerControl
 {
-    static StswAlertItem()
+    static StswToastItem()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAlertItem), new FrameworkPropertyMetadata(typeof(StswAlertItem)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToastItem), new FrameworkPropertyMetadata(typeof(StswToastItem)));
     }
 
     #region Events & methods
@@ -26,8 +26,25 @@ public class StswAlertItem : ContentControl, IStswCornerControl
 
         /// Button: close
         if (GetTemplateChild("PART_CloseButton") is ButtonBase btnClose)
-            btnClose.Click += (s, e) => StswAlert.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
+            btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
     }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets the type of information displayed in the toast item, such as "Info," "Warning," or "Error."
+    /// </summary>
+    public StswDialogImage Type
+    {
+        get => (StswDialogImage)GetValue(TypeProperty);
+        set => SetValue(TypeProperty, value);
+    }
+    public static readonly DependencyProperty TypeProperty
+        = DependencyProperty.Register(
+            nameof(Type),
+            typeof(StswDialogImage),
+            typeof(StswToastItem)
+        );
     #endregion
 
     #region Style properties
@@ -41,7 +58,7 @@ public class StswAlertItem : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswAlertItem),
+            typeof(StswToastItem),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -55,7 +72,7 @@ public class StswAlertItem : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswAlertItem),
+            typeof(StswToastItem),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion

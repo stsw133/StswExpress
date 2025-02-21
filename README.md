@@ -23,7 +23,7 @@ Here's a breakdown:
 - **Paths**: `StswPathPicker`, `StswPathTree`
 - **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
 - **Selectors**: `StswComboBox`, `StswDragBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`
-- **Status & Info**: `StswAlert`, `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`, `StswStatusBar`
+- **Status & Info**: `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`, `StswStatusBar`, `StswToaster`
 - **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
 - **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
 - **Typography**: `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`

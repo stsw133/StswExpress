@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.StswAlertView"
+﻿<UserControl x:Class="TestApp.StswToasterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswAlertContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswToasterContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -14,17 +14,17 @@
         <!-- properties -->
         <!-- <local:ControlsBase.Properties> -->
             <!-- IsClosable
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswAlert}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswToaster}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/> -->
             <!-- IsCopyable
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCopyable, Type={x:Type se:StswAlert}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCopyable, Type={x:Type se:StswToaster}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsCopyable}"/> -->
             <!-- IsExpandable
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpandable, Type={x:Type se:StswAlert}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpandable, Type={x:Type se:StswToaster}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsExpandable}"/> -->
         <!--  </local:ControlsBase.Properties> -->
         <!-- content -->
-        <se:StswButton Command="{Binding ShowAlertCommand}" Content="Show alert"/>
+        <se:StswButton Command="{Binding ShowToastCommand}" Content="Show toast"/>
         <!-- status panel -->
         
     </local:ControlsBase>

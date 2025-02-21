@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswAlertView.xaml
+/// Interaction logic for StswToasterView.xaml
 /// </summary>
-public partial class StswAlertView : UserControl
+public partial class StswToasterView : UserControl
 {
-    public StswAlertView()
+    public StswToasterView()
     {
         InitializeComponent();
     }

@@ -61,6 +61,7 @@
 ## Changes
 
 ### Controls
+- `StswAlert` improved and renamed to `StswToaster`. `StswAlertItem` renamed to `StswToastItem`.
 - `StswDataGrid` columns have been optimized and extended with new properties such as `TextTrimming` and `TextAlignment`.
 - `StswDataGridStatusColumn` now determines its `DataGridOwner` more effectively.
 - `StswDropArrow` attached properties now perform more efficiently.

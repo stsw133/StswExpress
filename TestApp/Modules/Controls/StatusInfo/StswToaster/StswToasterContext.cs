@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswAlertContext : ControlsContext
+public class StswToasterContext : ControlsContext
 {
-    public StswCommand ShowAlertCommand => new(ShowAlert);
+    public StswCommand ShowToastCommand => new(ShowToast);
 
     public override void SetDefaults()
     {
@@ -17,10 +17,11 @@ public class StswAlertContext : ControlsContext
     }
 
     #region Events & methods
-    /// Command: open message dialog
-    private void ShowAlert()
+    /// Command: show toast
+    private void ShowToast()
     {
-        StswAlert.Show(DateTime.Now.ToString(), async () => await StswMessageDialog.Show(DateTime.Now.ToString()));
+        var type = StswDialogImage.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswInfoType)).Length));
+        StswToaster.Show(type, "Toast notification at " + DateTime.Now.ToString(), async () => await StswMessageDialog.Show(DateTime.Now.ToString(), "Toast", image: type));
     }
     #endregion
 

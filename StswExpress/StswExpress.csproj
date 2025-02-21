@@ -168,7 +168,7 @@
     <Page Update="Controls\Media\StswThumbnailView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\StatusInfo\StswAlert.xaml">
+    <Page Update="Controls\StatusInfo\StswToaster.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Windowing\StswContextMenu.xaml">

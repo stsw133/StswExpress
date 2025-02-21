@@ -89,13 +89,14 @@
         <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/Items/StswStatusBarItem.xaml"/>
-        <ResourceDictionary Source="StatusInfo/StswAlert.xaml"/>
+        <ResourceDictionary Source="StatusInfo/Items/StswToastItem.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswStatusBar.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswToaster.xaml"/>
 
         <ResourceDictionary Source="SubControls/StswSubButton.xaml"/>
         <ResourceDictionary Source="SubControls/StswSubCheck.xaml"/>

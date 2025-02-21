@@ -38,7 +38,7 @@
                                 <se:StswContentDialog IsTabStop="False" Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                                     <Grid>
                                         <ContentPresenter/>
-                                        <se:StswAlert x:Name="StswAlert" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                        <se:StswToaster x:Name="StswToaster" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                     </Grid>
                                 </se:StswContentDialog>
                             </AdornerDecorator>
