@@ -81,8 +81,15 @@ public partial class StswResources
     {
         if (MergedDictionaries.Count > 0)
         {
-            MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
-            CustomThemeChanged?.Invoke(this, theme);
+            try
+            {
+                MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
+                CustomThemeChanged?.Invoke(this, theme);
+            }
+            catch
+            {
+                MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/Light.xaml", UriKind.Relative) };
+            }
         }
     }
 

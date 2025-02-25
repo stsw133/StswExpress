@@ -63,6 +63,8 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
+        if (SelectedIndex < 0 && Items.Count > 0)
+            SelectedIndex = 0;
     }
 
     /// <summary>

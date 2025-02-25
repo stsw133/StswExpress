@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StswExpress;
 
@@ -28,4 +29,9 @@ public class StswDataGridFiltersDataModel
     /// Gets or sets the list of SQL parameters.
     /// </summary>
     public IList<SqlParameter> SqlParameters { get; internal set; } = [];
+
+    /// <summary>
+    /// Gets or sets the list of SQL parameters.
+    /// </summary>
+    internal void MakeSqlParameters(IList<object> parameters) => SqlParameters = [.. parameters.Cast<SqlParameter>()];
 }

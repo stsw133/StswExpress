@@ -1,8 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,23 +15,47 @@ namespace StswExpress;
 /// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
 /// </summary>
-public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
+public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
+    private static Type? SqlParameterType { get; set; }
+    private static bool SqlClientAvailable { get; set; }
+
     public StswDataGrid()
     {
         ApplyFiltersCommand = new StswCommand(ApplyFilters);
         ClearFiltersCommand = new StswCommand(ClearFilters);
 
-        FiltersData = new StswDataGridFiltersDataModel
-        {
-            Apply = ApplyFilters,
-            Clear = ClearFilters,
-        };
+        if (SqlClientAvailable)
+            FiltersData = new StswDataGridFiltersDataModel
+            {
+                Apply = ApplyFilters,
+                Clear = ClearFilters,
+            };
     }
     static StswDataGrid()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+
+        /// disable Microsoft.Data.SqlClient if not available
+        var assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Microsoft.Data.SqlClient.dll");
+        if (File.Exists(assemblyPath))
+        {
+            try
+            {
+                Assembly sqlClientAssembly = Assembly.LoadFrom(assemblyPath);
+                SqlParameterType = sqlClientAssembly.GetType("Microsoft.Data.SqlClient.SqlParameter");
+                SqlClientAvailable = SqlParameterType != null;
+            }
+            catch
+            {
+                SqlClientAvailable = false;
+            }
+        }
+        else
+        {
+            SqlClientAvailable = false;
+        }
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
@@ -158,6 +183,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     private void ApplyFilters()
     {
         var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {
             var cv = CollectionViewSource.GetDefaultView(ItemsSource);
@@ -200,12 +226,12 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     /// Gets or sets the collection of SQL parameters associated with the SQL filter.
     /// These parameters are applied dynamically based on user-selected filters.
     /// </summary>
-    public IList<SqlParameter> SqlParameters
+    public IList<object> SqlParameters
     {
         get => _sqlParameters;
         private set => _sqlParameters = value;
     }
-    private IList<SqlParameter> _sqlParameters = [];
+    private IList<object> _sqlParameters = [];
 
     /// <summary>
     /// Builds and updates the combined SQL filter from all filter boxes.
@@ -214,21 +240,45 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
     /// <param name="filterBoxes">The list of filter boxes used to construct the SQL filter.</param>
     private void UpdateSqlFilters(IEnumerable<StswFilterBox> filterBoxes)
     {
+        if (!SqlClientAvailable || SqlParameterType == null)
+            return;
+
         FiltersData ??= new StswDataGridFiltersDataModel();
-        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes.Select(x => x.SqlString).Where(x => !string.IsNullOrWhiteSpace(x)));
-        FiltersData.SqlParameters = filterBoxes.SelectMany(x =>
-            new[]
+
+        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes
+            .Select(x => x.SqlString)
+            .Where(x => !string.IsNullOrWhiteSpace(x)));
+
+        FiltersData.MakeSqlParameters(filterBoxes
+            .SelectMany(x => new[]
             {
-                new SqlParameter($"{x.SqlParam}1", x.Value1 ?? DBNull.Value),
-                new SqlParameter($"{x.SqlParam}2", x.Value2 ?? DBNull.Value)
+                CreateSqlParameter($"{x.SqlParam}1", x.Value1),
+                CreateSqlParameter($"{x.SqlParam}2", x.Value2)
             })
-            .Where(p => p.Value != DBNull.Value)
-            .ToList();
+            .Where(p => p is not null)
+            .ToList()!);
 
         if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
             FiltersData.SqlFilter = "1=1";
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private static object? CreateSqlParameter(string name, object? value)
+    {
+        if (SqlParameterType == null)
+            return null;
+
+        try
+        {
+            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
+        }
+        catch
+        {
+            return null;
+        }
+    }
     #endregion
 
     #region Logic properties

@@ -39,7 +39,7 @@
 
 <h1 id="0-16-0">0.16.0</h1>
 
-**Release Date**: 2025-02-??
+**Release Date**: 2025-02-25
 
 ## Additions
 
@@ -62,7 +62,8 @@
 
 ### Controls
 - `StswAlert` improved and renamed to `StswToaster`. `StswAlertItem` renamed to `StswToastItem`.
-- `StswDataGrid` columns have been optimized and extended with new properties such as `TextTrimming` and `TextAlignment`.
+- `StswDataGrid` now functions correctly even if the Microsoft.Data.SqlClient library is missing from the application folder.
+- `StswDataGrid`'s columns have been optimized and extended with new properties such as `TextTrimming` and `TextAlignment`.
 - `StswDataGridStatusColumn` now determines its `DataGridOwner` more effectively.
 - `StswDropArrow` attached properties now perform more efficiently.
 - `StswNumberBox` has smaller buttons in the data grid number column.
@@ -83,9 +84,11 @@
 ## Fixes
 
 ### Controls
+- The application will no longer crash if a selected theme does not exist.
 - Fixed a scrolling bug in `StswConfig`.
 - Fixed an issue with `StaticResource` for `ButtonBase` style in custom components in `StswWindowBar`.
 - `StswComboBox` no longer changes selection while open if `ItemsSource` implements `IStswSelectionItem`.
+- `StswFlipView` now sets selected index to 0 when changing the items source if at least one item is present. It also properly updates button accessibility when the items source changes.
 
 ### Utils
 - Fixed various bugs in converters and improved examples for markup extensions.
