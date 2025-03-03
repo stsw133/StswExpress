@@ -81,6 +81,7 @@
                                  Stroke="{Binding Brush}"
                                  StrokeDashArray="{Binding Internal.StrokeDashArray}"
                                  StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
+                                 ToolTipService.BetweenShowDelay="0"
                                  ToolTipService.InitialShowDelay="0"
                                  Height="1000" Width="1000">
                             <Ellipse.RenderTransform>

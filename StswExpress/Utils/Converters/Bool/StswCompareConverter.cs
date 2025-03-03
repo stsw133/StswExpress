@@ -51,6 +51,13 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
+        /// handle Enum comparison separately
+        if (value is Enum && parameter is Enum enumParam)
+            return Equals(value, enumParam)
+                ? (targetType == typeof(Visibility) ? Visibility.Visible : true)
+                : (targetType == typeof(Visibility) ? Visibility.Collapsed : false);
+
+        /// ...
         if (parameter is not string pmr || pmr.Length < 2)
             return Binding.DoNothing;
 
@@ -82,7 +89,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
                 result = ((int)val & (int)num) > 0;
             }
         }
-        /// string and Enum comparison
+        /// string comparison
         else
         {
             var compareTo = pmr.Length > 1 ? pmr[1..] : string.Empty;

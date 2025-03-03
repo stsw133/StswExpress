@@ -48,7 +48,7 @@ public static class StswCommands
     /// <param name="e">The event data.</param>
     private static void Clear_Execute(object sender, ExecutedRoutedEventArgs e)
     {
-        switch (sender)
+        switch (e.Parameter ?? sender)
         {
             case Selector selector:
                 selector.SelectedIndex = -1;
@@ -73,7 +73,7 @@ public static class StswCommands
     /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
     private static void Clear_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = sender switch
+        e.CanExecute = (e.Parameter ?? sender) switch
         {
             Selector selector => selector.SelectedIndex >= 0,
             StswPasswordBox stswPasswordBox => !string.IsNullOrEmpty(stswPasswordBox.Password),

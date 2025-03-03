@@ -110,8 +110,13 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// <param name="e">The event arguments.</param>
     public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is FrameworkElement stsw && e.NewValue is string tooltipContent)
-            ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
+        if (obj is FrameworkElement stsw)
+        {
+            if (e.NewValue is string tooltipContent)
+                ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
+            else
+                ToolTipService.SetToolTip(stsw, e.NewValue);
+        }
     }
     #endregion
 

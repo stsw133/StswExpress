@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace StswExpress;
 
@@ -232,7 +233,6 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (items.IsNullOrEmpty())
             return;
 
-        List<T> added = [];
         foreach (var item in items)
         {
             if (item.ItemState.In(StswItemState.Unchanged, StswItemState.Deleted, StswItemState.Modified))
@@ -247,10 +247,13 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
 
             item.PropertyChanged += OnItemPropertyChanged;
             Items.Add(item);
-            added.Add(item);
+
+            if (Application.Current.Dispatcher.CheckAccess())
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            else
+                Application.Current.Dispatcher.Invoke(() => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item)));
         }
 
-        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added));
         RecountStates();
     }
 
