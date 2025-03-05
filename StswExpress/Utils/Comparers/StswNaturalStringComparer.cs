@@ -35,13 +35,7 @@ public class StswNaturalStringComparer : IComparer<string>
             var xIsNumber = int.TryParse(xParts[i], out var xNum);
             var yIsNumber = int.TryParse(yParts[i], out var yNum);
 
-            int result;
-
-            if (xIsNumber && yIsNumber)
-                result = xNum.CompareTo(yNum);
-            else
-                result = string.Compare(xParts[i], yParts[i], StringComparison.Ordinal);
-
+            var result = xIsNumber && yIsNumber ? xNum.CompareTo(yNum) : string.Compare(xParts[i], yParts[i], StringComparison.Ordinal);
             if (result != 0)
                 return result;
         }

@@ -47,7 +47,7 @@ public class StswFilterBox : Control, IStswCornerControl
         /// default FilterMode
         FilterMode ??= FilterType switch
         {
-            StswAdaptiveType.Check or StswAdaptiveType.Date or StswAdaptiveType.Number => StswFilterMode.Equal,
+            StswAdaptiveType.Check or StswAdaptiveType.Date or StswAdaptiveType.Number or StswAdaptiveType.Time => StswFilterMode.Equal,
             StswAdaptiveType.List => StswFilterMode.In,
             StswAdaptiveType.Text => StswFilterMode.Contains,
             _ => null
@@ -75,7 +75,7 @@ public class StswFilterBox : Control, IStswCornerControl
         }
 
         /// separator
-        string s = FilterType is StswAdaptiveType.Date or StswAdaptiveType.List or StswAdaptiveType.Text ? "'" : string.Empty;
+        string s = FilterType is StswAdaptiveType.Date or StswAdaptiveType.List or StswAdaptiveType.Text or StswAdaptiveType.Time ? "'" : string.Empty;
         /// case sensitive
         string cs1 = FilterType is StswAdaptiveType.List or StswAdaptiveType.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
         string cs2 = cs1.Length > 0 ? ")" : string.Empty;
@@ -87,6 +87,7 @@ public class StswFilterBox : Control, IStswCornerControl
             StswAdaptiveType.Date => ", '1900-01-01')",
             StswAdaptiveType.List or StswAdaptiveType.Text => ", '')",
             StswAdaptiveType.Number => ", 0)",
+            StswAdaptiveType.Time => ", '00:00:00')",
             _ => string.Empty
         } : string.Empty;
 
@@ -159,6 +160,7 @@ public class StswFilterBox : Control, IStswCornerControl
                     StswAdaptiveType.List => string.Empty,
                     StswAdaptiveType.Number => 0m,
                     StswAdaptiveType.Text => string.Empty,
+                    StswAdaptiveType.Time => new TimeSpan(0, 0, 0),
                     _ => string.Empty
                 };
             }
@@ -182,8 +184,8 @@ public class StswFilterBox : Control, IStswCornerControl
                         if (!decimal.TryParse(rowValue?.ToString(), out var decValue))
                             return false;
 
-                        decimal.TryParse(Value1?.ToString(), out var decVal1);
-                        decimal.TryParse(Value2?.ToString(), out var decVal2);
+                        _ = decimal.TryParse(Value1?.ToString(), out var decVal1);
+                        _ = decimal.TryParse(Value2?.ToString(), out var decVal2);
 
                         return FilterMode switch
                         {
@@ -202,8 +204,8 @@ public class StswFilterBox : Control, IStswCornerControl
                         if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
                             return false;
 
-                        DateTime.TryParse(Value1?.ToString(), out var dateVal1);
-                        DateTime.TryParse(Value2?.ToString(), out var dateVal2);
+                        _ = DateTime.TryParse(Value1?.ToString(), out var dateVal1);
+                        _ = DateTime.TryParse(Value2?.ToString(), out var dateVal2);
 
                         return FilterMode switch
                         {
@@ -217,12 +219,32 @@ public class StswFilterBox : Control, IStswCornerControl
                             _ => true
                         };
                     }
+                case StswAdaptiveType.Time:
+                    {
+                        if (!TimeSpan.TryParse(rowValue?.ToString(), out var timeValue))
+                            return false;
+
+                        _ = TimeSpan.TryParse(Value1?.ToString(), out var timeVal1);
+                        _ = TimeSpan.TryParse(Value2?.ToString(), out var timeVal2);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal        => timeValue.TotalSeconds == timeVal1.TotalSeconds,
+                            StswFilterMode.NotEqual     => timeValue.TotalSeconds != timeVal1.TotalSeconds,
+                            StswFilterMode.Greater      => timeValue.TotalSeconds > timeVal1.TotalSeconds,
+                            StswFilterMode.GreaterEqual => timeValue.TotalSeconds >= timeVal1.TotalSeconds,
+                            StswFilterMode.Less         => timeValue.TotalSeconds < timeVal1.TotalSeconds,
+                            StswFilterMode.LessEqual    => timeValue.TotalSeconds <= timeVal1.TotalSeconds,
+                            StswFilterMode.Between      => timeValue.TotalSeconds >= timeVal1.TotalSeconds && timeValue.TotalSeconds <= timeVal2.TotalSeconds,
+                            _ => true
+                        };
+                    }
                 case StswAdaptiveType.Check:
                     {
                         if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
                             return false;
 
-                        bool.TryParse(Value1?.ToString(), out var boolVal1);
+                        _ = bool.TryParse(Value1?.ToString(), out var boolVal1);
 
                         return FilterMode switch
                         {

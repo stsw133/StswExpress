@@ -225,7 +225,8 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridComboColumn)
+            typeof(StswDataGridComboColumn),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>

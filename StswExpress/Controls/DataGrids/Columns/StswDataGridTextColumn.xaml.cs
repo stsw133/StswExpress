@@ -182,7 +182,8 @@ public class StswDataGridTextColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridTextColumn)
+            typeof(StswDataGridTextColumn),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>

@@ -179,7 +179,8 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridNumberColumnBase<T, TControl>)
+            typeof(StswDataGridNumberColumnBase<T, TControl>),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>

@@ -150,7 +150,8 @@ public class StswDataGridColorColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridColorColumn)
+            typeof(StswDataGridColorColumn),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>

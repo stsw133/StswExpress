@@ -323,7 +323,7 @@ public static class StswFn
     /// </summary>
     /// <param name="parameters">An array of objects to be merged.</param>
     /// <returns>A dynamic object containing all properties from the provided objects.</returns>
-    public static dynamic MergeObjects(params object[] parameters)
+    public static dynamic MergeObjects(params object?[] parameters)
     {
         var expando = new ExpandoObject() as IDictionary<string, object?>;
 

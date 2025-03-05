@@ -194,6 +194,27 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswTextBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswTextBox.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
                 break;
+            case StswAdaptiveType.Time:
+                newControl = new StswTimePicker()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
+                newControl.SetBinding(StswTimePicker.BorderBrushProperty, bindingBorderBrush);
+                newControl.SetBinding(StswTimePicker.BorderThicknessProperty, bindingBorderThickness);
+                newControl.SetBinding(StswTimePicker.CornerClippingProperty, bindingCornerClipping);
+                newControl.SetBinding(StswTimePicker.CornerRadiusProperty, bindingCornerRadius);
+                newControl.SetBinding(StswTimePicker.FormatProperty, bindingFormat);
+                newControl.SetBinding(StswTimePicker.IconProperty, bindingIcon);
+                newControl.SetBinding(StswTimePicker.IsReadOnlyProperty, bindingIsReadOnly);
+                newControl.SetBinding(StswTimePicker.PaddingProperty, bindingPadding);
+                newControl.SetBinding(StswTimePicker.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswTimePicker.SelectedTimeProperty, bindingValue);
+                newControl.SetBinding(StswTimePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
+                newControl.SetBinding(StswTimePicker.SubControlsProperty, bindingSubControls);
+                newControl.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
+                newControl.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
+                break;
         }
 
         if (newControl != null)
@@ -418,6 +439,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                                 stsw.Type = StswAdaptiveType.Number;
                             else if (t.In(typeof(string)))
                                 stsw.Type = StswAdaptiveType.Text;
+                            else if (t.In(typeof(TimeSpan), typeof(TimeSpan?)))
+                                stsw.Type = StswAdaptiveType.Time;
                         }
                     }
 
@@ -434,6 +457,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                             stsw.Type = StswAdaptiveType.Number;
                         else if (stsw.Value is string)
                             stsw.Type = StswAdaptiveType.Text;
+                        else if (stsw.Value is TimeSpan? || TimeSpan.TryParse(stsw.Value?.ToString(), out var _))
+                            stsw.Type = StswAdaptiveType.Time;
                     }
                 }
             }

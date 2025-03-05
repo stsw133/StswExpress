@@ -56,7 +56,6 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
                 : value != null;
 
         var conditions = ParseConditions(parameter);
-
         if (conditions.Count == 0)
             conditions.Add("null", true);
 

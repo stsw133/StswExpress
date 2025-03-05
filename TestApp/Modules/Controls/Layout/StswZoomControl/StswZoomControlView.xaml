@@ -13,16 +13,27 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- ConstrainToParentBounds
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ConstrainToParentBounds, Type={x:Type se:StswZoomControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ConstrainToParentBounds}"/> -->
+            <!-- MaxScale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MaxScale, Type={x:Type se:StswZoomControl}}"/>
+            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MaxScale}"/>
             <!-- MinScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MinScale, Type={x:Type se:StswZoomControl}}"/>
-            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Minimum="0.01" Value="{Binding MinScale}"/>
+            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MinScale}"/>
+            <!-- ZoomStep -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ZoomStep, Type={x:Type se:StswZoomControl}}"/>
+            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Minimum="1.1" Value="{Binding ZoomStep}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswZoomControl IsEnabled="{Binding IsEnabled}"
+                            MaxScale="{Binding MaxScale}"
                             MinScale="{Binding MinScale}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
-                            VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswImage Source="/Resources/icon.ico"/>
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            ZoomStep="{Binding ZoomStep}">
+            <se:StswImage Source="/Resources/logo.png" Stretch="None"/>
         </se:StswZoomControl>
         <!-- status panel -->
 

@@ -10,7 +10,8 @@ public enum StswAdaptiveType
     Date,
     List,
     Number,
-    Text
+    Text,
+    Time
 }
 
 /// <summary>

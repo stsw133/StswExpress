@@ -21,7 +21,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
             new Setter(StswTimePicker.PaddingProperty, new Thickness(0)),
             new Setter(StswTimePicker.SeparatorThicknessProperty, 0d),
             new Setter(StswTimePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswTimePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
+            new Setter(StswTimePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch),
         }
     };
 
@@ -168,7 +168,8 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridTimeColumn)
+            typeof(StswDataGridTimeColumn),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>

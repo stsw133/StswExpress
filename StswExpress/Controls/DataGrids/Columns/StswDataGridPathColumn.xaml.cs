@@ -68,7 +68,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
             Placeholder = Placeholder,
             SelectionUnit = SelectionUnit,
             HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            VerticalContentAlignment = VerticalContentAlignment,
         };
 
         /// bindings
@@ -201,7 +201,8 @@ public class StswDataGridPathColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(TextWrappingProperty),
             typeof(TextWrapping),
-            typeof(StswDataGridPathColumn)
+            typeof(StswDataGridPathColumn),
+            new PropertyMetadata(TextWrapping.NoWrap)
         );
 
     /// <summary>
