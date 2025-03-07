@@ -24,9 +24,6 @@ public class StswWindow : Window, IStswCornerControl
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-
-        var command = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), [new KeyGesture(Key.F11)]);
-        CommandBindings.Add(new CommandBinding(command, (_, _) => Fullscreen = !Fullscreen));
     }
     static StswWindow()
     {
@@ -103,7 +100,7 @@ public class StswWindow : Window, IStswCornerControl
         {
             preFullscreenState = WindowState;
             if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Minimized;
+                WindowState = WindowState.Normal;
 
             if (_windowBar?.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.IsAlwaysVisible = false;
@@ -116,10 +113,12 @@ public class StswWindow : Window, IStswCornerControl
                 windowBarPanel.IsAlwaysVisible = true;
 
             if (preFullscreenState == WindowState.Maximized)
-                WindowState = WindowState.Minimized;
+                WindowState = WindowState.Normal;
 
             WindowState = preFullscreenState;
         }
+
+        Activate();
     }
 
     /// <summary>
@@ -211,8 +210,6 @@ public class StswWindow : Window, IStswCornerControl
                     return;
 
                 stsw.HandleEnteringFullscreen(stsw.Fullscreen);
-                stsw.Activate();
-                stsw.Focus();
 
                 /// event for non MVVM programming
                 stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
@@ -286,8 +283,9 @@ public class StswWindow : Window, IStswCornerControl
     {
         handled = msg switch
         {
-            0x24 when !Fullscreen => false,
-            0xa4 or 0xa5 when wParam.ToInt32() == 0x02 && _windowBar != null => _windowBar.ContextMenu.IsOpen = true,
+            0x0024 when !Fullscreen => false,
+            0x00A4 or 0x00A5 when wParam.ToInt32() == 0x02 && _windowBar != null => _windowBar.ContextMenu.IsOpen = true,
+            0x0100 when wParam.ToInt32() == 0x7A => Fullscreen = !Fullscreen,
             _ => handled
         };
 

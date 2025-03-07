@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -34,10 +35,32 @@ public class StswApp : Application
 
         base.OnStartup(e);
 
+        EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
         Task.Run(StswTranslator.LoadTranslationsForCurrentLanguageAsync);
         StswResources.InitializeResources(Resources);
         if (IsRegisterDataTemplatesEnabled)
             RegisterDataTemplates(ContextSuffix, ViewSuffix);
+    }
+
+    /// <summary>
+    /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
+    /// </summary>
+    /// <param name="process">The process instance of the running application.</param>
+    private void ActivateTrayWindow(Process process)
+    {
+        foreach (ProcessThread thread in process.Threads)
+        {
+            EnumThreadWindows(thread.Id, (hWnd, lParam) =>
+            {
+                if (IsWindowVisible(hWnd))
+                {
+                    ShowWindow(hWnd, SW_RESTORE);
+                    SetForegroundWindow(hWnd);
+                    return false;
+                }
+                return true;
+            }, IntPtr.Zero);
+        }
     }
 
     /// <summary>
@@ -63,6 +86,24 @@ public class StswApp : Application
     }
 
     /// <summary>
+    /// Handles the global preview key down event.
+    /// Toggles the fullscreen mode of the window when the F11 key is pressed.
+    /// </summary>
+    /// <param name="sender">The source of the event, typically a window.</param>
+    /// <param name="e">The key event arguments containing information about the key press.</param>
+    private void GlobalPreviewKeyDownHandler(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.F11)
+        {
+            if (sender is StswWindow stswWindow)
+            {
+                stswWindow.Fullscreen = !stswWindow.Fullscreen;
+                e.Handled = true;
+            }
+        }
+    }
+
+    /// <summary>
     /// Restores the main window of an existing application instance, bringing it to the foreground.
     /// If the window is minimized, it is restored.
     /// </summary>
@@ -79,27 +120,6 @@ public class StswApp : Application
         else
         {
             ActivateTrayWindow(process);
-        }
-    }
-
-    /// <summary>
-    /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
-    /// </summary>
-    /// <param name="process">The process instance of the running application.</param>
-    private void ActivateTrayWindow(Process process)
-    {
-        foreach (ProcessThread thread in process.Threads)
-        {
-            EnumThreadWindows(thread.Id, (hWnd, lParam) =>
-            {
-                if (IsWindowVisible(hWnd))
-                {
-                    ShowWindow(hWnd, SW_RESTORE);
-                    SetForegroundWindow(hWnd);
-                    return false;
-                }
-                return true;
-            }, IntPtr.Zero);
         }
     }
 
@@ -128,6 +148,8 @@ public class StswApp : Application
             }
         }
     }
+
+
 
     /// <summary>
     /// Gets the current application's main <see cref="StswWindow"/> instance.
