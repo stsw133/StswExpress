@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.16.1](#0-16-1)
 - [Version 0.16.0](#0-16-0)
 - [Version 0.15.0](#0-15-0)
 - [Version 0.14.1](#0-14-1)
@@ -34,6 +35,32 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-16-1">0.16.1</h1>
+
+**Release Date**: 2025-03-07
+
+## Additions
+
+### Controls
+- `StswAdaptiveBox` and `StswFilterBox` now support a new "Time" type.
+
+## Changes
+
+### Controls
+- `StswZoomControl` now has new "MaxScale" and "ZoomStep" properties. The zooming mechanism has been improved, operating through multiplication instead of addition, preventing excessive zooming that could cause images to disappear.
+
+## Fixes
+
+### Controls
+- All `StswDataGrid` columns now have "TextWrapping" property set to "NoWrap" by default.
+- Fixed an issue with fullscreen mode: pressing F11 to toggle fullscreen now properly handles cases where the window was minimized and maximized. The window will also no longer be hidden behind other applications after changing fullscreen mode.
+
+### Utils
+- `StswCompareConverter` can once again accept enum values as parameters.
+- The global command "Clear" can now accept a parameter specifying which control to clear.
 
 ---
 
