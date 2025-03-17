@@ -60,7 +60,7 @@
                                         <se:StswText Padding="3 0 0 0" Text="{Binding Value, ElementName=PART_iSize, Converter={x:Static se:StswPercentageConverter.Instance}}" VerticalAlignment="Center" Width="40"/>
                                         <se:StswSlider x:Name="PART_iSize"
                                                        IsSnapToTickEnabled="True"
-                                                       LargeChange="0.5"
+                                                       LargeChange="0.2"
                                                        Maximum="3"
                                                        Minimum="0.5"
                                                        TickFrequency="0.1"

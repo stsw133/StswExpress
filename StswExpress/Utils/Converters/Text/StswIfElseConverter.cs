@@ -41,17 +41,19 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     /// </returns>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (parameter is not string paramStr)
-            return Binding.DoNothing;
+        if (parameter == null)
+            return null;
 
-        var parts = paramStr.Split('~');
+        var parts = parameter.ToString()?.Split('~');
+        if (parts == null || parts.Length < 3)
+            return null;
 
-        if (parts.Length < 3)
-            return Binding.DoNothing;
-
-        var conditionMet = (value?.ToString() ?? string.Empty) == parts[0];
-
-        return (conditionMet ? parts[1] : parts[2]).ConvertTo(targetType);
+        var val = value?.ToString() ?? string.Empty;
+        return parts.Length switch
+        {
+            >= 5 => val == parts[0] ? parts[1] : val == parts[2] ? parts[3] : parts[4],
+            _ => val == parts[0] ? parts[1] : parts[2]
+        };
     }
 
     /// <summary>
