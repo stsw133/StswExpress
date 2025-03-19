@@ -67,7 +67,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
         paramString = paramString.Trim();
 
         var spaceIndex = paramString.IndexOf(' ');
-        var command = spaceIndex > 0 ? paramString[..spaceIndex].ToLower() : paramString.ToLower();
+        var command = (spaceIndex > 0 ? paramString[..spaceIndex] : paramString).ToLower();
         var commandParams = spaceIndex > 0 ? paramString[(spaceIndex + 1)..].Trim() : string.Empty;
 
         return command switch
@@ -133,7 +133,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
 
         return collection.Cast<object>()
                          .Select(item => item.GetPropertyValue(propertyName))
-                         .Where(value => value is double or int)
+                         .Where(value => double.TryParse(value?.ToString(), out var _))
                          .Sum(value => System.Convert.ToDouble(value, CultureInfo.InvariantCulture));
     }
 

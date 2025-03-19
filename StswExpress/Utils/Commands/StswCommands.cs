@@ -49,8 +49,8 @@ public static class StswCommands
 
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(CloseDialog, CloseDialog_Execute, CloseDialog_CanExecute));
 
-        CommandManager.RegisterClassCommandBinding(typeof(ItemsControl), new CommandBinding(SelectAll, SelectAll_Execute, SelectAll_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(ItemsControl), new CommandBinding(DeselectAll, DeselectAll_Execute, DeselectAll_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(SelectAll, SelectAll_Execute, SelectAll_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(DeselectAll, DeselectAll_Execute, DeselectAll_CanExecute));
 
         CommandManager.RegisterClassCommandBinding(typeof(ToggleButton), new CommandBinding(CheckAllSelected, CheckAllSelected_Execute, CheckAllSelected_CanExecute));
     }
@@ -166,7 +166,7 @@ public static class StswCommands
     {
         if (e.Parameter is IEnumerable items)
             e.CanExecute = items.Cast<IStswSelectionItem>().Any(x => x.IsSelected);
-        else if(sender is ItemsControl itemsControl)
+        else if (sender is ItemsControl itemsControl)
             e.CanExecute = itemsControl.ItemsSource?.Cast<IStswSelectionItem>()?.Any(x => x.IsSelected) == true;
     }
 
