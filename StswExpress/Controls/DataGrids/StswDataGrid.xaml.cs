@@ -73,7 +73,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         RowHeaderStyle = RowHeaderStyle;
 
         /// attach local event on all discovered FilterBoxes
-        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this);
+        var filterBoxes = StswAppFn.FindVisualChildren<StswFilterBox>(this);
         foreach (var filterBox in filterBoxes)
             filterBox.FilterChanged += (_, _) => ApplyFilters();
 
@@ -158,7 +158,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     private void ClearFilters()
     {
-        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+        var filterBoxes = StswAppFn.FindVisualChildren<StswFilterBox>(this).ToList();
 
         foreach (var filterBox in filterBoxes)
         {
@@ -182,7 +182,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     private void ApplyFilters()
     {
-        var filterBoxes = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+        var filterBoxes = StswAppFn.FindVisualChildren<StswFilterBox>(this).ToList();
 
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {

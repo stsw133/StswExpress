@@ -54,7 +54,7 @@ public class StswColorConverter : MarkupExtension, IValueConverter
         var parameters = ParseParameters(parameter);
 
         if (parameters.ContainsKey('G'))
-            color = StswFn.GenerateColor(value?.ToString() ?? "", -1);
+            color = StswAppFn.GenerateColor(value?.ToString() ?? "", -1);
         else
             color = GetColorFromValue(value);
 

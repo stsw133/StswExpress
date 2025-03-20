@@ -46,7 +46,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
     {
         var sb = new StringBuilder();
-        foreach (var infoBar in StswFn.FindVisualChildren<StswInfoBar>(this))
+        foreach (var infoBar in StswAppFn.FindVisualChildren<StswInfoBar>(this))
             sb.AppendLine($"{infoBar.Title}{Environment.NewLine}{infoBar.Text}");
 
         Clipboard.SetText(sb.ToString());

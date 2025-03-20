@@ -33,7 +33,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         base.OnApplyTemplate();
 
         /// StswNavigation
-        if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
+        if (StswAppFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
             _stswNavigation = stswNavigation;
 
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
@@ -204,7 +204,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                     {
                         /// load new items to compact panel
                         stsw._stswNavigation.CompactedExpander = stsw;
-                        stsw._stswNavigation.ItemsCompact = stsw.Items.TryClone().Cast<StswNavigationElement>().ToObservableCollection();
+                        stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationElement>()];
                         foreach (var item in stsw._stswNavigation.ItemsCompact)
                             item.IsInCompactPanel = true;
                     }
@@ -366,7 +366,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
             while (ancestorElement != null)
             {
-                ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+                ancestorElement = StswAppFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
                 if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
                     padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
             }

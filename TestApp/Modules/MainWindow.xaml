@@ -20,7 +20,7 @@
             </DockPanel>
         </se:StswToggleButton>
     </se:StswWindow.Components>
-
+    <!--
     <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="200">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
@@ -198,4 +198,5 @@
             <se:StswNavigationElement Header="Config" IconData="{x:Static se:StswIcons.Cog}" Visibility="Collapsed"/>
         </se:StswNavigation.ItemsPinned>
     </se:StswNavigation>
+    -->
 </se:StswWindow>

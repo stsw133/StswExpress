@@ -31,9 +31,8 @@ public class StswInfoPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task<ObservableCollection<StswLogItem>> LoadFromFiles() => Task.Run(async () => ItemsSource = (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now))
-                                                                                                                        .OrderByDescending(x => x.DateTime)
-                                                                                                                        .ToObservableCollection());
+    private Task<ObservableCollection<StswLogItem>> LoadFromFiles() => Task.Run(async () => ItemsSource = [.. (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now))
+                                                                                                                        .OrderByDescending(x => x.DateTime)]);
     #endregion
 
     /// IsClosable

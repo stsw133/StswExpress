@@ -45,16 +45,6 @@ public enum StswCompactibility
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswDatabaseModel.Type"/>.
-/// </summary>
-public enum StswDatabaseType
-{
-    MSSQL,
-    MySQL,
-    PostgreSQL
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswDataGrid.FiltersType"/>.
 /// </summary>
 public enum StswDataGridFiltersType
@@ -137,32 +127,6 @@ public enum StswInfoFormat
     Dot,
     Icon,
     Number
-}
-
-/// <summary>
-/// Enumeration for <see cref="StswInfoBadge.Type"/>,
-/// <see cref="StswInfoBar.Type"/> and <see cref="StswLogItem.Type"/>.
-/// </summary>
-public enum StswInfoType
-{
-    None,
-    Debug,
-    Error,
-    Fatal,
-    Information,
-    Success,
-    Warning
-}
-
-/// <summary>
-/// Enumeration for <see cref="IStswCollectionItem.ItemState"/>.
-/// </summary>
-public enum StswItemState
-{
-    Unchanged,
-    Added,
-    Deleted,
-    Modified
 }
 
 /// <summary>

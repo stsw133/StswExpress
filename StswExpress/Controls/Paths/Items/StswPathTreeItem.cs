@@ -52,7 +52,7 @@ internal class StswPathTreeItem : StswObservableObject
     /// </summary>
     private async void LoadIconAsync()
     {
-        var icon = await Task.Run(() => StswFn.ExtractAssociatedIcon(FullPath));
+        var icon = await Task.Run(() => StswAppFn.ExtractAssociatedIcon(FullPath));
         if (icon != null)
         {
             Application.Current.Dispatcher.Invoke(() =>

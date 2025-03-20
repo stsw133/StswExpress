@@ -21,7 +21,7 @@ public class GalleryContext : StswObservableObject
     /// ChangeNavigationMode
     private void ChangeNavigationMode()
     {
-        if (StswFn.FindVisualChild<StswNavigation>(StswApp.StswWindow) is StswNavigation navi)
+        if (StswAppFn.FindVisualChild<StswNavigation>(StswApp.StswWindow) is StswNavigation navi)
         {
             if (!StswApp.StswWindow.Fullscreen && navi.TabStripMode != StswCompactibility.Collapsed)
                 StswApp.StswWindow.Fullscreen = true;
