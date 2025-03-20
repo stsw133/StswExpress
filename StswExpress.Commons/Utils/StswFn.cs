@@ -45,21 +45,6 @@ public static class StswFn
     }
 
     /// <summary>
-    /// Gets the name and version number of the currently executing application.
-    /// </summary>
-    /// <returns>A string containing the name and version number of the currently executing application.</returns>
-    public static string? AppNameAndVersion
-    {
-        get
-        {
-            var appName = AppName();
-            var appVersion = AppVersion();
-
-            return appVersion != "1" ? $"{appName} {appVersion}" : appName;
-        }
-    }
-
-    /// <summary>
     /// Gets the copyright information for the currently executing application.
     /// </summary>
     /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>

@@ -20,7 +20,7 @@
             </DockPanel>
         </se:StswToggleButton>
     </se:StswWindow.Components>
-    <!--
+
     <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="200">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
@@ -28,7 +28,7 @@
                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" HorizontalAlignment="Left" IsHitTestVisible="False" Margin="5"/>
             </Grid>
         </se:StswNavigation.Components>
-        
+
         <se:StswNavigationElement/>
         <se:StswNavigationElement Header="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
         <se:StswNavigationElement/>
@@ -198,5 +198,4 @@
             <se:StswNavigationElement Header="Config" IconData="{x:Static se:StswIcons.Cog}" Visibility="Collapsed"/>
         </se:StswNavigation.ItemsPinned>
     </se:StswNavigation>
-    -->
 </se:StswWindow>

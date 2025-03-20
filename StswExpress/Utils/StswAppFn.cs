@@ -17,10 +17,22 @@ namespace StswExpress;
 /// </summary>
 public static class StswAppFn
 {
-
-    public static string? AppNameAndVersion => StswFn.AppNameAndVersion;
-
     #region Assembly functions
+    /// <summary>
+    /// Gets the name and version number of the currently executing application.
+    /// </summary>
+    /// <returns>A string containing the name and version number of the currently executing application.</returns>
+    public static string? AppNameAndVersion
+    {
+        get
+        {
+            var appName = StswFn.AppName();
+            var appVersion = StswFn.AppVersion();
+
+            return appVersion != "1" ? $"{appName} {appVersion}" : appName;
+        }
+    }
+
     /// <summary>
     /// Retrieves the content of an embedded resource file from a specified assembly.
     /// </summary>

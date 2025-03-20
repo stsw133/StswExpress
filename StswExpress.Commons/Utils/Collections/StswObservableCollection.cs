@@ -222,40 +222,32 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <summary>
-    /// Adds a range of items to the collection, marking them as Added unless they are already in that state.
+    /// Adds a range of items to the collection. Each item is marked with the specified state.
     /// </summary>
-    /// <param name="items">The items to add.</param>
-    public void AddRange(IEnumerable<T> items)
+    /// <param name="items">The items to add to the collection.</param>
+    /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
+    /// <param name="skipDuplicates">If <see langword="true"/>, skips adding items that are already in the collection.</param>
+    public void AddRange(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added, bool skipDuplicates = false)
     {
         if (items.IsNullOrEmpty())
             return;
 
         foreach (var item in items)
         {
-            if (item.ItemState.In(StswItemState.Unchanged, StswItemState.Deleted, StswItemState.Modified))
-            {
-                item.ItemState = StswItemState.Added;
-                _addedItems.Add(item);
-            }
-            else
-            {
+            item.ItemState = itemsState;
+
+            if (skipDuplicates)
                 _addedItems.AddIfNotContains(item);
-            }
+            else
+                _addedItems.Add(item);
 
             item.PropertyChanged += OnItemPropertyChanged;
             Items.Add(item);
 
             if (StswFn.IsUiThreadAvailable())
-            {
-                if (SynchronizationContext.Current is not null)
-                    SynchronizationContext.Current.Post(_ => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item)), null);
-                else
-                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            }
+                SynchronizationContext.Current?.Send(_ => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item)), null);
             else
-            {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            }
         }
 
         RecountStates();
