@@ -54,7 +54,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// <param name="e">The event arguments.</param>
     private void PART_ButtonClose_Click(object sender, RoutedEventArgs e)
     {
-        if (StswAppFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel stsw)
+        if (StswFnUI.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel stsw)
         {
             var item = stsw.ItemContainerGenerator.ItemFromContainer(VisualParent);
             if (stsw.ItemsSource is IList list)
@@ -62,7 +62,7 @@ public class StswInfoBar : Control, IStswCornerControl
             else
                 stsw.Items?.Remove(item);
         }
-        else StswAppFn.RemoveFromParent(this);
+        else StswFnUI.RemoveFromParent(this);
     }
     #endregion
 

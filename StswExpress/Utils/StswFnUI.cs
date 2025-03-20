@@ -15,7 +15,7 @@ namespace StswExpress;
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
-public static class StswAppFn
+public static class StswFnUI
 {
     #region Assembly functions
     /// <summary>

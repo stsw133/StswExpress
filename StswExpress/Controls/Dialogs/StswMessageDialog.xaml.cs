@@ -99,8 +99,8 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         };
         if (saveLog)
         {
-            Enum.TryParse(image.ToString(), out StswInfoType infoType);
-            StswLog.Write(infoType, details ?? message);
+            if (Enum.TryParse(image.ToString(), out StswInfoType infoType))
+                StswLog.Write(infoType, details ?? message);
         }
 
         return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);

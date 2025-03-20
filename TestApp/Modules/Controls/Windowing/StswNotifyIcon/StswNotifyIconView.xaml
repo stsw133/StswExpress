@@ -23,7 +23,7 @@
                                IconPath="/Resources/icon.ico"
                                IsAlwaysVisible="{Binding IsAlwaysVisible}"
                                IsEnabled="{Binding IsEnabled}"
-                               Text="{x:Static se:StswAppFn.AppNameAndVersion}"
+                               Text="{x:Static se:StswFnUI.AppNameAndVersion}"
                                Tip="{Binding Tip}">
                 <se:StswNotifyIcon.ContextMenu>
                     <se:StswContextMenu>

@@ -294,7 +294,7 @@ public class StswPathPicker : StswBoxBase
         if (obj is StswPathPicker stsw)
         {
             stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
-            stsw.FileIcon = StswAppFn.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
+            stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
 
             /// load adjacent paths
             if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)

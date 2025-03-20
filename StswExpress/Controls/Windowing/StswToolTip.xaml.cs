@@ -54,7 +54,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
         if (IsMoveable)
         {
             Placement = PlacementMode.AbsolutePoint;
-            _parent = StswAppFn.GetParentPopup(this)?.PlacementTarget ?? Window.GetWindow(this);
+            _parent = StswFnUI.GetParentPopup(this)?.PlacementTarget ?? Window.GetWindow(this);
 
             if (_parent != null)
             {

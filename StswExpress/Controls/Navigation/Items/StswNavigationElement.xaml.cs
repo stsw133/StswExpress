@@ -33,7 +33,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         base.OnApplyTemplate();
 
         /// StswNavigation
-        if (StswAppFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
+        if (StswFnUI.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
             _stswNavigation = stswNavigation;
 
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
@@ -366,7 +366,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
             while (ancestorElement != null)
             {
-                ancestorElement = StswAppFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+                ancestorElement = StswFnUI.FindVisualAncestor<StswNavigationElement>(ancestorElement);
                 if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
                     padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
             }

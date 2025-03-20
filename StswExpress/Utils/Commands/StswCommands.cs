@@ -64,7 +64,7 @@ public static class StswCommands
     {
         if (sender is ToggleButton toggleButton)
         {
-            var itemsControl = StswAppFn.FindVisualAncestor<IStswSelectionControl>(toggleButton);
+            var itemsControl = StswFnUI.FindVisualAncestor<IStswSelectionControl>(toggleButton);
             if (itemsControl?.ItemsSource?.Cast<IStswSelectionItem>() is IEnumerable<IStswSelectionItem> items)
                 foreach (var item in items.Where(x => x.IsSelected))
                     item.GetType().GetProperty((string)e.Parameter)?.SetValue(item, toggleButton.IsChecked == true);

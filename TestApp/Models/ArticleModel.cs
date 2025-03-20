@@ -27,7 +27,7 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     public byte[]? Icon
     {
         get => _icon;
-        set => SetProperty(ref _icon, value, () => IconSource ??= StswAppFn.BytesToBitmapImage(value));
+        set => SetProperty(ref _icon, value, () => IconSource ??= StswFnUI.BytesToBitmapImage(value));
     }
     private byte[]? _icon;
 

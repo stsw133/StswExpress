@@ -37,7 +37,7 @@ internal class StswPathToIconConverter : MarkupExtension, IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value is string path && !string.IsNullOrWhiteSpace(path)
-            ? StswAppFn.ExtractAssociatedIcon(path)?.ToImageSource()
+            ? StswFnUI.ExtractAssociatedIcon(path)?.ToImageSource()
             : Binding.DoNothing;
     }
 

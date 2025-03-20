@@ -4,7 +4,37 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.17.0</Version>
+    <Authors>Karol Staszewski</Authors>
+    <Description>This package offers utilities such as:
+• extended observable collections and objects
+• database query tools
+• simple logging system
+• mail sending and configuration
+• messangers and stores
+• data hashing methods
+• code extensions and helpers</Description>
+    <Copyright>© 2025 Karol Staszewski</Copyright>
+    <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+    <PackageTags>Utils</PackageTags>
+    <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId></PackageId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\TestApp\Resources\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />

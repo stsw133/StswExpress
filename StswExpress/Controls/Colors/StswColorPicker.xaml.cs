@@ -80,7 +80,7 @@ public class StswColorPicker : Control, IStswCornerControl
             if (x <= 0 || x >= grid.ActualWidth || y <= 0 || y >= grid.ActualHeight)
                 return;
 
-            SelectedColor = StswAppFn.ColorFromHsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
+            SelectedColor = StswFnUI.ColorFromHsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
             
             if (_colorEllipse != null)
             {
@@ -111,7 +111,7 @@ public class StswColorPicker : Control, IStswCornerControl
     /// <param name="grid">The color grid element.</param>
     private void UpdateEllipsePosition(FrameworkElement grid)
     {
-        StswAppFn.ColorToHsv(SelectedColor, out var h, out var s, out _);
+        StswFnUI.ColorToHsv(SelectedColor, out var h, out var s, out _);
         var x = grid.ActualWidth * h / 360;
         var y = grid.ActualHeight - (grid.ActualHeight * s);
 
@@ -178,7 +178,7 @@ public class StswColorPicker : Control, IStswCornerControl
     {
         if (obj is StswColorPicker stsw)
         {
-            StswAppFn.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
+            StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
             stsw.SelectedColorA = stsw.SelectedColor.A;
             stsw.SelectedColorR = stsw.SelectedColor.R;
             stsw.SelectedColorG = stsw.SelectedColor.G;
@@ -186,7 +186,7 @@ public class StswColorPicker : Control, IStswCornerControl
 
             if (!stsw._blockColorEllipse)
             {
-                stsw.PickedColor = StswAppFn.ColorFromHsv(h, s, 1);
+                stsw.PickedColor = StswFnUI.ColorFromHsv(h, s, 1);
                 if (stsw._colorGrid != null)
                     stsw.UpdateEllipsePosition(stsw._colorGrid);
             }
@@ -307,8 +307,8 @@ public class StswColorPicker : Control, IStswCornerControl
     {
         if (obj is StswColorPicker stsw)
         {
-            StswAppFn.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
-            stsw.SelectedColor = StswAppFn.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+            StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
+            stsw.SelectedColor = StswFnUI.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
             stsw._blockColorEllipse = true;
         }
     }

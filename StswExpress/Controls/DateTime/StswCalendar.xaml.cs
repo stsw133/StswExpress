@@ -145,10 +145,10 @@ public class StswCalendar : Control, IStswCornerControl
     /// <returns><see langword="true"/> if the popup was found and closed; otherwise, <see langword="false"/>.</returns>
     private bool ClosePopupIfAny()
     {
-        if (StswAppFn.GetParentPopup(this) is Popup popup)
+        if (StswFnUI.GetParentPopup(this) is Popup popup)
         {
             popup.IsOpen = false;
-            if (StswAppFn.FindVisualAncestor<StswDatePicker>(popup) is StswDatePicker stsw)
+            if (StswFnUI.FindVisualAncestor<StswDatePicker>(popup) is StswDatePicker stsw)
             {
                 stsw.Focus();
                 stsw.CaretIndex = stsw.Text?.Length ?? 0;
