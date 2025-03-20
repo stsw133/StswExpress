@@ -28,7 +28,7 @@
                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" HorizontalAlignment="Left" IsHitTestVisible="False" Margin="5"/>
             </Grid>
         </se:StswNavigation.Components>
-        
+
         <se:StswNavigationElement/>
         <se:StswNavigationElement Header="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
         <se:StswNavigationElement/>

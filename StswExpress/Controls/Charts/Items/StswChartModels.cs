@@ -47,7 +47,7 @@ public class StswChartElementModel : StswObservableObject
         set
         {
             SetProperty(ref _name, value);
-            Brush ??= new SolidColorBrush(StswFn.GenerateColor(Name ?? string.Empty, 130));
+            Brush ??= new SolidColorBrush(StswAppFn.GenerateColor(Name ?? string.Empty, 130));
         }
     }
     private string? _name;

@@ -239,7 +239,7 @@ public static class StswTranslator
         var language = string.IsNullOrEmpty(CurrentLanguage) ? "en" : CurrentLanguage;
         var resourcePath = $"Utils/Translator/Translations/{language}.json";
 
-        var json = StswFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
+        var json = StswAppFn.GetResourceText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
         await LoadTranslationsFromJsonStringAsync(json, language);
 
         if (CustomTranslationLoader != null)

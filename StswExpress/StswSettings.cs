@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿global using StswExpress.Commons;
+using System.Configuration;
 
 namespace StswExpress;
 

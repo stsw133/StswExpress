@@ -61,7 +61,7 @@ public class DatabasesContext : StswObservableObject
     /// Import
     private async Task Import()
     {
-        AllDatabases = StswDatabases.ImportList().ToObservableCollection();
+        AllDatabases = [.. StswDatabases.ImportList()];
         await Task.Run(() => SQL.DbCurrent = AllDatabases.FirstOrDefault() ?? new());
         SelectedDatabase = SQL.DbCurrent;
     }
@@ -79,7 +79,7 @@ public class DatabasesContext : StswObservableObject
         get => _allDatabases;
         set => SetProperty(ref _allDatabases, value);
     }
-    private ObservableCollection<StswDatabaseModel> _allDatabases = StswDatabases.ImportList().ToObservableCollection();
+    private ObservableCollection<StswDatabaseModel> _allDatabases = [.. StswDatabases.ImportList()];
 
     /// SelectedDatabase
     public StswDatabaseModel? SelectedDatabase

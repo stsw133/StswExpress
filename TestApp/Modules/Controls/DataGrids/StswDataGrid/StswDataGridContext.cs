@@ -24,7 +24,10 @@ public class StswDataGridContext : ControlsContext
         await Task.Run(() =>
         {
             Thread.Sleep(1000);
-            App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, () => Items.AddRange(Enumerable.Range((Items.LastOrDefault()?.ID ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false })));
+            App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                () => Items.AddRange(
+                    Enumerable.Range((Items.LastOrDefault()?.ID ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }),
+                    itemsState: StswItemState.Unchanged, skipDuplicates: true));
         });
         IsBusy = false;
     }

@@ -7,7 +7,7 @@ public class StswChartLegendContext : ControlsContext
 {
     public StswCommand AddValueCommand => new(() => {
         Items.First(x => x.Name == "Option 9").Value += 20;
-        Items = Items.OrderByDescending(x => x.Value).ToObservableCollection();
+        Items = [.. Items.OrderByDescending(x => x.Value)];
     });
 
     public override void SetDefaults()

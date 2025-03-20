@@ -35,7 +35,7 @@ public class StswTabItem : TabItem
     /// <param name="e">The event arguments.</param>
     public void PART_CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
-        if (StswFn.FindVisualAncestor<StswTabControl>(this) is StswTabControl tabControl)
+        if (StswAppFn.FindVisualAncestor<StswTabControl>(this) is StswTabControl tabControl)
         {
             if (tabControl.ItemsSource is IList list)
                 list.Remove(tabControl.ItemContainerGenerator.ItemFromContainer(this));

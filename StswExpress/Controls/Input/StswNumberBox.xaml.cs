@@ -140,7 +140,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             result = null;
         else if (TryParse(Text, out var res))
             result = res;
-        else if (StswFn.TryCompute(Text, out var computedValue))
+        else if (StswCalculator.TryCompute(Text, out var computedValue))
             result = T.CreateChecked(computedValue);
 
         if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)

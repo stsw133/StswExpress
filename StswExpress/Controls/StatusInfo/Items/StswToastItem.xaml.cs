@@ -26,7 +26,7 @@ public class StswToastItem : ContentControl, IStswCornerControl
 
         /// Button: close
         if (GetTemplateChild("PART_CloseButton") is ButtonBase btnClose)
-            btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswFn.FindVisualAncestor<ItemsControl>(this), this);
+            btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswAppFn.FindVisualAncestor<ItemsControl>(this), this);
     }
     #endregion
 

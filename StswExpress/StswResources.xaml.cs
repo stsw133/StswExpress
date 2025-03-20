@@ -62,7 +62,7 @@ public partial class StswResources
         get => _currentTheme;
         set
         {
-            var newTheme = string.IsNullOrEmpty(value) ? StswFn.GetWindowsTheme() : value;
+            var newTheme = string.IsNullOrEmpty(value) ? StswAppFn.GetWindowsTheme() : value;
 
             if (_currentTheme == newTheme)
                 return;

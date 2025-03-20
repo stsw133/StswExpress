@@ -38,7 +38,7 @@ public class StswFilterBox : Control, IStswCornerControl
         base.OnApplyTemplate();
 
         /// find if the control is placed in StswDataGrid
-        _dataGrid = StswFn.FindVisualAncestor<StswDataGrid>(this);
+        _dataGrid = StswAppFn.FindVisualAncestor<StswDataGrid>(this);
         IsInDataGrid = _dataGrid != null;
 
         /// ToggleButton: filter mode

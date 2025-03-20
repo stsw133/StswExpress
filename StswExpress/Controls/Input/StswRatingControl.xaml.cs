@@ -171,9 +171,9 @@ public class StswRatingControl : Control, IStswIconControl
         if (obj is StswRatingControl stsw)
         {
             if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                stsw.Items = stsw.Items.OrderByDescending(x => x.Value).ToObservableCollection();
+                stsw.Items = [.. stsw.Items.OrderByDescending(x => x.Value)];
             else
-                stsw.Items = stsw.Items.OrderBy(x => x.Value).ToObservableCollection();
+                stsw.Items = [.. stsw.Items.OrderBy(x => x.Value)];
         }
     }
 

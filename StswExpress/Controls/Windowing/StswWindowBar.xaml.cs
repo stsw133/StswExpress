@@ -32,7 +32,7 @@ public class StswWindowBar : Control
     {
         base.OnApplyTemplate();
 
-        _window = StswFn.FindVisualAncestor<StswWindow>(this);
+        _window = StswAppFn.FindVisualAncestor<StswWindow>(this);
 
         ConfigureButtons();
         ConfigureMenu();
