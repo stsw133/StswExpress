@@ -16,7 +16,7 @@ namespace StswExpress;
 [ContentProperty(nameof(Header))]
 public class StswFilterBox : Control, IStswCornerControl
 {
-    public ICommand SelectModeCommand { get; set; }
+    public ICommand SelectModeCommand { get; }
 
     public StswFilterBox()
     {

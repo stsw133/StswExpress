@@ -22,13 +22,11 @@ public class StswLogConfig()
     /// </summary>
     public int ArchiveWhenDaysOver { get; set; } = 120;
 
-    /*
     /// <summary>
     /// Specifies the file size threshold for archiving logs (in bytes).
     /// </summary>
-    public int? ArchiveWhenSizeOver { get; set; } = 1024 * 1024 * 10;
-    */
-
+    public int? ArchiveWhenSizeOver { get; set; } = 1024 * 1024 * 5;
+    
     /// <summary>
     /// Specifies the path to the directory where archived log files will be stored.
     /// </summary>

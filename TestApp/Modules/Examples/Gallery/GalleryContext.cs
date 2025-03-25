@@ -6,9 +6,9 @@ namespace TestApp;
 
 public class GalleryContext : StswObservableObject
 {
-    public StswCommand ChangeNavigationModeCommand { get; set; }
-    public StswCommand SelectDirectoryCommand { get; set; }
-    public StswCommand<string?> NextFileCommand { get; set; }
+    public StswCommand ChangeNavigationModeCommand { get; }
+    public StswCommand SelectDirectoryCommand { get; }
+    public StswCommand<string?> NextFileCommand { get; }
 
     public GalleryContext()
     {

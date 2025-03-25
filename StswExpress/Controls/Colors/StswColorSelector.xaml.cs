@@ -14,7 +14,7 @@ namespace StswExpress;
 [ContentProperty(nameof(ColorPaletteStandard))]
 public class StswColorSelector : Control, IStswCornerControl
 {
-    public ICommand SelectColorCommand { get; set; }
+    public ICommand SelectColorCommand { get; }
 
     public StswColorSelector()
     {

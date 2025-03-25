@@ -7,7 +7,7 @@ namespace TestApp;
 public class StswSelectionBoxContext : ControlsContext
 {
     public StswCommand RandomizeCommand => new(Randomize);
-    //public ICommand? UpdateTextCommand { get; set; } = null; /// this command is only for updating text in box when popup did not load yet
+    //public ICommand? UpdateTextCommand { get; } = null; /// this command is only for updating text in box when popup did not load yet
 
     public override void SetDefaults()
     {

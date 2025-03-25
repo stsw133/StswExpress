@@ -232,10 +232,8 @@ public static class StswFn
         var stringBuilder = new StringBuilder(text.Length);
 
         foreach (var c in normalizedString)
-        {
             if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
                 stringBuilder.Append(c);
-        }
 
         return stringBuilder.ToString();
     }

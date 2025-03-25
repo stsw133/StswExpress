@@ -18,18 +18,18 @@ namespace StswExpress;
 /// </summary>
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
-    public ICommand FileNewCommand { get; set; }
-    public ICommand FileOpenCommand { get; set; }
-    public ICommand FileSaveCommand { get; set; }
-    public ICommand FileSaveAsCommand { get; set; }
-    public ICommand FileReloadCommand { get; set; }
-    public ICommand FilePrintCommand { get; set; }
-    public ICommand FileMailCommand { get; set; }
-    public ICommand FileInfoCommand { get; set; }
-    public ICommand FontStrikethroughCommand { get; set; }
-    public ICommand FontColorTextCommand { get; set; }
-    public ICommand FontColorHighlightCommand { get; set; }
-    public ICommand SectionInterlineCommand { get; set; }
+    public ICommand FileNewCommand { get; }
+    public ICommand FileOpenCommand { get; }
+    public ICommand FileSaveCommand { get; }
+    public ICommand FileSaveAsCommand { get; }
+    public ICommand FileReloadCommand { get; }
+    public ICommand FilePrintCommand { get; }
+    public ICommand FileMailCommand { get; }
+    public ICommand FileInfoCommand { get; }
+    public ICommand FontStrikethroughCommand { get; }
+    public ICommand FontColorTextCommand { get; }
+    public ICommand FontColorHighlightCommand { get; }
+    public ICommand SectionInterlineCommand { get; }
 
     public StswTextEditor()
     {

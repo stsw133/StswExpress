@@ -264,32 +264,6 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Converts a collection to a dictionary, safely handling duplicate keys by ignoring subsequent duplicates.
-    /// </summary>
-    /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
-    /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
-    /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-    /// <param name="source">The collection to convert.</param>
-    /// <param name="keySelector">A function to extract keys from the elements.</param>
-    /// <param name="valueSelector">A function to extract values from the elements.</param>
-    /// <returns>A dictionary containing keys and values selected from the collection, with duplicate keys safely ignored.</returns>
-    /// <remarks>
-    /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
-    /// </remarks>
-    public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(
-        this IEnumerable<TSource> source,
-        Func<TSource, TKey> keySelector,
-        Func<TSource, TValue> valueSelector) where TKey : notnull
-    {
-        var dictionary = new Dictionary<TKey, TValue>();
-
-        foreach (var item in source)
-            dictionary.TryAdd(keySelector(item), valueSelector(item));
-
-        return dictionary;
-    }
-
-    /// <summary>
     /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
     /// Supports tracking removed items and ignoring specified property changes.
     /// </summary>
@@ -309,6 +283,14 @@ public static partial class StswExtensions
     #endregion
 
     #region DateTime extensions
+    /// <summary>
+    /// Checks if two <see cref="DateTime"/> instances are in the same year and month.
+    /// </summary>
+    /// <param name="dt1">The first <see cref="DateTime"/> instance to compare.</param>
+    /// <param name="dt2">The second <see cref="DateTime"/> instance to compare.</param>
+    /// <returns><see langword="true"/> if both <see cref="DateTime"/> instances are in the same year and month; otherwise, <see langword="false"/>.</returns>
+    public static bool IsSameYearAndMonth(this DateTime dt1, DateTime dt2) => dt1.Year == dt2.Year && dt1.Month == dt2.Month;
+
     /// <summary>
     /// Finds the next occurrence of a specified day of the week after a given date.
     /// </summary>
@@ -382,6 +364,29 @@ public static partial class StswExtensions
 
         dict[newKey] = value;
         return true;
+    }
+
+    /// <summary>
+    /// Converts a collection to a dictionary, safely handling duplicate keys by ignoring subsequent duplicates.
+    /// </summary>
+    /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
+    /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+    /// <param name="source">The collection to convert.</param>
+    /// <param name="keySelector">A function to extract keys from the elements.</param>
+    /// <param name="valueSelector">A function to extract values from the elements.</param>
+    /// <returns>A dictionary containing keys and values selected from the collection, with duplicate keys safely ignored.</returns>
+    /// <remarks>
+    /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
+    /// </remarks>
+    public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector) where TKey : notnull
+    {
+        var dictionary = new Dictionary<TKey, TValue>();
+
+        foreach (var item in source)
+            dictionary.TryAdd(keySelector(item), valueSelector(item));
+
+        return dictionary;
     }
     #endregion
 
@@ -533,35 +538,6 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Applies a specified action to each element of the <see cref="IList{}"/>, allowing modification of 
-    /// individual properties within each element.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the <see cref="IList{}"/>.</typeparam>
-    /// <param name="list">The <see cref="IList{}"/> on which the action will be performed.</param>
-    /// <param name="modifier">An action that defines the modification to be applied to each element.</param>
-    /// <returns>The same <see cref="IList{}"/> after the modifications have been applied to its elements.</returns>
-    /// <remarks>
-    /// This method modifies the elements of the <see cref="IList{}"/> in-place, meaning that it does not 
-    /// create a new collection or new elements, but instead applies the provided action to 
-    /// each existing element in the <see cref="IList{}"/>. 
-    /// It is particularly useful when you need to update specific properties of objects 
-    /// within a collection without altering the entire object or creating a new collection.
-    /// </remarks>
-    public static IList<T> ModifyEach<T>(this IList<T> list, Action<T> modifier)
-    {
-        ArgumentNullException.ThrowIfNull(list, nameof(list));
-        ArgumentNullException.ThrowIfNull(modifier, nameof(modifier));
-
-        if (list.Count == 0)
-            return list;
-
-        foreach (var item in list)
-            modifier(item);
-
-        return list;
-    }
-
-    /// <summary>
     /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
@@ -586,21 +562,6 @@ public static partial class StswExtensions
                 if (set.Contains(list[i]))
                     list.RemoveAt(i);
         }
-    }
-
-    /// <summary>
-    /// Replaces all occurrences of a specified value in an <see cref="IEnumerable{T}"/> with another value.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    /// <param name="source">The source collection.</param>
-    /// <param name="oldValue">The value to replace.</param>
-    /// <param name="newValue">The value to replace with.</param>
-    /// <returns>A new collection with the specified value replaced.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
-    public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
-    {
-        ArgumentNullException.ThrowIfNull(source);
-        return source.Select(item => EqualityComparer<T>.Default.Equals(item, oldValue) ? newValue : item);
     }
 
     /// <summary>
@@ -839,25 +800,26 @@ public static partial class StswExtensions
     /// <param name="max">The maximum possible value (exclusive upper bound).</param>
     /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting past boundaries.</param>
     /// <returns>The new shifted value, respecting looping and boundary conditions.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when max is less than or equal to 0.</exception>
     public static int ShiftBy(this int value, int step, int max, bool isLoopingAllowed = true)
     {
         if (max <= 0)
-            return -1;
+            throw new ArgumentOutOfRangeException(nameof(max), "Max must be greater than zero.");
 
-        int result = (value + step) % max;
-        if (result < 0)
-            result += max;
+        var newValue = value + step;
 
-        if (!isLoopingAllowed)
+        if (isLoopingAllowed)
         {
-            if (result >= max)
-                return max - 1;
-
-            if (result < 0)
-                return 0;
+            newValue %= max;
+            if (newValue < 0)
+                newValue += max;
+        }
+        else
+        {
+            newValue = Math.Clamp(newValue, 0, max - 1);
         }
 
-        return result;
+        return newValue;
     }
     #endregion
 

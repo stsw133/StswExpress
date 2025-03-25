@@ -272,9 +272,6 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (_ignoredPropertyNames.Contains(e.PropertyName!))
             return;
 
-        if (_countersAreDirty)
-            return;
-
         if (trackableItem.ItemState == StswItemState.Added || trackableItem.ItemState == StswItemState.Deleted)
             return;
 

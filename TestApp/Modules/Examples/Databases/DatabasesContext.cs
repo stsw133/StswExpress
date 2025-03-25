@@ -8,12 +8,12 @@ namespace TestApp;
 
 public class DatabasesContext : StswObservableObject
 {
-    public ICommand MoveUpCommand { get; set; }
-    public ICommand MoveDownCommand { get; set; }
-    public ICommand AddCommand { get; set; }
-    public ICommand RemoveCommand { get; set; }
-    public ICommand ImportCommand { get; set; }
-    public ICommand ExportCommand { get; set; }
+    public ICommand MoveUpCommand { get; }
+    public ICommand MoveDownCommand { get; }
+    public ICommand AddCommand { get; }
+    public ICommand RemoveCommand { get; }
+    public ICommand ImportCommand { get; }
+    public ICommand ExportCommand { get; }
 
     public DatabasesContext()
     {

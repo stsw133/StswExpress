@@ -11,16 +11,16 @@ namespace TestApp;
 public class ContractorsContext : StswObservableObject
 {
     /// Grid commands
-    public ICommand ClearCommand { get; set; }
-    public ICommand RefreshCommand { get; set; }
-    public ICommand SaveCommand { get; set; }
-    public ICommand ExportCommand { get; set; }
+    public ICommand ClearCommand { get; }
+    public ICommand RefreshCommand { get; }
+    public ICommand SaveCommand { get; }
+    public ICommand ExportCommand { get; }
 
     /// Instances commands
-    public ICommand AddCommand { get; set; }
-    public ICommand CloneCommand { get; set; }
-    public ICommand EditCommand { get; set; }
-    public ICommand DeleteCommand { get; set; }
+    public ICommand AddCommand { get; }
+    public ICommand CloneCommand { get; }
+    public ICommand EditCommand { get; }
+    public ICommand DeleteCommand { get; }
 
     public ContractorsContext()
     {
@@ -74,15 +74,6 @@ public class ContractorsContext : StswObservableObject
             ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswObservableCollection());
             ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             FiltersContractors.Apply?.Invoke();
-            //Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
-
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    SelectedContractor = null;
-            //    ListContractors = newList;
-            //    ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
-            //    Application.Current.Dispatcher.InvokeAsync(() => ListContractorsView.Refresh(), System.Windows.Threading.DispatcherPriority.Background);
-            //});
 
             // for SQL filters:
             //FiltersContractors.Apply?.Invoke();

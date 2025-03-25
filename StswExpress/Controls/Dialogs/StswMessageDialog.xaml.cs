@@ -13,6 +13,8 @@ namespace StswExpress;
 /// </summary>
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
+    public ICommand CloseCommand { get; }
+
     public StswMessageDialog()
     {
         CloseCommand = new StswCommand<string?>(Close);
@@ -50,11 +52,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
             stsw.IsChecked = true;
     }
-
-    /// <summary>
-    /// Gets the command that closes the dialog.
-    /// </summary>
-    public ICommand CloseCommand { get; set; }
 
     /// <summary>
     /// Closes the message dialog and sets the result.
