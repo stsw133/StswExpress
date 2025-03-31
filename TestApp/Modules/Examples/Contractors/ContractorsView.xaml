@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsContext}">
@@ -158,8 +159,8 @@
                         <!-- CreateDT -->
                         <se:StswDataGridDateColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                             <se:StswDataGridDateColumn.Header>
-                                <se:StswFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="cast(CreateDT as date)"/>
-                                <!-- Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" -->
+                                <se:StswFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="CreateDT"
+                                                  Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='M-2'}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
                             </se:StswDataGridDateColumn.Header>
                         </se:StswDataGridDateColumn>
                     </se:StswDataGrid.Columns>

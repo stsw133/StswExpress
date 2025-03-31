@@ -145,6 +145,21 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
+
+    /// <summary>
+    /// Occurs when a key is pressed while the control has focus.
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (e.Key == Key.V && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+        {
+            StswFnUI.PasteFromClipboard(this);
+            e.Handled = true;
+        }
+
+        base.OnKeyDown(e);
+    }
     #endregion
 
     #region Filters

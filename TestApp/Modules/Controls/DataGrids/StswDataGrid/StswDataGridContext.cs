@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace TestApp;
@@ -14,6 +15,7 @@ public class StswDataGridContext : ControlsContext
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        SelectionUnit = (DataGridSelectionUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
     #region Commands & methods
@@ -56,6 +58,14 @@ public class StswDataGridContext : ControlsContext
         set => SetProperty(ref _items, value);
     }
     private StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+
+    /// SelectionUnit
+    public DataGridSelectionUnit SelectionUnit
+    {
+        get => _selectionUnit;
+        set => SetProperty(ref _selectionUnit, value);
+    }
+    private DataGridSelectionUnit _selectionUnit;
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem

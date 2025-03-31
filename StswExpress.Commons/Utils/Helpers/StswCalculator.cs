@@ -186,4 +186,24 @@ public static class StswCalculator
         "%" => a % b,
         _ => throw new InvalidOperationException($"Unsupported operator: {op}"),
     };
+
+    /// <summary>
+    /// Applies a given operator to two operands and returns the result.
+    /// </summary>
+    /// <param name="op">The operator to apply.</param>
+    /// <param name="a">The first operand.</param>
+    /// <param name="b">The second operand.</param>
+    /// <returns>The result of the operation.</returns>
+    public static DateTime ApplyOperator(string op, DateTime a, int b) => op switch
+    {
+        "y" => a.AddYears(b),
+        "M" => a.AddMonths(b),
+        "d" => a.AddDays(b),
+        "H" => a.AddHours(b),
+        "m" => a.AddMinutes(b),
+        "s" => a.AddSeconds(b),
+        "+" => a.AddDays(b),
+        "-" => a.AddDays(-b),
+        _ => throw new InvalidOperationException($"Unsupported operator: {op}"),
+    };
 }

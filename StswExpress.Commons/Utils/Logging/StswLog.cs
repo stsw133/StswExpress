@@ -43,6 +43,8 @@ public static class StswLog
                 Archive(new DateTime(year, month, 1), new DateTime(year, month, DateTime.DaysInMonth(year, month)));
         else if ((dateNow - oldestFileDT).TotalDays > Config.ArchiveWhenDaysOver)
                 Archive(oldestFileDT, dateNow.AddDays(-Config.ArchiveUpToLastDays));
+
+        DeleteOldArchives();
     }
 
     /// <summary>
@@ -83,6 +85,38 @@ public static class StswLog
     /// </summary>
     /// <param name="date">The date to archive.</param>
     public static void Archive(DateTime date) => Archive(date, date);
+
+    /// <summary>
+    /// Deletes log archives that are older than the specified number of days.
+    /// </summary>
+    private static void DeleteOldArchives()
+    {
+        if (!Config.DeleteArchivesOlderThanDays.HasValue || Config.DeleteArchivesOlderThanDays.Value <= 0)
+            return;
+
+        int limitDays = Config.DeleteArchivesOlderThanDays.Value;
+        var thresholdDate = DateTime.Now.Date.AddDays(-limitDays);
+
+        foreach (var zipPath in Directory.GetFiles(Config.ArchiveDirectoryPath, "archive_*.zip"))
+        {
+            var fileName = Path.GetFileNameWithoutExtension(zipPath);
+
+            if (TryGetArchiveDateRange(fileName, out var df, out var dt))
+            {
+                if (dt.Date < thresholdDate)
+                {
+                    try
+                    {
+                        File.Delete(zipPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Config.OnLogFailure?.Invoke(ex);
+                    }
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Synchronously imports log entries from log files within the specified date range.
@@ -231,40 +265,6 @@ public static class StswLog
     public static Task WriteAsync(string text) => WriteAsync(null, text);
 
     /// <summary>
-    /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="Config.ArchiveWhenSizeOver"/>.
-    /// </summary>
-    private static void ForceSizeArchiveIfNeeded()
-    {
-        if (Config.ArchiveWhenSizeOver == null)
-            return;
-
-        var path = GetDailyLogFilePath();
-        var fi = new FileInfo(path);
-        if (!fi.Exists)
-            return;
-
-        if (fi.Length > Config.ArchiveWhenSizeOver.Value)
-            ArchiveSingleLogBySize(fi);
-    }
-
-    /// <summary>
-    /// Archives a single log file based on its size.
-    /// </summary>
-    /// <param name="logFile"></param>
-    private static void ArchiveSingleLogBySize(FileInfo logFile)
-    {
-        string datePart = logFile.Name.Substring(4, 10);
-        string archiveFileName = $"archive_{datePart}.zip";
-
-        var archivePath = Path.Combine(Config.ArchiveDirectoryPath, archiveFileName);
-        using var zip = ZipFile.Open(archivePath, ZipArchiveMode.Update);
-
-        AddFileToZipWithPossibleRename(zip, logFile.FullName);
-
-        logFile.Delete();
-    }
-
-    /// <summary>
     /// Adds a file to a zip archive, renaming it if a file with the same name already exists in the archive.
     /// </summary>
     /// <param name="zip"></param>
@@ -298,8 +298,51 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Renames a specific entry in a zip archive.
+    /// Archives a single log file based on its size.
     /// </summary>
+    /// <param name="logFile"></param>
+    private static void ArchiveSingleLogBySize(FileInfo logFile)
+    {
+        string datePart = logFile.Name.Substring(4, 10);
+        string archiveFileName = $"archive_{datePart}.zip";
+
+        var archivePath = Path.Combine(Config.ArchiveDirectoryPath, archiveFileName);
+        using var zip = ZipFile.Open(archivePath, ZipArchiveMode.Update);
+
+        AddFileToZipWithPossibleRename(zip, logFile.FullName);
+
+        logFile.Delete();
+    }
+
+    /// <summary>
+    /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="Config.ArchiveWhenSizeOver"/>.
+    /// </summary>
+    private static void ForceSizeArchiveIfNeeded()
+    {
+        if (Config.ArchiveWhenSizeOver == null)
+            return;
+
+        var path = GetDailyLogFilePath();
+        var fi = new FileInfo(path);
+        if (!fi.Exists)
+            return;
+
+        if (fi.Length > Config.ArchiveWhenSizeOver.Value)
+            ArchiveSingleLogBySize(fi);
+    }
+
+    /// <summary>
+    /// Gets the path to the log file for the current day.
+    /// </summary>
+    /// <returns></returns>
+    private static string GetDailyLogFilePath() => Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log");
+
+    /// <summary>
+    /// Renames a <see cref="ZipArchiveEntry"/> in a <see cref="ZipArchive"/> to a new name.
+    /// </summary>
+    /// <param name="zip"></param>
+    /// <param name="entry"></param>
+    /// <param name="newName"></param>
     private static void RenameZipArchiveEntry(ZipArchive zip, ZipArchiveEntry entry, string newName)
     {
         if (zip.Entries.Any(e => e.FullName.Equals(newName, StringComparison.OrdinalIgnoreCase)))
@@ -317,10 +360,66 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Gets the path to the log file for the current day.
+    /// Tries to extract a date range from an archive name.
     /// </summary>
+    /// <param name="archiveName"></param>
+    /// <param name="dateFrom"></param>
+    /// <param name="dateTo"></param>
     /// <returns></returns>
-    private static string GetDailyLogFilePath() => Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log");
+    private static bool TryGetArchiveDateRange(string archiveName, out DateTime dateFrom, out DateTime dateTo)
+    {
+        dateFrom = default;
+        dateTo = default;
+
+        if (!archiveName.StartsWith("archive_"))
+            return false;
+
+        var rest = archiveName["archive_".Length..];
+
+        var parts = rest.Split('_', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+        {
+            if (TryParseYearMonth(parts[0], out var ymFrom))
+            {
+                dateFrom = new DateTime(ymFrom.Year, ymFrom.Month, 1);
+                dateTo = dateFrom.AddMonths(1).AddDays(-1);
+                return true;
+            }
+            else if (DateTime.TryParseExact(parts[0], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var singleDate))
+            {
+                dateFrom = singleDate.Date;
+                dateTo = singleDate.Date;
+                return true;
+            }
+            return false;
+        }
+        else if (parts.Length == 2)
+        {
+            if (TryParseYearMonth(parts[0], out var ym1) && TryParseYearMonth(parts[1], out var ym2))
+            {
+                dateFrom = new DateTime(ym1.Year, ym1.Month, 1);
+                dateTo = new DateTime(ym2.Year, ym2.Month, 1).AddMonths(1).AddDays(-1);
+                return true;
+            }
+            else
+            {
+                var success1 = DateTime.TryParseExact(parts[0], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dd1);
+                var success2 = DateTime.TryParseExact(parts[1], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dd2);
+
+                if (success1 && success2)
+                {
+                    dateFrom = dd1.Date < dd2.Date ? dd1.Date : dd2.Date;
+                    dateTo = dd1.Date > dd2.Date ? dd1.Date : dd2.Date;
+                    return true;
+                }
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     /// <summary>
     /// Tries to extract a date from a log file name.
@@ -341,6 +440,23 @@ public static class StswLog
 
         var datePart = fileName.Substring(4, 10);
         return DateTime.TryParseExact(datePart, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
+    }
+
+    /// <summary>
+    /// Tries to parse a string in the format "yyyy-MM" into a <see cref="DateTime"/> object.
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="yearMonth"></param>
+    /// <returns></returns>
+    private static bool TryParseYearMonth(string s, out DateTime yearMonth)
+    {
+        yearMonth = default;
+        if (DateTime.TryParseExact(s, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
+        {
+            yearMonth = new DateTime(dt.Year, dt.Month, 1);
+            return true;
+        }
+        return false;
     }
 
     /// <summary>

@@ -33,6 +33,14 @@ public class StswLogConfig()
     public string ArchiveDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "archive");
 
     /// <summary>
+    /// If set, automatically delete archive files whose date range 
+    /// is completely older than this many days.
+    /// E.g. 365 means remove all archives older than a year.
+    /// If null or <= 0, no deletion is performed.
+    /// </summary>
+    public int? DeleteArchivesOlderThanDays { get; set; } = null;
+
+    /// <summary>
     /// Specifies the path to the directory where active log files will be stored.
     /// </summary>
     public string LogDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");

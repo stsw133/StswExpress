@@ -1,13 +1,18 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -437,6 +442,28 @@ public static class StswFnUI
 
     #region UI functions
     /// <summary>
+    /// Determines the current Windows theme (Light or Dark) by reading system registry settings.
+    /// </summary>
+    /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
+    /// <exception cref="UnauthorizedAccessException">Thrown if access to the registry is denied.</exception>
+    public static string? GetWindowsTheme()
+    {
+        try
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            var registryValueObject = key?.GetValue("AppsUseLightTheme");
+            if (registryValueObject is int registryValue)
+                return registryValue > 0 ? "Light" : "Dark";
+        }
+        catch (Exception)
+        {
+            // Optionally log the exception here if needed
+        }
+
+        return "Light";
+    }
+
+    /// <summary>
     /// Determines whether the specified element is part of the specified <see cref="Popup"/> control.
     /// </summary>
     /// <param name="popup">The <see cref="Popup"/> control to check against.</param>
@@ -464,25 +491,105 @@ public static class StswFnUI
     }
 
     /// <summary>
-    /// Determines the current Windows theme (Light or Dark) by reading system registry settings.
+    /// Determines whether the specified element is part of the visual tree of the specified control.
     /// </summary>
-    /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
-    /// <exception cref="UnauthorizedAccessException">Thrown if access to the registry is denied.</exception>
-    public static string? GetWindowsTheme()
+    /// <param name="dataGrid"></param>
+    public static void PasteFromClipboard(DataGrid dataGrid)
     {
-        try
+        if (dataGrid == null || dataGrid.ItemsSource is not IEnumerable itemsSource)
+            return;
+
+        var clipboardText = Clipboard.GetText();
+        if (string.IsNullOrWhiteSpace(clipboardText))
+            return;
+
+        var lines = clipboardText.Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries);
+        if (lines.Length == 0)
+            return;
+
+        var rawList = itemsSource switch
         {
-            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            var registryValueObject = key?.GetValue("AppsUseLightTheme");
-            if (registryValueObject is int registryValue)
-                return registryValue > 0 ? "Light" : "Dark";
-        }
-        catch (Exception)
+            ICollectionView view => view.SourceCollection,
+            _ => itemsSource
+        };
+
+        var elementType = rawList?.Cast<object>().FirstOrDefault()?.GetType();
+        if (elementType == null)
+            return;
+
+        var list = rawList as IList;
+        if (list == null)
+            return;
+
+        var selectedCells = dataGrid.SelectedCells;
+        if (selectedCells.Count == 0)
+            return;
+
+        var startRowIndex = dataGrid.Items.IndexOf(selectedCells.First().Item);
+        var startColumnIndex = dataGrid.Columns.IndexOf(selectedCells.First().Column);
+
+        var props = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        for (var i = 0; i < lines.Length; i++)
         {
-            // Optionally log the exception here if needed
+            var rowIndex = startRowIndex + i;
+            //if (rowIndex >= list.Count)
+            //    break;
+
+            if (rowIndex >= list.Count &&
+                dataGrid.CanUserAddRows &&
+                !dataGrid.IsReadOnly &&
+                list is IList rawAddList)
+            {
+                try
+                {
+                    var newItem = Activator.CreateInstance(elementType);
+                    rawAddList.Add(newItem);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+
+            if (rowIndex >= list.Count)
+                break;
+
+            var line = lines[i].Split('\t');
+            var item = list[rowIndex];
+
+            for (var j = 0; j < line.Length; j++)
+            {
+                int columnIndex = startColumnIndex + j;
+                if (columnIndex >= dataGrid.Columns.Count)
+                    break;
+
+                var column = dataGrid.Columns[columnIndex];
+                if (column.IsReadOnly)
+                    continue;
+
+                if (column is DataGridBoundColumn boundColumn &&
+                    boundColumn.Binding is Binding binding &&
+                    !string.IsNullOrEmpty(binding.Path?.Path))
+                {
+                    var prop = props.FirstOrDefault(p => p.Name == binding.Path.Path);
+                    if (prop == null || !prop.CanWrite)
+                        continue;
+
+                    try
+                    {
+                        var value = Convert.ChangeType(line[j], prop.PropertyType);
+                        prop.SetValue(item, value);
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            }
         }
 
-        return "Light";
+        dataGrid.Items.Refresh();
     }
 
     /// <summary>

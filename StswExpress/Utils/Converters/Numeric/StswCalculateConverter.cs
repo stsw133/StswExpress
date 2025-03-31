@@ -48,7 +48,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             return Binding.DoNothing;
 
         var operation = pmr[0].ToString();
-        if (!StswCalculator.IsOperator(operation))
+        if (!StswCalculator.IsOperator(operation) && value.GetType() != typeof(DateTime))
             return Binding.DoNothing;
 
         var paramValues = pmr[1..].Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
@@ -60,8 +60,9 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
         return value switch
         {
             CornerRadius cr => ApplyCornerRadiusOperation(cr, operation, paramValues),
-            Thickness th => ApplyThicknessOperation(th, operation, paramValues),
+            DateTime dt => StswCalculator.ApplyOperator(operation, dt, (int)paramValues.FirstOrDefault()).ConvertTo(targetType),
             GridLength gl => ApplyGridLengthOperation(gl, operation, paramValues.FirstOrDefault()),
+            Thickness th => ApplyThicknessOperation(th, operation, paramValues),
             double d when targetType == typeof(CornerRadius) => new CornerRadius(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
             double d when targetType == typeof(Thickness) => new Thickness(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
             double d when targetType == typeof(GridLength) => new GridLength(StswCalculator.ApplyOperator(operation, d, paramValues.FirstOrDefault())),
@@ -105,6 +106,21 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
         };
 
     /// <summary>
+    /// Applies a mathematical operation to a <see cref="GridLength"/> value.
+    /// </summary>
+    /// <param name="value">The value to be converted. It must be of type <see cref="GridLength"/>.</param>
+    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
+    /// <param name="parameter">The number used in the operation.</param>
+    /// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
+    private static GridLength ApplyGridLengthOperation(GridLength gl, string operation, double parameter)
+    {
+        if (gl.IsAuto || gl.IsStar)
+            return gl;
+
+        return new GridLength(StswCalculator.ApplyOperator(operation, gl.Value, parameter), gl.GridUnitType);
+    }
+
+    /// <summary>
     /// Applies a mathematical operation to a <see cref="Thickness"/> value.
     /// </summary>
     /// <param name="value">The value to be converted. It must be of type <see cref="Thickness"/>.</param>
@@ -127,21 +143,6 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             1 => new Thickness(StswCalculator.ApplyOperator(operation, th.Left, parameters[0])),
             _ => th
         };
-
-    /// <summary>
-    /// Applies a mathematical operation to a <see cref="GridLength"/> value.
-    /// </summary>
-    /// <param name="value">The value to be converted. It must be of type <see cref="GridLength"/>.</param>
-    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
-    /// <param name="parameter">The number used in the operation.</param>
-    /// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
-    private static GridLength ApplyGridLengthOperation(GridLength gl, string operation, double parameter)
-    {
-        if (gl.IsAuto || gl.IsStar)
-            return gl;
-
-        return new GridLength(StswCalculator.ApplyOperator(operation, gl.Value, parameter), gl.GridUnitType);
-    }
 }
 
 /*
