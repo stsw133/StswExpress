@@ -28,7 +28,7 @@
                      ToolTipService.InitialShowDelay="0"
                      ToolTipService.ShowDuration="{Binding ShowDuration}">
             <se:StswText.ToolTip>
-                <se:StswToolTip IsMoveable="{Binding IsMoveable}">
+                <se:StswToolTip IsMoveable="{Binding IsMoveable}" se:StswControl.EnableSystemDropShadow="True">
                     <se:StswText TextAlignment="Justify" TextWrapping="Wrap" Width="400">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                         <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>

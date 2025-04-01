@@ -26,7 +26,8 @@
                           ScrollType="{Binding ScrollType}"
                           StaysOpen="False"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}">
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          se:StswControl.EnableSystemDropShadow="True">
                 <se:StswText TextWrapping="Wrap" Width="300">
                     <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                     <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>

@@ -51,10 +51,8 @@
         <ResourceDictionary Source="Layout/StswToolBar.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
 
-        <ResourceDictionary Source="Media/Items/StswThumbnailViewItem.xaml"/>
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
-        <ResourceDictionary Source="Media/StswThumbnailView.xaml"/>
 
         <ResourceDictionary Source="Navigation/Items/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/Items/StswNavigationElement.xaml"/>

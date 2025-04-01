@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
@@ -6,6 +7,7 @@ namespace StswExpress;
 /// A label container that automatically arranges its child elements.
 /// Supports vertical/horizontal layout and configurable label styling.
 /// </summary>
+[Obsolete($"Inefficient. Use {nameof(StswDynamicGrid)} instead.")]
 public class StswLabelPanel : Grid
 {
     #region Events & methods

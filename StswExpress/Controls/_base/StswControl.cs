@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace StswExpress;
 
@@ -74,6 +77,89 @@ public static class StswControl
             }
         }
     }
+
+    /// <summary>
+    /// Enables or disables the system drop shadow effect for the control.
+    /// </summary>
+    public static readonly DependencyProperty EnableSystemDropShadowProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(EnableSystemDropShadowProperty)[..^8],
+            typeof(bool),
+            typeof(StswControl),
+            new PropertyMetadata(false, OnEnableSystemDropShadowChanged)
+        );
+    public static bool GetEnableSystemDropShadow(DependencyObject obj) => (bool)obj.GetValue(EnableSystemDropShadowProperty);
+    public static void SetEnableSystemDropShadow(DependencyObject obj, bool value) => obj.SetValue(EnableSystemDropShadowProperty, value);
+    private static void OnEnableSystemDropShadowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (e.NewValue is not bool enabled || !enabled)
+            return;
+
+        if (d is Window window)
+        {
+            window.SourceInitialized += (_, _) =>
+            {
+                var hwnd = new WindowInteropHelper(window).Handle;
+                ApplyDropShadow(hwnd);
+            };
+        }
+        else if (d is Popup popup)
+        {
+            popup.Opened += (_, __) =>
+            {
+                if (popup.Child is FrameworkElement child)
+                    child.Dispatcher.BeginInvoke(() =>
+                    {
+                        if (PresentationSource.FromVisual(child) is HwndSource source)
+                            ApplyDropShadow(source.Handle);
+                    });
+            };
+        }
+        else if (d is FrameworkElement fe)
+        {
+            fe.Loaded += (_, _) =>
+            {
+                if (PresentationSource.FromVisual(fe) is HwndSource source)
+                    ApplyDropShadow(source.Handle);
+            };
+        }
+    }
+
+    private static void ApplyDropShadow(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero)
+            return;
+
+        var val = 2;
+        DwmSetWindowAttribute(hwnd, DWMWA_NCRENDERING_POLICY, ref val, sizeof(int));
+
+        var margins = new MARGINS
+        {
+            cxLeftWidth = 1,
+            cxRightWidth = 1,
+            cyTopHeight = 1,
+            cyBottomHeight = 1
+        };
+
+        DwmExtendFrameIntoClientArea(hwnd, ref margins);
+    }
+
+    private const int DWMWA_NCRENDERING_POLICY = 2;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MARGINS
+    {
+        public int cxLeftWidth;
+        public int cxRightWidth;
+        public int cyTopHeight;
+        public int cyBottomHeight;
+    }
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 
     /// <summary>
     /// Enables or disables borderless appearance for controls implementing <see cref="IStswCornerControl"/>.

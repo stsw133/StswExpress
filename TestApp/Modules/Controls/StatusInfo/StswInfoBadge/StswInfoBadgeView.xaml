@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:sec="clr-namespace:StswExpress.Commons;assembly=StswExpress.Commons"
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswInfoBadgeContext}">
 
@@ -21,7 +22,7 @@
             <se:StswIntegerBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBadge}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList sec:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
             <!-- Value -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
             <se:StswDecimalBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>

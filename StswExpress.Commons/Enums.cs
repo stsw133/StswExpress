@@ -1,4 +1,4 @@
-﻿namespace StswExpress;
+﻿namespace StswExpress.Commons;
 
 /// <summary>
 /// Enumeration for <see cref="StswDatabaseModel.Type"/>.

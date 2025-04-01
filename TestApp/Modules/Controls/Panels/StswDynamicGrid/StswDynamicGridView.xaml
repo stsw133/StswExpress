@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="TestApp.StswDynamicGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDynamicGridContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            A dynamic panel that arranges its children in a flexible grid-like structure.
+            It supports automatic layout based on the number of items, customizable spacing, and stretching specific rows or columns.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Columns -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Columns, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswIntegerBox Margin="0 0 0 3" Value="{Binding Columns}"/>
+            <!-- Orientation -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <!-- Rows -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Rows, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswIntegerBox Margin="0 0 0 3" Value="{Binding Rows}"/>
+            <!-- Spacing -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Spacing, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswDoubleBox Format="N2" Margin="0 0 0 3" Value="{Binding Spacing}"/>
+            <!-- StretchColumnIndex -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StretchColumnIndex, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswIntegerBox Margin="0 0 0 3" Value="{Binding StretchColumnIndex}"/>
+            <!-- StretchRowIndex -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StretchRowIndex, Type={x:Type se:StswDynamicGrid}}"/>
+            <se:StswIntegerBox Margin="0 0 0 3" Value="{Binding StretchRowIndex}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswDynamicGrid Columns="{Binding Columns}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Orientation="{Binding Orientation}"
+                            Rows="{Binding Rows}"
+                            Spacing="{Binding Spacing}"
+                            StretchColumnIndex="{Binding StretchColumnIndex}"
+                            StretchRowIndex="{Binding StretchRowIndex}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#3777" Margin="1" MinHeight="10" MinWidth="10"/>
+            <se:StswBorder Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Background="#37F7" Margin="1" MinHeight="10" MinWidth="20"/>
+            <se:StswBorder Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
+            <se:StswBorder Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
+            <se:StswBorder Background="#3F77" Margin="1" MinHeight="20" MinWidth="10"/>
+        </se:StswDynamicGrid>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

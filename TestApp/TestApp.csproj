@@ -51,6 +51,9 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Panels\StswDynamicGrid\StswDynamicGridView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Selectors\StswFlipView\StswFlipViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,9 +82,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Paths\StswPathTree\StswPathTreeView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Panels\StswGrid\StswGridView.xaml.cs">
@@ -334,9 +334,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Paths\StswPathTree\StswPathTreeView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\Media\StswThumbnailView\StswThumbnailViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Panels\StswGrid\StswGridView.xaml">

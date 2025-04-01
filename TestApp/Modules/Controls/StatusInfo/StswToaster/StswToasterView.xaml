@@ -9,7 +9,8 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+            A notification control for displaying temporary toasts.
+            Supports dynamic content, click actions, and automatic removal of notifications.
         </local:ControlsBase.Description>
         <!-- properties -->
         <!-- <local:ControlsBase.Properties> -->

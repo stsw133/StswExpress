@@ -113,7 +113,8 @@ public class StswNotifyIcon : FrameworkElement
     public void Notify(string? title, string? text, ToolTipIcon? icon)
     {
         var timeout = ((int?)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Accessibility", "MessageDuration", 5) ?? 5) * 1000;
-        _tray?.ShowBalloonTip(timeout, title ?? string.Empty, text ?? string.Empty, icon ?? ToolTipIcon.None);
+        if (!string.IsNullOrEmpty(text))
+            _tray?.ShowBalloonTip(timeout, title ?? string.Empty, text, icon ?? ToolTipIcon.None);
     }
 
     /// <summary>

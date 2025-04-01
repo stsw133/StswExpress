@@ -16,7 +16,7 @@
         <!-- content -->
         <se:StswButton Content="Open context menu">
             <se:StswButton.ContextMenu>
-                <se:StswContextMenu>
+                <se:StswContextMenu se:StswControl.EnableSystemDropShadow="True">
                     <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
                     <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
                         <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
