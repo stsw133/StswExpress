@@ -15,19 +15,6 @@
         <Setter Property="Type" Value="Information"/>
 
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="4"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>

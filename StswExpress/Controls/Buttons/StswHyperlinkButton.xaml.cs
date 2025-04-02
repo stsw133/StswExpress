@@ -29,7 +29,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 
         if (NavigateUri != null && !string.IsNullOrEmpty(NavigateUri.AbsoluteUri))
         {
-            StswFn.OpenFile(NavigateUri.AbsoluteUri);
+            StswFn.OpenHyperlink(NavigateUri.AbsoluteUri);
             WasClicked = true;
         }
     }

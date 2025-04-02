@@ -52,15 +52,15 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
             stsw.IsChecked = true;
     }
+    #endregion
 
+    #region Show & close
     /// <summary>
     /// Closes the message dialog and sets the result.
     /// </summary>
     /// <param name="result">The result value as a string, which is parsed into a boolean if not null.</param>
     private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
-    #endregion
 
-    #region Show methods
     /// <summary>
     /// Shows the message dialog asynchronously with an exception message and details.
     /// </summary>

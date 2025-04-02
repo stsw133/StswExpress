@@ -8,24 +8,13 @@
 
         <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
         <Setter Property="Padding" Value="4 2"/>
-        
+
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
 
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

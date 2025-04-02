@@ -65,6 +65,7 @@
             <se:StswNavigationElement Header="Dialogs" IconData="{x:Static se:StswIcons.MessageTextOutline}">
                 <se:StswNavigationElement Header="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Header="StswMessageDialog" ContextNamespace="TestApp.StswMessageDialogContext"/>
+                <se:StswNavigationElement Header="StswProgressDialog" ContextNamespace="TestApp.StswProgressDialogContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Filters" IconData="{x:Static se:StswIcons.FilterOutline}">
                 <se:StswNavigationElement Header="StswFilterBox" ContextNamespace="TestApp.StswFilterBoxContext"/>

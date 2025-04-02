@@ -517,8 +517,7 @@ public static class StswFnUI
         if (elementType == null)
             return;
 
-        var list = rawList as IList;
-        if (list == null)
+        if (rawList is not IList list)
             return;
 
         var selectedCells = dataGrid.SelectedCells;
@@ -529,17 +528,13 @@ public static class StswFnUI
         var startColumnIndex = dataGrid.Columns.IndexOf(selectedCells.First().Column);
 
         var props = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var affectedCells = new List<DataGridCellInfo>();
 
         for (var i = 0; i < lines.Length; i++)
         {
             var rowIndex = startRowIndex + i;
-            //if (rowIndex >= list.Count)
-            //    break;
 
-            if (rowIndex >= list.Count &&
-                dataGrid.CanUserAddRows &&
-                !dataGrid.IsReadOnly &&
-                list is IList rawAddList)
+            if (rowIndex >= list.Count && dataGrid.CanUserAddRows && !dataGrid.IsReadOnly && list is IList rawAddList)
             {
                 try
                 {
@@ -560,7 +555,7 @@ public static class StswFnUI
 
             for (var j = 0; j < line.Length; j++)
             {
-                int columnIndex = startColumnIndex + j;
+                var columnIndex = startColumnIndex + j;
                 if (columnIndex >= dataGrid.Columns.Count)
                     break;
 
@@ -568,9 +563,7 @@ public static class StswFnUI
                 if (column.IsReadOnly)
                     continue;
 
-                if (column is DataGridBoundColumn boundColumn &&
-                    boundColumn.Binding is Binding binding &&
-                    !string.IsNullOrEmpty(binding.Path?.Path))
+                if (column is DataGridBoundColumn boundColumn && boundColumn.Binding is Binding binding && !string.IsNullOrEmpty(binding.Path?.Path))
                 {
                     var prop = props.FirstOrDefault(p => p.Name == binding.Path.Path);
                     if (prop == null || !prop.CanWrite)
@@ -578,18 +571,27 @@ public static class StswFnUI
 
                     try
                     {
-                        var value = Convert.ChangeType(line[j], prop.PropertyType);
-                        prop.SetValue(item, value);
+                        var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                        var newValue = Convert.ChangeType(line[j], targetType);
+                        var currentValue = prop.GetValue(item);
+
+                        if (!Equals(currentValue, newValue))
+                            prop.SetValue(item, newValue);
+
+                        affectedCells.Add(new DataGridCellInfo(item, column));
                     }
                     catch
                     {
-                        
+                        // conversion failed — skip
                     }
                 }
             }
         }
 
         dataGrid.Items.Refresh();
+        dataGrid.SelectedCells.Clear();
+        foreach (var cell in affectedCells)
+            dataGrid.SelectedCells.Add(cell);
     }
 
     /// <summary>

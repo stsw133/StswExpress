@@ -18,19 +18,6 @@
         <Setter Property="Type" Value="Auto"/>
 
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="2" CornerRadius="6"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
@@ -41,6 +28,8 @@
         
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

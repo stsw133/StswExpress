@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="TestApp.StswProgressDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance local:StswProgressDialogContext}">
+
+    <se:StswContentDialog Identifier="StswProgressDialogView">
+        <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+            <local:ControlsBase.Description>
+                Represents a control behaving like content dialog with various properties for customization.
+            </local:ControlsBase.Description>
+            <!-- properties
+            <local:ControlsBase.Properties>
+                
+            </local:ControlsBase.Properties> -->
+            <!-- content -->
+            <se:StswButton Command="{Binding OpenProgressDialogCommand}" Content="Open progress dialog"/>
+            <!-- status panel -->
+            <local:ControlsBase.StatusPanel>
+                <se:StswText Padding="5">
+                    <Run Text="Dialog ended with "/>
+                    <Run Text="{Binding ProgressDialogResult}" FontWeight="Bold"/>
+                    <Run Text=" result"/>
+                </se:StswText>
+            </local:ControlsBase.StatusPanel>
+        </local:ControlsBase>
+    </se:StswContentDialog>
+</UserControl>

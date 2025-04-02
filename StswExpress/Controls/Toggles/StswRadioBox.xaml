@@ -25,7 +25,7 @@
                     <Setter Property="Control.Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="0"/>
+                                <Rectangle Stroke="{DynamicResource StswFocusVisual.Static.Border}" StrokeDashArray="2 1" StrokeThickness="1"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

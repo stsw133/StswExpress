@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
@@ -13,7 +14,7 @@ namespace StswExpress;
 /// The bar automatically detects its parent window and configures its actions accordingly.
 /// </remarks>
 [ContentProperty(nameof(Components))]
-public class StswWindowBar : Control
+public class StswWindowBar : Control, IStswCornerControl
 {
     public StswWindowBar()
     {
@@ -48,11 +49,11 @@ public class StswWindowBar : Control
 
         /// Button: minimize
         if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
-            btnMinimize.Click += (s, e) => _window.WindowState = WindowState.Minimized;
+            btnMinimize.Click += (_, _) => _window.WindowState = WindowState.Minimized;
 
         /// Button: restate
         if (GetTemplateChild("PART_ButtonRestate") is Button btnRestate)
-            btnRestate.Click += (s, e) =>
+            btnRestate.Click += (_, _) =>
             {
                 if (_window.Fullscreen)
                     _window.Fullscreen = false;
@@ -62,7 +63,7 @@ public class StswWindowBar : Control
 
         /// Button: close
         if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
-            btnClose.Click += (s, e) => _window.Close();
+            btnClose.Click += (_, _) => _window.Close();
     }
 
     /// <summary>
@@ -74,15 +75,8 @@ public class StswWindowBar : Control
             return;
 
         ContextMenu.DataContext = _window;
-
-        foreach (FrameworkElement item in ContextMenu.Items)
-            ConfigureMenuItemHandlers(item);
-
-        ContextMenu.Loaded += (s, e) =>
-        {
-            foreach (FrameworkElement item in ContextMenu.Items)
-                ConfigureMenuItemVisibility(item);
-        };
+        ContextMenu.Items.Cast<FrameworkElement>().ForEach(ConfigureMenuItemHandlers);
+        ContextMenu.Loaded += (_, _) => ContextMenu.Items.Cast<FrameworkElement>().ForEach(ConfigureMenuItemVisibility);
     }
 
     /// <summary>

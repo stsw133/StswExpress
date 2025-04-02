@@ -45,13 +45,14 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// <param name="parameter">
     /// A query string defining the operation (e.g., `"count IsEnabled == true"`).
     /// The format is: `<operation> <property> <operator> <value>`.
-    /// Supported operations: `any`, `count`, `sum`, `where`.
+    /// Supported operations: `any`, `average`, `count`, `sum`, `where`.
     /// Supported operators: `==`, `!=`, `>`, `<`, `>=`, `<=`.
     /// </param>
     /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>
     /// The result of the specified operation:
     /// - `any` → `true`/`false`
+    /// - `average` → `double`
     /// - `count` → `int`
     /// - `sum` → `double`
     /// - `where` → `List<object>`
@@ -73,6 +74,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
         return command switch
         {
             "any" => HandleAny(collection, commandParams),
+            "average" or "avg" => HandleAverage(collection, commandParams),
             "count" => HandleCount(collection, commandParams),
             "sum" => HandleSum(collection, commandParams),
             "where" => HandleWhere(collection, commandParams),
@@ -101,7 +103,27 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// <returns><see langword="true"/> if at least one item matches the condition; otherwise, <see langword="false"/>.</returns>
     private static bool HandleAny(IEnumerable collection, string condition)
     {
-        return collection.Cast<object>().Any(item => EvaluateCondition(item, condition));
+        return collection.Cast<object>()
+                         .Any(item => EvaluateCondition(item, condition));
+    }
+
+    /// <summary>
+    /// Calculates the average of a specified numeric property for all elements in the collection.
+    /// </summary>
+    /// <param name="collection">The collection to evaluate.</param>
+    /// <param name="propertyName">The name of the numeric property to calculate the average.</param>
+    /// <returns>
+    /// The average of the property values across all elements, or an error message if the property is not numeric.
+    /// </returns>
+    private static object HandleAverage(IEnumerable collection, string propertyName)
+    {
+        if (string.IsNullOrWhiteSpace(propertyName))
+            return $"Invalid format: property name required for 'average'";
+
+        return collection.Cast<object>()
+                         .Select(item => item.GetPropertyValue(propertyName))
+                         .Where(value => double.TryParse(value?.ToString(), out var _))
+                         .Average(value => System.Convert.ToDouble(value, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
@@ -115,7 +137,8 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// <returns>The number of elements that match the condition.</returns>
     private static int HandleCount(IEnumerable collection, string condition)
     {
-        return collection.Cast<object>().Count(item => EvaluateCondition(item, condition));
+        return collection.Cast<object>()
+                         .Count(item => EvaluateCondition(item, condition));
     }
 
     /// <summary>
@@ -148,7 +171,8 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// <returns>A filtered collection containing only the elements that match the condition.</returns>
     private static IEnumerable HandleWhere(IEnumerable collection, string condition)
     {
-        return collection.Cast<object>().Where(item => EvaluateCondition(item, condition)).ToList();
+        return collection.Cast<object>()
+                         .Where(item => EvaluateCondition(item, condition));
     }
 
     /// <summary>

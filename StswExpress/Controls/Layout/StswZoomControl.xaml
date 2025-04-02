@@ -10,19 +10,6 @@
 
         <Setter Property="ClipToBounds" Value="True"/>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="1" CornerRadius="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>

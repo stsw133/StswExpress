@@ -21,19 +21,6 @@
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
 
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Border BorderBrush="{DynamicResource StswFocusVisual.Static.Border}" BorderThickness="2" CornerRadius="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
@@ -48,6 +35,8 @@
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="CellStyle" Value="{DynamicResource StswDataGridCellStyle}"/>
         <Setter Property="ColumnHeaderStyle" Value="{DynamicResource StswDataGridColumnHeaderStyle}"/>

@@ -19,7 +19,7 @@ Here's a breakdown:
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
 - **Media**: `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
-- **Panels**: `StswGrid`, `StswGridSplitter`, `StswLabelPanel`, `StswSidePanel`
+- **Panels**: `StswDynamicGrid`, `StswGrid`, `StswGridSplitter`, `StswLabelPanel`, `StswSidePanel`
 - **Paths**: `StswPathPicker`, `StswPathTree`
 - **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
 - **Selectors**: `StswComboBox`, `StswDragBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`

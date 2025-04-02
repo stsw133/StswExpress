@@ -134,7 +134,7 @@ public static class StswFn
         if (!File.Exists(path))
             throw new FileNotFoundException($"File '{path}' not found.", path);
 
-        var process = new Process
+        new Process
         {
             StartInfo = new ProcessStartInfo
             {
@@ -142,8 +142,7 @@ public static class StswFn
                 UseShellExecute = true,
                 Verb = verb
             }
-        };
-        process.Start();
+        }.Start();
     }
 
     /// <summary>
@@ -184,6 +183,23 @@ public static class StswFn
     /// </summary>
     /// <param name="path">The path to the file to be opened.</param>
     public static void OpenFile(string path) => ExecuteFileAction(path, "open");
+
+    /// <summary>
+    /// Opens a hyperlink in the default web browser.
+    /// </summary>
+    /// <param name="url">The hyperlink to be opened.</param>
+    public static void OpenHyperlink(string url)
+    {
+        new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true,
+                Verb = "open"
+            }
+        }.Start();
+    }
 
     /// <summary>
     /// Prints a file in its associated application.
