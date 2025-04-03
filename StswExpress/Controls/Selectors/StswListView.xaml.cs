@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;/// <summary>
 /// A customizable list view control for displaying a collection of selectable items with optional details.
@@ -47,6 +48,16 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Handles selection changes within the list view.
     /// If the control is in read-only mode, the selection change is prevented.
     /// Otherwise, the selection state is updated accordingly.
@@ -54,12 +65,6 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
     /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
-
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }

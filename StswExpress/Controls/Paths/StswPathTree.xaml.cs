@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace StswExpress;
@@ -68,17 +69,21 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Handles item selection changes and animations.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
-
         base.OnSelectedItemChanged(e);
         IStswSelectionControl.SelectionChanged(this, new List<object>() { e.NewValue }, new List<object>() { e.OldValue });
 

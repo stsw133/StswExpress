@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
@@ -48,18 +49,22 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Occurs when the selection in the list changes.
     /// Handles selection changes and ensures the control’s selection logic is respected.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
-        
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }

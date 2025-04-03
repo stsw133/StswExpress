@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -100,5 +101,23 @@ public interface IStswSelectionControl
     {
         if (itemTemplate != null && !string.IsNullOrEmpty(selectionControl.DisplayMemberPath))
             selectionControl.DisplayMemberPath = string.Empty;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="selectionControl"></param>
+    /// <param name="e"></param>
+    static bool PreviewKeyDown(IStswSelectionControl selectionControl, KeyEventArgs e)
+    {
+        if (selectionControl.IsReadOnly)
+        {
+            if (!e.Key.In(Key.Space, Key.Tab))
+            {
+                e.Handled = true;
+                return false;
+            }
+        }
+        return true;
     }
 }

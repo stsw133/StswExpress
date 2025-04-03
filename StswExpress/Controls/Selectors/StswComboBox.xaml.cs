@@ -132,16 +132,27 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Handles selection changes. Prevents selection if <see cref="IsReadOnly"/> is set.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
+        // causes problem with starting selected value (to verify why it existed)
+        //if (IsReadOnly)
+        //{
+        //    e.Handled = true;
+        //    return;
+        //}
 
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);

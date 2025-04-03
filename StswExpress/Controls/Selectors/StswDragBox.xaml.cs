@@ -75,6 +75,16 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Handles selection changes within the drag box.
     /// If the control is in read-only mode, the selection change is prevented.
     /// Otherwise, the selection state is updated accordingly.
@@ -82,12 +92,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
-
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;/// <summary>
 /// A segmented control that displays a collection of selectable options in a horizontal or vertical layout.
@@ -47,6 +48,16 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Occurs when the PreviewKeyDown event is triggered.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <summary>
     /// Handles selection changes within the segmented control.
     /// If the control is in read-only mode, the selection change is prevented.
     /// Otherwise, the selection state is updated accordingly.
@@ -54,12 +65,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        if (IsReadOnly)
-        {
-            e.Handled = true;
-            return;
-        }
-
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
