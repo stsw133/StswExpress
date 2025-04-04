@@ -35,7 +35,7 @@ internal class StswPathTreeItem : StswObservableObject
     /// <summary>
     /// Gets or sets the name of the file or folder (derived from the full path).
     /// </summary>
-    public string? Name => Path.GetFileName(FullPath) is string fileName && !string.IsNullOrEmpty(fileName) ? fileName : FullPath;
+    public string Name => Path.GetFileName(FullPath) is string fileName && !string.IsNullOrEmpty(fileName) ? fileName : FullPath;
 
     /// <summary>
     /// Gets or sets the type of the item (file or directory).

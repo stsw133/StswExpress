@@ -75,17 +75,12 @@ public class StswInvokeMethodExtension : MarkupExtension
     /// 
     /// </summary>
     /// <param name="value"></param>
-    public class ObjectValueProvider(object value) : INotifyPropertyChanged
+    public class ObjectValueProvider(object value) : StswObservableObject
     {
         /// <summary>
         /// 
         /// </summary>
         public object Value { get; } = value;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public event PropertyChangedEventHandler? PropertyChanged;
     }
 
     /// <summary>

@@ -30,16 +30,65 @@ public class StswToolTip : ToolTip, IStswCornerControl
     }
 
     /// <summary>
+    /// Handles the MouseMove event for the parent element, dynamically updating the tooltip's position
+    /// to follow the cursor as it moves, maintaining the tooltip's relative offset.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
+
+    /// <summary>
+    /// Updates the tooltip content for a specified <see cref="FrameworkElement"/> when the tooltip dependency property changes.
+    /// If the new value is a string, it creates a custom tooltip using <see cref="StswToolTip"/> and assigns it to the target element.
+    /// </summary>
+    /// <param name="obj">The dependency object where the tooltip is applied.</param>
+    /// <param name="e">The event arguments.</param>
+    public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement stsw)
+        {
+            if (e.NewValue is string tooltipContent)
+                ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
+            else
+                ToolTipService.SetToolTip(stsw, e.NewValue);
+        }
+    }
+
+    /// <summary>
+    /// Handles the tooltip's Opened event, setting the initial offset based on the current mouse position.
+    /// Ensures the tooltip appears in the correct position when it becomes visible.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnTooltipOpened(object sender, RoutedEventArgs e) => SetOffset();
+
+    /// <summary>
+    /// Resets the tooltip's positioning behavior when movement is disabled.
+    /// Restores default placement and offset values.
+    /// </summary>
+    private void ResetMoveableState()
+    {
+        if (_parent != null)
+        {
+            Opened -= OnTooltipOpened;
+            _parent.MouseMove -= OnParentMouseMove;
+            _parent = null;
+        }
+
+        Placement = PlacementMode.Mouse;
+        HorizontalOffset = 0;
+        VerticalOffset = 0;
+    }
+
+    /// <summary>
     /// Sets the offset of the tooltip based on the current mouse position.
     /// Ensures the tooltip appears at the correct location when displayed.
     /// </summary>
     private void SetOffset()
     {
-        var window = Window.GetWindow(this);
-        if (window != null)
+        if (Window.GetWindow(this) is Window window)
         {
             var currentPos = window.PointToScreen(Mouse.GetPosition(window));
-
             HorizontalOffset = currentPos.X + BorderThickness.Left;
             VerticalOffset = currentPos.Y + BorderThickness.Top + SystemParameters.CursorHeight / 2;
         }
@@ -65,57 +114,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
         else
         {
             ResetMoveableState();
-        }
-    }
-
-    /// <summary>
-    /// Resets the tooltip's positioning behavior when movement is disabled.
-    /// Restores default placement and offset values.
-    /// </summary>
-    private void ResetMoveableState()
-    {
-        if (_parent != null)
-        {
-            Opened -= OnTooltipOpened;
-            _parent.MouseMove -= OnParentMouseMove;
-            _parent = null;
-        }
-
-        Placement = PlacementMode.Mouse;
-        HorizontalOffset = 0;
-        VerticalOffset = 0;
-    }
-
-    /// <summary>
-    /// Handles the tooltip's Opened event, setting the initial offset based on the current mouse position.
-    /// Ensures the tooltip appears in the correct position when it becomes visible.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnTooltipOpened(object sender, RoutedEventArgs e) => SetOffset();
-
-    /// <summary>
-    /// Handles the MouseMove event for the parent element, dynamically updating the tooltip's position
-    /// to follow the cursor as it moves, maintaining the tooltip's relative offset.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
-
-    /// <summary>
-    /// Updates the tooltip content for a specified <see cref="FrameworkElement"/> when the tooltip dependency property changes.
-    /// If the new value is a string, it creates a custom tooltip using <see cref="StswToolTip"/> and assigns it to the target element.
-    /// </summary>
-    /// <param name="obj">The dependency object where the tooltip is applied.</param>
-    /// <param name="e">The event arguments.</param>
-    public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is FrameworkElement stsw)
-        {
-            if (e.NewValue is string tooltipContent)
-                ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
-            else
-                ToolTipService.SetToolTip(stsw, e.NewValue);
         }
     }
     #endregion

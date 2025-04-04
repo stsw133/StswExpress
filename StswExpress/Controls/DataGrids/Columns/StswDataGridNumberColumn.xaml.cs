@@ -70,7 +70,9 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
     /// <param name="dataItem">The data item represented by the row containing the cell.</param>
     /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
+#pragma warning disable CS0693 // Type parameter has the same name as the type parameter from outer type
     private TControl GenerateEditingElement<TControl>() where TControl : StswNumberBoxBase<T>, new()
+#pragma warning restore CS0693 // Type parameter has the same name as the type parameter from outer type
     {
         var editingElement = new TControl
         {

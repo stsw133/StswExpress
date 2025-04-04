@@ -302,6 +302,27 @@ public static class StswFnUI
 
     #region Finding functions
     /// <summary>
+    /// Finds the first logical ancestor of a specific type for the given control.
+    /// </summary>
+    /// <typeparam name="T">The type of the ancestor to find.</typeparam>
+    /// <param name="obj">The control for which to find the logical ancestor.</param>
+    /// <returns>The first logical ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
+    public static T? FindLogicalAncestor<T>(DependencyObject obj) where T : class
+    {
+        var parent = LogicalTreeHelper.GetParent(obj);
+
+        while (parent != null)
+        {
+            if (parent is T result)
+                return result;
+
+            parent = LogicalTreeHelper.GetParent(parent);
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Finds the first logical child of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the child to find.</typeparam>
@@ -323,6 +344,27 @@ public static class StswFnUI
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Finds all logical children of a specific type for the given control.
+    /// </summary>
+    /// <typeparam name="T">The type of the children to find.</typeparam>
+    /// <param name="obj">The control for which to find the logical children.</param>
+    /// <returns>An enumerable collection of logical children of the specified type.</returns>
+    public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject obj) where T : class
+    {
+        foreach (var child in LogicalTreeHelper.GetChildren(obj))
+        {
+            if (child is T match)
+                yield return match;
+
+            if (child is DependencyObject depChild)
+            {
+                foreach (var nestedChild in FindLogicalChildren<T>(depChild))
+                    yield return nestedChild;
+            }
+        }
     }
 
     /// <summary>

@@ -90,8 +90,8 @@ public static class StswFocusVisual
         {
             return value switch
             {
-                CornerRadius cr => Math.Max((cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) / 4.0, 1),
-                Thickness t => Math.Max((t.Left + t.Top + t.Right + t.Bottom) / 4.0, 1),
+                CornerRadius cr => Math.Max((cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) / 4.0, 1.5),
+                Thickness t => Math.Max((t.Left + t.Top + t.Right + t.Bottom) / 4.0, 1.5),
                 _ => (object)1.0,
             };
         }

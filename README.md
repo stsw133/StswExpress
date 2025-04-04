@@ -14,7 +14,7 @@ Here's a breakdown:
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
-- **Filters**: `StswFilterBox`
+- **Filters**: `StswFilterBox`, `StswFilterTags`
 - **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
 - **Media**: `StswImage`, `StswMediaPlayer`

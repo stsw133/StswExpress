@@ -32,9 +32,10 @@
 
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
-        <ResourceDictionary Source="Dialogs/StswProgressDialog.xaml"/>
 
+        <ResourceDictionary Source="Filters/Items/StswFilterTagsItem.xaml"/>
         <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
+        <ResourceDictionary Source="Filters/StswFilterTags.xaml"/>
         
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumberBox.xaml"/>

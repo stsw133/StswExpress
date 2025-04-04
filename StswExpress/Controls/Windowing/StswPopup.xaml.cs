@@ -31,7 +31,7 @@ public class StswPopup : Popup, IStswCornerControl
     /// </summary>
     private void Init()
     {
-        var newChild = new ContentControl
+        Child = new ContentControl
         {
             ContentTemplate = ScrollType switch
             {
@@ -40,7 +40,6 @@ public class StswPopup : Popup, IStswCornerControl
                 _ => throw new System.NotImplementedException()
             }
         };
-        Child = newChild;
     }
     #endregion
 

@@ -240,6 +240,9 @@ public static class StswTranslator
         var resourcePath = $"Utils/Translator/Translations/{language}.json";
 
         var json = StswFnUI.GetResourceText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
+        if (json == null)
+            return;
+
         await LoadTranslationsFromJsonStringAsync(json, language);
 
         if (CustomTranslationLoader != null)

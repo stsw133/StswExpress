@@ -21,7 +21,7 @@ internal static class StswRandomGenerator
         var visited = new HashSet<Type>();
 
         for (int i = 0; i < count; i++)
-            yield return (T)GenerateRandom(typeof(T), visited);
+            yield return (T)GenerateRandom(typeof(T), visited)!;
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ internal static class StswRandomGenerator
 
         if (type.IsArray)
         {
-            var elementType = type.GetElementType();
+            var elementType = type.GetElementType()!;
             var arrayLength = _random.Next(1, 5);
             var array = Array.CreateInstance(elementType, arrayLength);
 
@@ -134,7 +134,7 @@ internal static class StswRandomGenerator
         }
         visited.Add(type);
 
-        foreach (var prop in (IEnumerable<PropertyInfo>?)type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite && p.GetIndexParameters().Length == 0))
+        foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite && p.GetIndexParameters().Length == 0))
         {
             if (prop.PropertyType == type)
                 continue;

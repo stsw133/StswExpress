@@ -130,7 +130,7 @@
     <SolidColorBrush x:Key="StswDialog.Warning.Border" Color="#e6bb65"/>
     <SolidColorBrush x:Key="StswDialog.Warning.Foreground" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDialog.Warning.Subground" Color="#f8ecd3"/>
-    
+
     <!-- Input -->
     <SolidColorBrush x:Key="StswBox.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswBox.Static.Border" Color="#BBB"/>

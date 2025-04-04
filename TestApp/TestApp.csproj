@@ -51,7 +51,7 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Dialogs\StswProgressDialog\StswProgressDialogView.xaml.cs">
+    <Compile Update="Modules\Controls\Filters\StswFilterTags\StswFilterTagsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Panels\StswDynamicGrid\StswDynamicGridView.xaml.cs">
