@@ -109,6 +109,7 @@
         <ResourceDictionary Source="Windowing/StswToolTip.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindowBar.xaml"/>
+        <ResourceDictionary Source="Windowing/StswWindowsPanel.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -150,9 +150,10 @@ public class StswReorderListBox : ListBox, IStswCornerControl, IStswSelectionCon
 
     void RefreshList()
     {
-        var items = Items.Cast<object>().ToList();
-        ItemsSource = null;
-        ItemsSource = items;
+        //var items = Items.Cast<object>().ToList();
+        //ItemsSource = null;
+        //ItemsSource = items;
+
         //CollectionViewSource.GetDefaultView(this.Items)?.Refresh();
     }
 

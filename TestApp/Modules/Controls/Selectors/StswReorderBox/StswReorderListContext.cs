@@ -22,20 +22,20 @@ public class StswReorderListContext : ControlsContext
     }
 
     /// Items
-    public List<StswListBoxTestModel> Items
+    public ObservableCollection<StswListBoxTestModel> Items
     {
         get => _items;
         set => SetProperty(ref _items, value);
     }
-    private List<StswListBoxTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
+    private ObservableCollection<StswListBoxTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
 
     //Items 2
-    public List<StswListBoxTestModel> Items2
+    public ObservableCollection<StswListBoxTestModel> Items2
     {
         get => _items2;
         set => SetProperty(ref _items2, value);
     }
-    private List<StswListBoxTestModel> _items2 = new(Enumerable.Range(16, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
+    private ObservableCollection<StswListBoxTestModel> _items2 = new(Enumerable.Range(16, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);

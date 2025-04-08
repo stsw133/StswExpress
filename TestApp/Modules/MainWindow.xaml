@@ -157,6 +157,7 @@
                 <se:StswNavigationElement Header="StswToolTip" ContextNamespace="TestApp.StswToolTipContext"/>
                 <se:StswNavigationElement Header="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
                 <se:StswNavigationElement Header="StswWindowBar" ContextNamespace="TestApp.StswWindowBarContext"/>
+                <se:StswNavigationElement Header="StswWindowsPanel" ContextNamespace="TestApp.StswWindowsPanelContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Test control" ContextNamespace="TestApp.StswTestContext"/>
         </se:StswNavigationElement>
