@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.17.0](#0-17-0)
 - [Version 0.16.1](#0-16-1)
 - [Version 0.16.0](#0-16-0)
 - [Version 0.15.0](#0-15-0)
@@ -35,6 +36,51 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-17-0">0.17.0</h1>
+
+**Release Date**: 2025-04-09
+
+In this version, library has been split into two separate libraries: `StswExpress` (for WPF) and `StswExpress.Commons` (for backend and other platforms). The `StswExpress` library contains all the controls and UI-related components, while `StswExpress.Commons` includes utility classes, converters, and other non-UI components. This separation allows for better organization and easier maintenance of the codebase.
+
+## Additions
+
+### Controls
+- New `StswDynamicGrid` control (similar to `UniformGrid`) that allows for putting auto-size items in a grid with dynamic rows and columns. It can also stretch one of columns or rows to fill the remaining space.
+- New `StswFilterTags` control for displaying and managing tags in a filter-like manner. This control allows users to add, remove, and filter items based on tags, providing a more intuitive way to manage large sets of data.
+
+### Utils
+- Added 2 new global commands: `SelectAll` (selects all items in a control) and `DeselectAll` (deselects all items in a control).
+- New experimental `StswInvokeMethodExtension` markup extension for invoking methods in XAML.
+- New `StswDispatcher` class for managing UI thread operations and dispatching tasks to the UI thread.
+- New `StswExtensions` method: `IsSameYearAndMonth` (checks if two `DateTime` objects are in the same year and month).
+- New `StswFnUI` methods: `FindLogicalAncestor` and `PasteFromClipboard` (used in `StswDataGrid`) for pasting data from the clipboard into a grid cells.
+- `StswCalculateConveter` can calculate `DateTime` values now (add or subtract days, months, years, etc.).
+- `StswLog` has new functionality to archive logs based on size and time, and to delete old logs.
+
+## Changes
+
+### Controls
+- `FocusVisualStyle` has been reworked for all Stsw controls.
+- `StswControl` class has new `EnableSystemDropShadowProperty` attached property to enable or disable system drop shadow for windowing controls.
+
+### Utils
+- Improved `StswExtensions` method: `ShiftBy`.
+- Removed `StswExtensions` methods: `Replace` (for IEnumerable) and `ModifyEach`.
+
+## Fixes
+
+### Controls
+- Read-only mode fixed for Stsw selector controls. Now this mode will block most key presses instead of blocking selected item changes.
+- `StswHyperlinkButton` should properly open links now.
+- `StswNotifyIcon` will not throw error if text is null. Instead it will not show balloon tip.
+
+### Utils
+- `StswIfElseConverter` has been repaired and improved. Now it also works for 5 part conditions.
+- `StswLinqConverter` has been repaired (`SUM` operation now works with numeric values other than `double` type) and improved (supports `AVG` operation now).
+- `StswObservableCollection`'s `OnItemPropertyChanged` method has been fixed. It did not update item state to `Modified` when counters were not enabled.
 
 ---
 

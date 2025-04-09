@@ -169,9 +169,9 @@
         <Setter Property="Background" Value="{DynamicResource StswDataGrid.Cell.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Cell.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswText.Static.Foreground}"/>
-        
+
         <Setter Property="BorderThickness" Value="1"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">

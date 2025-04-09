@@ -68,7 +68,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         base.OnApplyTemplate();
 
         /// force styles to refresh
-        CellStyle = CellStyle;
+        //CellStyle = CellStyle;
         ColumnHeaderStyle = ColumnHeaderStyle;
         RowHeaderStyle = RowHeaderStyle;
 
