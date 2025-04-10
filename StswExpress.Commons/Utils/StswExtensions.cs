@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace StswExpress.Commons;
 /// <summary>
@@ -15,39 +14,6 @@ namespace StswExpress.Commons;
 /// </summary>
 public static partial class StswExtensions
 {
-    #region Clone extensions
-    /// <summary>
-    /// Creates a deep copy of the specified object using JSON serialization.
-    /// Suitable for serializable objects, including primitives, collections, and simple POCOs.
-    /// Ignores properties marked with <see cref="JsonIgnoreAttribute"/>.
-    /// Does not handle cyclic references.
-    /// </summary>
-    /// <typeparam name="T">The type of the object being cloned.</typeparam>
-    /// <param name="original">The original object to clone.</param>
-    /// <returns>A deep copy of the original object. The returned object and any sub-objects are entirely independent of the original.</returns>
-    /// <remarks>
-    /// This method uses <see cref="JsonSerializer"/> for deep cloning by serializing the object to a JSON string and then deserializing it back to a new instance.
-    /// It is suitable for objects that are serializable to JSON, including primitive types, complex objects, and collections. 
-    /// However, types like <see cref="BitmapImage"/> and other WPF-related types cannot be serialized directly. These properties must be manually excluded using the <see cref="JsonIgnoreAttribute"/> or handled with custom converters.
-    /// Circular references and metadata are not handled automatically and may cause issues if present. Use with caution for objects with complex internal state or cyclic dependencies.
-    /// </remarks>
-    public static T? DeepCopyWithJson<T>(this T original) where T : class
-    {
-        if (original == null)
-            return default;
-
-        try
-        {
-            var jsonString = JsonSerializer.Serialize(original);
-            return JsonSerializer.Deserialize<T>(jsonString);
-        }
-        catch (JsonException)
-        {
-            return default;
-        }
-    }
-    #endregion
-
     #region Convert extensions
     /// <summary>
     /// Converts an object to a specified type, supporting nullable types, enums, and primitive conversions.
@@ -820,6 +786,96 @@ public static partial class StswExtensions
         }
 
         return newValue;
+    }
+    #endregion
+
+    #region Object extensions
+    /// <summary>
+    /// Creates a deep copy of the object using JSON serialization.
+    /// Works with serializable objects, including simple classes and collections.
+    /// </summary>
+    /// <typeparam name="T">Type of the object to copy.</typeparam>
+    /// <param name="original">The object to clone.</param>
+    /// <returns>A new instance with the same data, or <see langword="null"/> if cloning fails.</returns>
+    public static T? DeepCopy<T>(this T original) where T : class
+    {
+        if (original == null)
+            return default;
+
+        try
+        {
+            return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(original));
+        }
+        catch (JsonException)
+        {
+            return default;
+        }
+    }
+
+    /// <summary>
+    /// Recursively compares two objects of the same type to determine if all public properties and their nested values are equal.
+    /// </summary>
+    /// <typeparam name="T">The type of the objects being compared.</typeparam>
+    /// <param name="obj1">The first object to compare.</param>
+    /// <param name="obj2">The second object to compare.</param>
+    /// <returns><see langword="true"/> if all public properties (including nested properties and collections) are equal; otherwise, <see langword="false"/>.</returns>
+    public static bool DeepEquals<T>(this T obj1, T obj2) where T : class => DeepEquals(obj1, obj2, []);
+
+    /// <summary>
+    /// Recursively compares two objects of the same type using reflection. 
+    /// Supports deep comparison of nested objects and collections. Cycles are handled using a visited hash set.
+    /// </summary>
+    /// <param name="obj1">The first object to compare.</param>
+    /// <param name="obj2">The second object to compare.</param>
+    /// <param name="visited">A set of already visited objects to avoid circular reference loops.</param>
+    /// <returns><see langword="true"/> if the objects and all their properties are equal; otherwise, <see langword="false"/>.</returns>
+    private static bool DeepEquals(object? obj1, object? obj2, HashSet<object> visited)
+    {
+        if (ReferenceEquals(obj1, obj2))
+            return true;
+
+        if (obj1 == null || obj2 == null)
+            return false;
+
+        if (visited.Contains(obj1) || visited.Contains(obj2))
+            return true;
+
+        visited.Add(obj1);
+        visited.Add(obj2);
+
+        var type = obj1.GetType();
+
+        if (type != obj2.GetType())
+            return false;
+
+        if (type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(DateTime))
+            return obj1.Equals(obj2);
+
+        if (typeof(IEnumerable).IsAssignableFrom(type))
+        {
+            var enum1 = ((IEnumerable)obj1).Cast<object>().ToList();
+            var enum2 = ((IEnumerable)obj2).Cast<object>().ToList();
+
+            if (enum1.Count != enum2.Count)
+                return false;
+
+            for (var i = 0; i < enum1.Count; i++)
+                if (!DeepEquals(enum1[i], enum2[i], visited))
+                    return false;
+
+            return true;
+        }
+
+        foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            var val1 = prop.GetValue(obj1);
+            var val2 = prop.GetValue(obj2);
+
+            if (!DeepEquals(val1, val2, visited))
+                return false;
+        }
+
+        return true;
     }
     #endregion
 
