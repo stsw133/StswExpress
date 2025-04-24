@@ -62,8 +62,8 @@ public class DatabasesContext : StswObservableObject
     private async Task Import()
     {
         AllDatabases = [.. StswDatabases.ImportList()];
-        await Task.Run(() => SQL.DbCurrent = AllDatabases.FirstOrDefault() ?? new());
-        SelectedDatabase = SQL.DbCurrent;
+        await Task.Run(() => SQLService.DbCurrent = AllDatabases.FirstOrDefault() ?? new());
+        SelectedDatabase = SQLService.DbCurrent;
     }
 
     /// Export

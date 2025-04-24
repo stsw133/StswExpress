@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace TestApp;
 
-internal static class SQL
+internal static class SQLService
 {
     internal static StswDatabaseModel DbCurrent;
 
-    static SQL()
+    static SQLService()
     {
         DbCurrent = StswDatabases.ImportList().First();
     }

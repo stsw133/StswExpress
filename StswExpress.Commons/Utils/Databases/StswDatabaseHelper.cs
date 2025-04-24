@@ -241,7 +241,7 @@ public static class StswDatabaseHelper
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
         using var sqlCmd = new SqlCommand(procName, factory.Connection, factory.Transaction) { CommandType = CommandType.StoredProcedure, };
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-        var result = sqlCmd.PrepareCommand(parameters).ExecuteNonQuery();
+        var result = sqlCmd.PrepareCommand(parameters, passAllParametersAnyway: true).ExecuteNonQuery();
 
         factory.Commit();
         return result;
@@ -427,6 +427,7 @@ public static class StswDatabaseHelper
             return;
 
         var dt = items.ToDataTable();
+        tableName = tableName.Trim('#');
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, false);
         using var sqlCmd = new SqlCommand(GenerateCreateTableScript(dt, tableName), factory.Connection, factory.Transaction);
@@ -726,13 +727,13 @@ public static class StswDatabaseHelper
     /// whose properties will be used as parameters.
     /// </summary>
     /// <param name="sqlCommand">The SQL command to prepare with parameters.</param>
-    /// <param name="model">The model containing the values to be added as parameters.</param>
+    /// <param name="parameterModel">The model containing the values to be added as parameters.</param>
     /// <returns>The prepared <see cref="SqlCommand"/>.</returns>
-    private static SqlCommand PrepareCommand(this SqlCommand sqlCommand, object? model)
+    private static SqlCommand PrepareCommand(this SqlCommand sqlCommand, object? parameterModel, bool passAllParametersAnyway = false)
     {
         sqlCommand.Parameters.Clear();
 
-        if (model != null)
+        if (parameterModel != null)
         {
             /// in query:
             /// remove everything between '' marks (including the quotes)
@@ -747,30 +748,30 @@ public static class StswDatabaseHelper
             var cmdParameters = Regex.Matches(query, @"@(\w+)").Cast<Match>().Select(x => x.Groups[1].Value.ToLower());
 
             /// prepare parameters from model
-            var sqlParameters = (model switch
+            var sqlParameters = (parameterModel switch
             {
                 IEnumerable<SqlParameter> paramList => paramList,
                 IDictionary<string, object> dict => dict.Where(x => x.Key.ToLower().In(cmdParameters))
                                                         .Select(x => new SqlParameter("@" + x.Key, x.Value ?? DBNull.Value)),
-                _ => model.GetType()
+                _ => parameterModel.GetType()
                           .GetProperties()
-                          .Where(x => x.Name.ToLower().In(cmdParameters))
-                          .Select(x => new SqlParameter("@" + x.Name, x.GetValue(model) ?? DBNull.Value))
+                          .Where(x => passAllParametersAnyway || x.Name.ToLower().In(cmdParameters))
+                          .Select(x => new SqlParameter("@" + x.Name, x.GetValue(parameterModel) ?? DBNull.Value))
             }).ToList();
             
             /// add prepared parameters to command
-            foreach (var parameter in sqlParameters)
+            foreach (var sqlParameter in sqlParameters)
             {
-                if (parameter.Value?.GetType()?.IsListType(out var type) == true)
+                if (sqlParameter.Value?.GetType()?.IsListType(out var type) == true)
                 {
                     if (type == typeof(byte))
-                        sqlCommand.Parameters.Add(parameter);
+                        sqlCommand.Parameters.Add(sqlParameter);
                     else if (type?.IsValueType == true)
-                        sqlCommand.ParametersAddList(parameter.ParameterName, (IList?)parameter.Value);
+                        sqlCommand.ParametersAddList(sqlParameter.ParameterName, (IList?)sqlParameter.Value);
                 }
                 else
                 {
-                    sqlCommand.Parameters.Add(parameter);
+                    sqlCommand.Parameters.Add(sqlParameter);
                 }
             }
         }

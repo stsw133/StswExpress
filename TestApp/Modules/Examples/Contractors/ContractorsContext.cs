@@ -44,7 +44,7 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            SQL.InitializeContractorsTables();
+            SQLService.InitializeContractorsTables();
         }
         catch (Exception ex)
         {
@@ -71,7 +71,7 @@ public class ContractorsContext : StswObservableObject
         try
         {
             // for CollectionView filters:
-            ListContractors = await Task.Run(() => SQL.GetContractors(null).ToStswObservableCollection());
+            ListContractors = await Task.Run(() => SQLService.GetContractors(null).ToStswObservableCollection());
             ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             FiltersContractors.Apply?.Invoke();
 
@@ -94,7 +94,7 @@ public class ContractorsContext : StswObservableObject
     {
         try
         {
-            await Task.Run(() => SQL.SetContractors(ListContractors));
+            await Task.Run(() => SQLService.SetContractors(ListContractors));
             RefreshCommand.Execute(null);
             await StswMessageDialog.Show("Data saved successfully.", nameof(TestApp), null, StswDialogButtons.OK, StswDialogImage.Success);
         }
@@ -218,7 +218,7 @@ public class ContractorsContext : StswObservableObject
                     }
                     else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        SQL.DeleteContractor(m.ID);
+                        SQLService.DeleteContractor(m.ID);
                         ListContractors.Remove(m);
                     }
                 });

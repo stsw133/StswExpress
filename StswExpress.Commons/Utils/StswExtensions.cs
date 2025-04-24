@@ -213,7 +213,10 @@ public static partial class StswExtensions
     public static DataTable ToDataTable<T>(this IEnumerable<T> data)
     {
         var dataTable = new DataTable(typeof(T).Name);
-        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var properties = typeof(T)
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .OrderBy(p => p.MetadataToken)
+            .ToArray();
 
         foreach (var property in properties)
             dataTable.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
@@ -790,6 +793,44 @@ public static partial class StswExtensions
     #endregion
 
     #region Object extensions
+    /// <summary>
+    /// Copies readable public properties from a source object to writable public properties 
+    /// of a target object, matching by property name (case-insensitive).
+    /// Supports conversion between compatible types, including nullable types and enums.
+    /// Properties that do not exist on either side or cannot be assigned are ignored.
+    /// </summary>
+    /// <typeparam name="TTarget">The type of the target object (destination).</typeparam>
+    /// <typeparam name="TSource">The type of the source object (data provider).</typeparam>
+    /// <param name="target">The target object to which values will be copied.</param>
+    /// <param name="source">The source object from which values will be read.</param>
+    public static void CopyFrom<TTarget, TSource>(this TTarget target, TSource source) where TTarget : class
+    {
+        if (target == null || source == null)
+            return;
+
+        var targetProps = typeof(TTarget)
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanWrite);
+
+        var sourceProps = typeof(TSource)
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanRead)
+            .ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
+
+        foreach (var targetProp in targetProps)
+        {
+            if (sourceProps.TryGetValue(targetProp.Name, out var sourceProp))
+            {
+                var sourceValue = sourceProp.GetValue(source);
+
+                if (targetProp.PropertyType.IsAssignableFrom(sourceProp.PropertyType))
+                    targetProp.SetValue(target, sourceValue);
+                else
+                    targetProp.SetValue(target, sourceValue.ConvertTo(targetProp.PropertyType));
+            }
+        }
+    }
+
     /// <summary>
     /// Creates a deep copy of the object using JSON serialization.
     /// Works with serializable objects, including simple classes and collections.
