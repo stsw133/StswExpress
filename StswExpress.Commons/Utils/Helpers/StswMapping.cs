@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace StswExpress.Commons;
@@ -8,6 +9,29 @@ namespace StswExpress.Commons;
 /// </summary>
 internal static class StswMapping
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    private static readonly Dictionary<Type, object> _instanceFactories = [];
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    internal static Func<T> CreateInstanceFactory<T>()
+    {
+        if (_instanceFactories.TryGetValue(typeof(T), out var factory))
+            return (Func<T>)factory;
+
+        var constructor = Expression.New(typeof(T));
+        var lambda = Expression.Lambda<Func<T>>(constructor);
+        var compiled = lambda.Compile();
+
+        _instanceFactories[typeof(T)] = compiled;
+        return compiled;
+    }
+
     /// <summary>
     /// Caches the properties of a given type, including nested properties, if they exist in the column names.
     /// </summary>
@@ -58,7 +82,7 @@ internal static class StswMapping
     /// <returns><see langword="true"/> if there are nested properties that match the column names, otherwise <see langword="false"/>.</returns>
     internal static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath)
     {
-        if (type.IsClass && type != typeof(string))
+        if (!type.IsClass || type == typeof(string))
             return false;
 
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -66,6 +90,9 @@ internal static class StswMapping
         {
             var propPath = $"{parentPath}{delimiter}{prop.Name}";
             if (normalizedColumnNames.Any(col => col.Equals(propPath, StringComparison.CurrentCultureIgnoreCase)))
+                return true;
+
+            if (HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath))
                 return true;
         }
         
@@ -85,14 +112,11 @@ internal static class StswMapping
         foreach (var kvp in propCache)
         {
             var propPath = kvp.Key.Split(delimiter);
-            var prop = kvp.Value;
-            var columnName = kvp.Key;
-
-            var columnIndex = Array.FindIndex(normalizedColumnNames, col => col.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
+            var columnIndex = Array.FindIndex(normalizedColumnNames, col => col.Equals(kvp.Key, StringComparison.CurrentCultureIgnoreCase));
             if (columnIndex >= 0)
             {
                 var value = row[columnIndex] == DBNull.Value ? null : row[columnIndex];
-                SetNestedPropertyValue(obj, propPath, 0, value, propCache);
+                SetNestedPropertyValue(obj, propPath, 0, value, propCache, delimiter);
             }
         }
     }
@@ -105,31 +129,33 @@ internal static class StswMapping
     /// <param name="level">The current level in the property path.</param>
     /// <param name="value">The value to set on the property.</param>
     /// <param name="propCache">A dictionary of cached properties and their paths.</param>
-    internal static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache)
+    internal static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
+        if (obj == null)
+            return;
+
+        var fullPath = string.Join(delimiter.ToString(), propPath.Take(level + 1));
+        if (!propCache.TryGetValue(fullPath, out var prop))
+            return;
+
         if (level == propPath.Length - 1)
         {
-            var finalProp = obj?.GetType().GetProperty(propPath[level], BindingFlags.Public | BindingFlags.Instance);
-            if (finalProp != null)
-            {
-                var convertedValue = value?.ConvertTo(finalProp.PropertyType);
-                finalProp.SetValue(obj, convertedValue);
-            }
+            var convertedValue = value?.ConvertTo(prop.PropertyType);
+            prop.SetValue(obj, convertedValue);
         }
         else
         {
-            var propName = propPath[level];
-            var prop = obj?.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
-            if (prop != null)
+            var nestedObj = prop.GetValue(obj);
+            if (nestedObj == null)
             {
-                var nestedObj = prop.GetValue(obj);
-                if (nestedObj == null)
-                {
-                    nestedObj = Activator.CreateInstance(prop.PropertyType);
-                    prop.SetValue(obj, nestedObj);
-                }
-                SetNestedPropertyValue(nestedObj, propPath, level + 1, value, propCache);
+                nestedObj = _instanceFactories.TryGetValue(prop.PropertyType, out var factory)
+                    ? ((Func<object>)factory)()
+                    : Activator.CreateInstance(prop.PropertyType);
+
+                prop.SetValue(obj, nestedObj);
             }
+
+            SetNestedPropertyValue(nestedObj, propPath, level + 1, value, propCache, delimiter);
         }
     }
 }

@@ -168,10 +168,11 @@ public static partial class StswExtensions
                                                   .ToArray();
 
             var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
+            var instanceFactory = StswMapping.CreateInstanceFactory<T>();
 
             foreach (var row in dt.AsEnumerable())
             {
-                var obj = Activator.CreateInstance<T>();
+                var obj = instanceFactory();
                 StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
                 yield return obj;
             }
