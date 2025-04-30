@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace StswExpress;
 
@@ -14,9 +17,18 @@ namespace StswExpress;
 /// </remarks>
 public class StswToaster : ItemsControl
 {
+    private Timer? _timer;
+    private bool _timerStarted;
+    private bool _fastRemoving;
+
     static StswToaster()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
+    }
+
+    public StswToaster()
+    {
+        _timer = new Timer(OnTimerTick, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswToastItem();
@@ -61,6 +73,11 @@ public class StswToaster : ItemsControl
                 else
                     toaster.Items.Add(toastItem);
             }
+
+            if (!toaster.IsMouseOver && !toaster._timerStarted)
+                toaster.StartTimer();
+            else if (!toaster.IsMouseOver)
+                toaster._timer.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
         }
     }
 
@@ -81,6 +98,93 @@ public class StswToaster : ItemsControl
         else if (itemsControl.Items.Contains(item))
             itemsControl.Items.Remove(item);
     }
+
+    protected override void OnMouseEnter(MouseEventArgs e)
+    {
+        base.OnMouseEnter(e);
+
+        if (_timerStarted)
+            StopTimer();
+    }
+
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+        base.OnMouseLeave(e);
+        if (!_timerStarted)
+            StartTimer();
+    }
+
+    private void OnTimerTick(object? state)
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            if (Items.Count == 0)
+            {
+                StopTimer();
+                return;
+            }
+
+            var item = (GenerateAtBottom
+               ? Items[Items.Count - 1]
+               : Items[0]) as StswToastItem;
+
+            if (!_fastRemoving)
+            {
+                _timer.Change(TimeSpan.FromSeconds(.5), TimeSpan.FromSeconds(.5));
+                _fastRemoving = true;
+            }
+
+            HideToastItem(item);
+        });
+    }
+
+    private void HideToastItem(StswToastItem? item)
+    {
+        var sb = new Storyboard();
+
+        var opacityAnim = new DoubleAnimation(
+            item.Opacity,
+            0,
+            new Duration(TimeSpan.FromSeconds(0.15)))
+        {
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(opacityAnim);
+        Storyboard.SetTarget(opacityAnim, item);
+        Storyboard.SetTargetProperty(opacityAnim, new PropertyPath(OpacityProperty));
+
+        var heightAnim = new DoubleAnimation(
+            item.ActualHeight,
+            0,
+            new Duration(TimeSpan.FromSeconds(0.25)))
+        {
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(heightAnim);
+        Storyboard.SetTarget(heightAnim, item);
+        Storyboard.SetTargetProperty(heightAnim, new PropertyPath(HeightProperty));
+
+        sb.Completed += (s, e) =>
+        {
+            RemoveItemFromItemsControl(this, item);
+        };
+
+        sb.Begin();
+    }
+
+    private void StartTimer()
+    {
+        _timerStarted = true;
+        _timer.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+    }
+
+    private void StopTimer()
+    {
+        _timerStarted = false;
+        _fastRemoving = false;
+        _timer.Change(Timeout.Infinite, Timeout.Infinite);
+    }
+
     #endregion
 
     #region Logic properties
