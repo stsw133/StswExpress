@@ -140,8 +140,15 @@ internal static class StswMapping
 
         if (level == propPath.Length - 1)
         {
-            var convertedValue = value?.ConvertTo(prop.PropertyType);
-            prop.SetValue(obj, convertedValue);
+            if (prop.PropertyType == typeof(object))
+            {
+                prop.SetValue(obj, value);
+            }
+            else
+            {
+                var convertedValue = value?.ConvertTo(prop.PropertyType);
+                prop.SetValue(obj, convertedValue);
+            }
         }
         else
         {

@@ -765,7 +765,7 @@ public static class StswDatabaseHelper
                 if (sqlParameter.Value?.GetType()?.IsListType(out var type) == true)
                 {
                     if (type == typeof(byte))
-                        sqlCommand.Parameters.Add(sqlParameter);
+                        sqlCommand.Parameters.Add(sqlParameter.ParameterName, SqlDbType.VarBinary, -1).Value = sqlParameter.Value;
                     else if (type?.IsValueType == true)
                         sqlCommand.ParametersAddList(sqlParameter.ParameterName, (IList?)sqlParameter.Value);
                 }

@@ -125,27 +125,6 @@ public static class StswFn
 
     #region File functions
     /// <summary>
-    /// Executes a specified verb action on the given file, such as opening or printing the file.
-    /// </summary>
-    /// <param name="path">The path to the file to be opened or printed.</param>
-    /// <param name="verb">The action to perform on the file (e.g., "open", "print").</param>
-    private static void ExecuteFileAction(string path, string verb)
-    {
-        if (!File.Exists(path))
-            throw new FileNotFoundException($"File '{path}' not found.", path);
-
-        new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = path,
-                UseShellExecute = true,
-                Verb = verb
-            }
-        }.Start();
-    }
-
-    /// <summary>
     /// Checks if a file is currently in use.
     /// </summary>
     /// <param name="path">The path to the file.</param>
@@ -179,42 +158,48 @@ public static class StswFn
     public static void MoveToRecycleBin(string path) => FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 
     /// <summary>
-    /// Opens a file in its associated application.
+    /// Opens a file in its associated application, a hyperlink in the default web browser, or a folder in Windows Explorer.
     /// </summary>
-    /// <param name="path">The path to the file to be opened.</param>
-    public static void OpenFile(string path) => ExecuteFileAction(path, "open");
-
-    /// <summary>
-    /// Opens a hyperlink in the default web browser.
-    /// </summary>
-    /// <param name="url">The hyperlink to be opened.</param>
-    public static void OpenHyperlink(string url)
-    {
-        new Process
+    /// <param name="path">The path to the file, hyperlink, or folder to be opened.</param>
+    public static void OpenPath(string path)
+        => new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = url,
+                FileName = path,
                 UseShellExecute = true,
                 Verb = "open"
             }
         }.Start();
-    }
 
     /// <summary>
     /// Prints a file in its associated application.
     /// </summary>
     /// <param name="path">The path to the file to be printed.</param>
-    public static void PrintFile(string path) => ExecuteFileAction(path, "print");
+    public static void PrintFile(string path)
+    {
+        if (!File.Exists(path))
+            throw new FileNotFoundException($"File '{path}' not found.", path);
+
+        new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = "print"
+            }
+        }.Start();
+    }
 
     /// <summary>
     /// Opens Windows Explorer and selects the specified file.
     /// </summary>
     /// <param name="path">The path to the file to be selected in Windows Explorer.</param>
-    public static void ShowFileInExplorer(string path)
+    public static void SelectPathInExplorer(string path)
     {
-        if (!File.Exists(path))
-            throw new FileNotFoundException($"File '{path}' not found.", path);
+        if (!Path.Exists(path))
+            throw new FileNotFoundException($"Path '{path}' not found.", path);
 
         Process.Start("explorer.exe", $"/select,\"{path}\"");
     }
