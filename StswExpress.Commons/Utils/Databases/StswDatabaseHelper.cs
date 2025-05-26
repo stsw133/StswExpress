@@ -3,6 +3,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace StswExpress.Commons;
@@ -374,24 +376,45 @@ public static class StswDatabaseHelper
         => model.OpenedConnection().Get(type, query, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// Executes a SQL query that returns combined data for both header and item entities, separates the result into two model types,
+    /// and injects the corresponding items into each header based on a shared key.
     /// </summary>
-    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
-    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
+    /// <typeparam name="THeader">The type representing the header part of the result.</typeparam>
+    /// <typeparam name="TItem">The type representing the item (detail) part of the result.</typeparam>
     /// <param name="sqlConn">The SQL connection to use.</param>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="divideToProp">The property in `TResult1` where associated `TResult2` items are stored.</param>
-    /// <param name="idProp1">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="idProp2">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
-    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    /// <param name="query">The SQL query that returns both header and item columns in one result set.</param>
+    /// <param name="joinKeys">The property names present in both <typeparamref name="THeader"/> and <typeparamref name="TItem"/> used to join items with headers.</param>
+    /// <param name="injectIntoProperty">The name of the collection property in <typeparamref name="THeader"/> where the related <typeparamref name="TItem"/> objects should be assigned.</param>
+    /// <param name="divideFromColumn">The name of the first column in the result set that belongs to the item model. This column and all following columns are considered item data.</param>
+    /// <param name="parameters">Optional. The parameters used for the SQL query, if any.</param>
+    /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
-    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this SqlConnection sqlConn, string query, string divideToProp, string idProp1, string? idProp2 = null, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlConnection sqlConn, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
+        if (string.IsNullOrWhiteSpace(joinKeys.Key)
+         || string.IsNullOrWhiteSpace(injectIntoProperty)
+         || string.IsNullOrWhiteSpace(divideFromColumn))
+            throw new ArgumentException("One or more required arguments are null or empty.");
+
+        var headerKeyProp = typeof(THeader).GetProperty(joinKeys.Key) ?? throw new ArgumentException($"Property '{joinKeys.Key}' not found in {typeof(THeader).Name}.");
+        var injectProp = typeof(THeader).GetProperty(injectIntoProperty) ?? throw new ArgumentException($"Property '{injectIntoProperty}' not found in {typeof(THeader).Name}.");
+        if (!injectProp.PropertyType.IsListType(out var itemType))
+            throw new ArgumentException($"{injectIntoProperty} must be a collection type.");
+
+        PropertyInfo? itemKeyProp = null;
+        if (!string.IsNullOrWhiteSpace(joinKeys.Value))
+            itemKeyProp = typeof(TItem).GetProperty(joinKeys.Value!)
+                ?? throw new ArgumentException($"Property '{joinKeys.Value}' not found in {typeof(TItem).Name}.");
+
         if (!CheckQueryConditions())
             return [];
+
+        var getHeaderKey = BuildGetter(headerKeyProp);
+        var getItemKey = itemKeyProp is not null ? BuildGetter(itemKeyProp) : null;
+
+        var listCtor = Expression.Lambda<Func<IList>>(Expression.Convert(Expression.New(typeof(List<>).MakeGenericType(typeof(TItem))), typeof(IList))).Compile();
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlDA = new SqlDataAdapter(PrepareQuery(query), factory.Connection);
@@ -399,69 +422,139 @@ public static class StswDatabaseHelper
         sqlDA.SelectCommand.Transaction = factory.Transaction;
         sqlDA.SelectCommand.PrepareCommand(parameters);
 
-        var dt = new DataTable();
-        sqlDA.Fill(dt);
+        var fullTable = new DataTable();
+        sqlDA.Fill(fullTable);
 
-        var result1 = dt.MapTo<TResult1>(StswDatabases.Config.DelimiterForMapping).Distinct().ToList();
-        var result2 = dt.MapTo<TResult2>(StswDatabases.Config.DelimiterForMapping);
+        var dividerIndex = fullTable.Columns.Cast<DataColumn>()
+            .Select((col, idx) => new { col, idx })
+            .LastOrDefault(c =>
+                TrimTrailingDigits(c.col.ColumnName).Equals(divideFromColumn, StringComparison.OrdinalIgnoreCase)
+            )?.idx ?? -1;
 
-        idProp2 ??= idProp1;
-        var idPropInfo1 = typeof(TResult1).GetProperty(idProp1);
-        var idPropInfo2 = typeof(TResult2).GetProperty(idProp2);
-        var divideToPropInfo = typeof(TResult1).GetProperty(divideToProp);
+        if (dividerIndex < 0)
+            throw new ArgumentException($"Column matching '{divideFromColumn}' not found in result set.");
 
-        if (idPropInfo1 == null || idPropInfo2 == null || divideToPropInfo == null)
-            throw new ArgumentException($"Invalid property names for {nameof(divideToProp)} or {nameof(idProp1)} or {nameof(idProp2)}.");
+        var headerTable = new DataTable();
+        var itemTable = new DataTable();
 
-        foreach (var result in result1)
+        var columnRenameMap = GetColumnRenameMap(fullTable, typeof(TItem));
+
+        for (var i = 0; i < dividerIndex; i++)
         {
-            var sharedValue = idPropInfo1.GetValue(result)?.ToString();
-            var associatedResults = result2.Where(x => idPropInfo2.GetValue(x)?.ToString() == sharedValue);
-
-            var listType = typeof(List<>).MakeGenericType(divideToPropInfo.PropertyType.GenericTypeArguments[0]);
-            var listInstance = Activator.CreateInstance(listType);
-
-            var addMethod = listType.GetMethod("Add");
-            foreach (var item in associatedResults)
-                addMethod?.Invoke(listInstance, [item!]);
-
-            divideToPropInfo.SetValue(result, listInstance);
+            var col = fullTable.Columns[i];
+            headerTable.Columns.Add(col.ColumnName, col.DataType);
         }
 
-        return result1!;
+        for (var i = dividerIndex; i < fullTable.Columns.Count; i++)
+        {
+            var originalName = fullTable.Columns[i].ColumnName;
+            var targetName = columnRenameMap.TryGetValue(originalName, out var newName) ? newName : originalName;
+            itemTable.Columns.Add(targetName, fullTable.Columns[i].DataType);
+        }
+
+        var rowKeyColumn = fullTable.Columns[joinKeys.Key];
+        var rowKeyToItems = new Dictionary<object, List<TItem>>();
+
+        foreach (DataRow row in fullTable.Rows)
+        {
+            var headerRow = headerTable.NewRow();
+            var itemRow = itemTable.NewRow();
+
+            for (var i = 0; i < dividerIndex; i++)
+                headerRow[i] = row[i];
+
+            for (var i = dividerIndex; i < fullTable.Columns.Count; i++)
+            {
+                var originalName = fullTable.Columns[i].ColumnName;
+                var targetName = columnRenameMap.TryGetValue(originalName, out var newName) ? newName : originalName;
+                itemRow[targetName] = row[i];
+            }
+
+            headerTable.Rows.Add(headerRow);
+            itemTable.Rows.Add(itemRow);
+        }
+
+        var headers = headerTable
+            .MapTo<THeader>(StswDatabases.Config.DelimiterForMapping)
+            .GroupBy(x => getHeaderKey(x!)!)
+            .Select(g => g.First())
+            .ToList();
+        var items = itemTable
+            .MapTo<TItem>(StswDatabases.Config.DelimiterForMapping)
+            .ToList();
+
+        if (itemKeyProp is not null)
+        {
+            var itemLookup = items
+                .Where(x => getItemKey!(x!) is not null)
+                .ToLookup(x => getItemKey!(x!)!);
+
+            foreach (var header in headers)
+            {
+                var headerKey = getHeaderKey(header!);
+                var targetList = listCtor();
+
+                foreach (var item in itemLookup[headerKey!])
+                    targetList.Add(item);
+
+                injectProp.SetValue(header, targetList);
+            }
+        }
+        else
+        {
+            for (var i = 0; i < fullTable.Rows.Count; i++)
+            {
+                var rowKey = fullTable.Rows[i][rowKeyColumn!];
+                if (!rowKeyToItems.TryGetValue(rowKey, out var list))
+                    rowKeyToItems[rowKey] = list = [];
+
+                list.Add(items[i]!);
+            }
+
+            foreach (var header in headers)
+            {
+                var key = getHeaderKey(header!);
+                rowKeyToItems.TryGetValue(key!, out var list);
+                injectProp.SetValue(header, list ?? listCtor());
+            }
+        }
+
+        return headers!;
     }
 
     /// <summary>
-    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// Executes a SQL query that returns combined data for both header and item entities, separates the result into two model types,
+    /// and injects the corresponding items into each header based on a shared key.
     /// </summary>
-    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
-    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="divideToProp">The property in `TResult1` where associated `TResult2` items are stored.</param>
-    /// <param name="idProp1">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="idProp2">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
-    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this SqlTransaction sqlTran, string query, string divideToProp, string idProp1, string? idProp2 = null, object? parameters = null, int? timeout = null)
-        => sqlTran.Connection.GetDivided<TResult1, TResult2>(query, divideToProp, idProp1, idProp2, parameters, timeout, sqlTran);
+    /// <typeparam name="THeader">The type representing the header part of the result.</typeparam>
+    /// <typeparam name="TItem">The type representing the item (detail) part of the result.</typeparam>
+    /// <param name="query">The SQL query that returns both header and item columns in one result set.</param>
+    /// <param name="joinKeys">The property names present in both <typeparamref name="THeader"/> and <typeparamref name="TItem"/> used to join items with headers.</param>
+    /// <param name="injectIntoProperty">The name of the collection property in <typeparamref name="THeader"/> where the related <typeparamref name="TItem"/> objects should be assigned.</param>
+    /// <param name="divideFromColumn">The name of the first column in the result set that belongs to the item model. This column and all following columns are considered item data.</param>
+    /// <param name="parameters">Optional. The parameters used for the SQL query, if any.</param>
+    /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
+    /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlTransaction sqlTran, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null)
+        => sqlTran.Connection.GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
 
     /// <summary>
-    /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
+    /// Executes a SQL query that returns combined data for both header and item entities, separates the result into two model types,
+    /// and injects the corresponding items into each header based on a shared key.
     /// </summary>
-    /// <typeparam name="TResult1">The type of the results to return.</typeparam>
-    /// <typeparam name="TResult2">The type of the associated results to map to `TResult1`.</typeparam>
-    /// <param name="query">The SQL query string.</param>
-    /// <param name="divideToProp">The property in `TResult1` where associated `TResult2` items are stored.</param>
-    /// <param name="idProp1">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="idProp2">The shared property used for matching `TResult1` and `TResult2`.</param>
-    /// <param name="parameters">The model used for the query parameters.</param>
-    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
-    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    /// <returns>A collection of results with associated items, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult1> GetDivided<TResult1, TResult2>(this StswDatabaseModel model, string query, string divideToProp, string idProp1, string? idProp2 = null, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().GetDivided<TResult1, TResult2>(query, divideToProp, idProp1, idProp2, parameters, timeout, sqlTran);
+    /// <typeparam name="THeader">The type representing the header part of the result.</typeparam>
+    /// <typeparam name="TItem">The type representing the item (detail) part of the result.</typeparam>
+    /// <param name="query">The SQL query that returns both header and item columns in one result set.</param>
+    /// <param name="joinKeys">The property names present in both <typeparamref name="THeader"/> and <typeparamref name="TItem"/> used to join items with headers.</param>
+    /// <param name="injectIntoProperty">The name of the collection property in <typeparamref name="THeader"/> where the related <typeparamref name="TItem"/> objects should be assigned.</param>
+    /// <param name="divideFromColumn">The name of the first column in the result set that belongs to the item model. This column and all following columns are considered item data.</param>
+    /// <param name="parameters">Optional. The parameters used for the SQL query, if any.</param>
+    /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
+    /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    public static IEnumerable<THeader> GetDivided<THeader, TItem>(this StswDatabaseModel model, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
 
     /// <summary>
     /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
@@ -664,6 +757,20 @@ public static class StswDatabaseHelper
     }
 
     /// <summary>
+    /// Builds a getter function for the specified property using expression trees.
+    /// </summary>
+    /// <param name="prop"> The property for which to build the getter.</param>
+    /// <returns>A function that takes an object and returns the value of the specified property.</returns>
+    private static Func<object, object?> BuildGetter(PropertyInfo prop)
+    {
+        var param = Expression.Parameter(typeof(object), "obj");
+        var converted = Expression.Convert(param, prop.DeclaringType!);
+        var propertyAccess = Expression.Property(converted, prop);
+        var convertResult = Expression.Convert(propertyAccess, typeof(object));
+        return Expression.Lambda<Func<object, object?>>(convertResult, param).Compile();
+    }
+
+    /// <summary>
     /// Generates the SQL script to create a temporary table based on the structure of the provided DataTable.
     /// </summary>
     /// <param name="dt">The DataTable that defines the structure of the table to be created.</param>
@@ -698,6 +805,27 @@ public static class StswDatabaseHelper
                         (commandType == StswItemState.Deleted && idColumnsSet.Contains(x.Name)))
             .Select(x => new SqlParameter("@" + x.Name, x.GetValue(item) ?? DBNull.Value)
             { SqlDbType = x.PropertyType.InferSqlDbType() });
+    }
+
+    /// <summary>
+    /// Trims trailing digits from a string, which is useful for normalizing column names that may have numeric suffixes.
+    /// </summary>
+    /// <param name="fullTable"> The string from which to trim trailing digits.</param>
+    /// <param name="itemType"> The type of the item to which the column names belong.</param>
+    /// <returns>A normalized string with trailing digits removed.</returns>
+    private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
+    {
+        var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (DataColumn col in fullTable.Columns)
+        {
+            var baseName = TrimTrailingDigits(col.ColumnName);
+            if (itemProperties.Contains(baseName) && !col.ColumnName.Equals(baseName, StringComparison.OrdinalIgnoreCase))
+                map[col.ColumnName] = baseName;
+        }
+
+        return map;
     }
 
     /// <summary>
@@ -837,4 +965,16 @@ public static class StswDatabaseHelper
     /// <param name="query">The SQL query to prepare.</param>
     /// <returns>The prepared SQL query.</returns>
     private static string PrepareQuery(string query) => StswDatabases.Config.MakeLessSpaceQuery ? LessSpaceQuery(query) : query;
+
+    /// <summary>
+    /// Trims trailing digits from the end of a string.
+    /// </summary>
+    /// <param name="name"> The string from which to trim trailing digits.</param>
+    /// <returns>The string with trailing digits removed.</returns>
+    private static string TrimTrailingDigits(string name)
+    {
+        var i = name.Length - 1;
+        while (i >= 0 && char.IsDigit(name[i])) i--;
+        return name[..(i + 1)];
+    }
 }
