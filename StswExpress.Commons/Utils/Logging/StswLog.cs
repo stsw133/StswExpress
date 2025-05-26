@@ -67,7 +67,7 @@ public static class StswLog
         if (File.Exists(fullArchivePath))
             return;
 
-        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
+        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Update);
         foreach (var filePath in Directory.GetFiles(Config.LogDirectoryPath, "log_*.log"))
         {
             if (!TryGetDateFromFilename(filePath, out var fileDate))

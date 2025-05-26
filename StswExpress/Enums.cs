@@ -184,6 +184,16 @@ public enum StswProgressTextMode
 }
 
 /// <summary>
+/// Enumerator for <see cref="StswDataGrid.ScrollBehavior"/>.
+/// </summary>
+public enum StswScrollBehavior
+{
+    None,
+    OnInsert,
+    OnSelection,
+}
+
+/// <summary>
 /// Enumerator for <see cref="StswPopup.ScrollType"/>.
 /// </summary>
 public enum StswScrollType

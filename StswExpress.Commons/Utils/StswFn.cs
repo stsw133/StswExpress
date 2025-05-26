@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
@@ -71,25 +72,85 @@ public static class StswFn
     /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
     /// </summary>
     /// <param name="parameters">An array of objects to be merged.</param>
-    /// <returns>A dynamic object containing all properties from the provided objects.</returns>
+    /// <returns>
+    /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
+    /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
+    /// </returns>
     public static dynamic MergeObjects(params object?[] parameters)
     {
-        var expando = new ExpandoObject() as IDictionary<string, object?>;
+        if (parameters.Length == 0)
+            return new ExpandoObject();
 
-        foreach (var parameter in parameters)
+        if (parameters[0] is IEnumerable firstEnumerable && parameters[0] is not string)
         {
-            if (parameter == null)
-                continue;
+            var baseList = firstEnumerable.Cast<object?>().Select(ToExpando).ToList();
 
-            foreach (var property in parameter.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            for (var i = 1; i < parameters.Length; i++)
             {
-                if (property.GetIndexParameters().Length > 0)
+                var param = parameters[i];
+                if (param == null)
                     continue;
 
-                var propertyName = property.Name;
-                var propertyValue = property.GetValue(parameter);
-                expando[propertyName] = propertyValue;
+                if (param is IEnumerable list && param is not string)
+                {
+                    var items = list.Cast<object?>().ToList();
+                    for (var j = 0; j < baseList.Count && j < items.Count; j++)
+                        MergeInto(baseList[j], items[j]);
+                }
+                else
+                    foreach (var item in baseList)
+                        MergeInto(item, param);
             }
+
+            return baseList;
+        }
+        else
+        {
+            var merged = new ExpandoObject();
+            foreach (var param in parameters)
+                MergeInto(merged, param);
+            return merged;
+        }
+    }
+
+    /// <summary>
+    /// Merges properties of a source object into a target dictionary.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    private static void MergeInto(IDictionary<string, object?> target, object? source)
+    {
+        if (source == null)
+            return;
+
+        foreach (var prop in source.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            if (prop.GetIndexParameters().Length > 0)
+                continue;
+
+            var value = prop.GetValue(source);
+            if (value != null)
+                target[prop.Name] = value;
+        }
+    }
+
+    /// <summary>
+    /// Converts an object to an <see cref="ExpandoObject"/> by copying its properties.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    private static ExpandoObject ToExpando(object? source)
+    {
+        var expando = new ExpandoObject() as IDictionary<string, object?>;
+        if (source == null)
+            return (ExpandoObject)expando;
+
+        foreach (var prop in source.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            if (prop.GetIndexParameters().Length > 0)
+                continue;
+
+            expando[prop.Name] = prop.GetValue(source);
         }
 
         return (ExpandoObject)expando;

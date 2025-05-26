@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
@@ -43,7 +45,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         {
             try
             {
-                Assembly sqlClientAssembly = Assembly.LoadFrom(assemblyPath);
+                var sqlClientAssembly = Assembly.LoadFrom(assemblyPath);
                 SqlParameterType = sqlClientAssembly.GetType("Microsoft.Data.SqlClient.SqlParameter");
                 SqlClientAvailable = SqlParameterType != null;
             }
@@ -86,6 +88,9 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
 
         ApplyFilters();
+
+        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
 
     /// <summary>
@@ -133,6 +138,30 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         };
 
         base.OnAutoGeneratingColumn(e);
+    }
+
+    /// <summary>
+    /// Handles the selection changed event for the data grid.
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+
+        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (ScrollBehavior == StswScrollBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
     }
 
     /// <summary>
@@ -387,6 +416,21 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         = DependencyProperty.Register(
             nameof(RefreshCommandParameter),
             typeof(object),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior of the scroll bar when the data grid is empty.
+    /// </summary>
+    public StswScrollBehavior ScrollBehavior
+    {
+        get => (StswScrollBehavior)GetValue(ScrollBehaviorProperty);
+        set => SetValue(ScrollBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollBehavior),
+            typeof(StswScrollBehavior),
             typeof(StswDataGrid)
         );
     #endregion

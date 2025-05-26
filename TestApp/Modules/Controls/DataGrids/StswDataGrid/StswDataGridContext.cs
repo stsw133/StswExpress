@@ -15,6 +15,7 @@ public class StswDataGridContext : ControlsContext
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        ScrollBehavior = (StswScrollBehavior?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ScrollBehavior)))?.Value ?? default;
         SelectionUnit = (DataGridSelectionUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
@@ -58,6 +59,14 @@ public class StswDataGridContext : ControlsContext
         set => SetProperty(ref _items, value);
     }
     private StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+
+    /// ScrollBehavior
+    public StswScrollBehavior ScrollBehavior
+    {
+        get => _scrollBehavior;
+        set => SetProperty(ref _scrollBehavior, value);
+    }
+    private StswScrollBehavior _scrollBehavior;
 
     /// SelectionUnit
     public DataGridSelectionUnit SelectionUnit

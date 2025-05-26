@@ -93,89 +93,165 @@ public static partial class StswExtensions
     };
 
     /// <summary>
-    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
+    /// 
     /// </summary>
-    /// <typeparam name="T">The type of objects to map to.</typeparam>
-    /// <param name="dt">The DataTable to map.</param>
-    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dt"></param>
+    /// <returns></returns>
     public static IEnumerable<T?> MapTo<T>(this DataTable dt)
     {
         var type = typeof(T);
 
-        if (!type.IsClass || type == typeof(byte[]) || type == typeof(string))
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T?>();
         }
         else
         {
-            var objProps = type.GetProperties();
-            var mappings = new Dictionary<int, PropertyInfo>();
-
-            for (var i = 0; i < dt.Columns.Count; i++)
-            {
-                var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
-                var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
-
-                if (prop != null && prop.CanWrite)
-                    mappings.Add(i, prop);
-            }
-
-            foreach (var row in dt.AsEnumerable())
-            {
-                var obj = Activator.CreateInstance<T>();
-
-                foreach (var kvp in mappings)
-                {
-                    var colIndex = kvp.Key;
-                    var prop = kvp.Value;
-
-                    try
-                    {
-                        prop.SetValue(obj, row[colIndex].ConvertTo(prop.PropertyType));
-                    }
-                    catch
-                    {
-                        // Optional logging or handling
-                    }
-                }
-
-                yield return obj;
-            }
+            foreach (var obj in MapToClass(dt, type))
+                yield return (T?)obj;
         }
     }
 
     /// <summary>
-    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/> and supports nested class property mappings.
+    /// 
     /// </summary>
-    /// <typeparam name="T">The type of objects to map to.</typeparam>
-    /// <param name="dt">The DataTable to map.</param>
-    /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
-    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
+    /// <param name="dt"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public static IEnumerable<object?> MapTo(this DataTable dt, Type type)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type);
+        }
+        else
+        {
+            foreach (var obj in MapToClass(dt, type))
+                yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dt"></param>
+    /// <param name="delimiter"></param>
+    /// <returns></returns>
     public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter)
     {
         var type = typeof(T);
 
-        if (!type.IsClass || type == typeof(string))
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T>();
         }
         else
         {
-            var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-                                                  .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-                                                  .ToArray();
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+                yield return (T?)obj;
+        }
+    }
 
-            var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
-            var instanceFactory = StswMapping.CreateInstanceFactory<T>();
-
-            foreach (var row in dt.AsEnumerable())
-            {
-                var obj = instanceFactory();
-                StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dt"></param>
+    /// <param name="type"></param>
+    /// <param name="delimiter"></param>
+    /// <returns></returns>
+    public static IEnumerable<object?> MapTo(this DataTable dt, Type type, char delimiter)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type);
+        }
+        else
+        {
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
                 yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dt"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private static IEnumerable<object?> MapToClass(DataTable dt, Type type)
+    {
+        var objProps = type.GetProperties();
+        var mappings = new Dictionary<int, PropertyInfo>();
+
+        for (var i = 0; i < dt.Columns.Count; i++)
+        {
+            var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
+            var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
+
+            if (prop != null && prop.CanWrite)
+                mappings.Add(i, prop);
+        }
+
+        var factory = StswMapping.CreateInstanceFactory(type);
+
+        foreach (var row in dt.AsEnumerable())
+        {
+            var obj = factory();
+            if (obj is null) continue;
+
+            foreach (var kvp in mappings)
+            {
+                try
+                {
+                    var value = row[kvp.Key].ConvertTo(kvp.Value.PropertyType);
+                    kvp.Value.SetValue(obj, value);
+                }
+                catch
+                {
+                    // Optional logging
+                }
             }
+
+            yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dt"></param>
+    /// <param name="type"></param>
+    /// <param name="delimiter"></param>
+    /// <returns></returns>
+    private static IEnumerable<object?> MapToNestedClass(DataTable dt, Type type, char delimiter)
+    {
+        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+                                              .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+                                              .ToArray();
+
+        var propCache = StswMapping.CacheProperties(type, normalizedColumnNames, delimiter);
+        var factory = StswMapping.CreateInstanceFactory(type);
+
+        foreach (var row in dt.AsEnumerable())
+        {
+            var obj = factory();
+            if (obj is null) continue;
+
+            StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
+            yield return obj;
         }
     }
 
@@ -358,6 +434,21 @@ public static partial class StswExtensions
 
         return dictionary;
     }
+
+    /// <summary>
+    /// Attempts to retrieve the value associated with the specified key from the dictionary.
+    /// Returns the value if the key exists; otherwise, returns <see langword="null"/> (for reference types)
+    /// or <see langword="default"/> wrapped in a nullable type (for value types).
+    /// </summary>
+    /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
+    /// <param name="dictionary">The dictionary to search.</param>
+    /// <param name="key">The key of the value to get.</param>
+    /// <returns>
+    /// The value associated with the specified key, or <see langword="null"/> / <see langword="default"/>
+    /// if the key is not found.
+    /// </returns>
+    public static TValue? TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull => dictionary.TryGetValue(key, out var value) ? value : default;
     #endregion
 
     #region Enum extensions
@@ -1004,7 +1095,7 @@ public static partial class StswExtensions
         if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
             return source;
 
-        return source.EndsWith(value) ? source.Remove(source.LastIndexOf(value)) : source;
+        return source.EndsWith(value) ? source[..source.LastIndexOf(value)] : source;
     }
 
     /// <summary>

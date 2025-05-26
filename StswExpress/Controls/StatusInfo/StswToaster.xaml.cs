@@ -17,18 +17,18 @@ namespace StswExpress;
 /// </remarks>
 public class StswToaster : ItemsControl
 {
-    private Timer? _timer;
+    private readonly Timer? _timer;
     private bool _timerStarted;
     private bool _fastRemoving;
-
-    static StswToaster()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
-    }
 
     public StswToaster()
     {
         _timer = new Timer(OnTimerTick, null, Timeout.Infinite, Timeout.Infinite);
+    }
+
+    static StswToaster()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswToastItem();
@@ -77,7 +77,7 @@ public class StswToaster : ItemsControl
             if (!toaster.IsMouseOver && !toaster._timerStarted)
                 toaster.StartTimer();
             else if (!toaster.IsMouseOver)
-                toaster._timer.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                toaster._timer?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
         }
     }
 
@@ -99,6 +99,10 @@ public class StswToaster : ItemsControl
             itemsControl.Items.Remove(item);
     }
 
+    /// <summary>
+    /// Handles the mouse enter event to stop the timer for automatic removal of toasts.
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -107,6 +111,10 @@ public class StswToaster : ItemsControl
             StopTimer();
     }
 
+    /// <summary>
+    /// Handles the mouse leave event to start the timer for automatic removal of toasts.
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
@@ -114,6 +122,10 @@ public class StswToaster : ItemsControl
             StartTimer();
     }
 
+    /// <summary>
+    /// Handles the timer tick event for automatic removal of toasts.
+    /// </summary>
+    /// <param name="state"></param>
     private void OnTimerTick(object? state)
     {
         Application.Current.Dispatcher.Invoke(() =>
@@ -124,13 +136,11 @@ public class StswToaster : ItemsControl
                 return;
             }
 
-            var item = (GenerateAtBottom
-               ? Items[Items.Count - 1]
-               : Items[0]) as StswToastItem;
+            var item = (GenerateAtBottom ? Items[^1] : Items[0]) as StswToastItem;
 
             if (!_fastRemoving)
             {
-                _timer.Change(TimeSpan.FromSeconds(.5), TimeSpan.FromSeconds(.5));
+                _timer?.Change(TimeSpan.FromSeconds(.5), TimeSpan.FromSeconds(.5));
                 _fastRemoving = true;
             }
 
@@ -138,8 +148,15 @@ public class StswToaster : ItemsControl
         });
     }
 
+    /// <summary>
+    /// Hides the specified toast item with a fade-out animation.
+    /// </summary>
+    /// <param name="item"></param>
     private void HideToastItem(StswToastItem? item)
     {
+        if (item == null)
+            return;
+
         var sb = new Storyboard();
 
         var opacityAnim = new DoubleAnimation(
@@ -164,27 +181,29 @@ public class StswToaster : ItemsControl
         Storyboard.SetTarget(heightAnim, item);
         Storyboard.SetTargetProperty(heightAnim, new PropertyPath(HeightProperty));
 
-        sb.Completed += (s, e) =>
-        {
-            RemoveItemFromItemsControl(this, item);
-        };
+        sb.Completed += (_, _) => RemoveItemFromItemsControl(this, item);
 
         sb.Begin();
     }
 
+    /// <summary>
+    /// Starts the timer for automatic removal of toasts.
+    /// </summary>
     private void StartTimer()
     {
         _timerStarted = true;
-        _timer.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+        _timer?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
     }
 
+    /// <summary>
+    /// Stops the timer for automatic removal of toasts.
+    /// </summary>
     private void StopTimer()
     {
         _timerStarted = false;
         _fastRemoving = false;
-        _timer.Change(Timeout.Infinite, Timeout.Infinite);
+        _timer?.Change(Timeout.Infinite, Timeout.Infinite);
     }
-
     #endregion
 
     #region Logic properties

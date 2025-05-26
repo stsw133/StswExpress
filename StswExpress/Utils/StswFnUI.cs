@@ -567,7 +567,9 @@ public static class StswFnUI
             return;
 
         var startRowIndex = dataGrid.Items.IndexOf(selectedCells.First().Item);
-        var startColumnIndex = dataGrid.Columns.IndexOf(selectedCells.First().Column);
+
+        var isCellSelection = dataGrid.SelectionUnit == DataGridSelectionUnit.Cell || dataGrid.SelectionUnit == DataGridSelectionUnit.CellOrRowHeader;
+        var startColumnIndex = isCellSelection ? dataGrid.Columns.IndexOf(selectedCells.First().Column) : 0;
 
         var props = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var affectedCells = new List<DataGridCellInfo>();
@@ -631,9 +633,20 @@ public static class StswFnUI
         }
 
         dataGrid.Items.Refresh();
-        dataGrid.SelectedCells.Clear();
-        foreach (var cell in affectedCells)
-            dataGrid.SelectedCells.Add(cell);
+
+        if (dataGrid.SelectionUnit == DataGridSelectionUnit.Cell || dataGrid.SelectionUnit == DataGridSelectionUnit.CellOrRowHeader)
+        {
+            dataGrid.SelectedCells.Clear();
+            foreach (var cell in affectedCells)
+                dataGrid.SelectedCells.Add(cell);
+        }
+        else if (dataGrid.SelectionUnit == DataGridSelectionUnit.FullRow)
+        {
+            dataGrid.SelectedItems.Clear();
+            var distinctItems = affectedCells.Select(cell => cell.Item).Distinct();
+            foreach (var item in distinctItems)
+                dataGrid.SelectedItems.Add(item);
+        }
     }
 
     /// <summary>

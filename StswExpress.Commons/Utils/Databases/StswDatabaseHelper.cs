@@ -322,6 +322,58 @@ public static class StswDatabaseHelper
         => model.OpenedConnection().Get<TResult?>(query, parameters, timeout, sqlTran);
 
     /// <summary>
+    /// Executes a SQL query and returns a collection of results.
+    /// </summary>
+    /// <param name="sqlConn">The SQL connection to use.</param>
+    /// <param name="type">The type of the results to return.</param>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<object?> Get(this SqlConnection sqlConn, Type type, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    {
+        if (!CheckQueryConditions())
+            return [];
+
+        using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
+        using var sqlDA = new SqlDataAdapter(PrepareQuery(query), factory.Connection);
+        sqlDA.SelectCommand.CommandTimeout = timeout ?? sqlDA.SelectCommand.CommandTimeout;
+        sqlDA.SelectCommand.Transaction = factory.Transaction;
+        sqlDA.SelectCommand.PrepareCommand(parameters);
+
+        var dt = new DataTable();
+        sqlDA.Fill(dt);
+
+        return dt.MapTo(type, StswDatabases.Config.DelimiterForMapping);
+    }
+
+    /// <summary>
+    /// Executes a SQL query and returns a collection of results.
+    /// </summary>
+    /// <param name="type">The type of the results to return.</param>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<object?> Get(this SqlTransaction sqlTran, Type type, string query, object? parameters = null, int? timeout = null)
+        => sqlTran.Connection.Get(type, query, parameters, timeout, sqlTran);
+
+    /// <summary>
+    /// Executes a SQL query and returns a collection of results.
+    /// </summary>
+    /// <param name="type">The type of the results to return.</param>
+    /// <param name="query">The SQL query string.</param>
+    /// <param name="parameters">The model used for the query parameters.</param>
+    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    public static IEnumerable<object?> Get(this StswDatabaseModel model, Type type, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().Get(type, query, parameters, timeout, sqlTran);
+
+    /// <summary>
     /// Executes a SQL query and returns a collection of results, where each result in `TResult1` is associated with matching items in `TResult2`.
     /// </summary>
     /// <typeparam name="TResult1">The type of the results to return.</typeparam>

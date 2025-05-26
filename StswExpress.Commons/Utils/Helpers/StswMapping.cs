@@ -33,6 +33,24 @@ internal static class StswMapping
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    internal static Func<object> CreateInstanceFactory(Type type)
+    {
+        if (_instanceFactories.TryGetValue(type, out var factory))
+            return (Func<object>)factory;
+
+        var constructor = Expression.New(type);
+        var lambda = Expression.Lambda<Func<object>>(Expression.Convert(constructor, typeof(object)));
+        var compiled = lambda.Compile();
+
+        _instanceFactories[type] = compiled;
+        return compiled;
+    }
+
+    /// <summary>
     /// Caches the properties of a given type, including nested properties, if they exist in the column names.
     /// </summary>
     /// <param name="type">The type of the object to cache properties for.</param>
@@ -55,7 +73,7 @@ internal static class StswMapping
             var propPath = string.IsNullOrEmpty(parentPath) ? prop.Name : $"{parentPath}{delimiter}{prop.Name}";
 
             if (normalizedColumnNames.Any(x => x.Equals(propPath, StringComparison.CurrentCultureIgnoreCase))
-             || HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath))
+             || HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath, visitedTypes))
             {
                 propMappings[propPath] = prop;
 
@@ -80,10 +98,16 @@ internal static class StswMapping
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties.</param>
     /// <returns><see langword="true"/> if there are nested properties that match the column names, otherwise <see langword="false"/>.</returns>
-    internal static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath)
+    internal static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath, HashSet<Type>? visitedTypes = null)
     {
         if (!type.IsClass || type == typeof(string))
             return false;
+
+        visitedTypes ??= [];
+        if (visitedTypes.Contains(type))
+            return false;
+
+        visitedTypes.Add(type);
 
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in props)
@@ -92,10 +116,11 @@ internal static class StswMapping
             if (normalizedColumnNames.Any(col => col.Equals(propPath, StringComparison.CurrentCultureIgnoreCase)))
                 return true;
 
-            if (HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath))
+            if (HasNestedPropertiesInColumns(prop.PropertyType, normalizedColumnNames, delimiter, propPath, visitedTypes))
                 return true;
         }
-        
+
+        visitedTypes.Remove(type);
         return false;
     }
 
