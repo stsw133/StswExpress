@@ -179,6 +179,40 @@ public class StswFilterBox : Control, IStswCornerControl
 
             switch (FilterType)
             {
+                case StswAdaptiveType.Check:
+                    {
+                        if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
+                            return false;
+
+                        _ = bool.TryParse(Value1?.ToString(), out var boolVal1);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => boolValue == boolVal1,
+                            StswFilterMode.NotEqual => boolValue != boolVal1,
+                            _ => true
+                        };
+                    }
+                case StswAdaptiveType.Date:
+                    {
+                        if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
+                            return false;
+
+                        _ = DateTime.TryParse(Value1?.ToString(), out var dateVal1);
+                        _ = DateTime.TryParse(Value2?.ToString(), out var dateVal2);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => dateValue.Date == dateVal1.Date,
+                            StswFilterMode.NotEqual => dateValue.Date != dateVal1.Date,
+                            StswFilterMode.Greater => dateValue.Date > dateVal1.Date,
+                            StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
+                            StswFilterMode.Less => dateValue.Date < dateVal1.Date,
+                            StswFilterMode.LessEqual => dateValue.Date <= dateVal1.Date,
+                            StswFilterMode.Between => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
+                            _ => true
+                        };
+                    }
                 case StswAdaptiveType.Number:
                     {
                         if (!decimal.TryParse(rowValue?.ToString(), out var decValue))
@@ -199,26 +233,6 @@ public class StswFilterBox : Control, IStswCornerControl
                             _ => true
                         };
                     }
-                case StswAdaptiveType.Date:
-                    {
-                        if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
-                            return false;
-
-                        _ = DateTime.TryParse(Value1?.ToString(), out var dateVal1);
-                        _ = DateTime.TryParse(Value2?.ToString(), out var dateVal2);
-
-                        return FilterMode switch
-                        {
-                            StswFilterMode.Equal        => dateValue.Date == dateVal1.Date,
-                            StswFilterMode.NotEqual     => dateValue.Date != dateVal1.Date,
-                            StswFilterMode.Greater      => dateValue.Date > dateVal1.Date,
-                            StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
-                            StswFilterMode.Less         => dateValue.Date < dateVal1.Date,
-                            StswFilterMode.LessEqual    => dateValue.Date <= dateVal1.Date,
-                            StswFilterMode.Between      => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
-                            _ => true
-                        };
-                    }
                 case StswAdaptiveType.Time:
                     {
                         if (!TimeSpan.TryParse(rowValue?.ToString(), out var timeValue))
@@ -236,20 +250,6 @@ public class StswFilterBox : Control, IStswCornerControl
                             StswFilterMode.Less         => timeValue.TotalSeconds < timeVal1.TotalSeconds,
                             StswFilterMode.LessEqual    => timeValue.TotalSeconds <= timeVal1.TotalSeconds,
                             StswFilterMode.Between      => timeValue.TotalSeconds >= timeVal1.TotalSeconds && timeValue.TotalSeconds <= timeVal2.TotalSeconds,
-                            _ => true
-                        };
-                    }
-                case StswAdaptiveType.Check:
-                    {
-                        if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
-                            return false;
-
-                        _ = bool.TryParse(Value1?.ToString(), out var boolVal1);
-
-                        return FilterMode switch
-                        {
-                            StswFilterMode.Equal        => boolValue == boolVal1,
-                            StswFilterMode.NotEqual     => boolValue != boolVal1,
                             _ => true
                         };
                     }

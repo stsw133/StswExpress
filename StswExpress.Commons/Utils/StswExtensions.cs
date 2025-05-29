@@ -1120,6 +1120,6 @@ public static partial class StswExtensions
     /// <param name="obj">The object from which to get the property value.</param>
     /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
     /// <returns>The value of the specified property, or null if the property is not found.</returns>
-    public static object? GetPropertyValue(this object obj, string propertyName) => obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
+    public static object? GetPropertyValue(this object obj, string propertyName) => propertyName == null ? null : obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
     #endregion
 }

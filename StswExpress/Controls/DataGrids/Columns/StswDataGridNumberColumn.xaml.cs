@@ -37,6 +37,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         var displayElement = new StswText()
         {
             //Style = StswDisplayElementStyle,
+            FontWeight = FontWeight,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,
