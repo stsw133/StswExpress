@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.18.0](#0-18-0)
 - [Version 0.17.0](#0-17-0)
 - [Version 0.16.1](#0-16-1)
 - [Version 0.16.0](#0-16-0)
@@ -36,6 +37,55 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-18-0">0.18.0</h1>
+
+**Release Date**: 2025-05-31
+
+## StswExpress.Commons
+
+### Additions
+- Extensive improvements to `StswLog`:
+  - Additionally writes logs to the console.
+  - Archive configuration extracted to a dedicated subclass.
+  - Faster import performance.
+  - New `WriteException` and `WriteWithCaller` methods.
+  - Prevents archive conflicts when log file name matches one inside the archive.
+  - Synchronized access using semaphores.
+  - Unified logic for sync and async writing.
+- New `DeepEquals` extension method for deep object comparison.
+- New `CopyFrom` extension method for copying values between objects.
+- Overloads for `Get` and `MapTo` in `StswDatabaseHelper` that accept a `Type` parameter.
+
+### Changes
+- `GetDivided` method in `StswDatabaseHelper` received functionality and performance upgrades.
+- `MapTo` with delimiter support improved and bug-fixed.
+- `MergeObjects` upgraded to support merging `IEnumerable` types.
+- `OpenFile` method renamed and refactored to `OpenPath` for improved versatility.
+- `ToDataTable` extension now preserves the declared order of properties when creating columns.
+
+### Fixes
+- Fixed bug in `ExecuteStoredCommand` that ignored passed parameters.
+- Fixed infinite recursion issue in `StswMapping`.
+- Resolved an I/O exception in `StswLog`.
+- `StswMapping` now correctly maps `byte[]` properties.
+
+## StswExpress (WPF)
+
+### Additions
+- Added `ScrollBehavior` property to `StswDataGrid` with three options: `None`, `OnSelection`, and `OnInsert`.
+- `StswGridSplitter` now supports reverting to its original position after a double-click.
+- `StswWindowBar`'s icon now uses `BitmapScalingMode.Fant`.
+
+### Changes
+- `StswDataGrid` columns now fully support `FontWeight`.
+- `StswDataGrid` now includes an internal `ScrollViewer` allowing column scrolling even when there are no items.
+- `StswToaster` now hides alerts automatically after a defined time interval.
+
+### Fixes
+- `PasteFromClipboard` now works correctly when `StswDataGrid` has `SelectionUnit` set to `FullRow`.
 
 ---
 
