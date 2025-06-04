@@ -71,12 +71,13 @@ public static class StswFn
     /// Merges properties of multiple objects into a single dynamic object. 
     /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
     /// </summary>
+    /// <param name="mergePriority"></param>
     /// <param name="parameters">An array of objects to be merged.</param>
     /// <returns>
     /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
     /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
     /// </returns>
-    public static dynamic MergeObjects(params object?[] parameters)
+    public static dynamic MergeObjects(StswMergePriority mergePriority, params object?[] parameters)
     {
         if (parameters.Length == 0)
             return new ExpandoObject();
@@ -95,11 +96,11 @@ public static class StswFn
                 {
                     var items = list.Cast<object?>().ToList();
                     for (var j = 0; j < baseList.Count && j < items.Count; j++)
-                        MergeInto(baseList[j], items[j]);
+                        MergeInto(baseList[j], items[j], mergePriority);
                 }
                 else
                     foreach (var item in baseList)
-                        MergeInto(item, param);
+                        MergeInto(item, param, mergePriority);
             }
 
             return baseList;
@@ -108,17 +109,28 @@ public static class StswFn
         {
             var merged = new ExpandoObject();
             foreach (var param in parameters)
-                MergeInto(merged, param);
+                MergeInto(merged, param, mergePriority);
             return merged;
         }
     }
+
+    /// <summary>
+    /// Merges properties of multiple objects into a single dynamic object. 
+    /// In case of property name conflicts, properties from later objects will overwrite those from earlier ones.
+    /// </summary>
+    /// <param name="parameters">An array of objects to be merged.</param>
+    /// <returns>
+    /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
+    /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
+    /// </returns>
+    public static dynamic MergeObjects(params object?[] parameters) => MergeObjects(StswMergePriority.Last, parameters);
 
     /// <summary>
     /// Merges properties of a source object into a target dictionary.
     /// </summary>
     /// <param name="target"></param>
     /// <param name="source"></param>
-    private static void MergeInto(IDictionary<string, object?> target, object? source)
+    private static void MergeInto(IDictionary<string, object?> target, object? source, StswMergePriority mergePriority)
     {
         if (source == null)
             return;
@@ -129,8 +141,21 @@ public static class StswFn
                 continue;
 
             var value = prop.GetValue(source);
-            if (value != null)
-                target[prop.Name] = value;
+
+            switch (mergePriority)
+            {
+                case StswMergePriority.First:
+                    if (!target.ContainsKey(prop.Name))
+                        target[prop.Name] = value;
+                    break;
+                case StswMergePriority.Last:
+                    target[prop.Name] = value;
+                    break;
+                case StswMergePriority.LastExceptNull:
+                    if (!target.ContainsKey(prop.Name) || value != null)
+                        target[prop.Name] = value;
+                    break;
+            }
         }
     }
 

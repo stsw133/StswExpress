@@ -34,3 +34,13 @@ public enum StswItemState
     Deleted,
     Modified
 }
+
+/// <summary>
+/// Enumeration for <see cref="StswFn.MergeObjects(StswMergePriority, object?[])"/>.
+/// </summary>
+public enum StswMergePriority
+{
+    First,
+    Last,
+    LastExceptNull,
+}
