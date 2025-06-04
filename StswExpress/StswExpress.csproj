@@ -63,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StswExpress.Commons" Version="0.18.0" />
+    <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
   </ItemGroup>
 
   <ItemGroup>

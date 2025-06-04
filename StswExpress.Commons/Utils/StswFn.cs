@@ -148,6 +148,10 @@ public static class StswFn
                     if (!target.ContainsKey(prop.Name))
                         target[prop.Name] = value;
                     break;
+                case StswMergePriority.FirstExceptNull:
+                    if (!target.TryGetValue(prop.Name, out var targetValue) || targetValue == null)
+                        target[prop.Name] = value;
+                    break;
                 case StswMergePriority.Last:
                     target[prop.Name] = value;
                     break;

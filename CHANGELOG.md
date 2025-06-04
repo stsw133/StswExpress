@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.18.1](#0-18-1)
 - [Version 0.18.0](#0-18-0)
 - [Version 0.17.0](#0-17-0)
 - [Version 0.16.1](#0-16-1)
@@ -40,6 +41,17 @@
 
 ---
 
+<h1 id="0-18-1">0.18.1</h1>
+
+**Release Date**: 2025-06-04
+
+## StswExpress.Commons
+
+### Changes
+- `MergeObjects` method has optional `mergePriority` parameter to control which object takes precedence during merging.
+
+---
+
 <h1 id="0-18-0">0.18.0</h1>
 
 **Release Date**: 2025-05-31
@@ -62,7 +74,7 @@
 ### Changes
 - `GetDivided` method in `StswDatabaseHelper` received functionality and performance upgrades.
 - `MapTo` with delimiter support improved and bug-fixed.
-- `MergeObjects` upgraded to support merging `IEnumerable` types.
+- `MergeObjects` method upgraded to support merging `IEnumerable` types.
 - `OpenFile` method renamed and refactored to `OpenPath` for improved versatility.
 - `ToDataTable` extension now preserves the declared order of properties when creating columns.
 

@@ -41,6 +41,7 @@ public enum StswItemState
 public enum StswMergePriority
 {
     First,
+    FirstExceptNull,
     Last,
     LastExceptNull,
 }
