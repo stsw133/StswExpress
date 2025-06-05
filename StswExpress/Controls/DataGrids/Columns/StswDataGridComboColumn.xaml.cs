@@ -10,7 +10,6 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
-    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
     private static readonly Style StswEditingElementStyle = new(typeof(StswComboBox), (Style)Application.Current.FindResource(typeof(StswComboBox)))
     {
         Setters =
@@ -41,7 +40,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
 
         var displayElement = new StswText()
         {
-            //Style = StswDisplayElementStyle,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,

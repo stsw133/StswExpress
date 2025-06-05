@@ -9,7 +9,14 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridColorColumn : DataGridTextColumn
 {
-    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
+    static StswDataGridColorColumn()
+    {
+        FontFamilyProperty.OverrideMetadata(typeof(StswDataGridColorColumn), new FrameworkPropertyMetadata(null));
+        FontWeightProperty.OverrideMetadata(typeof(StswDataGridColorColumn), new FrameworkPropertyMetadata(null));
+        FontSizeProperty.OverrideMetadata(typeof(StswDataGridColorColumn), new FrameworkPropertyMetadata(null));
+        ForegroundProperty.OverrideMetadata(typeof(StswDataGridColorColumn), new FrameworkPropertyMetadata(null));
+    }
+
     private static readonly Style StswEditingElementStyle = new(typeof(StswColorBox), (Style)Application.Current.FindResource(typeof(StswColorBox)))
     {
         Setters =
@@ -35,14 +42,13 @@ public class StswDataGridColorColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            //Style = StswDisplayElementStyle,
-            FontWeight = FontWeight,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,
             TextTrimming = TextTrimming,
             TextWrapping = TextWrapping
         };
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)

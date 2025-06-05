@@ -58,9 +58,24 @@
                 </DataTemplate>
             </se:StswDataGrid.RowDetailsTemplate>
 
+            <se:StswDataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource StswDataGridCellStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ID, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%14}" Value="0">
+                            <Setter Property="Background" Value="#32E2"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </se:StswDataGrid.CellStyle>
+
             <se:StswDataGrid.RowStyle>
                 <Style TargetType="{x:Type se:StswDataGridRow}">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ID, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%15}" Value="0">
+                            <Setter Property="Background" Value="#3E22"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </se:StswDataGrid.RowStyle>
         </se:StswDataGrid>

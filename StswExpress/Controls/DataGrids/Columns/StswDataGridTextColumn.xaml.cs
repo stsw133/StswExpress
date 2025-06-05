@@ -9,7 +9,14 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridTextColumn : DataGridTextColumn
 {
-    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
+    static StswDataGridTextColumn()
+    {
+        FontFamilyProperty.OverrideMetadata(typeof(StswDataGridTextColumn), new FrameworkPropertyMetadata(null));
+        FontWeightProperty.OverrideMetadata(typeof(StswDataGridTextColumn), new FrameworkPropertyMetadata(null));
+        FontSizeProperty.OverrideMetadata(typeof(StswDataGridTextColumn), new FrameworkPropertyMetadata(null));
+        ForegroundProperty.OverrideMetadata(typeof(StswDataGridTextColumn), new FrameworkPropertyMetadata(null));
+    }
+
     private static readonly Style StswEditingElementStyle = new(typeof(StswTextBox), (Style)Application.Current.FindResource(typeof(StswTextBox)))
     {
         Setters =
@@ -34,14 +41,13 @@ public class StswDataGridTextColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            //Style = StswDisplayElementStyle,
-            FontWeight = FontWeight,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,
             TextTrimming = TextTrimming,
             TextWrapping = TextWrapping
         };
+        BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
@@ -76,6 +82,45 @@ public class StswDataGridTextColumn : DataGridTextColumn
 
         return editingElement;
     }
+
+    #region Events & methods
+    /// <summary>
+    /// Binds font-related properties from the column to the specified <see cref="StswText"/> display element.
+    /// </summary>
+    /// <param name="column">The <see cref="StswDataGridTextColumn"/> to bind properties from.</param>
+    /// <param name="displayElement">The <see cref="StswText"/> element to bind properties to.</param>
+    internal static void BindFontProperties(DataGridTextColumn column, StswText displayElement)
+    {
+        if (column.ReadLocalValue(FontFamilyProperty) != DependencyProperty.UnsetValue)
+            BindingOperations.SetBinding(displayElement, Control.FontFamilyProperty, new Binding
+            {
+                Source = column,
+                Path = new PropertyPath(nameof(FontFamily)),
+                Mode = BindingMode.OneWay
+            });
+        if (column.ReadLocalValue(FontSizeProperty) != DependencyProperty.UnsetValue)
+            BindingOperations.SetBinding(displayElement, Control.FontSizeProperty, new Binding
+            {
+                Source = column,
+                Path = new PropertyPath(nameof(FontSize)),
+                Mode = BindingMode.OneWay
+            });
+        if (column.ReadLocalValue(FontWeightProperty) != DependencyProperty.UnsetValue)
+            BindingOperations.SetBinding(displayElement, Control.FontWeightProperty, new Binding
+            {
+                Source = column,
+                Path = new PropertyPath(nameof(FontWeight)),
+                Mode = BindingMode.OneWay
+            });
+        if (column.ReadLocalValue(ForegroundProperty) != DependencyProperty.UnsetValue)
+            BindingOperations.SetBinding(displayElement, Control.ForegroundProperty, new Binding
+            {
+                Source = column,
+                Path = new PropertyPath(nameof(Foreground)),
+                Mode = BindingMode.OneWay
+            });
+    }
+    #endregion
 
     #region Logic properties
     /// <summary>

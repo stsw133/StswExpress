@@ -10,7 +10,14 @@ namespace StswExpress;
 /// </summary>
 public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
-    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
+    static StswDataGridNumberColumnBase()
+    {
+        FontFamilyProperty.OverrideMetadata(typeof(StswDataGridNumberColumnBase<T, TControl>), new FrameworkPropertyMetadata(null));
+        FontWeightProperty.OverrideMetadata(typeof(StswDataGridNumberColumnBase<T, TControl>), new FrameworkPropertyMetadata(null));
+        FontSizeProperty.OverrideMetadata(typeof(StswDataGridNumberColumnBase<T, TControl>), new FrameworkPropertyMetadata(null));
+        ForegroundProperty.OverrideMetadata(typeof(StswDataGridNumberColumnBase<T, TControl>), new FrameworkPropertyMetadata(null));
+    }
+
     private static readonly Style StswEditingElementStyle = new(typeof(TControl), (Style)Application.Current.FindResource(typeof(TControl)))
     {
         Setters =
@@ -36,14 +43,13 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     {
         var displayElement = new StswText()
         {
-            //Style = StswDisplayElementStyle,
-            FontWeight = FontWeight,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,
             TextTrimming = TextTrimming,
             TextWrapping = TextWrapping
         };
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)

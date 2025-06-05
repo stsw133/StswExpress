@@ -14,20 +14,8 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
     public StswDataGridStatusColumn()
     {
-        Dispatcher.CurrentDispatcher.InvokeAsync(InitializeColumn, DispatcherPriority.Background);
-    }
-
-    /// <summary>
-    /// Initializes the status column by setting up templates, styles, and behaviors.
-    /// This method is invoked asynchronously to ensure it runs after the <see cref="DataGrid"/> is fully loaded.
-    /// </summary>
-    private void InitializeColumn()
-    {
-        HeaderTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
-        CellTemplate ??= Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
-
-        if (GetDataGridOwner() is not StswDataGrid dataGrid)
-            return;
+        HeaderTemplate = Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
+        CellTemplate = Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
 
         var baseCellStyle = Application.Current.TryFindResource("StswDataGridCellStyle") as Style ?? new Style(typeof(DataGridCell));
         CellStyle = new Style(typeof(DataGridCell), baseCellStyle)
@@ -39,24 +27,36 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         CanUserResize = false;
         IsReadOnly = true;
 
+        Dispatcher.CurrentDispatcher.InvokeAsync(TryExtendRowStyle, DispatcherPriority.Background);
+    }
+
+    /// <summary>
+    /// Extends the row style of the <see cref="StswDataGrid"/> to include a trigger for showing details.
+    /// </summary>
+    private void TryExtendRowStyle()
+    {
+        var dataGrid = GetDataGridOwner();
+        if (dataGrid == null)
+            return;
+
         var baseStyle = dataGrid.RowStyle;
-        if (baseStyle == null || baseStyle.BasedOn == null)
+        if (baseStyle?.Triggers.OfType<DataTrigger>().Any(t =>
+            t.Binding is Binding b && b.Path?.Path == nameof(IStswCollectionItem.ShowDetails)) == true)
+            return;
+
+        var newStyle = new Style(typeof(StswDataGridRow), dataGrid.RowStyle);
+        newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
+        newStyle.Triggers.Add(new DataTrigger
         {
-            baseStyle = new Style(typeof(StswDataGridRow));
-            dataGrid.RowStyle = baseStyle;
-        }
-        var newStyle = new Style(typeof(StswDataGridRow), baseStyle);
-
-        if (!baseStyle.Triggers.OfType<DataTrigger>().Any(x => x.Binding is Binding binding && binding.Path?.Path == nameof(IStswCollectionItem.ShowDetails)))
-            newStyle.Triggers.Add(new DataTrigger
+            Binding = new Binding(nameof(IStswCollectionItem.ShowDetails))
             {
-                Binding = new Binding(nameof(IStswCollectionItem.ShowDetails)),
-                Value = true,
-                Setters = { new Setter(StswDataGridRow.DetailsVisibilityProperty, Visibility.Visible) }
-            });
-
-        if (!baseStyle.Setters.OfType<Setter>().Any(setter => setter.Property == StswDataGridRow.DetailsVisibilityProperty))
-            newStyle.Setters.Add(new Setter(StswDataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
+                Mode = BindingMode.OneWay,
+                FallbackValue = false,
+                TargetNullValue = false
+            },
+            Value = true,
+            Setters = { new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible) }
+        });
 
         dataGrid.RowStyle = newStyle;
     }

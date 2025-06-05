@@ -62,7 +62,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
-
+    
     #region Events & methods
     /// <inheritdoc/>
     public override void OnApplyTemplate()
@@ -70,7 +70,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         base.OnApplyTemplate();
 
         /// force styles to refresh
-        //CellStyle = CellStyle;
         ColumnHeaderStyle = ColumnHeaderStyle;
         RowHeaderStyle = RowHeaderStyle;
 

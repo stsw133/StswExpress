@@ -9,7 +9,14 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridDateColumn : DataGridTextColumn
 {
-    //private static readonly Style StswDisplayElementStyle = new(typeof(StswText), (Style)Application.Current.FindResource(typeof(StswText)));
+    static StswDataGridDateColumn()
+    {
+        FontFamilyProperty.OverrideMetadata(typeof(StswDataGridDateColumn), new FrameworkPropertyMetadata(null));
+        FontWeightProperty.OverrideMetadata(typeof(StswDataGridDateColumn), new FrameworkPropertyMetadata(null));
+        FontSizeProperty.OverrideMetadata(typeof(StswDataGridDateColumn), new FrameworkPropertyMetadata(null));
+        ForegroundProperty.OverrideMetadata(typeof(StswDataGridDateColumn), new FrameworkPropertyMetadata(null));
+    }
+
     private static readonly Style StswEditingElementStyle = new(typeof(StswDatePicker), (Style)Application.Current.FindResource(typeof(StswDatePicker)))
     {
         Setters =
@@ -36,14 +43,13 @@ public class StswDataGridDateColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            //Style = StswDisplayElementStyle,
-            FontWeight = FontWeight,
             Margin = new Thickness(2, 0, 2, 0),
             Padding = Padding,
             TextAlignment = TextAlignment,
             TextTrimming = TextTrimming,
             TextWrapping = TextWrapping
         };
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
