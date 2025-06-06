@@ -50,6 +50,12 @@
 ### Changes
 - `MergeObjects` method has optional `mergePriority` parameter to control which object takes precedence during merging.
 
+## StswExpress (WPF)
+
+### Fixes
+- Fixed `StswDataGrid` columns so that font-related properties (such as `FontFamily`, `FontSize`, `FontWeight`, etc.) can once again be set directly on the column, not only through `RowStyle` or `CellStyle`.
+- Fixed `StswDataGridStatusColumn` so it no longer overrides `RowStyle` in a way that conflicts with the `RowStyle` of `StswDataGrid`.
+
 ---
 
 <h1 id="0-18-0">0.18.0</h1>
