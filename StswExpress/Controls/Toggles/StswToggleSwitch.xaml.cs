@@ -16,6 +16,10 @@ namespace StswExpress;
 /// </remarks>
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
+    private Border? _mainBorder, _backgroundBorder, _circleBorder;
+    private double _height = 0, _width = 0, _switchSize = 0;
+    private bool _isLoaded = false;
+
     static StswToggleSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(typeof(StswToggleSwitch)));
@@ -23,13 +27,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     #region Events & methods
-    private Border? _mainBorder, _backgroundBorder, _circleBorder;
-
-    private bool _isLoaded = false;
-    private double _width = 0;
-    private double _height = 0;
-    private double _switchSize = 0;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

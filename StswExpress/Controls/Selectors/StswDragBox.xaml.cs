@@ -18,6 +18,9 @@ namespace StswExpress;
 /// </remarks>
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
+    private object? _dragDropItem;
+    private IList? _sourceList;
+
     static StswDragBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(typeof(StswDragBox)));
@@ -28,9 +31,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDragBoxItem;
 
     #region Events & methods
-    private object? _dragDropItem;
-    private IList? _sourceList;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

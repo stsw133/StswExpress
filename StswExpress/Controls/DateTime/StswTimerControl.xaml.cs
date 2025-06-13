@@ -14,6 +14,7 @@ namespace StswExpress;
 public class StswTimerControl : Control
 {
     private readonly DispatcherTimer _timer = new();
+    private TextBlock? _display;
     private DateTime _lastTickTime;
 
     public StswTimerControl()
@@ -27,8 +28,6 @@ public class StswTimerControl : Control
     }
 
     #region Events & methods
-    private TextBlock? _display;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

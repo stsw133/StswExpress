@@ -16,6 +16,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Header))]
 public class StswFilterBox : Control, IStswCornerControl
 {
+    private ButtonBase? _filterModeButton;
+    private StswDataGrid? _dataGrid;
     public ICommand SelectModeCommand { get; }
 
     public StswFilterBox()
@@ -29,9 +31,6 @@ public class StswFilterBox : Control, IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? _filterModeButton;
-    private StswDataGrid? _dataGrid;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

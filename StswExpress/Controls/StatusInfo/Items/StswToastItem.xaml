@@ -11,7 +11,8 @@
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="5"/>
-        
+
+        <Setter Property="IsClosable" Value="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswToaster}}}"/>
         <Setter Property="Height" Value="50"/>
         <Setter Property="Width" Value="250"/>
 
@@ -32,7 +33,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- close button -->
-                            <se:StswSubButton x:Name="PART_CloseButton"
+                            <se:StswSubButton x:Name="PART_ButtonClose"
                                               DockPanel.Dock="Right"
                                               IconData="{x:Static se:StswIcons.Close}"
                                               IconFill="{Binding Foreground, ElementName=OPT_Icon}"
@@ -56,6 +57,9 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsClosable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonClose"/>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter Property="Opacity" Value="0.6"/>
                         </Trigger>

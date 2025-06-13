@@ -16,6 +16,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Items))]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
+    internal StswNavigationElement? CompactedExpander;
+
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
@@ -31,8 +33,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
     }
 
     #region Events & methods
-    internal StswNavigationElement? CompactedExpander;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

@@ -11,6 +11,9 @@ namespace StswExpress;
 /// </summary>
 public class StswZoomControl : Border
 {
+    private UIElement? _child;
+    private Point _origin, _start;
+
     static StswZoomControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(typeof(StswZoomControl)));
@@ -18,9 +21,6 @@ public class StswZoomControl : Border
     }
 
     #region Events & methods
-    private UIElement? _child;
-    private Point _origin, _start;
-
     /// <summary>
     /// Initializes the zoom control with the specified UI element,
     /// setting up necessary transformations for scaling and translation.

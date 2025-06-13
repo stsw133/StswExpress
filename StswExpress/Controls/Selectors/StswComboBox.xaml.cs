@@ -16,6 +16,8 @@ namespace StswExpress;/// <summary>
 /// </summary>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
+    private TextBoxBase? _filter;
+
     public StswComboBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -31,8 +33,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswComboBoxItem;
 
     #region Events & methods
-    private TextBoxBase? _filter;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

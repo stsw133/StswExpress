@@ -19,11 +19,11 @@ namespace StswExpress;
 /// </remarks>
 internal class RippleAdorner : Adorner
 {
-    private readonly Ellipse _ellipse;
     private readonly Border _border;
     private readonly Canvas _canvas;
-    private readonly TranslateTransform _translateTransform;
+    private readonly Ellipse _ellipse;
     private readonly ScaleTransform _scaleTransform;
+    private readonly TranslateTransform _translateTransform;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RippleAdorner"/> class.

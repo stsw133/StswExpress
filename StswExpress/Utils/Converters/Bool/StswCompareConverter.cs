@@ -65,8 +65,13 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
         var input = value?.ToString() ?? string.Empty;
         var spanParam = pmr.AsSpan();
 
+        /// flag enum comparison (e.g. '&2' for bitwise AND)
+        if (spanParam[0] == '&' && value is Enum inputEnum && int.TryParse(spanParam[1..], out var flag))
+        {
+            result = (System.Convert.ToInt32(inputEnum) & flag) > 0;
+        }
         /// numeric comparison
-        if (double.TryParse(input, NumberStyles.Number, culture, out var val))
+        else if (double.TryParse(input, NumberStyles.Number, culture, out var val))
         {
             if (spanParam[0] is '>' or '<' or '=' or '!')
             {

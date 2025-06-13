@@ -13,6 +13,7 @@ namespace StswExpress;
 /// </summary>
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
+    private ButtonBase? _buttonCopyToClipboard;
     public ICommand CloseCommand { get; }
 
     public StswMessageDialog()
@@ -25,8 +26,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? _buttonCopyToClipboard;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

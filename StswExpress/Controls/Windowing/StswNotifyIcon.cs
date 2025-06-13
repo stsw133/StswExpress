@@ -18,6 +18,9 @@ namespace StswExpress;
 /// </remarks>
 public class StswNotifyIcon : FrameworkElement
 {
+    private NotifyIcon? _tray;
+    private Window? _window;
+
     public StswNotifyIcon()
     {
         Loaded += Initialize;
@@ -25,9 +28,6 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     #region Events & methods
-    private NotifyIcon? _tray;
-    private Window? _window;
-
     /// <summary>
     /// Initializes the <see cref="NotifyIcon"/> instance and sets up event handlers for tray icon actions and application state changes.
     /// </summary>

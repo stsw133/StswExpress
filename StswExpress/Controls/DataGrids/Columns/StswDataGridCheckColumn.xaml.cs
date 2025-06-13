@@ -9,7 +9,6 @@ namespace StswExpress;
 /// </summary>
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
-
     private static readonly Style StswDisplayElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))
     {
         Setters =

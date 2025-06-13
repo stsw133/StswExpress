@@ -108,7 +108,7 @@
                                                    VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswScrollView.Resources>
                                         <Style TargetType="{x:Type se:StswScrollBar}">
-                                            <Setter Property="ExpandedWidth" Value="12"/>
+                                            <Setter Property="ExpandedSize" Value="12"/>
                                         </Style>
                                     </se:StswScrollView.Resources>
                                     <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">

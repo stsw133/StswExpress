@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Internal aggregator to combine multiple filters from external controls.
 /// </summary>
-internal class StswFilterAggregator
+public class StswFilterAggregator
 {
     private readonly Dictionary<object, Predicate<object>> _registeredFilters = [];
 

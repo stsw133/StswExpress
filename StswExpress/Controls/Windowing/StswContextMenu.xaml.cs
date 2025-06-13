@@ -18,6 +18,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContextMenu), new FrameworkPropertyMetadata(typeof(StswContextMenu)));
     }
 
+    #region Events & methods
     /// <summary>
     /// Called when the context menu is opened. 
     /// Applies custom styling and layout updates to ensure consistency across menu items.
@@ -47,6 +48,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
             SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
         UpdateLayout();
     }
+    #endregion
 
     #region Style properties
     /// <inheritdoc/>

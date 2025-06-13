@@ -10,6 +10,8 @@ namespace StswExpress;
 /// </summary>
 public class StswTimedSwitch : CheckBox
 {
+    private readonly Timer timer = new() { AutoReset = false };
+
     static StswTimedSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
@@ -17,8 +19,6 @@ public class StswTimedSwitch : CheckBox
     }
 
     #region Events & methods
-    private readonly Timer timer = new() { AutoReset = false };
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

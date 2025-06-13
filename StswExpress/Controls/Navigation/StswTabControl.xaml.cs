@@ -18,6 +18,9 @@ public class StswTabControl : TabControl
         ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
+
     #region Events & methods
     /// <inheritdoc/>
     public override void OnApplyTemplate()
@@ -26,9 +29,6 @@ public class StswTabControl : TabControl
 
         NewItemCommand = new StswCommand(CreateItem);
     }
-
-    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
 
     /// <summary>
     /// Creates a new tab item and adds it to the tab control. 

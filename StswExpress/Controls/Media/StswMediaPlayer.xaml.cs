@@ -15,6 +15,9 @@ namespace StswExpress;
 /// </summary>
 public class StswMediaPlayer : ItemsControl
 {
+    private readonly Timer _timer = new() { AutoReset = true };
+    private MediaElement? _mediaElement;
+
     static StswMediaPlayer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
@@ -22,9 +25,6 @@ public class StswMediaPlayer : ItemsControl
     }
 
     #region Events & methods
-    private MediaElement? _mediaElement;
-    private readonly Timer timer = new() { AutoReset = true };
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -64,7 +64,7 @@ public class StswMediaPlayer : ItemsControl
             _mediaElement = mediaElement;
         }
 
-        timer.Elapsed += Timer_Elapsed;
+        _timer.Elapsed += Timer_Elapsed;
     }
 
     /// <summary>
@@ -205,18 +205,18 @@ public class StswMediaPlayer : ItemsControl
             {
                 if (stsw.IsPlaying == true)
                 {
-                    stsw.timer.Start();
+                    stsw._timer.Start();
                     stsw._mediaElement.Play();
                 }
                 else if (stsw.IsPlaying == false)
                 {
-                    stsw.timer.Stop();
+                    stsw._timer.Stop();
                     stsw._mediaElement.Pause();
                 }
                 else
                 {
                     stsw._mediaElement.Position = new TimeSpan(0);
-                    stsw.timer.Stop();
+                    stsw._timer.Stop();
                     stsw._mediaElement.Stop();
                 }
             }

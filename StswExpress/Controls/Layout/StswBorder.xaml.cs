@@ -13,6 +13,9 @@ namespace StswExpress;
 /// </remarks>
 public class StswBorder : Border, IStswCornerControl
 {
+    private readonly RectangleGeometry _clipRect = new();
+    private object? _oldClip;
+
     static StswBorder()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
@@ -20,9 +23,6 @@ public class StswBorder : Border, IStswCornerControl
     }
 
     #region Events & methods
-    private readonly RectangleGeometry _clipRect = new();
-    private object? _oldClip;
-
     /// <summary>
     /// Called when the control is rendered. If <see cref="CornerClipping"/> is enabled and a child element is present, 
     /// applies rounded clipping to the child.

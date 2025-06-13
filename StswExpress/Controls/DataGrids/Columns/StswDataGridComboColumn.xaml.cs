@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace StswExpress;
 
@@ -53,6 +57,16 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             {
                 Path = new PropertyPath(selectedItemBinding.Path.Path + "." + DisplayMemberPath),
                 Mode = BindingMode.OneWay
+            });
+        else if (SelectedValueBinding != null && !string.IsNullOrEmpty(DisplayMemberPath) && ItemsSource != null)
+            BindingOperations.SetBinding(displayElement, StswText.TextProperty, new MultiBinding
+            {
+                Converter = new SelectedValueToDisplayConverter(),
+                Bindings =
+                {
+                    SelectedValueBinding,
+                    new Binding { Source = ItemsSource }
+                }
             });
         else if (SelectedValueBinding != null)
             BindingOperations.SetBinding(displayElement, StswText.TextProperty, SelectedValueBinding);
@@ -259,6 +273,50 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             new PropertyMetadata(VerticalAlignment.Top)
         );
     #endregion
+
+    private class SelectedValueToDisplayConverter : IMultiValueConverter
+    {
+        private readonly Dictionary<object, string> _cache = [];
+
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length < 2)
+                return null;
+
+            var selectedValue = values[0];
+            if (values[1] is not IEnumerable items || selectedValue == null)
+                return null;
+
+            if (_cache.TryGetValue(selectedValue, out var cachedDisplay))
+                return cachedDisplay;
+
+            foreach (var item in items)
+            {
+                var itemType = item.GetType();
+                var valueProp = itemType.GetProperty("Value");
+                var displayProp = itemType.GetProperty("Display");
+
+                if (valueProp == null || displayProp == null)
+                    continue;
+
+                var itemValue = valueProp.GetValue(item);
+
+                if (Equals(itemValue, selectedValue))
+                {
+                    var display = displayProp.GetValue(item)?.ToString() ?? string.Empty;
+                    _cache[selectedValue] = display;
+                    return display;
+                }
+            }
+
+            var fallback = selectedValue.ToString() ?? string.Empty;
+            _cache[selectedValue] = fallback;
+            return fallback;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
+    }
 }
 
 /* usage:

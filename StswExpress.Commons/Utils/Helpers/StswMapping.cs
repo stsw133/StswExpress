@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Concurrent;
+using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -12,7 +13,7 @@ internal static class StswMapping
     /// <summary>
     /// 
     /// </summary>
-    private static readonly Dictionary<Type, object> _instanceFactories = [];
+    private static readonly ConcurrentDictionary<Type, object> _instanceFactories = [];
 
     /// <summary>
     /// 
@@ -20,17 +21,12 @@ internal static class StswMapping
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     internal static Func<T> CreateInstanceFactory<T>()
-    {
-        if (_instanceFactories.TryGetValue(typeof(T), out var factory))
-            return (Func<T>)factory;
-
-        var constructor = Expression.New(typeof(T));
-        var lambda = Expression.Lambda<Func<T>>(constructor);
-        var compiled = lambda.Compile();
-
-        _instanceFactories[typeof(T)] = compiled;
-        return compiled;
-    }
+        => (Func<T>)_instanceFactories.GetOrAdd(typeof(T), t =>
+        {
+            var constructor = Expression.New(typeof(T));
+            var lambda = Expression.Lambda<Func<T>>(constructor);
+            return lambda.Compile();
+        });
 
     /// <summary>
     /// 
@@ -38,17 +34,12 @@ internal static class StswMapping
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     internal static Func<object> CreateInstanceFactory(Type type)
-    {
-        if (_instanceFactories.TryGetValue(type, out var factory))
-            return (Func<object>)factory;
-
-        var constructor = Expression.New(type);
-        var lambda = Expression.Lambda<Func<object>>(Expression.Convert(constructor, typeof(object)));
-        var compiled = lambda.Compile();
-
-        _instanceFactories[type] = compiled;
-        return compiled;
-    }
+        => (Func<object>)_instanceFactories.GetOrAdd(type, t =>
+        {
+            var constructor = Expression.New(t);
+            var lambda = Expression.Lambda<Func<object>>(Expression.Convert(constructor, typeof(object)));
+            return lambda.Compile();
+        });
 
     /// <summary>
     /// Caches the properties of a given type, including nested properties, if they exist in the column names.

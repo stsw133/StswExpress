@@ -85,7 +85,6 @@ public abstract class StswObservableObject : INotifyPropertyChanged
 
 /* usage:
 
-using StswExpress;
 public class MainViewModel : StswObservableObject
 {
     private string _message;

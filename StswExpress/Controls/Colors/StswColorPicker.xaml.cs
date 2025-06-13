@@ -14,6 +14,9 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorPicker : Control, IStswCornerControl
 {
+    private FrameworkElement? _colorEllipse, _colorGrid;
+    private bool _blockColorEllipse;
+
     static StswColorPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
@@ -21,10 +24,6 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     #region Events & methods
-    private bool _blockColorEllipse;
-    private FrameworkElement? _colorEllipse;
-    private FrameworkElement? _colorGrid;
-
     /// <summary>
     /// Occurs when the selected color in the control changes.
     /// This event is primarily for non-MVVM scenarios where direct event handling is required.

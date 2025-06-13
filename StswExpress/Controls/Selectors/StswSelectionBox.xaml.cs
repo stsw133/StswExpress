@@ -19,6 +19,9 @@ namespace StswExpress;/// <summary>
 /// </remarks>
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
+    private ListBox? _listBox;
+    private Popup? _popup;
+
     public StswSelectionBox()
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
@@ -31,9 +34,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     #region Events & methods
-    private Popup? _popup;
-    private ListBox? _listBox;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

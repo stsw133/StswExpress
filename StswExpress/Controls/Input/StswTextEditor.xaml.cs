@@ -18,6 +18,8 @@ namespace StswExpress;
 /// </summary>
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
+    private StswComboBox? _fontFamily;
+    private StswDecimalBox? _fontSize;
     public ICommand FileNewCommand { get; }
     public ICommand FileOpenCommand { get; }
     public ICommand FileSaveCommand { get; }
@@ -55,9 +57,6 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     #region Events & methods
-    private StswComboBox? _fontFamily;
-    private StswDecimalBox? _fontSize;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

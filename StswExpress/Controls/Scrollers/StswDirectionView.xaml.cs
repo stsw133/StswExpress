@@ -15,6 +15,11 @@ namespace StswExpress;
 /// </summary>
 public class StswDirectionView : ScrollViewer
 {
+    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
+    private DispatcherTimer? _autoScrollTimer;
+    private Action? _currentScrollAction;
+    private bool _isLeftMouseDown;
+
     static StswDirectionView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(typeof(StswDirectionView)));
@@ -22,11 +27,6 @@ public class StswDirectionView : ScrollViewer
     }
 
     #region Events & methods
-    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
-    private bool _isLeftMouseDown;
-    private DispatcherTimer? _autoScrollTimer;
-    private Action? _currentScrollAction;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

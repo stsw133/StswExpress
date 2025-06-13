@@ -19,6 +19,8 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : Control, IStswCornerControl
 {
+    private ContentControl? _buttonClear, _buttonToday;
+
     public StswCalendar()
     {
         SetValue(ItemsProperty, new ObservableCollection<StswCalendarItem>());
@@ -30,9 +32,6 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     #region Events & methods
-    private ContentControl? _buttonToday;
-    private ContentControl? _buttonClear;
-
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// This event is primarily for non-MVVM scenarios where direct event handling is required.

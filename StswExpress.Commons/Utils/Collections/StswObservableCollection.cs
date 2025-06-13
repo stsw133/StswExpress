@@ -19,13 +19,16 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     private readonly IList<T> _addedItems = [];
     private readonly IList<T> _removedItems = [];
     private readonly IList<T> _modifiedItems = [];
-    private readonly bool _showRemovedItems;
+
+    /// <summary>
+    /// Indicates whether removed items should be tracked in the collection.
+    /// </summary>
+    public bool ShowRemovedItems { get; set; } = false;
 
     /// <summary>
     /// Gets the collection of ignored property names when tracking modifications.
     /// </summary>
-    public HashSet<string> IgnoredPropertyNames => _ignoredPropertyNames;
-    private readonly HashSet<string> _ignoredPropertyNames =
+    public HashSet<string> IgnoredPropertyNames { get; set; } =
     [
         nameof(IStswCollectionItem.ShowDetails),
         nameof(IStswSelectionItem.IsSelected),
@@ -35,15 +38,9 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Initializes a new instance of <see cref="StswObservableCollection{T}"/>.
     /// Elements added via Add() or InsertItem() will be marked as Added.
     /// </summary>
-    /// <param name="showRemovedItems">Indicates whether removed items should be tracked.</param>
-    /// <param name="ignoredPropertyNames">A list of property names to ignore when checking modifications.</param>
-    public StswObservableCollection(bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
+    public StswObservableCollection() : base()
     {
-        _showRemovedItems = showRemovedItems;
 
-        if (ignoredPropertyNames != null)
-            foreach (var propertyName in ignoredPropertyNames)
-                _ignoredPropertyNames.Add(propertyName);
     }
 
     /// <summary>
@@ -51,16 +48,8 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Items are treated as Unchanged upon initialization.
     /// </summary>
     /// <param name="collection">Initial collection of items.</param>
-    /// <param name="showRemovedItems">Indicates whether removed items should be tracked.</param>
-    /// <param name="ignoredPropertyNames">A list of property names to ignore when checking modifications.</param>
-    public StswObservableCollection(IEnumerable<T> collection, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) : base()
+    public StswObservableCollection(IEnumerable<T> collection) : base()
     {
-        _showRemovedItems = showRemovedItems;
-
-        if (ignoredPropertyNames != null)
-            foreach (var propertyName in ignoredPropertyNames)
-                _ignoredPropertyNames.Add(propertyName);
-
         if (collection != null)
         {
             foreach (var item in collection)
@@ -74,8 +63,8 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         }
 
         RecountStates();
-        foreach (var item in this)
-            item.PropertyChanged += OnItemPropertyChanged;
+        //foreach (var item in this)
+        //    item.PropertyChanged += OnItemPropertyChanged;
     }
 
     /// <summary>
@@ -116,7 +105,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     {
         var item = this[index];
 
-        if (_showRemovedItems)
+        if (ShowRemovedItems)
         {
             var oldState = item.ItemState;
             if (oldState != StswItemState.Added)
@@ -269,7 +258,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             return;
         }
 
-        if (_ignoredPropertyNames.Contains(e.PropertyName!))
+        if (IgnoredPropertyNames.Contains(e.PropertyName!))
             return;
 
         if (trackableItem.ItemState == StswItemState.Added || trackableItem.ItemState == StswItemState.Deleted)
@@ -433,7 +422,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (_countersAreDirty)
             return;
 
-        CountUnchanged = this.Count(x => x.ItemState == StswItemState.Unchanged);
+        CountUnchanged = Items.Count - _addedItems.Count - _modifiedItems.Count - _removedItems.Count; //CountUnchanged = this.Count(x => x.ItemState == StswItemState.Unchanged);
         CountAdded = _addedItems.Count;
         CountModified = _modifiedItems.Count;
         CountDeleted = _removedItems.Count;

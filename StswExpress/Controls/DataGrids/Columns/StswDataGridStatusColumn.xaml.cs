@@ -31,6 +31,17 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
     }
 
     /// <summary>
+    /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.
+    /// Uses reflection to access the internal `DataGridOwner` property.
+    /// </summary>
+    /// <returns>The parent <see cref="StswDataGrid"/> instance, or null if unavailable.</returns>
+    private StswDataGrid? GetDataGridOwner()
+    {
+        var property = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.NonPublic | BindingFlags.Instance);
+        return property?.GetValue(this) as StswDataGrid;
+    }
+
+    /// <summary>
     /// Extends the row style of the <see cref="StswDataGrid"/> to include a trigger for showing details.
     /// </summary>
     private void TryExtendRowStyle()
@@ -59,17 +70,6 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         });
 
         dataGrid.RowStyle = newStyle;
-    }
-
-    /// <summary>
-    /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.
-    /// Uses reflection to access the internal `DataGridOwner` property.
-    /// </summary>
-    /// <returns>The parent <see cref="StswDataGrid"/> instance, or null if unavailable.</returns>
-    private StswDataGrid? GetDataGridOwner()
-    {
-        var property = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.NonPublic | BindingFlags.Instance);
-        return property?.GetValue(this) as StswDataGrid;
     }
 }
 

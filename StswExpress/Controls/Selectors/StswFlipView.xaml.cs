@@ -18,6 +18,8 @@ namespace StswExpress;
 /// </remarks>
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
+    private ButtonBase? _buttonPrevious, _buttonNext;
+
     public StswFlipView()
     {
         DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
@@ -30,8 +32,6 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     #region Events & methods
-    private ButtonBase? _buttonPrevious, _buttonNext;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

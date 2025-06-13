@@ -18,14 +18,13 @@ namespace StswExpress;
 public class StswToaster : ItemsControl
 {
     private readonly Timer? _timer;
-    private bool _timerStarted;
     private bool _fastRemoving;
+    private bool _timerStarted;
 
     public StswToaster()
     {
         _timer = new Timer(OnTimerTick, null, Timeout.Infinite, Timeout.Infinite);
     }
-
     static StswToaster()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
@@ -58,7 +57,6 @@ public class StswToaster : ItemsControl
                 RemoveItemFromItemsControl(toaster, toastItem);
             };
 
-
             if (toaster.ItemsSource is IList itemsSource)
             {
                 if (toaster.GenerateAtBottom)
@@ -77,7 +75,7 @@ public class StswToaster : ItemsControl
             if (!toaster.IsMouseOver && !toaster._timerStarted)
                 toaster.StartTimer();
             else if (!toaster.IsMouseOver)
-                toaster._timer?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                toaster._timer?.Change(toaster.DisplayDuration, toaster.DisplayDuration);
         }
     }
 
@@ -106,7 +104,6 @@ public class StswToaster : ItemsControl
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-
         if (_timerStarted)
             StopTimer();
     }
@@ -130,7 +127,7 @@ public class StswToaster : ItemsControl
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
-            if (Items.Count == 0)
+            if (Items.Count == 0 || DisplayDuration == default)
             {
                 StopTimer();
                 return;
@@ -192,7 +189,7 @@ public class StswToaster : ItemsControl
     private void StartTimer()
     {
         _timerStarted = true;
-        _timer?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+        _timer?.Change(DisplayDuration, DisplayDuration);
     }
 
     /// <summary>
@@ -207,7 +204,21 @@ public class StswToaster : ItemsControl
     #endregion
 
     #region Logic properties
-    /*
+    /// <summary>
+    /// Gets or sets the duration for which toasts are displayed before being automatically removed.
+    /// </summary>
+    public TimeSpan DisplayDuration
+    {
+        get => (TimeSpan)GetValue(DisplayDurationProperty);
+        set => SetValue(DisplayDurationProperty, value);
+    }
+    public static readonly DependencyProperty DisplayDurationProperty
+        = DependencyProperty.Register(
+            nameof(DisplayDuration),
+            typeof(TimeSpan),
+            typeof(StswToaster)
+        );
+
     /// <summary>
     /// Gets or sets a value indicating whether toasts are closable, providing a close button for each alert.
     /// </summary>
@@ -222,59 +233,9 @@ public class StswToaster : ItemsControl
             typeof(bool),
             typeof(StswToaster)
         );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether toasts are copyable, providing a copy button for each toast.
-    /// </summary>
-    public bool IsCopyable
-    {
-        get => (bool)GetValue(IsCopyableProperty);
-        set => SetValue(IsCopyableProperty, value);
-    }
-    public static readonly DependencyProperty IsCopyableProperty
-        = DependencyProperty.Register(
-            nameof(IsCopyable),
-            typeof(bool),
-            typeof(StswToaster)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether toasts are expandable, providing an expand button for detailed view.
-    /// </summary>
-    public bool IsExpandable
-    {
-        get => (bool)GetValue(IsExpandableProperty);
-        set => SetValue(IsExpandableProperty, value);
-    }
-    public static readonly DependencyProperty IsExpandableProperty
-        = DependencyProperty.Register(
-            nameof(IsExpandable),
-            typeof(bool),
-            typeof(StswToaster)
-        );
-    */
     #endregion
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the duration for which toasts are displayed before being automatically removed.
-    /// Defaults to 5 seconds.
-    /// </summary>
-    public TimeSpan DisplayDuration
-    {
-        get => (TimeSpan)GetValue(DisplayDurationProperty);
-        set => SetValue(DisplayDurationProperty, value);
-    }
-    public static readonly DependencyProperty DisplayDurationProperty
-        = DependencyProperty.Register(
-            nameof(DisplayDuration),
-            typeof(TimeSpan),
-            typeof(StswToast),
-            new PropertyMetadata(TimeSpan.FromSeconds(5))
-        );
-    */
-
     /// <summary>
     /// Gets or sets a value indicating whether toasts are generated at the bottom of the toast list.
     /// If <see langword="true"/>, new toasts are added to the bottom; otherwise, they are added to the top.

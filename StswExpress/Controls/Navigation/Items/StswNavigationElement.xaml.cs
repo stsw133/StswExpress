@@ -18,6 +18,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Items))]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
 {
+    private StswNavigation? _stswNavigation;
+
     static StswNavigationElement()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
@@ -25,8 +27,6 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     }
 
     #region Events & methods
-    private StswNavigation? _stswNavigation;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

@@ -25,12 +25,28 @@ public class StswToastItem : ContentControl, IStswCornerControl
         base.OnApplyTemplate();
 
         /// Button: close
-        if (GetTemplateChild("PART_CloseButton") is ButtonBase btnClose)
+        if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
             btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
     }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the info bar can be closed by the user.
+    /// When enabled, a close button is displayed.
+    /// </summary>
+    public bool IsClosable
+    {
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
+    public static readonly DependencyProperty IsClosableProperty
+        = DependencyProperty.Register(
+            nameof(IsClosable),
+            typeof(bool),
+            typeof(StswToastItem)
+        );
+
     /// <summary>
     /// Gets or sets the type of information displayed in the toast item, such as "Info," "Warning," or "Error."
     /// </summary>

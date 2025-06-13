@@ -16,6 +16,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Components))]
 public class StswWindowBar : Control, IStswCornerControl
 {
+    private StswWindow? _window;
+
     public StswWindowBar()
     {
         //SetValue(ComponentsProperty, new ObservableCollection<UIElement>()); // this code breaks the binding with StswWindow
@@ -26,8 +28,6 @@ public class StswWindowBar : Control, IStswCornerControl
     }
 
     #region Events & methods
-    private StswWindow? _window;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

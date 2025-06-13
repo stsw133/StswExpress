@@ -17,6 +17,12 @@ namespace StswExpress;
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
 public class StswContentDialog : ContentControl
 {
+    private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
+    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
+    private ContentControl? _popupContentElement;
+    private IInputElement? _restoreFocusDialogClose;
+    public StswDialogSession? CurrentSession { get; private set; }
+
     public StswContentDialog()
     {
         Loaded += OnLoaded;
@@ -28,14 +34,6 @@ public class StswContentDialog : ContentControl
     }
 
     #region Events & methods
-    private static readonly HashSet<WeakReference<StswContentDialog>> LoadedInstances = [];
-
-    private ContentControl? _popupContentElement;
-
-    public StswDialogSession? CurrentSession { get; private set; }
-    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
-    private IInputElement? _restoreFocusDialogClose;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -52,10 +50,10 @@ public class StswContentDialog : ContentControl
     /// <param name="e">The event arguments.</param>
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        foreach (var weakRef in LoadedInstances.ToList())
+        foreach (var weakRef in _loadedInstances.ToList())
             if (weakRef.TryGetTarget(out StswContentDialog? dialog) && ReferenceEquals(dialog, this))
                 return;
-        LoadedInstances.Add(new WeakReference<StswContentDialog>(this));
+        _loadedInstances.Add(new WeakReference<StswContentDialog>(this));
     }
 
     /// <summary>
@@ -65,10 +63,10 @@ public class StswContentDialog : ContentControl
     /// <param name="e">The event arguments.</param>
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        foreach (var weakRef in LoadedInstances.ToList())
+        foreach (var weakRef in _loadedInstances.ToList())
             if (!weakRef.TryGetTarget(out StswContentDialog? dialog) || ReferenceEquals(dialog, this))
             {
-                LoadedInstances.Remove(weakRef);
+                _loadedInstances.Remove(weakRef);
                 break;
             }
     }
@@ -135,11 +133,11 @@ public class StswContentDialog : ContentControl
     /// <exception cref="InvalidOperationException">Thrown if no matching instance is found or if multiple instances share the same identifier.</exception>
     internal static StswContentDialog GetInstance(object? dialogIdentifier)
     {
-        if (LoadedInstances.Count == 0)
+        if (_loadedInstances.Count == 0)
             throw new InvalidOperationException($"No loaded {nameof(StswContentDialog)} instances.");
 
         var targets = new List<StswContentDialog>();
-        foreach (var instance in LoadedInstances.ToList())
+        foreach (var instance in _loadedInstances.ToList())
         {
             if (instance.TryGetTarget(out var dialogInstance))
             {
@@ -153,7 +151,7 @@ public class StswContentDialog : ContentControl
                 if (Equals(dialogIdentifier, identifier))
                     targets.Add(dialogInstance);
             }
-            else LoadedInstances.Remove(instance);
+            else _loadedInstances.Remove(instance);
         }
 
         if (targets.Count == 0)

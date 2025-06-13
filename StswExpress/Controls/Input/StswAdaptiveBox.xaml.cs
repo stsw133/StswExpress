@@ -14,6 +14,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Value))]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
+    private ContentPresenter? _contentPresenter;
+
     public StswAdaptiveBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -25,8 +27,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
-    private ContentPresenter? _contentPresenter;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {

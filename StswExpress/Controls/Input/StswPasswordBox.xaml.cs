@@ -11,6 +11,9 @@ namespace StswExpress;
 /// </summary>
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
+    private bool _isPasswordChanging;
+    private PasswordBox? _passwordBox;
+
     public StswPasswordBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -22,9 +25,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
-    private bool _isPasswordChanging;
-    private PasswordBox? _passwordBox;
-
     /// <summary>
     /// Occurs when the password in the box changes.
     /// </summary>

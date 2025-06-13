@@ -12,6 +12,9 @@ namespace StswExpress;
 /// </summary>
 public class StswScrollBar : ScrollBar
 {
+    private ButtonBase? _arrowButton1, _arrowButton2;
+    private Border? _border;
+
     static StswScrollBar()
 	{
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(typeof(StswScrollBar)));
@@ -19,9 +22,6 @@ public class StswScrollBar : ScrollBar
     }
 
     #region Events & methods
-    private Border? _border;
-    private RepeatButton? _arrowButton1, _arrowButton2;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -34,16 +34,16 @@ public class StswScrollBar : ScrollBar
         /// Orientation
         if (Orientation == Orientation.Vertical)
         {
-            if (GetTemplateChild("PART_LineUpButton") is RepeatButton btnUp)
+            if (GetTemplateChild("PART_LineUpButton") is ButtonBase btnUp)
                 _arrowButton1 = btnUp;
-            if (GetTemplateChild("PART_LineDownButton") is RepeatButton btnDown)
+            if (GetTemplateChild("PART_LineDownButton") is ButtonBase btnDown)
                 _arrowButton2 = btnDown;
         }
         else
         {
-            if (GetTemplateChild("PART_LineLeftButton") is RepeatButton btnLeft)
+            if (GetTemplateChild("PART_LineLeftButton") is ButtonBase btnLeft)
                 _arrowButton1 = btnLeft;
-            if (GetTemplateChild("PART_LineRightButton") is RepeatButton btnRight)
+            if (GetTemplateChild("PART_LineRightButton") is ButtonBase btnRight)
                 _arrowButton2 = btnRight;
         }
 
@@ -91,34 +91,34 @@ public class StswScrollBar : ScrollBar
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the width of the scroll bar when collapsed.
-    /// This width is applied when the scroll bar is not being interacted with (in dynamic mode).
+    /// Gets or sets the size of the scroll bar when collapsed.
+    /// This size is applied when the scroll bar is not being interacted with (in dynamic mode).
     /// </summary>
-    public double CollapsedWidth
+    public double CollapsedSize
     {
-        get => (double)GetValue(CollapsedWidthProperty);
-        set => SetValue(CollapsedWidthProperty, value);
+        get => (double)GetValue(CollapsedSizeProperty);
+        set => SetValue(CollapsedSizeProperty, value);
     }
-    public static readonly DependencyProperty CollapsedWidthProperty
+    public static readonly DependencyProperty CollapsedSizeProperty
         = DependencyProperty.Register(
-            nameof(CollapsedWidth),
+            nameof(CollapsedSize),
             typeof(double),
             typeof(StswScrollBar),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
     /// <summary>
-    /// Gets or sets the width of the scroll bar when expanded.
-    /// This width is applied when the scroll bar is actively being used or hovered over in dynamic mode.
+    /// Gets or sets the size of the scroll bar when expanded.
+    /// This size is applied when the scroll bar is actively being used or hovered over in dynamic mode.
     /// </summary>
-    public double ExpandedWidth
+    public double ExpandedSize
     {
-        get => (double)GetValue(ExpandedWidthProperty);
-        set => SetValue(ExpandedWidthProperty, value);
+        get => (double)GetValue(ExpandedSizeProperty);
+        set => SetValue(ExpandedSizeProperty, value);
     }
-    public static readonly DependencyProperty ExpandedWidthProperty
+    public static readonly DependencyProperty ExpandedSizeProperty
         = DependencyProperty.Register(
-            nameof(ExpandedWidth),
+            nameof(ExpandedSize),
             typeof(double),
             typeof(StswScrollBar),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
@@ -145,7 +145,7 @@ public class StswScrollBar : ScrollBar
         if (obj is StswScrollBar stsw)
         {
             /// height & width
-            var newSize = stsw.IsDynamic ? stsw.CollapsedWidth : stsw.ExpandedWidth;
+            var newSize = stsw.IsDynamic ? stsw.CollapsedSize : stsw.ExpandedSize;
 
             if (stsw.Orientation == Orientation.Horizontal)
                 stsw.Height = newSize;
@@ -177,7 +177,7 @@ public class StswScrollBar : ScrollBar
         var sb = new Storyboard();
 
         var widthAnim = new DoubleAnimation(
-            toValue: ExpandedWidth,
+            toValue: ExpandedSize,
             duration: duration,
             fillBehavior: FillBehavior.HoldEnd
         );
@@ -240,7 +240,7 @@ public class StswScrollBar : ScrollBar
         var sb = new Storyboard();
 
         var widthAnim = new DoubleAnimation(
-            toValue: CollapsedWidth,
+            toValue: CollapsedSize,
             duration: duration,
             fillBehavior: FillBehavior.HoldEnd
         );

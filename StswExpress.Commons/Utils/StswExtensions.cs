@@ -66,11 +66,13 @@ public static partial class StswExtensions
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        var underlyingType = Nullable.GetUnderlyingType(type) ?? (type.IsEnum ? Enum.GetUnderlyingType(type) : type);
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        if (underlyingType.IsEnum)
+            underlyingType = Enum.GetUnderlyingType(underlyingType);
 
-        return TypeToSqlDbTypeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : SqlDbType.NVarChar;
+        return TypeToSqlDbTypeMap.TryGetValue(underlyingType) ?? SqlDbType.NVarChar;
     }
-    private static readonly Dictionary<Type, SqlDbType> TypeToSqlDbTypeMap = new()
+    private static readonly Dictionary<Type, SqlDbType?> TypeToSqlDbTypeMap = new()
     {
         { typeof(byte), SqlDbType.TinyInt },
         { typeof(sbyte), SqlDbType.TinyInt },
@@ -89,15 +91,17 @@ public static partial class StswExtensions
         { typeof(Guid), SqlDbType.UniqueIdentifier },
         { typeof(DateTime), SqlDbType.DateTime },
         { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
-        { typeof(byte[]), SqlDbType.VarBinary }
+        { typeof(TimeSpan), SqlDbType.Time },
+        { typeof(byte[]), SqlDbType.VarBinary },
+        //{ typeof(object), SqlDbType.Variant }
     };
 
     /// <summary>
-    /// 
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="dt"></param>
-    /// <returns></returns>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<T?> MapTo<T>(this DataTable dt)
     {
         var type = typeof(T);
@@ -115,11 +119,11 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
     /// </summary>
-    /// <param name="dt"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<object?> MapTo(this DataTable dt, Type type)
     {
         if (IsSimpleType(type))
@@ -135,12 +139,12 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>, supporting nested classes and custom delimiters.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="dt"></param>
-    /// <param name="delimiter"></param>
-    /// <returns></returns>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter)
     {
         var type = typeof(T);
@@ -158,12 +162,12 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// 
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
     /// </summary>
-    /// <param name="dt"></param>
-    /// <param name="type"></param>
-    /// <param name="delimiter"></param>
-    /// <returns></returns>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<object?> MapTo(this DataTable dt, Type type, char delimiter)
     {
         if (IsSimpleType(type))
@@ -178,19 +182,6 @@ public static partial class StswExtensions
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="dt"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
     private static IEnumerable<object?> MapToClass(DataTable dt, Type type)
     {
         var objProps = type.GetProperties();
@@ -228,14 +219,6 @@ public static partial class StswExtensions
             yield return obj;
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="dt"></param>
-    /// <param name="type"></param>
-    /// <param name="delimiter"></param>
-    /// <returns></returns>
     private static IEnumerable<object?> MapToNestedClass(DataTable dt, Type type, char delimiter)
     {
         var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
@@ -254,6 +237,13 @@ public static partial class StswExtensions
             yield return obj;
         }
     }
+
+    /// <summary>
+    /// Checks if the specified type is a simple type (primitive, string, or byte array).
+    /// </summary>
+    /// <param name="type"> The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
+    private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
 
     /// <summary>
     /// Converts a <see cref="SecureString"/> to a byte array.
@@ -308,24 +298,6 @@ public static partial class StswExtensions
 
         return dataTable;
     }
-
-    /// <summary>
-    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
-    /// Supports tracking removed items and ignoring specified property changes.
-    /// </summary>
-    /// <typeparam name="T">The type of objects in the list.</typeparam>
-    /// <param name="value">The enumerable to convert.</param>
-    /// <returns>The converted <see cref="StswObservableCollection{T}"/>.</returns>
-    public static StswObservableCollection<T> ToStswObservableCollection<T>(this IEnumerable<T> value, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) where T : IStswCollectionItem => new(value, showRemovedItems, ignoredPropertyNames);
-
-    /// <summary>
-    /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswObservableDictionary{TKey, TValue}"/>.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the dictionary keys.</typeparam>
-    /// <typeparam name="TValue">The type of the dictionary values.</typeparam>
-    /// <param name="value">The dictionary to convert.</param>
-    /// <returns>The converted <see cref="StswObservableDictionary{TKey, TValue}"/>.</returns>
-    public static StswObservableDictionary<TKey, TValue> ToStswObservableDictionary<TKey, TValue>(this IDictionary<TKey, TValue> value, bool autoAddOnGet = true) where TKey : notnull => new(value) { AutoAddOnGet = autoAddOnGet };
     #endregion
 
     #region DateTime extensions
@@ -388,13 +360,10 @@ public static partial class StswExtensions
     /// <param name="dict">The dictionary where the key should be changed.</param>
     /// <param name="oldKey">The existing key to be replaced.</param>
     /// <param name="newKey">The new key to assign.</param>
-    /// <param name="overwriteExisting">
-    /// If true, replaces the value of an existing newKey. 
-    /// If false, throws an exception if newKey already exists.
-    /// </param>
-    /// <returns>True if the key was successfully changed; otherwise, false.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if dictionary is null.</exception>
-    /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is false.</exception>
+    /// <param name="overwriteExisting">Indicates whether to overwrite the existing entry if the new key already exists.</param>
+    /// <returns><see langword="true"/> if the key was successfully changed; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if dictionary is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is <see langword="false"/>.</exception>
     public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey, bool overwriteExisting = false)
     {
         ArgumentNullException.ThrowIfNull(dict);
@@ -444,10 +413,7 @@ public static partial class StswExtensions
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// <param name="dictionary">The dictionary to search.</param>
     /// <param name="key">The key of the value to get.</param>
-    /// <returns>
-    /// The value associated with the specified key, or <see langword="null"/> / <see langword="default"/>
-    /// if the key is not found.
-    /// </returns>
+    /// <returns>The value associated with the specified key, or <see langword="default"/> if the key is not found.</returns>
     public static TValue? TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull => dictionary.TryGetValue(key, out var value) ? value : default;
     #endregion
 
@@ -511,21 +477,6 @@ public static partial class StswExtensions
             int nextIndex = Math.Clamp(index + count, 0, length - 1);
             return values[nextIndex];
         }
-    }
-    #endregion
-
-    #region Exception extensions
-    /// <summary>
-    /// Gets the innermost exception of an exception.
-    /// </summary>
-    /// <param name="ex">The exception from which to get the innermost exception.</param>
-    /// <returns>The innermost <see cref="Exception"/>.</returns>
-    public static Exception GetInnermostException(this Exception ex)
-    {
-        while (ex.InnerException != null)
-            ex = ex.InnerException;
-
-        return ex;
     }
     #endregion
 
@@ -684,7 +635,7 @@ public static partial class StswExtensions
     /// <param name="value">The value to check for.</param>
     /// <param name="collection">The collection to check in.</param>
     /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
     public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
             ? throw new ArgumentNullException(nameof(collection))
             : collection.Contains(value);
@@ -696,13 +647,13 @@ public static partial class StswExtensions
     /// <param name="value">The value to check for.</param>
     /// <param name="parameters">The parameters to check in.</param>
     /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
     public static bool In<T>(this T value, params T[] parameters) => parameters == null
             ? throw new ArgumentNullException(nameof(parameters))
             : parameters.Contains(value);
 
     /// <summary>
-    /// Checks if a type is a list type and retrieves the inner type if it is.
+    /// Checks if a type is a list type and retrieves the inner type if it is. In this method, <see cref="string"/> is not considered a list type.
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <param name="innerType">The inner type if the type is a list type.</param>
@@ -731,46 +682,74 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Checks if a value is null, the default for its type, or an empty collection.
-    /// Supports reference types, value types, and collections.
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
     /// </summary>
-    /// <typeparam name="T">The type of the value to check.</typeparam>
-    /// <param name="value">The value to check.</param>
-    /// <returns><see langword="true"/> if the value is null, the default value for its type, or indicates absence of data; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrDefault<T>(this T? value)
-    {
-        if (value == null || Convert.IsDBNull(value))
-            return true;
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this DateTime? value) => value == null || value == default;
 
-        var type = typeof(T);
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this DateTimeOffset? value) => value == null || value == default;
 
-        if (Nullable.GetUnderlyingType(type) != null)
-        {
-            var underlyingType = Nullable.GetUnderlyingType(type)!;
-            return EqualityComparer<T>.Default.Equals(value, (T?)Activator.CreateInstance(underlyingType));
-        }
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this decimal? value) => value == null || value == default;
 
-        if (type == typeof(bool))
-            return false;
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this double? value) => value == null || value == default;
 
-        if (type.IsEnum)
-            return EqualityComparer<T>.Default.Equals(value, default);
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault<T>(this T? value) where T : Enum => value == null || EqualityComparer<T>.Default.Equals(value, default);
 
-        if (value is IEnumerable enumerable)
-            return enumerable.IsNullOrEmpty();
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this float? value) => value == null || value == default;
 
-        if (type.IsClass)
-            return value.IsSimilarTo((T?)Activator.CreateInstance(type));
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this Guid? value) => value == null || value == Guid.Empty;
 
-        return EqualityComparer<T>.Default.Equals(value, default);
-    }
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this int? value) => value == null || value == default;
 
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    public static bool IsNullOrDefault(this TimeSpan? value) => value == null || value == default;
+    
     /// <summary>
     /// Checks if the given enumerable is null or empty.
     /// </summary>
     /// <param name="source">The enumerable to check.</param>
     /// <returns><see langword="true"/> if the enumerable is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty(this IEnumerable source) => source == null || !source.GetEnumerator().MoveNext();
+    public static bool IsNullOrEmpty(this IEnumerable? source) => source == null || !source.GetEnumerator().MoveNext();
 
     /// <summary>
     /// Checks if the given generic enumerable is null or empty.
@@ -818,10 +797,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the objects to compare.</typeparam>
     /// <param name="objA">The first object to compare.</param>
     /// <param name="objB">The second object to compare.</param>
-    /// <returns>
-    /// <see langword="true"/> if both objects are either null or have identical public property values;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
+    /// <returns><see langword="true"/> if both objects are either null or have identical public property values; otherwise, <see langword="false"/>.</returns>
     /// <remarks>
     /// This method performs a shallow comparison of the public properties of both objects. 
     /// It compares the values of public properties using <see cref="EqualityComparer{T}.Equals"/> method.

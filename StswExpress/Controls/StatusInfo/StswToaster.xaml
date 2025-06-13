@@ -8,11 +8,10 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
-<!--
+
+        <Setter Property="DisplayDuration" Value="00:00:05"/>
         <Setter Property="IsClosable" Value="True"/>
-        <Setter Property="IsCopyable" Value="False"/>
-        <Setter Property="IsExpandable" Value="False"/>
--->
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

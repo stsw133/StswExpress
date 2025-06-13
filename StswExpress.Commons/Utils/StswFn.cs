@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -56,13 +57,13 @@ public static class StswFn
     /// This method checks for the presence of the <see cref="DebuggableAttribute"/> 
     /// with JIT tracking enabled.
     /// </summary>
-    /// <returns><see langword="true"/> if the assembly was compiled in debug mode; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the assembly was compiled in debug mode, <see langword="false"/> otherwise.</returns>
     public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
 
     /// <summary>
     /// Checks if a UI thread is available using SynchronizationContext.
     /// </summary>
-    /// <returns>True if a UI thread (e.g., WPF, WinForms) is available, false otherwise.</returns>
+    /// <returns><see langword="true"/> if a UI thread (e.g., WPF, WinForms) is available, <see langword="false"/> otherwise.</returns>
     public static bool IsUiThreadAvailable() => SynchronizationContext.Current is not null;
     #endregion
 
@@ -224,9 +225,11 @@ public static class StswFn
         if (!File.Exists(path))
             return false;
 
+        SafeFileHandle? handle = null;
+
         try
         {
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
+            handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.None);
             return false;
         }
         catch (IOException)
@@ -237,22 +240,40 @@ public static class StswFn
         {
             return false;
         }
+        finally
+        {
+            handle?.Dispose();
+        }
     }
 
     /// <summary>
-    /// Moves a file to the Windows recycle bin instead of deleting it permanently.
-    /// Uses the <see cref="FileSystem.DeleteFile"/> method 
-    /// with <see cref="RecycleOption.SendToRecycleBin"/>.
+    /// Moves a file or directory to the recycle bin.
     /// </summary>
-    /// <param name="path">The path to the file to be moved to the recycle bin.</param>
-    public static void MoveToRecycleBin(string path) => FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+    /// <param name="path"> The path to the file or directory to be moved to the recycle bin.</param>
+    public static bool MoveToRecycleBin(string path)
+    {
+        if (!Path.Exists(path))
+            return false;
+
+        var shf = new SHFILEOPSTRUCT
+        {
+            wFunc = FO_DELETE,
+            pFrom = path + '\0' + '\0',
+            fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION
+        };
+        return SHFileOperation(ref shf) == 0;
+    }
 
     /// <summary>
     /// Opens a file in its associated application, a hyperlink in the default web browser, or a folder in Windows Explorer.
     /// </summary>
     /// <param name="path">The path to the file, hyperlink, or folder to be opened.</param>
     public static void OpenPath(string path)
-        => new Process
+    {
+        if (!Path.Exists(path))
+            throw new FileNotFoundException($"Path '{path}' not found.", path);
+
+        new Process
         {
             StartInfo = new ProcessStartInfo
             {
@@ -261,6 +282,7 @@ public static class StswFn
                 Verb = "open"
             }
         }.Start();
+    }
 
     /// <summary>
     /// Prints a file in its associated application.
@@ -307,6 +329,51 @@ public static class StswFn
 
     #region Text functions
     /// <summary>
+    /// Splits a string by a specified separator into chunks of size n.
+    /// </summary>
+    /// <param name="input"> The input string to be split.</param>
+    /// <param name="separator"> The separator used to split the string.</param>
+    /// <param name="n"> The maximum number of parts in each chunk.</param>
+    /// <returns>A list of strings, each containing up to n parts from the original string.</returns>
+    /// <exception cref="ArgumentException">Thrown when n is less than or equal to 0.</exception>
+    public static List<string> ChunkBySeparator(string input, string separator, int n)
+    {
+        if (n <= 0)
+            throw new ArgumentException($"Parameter {nameof(n)} must be greater than 0.", nameof(n));
+        if (string.IsNullOrEmpty(separator))
+            throw new ArgumentException("Separator cannot be null or empty.", nameof(separator));
+
+        var result = new List<string>();
+        var count = 0;
+        var lastCutPosition = 0;
+        var index = 0;
+
+        while (index < input.Length)
+        {
+            var sepIndex = input.IndexOf(separator, index);
+            if (sepIndex == -1)
+                break;
+
+            count++;
+            index = sepIndex + separator.Length;
+
+            if (count == n)
+            {
+                var cutPosition = index;
+                var chunk = input[lastCutPosition..cutPosition];
+                result.Add(chunk);
+                lastCutPosition = cutPosition;
+                count = 0;
+            }
+        }
+
+        if (lastCutPosition < input.Length)
+            result.Add(input[lastCutPosition..]);
+
+        return result;
+    }
+
+    /// <summary>
     /// Replaces diacritical marks in a string with their ASCII equivalents.
     /// Uses Unicode normalization to decompose characters and remove 
     /// non-spacing marks.
@@ -342,26 +409,6 @@ public static class StswFn
 
         var pattern = $"({Regex.Escape(textToRemove)})+";
         return Regex.Replace(originalText, pattern, textToRemove);
-    }
-
-    /// <summary>
-    /// Splits a string into multiple parts, each containing a specified number of lines.
-    /// </summary>
-    /// <param name="input">The input string to split.</param>
-    /// <param name="linesPerPart">The number of lines per part.</param>
-    /// <returns>An enumerable collection of strings, each containing the specified number of lines.</returns>
-    public static IEnumerable<string> SplitStringByLines(string input, int linesPerPart)
-    {
-        if (string.IsNullOrEmpty(input) || linesPerPart <= 0)
-        {
-            yield return input;
-            yield break;
-        }
-
-        var lines = input.Split(['\n'], StringSplitOptions.None);
-
-        for (int i = 0; i < lines.Length; i += linesPerPart)
-            yield return string.Join("\n", lines, i, Math.Min(linesPerPart, lines.Length - i));
     }
     #endregion
 
@@ -469,4 +516,24 @@ public static class StswFn
         return false;
     }
     #endregion
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    private struct SHFILEOPSTRUCT
+    {
+        public IntPtr hwnd;
+        public uint wFunc;
+        public string pFrom;
+        public string pTo;
+        public ushort fFlags;
+        public bool fAnyOperationsAborted;
+        public IntPtr hNameMappings;
+        public string lpszProgressTitle;
+    }
+
+    private const uint FO_DELETE = 3;
+    private const ushort FOF_ALLOWUNDO = 0x0040;
+    private const ushort FOF_NOCONFIRMATION = 0x0010;
+
+    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+    private static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
 }

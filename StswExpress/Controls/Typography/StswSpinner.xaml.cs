@@ -164,13 +164,13 @@ public class StswSpinner : Control
 /// </summary>
 internal class StswBusyAnimation2 : Control
 {
+    private Ellipse? _ellipseMain;
+    private Ellipse?[] _ellipses = new Ellipse[15];
+
     static StswBusyAnimation2()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBusyAnimation2), new FrameworkPropertyMetadata(typeof(StswBusyAnimation2)));
     }
-
-    private Ellipse? _ellipseMain;
-    private Ellipse?[] _ellipses = new Ellipse[15];
 
     /// <inheritdoc/>
     public override void OnApplyTemplate()

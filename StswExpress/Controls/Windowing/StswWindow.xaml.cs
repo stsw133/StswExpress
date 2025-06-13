@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Shell;
 
@@ -21,6 +20,10 @@ namespace StswExpress;
 /// </remarks>
 public class StswWindow : Window, IStswCornerControl
 {
+    private double _defaultHeight, _defaultWidth;
+    private WindowState _preFullscreenState;
+    private StswWindowBar? _windowBar;
+
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
@@ -31,10 +34,6 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    internal StswWindowBar? _windowBar;
-    private WindowState preFullscreenState;
-    private double defaultHeight, defaultWidth;
-
     /// <summary>
     /// Event that occurs when the <see cref="Fullscreen"/> property changes.
     /// </summary>
@@ -85,8 +84,8 @@ public class StswWindow : Window, IStswCornerControl
         if (WindowState == WindowState.Maximized)
             WindowState = WindowState.Normal;
 
-        Height = defaultHeight;
-        Width = defaultWidth;
+        Height = _defaultHeight;
+        Width = _defaultWidth;
         Center();
     }
 
@@ -98,7 +97,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (enteringFullscreen)
         {
-            preFullscreenState = WindowState;
+            _preFullscreenState = WindowState;
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
 
@@ -112,10 +111,10 @@ public class StswWindow : Window, IStswCornerControl
             if (_windowBar?.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.IsAlwaysVisible = true;
 
-            if (preFullscreenState == WindowState.Maximized)
+            if (_preFullscreenState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
 
-            WindowState = preFullscreenState;
+            WindowState = _preFullscreenState;
         }
 
         Activate();
@@ -269,10 +268,10 @@ public class StswWindow : Window, IStswCornerControl
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
             hwndSource.AddHook(new HwndSourceHook(WndProc));
 
-        if (defaultHeight == 0)
-            defaultHeight = Height;
-        if (defaultWidth == 0)
-            defaultWidth = Width;
+        if (_defaultHeight == 0)
+            _defaultHeight = Height;
+        if (_defaultWidth == 0)
+            _defaultWidth = Width;
     }
 
     /// <summary>

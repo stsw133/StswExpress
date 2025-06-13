@@ -14,14 +14,14 @@ namespace StswExpress;
 /// </remarks>
 public class StswToolTip : ToolTip, IStswCornerControl
 {
+    private UIElement? _parent;
+
     static StswToolTip()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolTip), new FrameworkPropertyMetadata(typeof(StswToolTip)));
     }
 
     #region Events & methods
-    private UIElement? _parent;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
