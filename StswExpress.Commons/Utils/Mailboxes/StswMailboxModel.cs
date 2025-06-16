@@ -1,5 +1,6 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 
 namespace StswExpress.Commons;
 /// <summary>
@@ -51,7 +52,7 @@ public class StswMailboxModel : StswObservableObject
         get => _port;
         set => SetProperty(ref _port, value);
     }
-    private int? _port;
+    private int? _port = 587;
 
     /// <summary>
     /// Gets or sets the email address associated with the email account.
@@ -94,16 +95,6 @@ public class StswMailboxModel : StswObservableObject
     private string? _domain;
 
     /// <summary>
-    /// Gets or sets a value indicating whether SSL is enabled for the email account.
-    /// </summary>
-    public bool EnableSSL
-    {
-        get => _enableSSL;
-        set => SetProperty(ref _enableSSL, value);
-    }
-    private bool _enableSSL = false;
-    
-    /// <summary>
     /// Gets or sets the collection of reply-to addresses for the email account.
     /// </summary>
     public IEnumerable<string>? ReplyTo
@@ -112,6 +103,12 @@ public class StswMailboxModel : StswObservableObject
         set => SetProperty(ref _replyTo, value);
     }
     private IEnumerable<string>? _replyTo;
+
+    /// <summary>
+    /// Gets or sets the security option for the SMTP connection.
+    /// </summary>
+    public SecureSocketOptions SecurityOption { get => _securityOption; set => SetProperty(ref _securityOption, value); }
+    private SecureSocketOptions _securityOption = SecureSocketOptions.StartTls;
 
     /// <summary>
     /// Sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
@@ -124,44 +121,7 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="bcc">An optional collection of BCC recipients.</param>
     /// <param name="reply">An optional collection of reply-to addresses.</param>
     public void Send(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
-    {
-        if (!StswMailboxes.Config.IsEnabled)
-            return;
-
-        // if (!CanSendEmail())
-        //     return;
-
-        ArgumentException.ThrowIfNullOrEmpty(From);
-        ArgumentNullException.ThrowIfNull(Port);
-
-        using var mail = new MailMessage();
-        mail.From = new MailAddress(From);
-        mail.Subject = subject;
-        mail.Body = body;
-        mail.IsBodyHtml = isBodyHtml ?? false;
-
-        if (!string.IsNullOrEmpty(StswMailboxes.Config.DebugEmailRecipient) && StswFn.IsInDebug())
-        {
-            AddRecipients([StswMailboxes.Config.DebugEmailRecipient], mail.To.Add);
-        }
-        else
-        {
-            AddRecipients(to, mail.To.Add);
-            AddRecipients(cc, mail.CC.Add);
-            AddRecipients(bcc, mail.Bcc.Add);
-            AddRecipients(ReplyTo, mail.ReplyToList.Add);
-        }
-        AddRecipients(attachments, x => mail.Attachments.Add(new Attachment(x)));
-
-        using var smtp = new SmtpClient(Host, Port.Value)
-        {
-            Credentials = new NetworkCredential(Username, Password, Domain),
-            EnableSsl = EnableSSL
-        };
-        smtp.Send(mail);
-
-        // IncrementEmailCounters();
-    }
+        => SendAsync(to, subject, body, isBodyHtml, attachments, cc, bcc).GetAwaiter().GetResult();
 
     /// <summary>
     /// Sends an email using the SMTP protocol with optional attachments.
@@ -170,7 +130,8 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
-    public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments) => Send(to, subject, body, null, attachments, null);
+    public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
+        => Send(to, subject, body, null, attachments, null);
 
     /// <summary>
     /// Sends an email using the SMTP protocol without attachments.
@@ -178,7 +139,8 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="to">The collection of recipient email addresses.</param>
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
-    public void Send(IEnumerable<string> to, string subject, string body) => Send(to, subject, body, null, null, null);
+    public void Send(IEnumerable<string> to, string subject, string body)
+        => Send(to, subject, body, null, null, null);
 
     /// <summary>
     /// Asynchronously sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
@@ -198,35 +160,46 @@ public class StswMailboxModel : StswObservableObject
         // if (!CanSendEmail())
         //     return;
 
+        ArgumentException.ThrowIfNullOrEmpty(Host);
         ArgumentException.ThrowIfNullOrEmpty(From);
         ArgumentNullException.ThrowIfNull(Port);
 
-        using var mail = new MailMessage();
-        mail.From = new MailAddress(From);
-        mail.Subject = subject;
-        mail.Body = body;
-        mail.IsBodyHtml = isBodyHtml ?? false;
+        var message = new MimeMessage();
+        message.From.Add(MailboxAddress.Parse(From));
 
         if (!string.IsNullOrEmpty(StswMailboxes.Config.DebugEmailRecipient) && StswFn.IsInDebug())
         {
-            AddRecipients([StswMailboxes.Config.DebugEmailRecipient], mail.To.Add);
+            message.To.Add(MailboxAddress.Parse(StswMailboxes.Config.DebugEmailRecipient));
         }
         else
         {
-            AddRecipients(to, mail.To.Add);
-            AddRecipients(cc, mail.CC.Add);
-            AddRecipients(bcc, mail.Bcc.Add);
-            AddRecipients(ReplyTo, mail.ReplyToList.Add);
+            to?.ForEach(x => message.To.Add(MailboxAddress.Parse(x)));
+            cc?.ForEach(x => message.Cc.Add(MailboxAddress.Parse(x)));
+            bcc?.ForEach(x => message.Bcc.Add(MailboxAddress.Parse(x)));
+            ReplyTo?.ForEach(x => message.ReplyTo.Add(MailboxAddress.Parse(x)));
         }
-        AddRecipients(attachments, x => mail.Attachments.Add(new Attachment(x)));
-
-        using var smtp = new SmtpClient(Host, Port.Value)
+        
+        message.Subject = subject;
+        var builder = new BodyBuilder
         {
-            Credentials = new NetworkCredential(Username, Password, Domain),
-            EnableSsl = EnableSSL,
-
+            HtmlBody = (isBodyHtml ?? false) ? body : null,
+            TextBody = (isBodyHtml ?? false) ? null : body
         };
-        await smtp.SendMailAsync(mail);
+
+        if (attachments != null)
+            foreach (var file in attachments)
+                builder.Attachments.Add(file);
+
+        message.Body = builder.ToMessageBody();
+
+        using var client = new SmtpClient();
+        await client.ConnectAsync(Host, Port.Value, SecurityOption);
+
+        if (!string.IsNullOrEmpty(Username))
+            await client.AuthenticateAsync(Username, Password);
+
+        await client.SendAsync(message);
+        await client.DisconnectAsync(true);
 
         // IncrementEmailCounters();
     }
@@ -238,7 +211,8 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
-    public Task SendAsync(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments) => SendAsync(to, subject, body, null, attachments, null);
+    public Task SendAsync(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
+        => SendAsync(to, subject, body, null, attachments, null);
 
     /// <summary>
     /// Sends an email using the SMTP protocol without attachments.
@@ -246,19 +220,8 @@ public class StswMailboxModel : StswObservableObject
     /// <param name="to">The collection of recipient email addresses.</param>
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
-    public Task SendAsync(IEnumerable<string> to, string subject, string body) => SendAsync(to, subject, body, null, null, null);
-
-    /// <summary>
-    /// Adds a collection of recipients to a specified mail collection, using the provided action to add each recipient.
-    /// </summary>
-    /// <param name="recipients">The collection of recipient addresses to be added. If null, no recipients will be added.</param>
-    /// <param name="addAction">The action used to add each recipient to the mail collection (e.g., To, Bcc, or ReplyTo list).</param>
-    private void AddRecipients(IEnumerable<string>? recipients, Action<string> addAction)
-    {
-        if (recipients != null)
-            foreach (var recipient in recipients)
-                addAction(recipient);
-    }
+    public Task SendAsync(IEnumerable<string> to, string subject, string body)
+        => SendAsync(to, subject, body, null, null, null);
 
     /*
     private bool CanSendEmail()
