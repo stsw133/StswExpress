@@ -104,10 +104,10 @@ public interface IStswSelectionControl
     }
 
     /// <summary>
-    /// 
+    /// Handles key preview events for selection controls, allowing specific keys to be processed
     /// </summary>
-    /// <param name="selectionControl"></param>
-    /// <param name="e"></param>
+    /// <param name="selectionControl">The selection control to handle key events for.</param>
+    /// <param name="e"> The key event arguments containing the key pressed.</param>
     static bool PreviewKeyDown(IStswSelectionControl selectionControl, KeyEventArgs e)
     {
         if (selectionControl.IsReadOnly)

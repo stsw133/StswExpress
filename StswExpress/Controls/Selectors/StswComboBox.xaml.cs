@@ -17,6 +17,7 @@ namespace StswExpress;/// <summary>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     private TextBoxBase? _filter;
+    bool IStswDropControl.SuppressNextOpen { get; set; }
 
     public StswComboBox()
     {

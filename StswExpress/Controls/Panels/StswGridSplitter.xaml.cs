@@ -73,8 +73,8 @@ public class StswGridSplitter : GridSplitter
         if (_parentGrid == null)
             return true;
 
-        int row = Grid.GetRow(this);
-        int col = Grid.GetColumn(this);
+        var row = Grid.GetRow(this);
+        var col = Grid.GetColumn(this);
 
         if (_parentGrid.RowDefinitions.Count > row)
         {

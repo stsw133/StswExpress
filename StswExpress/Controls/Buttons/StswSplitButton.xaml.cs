@@ -18,9 +18,11 @@ namespace StswExpress;
 [ContentProperty(nameof(Items))]
 public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswSplitButton()
     {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
     }
     static StswSplitButton()
     {
@@ -109,17 +111,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSplitButton stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is in read-only mode.

@@ -21,10 +21,11 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 {
     private ListBox? _listBox;
     private Popup? _popup;
+    bool IStswDropControl.SuppressNextOpen { get; set; }
 
     public StswSelectionBox()
     {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswSelectionBox()
@@ -201,17 +202,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSelectionBox stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <inheritdoc/>
     public bool IsReadOnly

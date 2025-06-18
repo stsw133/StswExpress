@@ -17,6 +17,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Items))]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswSubSelector()
     {
         SetValue(ItemsProperty, new ObservableCollection<IStswSubControl>());

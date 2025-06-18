@@ -302,6 +302,19 @@ public static class StswFnUI
 
     #region Finding functions
     /// <summary>
+    /// Finds a <see cref="DependencyProperty"/> by its name in the specified object.
+    /// </summary>
+    /// <param name="obj"> The object in which to search for the dependency property.</param>
+    /// <param name="propertyName"> The name of the dependency property to find.</param>
+    /// <returns>The <see cref="DependencyProperty"/> if found; otherwise, <see langword="null"/>.</returns>
+    public static DependencyProperty? FindDependencyProperty(object obj, string propertyName)
+    {
+        var type = obj.GetType();
+        var field = type.GetField($"{propertyName}Property", BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+        return field?.GetValue(null) as DependencyProperty;
+    }
+
+    /// <summary>
     /// Finds the first logical ancestor of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
