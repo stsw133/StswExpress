@@ -11,7 +11,6 @@ public class StswMenu : Menu, IStswCornerControl
     static StswMenu()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMenu), new FrameworkPropertyMetadata(typeof(StswMenu)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswMenu), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

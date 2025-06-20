@@ -16,7 +16,6 @@ public class StswInfoBadge : Control, IStswCornerControl
     static StswInfoBadge()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(typeof(StswInfoBadge)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

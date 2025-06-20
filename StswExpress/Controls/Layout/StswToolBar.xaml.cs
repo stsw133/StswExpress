@@ -11,7 +11,6 @@ public class StswToolBar : ToolBar, IStswCornerControl
     static StswToolBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolBar), new FrameworkPropertyMetadata(typeof(StswToolBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToolBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -63,7 +62,6 @@ public class StswToolBarTray : ToolBarTray
     static StswToolBarTray()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolBarTray), new FrameworkPropertyMetadata(typeof(StswToolBarTray)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToolBarTray), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
 

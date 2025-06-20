@@ -3,15 +3,15 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartPie}">
+        <Setter Property="MinPercentageRender" Value="2"/>
+
         <Setter Property="Background" Value="{DynamicResource StswChart.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswChart.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="24"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="StrokeThickness" Value="500"/>
-
-        <Setter Property="FontSize" Value="24"/>
-        <Setter Property="MinPercentageRender" Value="2"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -23,7 +23,7 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartPie}">

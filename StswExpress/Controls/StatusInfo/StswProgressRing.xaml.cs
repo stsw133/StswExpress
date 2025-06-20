@@ -31,7 +31,6 @@ public class StswProgressRing : ProgressBar
     static StswProgressRing()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(typeof(StswProgressRing)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

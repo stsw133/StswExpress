@@ -19,7 +19,6 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     static StswTextBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

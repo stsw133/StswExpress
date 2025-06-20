@@ -3,16 +3,16 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTabControl}">
+        <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!1}"/>
+        <Setter Property="NewItemButtonVisibility" Value="Collapsed"/>
+        <Setter Property="SelectedIndex" Value="0"/>
+        <Setter Property="TabStripPlacement" Value="Top"/>
+
         <Setter Property="Background" Value="{DynamicResource StswTabControl.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!1}"/>
-        <Setter Property="NewItemButtonVisibility" Value="Collapsed"/>
-        <Setter Property="SelectedIndex" Value="0"/>
-        <Setter Property="TabStripPlacement" Value="Top"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

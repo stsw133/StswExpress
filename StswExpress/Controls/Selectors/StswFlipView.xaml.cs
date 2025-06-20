@@ -28,7 +28,6 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     static StswFlipView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(typeof(StswFlipView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

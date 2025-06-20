@@ -24,7 +24,6 @@ public class StswTimerControl : Control
     static StswTimerControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(typeof(StswTimerControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

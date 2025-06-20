@@ -16,7 +16,6 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
     static StswSubCheck()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubCheck), new FrameworkPropertyMetadata(typeof(StswSubCheck)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubCheck), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

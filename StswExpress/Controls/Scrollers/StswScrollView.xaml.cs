@@ -14,7 +14,6 @@ public class StswScrollView : ScrollViewer
     static StswScrollView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollView), new FrameworkPropertyMetadata(typeof(StswScrollView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswScrollView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

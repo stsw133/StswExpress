@@ -14,7 +14,6 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     static StswToggleButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

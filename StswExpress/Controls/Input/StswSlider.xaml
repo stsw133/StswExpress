@@ -8,9 +8,9 @@
         <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Ticks}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="ThumbBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="1"/>
 
+        <Setter Property="ThumbBorderThickness" Value="1"/>
         <Setter Property="ThumbIcon" Value="{DynamicResource StswSlider.Thumb.Icon}"/>
         <Setter Property="ThumbSize" Value="15"/>
         <Setter Property="TrackSize" Value="5"/>

@@ -13,7 +13,6 @@ public class StswText : TextBlock
     static StswText()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswText), new FrameworkPropertyMetadata(typeof(StswText)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswText), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
 

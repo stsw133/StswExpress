@@ -16,7 +16,6 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     static StswCheckBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

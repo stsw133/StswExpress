@@ -20,7 +20,6 @@ public class StswSpinner : Control
     static StswSpinner()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(typeof(StswSpinner)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties
@@ -164,8 +163,8 @@ public class StswSpinner : Control
 /// </summary>
 internal class StswBusyAnimation2 : Control
 {
+    private readonly Ellipse?[] _ellipses = new Ellipse[15];
     private Ellipse? _ellipseMain;
-    private Ellipse?[] _ellipses = new Ellipse[15];
 
     static StswBusyAnimation2()
     {

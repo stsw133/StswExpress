@@ -27,7 +27,6 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     static StswSplitButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

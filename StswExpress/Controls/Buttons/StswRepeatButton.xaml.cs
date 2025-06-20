@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -13,7 +12,6 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
     static StswRepeatButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(typeof(StswRepeatButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

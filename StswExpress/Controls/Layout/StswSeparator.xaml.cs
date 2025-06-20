@@ -12,7 +12,6 @@ public class StswSeparator : Separator
     static StswSeparator()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

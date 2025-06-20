@@ -23,7 +23,6 @@ public class StswDirectionView : ScrollViewer
     static StswDirectionView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(typeof(StswDirectionView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

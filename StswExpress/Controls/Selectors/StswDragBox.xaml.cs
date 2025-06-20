@@ -24,7 +24,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     static StswDragBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(typeof(StswDragBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDragBoxItem();

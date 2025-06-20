@@ -19,7 +19,6 @@ public class StswSubError : StswSubLabel
     static StswSubError()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(typeof(StswSubError)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

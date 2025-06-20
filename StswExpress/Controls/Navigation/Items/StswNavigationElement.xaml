@@ -3,20 +3,20 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswNavigationElement}">
+        <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
+        <Setter Property="ItemsIndentation" Value="23"/>
+        
         <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Static.Border}"/>
+        <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         
-        <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="IconScale" Value="1.5"/>
-        <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-        <Setter Property="ItemsIndentation" Value="23"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

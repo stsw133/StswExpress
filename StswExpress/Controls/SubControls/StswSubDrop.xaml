@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSubDrop}">
+        <Setter Property="AutoClose" Value="True"/>
+
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswText.Static.Foreground}"/>
@@ -16,8 +18,6 @@
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsContentVisible" Value="True"/>
 
-        <Setter Property="AutoClose" Value="True"/>
-
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -28,6 +28,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         <Setter Property="se:StswPopup.CornerClipping" Value="False"/>
@@ -37,8 +38,6 @@
         <Setter Property="se:StswScrollView.PanningMode" Value="VerticalFirst"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
-
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

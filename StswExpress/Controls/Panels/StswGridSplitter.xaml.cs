@@ -22,7 +22,6 @@ public class StswGridSplitter : GridSplitter
     static StswGridSplitter()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGridSplitter), new FrameworkPropertyMetadata(typeof(StswGridSplitter)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswGridSplitter), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

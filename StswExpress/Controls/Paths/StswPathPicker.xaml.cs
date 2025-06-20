@@ -21,7 +21,6 @@ public class StswPathPicker : StswBoxBase
     static StswPathPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(typeof(StswPathPicker)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

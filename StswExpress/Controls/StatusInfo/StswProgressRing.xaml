@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswProgressRing}">
+        <Setter Property="State" Value="Running"/>
+        <Setter Property="TextMode" Value="Value"/>
+
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
         <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
@@ -10,9 +13,6 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="Scale" Value="1.66"/>
-
-        <Setter Property="State" Value="Running"/>
-        <Setter Property="TextMode" Value="Value"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

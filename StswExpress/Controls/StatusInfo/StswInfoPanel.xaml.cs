@@ -20,7 +20,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

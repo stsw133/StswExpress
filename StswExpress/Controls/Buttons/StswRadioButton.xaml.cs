@@ -12,7 +12,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     static StswRadioButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioButton), new FrameworkPropertyMetadata(typeof(StswRadioButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswRadioButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

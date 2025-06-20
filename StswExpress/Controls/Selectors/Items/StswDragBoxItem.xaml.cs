@@ -13,7 +13,6 @@ public class StswDragBoxItem : ListBoxItem, IStswCornerControl
     static StswDragBoxItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBoxItem), new FrameworkPropertyMetadata(typeof(StswDragBoxItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDragBoxItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

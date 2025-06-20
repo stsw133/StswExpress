@@ -446,19 +446,32 @@ public static class StswFn
     #region Validation functions
     /// <summary>
     /// Validates whether the specified string contains only valid email addresses.
+    /// </summary>
+    private static readonly Regex EmailRegex = new(
+        @"^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|" +
+        @"""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|" +
+        @"\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@" +
+        @"(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+" +
+        @"[a-zA-Z]{2,}|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}" +
+        @"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|" +
+        @"[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-" +
+        @"\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])$",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    /// <summary>
+    /// Validates whether the specified string contains only valid email addresses.
     /// Multiple email addresses can be separated by a specified character.
     /// </summary>
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
-    /// <param name="separator">The character used to separate multiple email addresses. Defaults to ','.</param>
+    /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
-    public static bool AreValidEmails(string emails, char separator = ',')
+    public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
             return false;
 
         var emailList = emails.Split(separator, StringSplitOptions.TrimEntries);
-        var emailValidator = new EmailAddressAttribute();
-        return emailList.All(emailValidator.IsValid);
+        return emailList.All(EmailRegex.IsMatch);
     }
 
     /// <summary>
@@ -466,7 +479,7 @@ public static class StswFn
     /// </summary>
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
-    public static bool IsValidEmail(string email) => new EmailAddressAttribute().IsValid(email);
+    public static bool IsValidEmail(string email) => EmailRegex.IsMatch(email);
 
     /// <summary>
     /// Validates whether a phone number matches the expected format for a specified country.

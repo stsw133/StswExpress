@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -17,7 +16,6 @@ public class StswStatusBar : StatusBar
     static StswStatusBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStatusBar), new FrameworkPropertyMetadata(typeof(StswStatusBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStatusBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswStatusBarItem();

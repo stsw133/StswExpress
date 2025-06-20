@@ -16,7 +16,6 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
     static StswSubRepeater()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRepeater), new FrameworkPropertyMetadata(typeof(StswSubRepeater)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubRepeater), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

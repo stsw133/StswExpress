@@ -18,7 +18,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     static StswLabel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLabel), new FrameworkPropertyMetadata(typeof(StswLabel)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswLabel), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

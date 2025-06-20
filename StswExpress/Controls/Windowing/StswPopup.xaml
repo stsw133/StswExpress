@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswPopup}">
+        <Setter Property="ScrollType" Value="ScrollView"/>
+        
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
@@ -12,7 +14,6 @@
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ScrollType" Value="ScrollView"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>

@@ -12,7 +12,6 @@ public class StswSlider : Slider
     static StswSlider()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(typeof(StswSlider)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

@@ -20,7 +20,6 @@ public class StswColorPicker : Control, IStswCornerControl
     static StswColorPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

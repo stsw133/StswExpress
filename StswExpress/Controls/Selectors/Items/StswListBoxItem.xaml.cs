@@ -12,7 +12,6 @@ public class StswListBoxItem : ListBoxItem, IStswCornerControl
     static StswListBoxItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBoxItem), new FrameworkPropertyMetadata(typeof(StswListBoxItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListBoxItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

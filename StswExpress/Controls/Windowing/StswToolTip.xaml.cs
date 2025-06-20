@@ -38,23 +38,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
 
     /// <summary>
-    /// Updates the tooltip content for a specified <see cref="FrameworkElement"/> when the tooltip dependency property changes.
-    /// If the new value is a string, it creates a custom tooltip using <see cref="StswToolTip"/> and assigns it to the target element.
-    /// </summary>
-    /// <param name="obj">The dependency object where the tooltip is applied.</param>
-    /// <param name="e">The event arguments.</param>
-    public static void OnToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is FrameworkElement stsw)
-        {
-            if (e.NewValue is string tooltipContent)
-                ToolTipService.SetToolTip(stsw, new StswToolTip { Content = tooltipContent });
-            else
-                ToolTipService.SetToolTip(stsw, e.NewValue);
-        }
-    }
-
-    /// <summary>
     /// Handles the tooltip's Opened event, setting the initial offset based on the current mouse position.
     /// Ensures the tooltip appears in the correct position when it becomes visible.
     /// </summary>
@@ -119,6 +102,29 @@ public class StswToolTip : ToolTip, IStswCornerControl
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Attached property that sets the tooltip text for a <see cref="FrameworkElement"/>.
+    /// </summary>
+    public static readonly DependencyProperty TextProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(TextProperty)[..^8],
+            typeof(string),
+            typeof(StswToolTip),
+            new PropertyMetadata(null, OnTextChanged)
+        );
+    public static string? GetText(DependencyObject obj) => (string?)obj.GetValue(TextProperty);
+    public static void SetText(DependencyObject obj, string? value) => obj.SetValue(TextProperty, value);
+    private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is FrameworkElement stsw)
+        {
+            if (e.NewValue is string text)
+                stsw.ToolTip = new StswToolTip { Content = text };
+            else
+                stsw.ClearValue(ToolTipProperty);
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether the tooltip is moveable.
     /// When enabled, the tooltip dynamically follows the cursor's movement.

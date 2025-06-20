@@ -14,7 +14,6 @@ public class StswTreeViewItem : TreeViewItem
     static StswTreeViewItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTreeViewItem), new FrameworkPropertyMetadata(typeof(StswTreeViewItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTreeViewItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();

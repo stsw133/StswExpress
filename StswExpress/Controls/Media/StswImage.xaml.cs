@@ -17,7 +17,6 @@ public class StswImage : Control, IStswCornerControl
     static StswImage()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

@@ -16,7 +16,6 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
     static StswListView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(typeof(StswListView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswListViewItem();

@@ -15,7 +15,6 @@ public class StswTabControl : TabControl
     static StswTabControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(typeof(StswTabControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();

@@ -11,7 +11,6 @@ public class StswFilterTagsItem : ContentControl, IStswCornerControl
     static StswFilterTagsItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterTagsItem), new FrameworkPropertyMetadata(typeof(StswFilterTagsItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFilterTagsItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

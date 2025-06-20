@@ -11,7 +11,6 @@ public class StswSegmentItem : ListBoxItem, IStswCornerControl
     static StswSegmentItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSegmentItem), new FrameworkPropertyMetadata(typeof(StswSegmentItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSegmentItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

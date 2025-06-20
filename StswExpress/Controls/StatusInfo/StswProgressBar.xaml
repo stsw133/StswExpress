@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswProgressBar}">
+        <Setter Property="State" Value="Running"/>
+        <Setter Property="TextMode" Value="Percentage"/>
+
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
         <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
@@ -11,9 +14,6 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="1"/>
         <Setter Property="Padding" Value="4 1"/>
-
-        <Setter Property="State" Value="Running"/>
-        <Setter Property="TextMode" Value="Percentage"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

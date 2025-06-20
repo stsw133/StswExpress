@@ -18,7 +18,6 @@ public class StswInfoBar : Control, IStswCornerControl
     static StswInfoBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBar), new FrameworkPropertyMetadata(typeof(StswInfoBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

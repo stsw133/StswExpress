@@ -4,6 +4,10 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswPathPicker}">
+        <Setter Property="IsShiftingEnabled" Value="False"/>
+        <Setter Property="SelectionUnit" Value="OpenFile"/>
+        <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
+
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
@@ -17,10 +21,6 @@
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         
-        <Setter Property="IsShiftingEnabled" Value="False"/>
-        <Setter Property="SelectionUnit" Value="OpenFile"/>
-        <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus}"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

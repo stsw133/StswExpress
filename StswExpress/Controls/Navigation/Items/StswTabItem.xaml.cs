@@ -13,7 +13,6 @@ public class StswTabItem : TabItem
     static StswTabItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabItem), new FrameworkPropertyMetadata(typeof(StswTabItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTabItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

@@ -26,7 +26,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     static StswPathTree()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(typeof(StswPathTree)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();

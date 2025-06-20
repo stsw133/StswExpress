@@ -3,6 +3,12 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswRatingControl}">
+        <Setter Property="Direction" Value="Right"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="IsResetEnabled" Value="True"/>
+        <Setter Property="ItemsNumber" Value="5"/>
+        <Setter Property="ItemsNumberVisibility" Value="Collapsed"/>
+
         <Setter Property="Background" Value="Transparent"/>
 
         <Setter Property="IconData" Value="{x:Static se:StswIcons.Star}"/>
@@ -11,12 +17,6 @@
         <Setter Property="IconStroke" Value="{DynamicResource StswRating.Static.Border}"/>
         <Setter Property="IconStrokeThickness" Value="1"/>
         
-        <Setter Property="Direction" Value="Right"/>
-        <Setter Property="FontSize" Value="10"/>
-        <Setter Property="IsResetEnabled" Value="True"/>
-        <Setter Property="ItemsNumber" Value="5"/>
-        <Setter Property="ItemsNumberVisibility" Value="Collapsed"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

@@ -29,7 +29,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
     static StswNavigation()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

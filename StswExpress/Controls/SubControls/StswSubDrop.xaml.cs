@@ -18,7 +18,6 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
     static StswSubDrop()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubDrop), new FrameworkPropertyMetadata(typeof(StswSubDrop)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubDrop), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties

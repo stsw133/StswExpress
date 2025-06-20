@@ -10,7 +10,6 @@ public class StswGroupBox : GroupBox, IStswCornerControl
     static StswGroupBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

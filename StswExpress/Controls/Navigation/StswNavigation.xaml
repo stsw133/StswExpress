@@ -3,6 +3,10 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswNavigation}">
+        <Setter Property="TabStripMode" Value="Full"/>
+        <Setter Property="TabStripPlacement" Value="Left"/>
+        <Setter Property="TabStripWidth" Value="NaN"/>
+
         <Setter Property="Background" Value="{DynamicResource StswNavigation.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigation.Static.Border}"/>
 
@@ -11,10 +15,6 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="SeparatorThickness" Value="1"/>
-
-        <Setter Property="TabStripMode" Value="Full"/>
-        <Setter Property="TabStripPlacement" Value="Left"/>
-        <Setter Property="TabStripWidth" Value="NaN"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -25,13 +25,12 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
-
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -22,7 +22,6 @@ public class StswRatingControl : Control, IStswIconControl
     static StswRatingControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRatingControl), new FrameworkPropertyMetadata(typeof(StswRatingControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswRatingControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

@@ -37,7 +37,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     static StswDataGrid()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
 
         /// disable Microsoft.Data.SqlClient if not available
         var assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Microsoft.Data.SqlClient.dll");

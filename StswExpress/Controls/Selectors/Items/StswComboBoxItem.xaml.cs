@@ -10,7 +10,6 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
     static StswComboBoxItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBoxItem), new FrameworkPropertyMetadata(typeof(StswComboBoxItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswComboBoxItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

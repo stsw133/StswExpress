@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -17,7 +16,6 @@ public class StswStatusBarItem : StatusBarItem, IStswCornerControl
     static StswStatusBarItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStatusBarItem), new FrameworkPropertyMetadata(typeof(StswStatusBarItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStatusBarItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

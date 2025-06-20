@@ -11,7 +11,6 @@ public class StswDataGridRow : DataGridRow
     static StswDataGridRow()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGridRow), new FrameworkPropertyMetadata(typeof(StswDataGridRow)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataGridRow), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

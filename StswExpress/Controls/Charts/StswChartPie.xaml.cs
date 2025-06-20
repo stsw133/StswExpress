@@ -18,7 +18,6 @@ public class StswChartPie : ItemsControl
     static StswChartPie()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartPie), new FrameworkPropertyMetadata(typeof(StswChartPie)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswChartPie), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods

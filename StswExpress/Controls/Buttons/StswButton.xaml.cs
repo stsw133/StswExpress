@@ -12,7 +12,6 @@ public class StswButton : Button, IStswCornerControl
     static StswButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButton), new FrameworkPropertyMetadata(typeof(StswButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties

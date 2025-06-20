@@ -18,7 +18,6 @@ public class StswColorBox : StswBoxBase
     static StswColorBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(typeof(StswColorBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
