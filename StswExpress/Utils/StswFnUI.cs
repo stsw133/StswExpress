@@ -288,7 +288,7 @@ public static class StswFnUI
         if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
         {
             var shinfo = new SHFILEINFO();
-            if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
+            if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero && shinfo.hIcon != IntPtr.Zero)
                 return System.Drawing.Icon.FromHandle(shinfo.hIcon);
         }
         else

@@ -71,13 +71,13 @@
                                                Template="{DynamicResource StswDataGridScrollTemplate}"
                                                HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                                VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <ItemsPresenter x:Name="OPT_Items" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </se:StswScrollView>
                         </se:StswScrollView>
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasItems" Value="True">
+                        <Trigger Property="HasVisibleOuterScroll" Value="False">
                             <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_OuterScroll"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

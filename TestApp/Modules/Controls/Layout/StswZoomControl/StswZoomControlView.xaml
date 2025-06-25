@@ -18,13 +18,13 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ConstrainToParentBounds}"/> -->
             <!-- MaxScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MaxScale, Type={x:Type se:StswZoomControl}}"/>
-            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MaxScale}"/>
+            <se:StswDoubleBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MaxScale}"/>
             <!-- MinScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MinScale, Type={x:Type se:StswZoomControl}}"/>
-            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MinScale}"/>
+            <se:StswDoubleBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MinScale}"/>
             <!-- ZoomStep -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ZoomStep, Type={x:Type se:StswZoomControl}}"/>
-            <se:StswDecimalBox Format="N2" Increment="0.1" Margin="0 0 0 3" Minimum="1.1" Value="{Binding ZoomStep}"/>
+            <se:StswDoubleBox Format="N2" Increment="0.1" Margin="0 0 0 3" Minimum="1.1" Value="{Binding ZoomStep}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswZoomControl IsEnabled="{Binding IsEnabled}"

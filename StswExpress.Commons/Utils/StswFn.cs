@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System.Collections;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
@@ -16,6 +15,45 @@ namespace StswExpress.Commons;
 /// </summary>
 public static class StswFn
 {
+    #region Action functions
+    /// <summary>
+    /// Executes one of the two specified actions based on the condition.
+    /// </summary>
+    /// <param name="condition">The condition to evaluate.</param>
+    /// <param name="ifTrue">The action to execute if the condition is <see langword="true"/>.</param>
+    /// <param name="ifFalse">The action to execute if the condition is <see langword="false"/>.</param>
+    public static void Do(this bool condition, Action ifTrue, Action ifFalse) => (condition ? ifTrue : ifFalse)?.Invoke();
+
+    /// <summary>
+    /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.
+    /// </summary>
+    /// <param name="action">The action to execute.</param>
+    /// <param name="maxTries">The maximum number of attempts before failing. Defaults to 5.</param>
+    /// <param name="msInterval">The delay in milliseconds between attempts. Defaults to 200ms.</param>
+    /// <remarks>
+    /// If the action throws an exception, it will be retried up to <paramref name="maxTries"/> times.
+    /// </remarks>
+    public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
+    {
+        for (var attempt = 1; attempt <= maxTries; attempt++)
+        {
+            try
+            {
+                action.Invoke();
+                break;
+            }
+            catch (Exception) when (attempt < maxTries)
+            {
+                Thread.Sleep(msInterval);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+    #endregion
+
     #region Assembly functions
     /// <summary>
     /// Gets the name of the currently executing application.
@@ -409,37 +447,6 @@ public static class StswFn
 
         var pattern = $"({Regex.Escape(textToRemove)})+";
         return Regex.Replace(originalText, pattern, textToRemove);
-    }
-    #endregion
-
-    #region Universal functions
-    /// <summary>
-    /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.
-    /// </summary>
-    /// <param name="action">The action to execute.</param>
-    /// <param name="maxTries">The maximum number of attempts before failing. Defaults to 5.</param>
-    /// <param name="msInterval">The delay in milliseconds between attempts. Defaults to 200ms.</param>
-    /// <remarks>
-    /// If the action throws an exception, it will be retried up to <paramref name="maxTries"/> times.
-    /// </remarks>
-    public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
-    {
-        for (var attempt = 1; attempt <= maxTries; attempt++)
-        {
-            try
-            {
-                action.Invoke();
-                break;
-            }
-            catch (Exception) when (attempt < maxTries)
-            {
-                Thread.Sleep(msInterval);
-            }
-            catch
-            {
-                throw;
-            }
-        }
     }
     #endregion
 

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswListViewItem}">
+    <Style TargetType="{x:Type se:StswListBoxItem}">
         <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
@@ -18,7 +18,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswListViewItem}">
+                <ControlTemplate TargetType="{x:Type se:StswListBoxItem}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
@@ -50,6 +50,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Cursor" Value="{x:Null}"/>
                             <Setter Property="Focusable" Value="False"/>
                             <Setter Property="IsHitTestVisible" Value="True"/>
                             <Setter Property="Background" Value="{DynamicResource StswItem.ReadOnly.Background}" TargetName="OPT_MainBorder"/>

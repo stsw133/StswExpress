@@ -53,12 +53,21 @@ public class StswNavigation : ContentControl, IStswCornerControl
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
             return null;
 
-        if (context is string name1)
+        if (context is Type type)
+        {
+            if (createNewInstance || !Contexts.TryGetValue(type.FullName!, out var value))
+            {
+                Contexts.Remove(type.FullName!);
+                value = Activator.CreateInstance(type);
+                Contexts.Add(type.FullName!, value);
+            }
+            return Content = value;
+        }
+        else if (context is string name1)
         {
             if (createNewInstance || !Contexts.TryGetValue(name1, out var value))
             {
-                if (Contexts.ContainsKey(name1))
-                    Contexts.Remove(name1);
+                Contexts.Remove(name1);
                 value = (Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
                 Contexts.Add(name1, value);
             }
@@ -68,8 +77,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
         {
             if (createNewInstance || !Contexts.TryGetValue(name2, out var value))
             {
-                if (Contexts.ContainsKey(name2))
-                    Contexts.Remove(name2);
+                Contexts.Remove(name2);
                 value = context;
                 Contexts.Add(name2, value);
             }

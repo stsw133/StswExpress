@@ -15,62 +15,40 @@ public interface IStswSelectionControl
     /// <summary>
     /// Gets or sets the path to a value on the source object to serve as the visual representation of the object.
     /// </summary>
-    string DisplayMemberPath { get; set; }
-    static readonly DependencyProperty? DisplayMemberPathProperty;
+    public string DisplayMemberPath { get; set; }
+    public static readonly DependencyProperty? DisplayMemberPathProperty;
 
     /// <summary>
     /// Gets or sets a value indicating whether control is in read-only mode.
     /// When set to <see langword="true"/>, the scroll with items is accessible, but all items within the scroll are unclickable.
     /// </summary>
-    bool IsReadOnly { get; set; }
-    static readonly DependencyProperty? IsReadOnlyProperty;
+    public bool IsReadOnly { get; set; }
+    public static readonly DependencyProperty? IsReadOnlyProperty;
 
     /// <summary>
     /// Gets or sets the collection used to generate the content of the control.
     /// </summary>
-    IEnumerable ItemsSource { get; set; }
-    static readonly DependencyProperty? ItemsSourceProperty;
+    public IEnumerable ItemsSource { get; set; }
+    public static readonly DependencyProperty? ItemsSourceProperty;
 
     /// <summary>
     /// Gets or sets the template used to display each item in the control.
     /// </summary>
-    DataTemplate ItemTemplate { get; set; }
-    static readonly DependencyProperty? ItemTemplateProperty;
+    public DataTemplate ItemTemplate { get; set; }
+    public static readonly DependencyProperty? ItemTemplateProperty;
 
     /// <summary>
     /// Gets or sets the path to a value on the source object that should be used to identify the selected item.
     /// </summary>
-    string SelectedValuePath { get; set; }
-    static readonly DependencyProperty? SelectedValuePathProperty;
-
-    /// <summary>
-    /// Handles selection changes by triggering animations on selected and unselected items.
-    /// </summary>
-    /// <param name="selectionControl">The selection control.</param>
-    /// <param name="addedItems">The newly selected items.</param>
-    /// <param name="removedItems">The deselected items.</param>
-    static void SelectionChanged(ItemsControl selectionControl, IList? addedItems, IList? removedItems)
-    {
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(selectionControl))
-        {
-            if (addedItems != null)
-                foreach (var selectedItem in addedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
-                        StswSharedAnimations.AnimateClick(selectionControl, border, true);
-
-            if (removedItems != null)
-                foreach (var unselectedItem in removedItems)
-                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
-                        StswSharedAnimations.AnimateClick(selectionControl, border, false);
-        }
-    }
+    public string SelectedValuePath { get; set; }
+    public static readonly DependencyProperty? SelectedValuePathProperty;
 
     /// <summary>
     /// Handles changes to the <see cref="ItemsSource"/> property, adjusting properties like <see cref="DisplayMemberPath"/> and <see cref="SelectedValuePath"/>.
     /// </summary>
     /// <param name="selectionControl">The selection control.</param>
     /// <param name="newValue">The new ItemsSource value.</param>
-    static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
+    public static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
     {
         IEnumerable? actualSource = newValue;
 
@@ -97,7 +75,7 @@ public interface IStswSelectionControl
     /// </summary>
     /// <param name="selectionControl">The selection control.</param>
     /// <param name="itemTemplate">The new ItemTemplate value.</param>
-    static void ItemTemplateChanged(IStswSelectionControl selectionControl, DataTemplate itemTemplate)
+    public static void ItemTemplateChanged(IStswSelectionControl selectionControl, DataTemplate itemTemplate)
     {
         if (itemTemplate != null && !string.IsNullOrEmpty(selectionControl.DisplayMemberPath))
             selectionControl.DisplayMemberPath = string.Empty;
@@ -108,7 +86,7 @@ public interface IStswSelectionControl
     /// </summary>
     /// <param name="selectionControl">The selection control to handle key events for.</param>
     /// <param name="e"> The key event arguments containing the key pressed.</param>
-    static bool PreviewKeyDown(IStswSelectionControl selectionControl, KeyEventArgs e)
+    public static bool PreviewKeyDown(IStswSelectionControl selectionControl, KeyEventArgs e)
     {
         if (selectionControl.IsReadOnly)
         {
@@ -119,5 +97,27 @@ public interface IStswSelectionControl
             }
         }
         return true;
+    }
+
+    /// <summary>
+    /// Handles selection changes by triggering animations on selected and unselected items.
+    /// </summary>
+    /// <param name="selectionControl">The selection control.</param>
+    /// <param name="addedItems">The newly selected items.</param>
+    /// <param name="removedItems">The deselected items.</param>
+    public static void SelectionChanged(ItemsControl selectionControl, IList? addedItems, IList? removedItems)
+    {
+        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(selectionControl))
+        {
+            if (addedItems != null)
+                foreach (var selectedItem in addedItems)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(selectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
+                        StswSharedAnimations.AnimateClick(selectionControl, border, true);
+
+            if (removedItems != null)
+                foreach (var unselectedItem in removedItems)
+                    if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
+                        StswSharedAnimations.AnimateClick(selectionControl, border, false);
+        }
     }
 }

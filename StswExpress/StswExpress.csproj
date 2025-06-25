@@ -105,10 +105,10 @@
     <Page Update="Controls\Charts\StswChartPie.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\DataGrids\Columns\StswDataGridStatusColumn.xaml">
+    <Page Update="Controls\DataGrids\_columns\StswDataGridStatusColumn.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\DataGrids\Items\StswDataGridRow.xaml">
+    <Page Update="Controls\DataGrids\_items\StswDataGridRow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DataGrids\StswDataPager.xaml">
@@ -117,19 +117,19 @@
     <Page Update="Controls\Panels\StswGridSplitter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswComboBoxItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswComboBoxItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswListBoxItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswListBoxItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswListViewItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswListViewItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswSegmentItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswSegmentItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswTreeViewItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswTreeViewItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Selectors\StswSegment.xaml">
@@ -171,7 +171,7 @@
     <Page Update="Controls\Navigation\StswMenu.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswMenuItem.xaml">
+    <Page Update="Controls\Navigation\_items\StswMenuItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\SubControls\StswSubCheck.xaml">
@@ -232,7 +232,7 @@
     <Page Update="Controls\Filters\StswFilterBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswTabItem.xaml">
+    <Page Update="Controls\Navigation\_items\StswTabItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -292,7 +292,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswNavigationElement.xaml">
+    <Page Update="Controls\Navigation\_items\StswNavigationElement.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Scrollers\StswScrollView.xaml">

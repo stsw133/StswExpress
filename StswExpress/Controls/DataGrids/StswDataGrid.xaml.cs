@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -37,26 +38,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     static StswDataGrid()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
-
-        /// disable Microsoft.Data.SqlClient if not available
-        var assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Microsoft.Data.SqlClient.dll");
-        if (File.Exists(assemblyPath))
-        {
-            try
-            {
-                var sqlClientAssembly = Assembly.LoadFrom(assemblyPath);
-                SqlParameterType = sqlClientAssembly.GetType("Microsoft.Data.SqlClient.SqlParameter");
-                SqlClientAvailable = SqlParameterType != null;
-            }
-            catch
-            {
-                SqlClientAvailable = false;
-            }
-        }
-        else
-        {
-            SqlClientAvailable = false;
-        }
+        DetectSqlClient();
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
@@ -91,11 +73,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
 
-    /// <summary>
-    /// Customizes the auto-generation of columns based on property types.
-    /// Skips duplicate columns and applies specific column types based on data types.
-    /// </summary>
-    /// <param name="e">The event arguments containing details about the generated column.</param>
+    /// <inheritdoc/>
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
         /// if a column with this same binding already exists, skip
@@ -138,45 +116,25 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         base.OnAutoGeneratingColumn(e);
     }
 
-    /// <summary>
-    /// Handles the selection changed event for the data grid.
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-    {
-        base.OnSelectionChanged(e);
-
-        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
+    /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
 
         if (ScrollBehavior == StswScrollBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
             Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+
+        UpdateOuterScrollVisibility();
     }
 
-    /// <summary>
-    /// Occurs when the <see cref="ItemsSource"/> property value changes.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Occurs when a key is pressed while the control has focus.
-    /// </summary>
-    /// <param name="e"></param>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (e.Key == Key.V && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
@@ -187,12 +145,117 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         base.OnKeyDown(e);
     }
+
+    /// <inheritdoc/>
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
+        UpdateOuterScrollVisibility();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+
+        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+    }
+
+    /// <summary>
+    /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
+    /// </summary>
+    private static void DetectSqlClient()
+    {
+        try
+        {
+            var type = Type.GetType("Microsoft.Data.SqlClient.SqlParameter, Microsoft.Data.SqlClient");
+            if (type == null && AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Microsoft.Data.SqlClient") is { } asm)
+            {
+                type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+            }
+            if (type == null)
+            {
+                var dllPath = Path.Combine(AppContext.BaseDirectory, "Microsoft.Data.SqlClient.dll");
+                if (File.Exists(dllPath))
+                {
+                    asm = Assembly.LoadFrom(dllPath);
+                    type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+                }
+            }
+
+            SqlParameterType = type;
+            SqlClientAvailable = type != null;
+        }
+        catch
+        {
+            SqlClientAvailable = false;
+            SqlParameterType = null;
+        }
+    }
+
+    /// <summary>
+    /// Updates the visibility of the outer scroll bar based on the current items and column widths.
+    /// </summary>
+    private void UpdateOuterScrollVisibility()
+    {
+        if (!IsLoaded || Columns == null)
+            return;
+
+        var totalColumnsWidth = Columns.Where(c => c.Visibility == Visibility.Visible).Sum(c => c.ActualWidth);
+        HasVisibleOuterScroll = HasItems || totalColumnsWidth > ActualWidth;
+    }
     #endregion
 
     #region Filters
-    private StswFilterAggregator _filterAggregator = new();
-    public ICommand ClearFiltersCommand { get; }
+    private readonly StswFilterAggregator _filterAggregator = new();
     public ICommand ApplyFiltersCommand { get; }
+    public ICommand ClearFiltersCommand { get; }
+
+    /// <summary>
+    /// Gets or sets the final SQL filter text used for querying the data source.
+    /// This property is updated dynamically based on the selected filters.
+    /// </summary>
+    public string SqlFilter
+    {
+        get => _sqlFilter;
+        private set => _sqlFilter = value;
+    }
+    private string _sqlFilter = "1=1";
+
+    /// <summary>
+    /// Gets or sets the collection of SQL parameters associated with the SQL filter.
+    /// These parameters are applied dynamically based on user-selected filters.
+    /// </summary>
+    public IList<object> SqlParameters
+    {
+        get => _sqlParameters;
+        private set => _sqlParameters = value;
+    }
+    private IList<object> _sqlParameters = [];
+
+    /// <summary>
+    /// Applies the current filtering criteria to the data grid.
+    /// Updates either CollectionView-based or SQL-based filtering depending on the selected filter type.
+    /// </summary>
+    private void ApplyFilters()
+    {
+        var filterBoxes = StswFnUI.FindVisualChildren<StswFilterBox>(this).ToList();
+
+        if (FiltersType == StswDataGridFiltersType.CollectionView)
+        {
+            var cv = CollectionViewSource.GetDefaultView(ItemsSource);
+            if (cv != null)
+            {
+                cv.Filter = _filterAggregator.CombinedFilter;
+                cv.Refresh();
+            }
+        }
+        else if (FiltersType == StswDataGridFiltersType.SQL)
+        {
+            UpdateSqlFilters(filterBoxes);
+        }
+    }
 
     /// <summary>
     /// Clears all applied filters in the data grid.
@@ -219,25 +282,23 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <summary>
-    /// Applies the current filtering criteria to the data grid.
-    /// Updates either CollectionView-based or SQL-based filtering depending on the selected filter type.
+    /// Creates a SQL parameter instance using the specified name and value.
     /// </summary>
-    private void ApplyFilters()
+    /// <param name="name">The name of the SQL parameter.</param>
+    /// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
+    /// <returns></returns>
+    private static object? CreateSqlParameter(string name, object? value)
     {
-        var filterBoxes = StswFnUI.FindVisualChildren<StswFilterBox>(this).ToList();
+        if (SqlParameterType == null)
+            return null;
 
-        if (FiltersType == StswDataGridFiltersType.CollectionView)
+        try
         {
-            var cv = CollectionViewSource.GetDefaultView(ItemsSource);
-            if (cv != null)
-            {
-                cv.Filter = _filterAggregator.CombinedFilter;
-                cv.Refresh();
-            }
+            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
         }
-        else if (FiltersType == StswDataGridFiltersType.SQL)
+        catch
         {
-            UpdateSqlFilters(filterBoxes);
+            return null;
         }
     }
 
@@ -252,28 +313,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         _filterAggregator.RegisterFilter(key, filter);
         ApplyFilters();
     }
-
-    /// <summary>
-    /// Gets or sets the final SQL filter text used for querying the data source.
-    /// This property is updated dynamically based on the selected filters.
-    /// </summary>
-    public string SqlFilter
-    {
-        get => _sqlFilter;
-        private set => _sqlFilter = value;
-    }
-    private string _sqlFilter = "1=1";
-
-    /// <summary>
-    /// Gets or sets the collection of SQL parameters associated with the SQL filter.
-    /// These parameters are applied dynamically based on user-selected filters.
-    /// </summary>
-    public IList<object> SqlParameters
-    {
-        get => _sqlParameters;
-        private set => _sqlParameters = value;
-    }
-    private IList<object> _sqlParameters = [];
 
     /// <summary>
     /// Builds and updates the combined SQL filter from all filter boxes.
@@ -302,24 +341,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
             FiltersData.SqlFilter = "1=1";
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private static object? CreateSqlParameter(string name, object? value)
-    {
-        if (SqlParameterType == null)
-            return null;
-
-        try
-        {
-            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
-        }
-        catch
-        {
-            return null;
-        }
     }
     #endregion
 
@@ -385,6 +406,25 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             typeof(StswDataGridFiltersType),
             typeof(StswDataGrid)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the outer scroll bar is visible.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public bool HasVisibleOuterScroll
+    {
+        get => (bool)GetValue(HasVisibleOuterScrollProperty);
+        set => SetValue(HasVisibleOuterScrollProperty, value);
+    }
+    public static readonly DependencyProperty HasVisibleOuterScrollProperty
+        = DependencyProperty.Register(
+            nameof(HasVisibleOuterScroll),
+            typeof(bool),
+            typeof(StswDataGrid),
+            new PropertyMetadata(true)
+        );
+
 
     /// <summary>
     /// Gets or sets the command that refreshes the data grid.

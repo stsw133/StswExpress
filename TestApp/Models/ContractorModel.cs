@@ -7,7 +7,6 @@ namespace TestApp;
 public class ContractorModel : StswObservableObject, IStswCollectionItem
 {
     /// ID
-    [StswExport(nameof(ID))]
     public int ID
     {
         get => _id;
@@ -16,7 +15,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private int _id;
 
     /// Type
-    [StswExport(nameof(Type))]
     public ContractorType Type
     {
         get => _type;
@@ -44,7 +42,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private ImageSource? _iconSource;
 
     /// Name
-    [StswExport(nameof(Name))]
     public string? Name
     {
         get => _name;
@@ -54,7 +51,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Address
     [StswIgnoreAutoGenerateColumn]
-    [StswExport(nameof(Address))]
     public AddressModel Address
     {
         get => _address;
@@ -63,7 +59,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private AddressModel _address = new();
 
     /// DefaultDiscount
-    [StswExport(nameof(DefaultDiscount))]
     public decimal DefaultDiscount
     {
         get => _defaultDiscount;
@@ -72,7 +67,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private decimal _defaultDiscount;
 
     /// IsArchival
-    [StswExport("Is archival", "yes~no")]
     public bool IsArchival
     {
         get => _isArchival;
@@ -81,7 +75,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private bool _isArchival;
 
     /// CreateDT
-    [StswExport("Date of creation", "yyyy-MM-dd")]
     public DateTime CreateDT
     {
         get => _createDT;

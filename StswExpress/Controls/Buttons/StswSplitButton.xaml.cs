@@ -63,8 +63,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the drop-down should automatically close 
-    /// after an item inside it is clicked.
+    /// Gets or sets a value indicating whether the drop-down should automatically close after an item inside it is clicked.
     /// </summary>
     public bool AutoClose
     {

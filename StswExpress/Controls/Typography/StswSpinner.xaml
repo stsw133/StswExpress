@@ -472,12 +472,12 @@
                                 </Style>
                             </DataTemplate.Resources>
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
-                                <se:StswBusyAnimation2 Active="True">
-                                    <se:StswBusyAnimation2.Style>
-                                        <Style TargetType="{x:Type se:StswBusyAnimation2}">
+                                <se:StswSpinnerHelixAnimation IsActive="True">
+                                    <se:StswSpinnerHelixAnimation.Style>
+                                        <Style TargetType="{x:Type se:StswSpinnerHelixAnimation}">
                                             <Setter Property="Template">
                                                 <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type se:StswBusyAnimation2}">
+                                                    <ControlTemplate TargetType="{x:Type se:StswSpinnerHelixAnimation}">
                                                         <Canvas Width="850" Height="850">
                                                             <Ellipse x:Name="PART_Ellipse1" Style="{StaticResource BaseEllipse}"/>
                                                             <Ellipse x:Name="PART_Ellipse2" Style="{StaticResource BaseEllipse}"/>
@@ -502,8 +502,8 @@
                                                 </Setter.Value>
                                             </Setter>
                                         </Style>
-                                    </se:StswBusyAnimation2.Style>
-                                </se:StswBusyAnimation2>
+                                    </se:StswSpinnerHelixAnimation.Style>
+                                </se:StswSpinnerHelixAnimation>
                             </Viewbox>
                         </DataTemplate>
                         <!-- StswSpinnerLinesTemplate -->

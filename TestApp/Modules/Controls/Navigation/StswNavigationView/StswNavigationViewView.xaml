@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TestApp.StswNavigationViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswNavigationViewContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a navigation control that allows managing multiple contexts and navigation elements.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+
+        <!-- content -->
+        <se:StswNavigationView IsEnabled="{Binding IsEnabled}"
+                               TabStripWidth="200"
+                               HorizontalAlignment="{Binding HorizontalAlignment}"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               VerticalAlignment="{Binding VerticalAlignment}"
+                               VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswNavigationViewItem Header="Page 1" IconData="{x:Static se:StswIcons.Dice1}">
+                <se:StswNavigationViewItem Header="Page 1a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswButtonContext}"/>
+                <se:StswNavigationViewItem Header="Page 1b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswDropButtonContext}"/>
+            </se:StswNavigationViewItem>
+            <se:StswNavigationViewItem Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" TargetType="{x:Type local:StswColorBoxContext}"/>
+            <se:StswNavigationViewItem Header="Page 3" IconData="{x:Static se:StswIcons.Dice3}" TargetType="{x:Type local:StswDatePickerContext}"/>
+            <se:StswNavigationViewItem Header="Page 4" IconData="{x:Static se:StswIcons.Dice4}" TargetType="{x:Type local:StswDecimalBoxContext}"/>
+            <se:StswNavigationViewItem Header="Page 5" IconData="{x:Static se:StswIcons.Dice5}">
+                <se:StswNavigationViewItem Header="Page 5a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswInfoBadgeContext}"/>
+                <se:StswNavigationViewItem Header="Page 5b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswInfoPanelContext}"/>
+            </se:StswNavigationViewItem>
+
+            <se:StswNavigationView.ItemsPinned>
+                <se:StswNavigationViewItem Header="Page 6" IconData="{x:Static se:StswIcons.Home}" TargetType="{x:Type local:HomeContext}"/>
+            </se:StswNavigationView.ItemsPinned>
+        </se:StswNavigationView>
+        <!-- status panel -->
+
+    </local:ControlsBase>
+</UserControl>

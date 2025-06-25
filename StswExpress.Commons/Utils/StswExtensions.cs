@@ -302,6 +302,13 @@ public static partial class StswExtensions
 
     #region DateTime extensions
     /// <summary>
+    /// Calculates the quarter of the year for a given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The <see cref="DateTime"/> to calculate the quarter for.</param>
+    /// <returns>The quarter of the year (1 to 4) that the date falls in.</returns>
+    public static int GetQuarter(this DateTime date) => (date.Month - 1) / 3 + 1;
+
+    /// <summary>
     /// Checks if two <see cref="DateTime"/> instances are in the same year and month.
     /// </summary>
     /// <param name="dt1">The first <see cref="DateTime"/> instance to compare.</param>
@@ -312,21 +319,21 @@ public static partial class StswExtensions
     /// <summary>
     /// Finds the next occurrence of a specified day of the week after a given date.
     /// </summary>
-    /// <param name="from">The starting date.</param>
+    /// <param name="date">The starting date.</param>
     /// <param name="dayOfWeek">The day of the week to find.</param>
     /// <returns>The next date that falls on the specified day of the week.</returns>
     /// <remarks>
     /// This method is useful for scheduling or finding specific days, such as the next Monday after a given date.
     /// </remarks>
-    public static DateTime Next(this DateTime from, DayOfWeek dayOfWeek)
+    public static DateTime Next(this DateTime date, DayOfWeek dayOfWeek)
     {
-        var start = (int)from.DayOfWeek;
+        var start = (int)date.DayOfWeek;
         var target = (int)dayOfWeek;
 
         var daysToAdd = (target - start + 7) % 7;
         if (daysToAdd == 0) daysToAdd = 7;
 
-        return from.AddDays(daysToAdd);
+        return date.AddDays(daysToAdd);
     }
 
     /// <summary>
@@ -906,7 +913,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">Type of the object to copy.</typeparam>
     /// <param name="original">The object to clone.</param>
     /// <returns>A new instance with the same data, or <see langword="null"/> if cloning fails.</returns>
-    public static T? DeepCopy<T>(this T original) where T : class
+    public static T? DeepCopyWithJson<T>(this T original) where T : class
     {
         if (original == null)
             return default;
@@ -985,6 +992,43 @@ public static partial class StswExtensions
         }
 
         return true;
+    }
+    #endregion
+
+    #region Task extensions
+    /// <summary>
+    /// Executes the task and suppresses any exception.
+    /// </summary>
+    /// <param name="task">The task to execute.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public static async Task Try(this Task task)
+    {
+        try
+        {
+            await task;
+        }
+        catch
+        {
+            // Ignored
+        }
+    }
+
+    /// <summary>
+    /// Executes the task and suppresses any exception, returning default value.
+    /// </summary>
+    /// <typeparam name="T">The type of the result of the task.</typeparam>
+    /// <param name="task">The task to execute.</param>
+    /// <returns>A task that represents the asynchronous operation, returning the result of the task or <see langword="default"/> if an exception occurs.</returns>
+    public static async Task<T?> Try<T>(this Task<T> task)
+    {
+        try
+        {
+            return await task;
+        }
+        catch
+        {
+            return default;
+        }
     }
     #endregion
 

@@ -24,7 +24,7 @@ public class ControlsContext : StswObservableObject
         {
             var style = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
             if (style != null)
-                ThisControlSetters = GetAllSetters(style).OfType<Setter>().ToList();
+                ThisControlSetters = [.. GetAllSetters(style).OfType<Setter>()];
         }
         catch { }
 

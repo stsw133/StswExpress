@@ -6,7 +6,6 @@ namespace TestApp;
 public class ArticleModel : StswObservableObject, IStswCollectionItem
 {
     /// ID
-    [StswExport(nameof(ID))]
     public int ID
     {
         get => _id;
@@ -15,7 +14,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private int _id;
 
     /// Type
-    [StswExport(nameof(Type))]
     public ArticleType Type
     {
         get => _type;
@@ -40,7 +38,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private ImageSource? _iconSource;
 
     /// Name
-    [StswExport(nameof(Name))]
     public string? Name
     {
         get => _name;
@@ -49,7 +46,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private string? _name;
 
     /// EAN
-    [StswExport(nameof(EAN))]
     public string? EAN
     {
         get => _ean;
@@ -58,7 +54,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private string? _ean;
     
     /// UoM
-    [StswExport("Unit of measure")]
     public string? UoM
     {
         get => _uom;
@@ -67,7 +62,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private string? _uom;
 
     /// Weight
-    [StswExport(nameof(Weight))]
     public decimal Weight
     {
         get => _weight;
@@ -76,7 +70,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private decimal _weight;
 
     /// WeightUoM
-    [StswExport(nameof(WeightUoM))]
     public string? WeightUoM
     {
         get => _weightUoM;
@@ -85,7 +78,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private string? _weightUoM;
     
     /// GrossWeight
-    [StswExport(nameof(GrossWeight))]
     public decimal GrossWeight
     {
         get => _grossWeight;
@@ -94,7 +86,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private decimal _grossWeight;
 
     /// GrossWeightUoM
-    [StswExport(nameof(GrossWeightUoM))]
     public string? GrossWeightUoM
     {
         get => _grossWeightUoM;
@@ -103,7 +94,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private string? _grossWeightUoM;
     
     /// DiscountType
-    [StswExport(nameof(DiscountType))]
     public DiscountType DiscountType
     {
         get => _discountType;
@@ -112,7 +102,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private DiscountType _discountType;
     
     /// ProducerID
-    [StswExport("Producer ID")]
     public int ProducerID
     {
         get => _producerID;
@@ -121,7 +110,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private int _producerID;
 
     /// IsArchival
-    [StswExport("Is archival", "yes~no")]
     public bool IsArchival
     {
         get => _isArchival;
@@ -130,7 +118,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private bool _isArchival;
 
     /// CreatorID
-    [StswExport("Creator ID")]
     public int CreatorID
     {
         get => _creatorID;
@@ -139,7 +126,6 @@ public class ArticleModel : StswObservableObject, IStswCollectionItem
     private int _creatorID;
     
     /// CreateDT
-    [StswExport("Date of creation", "yyyy-MM-dd")]
     public DateTime CreateDT
     {
         get => _createDT;

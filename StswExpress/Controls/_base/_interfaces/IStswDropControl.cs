@@ -37,7 +37,7 @@ public interface IStswDropControl
     /// </summary>
     /// <param name="obj">The drop-down control to suppress the next open action for.</param>
     /// <param name="e"> The event arguments containing the new value for the <see cref="IsDropDownOpen"/> property.</param>
-    static void IsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void IsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is not IStswDropControl dropControl)
             return;
@@ -70,7 +70,7 @@ public interface IStswDropControl
     /// </summary>
     /// <param name="sender">The drop-down control to handle the event for.</param>
     /// <param name="e">The mouse button event arguments.</param>
-    static void PreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
+    public static void PreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
     {
         if (sender is DependencyObject obj && obj is IStswDropControl)
         {

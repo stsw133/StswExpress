@@ -87,9 +87,9 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     {
         base.PrepareContainerForItemOverride(element, item);
 
-        if (element is StswTreeViewItem listBoxItem)
+        if (element is StswTreeViewItem treeViewItem)
         {
-            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            treeViewItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
             {
                 Source = this,
                 Mode = BindingMode.OneWay

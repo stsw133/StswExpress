@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswComboBoxItem}">
+    <Style TargetType="{x:Type se:StswListViewItem}">
         <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
@@ -10,12 +10,15 @@
         <Setter Property="Padding" Value="4 2"/>
 
         <Setter Property="Cursor" Value="Hand"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswComboBoxItem}">
+                <ControlTemplate TargetType="{x:Type se:StswListViewItem}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
@@ -47,6 +50,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_MainBorder"/>
                         </MultiTrigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Cursor" Value="{x:Null}"/>
                             <Setter Property="Focusable" Value="False"/>
                             <Setter Property="IsHitTestVisible" Value="True"/>
                             <Setter Property="Background" Value="{DynamicResource StswItem.ReadOnly.Background}" TargetName="OPT_MainBorder"/>

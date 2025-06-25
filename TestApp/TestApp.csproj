@@ -258,7 +258,7 @@
     <Compile Update="Modules\Controls\Toggles\StswCheckBox\StswCheckBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Navigation\StswNavigation\StswNavigationView.xaml.cs">
+    <Compile Update="Modules\Controls\Navigation\StswNavigationView\StswNavigationViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Media\StswImage\StswImageView.xaml.cs">
@@ -529,7 +529,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Navigation\StswNavigation\StswNavigationView.xaml">
+    <Page Update="Modules\Controls\Navigation\StswNavigationView\StswNavigationViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

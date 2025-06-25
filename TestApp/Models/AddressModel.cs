@@ -2,7 +2,6 @@
 public class AddressModel : StswObservableObject
 {
     /// Country
-    [StswExport(nameof(Country))]
     public string? Country
     {
         get => _country;
@@ -11,7 +10,6 @@ public class AddressModel : StswObservableObject
     private string? _country;
 
     /// PostCode
-    [StswExport("Post code")]
     public string? PostCode
     {
         get => _postCode;
@@ -20,7 +18,6 @@ public class AddressModel : StswObservableObject
     private string? _postCode;
 
     /// City
-    [StswExport(nameof(City))]
     public string? City
     {
         get => _city;
@@ -29,7 +26,6 @@ public class AddressModel : StswObservableObject
     private string? _city;
 
     /// Street
-    [StswExport(nameof(Street))]
     public string? Street
     {
         get => _street;

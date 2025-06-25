@@ -13,6 +13,7 @@ namespace StswExpress;
 /// This control is designed to be used inside input fields or forms to indicate validation issues.
 /// It automatically updates visibility and tooltip content based on validation errors.
 /// </remarks>
+[Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class StswSubError : StswSubLabel
 {

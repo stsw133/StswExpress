@@ -13,15 +13,13 @@ public static class StswClone
     /// Creates a deep copy of the given object. 
     /// Handles complex objects, arrays, and circular references.
     /// </summary>
-    /// <param name="originalObject">The object to be cloned.</param>
-    /// <returns>A deep clone of the original object, or null if the input is null.</returns>
-    public static object? DeepCopy(this object? originalObject)
+    /// <param name="original">The object to be cloned.</param>
+    /// <returns>A deep clone of the original object, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
+    public static object DeepCopy(this object original)
     {
-        if (originalObject == null)
-            return null;
-
+        ArgumentNullException.ThrowIfNull(original);
         var visited = new Dictionary<object, object?>(new ReferenceEqualityComparer());
-        return InternalCopy(originalObject, visited);
+        return InternalCopy(original, visited)!;
     }
 
     /// <summary>
@@ -30,25 +28,30 @@ public static class StswClone
     /// </summary>
     /// <typeparam name="T">The type of the object to clone.</typeparam>
     /// <param name="original">The object to be cloned.</param>
-    /// <returns>A deep clone of the original object, or null if the input is null.</returns>
-    public static T? DeepCopy<T>(this T original) => (T?)DeepCopy((object?)original);
+    /// <returns>A deep clone of the original object, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
+    public static T DeepCopy<T>(this T original)
+    {
+        ArgumentNullException.ThrowIfNull(original);
+        var visited = new Dictionary<object, object?>(new ReferenceEqualityComparer());
+        return (T)InternalCopy(original, visited)!;
+    }
 
     /// <summary>
     /// Checks if a given type is primitive (including strings).
     /// </summary>
     /// <param name="type">The type to check.</param>
-    /// <returns>True if the type is primitive or a string, false otherwise.</returns>
-    internal static bool IsPrimitive(this Type type) => type == typeof(string) || (type.IsValueType && type.IsPrimitive);
+    /// <returns><see langword="true"/> if the type is primitive or a string, <see langword="false"/> otherwise.</returns>
+    private static bool IsPrimitive(this Type type) => type == typeof(string) || (type.IsValueType && type.IsPrimitive);
 
     /// <summary>
     /// Recursively copies an object and handles circular references by tracking visited objects.
     /// </summary>
     /// <param name="originalObject">The object to be cloned.</param>
     /// <param name="visited">Dictionary to track already cloned objects.</param>
-    /// <returns>A deep clone of the original object, or null if the input is null.</returns>
+    /// <returns>A deep clone of the original object, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
     private static object? InternalCopy(object? originalObject, IDictionary<object, object?> visited)
     {
-        if (originalObject == null) 
+        if (originalObject == null)
             return null;
 
         if (visited.ContainsKey(originalObject))
@@ -75,7 +78,7 @@ public static class StswClone
         if (typeof(Delegate).IsAssignableFrom(typeToReflect))
             return null;
 
-        var cloneObject = CloneMethod?.Invoke(originalObject, null);
+        var cloneObject = CloneMethod?.Invoke(originalObject, null) ?? throw new InvalidOperationException("CloneMethod returned null for a non-null object.");
         visited.Add(originalObject, cloneObject);
 
         CopyFields(originalObject, visited, cloneObject, typeToReflect);
@@ -143,7 +146,7 @@ public static class StswClone
     /// <summary>
     /// Equality comparer that compares objects by reference, not by value.
     /// </summary>
-    internal class ReferenceEqualityComparer : EqualityComparer<object>
+    private class ReferenceEqualityComparer : EqualityComparer<object>
     {
         public override bool Equals(object? x, object? y) => ReferenceEquals(x, y);
         public override int GetHashCode(object obj) => obj == null ? 0 : obj.GetHashCode();
@@ -152,16 +155,16 @@ public static class StswClone
     /// <summary>
     /// Helper class for traversing multidimensional arrays.
     /// </summary>
-    internal class ArrayTraverse
+    private class ArrayTraverse
     {
         public int[] Position;
-        private int[] maxLengths;
+        private int[] _maxLengths;
 
         public ArrayTraverse(Array array)
         {
-            maxLengths = new int[array.Rank];
+            _maxLengths = new int[array.Rank];
             for (int i = 0; i < array.Rank; ++i)
-                maxLengths[i] = array.GetLength(i) - 1;
+                _maxLengths[i] = array.GetLength(i) - 1;
             Position = new int[array.Rank];
         }
 
@@ -169,7 +172,7 @@ public static class StswClone
         {
             for (int i = 0; i < Position.Length; ++i)
             {
-                if (Position[i] < maxLengths[i])
+                if (Position[i] < _maxLengths[i])
                 {
                     Position[i]++;
                     for (int j = 0; j < i; j++)
