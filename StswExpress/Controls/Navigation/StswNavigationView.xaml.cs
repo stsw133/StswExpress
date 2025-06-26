@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 
 namespace StswExpress;
@@ -19,6 +20,8 @@ public class StswNavigationView : ContentControl, IStswCornerControl
 
     public StswNavigationView()
     {
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(InstancesProperty, new Dictionary<StswNavigationViewItem, object>());
         SetValue(ItemsProperty, new List<object>());
         SetValue(ItemsPinnedProperty, new List<object>());
     }
@@ -33,7 +36,14 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// Trees
+        /// buttons
+        if (GetTemplateChild("PART_StripModeButton") is ToggleButton stripModeButton)
+        {
+            stripModeButton.IsChecked = TabStripMode == StswCompactibility.Full;
+            stripModeButton.Checked += (_, _) => TabStripMode = StswCompactibility.Full;
+            stripModeButton.Unchecked += (_, _) => TabStripMode = StswCompactibility.Compact;
+        }
+        /// trees
         if (GetTemplateChild("PART_MainTree") is StswNavigationTree mainTree)
         {
             _mainTree = mainTree;
@@ -117,16 +127,58 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     /// Sets the content of the navigation view to an instance of the specified type.
     /// </summary>
     /// <param name="type">The type of the content to set.</param>
-    public void SetContent(Type? type)
+    /// <param name="isNewInstance">Determines whether to create a new instance of the type.</param>
+    public void SetContent(StswNavigationViewItem item, Type? type, bool isNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || type is null)
             return;
 
-        Content = Activator.CreateInstance(type);
+        if (isNewInstance)
+        {
+            Content = Activator.CreateInstance(type);
+            return;
+        }
+
+        if (!Instances.TryGetValue(item, out var instance))
+        {
+            instance = Activator.CreateInstance(type)!;
+            Instances[item] = instance;
+        }
+        Content = instance;
     }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets the collection of UI elements that are part of the navigation view.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswNavigationView)
+        );
+
+    /// <summary>
+    /// Gets or sets a dictionary of instances for different types.
+    /// </summary>
+    public IDictionary<StswNavigationViewItem, object> Instances
+    {
+        get => (IDictionary<StswNavigationViewItem, object>)GetValue(InstancesProperty);
+        set => SetValue(InstancesProperty, value);
+    }
+    public static readonly DependencyProperty InstancesProperty
+        = DependencyProperty.Register(
+            nameof(Instances),
+            typeof(IDictionary<StswNavigationViewItem, object>),
+            typeof(StswNavigationView)
+        );
+
     /// <summary>
     /// Gets or sets the collection of navigation items.
     /// </summary>
@@ -170,15 +222,8 @@ public class StswNavigationView : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(TabStripMode),
             typeof(StswCompactibility),
-            typeof(StswNavigationView),
-            new FrameworkPropertyMetadata(default(StswCompactibility),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(StswNavigationView)
         );
-    public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        
-    }
 
     /// <summary>
     /// Gets or sets the alignment of navigation elements.

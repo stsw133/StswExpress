@@ -3,6 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswNavigationViewItem}">
+        <Setter Property="ItemsIndentation" Value="23"/>
         <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationView}}}"/>
 
         <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
@@ -16,14 +17,7 @@
         <Setter Property="Padding" Value="4 2"/>
 
         <Setter Property="Cursor" Value="Hand"/>
-        <!-- <Setter Property="Focusable" Value="True"/> -->
-        <!-- <Setter Property="IsTabStop" Value="False"/> -->
-        <!-- <Setter Property="SnapsToDevicePixels" Value="False"/> -->
         
-        <!-- <Setter Property="HorizontalAlignment" Value="Stretch"/> -->
-        <!-- <Setter Property="HorizontalContentAlignment" Value="Stretch"/> -->
-        <!-- <Setter Property="VerticalAlignment" Value="Stretch"/> -->
-        <!-- <Setter Property="VerticalContentAlignment" Value="Stretch"/> -->
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
@@ -34,37 +28,47 @@
                 <ControlTemplate TargetType="{x:Type se:StswNavigationViewItem}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <!-- expander -->
-                        <se:StswSubCheck x:Name="OPT_Expander"
-                                         Background="{TemplateBinding Background}"
-                                         ClickMode="Press"
-                                         IconChecked="{x:Static se:StswIcons.MenuDown}"
-                                         IconUnchecked="{x:Static se:StswIcons.MenuRight}"
-                                         IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                         Padding="3"
-                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <!-- header -->
-                        <se:StswBorder x:Name="OPT_MainBorder" Grid.Column="1"
+                        <se:StswBorder x:Name="OPT_MainBorder" Grid.Column="0"
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
                                        CornerRadius="{TemplateBinding CornerRadius}">
-                            <ContentPresenter ContentSource="Header"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <se:StswLabel x:Name="OPT_Label"
+                                          IconData="{TemplateBinding IconData}"
+                                          IconFill="{TemplateBinding IconFill}"
+                                          IconScale="{TemplateBinding IconScale}"
+                                          IconSource="{TemplateBinding IconSource}"
+                                          IconStroke="{TemplateBinding IconStroke}"
+                                          IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <ContentPresenter ContentSource="Header" Focusable="False"/>
+                            </se:StswLabel>
                         </se:StswBorder>
+                        <!-- expander -->
+                        <se:StswExpander x:Name="OPT_Expander" Grid.Column="1"
+                                         Background="{TemplateBinding Background}"
+                                         IsExpanded="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Padding="0"
+                                         SeparatorThickness="0"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         se:StswControl.IsBorderless="True"/>
                         <!-- items -->
-                        <ItemsPresenter x:Name="OPT_Items" Grid.Column="1" Grid.Row="1"/>
+                        <DockPanel x:Name="OPT_Items" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                            <Rectangle x:Name="OPT_ItemsIndentation" Width="{TemplateBinding ItemsIndentation}"/>
+                            <ItemsPresenter/>
+                        </DockPanel>
                     </Grid>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
@@ -78,6 +82,11 @@
                             <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationView}}}" Value="Compact">
+                            <Setter Property="IsContentVisible" Value="False" TargetName="OPT_Label"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ItemsIndentation"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Expander"/>
+                        </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True" SourceName="OPT_Expander">
                             <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Expander"/>
                         </Trigger>

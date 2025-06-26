@@ -15,7 +15,7 @@
 
         <!-- content -->
         <se:StswNavigationView IsEnabled="{Binding IsEnabled}"
-                               TabStripWidth="200"
+                               TabStripWidth="180"
                                HorizontalAlignment="{Binding HorizontalAlignment}"
                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                VerticalAlignment="{Binding VerticalAlignment}"
@@ -31,9 +31,19 @@
                 <se:StswNavigationViewItem Header="Page 5a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswInfoBadgeContext}"/>
                 <se:StswNavigationViewItem Header="Page 5b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswInfoPanelContext}"/>
             </se:StswNavigationViewItem>
+            <se:StswNavigationViewItem Header="Page 6" IconData="{x:Static se:StswIcons.Dice6}">
+                <se:StswNavigationViewItem Header="Page 6a" IconData="{x:Static se:StswIcons.AlphaABox}">
+                    <se:StswNavigationViewItem Header="Page 6a1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswBorderContext}"/>
+                    <se:StswNavigationViewItem Header="Page 6a2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswZoomControlContext}"/>
+                </se:StswNavigationViewItem>
+                <se:StswNavigationViewItem Header="Page 6b" IconData="{x:Static se:StswIcons.AlphaBBox}">
+                    <se:StswNavigationViewItem Header="Page 6b1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswOutlinedTextContext}"/>
+                    <se:StswNavigationViewItem Header="Page 6b2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswTextContext}"/>
+                </se:StswNavigationViewItem>
+            </se:StswNavigationViewItem>
 
             <se:StswNavigationView.ItemsPinned>
-                <se:StswNavigationViewItem Header="Page 6" IconData="{x:Static se:StswIcons.Home}" TargetType="{x:Type local:HomeContext}"/>
+                <se:StswNavigationViewItem Header="Page 7" IconData="{x:Static se:StswIcons.Home}" TargetType="{x:Type local:HomeContext}"/>
             </se:StswNavigationView.ItemsPinned>
         </se:StswNavigationView>
         <!-- status panel -->

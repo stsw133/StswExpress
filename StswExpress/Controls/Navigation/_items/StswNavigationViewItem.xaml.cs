@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -33,11 +32,27 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
     protected override void OnSelected(RoutedEventArgs e)
     {
         base.OnSelected(e);
-        _navigationView?.SetContent(TargetType);
+        _navigationView?.SetContent(this, TargetType, CreateNewInstance);
     }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether to create a new instance of the context object when the element is checked.
+    /// If set to <see langword="true"/>, a fresh instance of the context is created each time the navigation element is selected.
+    /// </summary>
+    public bool CreateNewInstance
+    {
+        get => (bool)GetValue(CreateNewInstanceProperty);
+        set => SetValue(CreateNewInstanceProperty, value);
+    }
+    public static readonly DependencyProperty CreateNewInstanceProperty
+        = DependencyProperty.Register(
+            nameof(CreateNewInstance),
+            typeof(bool),
+            typeof(StswNavigationViewItem)
+        );
+
     /// <inheritdoc/>
     public Geometry? IconData
     {
@@ -109,15 +124,8 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
         = DependencyProperty.Register(
             nameof(TabStripMode),
             typeof(StswCompactibility),
-            typeof(StswNavigationViewItem),
-            new FrameworkPropertyMetadata(default(StswCompactibility),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(StswNavigationViewItem)
         );
-    public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-
-    }
 
     /// <summary>
     /// Gets or sets the namespace of the context associated with this navigation element.
@@ -220,20 +228,30 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
         = DependencyProperty.Register(
             nameof(ItemsIndentation),
             typeof(double),
-            typeof(StswNavigationViewItem),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsIndentationChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(StswNavigationViewItem)
         );
-    public static void OnItemsIndentationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// <summary>
+    /// Gets or sets the thickness of the sub-item border.
+    /// Defines the visual separation between navigation elements.
+    /// </summary>
+    public double SeparatorThickness
     {
-        
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswNavigationViewItem),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
     #endregion
 }
 
 /* usage:
 
-<se:StswNavigationViewItem Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/>
+<se:StswNavigationViewItem Header="Reports" IconData="{StaticResource UserIcon}" TargetType="{x:Type local:ReportsContext}"/>
 
 */

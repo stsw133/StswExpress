@@ -46,15 +46,37 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- menu -->
-                            <DockPanel Width="{TemplateBinding TabStripWidth}">
-                                <se:StswNavigationTree x:Name="PART_MainTree"
-                                                       DockPanel.Dock="Bottom"
-                                                       ItemsSource="{Binding ItemsPinned, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <se:StswNavigationTree x:Name="PART_PinnedTree"
-                                                       DockPanel.Dock="Top"
-                                                       ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <DockPanel x:Name="OPT_Menu" Width="{TemplateBinding TabStripWidth}">
+                                <!-- components -->
+                                <DockPanel DockPanel.Dock="Top">
+                                    <se:StswToggleButton x:Name="PART_StripModeButton" se:StswControl.IsBorderless="True">
+                                        <se:StswIcon Data="{x:Static se:StswIcons.Menu}"/>
+                                    </se:StswToggleButton>
+                                    <se:StswSeparator BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Vertical"/>
+                                    
+                                    <se:StswDirectionView x:Name="OPT_CustomComponents"
+                                                          BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                          Focusable="False"
+                                                          Orientation="Horizontal">
+                                        <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <DockPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </se:StswDirectionView>
+                                    
+                                    <se:StswTextBox Visibility="Collapsed"/>
+                                </DockPanel>
+                                <!-- items pinned -->
+                                <se:StswNavigationTree x:Name="PART_PinnedTree" DockPanel.Dock="Bottom" ItemsSource="{Binding ItemsPinned, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <se:StswSeparator x:Name="OPT_PinnedTreeSeparator" DockPanel.Dock="Bottom" BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Horizontal"/>
+                                <!-- items main -->
+                                <se:StswSeparator x:Name="OPT_MainTreeSeparator" DockPanel.Dock="Top" BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Horizontal"/>
+                                <se:StswNavigationTree x:Name="PART_MainTree" DockPanel.Dock="Top" ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </DockPanel>
-                            <se:StswSeparator BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Vertical"/>
+                            <se:StswSeparator x:Name="OPT_MenuSeparator" BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Vertical"/>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Content}"
                                               ContentStringFormat="{TemplateBinding ContentStringFormat}"
@@ -69,6 +91,21 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="False" SourceName="PART_MainTree">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainTree"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MainTreeSeparator"/>
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="False" SourceName="PART_PinnedTree">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_PinnedTree"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_PinnedTreeSeparator"/>
+                        </Trigger>
+                        <Trigger Property="TabStripMode" Value="Collapsed">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Menu"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MenuSeparator"/>
+                        </Trigger>
+                        <Trigger Property="TabStripMode" Value="Compact">
+                            <Setter Property="Width" Value="NaN" TargetName="OPT_Menu"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="OPT_MainBorder"/>

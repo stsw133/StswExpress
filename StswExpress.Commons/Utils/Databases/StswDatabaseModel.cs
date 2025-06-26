@@ -8,9 +8,10 @@ namespace StswExpress.Commons;
 public class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
-    public StswDatabaseModel(string? server = null, string? database = null, string? login = null, string? password = null)
+    public StswDatabaseModel(string? server = null, int? port = null, string? database = null, string? login = null, string? password = null)
     {
         Server = server;
+        Port = port;
         Database = database;
         Login = login;
         Password = password;
