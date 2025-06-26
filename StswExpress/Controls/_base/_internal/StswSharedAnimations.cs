@@ -23,9 +23,9 @@ internal static class StswSharedAnimations
     /// <param name="control">The control initiating the animation, determining the color scheme to use.</param>
     /// <param name="target">The <see cref="Border"/> element to animate.</param>
     /// <param name="isSelected">Indicates whether the target is in the selected state.</param>
-    internal static void AnimateClick(Control control, Border target, bool isSelected)
+    internal static void AnimateClick(Control control, Border? target, bool isSelected)
     {
-        if (!StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(control))
+        if (target == null || !StswSettings.Default.EnableAnimations || !StswControl.GetEnableAnimations(control))
             return;
 
         Color fromBackgroundColor = ((SolidColorBrush)target.Background).Color;

@@ -20,11 +20,7 @@ namespace StswExpress;
 /// </remarks>
 public class StswApp : Application
 {
-    /// <summary>
-    /// Entry point that configures application settings, prevents multiple instances if needed, 
-    /// initializes resources, loads translations asynchronously, and registers data templates if enabled.
-    /// </summary>
-    /// <param name="e">The startup event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)
     {
         if (!AllowMultipleInstances && CheckForExistingInstance())

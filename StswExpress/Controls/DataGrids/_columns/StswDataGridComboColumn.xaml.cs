@@ -31,13 +31,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable text element for displaying the selected value within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswText"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswText"/> element bound to the column's selected value.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         cell.PreviewKeyDown += OnPreviewKeyDown;
@@ -74,13 +68,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable combo box element for selecting a value within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswComboBox"/> as the editing element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswComboBox"/> element bound to the column's selected value.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswComboBox()

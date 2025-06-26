@@ -36,11 +36,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Occurs when the <see cref="ItemsSource"/> property value changes.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);

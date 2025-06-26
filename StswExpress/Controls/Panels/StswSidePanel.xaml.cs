@@ -28,11 +28,7 @@ public class StswSidePanel : ContentControl
             };
     }
 
-    /// <summary>
-    /// Occurs when the mouse leaves the control.
-    /// If the control is not in always-visible mode and is expanded, it collapses when the mouse leaves.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

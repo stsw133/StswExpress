@@ -34,14 +34,7 @@ public class StswInvokeMethodExtension : MarkupExtension
         MethodName = methodName;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="MissingMethodException"></exception>
+    /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         var multiBinding = new MultiBinding

@@ -50,11 +50,7 @@ public class StswScrollBar : ScrollBar
         OnIsDynamicChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Handles the MouseEnter event for dynamic behavior.
-    /// Triggers an animation when the mouse enters the scroll bar, expanding its visibility and width if dynamic mode is enabled.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -62,11 +58,7 @@ public class StswScrollBar : ScrollBar
             MouseEnterAnimation();
     }
 
-    /// <summary>
-    /// Handles the MouseLeave event for dynamic behavior.
-    /// Triggers an animation to collapse the scroll bar's visibility and width when the mouse leaves, if dynamic mode is enabled.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
@@ -74,12 +66,7 @@ public class StswScrollBar : ScrollBar
             MouseLeaveAnimation();
     }
 
-    /// <summary>
-    /// Handles the ValueChanged event for dynamic behavior.
-    /// Triggers an animation when the value of the scroll bar changes, making it more noticeable if not hovering.
-    /// </summary>
-    /// <param name="oldValue">The old value</param>
-    /// <param name="newValue">The new value</param>
+    /// <inheritdoc/>
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);

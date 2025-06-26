@@ -311,6 +311,7 @@
                                 <UniformGrid Rows="1" Columns="3" HorizontalAlignment="Center" Height="24" Width="72">
                                     <Ellipse x:Name="OPT_Dot1"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
+                                             Opacity="0"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
                                         <Ellipse.Style>
@@ -320,7 +321,7 @@
                                                         <BeginStoryboard>
                                                             <Storyboard Duration="0:0:0.9"
                                                                         RepeatBehavior="Forever">
-                                                                <!-- Opacity dot 1-->
+                                                                <!-- Opacity dot 1 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
@@ -336,7 +337,7 @@
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                 </DoubleAnimationUsingKeyFrames>
-                                                                <!-- Size dot 1-->
+                                                                <!-- Size dot 1 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
@@ -361,6 +362,7 @@
                                     </Ellipse>
                                     <Ellipse x:Name="OPT_Dot2"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
+                                             Opacity="0"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
                                         <Ellipse.Style>
@@ -369,7 +371,7 @@
                                                     <EventTrigger RoutedEvent="Loaded">
                                                         <BeginStoryboard>
                                                             <Storyboard Duration="0:0:0.9" RepeatBehavior="Forever" BeginTime="0:0:0.2">
-                                                                <!-- Opacity dot 1 -->
+                                                                <!-- Opacity dot 2 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
@@ -385,7 +387,7 @@
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                 </DoubleAnimationUsingKeyFrames>
-                                                                <!-- Size dot 1 -->
+                                                                <!-- Size dot 2 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
@@ -410,6 +412,7 @@
                                     </Ellipse>
                                     <Ellipse x:Name="OPT_Dot3"
                                              Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
+                                             Opacity="0"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                              Width="20">
                                         <Ellipse.Style>
@@ -418,7 +421,7 @@
                                                     <EventTrigger RoutedEvent="Loaded">
                                                         <BeginStoryboard>
                                                             <Storyboard Duration="0:0:0.9" RepeatBehavior="Forever" BeginTime="0:0:0.4">
-                                                                <!-- Opacity dot 1-->
+                                                                <!-- Opacity dot 3 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
@@ -434,7 +437,7 @@
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                 </DoubleAnimationUsingKeyFrames>
-                                                                <!-- Size dot 1-->
+                                                                <!-- Size dot 3 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>

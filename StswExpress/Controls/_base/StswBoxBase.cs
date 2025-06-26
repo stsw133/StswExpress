@@ -23,12 +23,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles the KeyDown event for the text box.
-    /// If the Enter key is pressed and <see cref="AcceptsReturn"/> is <see langword="false"/>, 
-    /// it triggers an update of the main property value, allowing for immediate processing of user input.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the KeyDown event.</param>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -36,11 +31,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
             UpdateMainProperty(true);
     }
 
-    /// <summary>
-    /// Handles the LostFocus event for the text box. 
-    /// This ensures that the main property value is updated when the user navigates away from the control.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the LostFocus event.</param>
+    /// <inheritdoc/>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
         UpdateMainProperty(false);
@@ -51,10 +42,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     /// Updates the main property associated with the control based on the user's input.
     /// This method is responsible for validation and formatting before committing the value.
     /// </summary>
-    /// <param name="alwaysUpdate">
-    /// <see langword="true"/> forces an update even if the value hasn't changed, 
-    /// while <see langword="false"/> updates only if a modification was detected.
-    /// </param>
+    /// <param name="alwaysUpdate">If set to <see langword="true"/>, the method will always update the main property, regardless of whether the value has changed.</param>
     protected abstract void UpdateMainProperty(bool alwaysUpdate);
     #endregion
 

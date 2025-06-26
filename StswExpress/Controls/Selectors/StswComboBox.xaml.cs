@@ -63,10 +63,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             Keyboard.Focus(this);
     }
     /*
-    /// <summary>
-    /// Overrides the behavior for keyboard input to properly handle filtering when it is enabled.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         base.OnPreviewKeyDown(e);
@@ -98,12 +95,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         }
     }
     */
-    /// <summary>
-    /// Handles changes in the <see cref="ItemsSource"/> property.
-    /// Ensures that filtering is enabled only for <see cref="ICollectionView"/> sources.
-    /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -119,32 +111,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
-    /// Handles updates to the ItemTemplate and notifies selection control.
-    /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles selection changes. Prevents selection if <see cref="IsReadOnly"/> is set.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         // causes problem with starting selected value (to verify why it existed)
@@ -165,11 +146,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             item.IsSelected = true;
     }
 
-    /// <summary>
-    /// Prepares the container for item override, setting bindings for read-only state.
-    /// </summary>
-    /// <param name="element">The element to prepare</param>
-    /// <param name="item">The item to bind</param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);

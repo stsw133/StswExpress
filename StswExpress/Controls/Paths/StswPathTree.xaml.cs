@@ -45,42 +45,28 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         OnInitialPathChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Occurs when the ItemsSource property value changes.
-    /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
-    /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles item selection changes and animations.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
@@ -91,11 +77,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
     private bool _isSelectingPath = false;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);

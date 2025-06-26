@@ -33,13 +33,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable checkbox element for displaying boolean values within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswCheckBox"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswCheckBox"/> element bound to the column's boolean data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswCheckBox()
@@ -59,13 +53,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable checkbox element for inline editing within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswCheckBox"/> as the editing element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswCheckBox"/> element bound to the column's boolean data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswCheckBox()

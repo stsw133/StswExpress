@@ -27,11 +27,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     public static StswCalculateConverter Instance => instance ??= new StswCalculateConverter();
     private static StswCalculateConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

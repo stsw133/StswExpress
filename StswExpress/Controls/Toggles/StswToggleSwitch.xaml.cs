@@ -40,10 +40,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the checked event and triggers the animation for the switch moving to the "on" position.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -52,10 +48,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the unchecked event and triggers the animation for the switch moving to the "off" position.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -64,10 +56,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the indeterminate state event and centers the switch.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
@@ -75,19 +63,14 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateIndeterminate();
     }
 
-    /// <summary>
-    /// Prevents the toggle state from changing when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnToggle()
     {
         if (!IsReadOnly)
             base.OnToggle();
     }
 
-    /// <summary>
-    /// Updates the switch layout when the control is resized.
-    /// </summary>
-    /// <param name="sizeInfo">The size information.</param>
+    /// <inheritdoc/>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);

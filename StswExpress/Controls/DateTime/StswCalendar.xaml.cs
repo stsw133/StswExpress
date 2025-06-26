@@ -86,11 +86,7 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /*
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the calendar.
-    /// Adjusts the selected month based on the mouse wheel's scrolling direction and the IncrementType property.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);

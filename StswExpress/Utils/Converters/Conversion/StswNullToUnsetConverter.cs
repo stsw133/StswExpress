@@ -18,11 +18,7 @@ public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
     public static StswNullToUnsetConverter Instance => instance ??= new StswNullToUnsetConverter();
     private static StswNullToUnsetConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

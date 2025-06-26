@@ -25,12 +25,7 @@ public class StswGrid : Grid
         EnsureDefinitions();
     }
 
-    /// <summary>
-    /// Overrides the MeasureOverride method to ensure proper layout when AutoDefinitions is enabled.
-    /// Ensures the grid's definitions are adjusted based on the number of children.
-    /// </summary>
-    /// <param name="constraint">The size constraint for the control.</param>
-    /// <returns>The desired size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size constraint)
     {
         EnsureDefinitions();

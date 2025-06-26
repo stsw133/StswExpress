@@ -40,10 +40,7 @@ public class StswGridSplitter : GridSplitter
         }, DispatcherPriority.Loaded);
     }
 
-    /// <summary>
-    /// Handles the MouseLeftButtonDown event for the splitter. It captures the mouse and sets the original length of the adjacent column or row.
-    /// </summary>
-    /// <param name="e"></param>
+    /// <inheritdoc/>
     protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
     {
         base.OnMouseDoubleClick(e);

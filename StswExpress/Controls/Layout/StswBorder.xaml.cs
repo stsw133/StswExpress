@@ -22,11 +22,7 @@ public class StswBorder : Border, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Called when the control is rendered. If <see cref="CornerClipping"/> is enabled and a child element is present, 
-    /// applies rounded clipping to the child.
-    /// </summary>
-    /// <param name="dc">The drawing context for rendering the control.</param>
+    /// <inheritdoc/>
     protected override void OnRender(DrawingContext dc)
     {
         if (CornerClipping && Child is UIElement child)
@@ -35,13 +31,7 @@ public class StswBorder : Border, IStswCornerControl
         base.OnRender(dc);
     }
 
-    /// <summary>
-    /// Overrides the <see cref="Border.Child"/> property to apply rounded clipping and restore the previous Clip value 
-    /// when changing the child.
-    /// </summary>
-    /// <remarks>
-    /// Stores the original Clip value of the child and restores it when the child is removed.
-    /// </remarks>
+    /// <inheritdoc/>
     public override UIElement Child
     {
         get => base.Child;

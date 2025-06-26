@@ -31,15 +31,7 @@ public class StswDynamicColorExtension : MarkupExtension
         ResourceKey = resourceKey;
     }
 
-    /// <summary>
-    /// Provides the <see cref="Color"/> from the <see cref="SolidColorBrush"/> resource identified by the specified resource key.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider used to resolve resources. Typically ignored.</param>
-    /// <returns>The <see cref="Color"/> extracted from the specified <see cref="SolidColorBrush"/> resource.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when the resource with the specified <see cref="ResourceKey"/> cannot be found
-    /// or is not a <see cref="SolidColorBrush"/>.
-    /// </exception>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (Application.Current?.TryFindResource(ResourceKey) is not SolidColorBrush brush)

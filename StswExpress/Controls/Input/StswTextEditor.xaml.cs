@@ -79,11 +79,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
     }
 
-    /// <summary>
-    /// Occurs when the selection in the editor changes.
-    /// Updates font family and font size dropdowns based on the currently selected text.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnSelectionChanged(RoutedEventArgs e)
     {
         base.OnSelectionChanged(e);

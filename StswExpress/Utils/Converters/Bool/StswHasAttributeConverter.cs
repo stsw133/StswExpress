@@ -19,11 +19,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     public static StswHasAttributeConverter Instance => instance ??= new StswHasAttributeConverter();
     private static StswHasAttributeConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

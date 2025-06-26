@@ -53,11 +53,7 @@ public class StswOutlinedText : FrameworkElement
         }
     }
 
-    /// <summary>
-    /// Renders the outlined text.
-    /// Draws both the stroke and fill geometry based on the configured properties.
-    /// </summary>
-    /// <param name="drawingContext">The drawing context used for rendering.</param>
+    /// <inheritdoc/>
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
@@ -71,12 +67,7 @@ public class StswOutlinedText : FrameworkElement
         }
     }
 
-    /// <summary>
-    /// Measures the required size for rendering the outlined text.
-    /// Considers text wrapping and alignment settings.
-    /// </summary>
-    /// <param name="availableSize">The available space for rendering.</param>
-    /// <returns>The desired size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
@@ -89,12 +80,7 @@ public class StswOutlinedText : FrameworkElement
         return new Size();
     }
 
-    /// <summary>
-    /// Arranges the text within the allocated space.
-    /// Adjusts the maximum width and height for proper rendering.
-    /// </summary>
-    /// <param name="finalSize">The final size of the control.</param>
-    /// <returns>The arranged size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();

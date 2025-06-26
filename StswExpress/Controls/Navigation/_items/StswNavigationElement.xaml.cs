@@ -39,11 +39,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         //OnItemsIndentationChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Temporary method for fixing indentation issues when switching between compact and full modes.
-    /// Forces an update to the indentation of sub-items.
-    /// </summary>
-    /// <param name="drawingContext">The drawing context for rendering.</param>
+    /// <inheritdoc/>
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);

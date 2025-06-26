@@ -97,10 +97,7 @@ public class StswToaster : ItemsControl
             itemsControl.Items.Remove(item);
     }
 
-    /// <summary>
-    /// Handles the mouse enter event to stop the timer for automatic removal of toasts.
-    /// </summary>
-    /// <param name="e"></param>
+    /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -108,10 +105,7 @@ public class StswToaster : ItemsControl
             StopTimer();
     }
 
-    /// <summary>
-    /// Handles the mouse leave event to start the timer for automatic removal of toasts.
-    /// </summary>
-    /// <param name="e"></param>
+    /// <inheritdoc/>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

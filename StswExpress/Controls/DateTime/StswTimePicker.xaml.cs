@@ -33,11 +33,7 @@ public class StswTimePicker : StswBoxBase
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
     /*
-    /// <summary>
-    /// Handles the MouseDown event for the internal content host of the time picker.
-    /// If the Middle mouse button is pressed, the IncrementType value is changed.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
@@ -45,11 +41,7 @@ public class StswTimePicker : StswBoxBase
             IncrementType = IncrementType.GetNextValue();
     }
     */
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the time picker.
-    /// Adjusts the selected time based on the mouse wheel's scrolling direction and the IncrementType property.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -104,10 +96,7 @@ public class StswTimePicker : StswBoxBase
         return newValue;
     }
 
-    /// <summary>
-    /// Updates the main property associated with the selected time in the control based on user input.
-    /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedTime;

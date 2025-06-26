@@ -68,20 +68,14 @@ public class StswDirectionView : ScrollViewer
         OnVerticalOffsetChanged();
     }
 
-    /// <summary>
-    /// Detects when the left mouse button is pressed and sets a flag to start auto-scrolling when hovering over directional buttons.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonDown(e);
         _isLeftMouseDown = true;
     }
 
-    /// <summary>
-    /// Detects when the left mouse button is released, stopping any active auto-scrolling.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonUp(e);
@@ -89,11 +83,7 @@ public class StswDirectionView : ScrollViewer
         StopAutoScrollTimer();
     }
 
-    /// <summary>
-    /// Handles scrolling behavior using the mouse wheel.
-    /// Supports both vertical and horizontal scrolling, and raises events for parent elements when the scroll reaches the top or bottom.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
@@ -126,10 +116,7 @@ public class StswDirectionView : ScrollViewer
         //}
     }
 
-    /// <summary>
-    /// Handles the ScrollChanged event, enabling or disabling the directional buttons based on the current scroll offsets.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         if (e.HorizontalChange != 0)

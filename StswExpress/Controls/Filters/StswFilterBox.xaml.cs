@@ -333,10 +333,7 @@ public class StswFilterBox : Control, IStswCornerControl
         return text == core;
     }
 
-    /// <summary>
-    /// Handles the KeyDown event. Pressing "Enter" refreshes the associated data grid.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);

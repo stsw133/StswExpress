@@ -54,12 +54,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         }
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Validates item compatibility and updates selection tracking.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
@@ -83,12 +78,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         UpdateTextCommand?.Execute(null);
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Resets the <see cref="DisplayMemberPath"/> if a custom template is applied.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))

@@ -52,12 +52,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         }
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Updates selection binding accordingly.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -66,23 +61,14 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
             SelectedIndex = 0;
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Updates selection control logic based on the new item template.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Handles mouse wheel scrolling to navigate through items.
-    /// Allows item selection changes if the control has focus and is not read-only.
-    /// </summary>
-    /// <param name="e">Mouse wheel event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
     {
         base.OnPreviewMouseWheel(e);
@@ -93,11 +79,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         e.Handled = true;
     }
 
-    /// <summary>
-    /// Handles keyboard navigation within the flip view.
-    /// Supports arrow keys, Page Up/Down, Home, End, and Tab navigation.
-    /// </summary>
-    /// <param name="e">Key event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         base.OnPreviewKeyDown(e);

@@ -19,11 +19,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
     }
 
     #region Events & methods
-    /// <summary>
-    /// Called when the context menu is opened. 
-    /// Applies custom styling and layout updates to ensure consistency across menu items.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnOpened(RoutedEventArgs e)
     {
         base.OnOpened(e);

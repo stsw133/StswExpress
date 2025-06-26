@@ -9,44 +9,33 @@ namespace StswExpress;
 /// </summary>
 public class StswRadioButton : RadioButton, IStswCornerControl
 {
+    private Border? _mainBorder;
+
     static StswRadioButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioButton), new FrameworkPropertyMetadata(typeof(StswRadioButton)));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Invoked when the button is checked. 
-    /// If animations are enabled in the settings, the method triggers an animation 
-    /// on the control's main border to provide visual feedback.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the checked event.</param>
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+
+    /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, true);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
     }
 
-    /// <summary>
-    /// Invoked when the button is unchecked.
-    /// If animations are enabled in the settings, the method triggers an animation 
-    /// on the control's main border to visually indicate the unchecked state.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the unchecked event.</param>
+    /// <inheritdoc/>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, false);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
     #endregion
 

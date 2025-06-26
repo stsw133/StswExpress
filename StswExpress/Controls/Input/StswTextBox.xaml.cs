@@ -22,11 +22,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles the KeyDown event for the text box.
-    /// If the Enter key is pressed and the control does not accept multi-line input (`AcceptsReturn` is false),
-    /// the binding source for the `Text` property is updated.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);

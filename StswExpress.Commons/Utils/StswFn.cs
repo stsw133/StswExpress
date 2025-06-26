@@ -22,7 +22,7 @@ public static class StswFn
     /// <param name="condition">The condition to evaluate.</param>
     /// <param name="ifTrue">The action to execute if the condition is <see langword="true"/>.</param>
     /// <param name="ifFalse">The action to execute if the condition is <see langword="false"/>.</param>
-    public static void Do(this bool condition, Action ifTrue, Action ifFalse) => (condition ? ifTrue : ifFalse)?.Invoke();
+    public static void Do(this bool condition, Action? ifTrue, Action? ifFalse) => (condition ? ifTrue : ifFalse)?.Invoke();
 
     /// <summary>
     /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.

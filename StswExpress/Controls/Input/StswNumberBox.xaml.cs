@@ -87,11 +87,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         CaretIndex = Text?.Length ?? 0;
     }
 
-    /// <summary>
-    /// Handles the mouse wheel event, adjusting the numeric value based on scroll direction.
-    /// The value is incremented or decremented according to <see cref="Increment"/>.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -125,12 +121,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         return newValue;
     }
 
-    /// <summary>
-    /// Updates the main property associated with the control's value based on user input.
-    /// If the entered text is a valid number, it updates the bound value. If empty, it sets the value to null.
-    /// Also supports evaluating mathematical expressions.
-    /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = Value;

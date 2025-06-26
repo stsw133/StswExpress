@@ -21,12 +21,7 @@ public class StswChartPie : ItemsControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Called when the <see cref="ItemsControl.ItemsSource"/> property changes.
-    /// Recalculates the chart data and updates the pie segment properties dynamically.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);

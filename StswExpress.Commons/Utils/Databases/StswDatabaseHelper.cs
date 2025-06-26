@@ -48,6 +48,8 @@ public static class StswDatabaseHelper
         sqlBulkCopy.DestinationTableName = tableName;
 
         var dt = items.ToDataTable();
+        foreach (DataColumn column in dt.Columns)
+            sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
         sqlBulkCopy.WriteToServer(dt);
 
         factory.Commit();
@@ -582,6 +584,9 @@ public static class StswDatabaseHelper
         using var sqlBulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);
         sqlBulkCopy.BulkCopyTimeout = timeout ?? sqlBulkCopy.BulkCopyTimeout;
         sqlBulkCopy.DestinationTableName = "#" + tableName;
+
+        foreach (DataColumn column in dt.Columns)
+            sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
         sqlBulkCopy.WriteToServer(dt);
 
         factory.Commit();

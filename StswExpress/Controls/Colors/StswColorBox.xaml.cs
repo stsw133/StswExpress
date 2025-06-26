@@ -27,11 +27,7 @@ public class StswColorBox : StswBoxBase
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// <summary>
-    /// Updates the selected color property based on user input in the text field.
-    /// Supports various input formats, including ARGB, RGB, and named colors.
-    /// </summary>
-    /// <param name="alwaysUpdate">If set to <see langword="true"/>, forces an update even if the color has not changed.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedColor ?? default;

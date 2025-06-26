@@ -35,11 +35,7 @@ public class StswEventToCommandExtension : MarkupExtension
     /// </summary>
     public Key? AllowedKey { get; set; }
 
-    /// <summary>
-    /// Provides the event handler delegate to bind to an event in XAML.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider for the markup extension.</param>
-    /// <returns>A delegate bound to the specified event.</returns>
+    /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget pvt)

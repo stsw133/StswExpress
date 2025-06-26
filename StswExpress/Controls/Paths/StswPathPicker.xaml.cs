@@ -41,11 +41,7 @@ public class StswPathPicker : StswBoxBase
         ListAdjacentPaths();
     }
 
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the file picker.
-    /// Adjusts the selected path based on the mouse wheel's scrolling direction.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -95,11 +91,7 @@ public class StswPathPicker : StswBoxBase
         }
     }
 
-    /// <summary>
-    /// Updates the main property associated with the selected path in the control based on user input.
-    /// Forces a binding update if the alwaysUpdate flag is set to true.
-    /// </summary>
-    /// <param name="alwaysUpdate">Indicates whether to force an update of the binding</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         if (alwaysUpdate)

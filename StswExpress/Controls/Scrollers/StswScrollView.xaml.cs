@@ -17,12 +17,7 @@ public class StswScrollView : ScrollViewer
     }
 
     #region Events & methods
-    /// <summary>
-    /// Overrides the MouseWheel event to handle scrolling behavior.
-    /// This method allows horizontal scrolling if the vertical scrollbar is visible and the shift key is held down.
-    /// It raises the MouseWheel event for the parent UIElement when scrolling reaches the top or bottom.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
@@ -55,11 +50,7 @@ public class StswScrollView : ScrollViewer
         //}
     }
 
-    /// <summary>
-    /// Handles the ScrollChanged event to provide additional functionality on scroll change.
-    /// This method checks for auto-scrolling and triggers a command when reaching the bottom of the content.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         base.OnScrollChanged(e);

@@ -179,10 +179,7 @@ public class StswZoomControl : Border
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the child element of the zoom control.
-    /// When a new child is assigned, it automatically initializes zoom and pan support.
-    /// </summary>
+    /// <inheritdoc/>
     public override UIElement Child
     {
         get => base.Child;

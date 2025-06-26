@@ -25,12 +25,7 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles keyboard input for the rating control.
-    /// Allows users to change the rating using numeric keys (1-9, 0 for 10), arrow keys for navigation,
-    /// and Backspace for resetting the rating (if reset is enabled).
-    /// </summary>
-    /// <param name="e">The event arguments containing key input data.</param>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -99,11 +94,7 @@ public class StswRatingControl : Control, IStswIconControl
         e.Handled = true;
     }
 
-    /// <summary>
-    /// Handles mouse click events for the rating control.
-    /// Left-clicking on the control resets the rating to the placeholder value if it's not read-only.
-    /// </summary>
-    /// <param name="e">The event arguments containing mouse input data.</param>
+    /// <inheritdoc/>
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
@@ -112,11 +103,7 @@ public class StswRatingControl : Control, IStswIconControl
         Focus();
     }
 
-    /// <summary>
-    /// Handles mouse movement over the rating control.
-    /// Updates the placeholder rating based on the cursor position, providing visual feedback.
-    /// </summary>
-    /// <param name="e">The event arguments containing mouse movement data.</param>
+    /// <inheritdoc/>
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
@@ -136,11 +123,7 @@ public class StswRatingControl : Control, IStswIconControl
             Placeholder = 1;
     }
 
-    /// <summary>
-    /// Handles mouse leave events for the rating control.
-    /// Clears the placeholder rating when the mouse leaves the control.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

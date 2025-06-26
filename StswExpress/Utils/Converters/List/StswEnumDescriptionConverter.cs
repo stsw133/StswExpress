@@ -23,11 +23,7 @@ public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
     public static StswEnumDescriptionConverter Instance => instance ??= new StswEnumDescriptionConverter();
     private static StswEnumDescriptionConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

@@ -27,11 +27,7 @@ public class StswListFromRangeExtension : MarkupExtension
     /// <param name="definition">The range definition (e.g., `"1-10"` or `"5"`).</param>
     public StswListFromRangeExtension(string definition) => Definition = definition;
 
-    /// <summary>
-    /// Provides the generated list of integers based on the defined range.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>A list of integers based on the specified range.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var parts = Definition.Split('-');

@@ -31,13 +31,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable text element for displaying the file or folder path within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswText"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswText"/> element bound to the column's file or folder path.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -57,13 +51,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable path picker element for selecting a file or folder within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswPathPicker"/> as the editing element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswPathPicker"/> element bound to the column's file or folder path.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswPathPicker()

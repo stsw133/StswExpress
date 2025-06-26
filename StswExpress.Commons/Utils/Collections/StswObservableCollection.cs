@@ -67,12 +67,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         //    item.PropertyChanged += OnItemPropertyChanged;
     }
 
-    /// <summary>
-    /// Inserts an item into the collection. The item is marked as Added
-    /// if it's in Unchanged state or previously marked as Deleted.
-    /// </summary>
-    /// <param name="index">Index at which the item should be inserted.</param>
-    /// <param name="item">The item to be inserted.</param>
+    /// <inheritdoc/>
     protected override void InsertItem(int index, T item)
     {
         base.InsertItem(index, item);
@@ -96,11 +91,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         UpdateCounter(item.ItemState, +1);
     }
 
-    /// <summary>
-    /// Removes the item from the collection and marks it as Deleted,
-    /// unless it was newly added (not yet accepted changes).
-    /// </summary>
-    /// <param name="index">Index of the item to remove.</param>
+    /// <inheritdoc/>
     protected override void RemoveItem(int index)
     {
         var item = this[index];
@@ -149,10 +140,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         }
     }
 
-    /// <summary>
-    /// Clears the collection, marking existing items as Deleted if they
-    /// are not newly added.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void ClearItems()
     {
         foreach (var item in this)
@@ -183,12 +171,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         CountModified = 0;
     }
 
-    /// <summary>
-    /// Sets an item at a specific index, marking the replaced item as Deleted
-    /// (unless it was newly added) and the new item as Added.
-    /// </summary>
-    /// <param name="index">The index of the item to replace.</param>
-    /// <param name="item">The new item.</param>
+    /// <inheritdoc/>
     protected override void SetItem(int index, T item)
     {
         var oldItem = this[index];

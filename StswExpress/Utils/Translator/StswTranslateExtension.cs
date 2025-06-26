@@ -55,12 +55,7 @@ public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
     /// </summary>
     public string TranslatedText => StswTranslator.GetTranslation(Key, DefaultValue, Language, Prefix, Suffix);
 
-    /// <summary>
-    /// Returns the translation string for the specified key, prefix, suffix, etc.
-    /// Automatically updates when the current language changes.
-    /// </summary>
-    /// <param name="serviceProvider">Service provider from WPF.</param>
-    /// <returns>Translation string or default value.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))

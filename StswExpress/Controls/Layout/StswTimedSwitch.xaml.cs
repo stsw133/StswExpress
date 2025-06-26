@@ -28,10 +28,7 @@ public class StswTimedSwitch : CheckBox
         OnSwitchTimeChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Handles the checked event, starting the timer if the switch time is greater than zero.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -39,10 +36,7 @@ public class StswTimedSwitch : CheckBox
             timer.Start();
     }
 
-    /// <summary>
-    /// Handles the unchecked event, stopping the timer immediately.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);

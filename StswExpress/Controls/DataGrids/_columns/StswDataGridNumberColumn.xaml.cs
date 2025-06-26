@@ -32,13 +32,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable text element for displaying numeric values within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswText"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswText"/> element bound to the column's numeric value.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -58,13 +52,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable numeric input element for entering values within the <see cref="DataGrid"/> column.
-    /// Uses a generic numeric input control that extends <see cref="StswNumberBoxBase{T}"/>.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         return GenerateEditingElement<TControl>();

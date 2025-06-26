@@ -39,10 +39,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             popup.Child.MouseLeave += (_, _) => IsDropDownOpen = false;
     }
 
-    /// <summary>
-    /// Handles the mouse enter event to automatically open the drop-down portion of the control.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);

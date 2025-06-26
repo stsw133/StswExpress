@@ -22,58 +22,35 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswSegmentItem;
 
     #region Events & methods
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Updates the selection state and propagates changes to the selection control logic.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Updates the selection control logic based on the new item template.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles selection changes within the segmented control.
-    /// If the control is in read-only mode, the selection change is prevented.
-    /// Otherwise, the selection state is updated accordingly.
-    /// </summary>
-    /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
+    /// <inheritdoc/>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
 
-    /// <summary>
-    /// Prepares the specified element to display the given item.
-    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
-    /// </summary>
-    /// <param name="element">The element used to display the specified item.</param>
-    /// <param name="item">The data item to be displayed.</param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);

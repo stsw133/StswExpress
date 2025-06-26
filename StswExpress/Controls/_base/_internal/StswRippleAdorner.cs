@@ -104,23 +104,13 @@ internal class RippleAdorner : Adorner
         sb.Begin(_ellipse);
     }
 
-    /// <summary>
-    /// Gets the number of visual child elements within this adorner.
-    /// </summary>
+    /// <inheritdoc/>
     protected override int VisualChildrenCount => 1;
-
-    /// <summary>
-    /// Returns a specific visual child element by index.
-    /// </summary>
-    /// <param name="index">The index of the visual child element.</param>
-    /// <returns>The visual child element at the specified index.</returns>
+    
+    /// <inheritdoc/>
     protected override Visual GetVisualChild(int index) => _canvas;
 
-    /// <summary>
-    /// Arranges the size and position of the canvas and its child elements.
-    /// </summary>
-    /// <param name="finalSize">The final area within the parent that this element should use to arrange itself and its children.</param>
-    /// <returns>The actual size used by the canvas.</returns>
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         _canvas.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));

@@ -29,12 +29,7 @@ public class StswTreeViewItem : TreeViewItem
             SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
     }
 
-    /// <summary>
-    /// Prepares the specified element to display the given item.
-    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
-    /// </summary>
-    /// <param name="element">The element used to display the specified item.</param>
-    /// <param name="item">The data item to be displayed.</param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);

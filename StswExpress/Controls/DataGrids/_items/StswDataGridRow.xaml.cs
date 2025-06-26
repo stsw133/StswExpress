@@ -14,11 +14,7 @@ public class StswDataGridRow : DataGridRow
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles the row selection event. If the data context implements <see cref="IStswSelectionItem"/>, 
-    /// the selection state is updated to reflect that the row is selected.
-    /// </summary>
-    /// <param name="e">The event data.</param>
+    /// <inheritdoc/>
     protected override void OnSelected(RoutedEventArgs e)
     {
         base.OnSelected(e);
@@ -27,11 +23,7 @@ public class StswDataGridRow : DataGridRow
             item.IsSelected = true;
     }
 
-    /// <summary>
-    /// Handles the row unselection event. If the data context implements <see cref="IStswSelectionItem"/>, 
-    /// the selection state is updated to reflect that the row is not selected.
-    /// </summary>
-    /// <param name="e">The event data.</param>
+    /// <inheritdoc/>
     protected override void OnUnselected(RoutedEventArgs e)
     {
         base.OnUnselected(e);

@@ -201,7 +201,7 @@ public static class StswControl
             nameof(SubControlsDockProperty)[..^8],
             typeof(Dock),
             typeof(StswControl),
-            new PropertyMetadata(Dock.Right)
+            new PropertyMetadata(Dock.Right, OnSubControlsDockChanged)
         );
     public static void SetSubControlsDock(DependencyObject obj, Dock value) => obj.SetValue(SubControlsDockProperty, value);
     private static void OnSubControlsDockChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

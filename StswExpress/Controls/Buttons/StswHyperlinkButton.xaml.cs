@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -17,11 +16,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Invoked when the hyperlink button is clicked. 
-    /// If a valid <see cref="NavigateUri"/> is set, it opens the specified URI in the default web browser.
-    /// Also sets <see cref="WasClicked"/> to <see langword="true"/> after navigation.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnClick()
     {
         base.OnClick();

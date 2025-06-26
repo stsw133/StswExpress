@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -13,49 +14,39 @@ namespace StswExpress;
 /// </remarks>
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
+    private Border? _mainBorder;
+
     static StswCheckBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Prevents state changes when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
-    /// </summary>
-    protected override void OnToggle()
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
     {
-        if (!IsReadOnly)
-            base.OnToggle();
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
     }
 
-    /// <summary>
-    /// Handles the checked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    protected override void OnToggle()
+    {
+        IsReadOnly.Do(null, base.OnToggle);
+    }
+
+    /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, true);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
     }
 
-    /// <summary>
-    /// Handles the unchecked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, false);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
     #endregion
 

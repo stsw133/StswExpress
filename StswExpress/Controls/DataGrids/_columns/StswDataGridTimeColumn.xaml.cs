@@ -32,13 +32,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable text element for displaying time values within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswText"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswText"/> element bound to the column's time data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -58,13 +52,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable time picker element for inline editing within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswTimePicker"/> as the editing element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswTimePicker"/> element bound to the column's time data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswTimePicker()

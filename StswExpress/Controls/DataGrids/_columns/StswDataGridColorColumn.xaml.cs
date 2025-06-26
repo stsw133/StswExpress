@@ -31,13 +31,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         }
     };
 
-    /// <summary>
-    /// Generates a non-editable text element for displaying color values within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswText"/> as the display element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswText"/> element bound to the column's color data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         var displayElement = new StswText()
@@ -57,13 +51,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         return displayElement;
     }
 
-    /// <summary>
-    /// Generates an editable color picker element for selecting color values within the <see cref="DataGrid"/> column.
-    /// Uses <see cref="StswColorBox"/> as the editing element.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>A <see cref="StswColorBox"/> element bound to the column's color data.</returns>
+    /// <inheritdoc/>
     protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
     {
         var editingElement = new StswColorBox()
