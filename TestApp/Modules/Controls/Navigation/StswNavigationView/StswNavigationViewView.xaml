@@ -24,7 +24,7 @@
                 <se:StswNavigationViewItem Header="Page 1a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswButtonContext}"/>
                 <se:StswNavigationViewItem Header="Page 1b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswDropButtonContext}"/>
             </se:StswNavigationViewItem>
-            <se:StswNavigationViewItem Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" TargetType="{x:Type local:StswColorBoxContext}"/>
+            <se:StswNavigationViewItem Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" TargetType="{x:Type local:StswColorBoxContext}" IsSelected="True"/>
             <se:StswNavigationViewItem Header="Page 3" IconData="{x:Static se:StswIcons.Dice3}" TargetType="{x:Type local:StswDatePickerContext}"/>
             <se:StswNavigationViewItem Header="Page 4" IconData="{x:Static se:StswIcons.Dice4}" TargetType="{x:Type local:StswDecimalBoxContext}"/>
             <se:StswNavigationViewItem Header="Page 5" IconData="{x:Static se:StswIcons.Dice5}">
@@ -36,7 +36,7 @@
                     <se:StswNavigationViewItem Header="Page 6a1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswBorderContext}"/>
                     <se:StswNavigationViewItem Header="Page 6a2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswZoomControlContext}"/>
                 </se:StswNavigationViewItem>
-                <se:StswNavigationViewItem Header="Page 6b" IconData="{x:Static se:StswIcons.AlphaBBox}">
+                <se:StswNavigationViewItem Header="Page 6b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:ChangelogContext}">
                     <se:StswNavigationViewItem Header="Page 6b1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswOutlinedTextContext}"/>
                     <se:StswNavigationViewItem Header="Page 6b2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswTextContext}"/>
                 </se:StswNavigationViewItem>

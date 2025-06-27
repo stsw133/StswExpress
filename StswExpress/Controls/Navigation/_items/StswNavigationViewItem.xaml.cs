@@ -26,6 +26,8 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
     {
         base.OnApplyTemplate();
         _navigationView = StswFnUI.FindVisualAncestor<StswNavigationView>(this);
+        if (IsSelected)
+            _navigationView?.SetContent(this, TargetType, CreateNewInstance);
     }
 
     /// <inheritdoc/>
