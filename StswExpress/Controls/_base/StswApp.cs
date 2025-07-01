@@ -20,6 +20,9 @@ namespace StswExpress;
 /// </remarks>
 public class StswApp : Application
 {
+    //public static IConfiguration Configuration { get; private set; } = null!;
+    //public static IServiceProvider? ServiceProvider { get; private set; }
+
     /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -36,6 +39,22 @@ public class StswApp : Application
         StswResources.InitializeResources(Resources);
         if (IsRegisterDataTemplatesEnabled)
             RegisterDataTemplates(ContextSuffix, ViewSuffix);
+        /*
+        /// Configuration
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+        Configuration = configurationBuilder.Build();
+        
+        /// DependencyInjection
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        ServiceProvider = serviceCollection.BuildServiceProvider();
+        
+        MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        MainWindow.Show();
+        */
     }
 
     /// <summary>
@@ -80,7 +99,61 @@ public class StswApp : Application
 
         return false;
     }
+    /*
+    /// ConfigureServices
+    protected virtual void ConfigureServices(ServiceCollection services)
+    {
+        if (!services.Any(x => x.ServiceType == typeof(IConfiguration)))
+            services.Configure<AppSettings>(Configuration.GetSection(string.Empty));
 
+        if (!services.Any(x => x.ServiceType == typeof(Func<Type, BaseContext>)))
+            services.AddSingleton<Func<Type, BaseContext>>(provider => contextType => (BaseContext)provider.GetRequiredService(contextType));
+
+        if (!services.Any(x => x.ServiceType == typeof(Func<Type, string?, BaseDialog>)))
+            services.AddSingleton<Func<Type, string?, BaseDialog>>(provider => (contextType, identifier) =>
+            {
+                var dialog = (BaseDialog)provider.GetRequiredService(contextType);
+                dialog.DialogIdentifier = identifier;
+                return dialog;
+            });
+
+        if (!services.Any(x => x.ServiceType == typeof(MainWindow)))
+            services.AddSingleton(provider => new MainWindow
+            {
+                Content = provider.GetRequiredService<MainContext>()
+            });
+
+        var alreadyRegistered = new HashSet<Type>(services.Select(x => x.ServiceType));
+        var assembly = Assembly.GetEntryAssembly();
+        if (assembly is null)
+            return;
+
+        var types = assembly.GetTypes();
+
+        foreach (var type in types)
+        {
+            if (type.IsAbstract || type.IsInterface || type.IsGenericType || type.IsValueType)
+                continue;
+
+            if (type.Name.EndsWith("Context", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!alreadyRegistered.Contains(type))
+                {
+                    services.AddSingleton(type);
+                    alreadyRegistered.Add(type);
+                }
+                continue;
+            }
+
+            var iface = type.GetInterface($"I{type.Name}");
+            if (iface != null && !alreadyRegistered.Contains(iface) && !alreadyRegistered.Contains(type))
+            {
+                services.AddSingleton(iface, type);
+                alreadyRegistered.Add(iface);
+            }
+        }
+    }
+    */
     /// <summary>
     /// Handles the global preview key down event.
     /// Toggles the fullscreen mode of the window when the F11 key is pressed.

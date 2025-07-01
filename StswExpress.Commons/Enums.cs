@@ -45,3 +45,15 @@ public enum StswMergePriority
     Last,
     LastExceptNull,
 }
+
+/// <summary>
+/// Enumeration for <see cref="StswTask.Status"/>.
+/// </summary>
+public enum StswTaskStatus
+{
+    Pending,
+    Running,
+    Completed,
+    Faulted,
+    Cancelled
+}

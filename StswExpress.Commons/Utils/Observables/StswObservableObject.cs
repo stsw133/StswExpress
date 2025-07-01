@@ -5,7 +5,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides a base implementation of the <see cref="INotifyPropertyChanged"/> interface to enable objects to send notifications to clients when the value of a property changes.
 /// </summary>
-public abstract class StswObservableObject : INotifyPropertyChanged
+public abstract class StswObservableObject : INotifyPropertyChanged, IDisposable
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -81,6 +81,14 @@ public abstract class StswObservableObject : INotifyPropertyChanged
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
     protected bool SetPropertyIf<T>(ref T field, T value, Func<bool> condition, [CallerMemberName] string propertyName = "") => condition() && SetProperty(ref field, value, propertyName);
+
+    /// <summary>
+    /// Disposes resources used by the object and suppresses finalization.
+    /// </summary>
+    public virtual void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
 }
 
 /* usage:
