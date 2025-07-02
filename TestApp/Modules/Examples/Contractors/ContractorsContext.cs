@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class ContractorsContext : StswObservableObject
+public partial class ContractorsContext : StswObservableObject
 {
     /// Grid commands
     public ICommand ClearCommand { get; }
@@ -37,6 +37,9 @@ public class ContractorsContext : StswObservableObject
         SelectedContractor = null;
 
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
+
+        var test = TestTest;
+        ;
     }
 
     /// Init
@@ -279,4 +282,9 @@ public class ContractorsContext : StswObservableObject
         set => SetProperty(ref _selectedContractor, value);
     }
     private object? _selectedContractor = new();
+
+
+
+    [StswObservableProperty]
+    private string? _testTest;
 }
