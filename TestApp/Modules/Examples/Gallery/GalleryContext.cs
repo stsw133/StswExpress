@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace TestApp;
 
-public class GalleryContext : StswObservableObject
+public partial class GalleryContext : StswObservableObject
 {
     public StswCommand ChangeNavigationModeCommand { get; }
     public StswCommand SelectDirectoryCommand { get; }
@@ -68,27 +68,13 @@ public class GalleryContext : StswObservableObject
     }
     #endregion
 
-    /// IsLoopingEnabled
-    public bool IsLoopingEnabled
-    {
-        get => _isLoopingEnabled;
-        set => SetProperty(ref _isLoopingEnabled, value);
-    }
-    private bool _isLoopingEnabled;
-
-    /// SelectedDirectory
-    public string? SelectedDirectory
-    {
-        get => _selectedDirectory;
-        set => SetProperty(ref _selectedDirectory, value, LoadDirectory);
-    }
-    private string? _selectedDirectory;
-
-    /// SelectedFile
-    public string? SelectedFile
-    {
-        get => _selectedFile;
-        set => SetProperty(ref _selectedFile, value);
-    }
-    private string? _selectedFile;
+    [StswObservableProperty] bool _isLoopingEnabled;
+    [StswObservableProperty] string? _selectedFile;
+    
+    //public string? SelectedDirectory
+    //{
+    //    get => _selectedDirectory;
+    //    set => SetProperty(ref _selectedDirectory, value, LoadDirectory);
+    //}
+    [StswObservableProperty(CallbackMethod = nameof(LoadDirectory))] string? _selectedDirectory;
 }

@@ -1,56 +1,38 @@
 ﻿namespace TestApp;
-public class StswSecurityContext : StswObservableObject
+public partial class StswSecurityContext : StswObservableObject
 {
     /// Key
-    public string Key
-    {
-        get => _key;
-        set => SetProperty(ref _key, value, () => StswSecurity.Key = value);
-    }
-    private string _key = string.Empty;
+    //public string Key
+    //{
+    //    get => _key;
+    //    set => SetProperty(ref _key, value, () => StswSecurity.Key = value);
+    //}
+    [StswObservableProperty(CallbackMethod = "() => StswSecurity.Key = value")] string _key = string.Empty;
 
-    /// GetHashString
-    public string? InputGetHashString
-    {
-        get => _inputGetHashString;
-        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = value == null ? null : StswSecurity.GetHashString(value));
-    }
-    private string? _inputGetHashString;
+    //public string? InputGetHashString
+    //{
+    //    get => _inputGetHashString;
+    //    set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = value == null ? null : StswSecurity.GetHashString(value));
+    //}
+    [StswObservableProperty(CallbackMethod = "() => OutputGetHashString = value == null ? null : StswSecurity.GetHashString(value)")] string? _inputGetHashString;
 
-    public string? OutputGetHashString
-    {
-        get => _outputGetHashString;
-        set => SetProperty(ref _outputGetHashString, value);
-    }
-    private string? _outputGetHashString;
+    [StswObservableProperty] string? _outputGetHashString;
 
-    /// Encrypt
-    public string? InputEncrypt
-    {
-        get => _inputEncrypt;
-        set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = value == null ? null : StswSecurity.Encrypt(value));
-    }
-    private string? _inputEncrypt;
+    //public string? InputEncrypt
+    //{
+    //    get => _inputEncrypt;
+    //    set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = value == null ? null : StswSecurity.Encrypt(value));
+    //}
+    [StswObservableProperty(CallbackMethod = "() => OutputEncrypt = value == null ? null : StswSecurity.Encrypt(value)")] string? _inputEncrypt;
 
-    public string? OutputEncrypt
-    {
-        get => _outputEncrypt;
-        set => SetProperty(ref _outputEncrypt, value);
-    }
-    private string? _outputEncrypt;
+    [StswObservableProperty] string? _outputEncrypt;
 
-    /// Decrypt
-    public string? InputDecrypt
-    {
-        get => _inputDecrypt;
-        set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = value == null ? null : StswSecurity.Decrypt(value));
-    }
-    private string? _inputDecrypt;
+    //public string? InputDecrypt
+    //{
+    //    get => _inputDecrypt;
+    //    set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = value == null ? null : StswSecurity.Decrypt(value));
+    //}
+    [StswObservableProperty(CallbackMethod = "() => OutputDecrypt = value == null ? null : StswSecurity.Decrypt(value)")] string? _inputDecrypt;
 
-    public string? OutputDecrypt
-    {
-        get => _outputDecrypt;
-        set => SetProperty(ref _outputDecrypt, value);
-    }
-    private string? _outputDecrypt;
+    [StswObservableProperty] string? _outputDecrypt;
 }

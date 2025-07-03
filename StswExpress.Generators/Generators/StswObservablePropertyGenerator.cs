@@ -11,6 +11,8 @@ namespace StswExpress.Generators;
 [Generator]
 public class StswObservablePropertyGenerator : IIncrementalGenerator
 {
+    private const string InvokingAttribute = "StswExpress.Commons.StswObservablePropertyAttribute";
+
     /// <summary>
     /// Initializes the generator and registers the syntax provider for field declarations with the StswObservablePropertyAttribute attribute.
     /// </summary>
@@ -19,90 +21,71 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     {
         var fieldDeclarations = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (node, _) => IsCandidate(node),
-                transform: static (ctx, _) => GetFieldSymbol(ctx))
-            .Where(static field => field is not null);
+                predicate: static (node, _) => node is FieldDeclarationSyntax f && f.AttributeLists.Count > 0,
+                transform: static (ctx, _) => StswFn.GetFieldSymbol(ctx))
+            .Where(static symbol => symbol is not null);
 
-        context.RegisterSourceOutput(fieldDeclarations, (spc, fieldSymbol) =>
+        context.RegisterSourceOutput(fieldDeclarations, (spc, symbol) =>
         {
-            if (fieldSymbol is not IFieldSymbol field)
+            /// validations
+            if (symbol is not IFieldSymbol field)
                 return;
 
-            if (!HasStswObservablePropertyAttribute(field))
+            if (!StswFn.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData) || attrData is null)
                 return;
 
+            /// get the necessary information from the field symbol
             var classSymbol = field.ContainingType;
-            var propertyName = ToPascalCase(field.Name.TrimStart('_'));
-            var propertyType = field.Type.ToDisplayString();
             var fieldName = field.Name;
+            var propertyName = StswFn.ToPascalCase(field.Name.TrimStart('_'));
+            var propertyType = field.Type.ToDisplayString();
 
+            /// get the documentation comment for the field
+            var docComment = field.GetDocumentationCommentXml();
+            var documentation = string.IsNullOrWhiteSpace(docComment) ? "" : $"/// {docComment!.Trim().Replace("\n", "\n/// ")}\n";
+
+            /// generate the attributes code
+            var attributesCode = string.Join("\n", field.GetAttributes()
+                .Where(attr => attr.AttributeClass?.ToDisplayString() != InvokingAttribute)
+                .Select(attr => attr.ToString()));
+
+            /// get the named arguments from the StswObservablePropertyAttribute
+            var callbackMethod = StswFn.GetNamedArgument<string>(attrData, "CallbackMethod");
+            var conditionMethod = StswFn.GetNamedArgument<string>(attrData, "ConditionMethod");
+            var notifyProps = StswFn.GetNamedArgument<string[]>(attrData, "NotifyProperties");
+
+            var additionalArgs = string.Join(", ",
+            [
+                notifyProps?.Length > 0
+                    ? $"new[] {{ {string.Join(", ", notifyProps.Select(p => $@"""{p}"""))} }}"
+                    : "null",
+                /*callbackMethod is not null ? callbackMethod :*/ "null",
+                conditionMethod is not null ? conditionMethod : "null"
+            ]);
+
+            /// generate the source code for the observable property
             var source = $@"
 namespace {classSymbol.ContainingNamespace}
 {{
     partial class {classSymbol.Name}
     {{
+        {documentation}
+        {attributesCode}
         public {propertyType} {propertyName}
         {{
             get => {fieldName};
-            set => SetProperty(ref {fieldName}, value);
+            set
+            {{
+                var oldValue = {fieldName};
+                if (SetProperty(ref {fieldName}, value, {additionalArgs}))
+                    On{propertyName}Changed(oldValue, value);
+            }}
         }}
+
+        partial void On{propertyName}Changed({propertyType} oldValue, {propertyType} newValue);
     }}
 }}";
             spc.AddSource($"{classSymbol.Name}_{propertyName}_ObservableProperty.g.cs", SourceText.From(source, Encoding.UTF8));
         });
-    }
-
-    /// <summary>
-    /// Checks if the syntax node is a candidate for processing.
-    /// </summary>
-    /// <param name="node">The syntax node to check.</param>
-    /// <returns><see langword="true"/> if the node is a field declaration with attributes; otherwise, <see langword="false"/>.</returns>
-    private static bool IsCandidate(SyntaxNode node) => node is FieldDeclarationSyntax f && f.AttributeLists.Count > 0;
-
-    /// <summary>
-    /// Retrieves the field symbol from the syntax context.
-    /// </summary>
-    /// <param name="context">The generator syntax context.</param>
-    /// <returns>The field symbol if found; otherwise, <see langword="null"/>.</returns>
-    private static IFieldSymbol? GetFieldSymbol(GeneratorSyntaxContext context)
-    {
-        if (context.Node is not FieldDeclarationSyntax fieldDecl)
-            return null;
-
-        foreach (var variable in fieldDecl.Declaration.Variables)
-        {
-            var symbol = context.SemanticModel.GetDeclaredSymbol(variable) as IFieldSymbol;
-            if (symbol is not null)
-                return symbol;
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Checks if the field has the StswObservablePropertyAttribute attribute.
-    /// </summary>
-    /// <param name="field">The field symbol to check.</param>
-    /// <returns><see langword="true"/> if the field has the attribute; otherwise, <see langword="false"/>.</returns>
-    private static bool HasStswObservablePropertyAttribute(IFieldSymbol field)
-    {
-        foreach (var attribute in field.GetAttributes())
-        {
-            if (attribute.AttributeClass?.ToDisplayString() == "StswExpress.Commons.StswObservablePropertyAttribute")
-                return true;
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// Converts a string to PascalCase.
-    /// </summary>
-    /// <param name="name">The string to convert.</param>
-    /// <returns>The PascalCase version of the string.</returns>
-    private static string ToPascalCase(string name)
-    {
-        if (string.IsNullOrEmpty(name)) return name;
-        if (name.Length == 1) return name.ToUpper();
-        return char.ToUpper(name[0]) + name.Substring(1);
     }
 }

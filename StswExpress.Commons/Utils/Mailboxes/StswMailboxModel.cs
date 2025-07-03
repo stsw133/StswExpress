@@ -107,7 +107,11 @@ public class StswMailboxModel : StswObservableObject
     /// <summary>
     /// Gets or sets the security option for the SMTP connection.
     /// </summary>
-    public SecureSocketOptions SecurityOption { get => _securityOption; set => SetProperty(ref _securityOption, value); }
+    public SecureSocketOptions SecurityOption
+    {
+        get => _securityOption;
+        set => SetProperty(ref _securityOption, value);
+    }
     private SecureSocketOptions _securityOption = SecureSocketOptions.StartTls;
 
     /// <summary>

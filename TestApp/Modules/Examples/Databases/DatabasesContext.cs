@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace TestApp;
 
-public class DatabasesContext : StswObservableObject
+public partial class DatabasesContext : StswObservableObject
 {
     public ICommand MoveUpCommand { get; }
     public ICommand MoveDownCommand { get; }
@@ -72,20 +71,7 @@ public class DatabasesContext : StswObservableObject
         await Task.Run(() => StswDatabases.ExportList(AllDatabases));
     }
     #endregion
-
-    /// AllDatabases
-    public ObservableCollection<StswDatabaseModel> AllDatabases
-    {
-        get => _allDatabases;
-        set => SetProperty(ref _allDatabases, value);
-    }
-    private ObservableCollection<StswDatabaseModel> _allDatabases = [.. StswDatabases.ImportList()];
-
-    /// SelectedDatabase
-    public StswDatabaseModel? SelectedDatabase
-    {
-        get => _selectedDatabase;
-        set => SetProperty(ref _selectedDatabase, value);
-    }
-    private StswDatabaseModel? _selectedDatabase;
+    
+    [StswObservableProperty] ObservableCollection<StswDatabaseModel> _allDatabases = [.. StswDatabases.ImportList()];
+    [StswObservableProperty] StswDatabaseModel? _selectedDatabase;
 }

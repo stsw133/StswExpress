@@ -33,7 +33,7 @@ internal static class SQLService
 
     /// GetContractors
     internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel? filter) => DbCurrent.Get<ContractorModel>($@"
-        select a.ID [{nameof(ContractorModel.ID)}]
+        select a.ID [{nameof(ContractorModel.Id)}]
             , a.Type [{nameof(ContractorModel.Type)}]
             , a.Icon [{nameof(ContractorModel.Icon)}]
             , a.Name [{nameof(ContractorModel.Name)}]
@@ -51,7 +51,7 @@ internal static class SQLService
     /// SetContractors
     internal static void SetContractors(StswObservableCollection<ContractorModel> list) => DbCurrent.Set(list,
         "dbo.StswExpressTEST_Contractors", typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
-            nameof(ContractorModel.ID),
+            nameof(ContractorModel.Id),
             nameof(ContractorModel.IconSource),
             nameof(ContractorModel.Address),
             nameof(ContractorModel.ItemState)

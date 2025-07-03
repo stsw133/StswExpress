@@ -148,19 +148,19 @@ public partial class ContractorsContext : StswObservableObject
     {
         try
         {
-            if (SelectedContractor is ContractorModel m && m.ID > 0)
+            if (SelectedContractor is ContractorModel m && m.Id > 0)
             {
                 await Task.Run(() => App.Current.Dispatcher.Invoke(() =>
                 {
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.ID;
+                        context.ID = m.Id;
                         context.IsCloned = true;
                     }
                     if (NewTab.Header is StswLabel header)
                     {
-                        header.Content = $"Cloning contractor (ID: {m.ID})";
+                        header.Content = $"Cloning contractor (ID: {m.Id})";
                         header.IconData = StswIcons.AccountPlus;
                     }
                 }));
@@ -171,26 +171,26 @@ public partial class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-    private bool CloneCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
+    private bool CloneCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
     /// Edit
     private async Task Edit()
     {
         try
         {
-            if (SelectedContractor is ContractorModel m && m.ID > 0)
+            if (SelectedContractor is ContractorModel m && m.Id > 0)
             {
                 await Task.Run(() => App.Current.Dispatcher.Invoke(() =>
                 {
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.ID;
+                        context.ID = m.Id;
                         context.IsCloned = false;
                     }
                     if (NewTab.Header is StswLabel header)
                     {
-                        header.Content = $"Editing contractor (ID: {m.ID})";
+                        header.Content = $"Editing contractor (ID: {m.Id})";
                         header.IconData = StswIcons.AccountEdit;
                     }
                 }));
@@ -201,7 +201,7 @@ public partial class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-    private bool EditCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
+    private bool EditCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
     /// Delete
     private async Task Delete()
@@ -212,13 +212,13 @@ public partial class ContractorsContext : StswObservableObject
             {
                 await Task.Run(() =>
                 {
-                    if (m.ID == 0)
+                    if (m.Id == 0)
                     {
                         ListContractors.Remove(m);
                     }
-                    else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    else if (m.Id > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        SQLService.DeleteContractor(m.ID);
+                        SQLService.DeleteContractor(m.Id);
                         ListContractors.Remove(m);
                     }
                 });

@@ -21,66 +21,29 @@ public abstract class StswObservableObject : INotifyPropertyChanged, IDisposable
     /// <typeparam name="T">The type of the property.</typeparam>
     /// <param name="field">Reference to the field storing the property's value.</param>
     /// <param name="value">The new value to set.</param>
+    /// <param name="propertyNamesToNotify">Collection of property names to notify in addition to the current property.</param>
+    /// <param name="doAfter">The action to execute after the property value is changed.</param>
+    /// <param name="condition">An optional condition that must be met for the property to be set. If this condition is not met, the property will not be set and no notification will be sent.</param>
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+    protected bool SetProperty<T>(ref T field, T value, IEnumerable<string>? propertyNamesToNotify = null, Action? doAfter = null, Func<bool>? condition = null, [CallerMemberName] string propertyName = "")
     {
+        if (condition != null && !condition())
+            return false;
+
         if (EqualityComparer<T>.Default.Equals(field, value))
             return false;
 
         field = value;
         OnPropertyChanged(propertyName);
+
+        if (propertyNamesToNotify != null)
+            foreach (var name in propertyNamesToNotify)
+                OnPropertyChanged(name);
+
+        doAfter?.Invoke();
         return true;
     }
-
-    /// <summary>
-    /// Sets the property value, raises the <see cref="PropertyChanged"/> event for multiple properties if the new value is different from the current value.
-    /// </summary>
-    /// <typeparam name="T">The type of the property.</typeparam>
-    /// <param name="field">Reference to the field storing the property's value.</param>
-    /// <param name="value">The new value to set.</param>
-    /// <param name="propertyNamesToNotify">Collection of property names to notify.</param>
-    /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
-    /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetProperty<T>(ref T field, T value, IEnumerable<string> propertyNamesToNotify, [CallerMemberName] string propertyName = "")
-    {
-        if (!SetProperty(ref field, value, propertyName))
-            return false;
-
-        foreach (var name in propertyNamesToNotify)
-            OnPropertyChanged(name);
-
-        return true;
-    }
-
-    /// <summary>
-    /// Sets the property value, raises the <see cref="PropertyChanged"/> event, and executes a specified action if the new value is different from the current value.
-    /// </summary>
-    /// <typeparam name="T">The type of the property.</typeparam>
-    /// <param name="field">Reference to the field storing the property's value.</param>
-    /// <param name="value">The new value to set.</param>
-    /// <param name="doAfter">The action to execute after the property value is changed.</param>
-    /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
-    /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetProperty<T>(ref T field, T value, Action doAfter, [CallerMemberName] string propertyName = "")
-    {
-        if (!SetProperty(ref field, value, propertyName))
-            return false;
-
-        doAfter.Invoke();
-        return true;
-    }
-
-    /// <summary>
-    /// Sets the property value and raises the <see cref="PropertyChanged"/> event if a specified condition is met.
-    /// </summary>
-    /// <typeparam name="T">The type of the property.</typeparam>
-    /// <param name="field">Reference to the field storing the property's value.</param>
-    /// <param name="value">The new value to set.</param>
-    /// <param name="condition">The condition that must be met for the property to be set.</param>
-    /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
-    /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetPropertyIf<T>(ref T field, T value, Func<bool> condition, [CallerMemberName] string propertyName = "") => condition() && SetProperty(ref field, value, propertyName);
 
     /// <summary>
     /// Disposes resources used by the object and suppresses finalization.
