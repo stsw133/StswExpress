@@ -22,7 +22,7 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
         var fieldDeclarations = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => node is FieldDeclarationSyntax f && f.AttributeLists.Count > 0,
-                transform: static (ctx, _) => StswFn.GetFieldSymbol(ctx))
+                transform: static (ctx, _) => Helpers.GetFieldSymbol(ctx))
             .Where(static symbol => symbol is not null);
 
         context.RegisterSourceOutput(fieldDeclarations, (spc, symbol) =>
@@ -31,13 +31,13 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
             if (symbol is not IFieldSymbol field)
                 return;
 
-            if (!StswFn.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData) || attrData is null)
+            if (!Helpers.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData) || attrData is null)
                 return;
 
-            /// get the necessary information from the field symbol
+            /// get the necessary information from the symbol
             var classSymbol = field.ContainingType;
             var fieldName = field.Name;
-            var propertyName = StswFn.ToPascalCase(field.Name.TrimStart('_'));
+            var propertyName = Helpers.ToPascalCase(field.Name.TrimStart('_'));
             var propertyType = field.Type.ToDisplayString();
 
             /// get the documentation comment for the field
@@ -49,10 +49,10 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
                 .Where(attr => attr.AttributeClass?.ToDisplayString() != InvokingAttribute)
                 .Select(attr => attr.ToString()));
 
-            /// get the named arguments from the StswObservablePropertyAttribute
-            var callbackMethod = StswFn.GetNamedArgument<string>(attrData, "CallbackMethod");
-            var conditionMethod = StswFn.GetNamedArgument<string>(attrData, "ConditionMethod");
-            var notifyProps = StswFn.GetNamedArgument<string[]>(attrData, "NotifyProperties");
+            /// get the named arguments from the invoking attribute
+            var callbackMethod = Helpers.GetNamedArgument<string>(attrData, "CallbackMethod");
+            var conditionMethod = Helpers.GetNamedArgument<string>(attrData, "ConditionMethod");
+            var notifyProps = Helpers.GetNamedArgument<string[]>(attrData, "NotifyProperties");
 
             var additionalArgs = string.Join(", ",
             [
@@ -67,7 +67,7 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
             var source = $@"
 namespace {classSymbol.ContainingNamespace}
 {{
-    partial class {classSymbol.Name}
+    public partial class {classSymbol.Name}
     {{
         {documentation}
         {attributesCode}

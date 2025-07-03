@@ -1,10 +1,6 @@
 ﻿namespace TestApp;
 public partial class StswLogContext : StswObservableObject
 {
-    //public string DirectoryPath
-    //{
-    //    get => _directoryPath;
-    //    set => SetProperty(ref _directoryPath, value, () => StswLog.Config.LogDirectoryPath = value);
-    //}
-    [StswObservableProperty(CallbackMethod = "() => StswLog.Config.LogDirectoryPath = value")] string _directoryPath = StswLog.Config.LogDirectoryPath;
+    [StswObservableProperty] string _directoryPath = StswLog.Config.LogDirectoryPath;
+    partial void OnDirectoryPathChanged(string oldValue, string newValue) => StswLog.Config.LogDirectoryPath = newValue;
 }

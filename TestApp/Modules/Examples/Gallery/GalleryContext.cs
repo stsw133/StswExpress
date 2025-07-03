@@ -3,12 +3,11 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace TestApp;
-
 public partial class GalleryContext : StswObservableObject
 {
     public StswCommand ChangeNavigationModeCommand { get; }
     public StswCommand SelectDirectoryCommand { get; }
-    public StswCommand<string?> NextFileCommand { get; }
+    public StswCommand<string> NextFileCommand { get; }
 
     public GalleryContext()
     {
@@ -49,7 +48,7 @@ public partial class GalleryContext : StswObservableObject
     }
 
     /// NextFile
-    private void NextFile(string? parameter)
+    private void NextFile(string parameter)
     {
         if (Directory.Exists(SelectedDirectory) && !string.IsNullOrEmpty(SelectedFile) && int.TryParse(parameter, out var step))
         {
@@ -70,11 +69,6 @@ public partial class GalleryContext : StswObservableObject
 
     [StswObservableProperty] bool _isLoopingEnabled;
     [StswObservableProperty] string? _selectedFile;
-    
-    //public string? SelectedDirectory
-    //{
-    //    get => _selectedDirectory;
-    //    set => SetProperty(ref _selectedDirectory, value, LoadDirectory);
-    //}
-    [StswObservableProperty(CallbackMethod = nameof(LoadDirectory))] string? _selectedDirectory;
+    [StswObservableProperty] string? _selectedDirectory;
+    partial void OnSelectedDirectoryChanged(string? oldValue, string? newValue) => LoadDirectory();
 }

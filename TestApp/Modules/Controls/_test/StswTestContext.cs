@@ -1,6 +1,5 @@
 ﻿namespace TestApp;
-
-public class StswTestContext : ControlsContext
+public partial class StswTestContext : ControlsContext
 {
     public override void SetDefaults()
     {

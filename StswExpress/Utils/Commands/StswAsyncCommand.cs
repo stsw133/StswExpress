@@ -10,9 +10,9 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
+public class StswAsyncCommand<T>(Func<T, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
-    private readonly Func<T?, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+    private readonly Func<T, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
 
     /// <summary>
@@ -50,7 +50,7 @@ public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute 
 
         try
         {
-            await ExecuteAsync((T?)parameter);
+            await ExecuteAsync(parameter is T validParameter ? validParameter : default!);
         }
         finally
         {
@@ -64,7 +64,7 @@ public class StswAsyncCommand<T>(Func<T?, Task> execute, Func<bool>? canExecute 
     /// </summary>
     /// <param name="parameter">The parameter to be passed to the command execution logic.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private Task ExecuteAsync(T? parameter)
+    private Task ExecuteAsync(T parameter)
     {
         return _execute(parameter);
     }

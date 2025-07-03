@@ -13,9 +13,9 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
+public class StswPausableAsyncCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
-    private readonly Func<T?, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+    private readonly Func<T, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
     private CancellationTokenSource? _cancellationTokenSource;
     private int _currentIndex = 0;
@@ -57,7 +57,7 @@ public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execu
 
         try
         {
-            await ExecuteAsync((T?)parameter, _cancellationTokenSource.Token);
+            await ExecuteAsync(parameter is T validParameter ? validParameter : default!, _cancellationTokenSource.Token);
         }
         catch (OperationCanceledException)
         {
@@ -77,7 +77,7 @@ public class StswPausableAsyncCommand<T>(Func<T?, CancellationToken, Task> execu
     /// <param name="parameter">The parameter to pass to the command.</param>
     /// <param name="token">The cancellation token used to pause or stop the task.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteAsync(T? parameter, CancellationToken token)
+    private async Task ExecuteAsync(T parameter, CancellationToken token)
     {
         _items ??= [];
 

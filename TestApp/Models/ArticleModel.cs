@@ -2,26 +2,10 @@
 using System.Windows.Media;
 
 namespace TestApp;
-
 public partial class ArticleModel : StswObservableObject, IStswCollectionItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] ArticleType _type;
-
-    //public byte[]? Icon
-    //{
-    //    get => _icon;
-    //    set => SetProperty(ref _icon, value, () => IconSource ??= StswFnUI.BytesToBitmapImage(value));
-    //}
-    [StswObservableProperty(CallbackMethod = "() => IconSource ??= StswFnUI.BytesToBitmapImage(value)")] byte[]? _icon;
-
-    //public ImageSource? IconSource
-    //{
-    //    get => _iconSource;
-    //    set => SetProperty(ref _iconSource, value, () => Icon = value?.ToBytes());
-    //}
-    [StswObservableProperty(CallbackMethod = "() => Icon = value?.ToBytes()")] ImageSource? _iconSource;
-
     [StswObservableProperty] string? _name;
     [StswObservableProperty] string? _ean;
     [StswObservableProperty] string? _uom;
@@ -36,4 +20,11 @@ public partial class ArticleModel : StswObservableObject, IStswCollectionItem
     [StswObservableProperty] DateTime _createDT = DateTime.Now;
     [StswObservableProperty] StswItemState _itemState;
     [StswObservableProperty] bool? _showDetails = false;
+
+    [StswObservableProperty] byte[]? _icon;
+    partial void OnIconChanged(byte[]? oldValue, byte[]? newValue) => IconSource ??= StswFnUI.BytesToBitmapImage(newValue);
+
+    [StswObservableProperty] ImageSource? _iconSource;
+    partial void OnIconSourceChanged(ImageSource? oldValue, ImageSource? newValue) => Icon = newValue?.ToBytes();
+
 }
