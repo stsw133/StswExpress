@@ -37,9 +37,6 @@ public partial class ContractorsContext : StswObservableObject
         SelectedContractor = null;
 
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
-
-        var test = TestTest;
-        ;
     }
 
     /// Init
@@ -234,31 +231,12 @@ public partial class ContractorsContext : StswObservableObject
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
 
-    /// FiltersContractors
-    public StswDataGridFiltersDataModel FiltersContractors
-    {
-        get => _filtersContractors;
-        set => SetProperty(ref _filtersContractors, value);
-    }
-    private StswDataGridFiltersDataModel _filtersContractors = new();
+    [StswObservableProperty] StswDataGridFiltersDataModel _filtersContractors = new();
+    [StswObservableProperty] StswObservableCollection<ContractorModel> _listContractors = [];
+    [StswObservableProperty] ICollectionView? _listContractorsView;
+    [StswObservableProperty] object? _selectedContractor = new();
 
-    /// ListContractors
-    public StswObservableCollection<ContractorModel> ListContractors
-    {
-        get => _listContractors;
-        set => SetProperty(ref _listContractors, value);
-    }
-    private StswObservableCollection<ContractorModel> _listContractors = [];
-    
-    /// ListContractorsView
-    public ICollectionView? ListContractorsView
-    {
-        get => _listContractorsView;
-        set => SetProperty(ref _listContractorsView, value);
-    }
-    private ICollectionView? _listContractorsView;
-
-    /// NewTab
+    public ICommand? NewTabCommand { get; set; }
     public StswTabItem NewTab
     {
         get => _newTab;
@@ -271,20 +249,4 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
     private StswTabItem _newTab = new();
-
-    /// NewTabCommand
-    public ICommand? NewTabCommand { get; set; }
-
-    /// Selected items
-    public object? SelectedContractor
-    {
-        get => _selectedContractor;
-        set => SetProperty(ref _selectedContractor, value);
-    }
-    private object? _selectedContractor = new();
-
-
-
-    [StswObservableProperty]
-    private string? _testTest;
 }

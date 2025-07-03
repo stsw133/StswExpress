@@ -3,24 +3,46 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>Latest</LangVersion>
-	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-	<OutputItemType>Analyzer</OutputItemType>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
+    <Nullable>enable</Nullable>
 	<Version>0.18.1</Version>
-	<IncludeBuildOutput>false</IncludeBuildOutput>
-	<BuildOutputTargetFolder>analyzers/dotnet/cs</BuildOutputTargetFolder>
+    <Authors>Karol Staszewski</Authors>
+	<Description>This package offers generators such as:
+• observable property generator
+• command generators
+	</Description>
+	<Copyright>© 2025 Karol Staszewski</Copyright>
+	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<PackageTags>Generators</PackageTags>
+    <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	<IsRoslynAnalyzer>true</IsRoslynAnalyzer>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
-	</ItemGroup>
+  <ItemGroup>
+	  <None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\TestApp\Resources\logo.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Analyzer Include="Generators\StswObservablePropertyGenerator.cs" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)$(TargetFileName)" Pack="true" PackagePath="analyzers/dotnet/cs" />
+  </ItemGroup>
 
 </Project>

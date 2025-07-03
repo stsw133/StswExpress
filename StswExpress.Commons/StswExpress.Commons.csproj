@@ -35,15 +35,16 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+	<!--
 	<ItemGroup>
 		<ProjectReference Include="..\StswExpress.Generators\StswExpress.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
-	
+    -->
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.6" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+    <PackageReference Include="StswExpress.Generators" Version="*-*" />
   </ItemGroup>
 
 </Project>

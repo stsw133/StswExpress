@@ -39,8 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<!-- <ProjectReference Include="..\StswExpress.Generators\StswExpress.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" /> -->
-    <ProjectReference Include="..\StswExpress\StswExpress.csproj" />
+	<ProjectReference Include="..\StswExpress\StswExpress.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -88,8 +88,7 @@ namespace {classSymbol.ContainingNamespace}
     {
         foreach (var attribute in field.GetAttributes())
         {
-            if (attribute.AttributeClass?.ToDisplayString() == "StswExpress.Commons.StswObservablePropertyAttribute"
-             || attribute.AttributeClass?.Name == "StswObservablePropertyAttribute")
+            if (attribute.AttributeClass?.ToDisplayString() == "StswExpress.Commons.StswObservablePropertyAttribute")
                 return true;
         }
         return false;
