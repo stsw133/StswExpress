@@ -1,7 +1,7 @@
 ﻿namespace TestApp;
 public partial class StswRepeatButtonContext : ControlsContext
 {
-    public StswCommand OnClickCommand => new(() => ClickCounter++);
+    [StswCommand] void OnClick() => ClickCounter++;
 
     [StswObservableProperty] int _clickCounter;
 }

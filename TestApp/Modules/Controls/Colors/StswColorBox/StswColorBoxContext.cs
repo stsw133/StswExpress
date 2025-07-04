@@ -5,9 +5,6 @@ using System.Windows.Media;
 namespace TestApp;
 public partial class StswColorBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedColor = default);
-    public StswCommand RandomizeCommand => new(() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255)));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -15,6 +12,9 @@ public partial class StswColorBoxContext : ControlsContext
         IsAlphaEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlphaEnabled)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => SelectedColor = default;
+    [StswCommand] void Randomize() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255));
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isAlphaEnabled;

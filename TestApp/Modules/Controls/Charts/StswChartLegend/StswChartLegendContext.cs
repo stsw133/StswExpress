@@ -4,11 +4,6 @@ using System.Linq;
 namespace TestApp;
 public partial class StswChartLegendContext : ControlsContext
 {
-    public StswCommand AddValueCommand => new(() => {
-        Items.First(x => x.Name == "Option 9").Value += 20;
-        Items = [.. Items.OrderByDescending(x => x.Value)];
-    });
-    
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -16,6 +11,12 @@ public partial class StswChartLegendContext : ControlsContext
         Columns = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Columns)))?.Value ?? default;
         Rows = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Rows)))?.Value ?? default;
         ShowDetails = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowDetails)))?.Value ?? default;
+    }
+
+    [StswCommand] void AddValue()
+    {
+        Items.First(x => x.Name == "Option 9").Value += 20;
+        Items = [.. Items.OrderByDescending(x => x.Value)];
     }
 
     [StswObservableProperty] int _columns;

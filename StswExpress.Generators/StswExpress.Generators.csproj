@@ -5,7 +5,7 @@
     <LangVersion>Latest</LangVersion>
 	<ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>0.18.1</Version>
+	<Version>0.18.1.$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 2))</Version>
     <Authors>Karol Staszewski</Authors>
 	<Description>This package offers generators such as:
 • observable property generator
@@ -34,8 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" PrivateAssets="all" />
   </ItemGroup>
 	
 	<ItemGroup>

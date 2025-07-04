@@ -4,10 +4,11 @@ using System.Linq;
 namespace TestApp;
 public partial class StswChartPieContext : ControlsContext
 {
-    public StswCommand AddValueCommand => new(() => {
+    [StswCommand] void AddValue()
+    {
         Items.First(x => x.Name == "Option 9").Value += 20;
         Items = [.. Items.OrderByDescending(x => x.Value)];
-    });
+    }
     
     [StswObservableProperty] ObservableCollection<StswChartElementModel> _items =
     [

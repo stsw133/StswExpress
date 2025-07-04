@@ -21,27 +21,16 @@ public abstract class StswObservableObject : INotifyPropertyChanged, IDisposable
     /// <typeparam name="T">The type of the property.</typeparam>
     /// <param name="field">Reference to the field storing the property's value.</param>
     /// <param name="value">The new value to set.</param>
-    /// <param name="propertyNamesToNotify">Collection of property names to notify in addition to the current property.</param>
-    /// <param name="doAfter">The action to execute after the property value is changed.</param>
-    /// <param name="condition">An optional condition that must be met for the property to be set. If this condition is not met, the property will not be set and no notification will be sent.</param>
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected bool SetProperty<T>(ref T field, T value, IEnumerable<string>? propertyNamesToNotify = null, Action? doAfter = null, Func<bool>? condition = null, [CallerMemberName] string propertyName = "")
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
     {
-        if (condition != null && !condition())
-            return false;
-
         if (EqualityComparer<T>.Default.Equals(field, value))
             return false;
 
         field = value;
         OnPropertyChanged(propertyName);
 
-        if (propertyNamesToNotify != null)
-            foreach (var name in propertyNamesToNotify)
-                OnPropertyChanged(name);
-
-        doAfter?.Invoke();
         return true;
     }
 

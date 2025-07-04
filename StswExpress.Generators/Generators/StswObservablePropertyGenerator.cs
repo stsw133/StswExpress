@@ -6,7 +6,7 @@ using System.Text;
 namespace StswExpress.Generators;
 
 /// <summary>
-/// Generates observable properties for fields marked with the StswObservablePropertyAttribute attribute.
+/// Generates properties for fields marked with the StswObservablePropertyAttribute.
 /// </summary>
 [Generator]
 public class StswObservablePropertyGenerator : IIncrementalGenerator
@@ -14,78 +14,72 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     private const string InvokingAttribute = "StswExpress.Commons.StswObservablePropertyAttribute";
 
     /// <summary>
-    /// Initializes the generator and registers the syntax provider for field declarations with the StswObservablePropertyAttribute attribute.
+    /// Initializes the generator by registering a syntax provider to collect declarations.
     /// </summary>
     /// <param name="context">The generator initialization context.</param>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var fieldDeclarations = context.SyntaxProvider
+        var symbolDeclarations = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => node is FieldDeclarationSyntax f && f.AttributeLists.Count > 0,
                 transform: static (ctx, _) => Helpers.GetFieldSymbol(ctx))
-            .Where(static symbol => symbol is not null);
+            .Where(static symbol => symbol is not null)
+            .Collect();
 
-        context.RegisterSourceOutput(fieldDeclarations, (spc, symbol) =>
+        context.RegisterSourceOutput(symbolDeclarations, (spc, symbols) =>
         {
-            /// validations
-            if (symbol is not IFieldSymbol field)
-                return;
+            var grouped = symbols!
+                .OfType<IFieldSymbol>()
+                .Select(field =>
+                    Helpers.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData)
+                        ? (Field: field, AttrData: attrData)
+                        : (Field: null, AttrData: null))
+                .Where(t => t.Field is not null && t.AttrData is not null)
+                .GroupBy(t => t.Field!.ContainingType, SymbolEqualityComparer.Default);
 
-            if (!Helpers.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData) || attrData is null)
-                return;
+            foreach (var group in grouped)
+            {
+                var classSymbol = group.Key!;
+                var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
+                var className = classSymbol.Name;
 
-            /// get the necessary information from the symbol
-            var classSymbol = field.ContainingType;
-            var fieldName = field.Name;
-            var propertyName = Helpers.ToPascalCase(field.Name.TrimStart('_'));
-            var propertyType = field.Type.ToDisplayString();
+                var sb = new StringBuilder();
+                sb.AppendLine($"namespace {namespaceName}");
+                sb.AppendLine($"{{");
+                sb.AppendLine($"    public partial class {className}");
+                sb.AppendLine($"    {{");
 
-            /// get the documentation comment for the field
-            var docComment = field.GetDocumentationCommentXml();
-            var documentation = string.IsNullOrWhiteSpace(docComment) ? "" : $"/// {docComment!.Trim().Replace("\n", "\n/// ")}\n";
+                foreach (var (field, attrData) in group)
+                {
+                    var fieldName = field!.Name;
+                    var propertyName = Helpers.ToPascalCase(field.Name.TrimStart('_'));
+                    var propertyType = field.Type.ToDisplayString();
 
-            /// generate the attributes code
-            var attributesCode = string.Join("\n", field.GetAttributes()
-                .Where(attr => attr.AttributeClass?.ToDisplayString() != InvokingAttribute)
-                .Select(attr => attr.ToString()));
+                    var docComment = field.GetDocumentationCommentXml();
+                    var documentation = string.IsNullOrWhiteSpace(docComment)
+                        ? ""
+                        : $"        /// {docComment!.Trim().Replace("\n", "\n        /// ")}\n";
 
-            /// get the named arguments from the invoking attribute
-            var callbackMethod = Helpers.GetNamedArgument<string>(attrData, "CallbackMethod");
-            var conditionMethod = Helpers.GetNamedArgument<string>(attrData, "ConditionMethod");
-            var notifyProps = Helpers.GetNamedArgument<string[]>(attrData, "NotifyProperties");
+                    sb.AppendLine();
+                    sb.Append(documentation);
+                    sb.AppendLine($"        public {propertyType} {propertyName}");
+                    sb.AppendLine($"        {{");
+                    sb.AppendLine($"            get => {fieldName};");
+                    sb.AppendLine($"            set");
+                    sb.AppendLine($"            {{");
+                    sb.AppendLine($"                var oldValue = {fieldName};");
+                    sb.AppendLine($"                if (SetProperty(ref {fieldName}, value))");
+                    sb.AppendLine($"                    On{propertyName}Changed(oldValue, value);");
+                    sb.AppendLine($"            }}");
+                    sb.AppendLine($"        }}");
+                    sb.AppendLine($"        partial void On{propertyName}Changed({propertyType} oldValue, {propertyType} newValue);");
+                }
 
-            var additionalArgs = string.Join(", ",
-            [
-                notifyProps?.Length > 0
-                    ? $"new[] {{ {string.Join(", ", notifyProps.Select(p => $@"""{p}"""))} }}"
-                    : "null",
-                /*callbackMethod is not null ? callbackMethod :*/ "null",
-                conditionMethod is not null ? conditionMethod : "null"
-            ]);
+                sb.AppendLine($"    }}");
+                sb.AppendLine($"}}");
 
-            /// generate the source code for the observable property
-            var source = $@"
-namespace {classSymbol.ContainingNamespace}
-{{
-    public partial class {classSymbol.Name}
-    {{
-        {documentation}
-        {attributesCode}
-        public {propertyType} {propertyName}
-        {{
-            get => {fieldName};
-            set
-            {{
-                var oldValue = {fieldName};
-                if (SetProperty(ref {fieldName}, value, {additionalArgs}))
-                    On{propertyName}Changed(oldValue, value);
-            }}
-        }}
-
-        partial void On{propertyName}Changed({propertyType} oldValue, {propertyType} newValue);
-    }}
-}}";
-            spc.AddSource($"{classSymbol.Name}_{propertyName}_ObservableProperty.g.cs", SourceText.From(source, Encoding.UTF8));
+                spc.AddSource($"{className}_StswObservableProperties.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            }
         });
     }
 }

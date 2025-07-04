@@ -7,8 +7,6 @@ using System.Windows.Threading;
 namespace TestApp;
 public partial class StswDataGridContext : ControlsContext
 {
-    public StswAsyncCommand OnScrollBottomCommand => new(OnScrollBottom);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -18,9 +16,7 @@ public partial class StswDataGridContext : ControlsContext
         SelectionUnit = (DataGridSelectionUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
-    #region Commands & methods
-    /// OnScrollBottom
-    public async Task OnScrollBottom()
+    [StswAsyncCommand] async Task OnScrollBottom()
     {
         IsBusy = true;
         await Task.Run(() =>
@@ -33,7 +29,6 @@ public partial class StswDataGridContext : ControlsContext
         });
         IsBusy = false;
     }
-    #endregion
 
     [StswObservableProperty] bool _isBusy;
     [StswObservableProperty] bool _isReadOnly;
