@@ -1,12 +1,5 @@
 ﻿namespace TestApp;
-
-public class StswBorderContext : ControlsContext
+public partial class StswBorderContext : ControlsContext
 {
-    /// ShowExampleContent
-    public bool ShowExampleContent
-    {
-        get => _showExampleContent;
-        set => SetProperty(ref _showExampleContent, value);
-    }
-    private bool _showExampleContent;
+    [StswObservableProperty] bool _showExampleContent;
 }

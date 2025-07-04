@@ -2,8 +2,7 @@
 using System.Linq;
 
 namespace TestApp;
-
-public class StswToasterContext : ControlsContext
+public partial class StswToasterContext : ControlsContext
 {
     public StswCommand ShowToastCommand => new(ShowToast);
 
@@ -25,27 +24,7 @@ public class StswToasterContext : ControlsContext
     }
     #endregion
 
-    /// IsClosable
-    public bool IsClosable
-    {
-        get => _isClosable;
-        set => SetProperty(ref _isClosable, value);
-    }
-    private bool _isClosable;
-    
-    /// IsCopyable
-    public bool IsCopyable
-    {
-        get => _isCopyable;
-        set => SetProperty(ref _isCopyable, value);
-    }
-    private bool _isCopyable;
-
-    /// IsExpandable
-    public bool IsExpandable
-    {
-        get => _isExpandable;
-        set => SetProperty(ref _isExpandable, value);
-    }
-    private bool _isExpandable;
+    [StswObservableProperty] bool _isClosable;
+    [StswObservableProperty] bool _isCopyable;
+    [StswObservableProperty] bool _isExpandable;
 }

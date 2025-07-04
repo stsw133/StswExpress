@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 namespace TestApp;
-
-public class StswContentDialogContext : ControlsContext
+public partial class StswContentDialogContext : ControlsContext
 {
     public StswAsyncCommand OpenContentDialogCommand => new(OpenContentDialog);
     public StswAsyncCommand CloseContentDialogCommand => new(CloseContentDialog);
@@ -22,11 +21,5 @@ public class StswContentDialogContext : ControlsContext
     }
     #endregion
 
-    /// ContentDialogResult
-    public string? ContentDialogResult
-    {
-        get => _contentDialogResult;
-        set => SetProperty(ref _contentDialogResult, value);
-    }
-    private string? _contentDialogResult;
+    [StswObservableProperty] string? _contentDialogResult;
 }

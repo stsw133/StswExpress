@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TestApp;
-
 public partial class ContractorsContext : StswObservableObject
 {
     /// Grid commands
@@ -155,7 +154,7 @@ public partial class ContractorsContext : StswObservableObject
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.Id;
+                        context.Id = m.Id;
                         context.IsCloned = true;
                     }
                     if (NewTab.Header is StswLabel header)
@@ -185,7 +184,7 @@ public partial class ContractorsContext : StswObservableObject
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.Id;
+                        context.Id = m.Id;
                         context.IsCloned = false;
                     }
                     if (NewTab.Header is StswLabel header)

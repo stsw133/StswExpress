@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace TestApp;
-
-public class StswDynamicGridContext : ControlsContext
+public partial class StswDynamicGridContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -20,51 +19,10 @@ public class StswDynamicGridContext : ControlsContext
         VerticalAlignment = VerticalAlignment.Stretch;
     }
 
-    /// Columns
-    public int Columns
-    {
-        get => _columns;
-        set => SetProperty(ref _columns, value);
-    }
-    private int _columns;
-
-    /// Orientation
-    public Orientation? Orientation
-    {
-        get => _orientation;
-        set => SetProperty(ref _orientation, value);
-    }
-    private Orientation? _orientation;
-
-    /// Rows
-    public int Rows
-    {
-        get => _rows;
-        set => SetProperty(ref _rows, value);
-    }
-    private int _rows;
-
-    /// Spacing
-    public double Spacing
-    {
-        get => _spacing;
-        set => SetProperty(ref _spacing, value);
-    }
-    private double _spacing;
-
-    /// StretchColumnIndex
-    public int StretchColumnIndex
-    {
-        get => _stretchColumnIndex;
-        set => SetProperty(ref _stretchColumnIndex, value);
-    }
-    private int _stretchColumnIndex;
-
-    /// StretchRowIndex
-    public int StretchRowIndex
-    {
-        get => _stretchRowIndex;
-        set => SetProperty(ref _stretchRowIndex, value);
-    }
-    private int _stretchRowIndex;
+    [StswObservableProperty] int _columns;
+    [StswObservableProperty] Orientation? _orientation;
+    [StswObservableProperty] int _rows;
+    [StswObservableProperty] double _spacing;
+    [StswObservableProperty] int _stretchColumnIndex;
+    [StswObservableProperty] int _stretchRowIndex;
 }

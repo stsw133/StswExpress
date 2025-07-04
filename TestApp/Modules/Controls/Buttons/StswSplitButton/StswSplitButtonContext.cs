@@ -2,10 +2,9 @@
 using System.Linq;
 
 namespace TestApp;
-
-public class StswSplitButtonContext : ControlsContext
+public partial class StswSplitButtonContext : ControlsContext
 {
-    public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
+    public StswCommand<string> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
     public override void SetDefaults()
     {
@@ -15,27 +14,7 @@ public class StswSplitButtonContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    /// AutoClose
-    public bool AutoClose
-    {
-        get => _autoClose;
-        set => SetProperty(ref _autoClose, value);
-    }
-    private bool _autoClose;
-
-    /// ClickOption
-    public int ClickOption
-    {
-        get => _clickOption;
-        set => SetProperty(ref _clickOption, value);
-    }
-    private int _clickOption;
-
-    /// IsReadOnly
-    public bool IsReadOnly
-    {
-        get => _isReadOnly;
-        set => SetProperty(ref _isReadOnly, value);
-    }
-    private bool _isReadOnly;
+    [StswObservableProperty] bool _autoClose;
+    [StswObservableProperty] int _clickOption;
+    [StswObservableProperty] bool _isReadOnly;
 }

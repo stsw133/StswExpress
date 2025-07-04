@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 
 namespace TestApp;
-
-public class StswMessageDialogContext : ControlsContext
+public partial class StswMessageDialogContext : ControlsContext
 {
     public StswCommand OpenMessageDialogCommand => new(OpenMessageDialog);
 
@@ -31,35 +30,8 @@ public class StswMessageDialogContext : ControlsContext
     }
     #endregion
 
-    /// MessageDialogButtons
-    public StswDialogButtons MessageDialogButtons
-    {
-        get => _messageDialogButtons;
-        set => SetProperty(ref _messageDialogButtons, value);
-    }
-    private StswDialogButtons _messageDialogButtons;
-
-    /// MessageDialogImage
-    public StswDialogImage MessageDialogImage
-    {
-        get => _messageDialogImage;
-        set => SetProperty(ref _messageDialogImage, value);
-    }
-    private StswDialogImage _messageDialogImage;
-
-    /// MessageDialogResult
-    public string? MessageDialogResult
-    {
-        get => _messageDialogResult;
-        set => SetProperty(ref _messageDialogResult, value);
-    }
-    private string? _messageDialogResult;
-
-    /// ShowDetails
-    public bool ShowDetails
-    {
-        get => _showDetails;
-        set => SetProperty(ref _showDetails, value);
-    }
-    private bool _showDetails;
+    [StswObservableProperty] StswDialogButtons _messageDialogButtons;
+    [StswObservableProperty] StswDialogImage _messageDialogImage;
+    [StswObservableProperty] string? _messageDialogResult;
+    [StswObservableProperty] bool _showDetails;
 }

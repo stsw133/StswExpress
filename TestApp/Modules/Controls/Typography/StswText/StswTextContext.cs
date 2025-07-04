@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class StswTextContext : ControlsContext
+public partial class StswTextContext : ControlsContext
 {
-    
 }

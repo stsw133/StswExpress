@@ -2,8 +2,7 @@
 using System.Windows;
 
 namespace TestApp;
-
-public class StswSpinnerContext : ControlsContext
+public partial class StswSpinnerContext : ControlsContext
 {
     public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
     public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
@@ -16,19 +15,6 @@ public class StswSpinnerContext : ControlsContext
         Type = (StswSpinnerType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
 
-    /// Scale
-    public GridLength Scale
-    {
-        get => _scale;
-        set => SetProperty(ref _scale, value);
-    }
-    private GridLength _scale;
-
-    /// Type
-    public StswSpinnerType Type
-    {
-        get => _type;
-        set => SetProperty(ref _type, value);
-    }
-    private StswSpinnerType _type;
+    [StswObservableProperty] GridLength _scale;
+    [StswObservableProperty] StswSpinnerType _type;
 }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 
 namespace TestApp;
-
 public partial class ControlsContext : StswObservableObject
 {
     public string ThisControlName => GetType().Name[..^7];

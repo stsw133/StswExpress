@@ -2,8 +2,7 @@
 using System.Windows.Data;
 
 namespace TestApp;
-
-public class StswWindowContext : ControlsContext
+public partial class StswWindowContext : ControlsContext
 {
     public StswCommand OpenNewWindowCommand => new(OpenNewWindow);
 

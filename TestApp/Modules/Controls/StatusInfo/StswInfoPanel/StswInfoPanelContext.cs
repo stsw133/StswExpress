@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp;
-
-public class StswInfoPanelContext : ControlsContext
+public partial class StswInfoPanelContext : ControlsContext
 {
     public StswCommand AddRandomItemCommand => new(AddRandomItem);
     public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles);
@@ -35,43 +34,9 @@ public class StswInfoPanelContext : ControlsContext
                                                                                                                         .OrderByDescending(x => x.DateTime)]);
     #endregion
 
-    /// IsClosable
-    public bool IsClosable
-    {
-        get => _isClosable;
-        set => SetProperty(ref _isClosable, value);
-    }
-    private bool _isClosable;
-    
-    /// IsCopyable
-    public bool IsCopyable
-    {
-        get => _isCopyable;
-        set => SetProperty(ref _isCopyable, value);
-    }
-    private bool _isCopyable;
-
-    /// IsExpandable
-    public bool IsExpandable
-    {
-        get => _isExpandable;
-        set => SetProperty(ref _isExpandable, value);
-    }
-    private bool _isExpandable;
-
-    /// ItemsSource
-    public ObservableCollection<StswLogItem> ItemsSource
-    {
-        get => _itemsSource;
-        set => SetProperty(ref _itemsSource, value);
-    }
-    private ObservableCollection<StswLogItem> _itemsSource = [];
-
-    /// ShowControlPanel
-    public bool ShowControlPanel
-    {
-        get => _showControlPanel;
-        set => SetProperty(ref _showControlPanel, value);
-    }
-    private bool _showControlPanel;
+    [StswObservableProperty] bool _isClosable;
+    [StswObservableProperty] bool _isCopyable;
+    [StswObservableProperty] bool _isExpandable;
+    [StswObservableProperty] ObservableCollection<StswLogItem> _itemsSource = [];
+    [StswObservableProperty] bool _showControlPanel;
 }

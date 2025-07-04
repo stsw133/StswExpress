@@ -2,8 +2,7 @@
 using System.Windows.Media;
 
 namespace TestApp;
-
-public class StswImageContext : ControlsContext
+public partial class StswImageContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -13,19 +12,6 @@ public class StswImageContext : ControlsContext
         Stretch = (Stretch?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Stretch)))?.Value ?? default;
     }
 
-    /// MenuMode
-    public StswMenuMode MenuMode
-    {
-        get => _menuMode;
-        set => SetProperty(ref _menuMode, value);
-    }
-    private StswMenuMode _menuMode;
-
-    /// Stretch
-    public Stretch Stretch
-    {
-        get => _stretch;
-        set => SetProperty(ref _stretch, value);
-    }
-    private Stretch _stretch;
+    [StswObservableProperty] StswMenuMode _menuMode;
+    [StswObservableProperty] Stretch _stretch;
 }

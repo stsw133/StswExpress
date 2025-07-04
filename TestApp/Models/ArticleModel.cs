@@ -26,5 +26,4 @@ public partial class ArticleModel : StswObservableObject, IStswCollectionItem
 
     [StswObservableProperty] ImageSource? _iconSource;
     partial void OnIconSourceChanged(ImageSource? oldValue, ImageSource? newValue) => Icon = newValue?.ToBytes();
-
 }

@@ -3,38 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace TestApp;
-
-public class StswMediaPlayerContext : ControlsContext
+public partial class StswMediaPlayerContext : ControlsContext
 {
-    /// ItemsSource
-    public List<string> ItemsSource
-    {
-        get => _itemsSource;
-        set => SetProperty(ref _itemsSource, value);
-    }
-    private List<string> _itemsSource = [];
+    [StswObservableProperty] List<string> _itemsSource = [];
+    [StswObservableProperty] Uri? _source;
 
-    /// SelectedPath
-    public string? SelectedPath
+    [StswObservableProperty] string? _selectedPath;
+    partial void OnSelectedPathChanged(string? oldValue, string? newValue)
     {
-        get => _selectedPath;
-        set
+        if (newValue != null)
         {
-            SetProperty(ref _selectedPath, value);
-            if (value != null)
-            {
-                ItemsSource = [.. Directory.GetFiles(Directory.GetParent(value)!.FullName)];
-                Source = new Uri(value);
-            }
+            ItemsSource = [.. Directory.GetFiles(Directory.GetParent(newValue)!.FullName)];
+            Source = new Uri(newValue);
         }
     }
-    private string? _selectedPath;
-
-    /// Source
-    public Uri? Source
-    {
-        get => _source;
-        set => SetProperty(ref _source, value);
-    }
-    private Uri? _source;
 }

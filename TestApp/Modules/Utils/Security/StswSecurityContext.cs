@@ -11,7 +11,7 @@ public partial class StswSecurityContext : StswObservableObject
 
     [StswObservableProperty] string? _inputEncrypt;
     partial void OnInputEncryptChanged(string? oldValue, string? newValue) => OutputEncrypt = newValue == null ? null : StswSecurity.Encrypt(newValue);
-
+    
     [StswObservableProperty] string? _outputEncrypt;
 
     [StswObservableProperty] string? _inputDecrypt;

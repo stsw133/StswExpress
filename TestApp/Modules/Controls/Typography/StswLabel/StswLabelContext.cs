@@ -5,8 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace TestApp;
-
-public class StswLabelContext : ControlsContext
+public partial class StswLabelContext : ControlsContext
 {
     public StswAsyncCommand<StswProgressState> ProcessCommand { get; }
     public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
@@ -16,7 +15,7 @@ public class StswLabelContext : ControlsContext
     {
         ProcessCommand = new(Process) { IsReusable = true };
     }
-
+    
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -28,9 +27,6 @@ public class StswLabelContext : ControlsContext
         TextTrimming = (TextTrimming?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextTrimming)))?.Value ?? default;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public async Task Process(StswProgressState state)
     {
         await Task.Run(() =>
@@ -57,43 +53,9 @@ public class StswLabelContext : ControlsContext
         });
     }
 
-    /// IconScale
-    public GridLength IconScale
-    {
-        get => _iconScale;
-        set => SetProperty(ref _iconScale, value);
-    }
-    private GridLength _iconScale;
-
-    /// IsBusy
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => SetProperty(ref _isBusy, value);
-    }
-    private bool _isBusy;
-
-    /// IsContentVisible
-    public bool IsContentVisible
-    {
-        get => _isContentVisible;
-        set => SetProperty(ref _isContentVisible, value);
-    }
-    private bool _isContentVisible;
-
-    /// Orientation
-    public Orientation Orientation
-    {
-        get => _orientation;
-        set => SetProperty(ref _orientation, value);
-    }
-    private Orientation _orientation;
-
-    /// TextTrimming
-    public TextTrimming TextTrimming
-    {
-        get => _textTrimming;
-        set => SetProperty(ref _textTrimming, value);
-    }
-    private TextTrimming _textTrimming;
+    [StswObservableProperty] GridLength _iconScale;
+    [StswObservableProperty] bool _isBusy;
+    [StswObservableProperty] bool _isContentVisible;
+    [StswObservableProperty] Orientation _orientation;
+    [StswObservableProperty] TextTrimming _textTrimming;
 }

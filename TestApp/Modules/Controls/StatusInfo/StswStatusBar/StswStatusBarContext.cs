@@ -1,6 +1,5 @@
 ﻿namespace TestApp;
-
-public class StswStatusBarContext : ControlsContext
+public partial class StswStatusBarContext : ControlsContext
 {
     public override void SetDefaults()
     {

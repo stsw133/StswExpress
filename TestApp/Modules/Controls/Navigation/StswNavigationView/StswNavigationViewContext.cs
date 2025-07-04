@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class StswNavigationViewContext : ControlsContext
+public partial class StswNavigationViewContext : ControlsContext
 {
-    
 }

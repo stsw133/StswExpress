@@ -2,21 +2,14 @@
 using System.Linq;
 
 namespace TestApp;
-
-public class StswChartPieContext : ControlsContext
+public partial class StswChartPieContext : ControlsContext
 {
     public StswCommand AddValueCommand => new(() => {
         Items.First(x => x.Name == "Option 9").Value += 20;
         Items = [.. Items.OrderByDescending(x => x.Value)];
     });
-
-    /// Items
-    public ObservableCollection<StswChartElementModel> Items
-    {
-        get => _items;
-        set => SetProperty(ref _items, value);
-    }
-    private ObservableCollection<StswChartElementModel> _items =
+    
+    [StswObservableProperty] ObservableCollection<StswChartElementModel> _items =
     [
         new() { Name = "Option 1", Value = 1000, Description = "The biggest (by default) source of value" },
         new() { Name = "Option 2", Value = 810 },

@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TestApp;
-
-public class StswNotifyIconContext : ControlsContext
+public partial class StswNotifyIconContext : ControlsContext
 {
     public StswAsyncCommand ShowTipMinimizedCommand => new(ShowTipMinimized);
     public StswAsyncCommand ShowTipStaticCommand => new(ShowTipStatic);
@@ -39,19 +38,6 @@ public class StswNotifyIconContext : ControlsContext
     }
     #endregion
 
-    /// IsAlwaysVisible
-    public bool IsAlwaysVisible
-    {
-        get => _isAlwaysVisible;
-        set => SetProperty(ref _isAlwaysVisible, value);
-    }
-    private bool _isAlwaysVisible;
-
-    /// Tip
-    public StswNotifyIconTip Tip
-    {
-        get => _tip;
-        set => SetProperty(ref _tip, value);
-    }
-    private StswNotifyIconTip _tip;
+    [StswObservableProperty] bool _isAlwaysVisible;
+    [StswObservableProperty] StswNotifyIconTip _tip;
 }

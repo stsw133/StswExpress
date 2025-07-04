@@ -5,8 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace TestApp;
-
-public class StswIconContext : ControlsContext
+public partial class StswIconContext : ControlsContext
 {
     public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
     public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
@@ -25,27 +24,7 @@ public class StswIconContext : ControlsContext
         Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
     }
 
-    /// Data
-    public Geometry? Data
-    {
-        get => _data;
-        set => SetProperty(ref _data, value);
-    }
-    private Geometry? _data = StswIcons.Abacus;
-
-    /// Icons
-    public IReadOnlyList<StswComboItem> Icons
-    {
-        get => _icons;
-        set => SetProperty(ref _icons, value);
-    }
-    private IReadOnlyList<StswComboItem> _icons = [];
-
-    /// Scale
-    public GridLength Scale
-    {
-        get => _scale;
-        set => SetProperty(ref _scale, value);
-    }
-    private GridLength _scale;
+    [StswObservableProperty] Geometry? _data = StswIcons.Abacus;
+    [StswObservableProperty] IReadOnlyList<StswComboItem> _icons = [];
+    [StswObservableProperty] GridLength _scale;
 }

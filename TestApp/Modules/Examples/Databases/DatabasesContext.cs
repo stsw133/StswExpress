@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace TestApp;
-
 public partial class DatabasesContext : StswObservableObject
 {
     public ICommand MoveUpCommand { get; }

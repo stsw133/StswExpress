@@ -1,14 +1,7 @@
 ﻿using System;
 
 namespace TestApp;
-
-public class StswHyperlinkButtonContext : ControlsContext
+public partial class StswHyperlinkButtonContext : ControlsContext
 {
-    /// NavigateUri
-    public Uri NavigateUri
-    {
-        get => _navigateUri;
-        set => SetProperty(ref _navigateUri, value);
-    }
-    private Uri _navigateUri = new Uri("https://example.com");
+    [StswObservableProperty] Uri _navigateUri = new("https://example.com");
 }

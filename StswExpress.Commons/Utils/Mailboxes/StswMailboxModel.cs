@@ -6,7 +6,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Represents an email account and provides methods for sending emails using the account's SMTP settings.
 /// </summary>
-public class StswMailboxModel : StswObservableObject
+public partial class StswMailboxModel : StswObservableObject
 {
     /*
     private static int _emailsSentToday = 0;
@@ -27,92 +27,47 @@ public class StswMailboxModel : StswObservableObject
     /// <summary>
     /// Gets or sets the name of the email account.
     /// </summary>
-    public string? Name
-    {
-        get => _name;
-        set => SetProperty(ref _name, value);
-    }
-    private string? _name;
+    [StswObservableProperty] string? _name;
 
     /// <summary>
     /// Gets or sets the SMTP host for the email account.
     /// </summary>
-    public string? Host
-    {
-        get => _host;
-        set => SetProperty(ref _host, value);
-    }
-    private string? _host;
+    [StswObservableProperty] string? _host;
 
     /// <summary>
     /// Gets or sets the port number for the SMTP host.
     /// </summary>
-    public int? Port
-    {
-        get => _port;
-        set => SetProperty(ref _port, value);
-    }
-    private int? _port = 587;
+    [StswObservableProperty] int? _port = 587;
 
     /// <summary>
     /// Gets or sets the email address associated with the email account.
     /// </summary>
-    public string? From
-    {
-        get => _from;
-        set => SetProperty(ref _from, value);
-    }
-    private string? _from;
+    [StswObservableProperty] string? _from;
 
     /// <summary>
     /// Gets or sets the username for the email account.
     /// </summary>
-    public string? Username
-    {
-        get => _username;
-        set => SetProperty(ref _username, value);
-    }
-    private string? _username;
+    [StswObservableProperty] string? _username;
 
     /// <summary>
     /// Gets or sets the password for the email account.
     /// </summary>
-    public string? Password
-    {
-        get => _password;
-        set => SetProperty(ref _password, value);
-    }
-    private string? _password;
+    [StswObservableProperty] string? _password;
 
     /// <summary>
     /// Gets or sets the domain for the email account.
     /// </summary>
-    public string? Domain
-    {
-        get => _domain;
-        set => SetProperty(ref _domain, value);
-    }
-    private string? _domain;
+    [StswObservableProperty] string? _domain;
 
     /// <summary>
     /// Gets or sets the collection of reply-to addresses for the email account.
     /// </summary>
-    public IEnumerable<string>? ReplyTo
-    {
-        get => _replyTo;
-        set => SetProperty(ref _replyTo, value);
-    }
-    private IEnumerable<string>? _replyTo;
+    [StswObservableProperty] IEnumerable<string>? _replyTo;
 
     /// <summary>
     /// Gets or sets the security option for the SMTP connection.
     /// </summary>
-    public SecureSocketOptions SecurityOption
-    {
-        get => _securityOption;
-        set => SetProperty(ref _securityOption, value);
-    }
-    private SecureSocketOptions _securityOption = SecureSocketOptions.StartTls;
+    [StswObservableProperty] SecureSocketOptions _securityOption = SecureSocketOptions.StartTls;
 
     /// <summary>
     /// Sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
@@ -198,7 +153,7 @@ public class StswMailboxModel : StswObservableObject
 
         using var client = new SmtpClient();
         await client.ConnectAsync(Host, Port.Value, SecurityOption);
-
+        
         if (!string.IsNullOrEmpty(Username))
             await client.AuthenticateAsync(Username, Password);
 
