@@ -7,6 +7,7 @@ namespace StswExpress;
 /// A collapsible side panel that expands on mouse hover and hides when the cursor leaves.
 /// Supports always-visible mode.
 /// </summary>
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswSidePanel : ContentControl
 {
     static StswSidePanel()

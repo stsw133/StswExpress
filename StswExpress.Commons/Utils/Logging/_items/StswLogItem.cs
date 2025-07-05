@@ -2,6 +2,7 @@
 /// <summary>
 /// Represents an immutable log entry with a type, text, and a timestamp.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 public readonly struct StswLogItem(StswInfoType? type, string text, DateTime? dateTime = null)
 {
     /// <summary>

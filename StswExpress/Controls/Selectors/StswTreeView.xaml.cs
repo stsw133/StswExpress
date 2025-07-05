@@ -12,6 +12,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
 public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 {
     static StswTreeView()

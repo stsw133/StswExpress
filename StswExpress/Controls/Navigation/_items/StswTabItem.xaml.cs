@@ -8,6 +8,7 @@ namespace StswExpress;
 /// A tab item with additional functionality, including support for a close button.
 /// Allows users to remove tabs dynamically from the tab control.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswTabItem : TabItem
 {
     static StswTabItem()

@@ -11,6 +11,7 @@ namespace StswExpress;
 /// This control extends <see cref="StatusBarItem"/> to provide additional styling capabilities,
 /// including corner radius control for rounded edges.
 /// </remarks>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 public class StswStatusBarItem : StatusBarItem, IStswCornerControl
 {
     static StswStatusBarItem()

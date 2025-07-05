@@ -4,11 +4,7 @@ using System.Windows.Data;
 namespace TestApp;
 public partial class StswWindowContext : ControlsContext
 {
-    public StswCommand OpenNewWindowCommand => new(OpenNewWindow);
-
-    #region Events & methods
-    /// Command: open new window
-    private void OpenNewWindow()
+    [StswCommand] void OpenNewWindow()
     {
         var window = new StswWindow()
         {
@@ -25,5 +21,4 @@ public partial class StswWindowContext : ControlsContext
         });
         window.Show();
     }
-    #endregion
 }

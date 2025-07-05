@@ -9,6 +9,7 @@ namespace StswExpress.Commons;
 /// Model for interacting with a Web API, providing methods for GET and POST requests.
 /// </summary>
 /// <param name="httpClient">Instance of <see cref="HttpClient"/> to use for making requests.</param>
+[Stsw("0.19.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswHttpClient(HttpClient httpClient)
 {
     private readonly HttpClient _httpClient = httpClient;

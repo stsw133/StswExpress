@@ -14,6 +14,7 @@ namespace StswExpress;
 /// The popup adapts to different scroll types and supports dynamic content updates.
 /// </remarks>
 [ContentProperty(nameof(Content))]
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()

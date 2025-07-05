@@ -14,6 +14,7 @@ namespace StswExpress;
 /// This control provides a visual representation of progress in a ring format.
 /// It supports different text display modes and scaling for various UI requirements.
 /// </remarks>
+[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
 public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()

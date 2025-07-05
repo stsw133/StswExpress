@@ -7,14 +7,12 @@ using System.Windows.Media;
 namespace TestApp;
 public partial class StswIconContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
-
     public StswIconContext()
     {
         Task.Run(() => Icons = [.. typeof(StswIcons).GetProperties()
                                  .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
                                  .OrderBy(x => x.Display)]);
+        InitializeGeneratedCommands();
     }
 
     public override void SetDefaults()
@@ -23,6 +21,9 @@ public partial class StswIconContext : ControlsContext
 
         Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
     }
+
+    [StswCommand] void SetGridLengthAuto() => Scale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => Scale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] Geometry? _data = StswIcons.Abacus;
     [StswObservableProperty] IReadOnlyList<StswComboItem> _icons = [];

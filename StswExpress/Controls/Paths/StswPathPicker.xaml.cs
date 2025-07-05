@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,6 +15,7 @@ namespace StswExpress;
 /// Supports file filtering, multi-selection, and displaying file sizes.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
+[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
 public class StswPathPicker : StswBoxBase
 {
     static StswPathPicker()

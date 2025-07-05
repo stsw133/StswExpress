@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 using System.Composition;
 using System.Text;
 
-namespace StswExpress.Generators;
+namespace StswExpress.Analyzers;
 
 /// <summary>
 /// Generates command properties for methods marked with StswCommandAttribute or StswAsyncCommandAttribute.
@@ -64,7 +64,7 @@ public class StswCommandGenerator : IIncrementalGenerator
                         var isAsync = method.ReturnType.ToDisplayString() == "System.Threading.Tasks.Task";
                         var hasParameter = method.Parameters.Length == 1;
                         var paramType = hasParameter
-                            ? method.Parameters[0].Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+                            ? method.Parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
                             : null;
 
                         var commandBaseType = isAsync ? "StswAsyncCommand" : "StswCommand";
@@ -116,6 +116,8 @@ public class StswCommandGenerator : IIncrementalGenerator
                 }
                 else
                 {
+                    sb.AppendLine($"        partial void InitializeGeneratedCommands();");
+                    sb.AppendLine();
                     sb.AppendLine($"        partial void InitializeGeneratedCommands()");
                     sb.AppendLine($"        {{");
                     foreach (var cmd in commands)
@@ -135,13 +137,13 @@ public class StswCommandGenerator : IIncrementalGenerator
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MissingInitializeGeneratedCommandsAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "STSW001";
+    public const string DiagnosticId = "STSW004";
     private static readonly DiagnosticDescriptor Rule = new(
-        DiagnosticId,
-        "Missing call to InitializeGeneratedCommands()",
-        "Constructor should call InitializeGeneratedCommands()",
-        "Usage",
-        DiagnosticSeverity.Warning,
+        id: DiagnosticId,
+        title: "Missing call to InitializeGeneratedCommands()",
+        messageFormat: "Constructor should call InitializeGeneratedCommands()",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

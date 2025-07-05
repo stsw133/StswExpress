@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -12,6 +11,7 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
     private Border? _mainBorder;

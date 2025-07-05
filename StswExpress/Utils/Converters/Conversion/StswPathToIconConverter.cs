@@ -8,6 +8,7 @@ namespace StswExpress;
 /// Converts a file path into an icon representation as an <see cref="System.Windows.Media.ImageSource"/>.
 /// This converter extracts the associated icon of a file or folder and converts it into an image source.
 /// </summary>
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 internal class StswPathToIconConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -3,6 +3,7 @@
 /// <summary>
 /// A simple Messenger class for sending and receiving messages between view models.
 /// </summary>
+[Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];

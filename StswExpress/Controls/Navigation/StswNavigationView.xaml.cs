@@ -14,6 +14,7 @@ namespace StswExpress;
 /// Supports pinned items, compact/full modes, and dynamic content switching.
 /// </summary>
 [ContentProperty(nameof(Items))]
+[Stsw("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswNavigationView : ContentControl, IStswCornerControl
 {
     private StswNavigationTree? _mainTree, _pinnedTree;

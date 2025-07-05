@@ -14,6 +14,7 @@ namespace StswExpress;
 /// The bar automatically detects its parent window and configures its actions accordingly.
 /// </remarks>
 [ContentProperty(nameof(Components))]
+[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
 public class StswWindowBar : Control, IStswCornerControl
 {
     private StswWindow? _window;

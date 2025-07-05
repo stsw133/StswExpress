@@ -7,6 +7,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides a simple way to write and manage log messages, including support for automatic archiving and error handling.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public static class StswLog
 {
     private static readonly Dictionary<Guid, Dictionary<StswInfoType, int>> _logCounters = [];

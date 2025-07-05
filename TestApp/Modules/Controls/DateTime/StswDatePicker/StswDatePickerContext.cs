@@ -4,9 +4,6 @@ using System.Linq;
 namespace TestApp;
 public partial class StswDatePickerContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedDate = default);
-    public StswCommand RandomizeCommand => new(() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days)));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -16,7 +13,10 @@ public partial class StswDatePickerContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         SelectionUnit = (StswCalendarUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
-    
+
+    [StswCommand] void Clear() => SelectedDate = default;
+    [StswCommand] void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days));
+
     [StswObservableProperty] string? _format;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] StswDateTimeIncrementType _incrementType;

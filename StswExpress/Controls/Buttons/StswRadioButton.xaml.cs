@@ -7,6 +7,7 @@ namespace StswExpress;
 /// Represents a radio button control that allows the user to select a single option from a group of mutually exclusive options.
 /// This control extends <see cref="RadioButton"/> with additional styling options, including corner rounding and animations.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswRadioButton : RadioButton, IStswCornerControl
 {
     private Border? _mainBorder;

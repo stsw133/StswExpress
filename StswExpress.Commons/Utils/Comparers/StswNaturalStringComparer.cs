@@ -6,6 +6,7 @@ namespace StswExpress.Commons;
 /// Provides a natural string comparison that sorts strings in a human-expected order,
 /// taking into account numerical values within the strings.
 /// </summary>
+[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
 public class StswNaturalStringComparer : IComparer<string>
 {
     private static readonly Regex _tokenRegex = new(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant);

@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a color column for <see cref="StswDataGrid"/> that allows selecting and displaying colors.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None, IsTested = false)]
 public class StswDataGridColorColumn : DataGridTextColumn
 {
     static StswDataGridColorColumn()

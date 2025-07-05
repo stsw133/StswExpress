@@ -16,6 +16,7 @@ namespace StswExpress;
 /// A rich text editor control for creating and formatting text content.
 /// Supports file operations (open, save, print), text styling, and color selection.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.Rework)]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;

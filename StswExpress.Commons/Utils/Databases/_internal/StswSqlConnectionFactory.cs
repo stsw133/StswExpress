@@ -6,6 +6,7 @@ namespace StswExpress.Commons;
 /// Provides a factory for managing SQL connections and transactions, ensuring proper resource handling and
 /// offering flexibility in the use of transactions.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 internal class StswSqlConnectionFactory : IDisposable
 {
     private readonly bool _isExternalTransaction;

@@ -10,6 +10,7 @@ namespace StswExpress;
 /// Represents a status column for <see cref="StswDataGrid"/> that visually indicates row states.
 /// The column is read-only and automatically binds to row visibility properties.
 /// </summary>
+[Stsw("0.11.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
     public StswDataGridStatusColumn()

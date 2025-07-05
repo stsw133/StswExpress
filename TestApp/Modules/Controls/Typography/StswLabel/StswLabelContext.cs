@@ -7,15 +7,6 @@ using System.Windows.Controls;
 namespace TestApp;
 public partial class StswLabelContext : ControlsContext
 {
-    public StswAsyncCommand<StswProgressState> ProcessCommand { get; }
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
-    public StswLabelContext()
-    {
-        ProcessCommand = new(Process) { IsReusable = true };
-    }
-    
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -26,8 +17,10 @@ public partial class StswLabelContext : ControlsContext
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
         TextTrimming = (TextTrimming?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextTrimming)))?.Value ?? default;
     }
-
-    public async Task Process(StswProgressState state)
+    
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
+    [StswAsyncCommand(IsReusable = true)] async Task Process(StswProgressState state)
     {
         await Task.Run(() =>
         {

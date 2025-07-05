@@ -4,9 +4,6 @@ using System.Windows;
 namespace TestApp;
 public partial class StswSpinnerContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -14,6 +11,9 @@ public partial class StswSpinnerContext : ControlsContext
         Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
         Type = (StswSpinnerType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
+
+    [StswCommand] void SetGridLengthAuto() => Scale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => Scale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] GridLength _scale;
     [StswObservableProperty] StswSpinnerType _type;

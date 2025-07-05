@@ -13,6 +13,7 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+[Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswPausableAsyncCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
     private readonly Func<T, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -170,6 +171,7 @@ public class StswPausableAsyncCommand<T>(Func<T, CancellationToken, Task> execut
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+[Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswPausableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswPausableAsyncCommand<object>((_, token) => execute(token), canExecute);
 

@@ -7,6 +7,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides methods for encryption and decryption of text as well as hashing and secure string conversions.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public static class StswSecurity
 {
     /// <summary>

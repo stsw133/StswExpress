@@ -4,9 +4,6 @@ using System.Linq;
 namespace TestApp;
 public partial class StswTimePickerContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedTime = default);
-    public StswCommand RandomizeCommand => new(() => SelectedTime = new TimeSpan(0, 0, 0, new Random().Next(int.MaxValue)));
-    
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -15,6 +12,9 @@ public partial class StswTimePickerContext : ControlsContext
         IncrementType = (StswTimeSpanIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => SelectedTime = null;
+    [StswCommand] void Randomize() => SelectedTime = new TimeSpan(0, 0, 0, new Random().Next(int.MaxValue));
 
     [StswObservableProperty] string? _format;
     [StswObservableProperty] bool _icon;

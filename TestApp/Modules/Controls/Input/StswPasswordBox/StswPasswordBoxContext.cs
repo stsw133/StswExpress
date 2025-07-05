@@ -4,9 +4,6 @@ using System.Linq;
 namespace TestApp;
 public partial class StswPasswordBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => Password = string.Empty);
-    public StswCommand RandomizeCommand => new(() => Password = Guid.NewGuid().ToString());
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -14,6 +11,9 @@ public partial class StswPasswordBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         ShowPassword = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowPassword)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => Password = string.Empty;
+    [StswCommand] void Randomize() => Password = Guid.NewGuid().ToString();
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;

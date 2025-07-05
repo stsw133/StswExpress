@@ -9,37 +9,15 @@ using System.Windows.Input;
 namespace TestApp;
 public partial class ContractorsContext : StswObservableObject
 {
-    /// Grid commands
-    public ICommand ClearCommand { get; }
-    public ICommand RefreshCommand { get; }
-    public ICommand SaveCommand { get; }
-    public ICommand ExportCommand { get; }
-
-    /// Instances commands
-    public ICommand AddCommand { get; }
-    public ICommand CloneCommand { get; }
-    public ICommand EditCommand { get; }
-    public ICommand DeleteCommand { get; }
-
     public ContractorsContext()
     {
         Task.Run(Init);
-        ClearCommand = new StswAsyncCommand(Clear);
-        RefreshCommand = new StswAsyncCommand(Refresh);
-        SaveCommand = new StswAsyncCommand(Save);
-        ExportCommand = new StswAsyncCommand(Export);
-        AddCommand = new StswAsyncCommand(Add);
-        CloneCommand = new StswAsyncCommand(Clone, CloneCondition);
-        EditCommand = new StswAsyncCommand(Edit, EditCondition);
-        DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
-
         SelectedContractor = null;
-
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
+        InitializeGeneratedCommands();
     }
 
-    /// Init
-    private async Task Init()
+    [StswAsyncCommand] async Task Init()
     {
         try
         {
@@ -51,8 +29,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Clear
-    private async Task Clear()
+    [StswAsyncCommand] async Task Clear()
     {
         try
         {
@@ -64,8 +41,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Refresh
-    private async Task Refresh()
+    [StswAsyncCommand] async Task Refresh()
     {
         try
         {
@@ -88,8 +64,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Save
-    private async Task Save()
+    [StswAsyncCommand] async Task Save()
     {
         try
         {
@@ -103,8 +78,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Export
-    private async Task Export()
+    [StswAsyncCommand] async Task Export()
     {
         try
         {
@@ -116,8 +90,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Add
-    private async Task Add()
+    [StswAsyncCommand] async Task Add()
     {
         try
         {
@@ -142,8 +115,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Clone
-    private async Task Clone()
+    [StswAsyncCommand] async Task Clone()
     {
         try
         {
@@ -172,8 +144,7 @@ public partial class ContractorsContext : StswObservableObject
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    /// Edit
-    private async Task Edit()
+    [StswAsyncCommand] async Task Edit()
     {
         try
         {
@@ -202,8 +173,7 @@ public partial class ContractorsContext : StswObservableObject
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    /// Delete
-    private async Task Delete()
+    [StswAsyncCommand] async Task Delete()
     {
         try
         {

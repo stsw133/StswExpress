@@ -5,6 +5,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides a base implementation of the <see cref="INotifyPropertyChanged"/> interface to enable objects to send notifications to clients when the value of a property changes.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public abstract class StswObservableObject : INotifyPropertyChanged, IDisposable
 {
     public event PropertyChangedEventHandler? PropertyChanged;

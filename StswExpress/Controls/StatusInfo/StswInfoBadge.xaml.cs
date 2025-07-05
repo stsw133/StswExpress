@@ -11,6 +11,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows displaying notifications, counters, or status indicators in a compact format.
 /// </remarks>
+[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
 public class StswInfoBadge : Control, IStswCornerControl
 {
     static StswInfoBadge()

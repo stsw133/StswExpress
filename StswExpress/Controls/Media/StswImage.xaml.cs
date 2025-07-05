@@ -12,6 +12,7 @@ namespace StswExpress;
 /// A customizable image control that supports context menu actions such as copy, paste, load, and save.
 /// </summary>
 [ContentProperty(nameof(Source))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswImage : Control, IStswCornerControl
 {
     static StswImage()

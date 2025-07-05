@@ -11,6 +11,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 {
     static StswListView()

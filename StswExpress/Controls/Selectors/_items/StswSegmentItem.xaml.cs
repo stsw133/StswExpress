@@ -6,6 +6,7 @@ namespace StswExpress;/// <summary>
 /// Represents an individual item inside the <see cref="StswSegment"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
 public class StswSegmentItem : ListBoxItem, IStswCornerControl
 {
     static StswSegmentItem()

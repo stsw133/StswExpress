@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a file path column for <see cref="StswDataGrid"/> that allows selecting file or folder paths.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None, IsTested = false)]
 public class StswDataGridPathColumn : DataGridTextColumn
 {
     static StswDataGridPathColumn()

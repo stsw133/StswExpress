@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <remarks>
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </remarks>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswListBox()

@@ -14,6 +14,7 @@ namespace StswExpress;
 /// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
 /// </summary>
 [ContentProperty(nameof(Header))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswFilterBox : Control, IStswCornerControl
 {
     private ButtonBase? _filterModeButton;

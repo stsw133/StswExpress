@@ -6,6 +6,7 @@ namespace StswExpress;
 /// Defines a command interface that extends <see cref="ICommand"/> and includes 
 /// a property to indicate whether the command is currently executing.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 public interface IStswAsyncCommand : ICommand
 {
     /// <summary>

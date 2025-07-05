@@ -15,8 +15,6 @@ public partial class ControlsContext : StswObservableObject
         SetDefaults();
     }
 
-    #region Events & methods
-    /// SetDefaults
     public virtual void SetDefaults()
     {
         try
@@ -46,7 +44,6 @@ public partial class ControlsContext : StswObservableObject
         }
     }
 
-    /// GetAllSetters
     private static List<SetterBase> GetAllSetters(Style style)
     {
         var setters = new List<SetterBase>();
@@ -57,7 +54,6 @@ public partial class ControlsContext : StswObservableObject
 
         return setters;
     }
-    #endregion
 
     public ObservableCollection<StswComboItem> HorizontalAlignmentSource { get; set; } =
     [

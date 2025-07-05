@@ -3,8 +3,6 @@
 namespace TestApp;
 public partial class StswPathPickerContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedPath = default);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -17,6 +15,8 @@ public partial class StswPathPickerContext : ControlsContext
         SelectionUnit = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
         SuggestedFilename = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SuggestedFilename)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => SelectedPath = default;
 
     [StswObservableProperty] string? _filter;
     [StswObservableProperty] bool _icon;

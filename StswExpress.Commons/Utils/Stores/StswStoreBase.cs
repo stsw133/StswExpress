@@ -5,6 +5,7 @@
 /// Provides functionality to load, add, remove, and refresh items in the store.
 /// </summary>
 /// <typeparam name="TModel">The type of the model being stored.</typeparam>
+[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
 public class StswStoreBase<TModel>
 {
     /// <summary>

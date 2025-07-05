@@ -22,6 +22,7 @@ public static class StswFn
     /// <param name="condition">The condition to evaluate.</param>
     /// <param name="ifTrue">The action to execute if the condition is <see langword="true"/>.</param>
     /// <param name="ifFalse">The action to execute if the condition is <see langword="false"/>.</param>
+    [Stsw("0.19.0", Changes = StswPlannedChanges.None)]
     public static void Do(this bool condition, Action? ifTrue, Action? ifFalse) => (condition ? ifTrue : ifFalse)?.Invoke();
 
     /// <summary>
@@ -33,6 +34,7 @@ public static class StswFn
     /// <remarks>
     /// If the action throws an exception, it will be retried up to <paramref name="maxTries"/> times.
     /// </remarks>
+    [Stsw(null, Changes = StswPlannedChanges.None)]
     public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
     {
         for (var attempt = 1; attempt <= maxTries; attempt++)
@@ -59,12 +61,14 @@ public static class StswFn
     /// Gets the name of the currently executing application.
     /// </summary>
     /// <returns>The name of the currently executing application, or <see langword="null"/> if it cannot be determined.</returns>
+    [Stsw(null, Changes = StswPlannedChanges.None)]
     public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
 
     /// <summary>
     /// Gets the version number of the currently executing application.
     /// </summary>
     /// <returns>The version number of the currently executing application as a string, or <see langword="null"/> if it cannot be determined.</returns>
+    [Stsw(null, Changes = StswPlannedChanges.None)]
     public static string? AppVersion()
     {
         if (Assembly.GetEntryAssembly()?.GetName().Version is Version version)
@@ -88,6 +92,7 @@ public static class StswFn
     /// Gets the copyright information for the currently executing application.
     /// </summary>
     /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>
+    [Stsw(null, Changes = StswPlannedChanges.None)]
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
@@ -96,12 +101,14 @@ public static class StswFn
     /// with JIT tracking enabled.
     /// </summary>
     /// <returns><see langword="true"/> if the assembly was compiled in debug mode, <see langword="false"/> otherwise.</returns>
+    [Stsw("0.9.0", Changes = StswPlannedChanges.None)]
     public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
 
     /// <summary>
     /// Checks if a UI thread is available using SynchronizationContext.
     /// </summary>
     /// <returns><see langword="true"/> if a UI thread (e.g., WPF, WinForms) is available, <see langword="false"/> otherwise.</returns>
+    [Stsw("0.17.0", Changes = StswPlannedChanges.None)]
     public static bool IsUiThreadAvailable() => SynchronizationContext.Current is not null;
     #endregion
 
@@ -116,6 +123,7 @@ public static class StswFn
     /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
     /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
     /// </returns>
+    [Stsw("0.18.1", Changes = StswPlannedChanges.None)]
     public static dynamic MergeObjects(StswMergePriority mergePriority, params object?[] parameters)
     {
         if (parameters.Length == 0)
@@ -162,6 +170,7 @@ public static class StswFn
     /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
     /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
     /// </returns>
+    [Stsw("0.11.0", Changes = StswPlannedChanges.None)]
     public static dynamic MergeObjects(params object?[] parameters) => MergeObjects(StswMergePriority.Last, parameters);
 
     /// <summary>
@@ -169,6 +178,7 @@ public static class StswFn
     /// </summary>
     /// <param name="target"></param>
     /// <param name="source"></param>
+    [Stsw("0.18.1", Changes = StswPlannedChanges.None)]
     private static void MergeInto(IDictionary<string, object?> target, object? source, StswMergePriority mergePriority)
     {
         if (source == null)
@@ -207,6 +217,7 @@ public static class StswFn
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
+    [Stsw("0.11.0", Changes = StswPlannedChanges.None)]
     private static ExpandoObject ToExpando(object? source)
     {
         var expando = new ExpandoObject() as IDictionary<string, object?>;
@@ -232,6 +243,7 @@ public static class StswFn
     /// <param name="startDate">The start date of the range.</param>
     /// <param name="endDate">The end date of the range.</param>
     /// <returns>A list of tuples, where each tuple contains the year and month within the specified date range.</returns>
+    [Stsw("0.9.0", Changes = StswPlannedChanges.None)]
     public static List<(int Year, int Month)> GetUniqueMonthsFromRange(DateTime startDate, DateTime endDate)
     {
         if (startDate > endDate)
@@ -258,6 +270,7 @@ public static class StswFn
     /// </summary>
     /// <param name="path">The path to the file.</param>
     /// <returns><see langword="true"/> if the file is in use; otherwise, <see langword="false"/>.</returns>
+    [Stsw("0.9.0", Changes = StswPlannedChanges.None)]
     public static bool IsFileInUse(string path)
     {
         if (!File.Exists(path))
@@ -288,6 +301,7 @@ public static class StswFn
     /// Moves a file or directory to the recycle bin.
     /// </summary>
     /// <param name="path"> The path to the file or directory to be moved to the recycle bin.</param>
+    [Stsw("0.3.0", Changes = StswPlannedChanges.None)]
     public static bool MoveToRecycleBin(string path)
     {
         if (!Path.Exists(path))
@@ -306,6 +320,7 @@ public static class StswFn
     /// Opens a file in its associated application, a hyperlink in the default web browser, or a folder in Windows Explorer.
     /// </summary>
     /// <param name="path">The path to the file, hyperlink, or folder to be opened.</param>
+    [Stsw(null, Changes = StswPlannedChanges.None)]
     public static void OpenPath(string path)
     {
         if (!Path.Exists(path))
@@ -326,6 +341,7 @@ public static class StswFn
     /// Prints a file in its associated application.
     /// </summary>
     /// <param name="path">The path to the file to be printed.</param>
+    [Stsw("0.9.1", Changes = StswPlannedChanges.None)]
     public static void PrintFile(string path)
     {
         if (!File.Exists(path))
@@ -346,6 +362,7 @@ public static class StswFn
     /// Opens Windows Explorer and selects the specified file.
     /// </summary>
     /// <param name="path">The path to the file to be selected in Windows Explorer.</param>
+    [Stsw("0.16.0", Changes = StswPlannedChanges.None)]
     public static void SelectPathInExplorer(string path)
     {
         if (!Path.Exists(path))
@@ -362,6 +379,7 @@ public static class StswFn
     /// <typeparam name="T">The type of items to generate.</typeparam>
     /// <param name="count">The number of random items to generate.</param>
     /// <returns>An enumerable collection of randomly generated items.</returns>
+    [Stsw("0.16.0", Changes = StswPlannedChanges.None)]
     public static IEnumerable<T> CreateRandomItems<T>(int count) => StswRandomGenerator.CreateRandomItems<T>(count);
     #endregion
 
@@ -374,6 +392,7 @@ public static class StswFn
     /// <param name="n"> The maximum number of parts in each chunk.</param>
     /// <returns>A list of strings, each containing up to n parts from the original string.</returns>
     /// <exception cref="ArgumentException">Thrown when n is less than or equal to 0.</exception>
+    [Stsw("0.5.0", Changes = StswPlannedChanges.None)]
     public static List<string> ChunkBySeparator(string input, string separator, int n)
     {
         if (n <= 0)
@@ -419,6 +438,7 @@ public static class StswFn
     /// </summary>
     /// <param name="text">The input string containing diacritics.</param>
     /// <returns>The normalized string with diacritics replaced by ASCII characters.</returns>
+    [Stsw("0.8.0", Changes = StswPlannedChanges.None)]
     public static string NormalizeDiacritics(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -454,6 +474,7 @@ public static class StswFn
     /// <summary>
     /// Validates whether the specified string contains only valid email addresses.
     /// </summary>
+    [Stsw("0.19.0", Changes = StswPlannedChanges.None)]
     private static readonly Regex EmailRegex = new(
         @"^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|" +
         @"""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|" +
@@ -472,6 +493,7 @@ public static class StswFn
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
     /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
+    [Stsw("0.3.0", Changes = StswPlannedChanges.None)]
     public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
@@ -486,6 +508,7 @@ public static class StswFn
     /// </summary>
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
+    [Stsw("0.3.0", Changes = StswPlannedChanges.None)]
     public static bool IsValidEmail(string email) => EmailRegex.IsMatch(email);
 
     /// <summary>
@@ -497,6 +520,7 @@ public static class StswFn
     /// <remarks>
     /// Supports PL (Poland), UK (United Kingdom), US (United States), and generic validation for other countries.
     /// </remarks>
+    [Stsw("0.3.0", Changes = StswPlannedChanges.Rework)]
     public static bool IsValidPhoneNumber(string number, string countryCode)
     {
         var digits = new string([.. number.Where(char.IsDigit)]);
@@ -525,6 +549,7 @@ public static class StswFn
     /// </summary>
     /// <param name="url">The URL to validate.</param>
     /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
+    [Stsw("0.3.0", Changes = StswPlannedChanges.None, IsTested = false)]
     public static bool IsValidUrl(string url)
     {
         if (Uri.TryCreate(url, UriKind.Absolute, out var result)

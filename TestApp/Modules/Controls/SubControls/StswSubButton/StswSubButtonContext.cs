@@ -4,10 +4,6 @@ using System.Windows;
 namespace TestApp;
 public partial class StswSubButtonContext : ControlsContext
 {
-    public StswCommand OnClickCommand => new(() => ClickCounter++);
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -16,6 +12,10 @@ public partial class StswSubButtonContext : ControlsContext
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
     }
+
+    [StswCommand] void OnClick() => ClickCounter++;
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] int _clickCounter;
     [StswObservableProperty] GridLength _iconScale;

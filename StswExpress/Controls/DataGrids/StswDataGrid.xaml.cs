@@ -18,6 +18,7 @@ namespace StswExpress;
 /// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     private static Type? SqlParameterType { get; set; }

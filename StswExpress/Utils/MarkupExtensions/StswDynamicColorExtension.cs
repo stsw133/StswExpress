@@ -14,6 +14,7 @@ namespace StswExpress;
 /// Useful for scenarios where a color is needed directly instead of a brush, such as bindings to properties
 /// expecting a <see cref="Color"/> instead of a <see cref="SolidColorBrush"/>.
 /// </remarks>
+[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
 public class StswDynamicColorExtension : MarkupExtension
 {
     /// <summary>

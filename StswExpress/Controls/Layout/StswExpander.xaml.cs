@@ -5,6 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// A collapsible panel control that displays a header and allows the user to expand or collapse its content.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.VisualChanges)]
 public class StswExpander : Expander, IStswCornerControl
 {
     static StswExpander()

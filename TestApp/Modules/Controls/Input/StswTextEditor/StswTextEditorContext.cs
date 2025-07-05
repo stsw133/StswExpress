@@ -11,6 +11,6 @@ public partial class StswTextEditorContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    [StswObservableProperty] FlowDocument _content = new FlowDocument(new Paragraph(new Run("TEST")));
+    [StswObservableProperty] FlowDocument _content = new(new Paragraph(new Run("TEST")));
     [StswObservableProperty] bool _isReadOnly;
 }

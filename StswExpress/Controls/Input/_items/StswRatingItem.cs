@@ -3,6 +3,7 @@
 /// <summary>
 /// Data model for <see cref="StswRatingControl"/>'s items.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 internal class StswRatingItem : StswObservableObject
 {
     /// <summary>

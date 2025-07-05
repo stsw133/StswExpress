@@ -15,6 +15,7 @@ namespace StswExpress;
 /// and additional styling options such as corner rounding.
 /// </summary>
 [ContentProperty(nameof(Items))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }

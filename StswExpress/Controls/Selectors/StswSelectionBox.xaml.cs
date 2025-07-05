@@ -17,6 +17,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </remarks>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     private ListBox? _listBox;

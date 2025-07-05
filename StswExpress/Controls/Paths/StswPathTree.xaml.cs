@@ -17,6 +17,7 @@ namespace StswExpress;
 /// Supports dynamic folder expansion and custom root paths.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
+[Stsw("0.13.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
     public StswPathTree()

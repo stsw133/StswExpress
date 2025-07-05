@@ -4,9 +4,6 @@ using System.Windows;
 namespace TestApp;
 public partial class StswProgressRingContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -16,6 +13,9 @@ public partial class StswProgressRingContext : ControlsContext
         State = (StswProgressState?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(State)))?.Value ?? default;
         TextMode = (StswProgressTextMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextMode)))?.Value ?? default;
     }
+
+    [StswCommand] void SetGridLengthAuto() => Scale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => Scale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] bool _isIndeterminate;
     [StswObservableProperty] double? _maximum = 100;

@@ -13,6 +13,7 @@ namespace StswExpress;
 /// or field needs to be obtained dynamically in XAML.
 /// </remarks>
 /// <param name="member">The name of the property or field.</param>
+[Stsw("0.6.0", Changes = StswPlannedChanges.Refactor)]
 public class StswNameOfExtension(string? member) : MarkupExtension
 {
     /// <summary>

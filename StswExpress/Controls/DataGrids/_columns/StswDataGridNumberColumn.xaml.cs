@@ -8,6 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a numeric column for <see cref="StswDataGrid"/> that allows entering and displaying numbers.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
     static StswDataGridNumberColumnBase()
@@ -225,16 +226,19 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
 /// Represents a numeric column for decimal values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDecimalBox"/> as the editing control.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
 /// <summary>
 /// Represents a numeric column for double-precision floating-point values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDoubleBox"/> as the editing control.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
 /// <summary>
 /// Represents a numeric column for integer values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswIntegerBox"/> as the editing control.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

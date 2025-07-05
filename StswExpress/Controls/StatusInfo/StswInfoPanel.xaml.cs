@@ -15,6 +15,7 @@ namespace StswExpress;
 /// This control provides a structured way to display multiple notifications, allowing bulk operations like 
 /// closing all notifications at once or copying their content to the clipboard.
 /// </remarks>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
     static StswInfoPanel()

@@ -11,6 +11,7 @@ namespace StswExpress;
 /// Supports different time formats, adjustable start and end times, and automatic updates using a <see cref="DispatcherTimer"/>.
 /// </summary>
 [ContentProperty(nameof(EndTime))]
+[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
 public class StswTimerControl : Control
 {
     private readonly DispatcherTimer _timer = new();

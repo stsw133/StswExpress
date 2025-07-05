@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Dispatcher helper for WPF applications.
 /// </summary>
+[Stsw("0.17.0", Changes = StswPlannedChanges.None)]
 public static class StswDispatcher
 {
     /// <summary>

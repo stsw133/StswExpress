@@ -5,12 +5,16 @@ namespace TestApp;
 
 internal static class SQLService
 {
-    internal static StswDatabaseModel DbCurrent;
-
-    static SQLService()
+    internal static StswDatabaseModel DbCurrent
     {
-        DbCurrent = StswDatabases.ImportList().First();
+        get
+        {
+            _dbCurrent ??= StswDatabases.ImportList().First();
+            return _dbCurrent;
+        }
+        set => _dbCurrent = value;
     }
+    private static StswDatabaseModel? _dbCurrent;
 
     /// InitializeTables
     internal static void InitializeContractorsTables() => DbCurrent.ExecuteNonQuery(@"

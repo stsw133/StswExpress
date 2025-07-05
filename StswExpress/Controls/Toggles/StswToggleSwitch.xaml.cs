@@ -14,6 +14,7 @@ namespace StswExpress;
 /// The control includes built-in animations for smooth state transitions, 
 /// as well as an optional read-only mode to prevent user interaction.
 /// </remarks>
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     private Border? _mainBorder, _backgroundBorder, _circleBorder;

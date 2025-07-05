@@ -10,6 +10,7 @@ namespace StswExpress;
 /// A <see cref="ScrollBar"/> extension with dynamic visibility and animated resizing.
 /// Supports automatic expansion when hovered over.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswScrollBar : ScrollBar
 {
     private ButtonBase? _arrowButton1, _arrowButton2;

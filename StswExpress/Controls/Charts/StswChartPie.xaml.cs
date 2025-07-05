@@ -13,6 +13,7 @@ namespace StswExpress;
 /// Supports dynamic updates, percentage-based calculations, and customizable appearance,
 /// including stroke thickness and visibility thresholds for percentage labels.
 /// </summary>
+[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
 public class StswChartPie : ItemsControl
 {
     static StswChartPie()

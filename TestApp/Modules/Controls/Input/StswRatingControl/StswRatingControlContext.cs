@@ -5,9 +5,6 @@ using System.Windows.Controls;
 namespace TestApp;
 public partial class StswRatingControlContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -19,6 +16,9 @@ public partial class StswRatingControlContext : ControlsContext
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
         ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
     }
+
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] ExpandDirection _direction;
     [StswObservableProperty] GridLength _iconScale;

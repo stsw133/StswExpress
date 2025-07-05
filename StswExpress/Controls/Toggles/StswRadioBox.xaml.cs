@@ -11,6 +11,7 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
     private Border? _mainBorder;

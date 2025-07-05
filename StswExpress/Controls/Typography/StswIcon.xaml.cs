@@ -15,6 +15,7 @@ namespace StswExpress;
 /// The control allows for various transformations, including scaling and rotation, making it a versatile choice for UI design.
 /// </remarks>
 [ContentProperty(nameof(Data))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswIcon : Control
 {
     static StswIcon()

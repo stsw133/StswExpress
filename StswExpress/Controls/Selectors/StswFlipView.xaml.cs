@@ -2,7 +2,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,6 +15,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control enables intuitive navigation through a collection of items, providing smooth user interaction.
 /// </remarks>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
     private ButtonBase? _buttonPrevious, _buttonNext;

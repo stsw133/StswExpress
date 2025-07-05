@@ -12,6 +12,7 @@ namespace StswExpress;
 /// Supports custom date formats, min/max date validation, and incremental adjustments via mouse scroll.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswDatePicker : StswBoxBase
 {
     static StswDatePicker()

@@ -10,6 +10,7 @@ namespace StswExpress;
 /// <br/>
 /// This is useful in controls like <see cref="System.Windows.Controls.Image"/>, where <c>null</c> does not properly remove a binding value.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

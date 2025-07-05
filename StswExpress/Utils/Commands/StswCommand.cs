@@ -8,6 +8,7 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
     private readonly Action<T> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -47,6 +48,7 @@ public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : 
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);
 
 /* usage:

@@ -5,6 +5,7 @@ namespace StswExpress;/// <summary>
 /// Represents an individual item inside the <see cref="StswComboBox"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
 public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
 {
     static StswComboBoxItem()

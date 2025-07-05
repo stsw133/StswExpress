@@ -9,6 +9,7 @@ namespace StswExpress;
 /// A secure password input control that hides the entered text.
 /// Supports placeholder text, show/hide password functionality, and validation.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
     private bool _isPasswordChanging;

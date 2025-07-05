@@ -8,6 +8,7 @@ namespace StswExpress;
 /// Represents an individual item inside the <see cref="StswDragBox"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public class StswDragBoxItem : ListBoxItem, IStswCornerControl
 {
     static StswDragBoxItem()

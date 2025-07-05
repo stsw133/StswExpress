@@ -9,6 +9,7 @@ namespace StswExpress;
 /// A zoomable container that enables users to zoom and pan its child content.
 /// Supports mouse wheel zooming and drag-based panning.
 /// </summary>
+[Stsw("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
     private UIElement? _child;

@@ -4,15 +4,15 @@ using System.Linq;
 namespace TestApp;
 public partial class StswTextBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => Text = string.Empty);
-    public StswCommand RandomizeCommand => new(() => Text = Guid.NewGuid().ToString());
-
     public override void SetDefaults()
     {
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => Text = string.Empty;
+    [StswCommand] void Randomize() => Text = Guid.NewGuid().ToString();
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;

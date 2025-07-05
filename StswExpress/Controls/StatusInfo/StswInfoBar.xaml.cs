@@ -13,6 +13,7 @@ namespace StswExpress;
 /// This control provides a compact way to display notifications with additional functionality like copying text 
 /// to the clipboard, expanding for more details, and dismissing messages.
 /// </remarks>
+[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
 public class StswInfoBar : Control, IStswCornerControl
 {
     static StswInfoBar()

@@ -9,6 +9,7 @@ namespace StswExpress;
 /// A <see cref="ScrollViewer"/> extension with dynamic scrolling behavior.
 /// Supports automatic scrolling to the bottom and dynamic visibility of scrollbars.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswScrollView : ScrollViewer
 {
     static StswScrollView()

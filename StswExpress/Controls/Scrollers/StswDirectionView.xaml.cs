@@ -13,6 +13,7 @@ namespace StswExpress;
 /// Supports automatic scrolling when hovering over navigation buttons.
 /// This control provides extra navigation buttons for controlling scroll behavior in both horizontal and vertical directions.
 /// </summary>
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswDirectionView : ScrollViewer
 {
     private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;

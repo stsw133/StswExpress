@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a text column for <see cref="StswDataGrid"/> that allows displaying and editing text.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridTextColumn : DataGridTextColumn
 {
     static StswDataGridTextColumn()

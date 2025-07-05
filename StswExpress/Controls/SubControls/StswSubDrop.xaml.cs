@@ -13,6 +13,7 @@ namespace StswExpress;
 /// a small, icon-based drop-down button is needed.
 /// </remarks>
 [ContentProperty(nameof(Items))]
+[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
 public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     static StswSubDrop()

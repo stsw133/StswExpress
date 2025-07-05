@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a date column for <see cref="StswDataGrid"/> that allows selecting and displaying dates.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridDateColumn : DataGridTextColumn
 {
     static StswDataGridDateColumn()

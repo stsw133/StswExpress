@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <remarks>
 /// When <see cref="IsMoveable"/> is enabled, the tooltip follows the cursor dynamically.
 /// </remarks>
+[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
 public class StswToolTip : ToolTip, IStswCornerControl
 {
     private UIElement? _parent;

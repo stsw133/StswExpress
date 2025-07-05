@@ -2,6 +2,7 @@
 /// <summary>
 /// Defines an interface for items that can be selected.
 /// </summary>
+[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
 public interface IStswSelectionItem
 {
     /// <summary>

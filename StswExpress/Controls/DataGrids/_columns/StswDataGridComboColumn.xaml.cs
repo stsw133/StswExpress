@@ -1,17 +1,18 @@
-﻿using System.Globalization;
-using System;
+﻿using System;
+using System.Globalization;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a combo box column for <see cref="StswDataGrid"/> that allows selecting values from a dropdown list.
 /// </summary>
+[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
     private static readonly Style StswEditingElementStyle = new(typeof(StswComboBox), (Style)Application.Current.FindResource(typeof(StswComboBox)))

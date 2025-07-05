@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Text;
 
-namespace StswExpress.Generators;
+namespace StswExpress.Analyzers;
 
 /// <summary>
 /// Generates properties for fields marked with the StswObservablePropertyAttribute.
@@ -44,6 +44,7 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
                 var className = classSymbol.Name;
 
                 var sb = new StringBuilder();
+                sb.AppendLine($"#nullable enable");
                 sb.AppendLine($"namespace {namespaceName}");
                 sb.AppendLine($"{{");
                 sb.AppendLine($"    public partial class {className}");

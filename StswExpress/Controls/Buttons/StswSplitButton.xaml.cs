@@ -16,6 +16,7 @@ namespace StswExpress;
 /// Supports optional auto-closing, customizable corner rounding, and styling enhancements.
 /// </summary>
 [ContentProperty(nameof(Items))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }

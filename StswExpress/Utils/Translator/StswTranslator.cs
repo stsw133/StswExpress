@@ -15,6 +15,7 @@ namespace StswExpress;
 /// <summary>
 /// Provides static methods and properties to handle translations in the application.
 /// </summary>
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public static class StswTranslator
 {
     private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _translations = [];

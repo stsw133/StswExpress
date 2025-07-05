@@ -3,8 +3,6 @@
 namespace TestApp;
 public partial class StswFilterBoxContext : ControlsContext
 {
-    public StswCommand<ControlsBase?> RefreshCommand => new(Refresh);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -15,9 +13,7 @@ public partial class StswFilterBoxContext : ControlsContext
         IsFilterNullSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterNullSensitive)))?.Value ?? default;
     }
     
-    #region Events & methods
-    /// Command: refresh
-    private void Refresh(ControlsBase? controlsBase)
+    [StswCommand] void Refresh(ControlsBase? controlsBase)
     {
         if (controlsBase?.Content is StswFilterBox filter)
         {
@@ -28,7 +24,6 @@ public partial class StswFilterBoxContext : ControlsContext
             Value2 = filter.Value2;
         }
     }
-    #endregion
 
     [StswObservableProperty] StswMenuMode _filterMenuMode;
     [StswObservableProperty] StswAdaptiveType _filterType;

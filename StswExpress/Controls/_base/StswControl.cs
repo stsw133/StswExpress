@@ -18,6 +18,7 @@ namespace StswExpress;
 /// This static class offers flexible property extensions that can be applied to various controls 
 /// without modifying their base implementation.
 /// </remarks>
+[Stsw("0.7.0", Changes = StswPlannedChanges.None)]
 public static class StswControl
 {
     /// <summary>
@@ -70,7 +71,7 @@ public static class StswControl
                     var adornerLayer = AdornerLayer.GetAdornerLayer(control);
                     if (adornerLayer != null)
                     {
-                        var rippleAdorner = new RippleAdorner(control, point, size, border);
+                        var rippleAdorner = new StswRippleAdorner(control, point, size, border);
                         adornerLayer.Add(rippleAdorner);
                     }
                 }

@@ -11,6 +11,7 @@ namespace StswExpress;
 /// This control enhances the standard WPF context menu by providing automatic styling updates for menu items,
 /// including text, background, and border properties.
 /// </remarks>
+[Stsw("0.12.0", Changes = StswPlannedChanges.None)]
 public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerControl
 {
     static StswContextMenu()

@@ -16,6 +16,7 @@ namespace StswExpress;
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     private object? _dragDropItem;

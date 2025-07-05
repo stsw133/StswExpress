@@ -12,6 +12,7 @@ namespace StswExpress;
 /// Supports text, number, date, checkbox, and selection inputs.
 /// </summary>
 [ContentProperty(nameof(Value))]
+[Stsw("0.3.0", Changes = StswPlannedChanges.Refactor)]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     private ContentPresenter? _contentPresenter;

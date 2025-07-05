@@ -13,6 +13,7 @@ namespace StswExpress;
 /// This control extends <see cref="Label"/> with additional functionality, including icon support, 
 /// command integration, and the ability to indicate a busy state.
 /// </remarks>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswLabel : Label, IStswCornerControl, IStswIconControl
 {
     static StswLabel()

@@ -4,6 +4,7 @@ namespace StswExpress;
 /// <summary>
 /// Allows creating a proxy object for data binding purposes.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswBindingProxy : Freezable
 {
     /// <inheritdoc/>

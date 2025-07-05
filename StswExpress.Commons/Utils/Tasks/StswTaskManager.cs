@@ -6,6 +6,7 @@ namespace StswExpress.Commons;
 /// Manages a collection of tasks, allowing for their execution and status tracking.
 /// </summary>
 /// <typeparam name="T">The type of the result produced by the tasks managed by this manager.</typeparam>
+[Stsw("0.19.0", Changes = StswPlannedChanges.NewFeatures, IsTested = false)]
 public class StswTaskManager<T>
 {
     private bool _stopRequested = false;

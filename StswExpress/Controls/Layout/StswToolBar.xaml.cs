@@ -6,6 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// A customizable toolbar control for grouping command buttons and tools.
 /// </summary>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 public class StswToolBar : ToolBar, IStswCornerControl
 {
     static StswToolBar()
@@ -57,6 +58,7 @@ public class StswToolBar : ToolBar, IStswCornerControl
 /// A container control designed for managing multiple toolbars in a flexible and customizable layout.
 /// Allows positioning and arranging toolbars dynamically.
 /// </summary>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 public class StswToolBarTray : ToolBarTray
 {
     static StswToolBarTray()

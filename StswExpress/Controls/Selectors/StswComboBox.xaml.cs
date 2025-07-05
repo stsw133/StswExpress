@@ -14,6 +14,7 @@ namespace StswExpress;/// <summary>
 /// Supports filtering, selection binding, and corner customization.
 /// This control allows filtering of items based on user input and supports displaying icons and custom placeholders.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     private TextBoxBase? _filter;

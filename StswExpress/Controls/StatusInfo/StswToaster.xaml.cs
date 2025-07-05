@@ -15,6 +15,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows notifications to be dynamically added, clicked for interaction, and removed after a specified duration.
 /// </remarks>
+[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
 public class StswToaster : ItemsControl
 {
     private readonly Timer? _timer;

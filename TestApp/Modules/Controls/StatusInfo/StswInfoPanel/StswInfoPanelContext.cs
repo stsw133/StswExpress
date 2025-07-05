@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 namespace TestApp;
 public partial class StswInfoPanelContext : ControlsContext
 {
-    public StswCommand AddRandomItemCommand => new(AddRandomItem);
-    public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -19,20 +16,14 @@ public partial class StswInfoPanelContext : ControlsContext
         ShowControlPanel = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowControlPanel)))?.Value ?? default;
     }
 
-    #region Events & methods
-    /// Command: add random item
-    private void AddRandomItem()
+    [StswCommand] void AddRandomItem()
     {
         ItemsSource.Add(new(
             StswInfoType.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswInfoType)).Length)),
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."[..new Random().Next(10, 199)])
         );
     }
-
-    /// Command: load from files
-    private Task<ObservableCollection<StswLogItem>> LoadFromFiles() => Task.Run(async () => ItemsSource = [.. (await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now))
-                                                                                                                        .OrderByDescending(x => x.DateTime)]);
-    #endregion
+    [StswAsyncCommand] async Task LoadFromFiles() => await Task.Run(async () => ItemsSource = [.. await StswLog.ImportListAsync(DateTime.Now.AddYears(-1), DateTime.Now)]);
 
     [StswObservableProperty] bool _isClosable;
     [StswObservableProperty] bool _isCopyable;

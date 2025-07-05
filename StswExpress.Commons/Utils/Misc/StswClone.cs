@@ -5,6 +5,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides functionality to perform deep cloning of objects.
 /// </summary>
+[Stsw("0.12.0", Changes = StswPlannedChanges.None)]
 public static class StswClone
 {
     private static readonly MethodInfo? CloneMethod = typeof(object).GetMethod("MemberwiseClone", BindingFlags.NonPublic | BindingFlags.Instance);

@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a time column for <see cref="StswDataGrid"/> that allows selecting and displaying time values.
 /// </summary>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 public class StswDataGridTimeColumn : DataGridTextColumn
 {
     static StswDataGridTimeColumn()

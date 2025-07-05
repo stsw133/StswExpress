@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -13,6 +12,7 @@ namespace StswExpress;
 /// Supports alpha channel selection, dynamic color updates, and text-based color input.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswColorBox : StswBoxBase
 {
     static StswColorBox()

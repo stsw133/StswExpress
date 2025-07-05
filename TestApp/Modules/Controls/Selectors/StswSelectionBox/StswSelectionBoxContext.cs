@@ -15,15 +15,12 @@ public partial class StswSelectionBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Events & commands
-    /// Command: randomize
-    private void Randomize()
+    [StswCommand] void Randomize()
     {
         foreach (var item in Items.Where(x => new Random().NextDouble() > 0.6))
             item.IsSelected = !item.IsSelected;
         //UpdateTextCommand?.Execute(null);
     }
-    #endregion
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;

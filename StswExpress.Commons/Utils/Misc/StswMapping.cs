@@ -8,18 +8,19 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Helper class for mapping <see cref="DataTable"/> rows to objects, including nested properties.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 internal static class StswMapping
 {
     /// <summary>
-    /// 
+    /// A cache for instance factories to create objects of specific types.
     /// </summary>
     private static readonly ConcurrentDictionary<Type, object> _instanceFactories = [];
 
     /// <summary>
-    /// 
+    /// Creates a factory function to instantiate objects of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the object to create.</typeparam>
+    /// <returns>A function that creates an instance of type <typeparamref name="T"/>.</returns>
     internal static Func<T> CreateInstanceFactory<T>()
         => (Func<T>)_instanceFactories.GetOrAdd(typeof(T), t =>
         {
@@ -29,10 +30,10 @@ internal static class StswMapping
         });
 
     /// <summary>
-    /// 
+    /// Creates a factory function to instantiate objects of a specified type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <param name="type">The type of the object to create.</param>
+    /// <returns>A function that creates an instance of the specified type.</returns>
     internal static Func<object> CreateInstanceFactory(Type type)
         => (Func<object>)_instanceFactories.GetOrAdd(type, t =>
         {

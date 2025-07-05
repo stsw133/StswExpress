@@ -6,9 +6,6 @@ using System.Windows.Forms;
 namespace TestApp;
 public partial class StswNotifyIconContext : ControlsContext
 {
-    public StswAsyncCommand ShowTipMinimizedCommand => new(ShowTipMinimized);
-    public StswAsyncCommand ShowTipStaticCommand => new(ShowTipStatic);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -16,9 +13,7 @@ public partial class StswNotifyIconContext : ControlsContext
         IsAlwaysVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlwaysVisible)))?.Value ?? default;
     }
 
-    #region Events & methods
-    /// Command: show tip minimized
-    private async Task ShowTipMinimized()
+    [StswAsyncCommand] async Task ShowTipMinimized()
     {
         await Task.Run(() => Tip = new(
             "Lorem ipsum dolor sit amet...",
@@ -26,9 +21,7 @@ public partial class StswNotifyIconContext : ControlsContext
             (ToolTipIcon)new Random().Next(4)
         ));
     }
-
-    /// Command: show tip
-    private async Task ShowTipStatic()
+    [StswAsyncCommand] async Task ShowTipStatic()
     {
         await StswNotifyIcon.Notify(
             "Lorem ipsum dolor sit amet...",
@@ -36,7 +29,6 @@ public partial class StswNotifyIconContext : ControlsContext
             (ToolTipIcon)new Random().Next(4)
         );
     }
-    #endregion
 
     [StswObservableProperty] bool _isAlwaysVisible;
     [StswObservableProperty] StswNotifyIconTip _tip;

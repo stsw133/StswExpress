@@ -13,6 +13,7 @@ namespace StswExpress;
 /// A rating control that allows users to select a rating level.
 /// Supports customizable number of items, reset option, and different expand directions.
 /// </summary>
+[Stsw("0.1.0", Changes = StswPlannedChanges.NewFeatures)]
 public class StswRatingControl : Control, IStswIconControl
 {
     public StswRatingControl()

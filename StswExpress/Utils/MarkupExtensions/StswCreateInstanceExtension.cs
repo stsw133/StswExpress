@@ -15,6 +15,7 @@ namespace StswExpress;
 /// </remarks>
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
 /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
+[Stsw("0.6.0", Changes = StswPlannedChanges.Rework, IsTested = false)]
 internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
     /// <summary>

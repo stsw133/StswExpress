@@ -8,6 +8,7 @@ namespace StswExpress;
 /// A resizable splitter control used to adjust the size of adjacent elements in a grid.
 /// This control allows users to dynamically resize grid columns or rows by dragging the splitter.
 /// </summary>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 public class StswGridSplitter : GridSplitter
 {
     private Grid? _parentGrid;

@@ -8,6 +8,7 @@ namespace StswExpress;
 /// Converts an <see cref="Enum"/> value to its corresponding integer representation and vice versa.
 /// This is useful for bindings where you need to work with enums as integers.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 public class StswEnumToIntConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

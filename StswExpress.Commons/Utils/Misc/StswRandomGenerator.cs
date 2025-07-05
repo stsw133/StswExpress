@@ -4,8 +4,9 @@ using System.Collections;
 namespace StswExpress.Commons;
 
 /// <summary>
-/// 
+/// Utility class for generating random instances of a specified type.
 /// </summary>
+[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
 internal static class StswRandomGenerator
 {
     private static readonly Random _random = new();

@@ -16,6 +16,7 @@ namespace StswExpress;
 /// <remarks>
 /// The control manages application state visibility and interaction with the system tray.
 /// </remarks>
+[Stsw("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
 public class StswNotifyIcon : FrameworkElement
 {
     private NotifyIcon? _tray;

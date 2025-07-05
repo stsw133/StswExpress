@@ -8,6 +8,7 @@ namespace StswExpress;
 /// A navigation element that can contain sub-elements and interact with a parent navigation control.
 /// Supports icons, busy states, and dynamic context loading.
 /// </summary>
+[Stsw("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIconControl
 {
     private StswNavigationView? _navigationView;

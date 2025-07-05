@@ -15,6 +15,7 @@ namespace StswExpress;
 /// This control is useful for compact UI designs where a small, expandable selector provides access to multiple actions.
 /// </remarks>
 [ContentProperty(nameof(Items))]
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }

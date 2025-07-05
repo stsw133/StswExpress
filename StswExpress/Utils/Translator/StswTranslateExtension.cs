@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <TextBlock Text="{local:Translate Key=Config.Confirmation, DefaultValue=Confirmation, Suffix=':'}" />
 /// </summary>
 [MarkupExtensionReturnType(typeof(string))]
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
 {
     public StswTranslateExtension(string key)

@@ -11,6 +11,7 @@ namespace StswExpress;
 /// Represents a message dialog control that behaves like a content dialog.
 /// Supports customizable title, message, details, and predefined button layouts.
 /// </summary>
+[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
     private ButtonBase? _buttonCopyToClipboard;

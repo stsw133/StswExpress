@@ -9,6 +9,7 @@ namespace StswExpress;
 /// Provides attached properties to control the behavior and appearance of a drop-down arrow.
 /// Enables customization of the arrow's visibility, rotation, and geometry.
 /// </summary>
+[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
 public static class StswDropArrow
 {
     /// <summary>

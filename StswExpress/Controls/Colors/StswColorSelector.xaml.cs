@@ -12,6 +12,7 @@ namespace StswExpress;
 /// Supports automatic color selection, customizable palettes, and two-way binding for the selected color.
 /// </summary>
 [ContentProperty(nameof(ColorPaletteStandard))]
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswColorSelector : Control, IStswCornerControl
 {
     public ICommand SelectColorCommand { get; }

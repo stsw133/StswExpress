@@ -12,6 +12,7 @@ namespace StswExpress.Commons;
 /// items as modified when those properties change.
 /// </summary>
 /// <typeparam name="T">Item type implementing <see cref="IStswCollectionItem"/></typeparam>
+[Stsw("0.15.0", Changes = StswPlannedChanges.LogicChanges)]
 public class StswObservableCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     //TODO - handle changes in nested classes

@@ -9,6 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// A control that displays a collection of filter tags, allowing users to include or exclude specific tags.
 /// </summary>
+[Stsw("0.17.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.VisualChanges)]
 public class StswFilterTags : ItemsControl, IStswCornerControl
 {
     static StswFilterTags()

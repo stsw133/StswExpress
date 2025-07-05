@@ -5,6 +5,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides configuration settings for managing database connections, including methods for importing and exporting these connections with encryption.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public static class StswDatabases
 {
     /// <summary>

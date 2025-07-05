@@ -14,6 +14,7 @@ namespace StswExpress;
 /// This control provides a flexible progress visualization, allowing the display of progress in percentage,
 /// absolute values, or custom text.
 /// </remarks>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()

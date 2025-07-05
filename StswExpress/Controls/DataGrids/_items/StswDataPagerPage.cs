@@ -3,6 +3,7 @@
 /// <summary>
 /// Data model for <see cref="StswDataPager"/>'s page buttons.
 /// </summary>
+[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
 internal struct StswDataPagerPage(string description, int page, bool isEnabled)
 {
     /// <summary>

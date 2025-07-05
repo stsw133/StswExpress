@@ -15,6 +15,7 @@ namespace StswExpress;
 /// The dialog can be displayed as a standalone window or embedded within a content dialog.
 /// It includes options for saving and discarding settings, as well as handling UI preferences.
 /// </remarks>
+[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
 internal class StswConfig : Control, IStswCornerControl
 {
     internal StswConfig(object? identifier)

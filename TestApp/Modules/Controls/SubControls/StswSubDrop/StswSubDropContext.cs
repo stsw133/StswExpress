@@ -5,10 +5,6 @@ using System.Windows;
 namespace TestApp;
 public partial class StswSubDropContext : ControlsContext
 {
-    public StswCommand<string?> OnClickCommand => new((x) => { ClickOption = Convert.ToInt32(x); IsDropDownOpen = false; });
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -18,6 +14,14 @@ public partial class StswSubDropContext : ControlsContext
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    [StswCommand] void OnClick(string option)
+    {
+        ClickOption = Convert.ToInt32(option);
+        IsDropDownOpen = false;
+    }
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
     [StswObservableProperty] int _clickOption;
     [StswObservableProperty] GridLength _iconScale;

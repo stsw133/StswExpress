@@ -9,6 +9,7 @@ namespace StswExpress;
 /// This control extends <see cref="ToggleButton"/>, providing additional styling options such as corner rounding
 /// and optional animations for state transitions.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
     private Border? _mainBorder;

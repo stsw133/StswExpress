@@ -490,7 +490,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Added new option to disable SQL connections in `StswDatabaseConfig`.
 - Introduced the `StswAnimations` class for managing animations across collection controls, check controls, and checkable button controls.
 - New helper methods: 
-  - Added a new `ExtractAssociatedIcon` utility extracted from `StswPathPicker` control. Allows to extract associated icon from files and directories.
+  - Added a new `ExtractAssociatedIcon` utility extracted from `StswFilePicker` control. Allows to extract associated icon from files and directories.
   - Added a new `ToImageSource` method for converting from `System.Drawing.Icon` to `ImageSource`.
   - Added a new `TryCompute` method for additional computation flexibility.
 
@@ -500,7 +500,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Added full MVVM support for `StswTabControl` control, with `StswTabItem` control as the default item type.
 - Default behaviour changed for `StswDropButton` and `StswSplitButton` controls with `AutoClose` property set to `true` by default.
 - Property changes:
-  - `StswPathPicker` control's property `IconSource` renamed to `FileIcon`.
+  - `StswFilePicker` control's property `IconSource` renamed to `FileIcon`.
   - `StswImage` control now includes `StretchDirection`.
 - Template changes:
   - `StswCalendar` control template major updates and improvements.
@@ -732,7 +732,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## Fixes
 * **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
-* **StswPathPicker** has small bugfix for separating by thousands.
+* **StswFilePicker** has small bugfix for separating by thousands.
 
 ---
 
@@ -801,7 +801,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 * **StswMessageDialog** template has been improved. One new message type has been added named "Blockade". Message type "Question" has slightly different color now.
 * **StswDropArrow** is no longer hidden from designer and has additional properties similar to **StswIcon**. Property "IsDropDownOpen" renamed into "IsExpanded".
 * **StswDropButton** and **StswSplitButton** both have new property named "AutoClose" that allows to close popup after clicking any button inside.
-* **StswPathPicker** has new property named "IsFileSizeVisible" that allows it to display file size.
+* **StswFilePicker** has new property named "IsFileSizeVisible" that allows it to display file size.
 * Stsw chart controls have been improved.
 * **StswHyperlinkButton** has been improved.
 * **StswRatingControl** has been improved and now supports key shortcuts.
@@ -908,7 +908,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## New Functionality
 
-* There is new category for Stsw controls named "File" that includes 1 new control: **StswPathPicker** used to select either file or directory path.
+* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker** used to select either file or directory path.
 * New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswPathPicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
 * New control style: **StswContextMenu**.
 * New interface: **IStswBoxControl**. **IStswComponentControl** renamed into **IStswSubControl**.

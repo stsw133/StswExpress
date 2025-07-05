@@ -2,6 +2,7 @@
 /// <summary>
 /// Provides utility methods for mathematical calculations including infix to postfix conversion and postfix evaluation.
 /// </summary>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 public static class StswCalculator
 {
     /// <summary>

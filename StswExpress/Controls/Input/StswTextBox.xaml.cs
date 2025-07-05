@@ -10,6 +10,7 @@ namespace StswExpress;
 /// Supports placeholder text, validation, and an optional icon.
 /// </summary>
 [ContentProperty(nameof(Text))]
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswTextBox()

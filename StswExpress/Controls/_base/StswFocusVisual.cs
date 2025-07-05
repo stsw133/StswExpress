@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <summary>
 /// Provides a custom focus visual style for WPF controls, enhancing the default focus rectangle with custom properties.
 /// </summary>
+[Stsw("0.17.0", Changes = StswPlannedChanges.None)]
 public static class StswFocusVisual
 {
     /// <summary>

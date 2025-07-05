@@ -3,6 +3,7 @@
 /// Provides a mechanism to defer an action until the object is disposed.
 /// </summary>
 /// <param name="onDispose">The action to perform when the object is disposed.</param>
+[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
 public class StswRefreshBlocker(Action onDispose) : IDisposable
 {
     private readonly Action _onDispose = onDispose;
@@ -17,6 +18,6 @@ public class StswRefreshBlocker(Action onDispose) : IDisposable
         {
             _onDispose();
             _disposed = true;
-        }
+        }        GC.SuppressFinalize(this);
     }
 }

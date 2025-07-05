@@ -17,7 +17,8 @@ namespace StswExpress;
 /// It is clipped to the provided <see cref="Border"/> to ensure it does not exceed its bounds.
 /// The animation scales the ripple from 0 to full size while gradually reducing its opacity.
 /// </remarks>
-internal class RippleAdorner : Adorner
+[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+internal class StswRippleAdorner : Adorner
 {
     private readonly Border _border;
     private readonly Canvas _canvas;
@@ -26,13 +27,13 @@ internal class RippleAdorner : Adorner
     private readonly TranslateTransform _translateTransform;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RippleAdorner"/> class.
+    /// Initializes a new instance of the <see cref="StswRippleAdorner"/> class.
     /// </summary>
     /// <param name="adornedElement">The UI element to which the ripple effect is applied.</param>
     /// <param name="clickPosition">The position of the mouse click, which serves as the center of the ripple effect.</param>
     /// <param name="size">The initial size of the ripple effect.</param>
     /// <param name="border">The border within which the ripple effect is clipped.</param>
-    public RippleAdorner(UIElement adornedElement, Point clickPosition, double size, Border border) : base(adornedElement)
+    public StswRippleAdorner(UIElement adornedElement, Point clickPosition, double size, Border border) : base(adornedElement)
     {
         _border = border;
 

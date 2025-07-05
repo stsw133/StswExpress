@@ -4,9 +4,6 @@ using System.Linq;
 namespace TestApp;
 public partial class StswDecimalBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedValue = default);
-    public StswCommand RandomizeCommand => new(() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -14,6 +11,9 @@ public partial class StswDecimalBoxContext : ControlsContext
         Increment = (decimal?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Increment)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
+
+    [StswCommand] void Clear() => SelectedValue = default;
+    [StswCommand] void Randomize() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue);
 
     [StswObservableProperty] string? _format = "N2";
     [StswObservableProperty] bool _icon;

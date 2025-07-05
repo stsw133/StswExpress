@@ -17,8 +17,7 @@ public partial class StswTreeViewContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    [StswObservableProperty]
-    BindingList<StswTreeViewTestModel> _items = new([.. Enumerable.Range(1, 15).Select(i => new StswTreeViewTestModel
+    [StswObservableProperty] BindingList<StswTreeViewTestModel> _items = new([.. Enumerable.Range(1, 15).Select(i => new StswTreeViewTestModel
     {
         Name = "Option " + i,
         SubItems = new([.. Enumerable.Range(97, 5).Select(j => new StswTreeViewTestModel { Name = "Option " + i + (char)j, IsSelected = new Random().Next(2) == 0 } )])

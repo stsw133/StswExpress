@@ -22,6 +22,7 @@ namespace StswExpress;
 /// <TextBlock Text="{Binding Items, Converter={StaticResource StswLinqConverter}, ConverterParameter='count IsVisible == true'}"/>
 /// ```
 /// </example>
+[Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public class StswLinqConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

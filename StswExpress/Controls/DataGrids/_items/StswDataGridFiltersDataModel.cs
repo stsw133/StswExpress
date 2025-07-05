@@ -8,6 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Data model for <see cref="StswDataGrid"/>'s filters.
 /// </summary>
+[Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswDataGridFiltersDataModel
 {
     /// <summary>

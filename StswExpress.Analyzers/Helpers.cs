@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace StswExpress.Generators;
+namespace StswExpress.Analyzers;
 internal class Helpers
 {
     /// <summary>

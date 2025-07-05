@@ -12,6 +12,7 @@ namespace StswExpress;
 /// Supports alpha channel selection, dynamic color updates, and precise color adjustments.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
+[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswColorPicker : Control, IStswCornerControl
 {
     private FrameworkElement? _colorEllipse, _colorGrid;
