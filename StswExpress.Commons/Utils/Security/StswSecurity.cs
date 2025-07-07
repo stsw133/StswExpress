@@ -7,6 +7,23 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides methods for encryption and decryption of text as well as hashing and secure string conversions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// var password = "SuperSecretPassword123!";
+/// var hashedPassword = StswSecurity.GetHashString(password);
+/// 
+/// StswSecurity.Key = "MySecureEncryptionKey";
+/// string secretMessage = "This is secret message";
+/// string encryptedMessage = StswSecurity.Encrypt(secretMessage);
+/// string decryptedMessage = StswSecurity.Decrypt(encryptedMessage);
+/// 
+/// var password = "WeakPass1!";
+/// var isStrong = StswSecurity.ValidatePasswordStrength(password);
+/// 
+/// var token = StswSecurity.GenerateRandomToken(32);
+/// </code>
+/// </example>
 [Stsw(null, Changes = StswPlannedChanges.None)]
 public static class StswSecurity
 {
@@ -209,26 +226,3 @@ public static class StswSecurity
         return true;
     }
 }
-
-/* usage:
-
-var password = "SuperSecretPassword123!";
-var hashedPassword = StswSecurity.GetHashString(password);
-
-
-
-StswSecurity.Key = "MySecureEncryptionKey";
-string secretMessage = "This is secret message";
-string encryptedMessage = StswSecurity.Encrypt(secretMessage);
-string decryptedMessage = StswSecurity.Decrypt(encryptedMessage);
-
-
-
-var password = "WeakPass1!";
-var isStrong = StswSecurity.ValidatePasswordStrength(password);
-
-
-
-var token = StswSecurity.GenerateRandomToken(32);
-
-*/

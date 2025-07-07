@@ -2,22 +2,30 @@
 /// <summary>
 /// Base class for observable dialog objects that can be used in MVVM pattern.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public class MainDialog : StswObservableDialog
+/// {
+///     private string _message;
+///     public string Message
+///     {
+///         get => _message;
+///         set => SetProperty(ref _message, value);
+///     }
+/// }
+/// </code>
+/// </example>
 [Stsw("0.19.0", Changes = StswPlannedChanges.None)]
-public abstract class StswObservableDialog : StswObservableObject
+public abstract class StswObservableDialog : StswObservableObject, IDisposable
 {
     public string? DialogIdentifier { get; set; }
-}
 
-/* usage:
-
-public class MainDialog : StswObservableDialog
-{
-    private string _message;
-    public string Message
+    /// <summary>
+    /// Disposes resources used by the object and suppresses finalization.
+    /// </summary>
+    public virtual void Dispose()
     {
-        get => _message;
-        set => SetProperty(ref _message, value);
+        GC.SuppressFinalize(this);
     }
 }
-
-*/

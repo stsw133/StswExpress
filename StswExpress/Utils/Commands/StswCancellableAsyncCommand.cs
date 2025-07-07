@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,47 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public StswCancellableAsyncCommand StartCommand { get; }
+/// public StswCancellableAsyncCommand CancelCommand { get; }
+/// 
+/// public MainViewModel()
+/// {
+///     StartCommand = new(ExecuteLongRunningTask, () => !IsBusy);
+///     CancelCommand = new(ExecuteCancel, () => IsBusy);
+/// }
+/// 
+/// private async Task ExecuteLongRunningTask(CancellationToken token)
+/// {
+///     StatusMessage = "Processing...";
+///     IsBusy = true;
+///     Progress = 0;
+/// 
+///     for (var i = 0; i <= 100; i++)
+///     {
+///         if (token.IsCancellationRequested)
+///         {
+///             StatusMessage = "Operation cancelled.";
+///             IsBusy = false;
+///             return;
+///         }
+/// 
+///         Progress = i;
+///         await Task.Delay(50, token);
+///     }
+/// 
+///     StatusMessage = "Finished!";
+///     IsBusy = false;
+/// }
+/// 
+/// private async Task ExecuteCancel(CancellationToken token)
+/// {
+///     await StartCommand.CancelAndWaitAsync();
+/// }
+/// </code>
+/// </example>
 [Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswCancellableAsyncCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
@@ -159,44 +201,3 @@ public class StswCancellableAsyncCommand<T>(Func<T, CancellationToken, Task> exe
 [Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswCancellableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswCancellableAsyncCommand<object>((_, token) => execute(token), canExecute);
-
-/* usage:
-
-public StswCancellableAsyncCommand StartCommand { get; }
-public StswCancellableAsyncCommand CancelCommand { get; }
-
-public MainViewModel()
-{
-    StartCommand = new(ExecuteLongRunningTask, () => !IsBusy);
-    CancelCommand = new(ExecuteCancel, () => IsBusy);
-}
-
-private async Task ExecuteLongRunningTask(CancellationToken token)
-{
-    StatusMessage = "Processing...";
-    IsBusy = true;
-    Progress = 0;
-
-    for (var i = 0; i <= 100; i++)
-    {
-        if (token.IsCancellationRequested)
-        {
-            StatusMessage = "Operation cancelled.";
-            IsBusy = false;
-            return;
-        }
-
-        Progress = i;
-        await Task.Delay(50, token);
-    }
-
-    StatusMessage = "Finished!";
-    IsBusy = false;
-}
-
-private async Task ExecuteCancel(CancellationToken token)
-{
-    await StartCommand.CancelAndWaitAsync();
-}
-
-*/

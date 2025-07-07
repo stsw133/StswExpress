@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,57 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public StswPausableAsyncCommand&lt;string&gt; StartCommand { get; }
+/// public StswPausableAsyncCommand PauseCommand { get; }
+/// public StswPausableAsyncCommand ResumeCommand { get; }
+/// 
+/// public MainViewModel()
+/// {
+///     StartCommand = new StswPausableAsyncCommand&lt;string&gt;(ExecuteProcessing, () => !IsBusy);
+///     PauseCommand = new StswPausableAsyncCommand(PauseProcessing, () => IsBusy);
+///     ResumeCommand = new StswPausableAsyncCommand(ResumeProcessing, () => CanResume);
+/// }
+/// 
+/// private async Task ExecuteProcessing(string? parameter, CancellationToken token)
+/// {
+///     StatusMessage = "Processing...";
+///     IsBusy = true;
+///     CanResume = false;
+///     Progress = 0;
+/// 
+///     for (var i = 0; i &lt; _itemsToProcess.Count; i++)
+///     {
+///         token.ThrowIfCancellationRequested();
+/// 
+///         StatusMessage = $"Processing element: {_itemsToProcess[i]}";
+///         Progress = (i + 1) * 10;
+/// 
+///         await Task.Delay(500, token);
+///     }
+/// 
+///     StatusMessage = "Finished!";
+///     IsBusy = false;
+///     CanResume = false;
+/// }
+/// 
+/// private async Task PauseProcessing(CancellationToken token)
+/// {
+///     await StartCommand.CancelAndWaitAsync();
+///     StatusMessage = "Operation paused.";
+///     CanResume = true;
+/// }
+/// 
+/// private async Task ResumeProcessing(CancellationToken token)
+/// {
+///     CanResume = false;
+///     StatusMessage = "Resuming...";
+///     StartCommand.Resume();
+/// }
+/// </code>
+/// </example>
 [Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswPausableAsyncCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
@@ -174,54 +226,3 @@ public class StswPausableAsyncCommand<T>(Func<T, CancellationToken, Task> execut
 [Stsw("0.9.2", Changes = StswPlannedChanges.None)]
 public class StswPausableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswPausableAsyncCommand<object>((_, token) => execute(token), canExecute);
-
-/* usage:
-
-public StswPausableAsyncCommand<string> StartCommand { get; }
-public StswPausableAsyncCommand PauseCommand { get; }
-public StswPausableAsyncCommand ResumeCommand { get; }
-
-public MainViewModel()
-{
-    StartCommand = new StswPausableAsyncCommand<string>(ExecuteProcessing, () => !IsBusy);
-    PauseCommand = new StswPausableAsyncCommand(PauseProcessing, () => IsBusy);
-    ResumeCommand = new StswPausableAsyncCommand(ResumeProcessing, () => CanResume);
-}
-
-private async Task ExecuteProcessing(string? parameter, CancellationToken token)
-{
-    StatusMessage = "Processing...";
-    IsBusy = true;
-    CanResume = false;
-    Progress = 0;
-
-    for (var i = 0; i < _itemsToProcess.Count; i++)
-    {
-        token.ThrowIfCancellationRequested();
-
-        StatusMessage = $"Processing element: {_itemsToProcess[i]}";
-        Progress = (i + 1) * 10;
-        
-        await Task.Delay(500, token);
-    }
-
-    StatusMessage = "Finished!";
-    IsBusy = false;
-    CanResume = false;
-}
-
-private async Task PauseProcessing(CancellationToken token)
-{
-    await StartCommand.CancelAndWaitAsync();
-    StatusMessage = "Operation paused.";
-    CanResume = true;
-}
-
-private async Task ResumeProcessing(CancellationToken token)
-{
-    CanResume = false;
-    StatusMessage = "Resuming...";
-    StartCommand.Resume();
-}
-
-*/

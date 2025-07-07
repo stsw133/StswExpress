@@ -6,6 +6,16 @@ namespace StswExpress.Commons;
 /// Provides a natural string comparison that sorts strings in a human-expected order,
 /// taking into account numerical values within the strings.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// List<string> items = new()
+/// {
+///     "Item1", "Item20", "Item3", "Item10", "Item2"
+/// };
+/// items.Sort(new StswNaturalStringComparer());
+/// </code>
+/// </example>
 [Stsw("0.10.0", Changes = StswPlannedChanges.None)]
 public class StswNaturalStringComparer : IComparer<string>
 {
@@ -39,13 +49,3 @@ public class StswNaturalStringComparer : IComparer<string>
         return xParts.Length.CompareTo(yParts.Length);
     }
 }
-
-/* usage:
-
-List<string> items = new()
-{
-    "Item1", "Item20", "Item3", "Item10", "Item2"
-};
-items.Sort(new StswNaturalStringComparer());
-
-*/

@@ -9,6 +9,20 @@ namespace StswExpress.Commons;
 /// Model for interacting with a Web API, providing methods for GET and POST requests.
 /// </summary>
 /// <param name="httpClient">Instance of <see cref="HttpClient"/> to use for making requests.</param>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// var stswClient = new StswHttpClient(new HttpClient { BaseAddress = new Uri("https://api.example.com/") });
+/// 
+/// var user = await stswClient.GetAsync&lt;UserDto&gt;("users/1");
+/// var users = await stswClient.GetAsyncList&lt;UserDto&gt;("users", new { role = "admin" });
+/// var newUser = await stswClient.PostAsync&lt;CreateUserRequest, UserDto&gt;("users", new CreateUserRequest { Name = "Alice" });
+/// var foundUsers = await stswClient.PostAsyncList&lt;object, UserDto&gt;("users/search", new { query = "Alice" });
+/// 
+/// using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+/// var user = await stswClient.GetAsync&lt;UserDto&gt;("users/1", ct: cts.Token);
+/// </code>
+/// </example>
 [Stsw("0.19.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswHttpClient(HttpClient httpClient)
 {
@@ -153,17 +167,3 @@ public class StswHttpClient(HttpClient httpClient)
         }
     }
 }
-
-/* usage:
-
-var stswClient = new StswHttpClient(new HttpClient { BaseAddress = new Uri("https://api.example.com/") });
-
-var user = await stswClient.GetAsync<UserDto>("users/1");
-var users = await stswClient.GetAsyncList<UserDto>("users", new { role = "admin" });
-var newUser = await stswClient.PostAsync<CreateUserRequest, UserDto>("users", new CreateUserRequest { Name = "Alice" });
-var foundUsers = await stswClient.PostAsyncList<object, UserDto>("users/search", new { query = "Alice" });
-
-using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-var user = await stswClient.GetAsync<UserDto>("users/1", ct: cts.Token);
-
-*/

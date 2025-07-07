@@ -5,6 +5,36 @@
 /// Provides functionality to load, add, remove, and refresh items in the store.
 /// </summary>
 /// <typeparam name="TModel">The type of the model being stored.</typeparam>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public class ProjectsStore : StswStoreBase&lt;ProjectModel&gt;
+/// {
+///     private readonly ISQL _sql;
+/// 
+///     public ProjectsStore(ISQL sql) : base()
+///     {
+///         _sql = sql;
+///         FetchItemsFunc = async () => await Task.Run(() => _sql.GetProjects());
+///     }
+///     
+///     public override void AddItem(ProjectModel project)
+///     {
+///         base.Add(project);
+///     }
+///     
+///     public override void RemoveItem(ProjectModel project)
+///     {
+///         base.Remove(project);
+///     }
+///     
+///     public override void RefreshItems()
+///     {
+///         base.RefreshItems();
+///     }
+/// }
+/// </code>
+/// </example>
 [Stsw("0.10.0", Changes = StswPlannedChanges.None)]
 public class StswStoreBase<TModel>
 {
@@ -159,33 +189,3 @@ public class StswStoreBase<TModel>
         });
     }
 }
-
-/* usage:
-
-public class ProjectsStore : StswStoreBase<ProjectModel>
-{
-    private readonly ISQL _sql;
-
-    public ProjectsStore(ISQL sql) : base()
-    {
-        _sql = sql;
-        FetchItemsFunc = async () => await Task.Run(() => _sql.GetProjects());
-    }
-
-    public override void AddItem(ProjectModel project)
-    {
-        base.Add(project);
-    }
-
-    public override void RemoveItem(ProjectModel project)
-    {
-        base.Remove(project);
-    }
-
-    public override void RefreshItems()
-    {
-        base.RefreshItems();
-    }
-}
-
-*/

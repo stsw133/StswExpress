@@ -6,6 +6,32 @@ namespace StswExpress.Commons;
 /// Manages a collection of tasks, allowing for their execution and status tracking.
 /// </summary>
 /// <typeparam name="T">The type of the result produced by the tasks managed by this manager.</typeparam>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// var manager = new StswTaskManager&lt;int&gt;();
+/// manager.OnAllTasksCompleted = () => MessageBox.Show("All tasks completed!");
+/// 
+/// manager.Add(async () => { await Task.Delay(1000); return 42; }); // without token
+/// manager.Add(async ct => { await Task.Delay(1000, ct); return 1337; }); // with token
+/// manager.Add(async () => { await Task.Delay(500); throw new Exception("Error!"); });
+/// manager.AddRange([
+///     async () => { await Task.Delay(100); return 1; },
+///     async () => { await Task.Delay(200); return 2; }
+/// ]);
+/// manager.Tasks.Add(new StswTask&lt;int&gt;(async () => await Task.FromResult(5))
+/// {
+///     Name = "Calculations #1",
+///     OnCompleted = task =>
+///     {
+///         if (task.Status == StswTaskStatus.Faulted)
+///             LogError(task.Exception);
+///     }
+/// });
+/// 
+/// await manager.RunAllQueuedAsync();
+/// </code>
+/// </example>
 [Stsw("0.19.0", Changes = StswPlannedChanges.NewFeatures, IsTested = false)]
 public class StswTaskManager<T>
 {
@@ -124,29 +150,3 @@ public class StswTaskManager<T>
     }
     #endregion
 }
-
-/* usage:
-
-var manager = new StswTaskManager<int>();
-manager.OnAllTasksCompleted = () => MessageBox.Show("All tasks completed!");
-
-manager.Add(async () => { await Task.Delay(1000); return 42; }); // without token
-manager.Add(async ct => { await Task.Delay(1000, ct); return 1337; }); // with token
-manager.Add(async () => { await Task.Delay(500); throw new Exception("Error!"); });
-manager.AddRange([
-    async () => { await Task.Delay(100); return 1; },
-    async () => { await Task.Delay(200); return 2; }
-]);
-manager.Tasks.Add(new StswTask<int>(async () => await Task.FromResult(5))
-{
-    Name = "Calculations #1",
-    OnCompleted = task =>
-    {
-        if (task.Status == StswTaskStatus.Faulted)
-            LogError(task.Exception);
-    }
-});
-
-await manager.RunAllQueuedAsync();
-
-*/

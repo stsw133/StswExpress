@@ -15,6 +15,26 @@ namespace StswExpress;
 /// <summary>
 /// Provides static methods and properties to handle translations in the application.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// StswTranslator.CurrentLanguage = "pl";
+/// 
+/// StswTranslator.AddOrUpdateTranslation("Hello", "en", "Hello");
+/// StswTranslator.AddOrUpdateTranslation("Hello", "pl", "Cześć");
+/// var translatedText = StswTranslator.GetTranslation("Hello", prefix: "[", suffix: "]");
+/// 
+/// StswTranslator.CustomTranslationLoader += async(language) =>
+/// {
+///     var customFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomTranslations", $"{language}.json");
+/// 
+///     if (File.Exists(customFilePath))
+///         return await File.ReadAllTextAsync(customFilePath);
+/// 
+///     return null;
+/// };
+/// </code>
+/// </example>
 [Stsw("0.15.0", Changes = StswPlannedChanges.None)]
 public static class StswTranslator
 {
@@ -305,27 +325,3 @@ public static class StswTranslator
         return $"{prefix}{defaultValue ?? key}{suffix}";
     }
 }
-
-/* usage:
-
-StswTranslator.CurrentLanguage = "pl";
-
-
-
-StswTranslator.AddOrUpdateTranslation("Hello", "en", "Hello");
-StswTranslator.AddOrUpdateTranslation("Hello", "pl", "Cześć");
-var translatedText = StswTranslator.GetTranslation("Hello", prefix: "[", suffix: "]");
-
-
-
-StswTranslator.CustomTranslationLoader += async (language) =>
-{
-    var customFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CustomTranslations", $"{language}.json");
-
-    if (File.Exists(customFilePath))
-        return await File.ReadAllTextAsync(customFilePath);
-
-    return null;
-};
-
-*/

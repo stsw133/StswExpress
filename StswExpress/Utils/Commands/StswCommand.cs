@@ -8,6 +8,22 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public StswCommand&lt;string&gt; SaveCommand { get; }
+/// 
+/// public MainViewModel()
+/// {
+///     SaveCommand = new(Save, () => SomeCondition);
+/// }
+/// 
+/// private void Save(string? parameter)
+/// {
+///     // some action here
+/// }
+/// </code>
+/// </example>
 [Stsw("0.1.0", Changes = StswPlannedChanges.None)]
 public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
@@ -50,19 +66,3 @@ public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : 
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
 [Stsw(null, Changes = StswPlannedChanges.None)]
 public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);
-
-/* usage:
-
-public StswCommand<string> SaveCommand { get; }
-
-public MainViewModel()
-{
-    SaveCommand = new(Save, () => SomeCondition);
-}
-
-private void Save(string? parameter)
-{
-    // some action here
-}
-
-*/

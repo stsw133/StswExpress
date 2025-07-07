@@ -204,17 +204,12 @@ public partial class ContractorsContext : StswObservableObject
     [StswObservableProperty] ICollectionView? _listContractorsView;
     [StswObservableProperty] object? _selectedContractor = new();
 
-    public ICommand? NewTabCommand { get; set; }
-    public StswTabItem NewTab
+    [StswObservableProperty] StswTabItem _newTab = new();
+    partial void OnNewTabChanging(StswTabItem oldValue, StswTabItem newValue, ref bool cancel)
     {
-        get => _newTab;
-        set
-        {
-            value.Content = new ContractorsSingleContext();
-            value.Header = new StswLabel() { Content = "New contractor", IconData = StswIcons.Plus };
-            value.IsClosable = true;
-            SetProperty(ref _newTab, value);
-        }
+        newValue.Content = new ContractorsSingleContext();
+        newValue.Header = new StswLabel() { Content = "New contractor", IconData = StswIcons.Plus };
+        newValue.IsClosable = true;
     }
-    private StswTabItem _newTab = new();
+    public ICommand? NewTabCommand { get; set; }
 }
