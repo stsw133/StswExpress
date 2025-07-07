@@ -16,7 +16,7 @@ public partial class StswDataGridContext : ControlsContext
         SelectionUnit = (DataGridSelectionUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
-    [StswAsyncCommand] async Task OnScrollBottom()
+    [StswCommand] async Task OnScrollBottom()
     {
         IsBusy = true;
         await Task.Run(() =>

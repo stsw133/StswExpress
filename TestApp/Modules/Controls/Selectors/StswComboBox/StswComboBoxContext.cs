@@ -11,7 +11,6 @@ public partial class StswComboBoxContext : ControlsContext
     {
         itemsCollectionViewSource = new CollectionViewSource() { Source = Items };
         ItemsCollectionView = itemsCollectionViewSource.View;
-        InitializeGeneratedCommands();
     }
 
     public override void SetDefaults()

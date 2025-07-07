@@ -39,7 +39,7 @@
             <se:StswDataGrid.Columns>
                 <se:StswDataGridStatusColumn/>
                 <!-- ID -->
-                <se:StswDataGridDecimalColumn Binding="{Binding ID}" Width="100">
+                <se:StswDataGridDecimalColumn Binding="{Binding Id}" Width="100">
                     <se:StswDataGridDecimalColumn.Header>
                         <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
                     </se:StswDataGridDecimalColumn.Header>
@@ -61,7 +61,7 @@
             <se:StswDataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource StswDataGridCellStyle}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ID, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%14}" Value="0">
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%14}" Value="0">
                             <Setter Property="Background" Value="#32E2"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -71,7 +71,7 @@
             <se:StswDataGrid.RowStyle>
                 <Style TargetType="{x:Type se:StswDataGridRow}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ID, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%15}" Value="0">
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%15}" Value="0">
                             <Setter Property="Background" Value="#3E22"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </DataTrigger>

@@ -8,7 +8,6 @@ public partial class DatabasesContext : StswObservableObject
     public DatabasesContext()
     {
         SelectedDatabase = AllDatabases.FirstOrDefault() ?? new();
-        InitializeGeneratedCommands();
     }
 
     [StswCommand] void MoveUp()
@@ -33,13 +32,13 @@ public partial class DatabasesContext : StswObservableObject
             AllDatabases.Remove(SelectedDatabase);
         SelectedDatabase = null;
     }
-    [StswAsyncCommand] async Task Import()
+    [StswCommand] async Task Import()
     {
         AllDatabases = [.. StswDatabases.ImportList()];
         await Task.Run(() => SQLService.DbCurrent = AllDatabases.FirstOrDefault() ?? new());
         SelectedDatabase = SQLService.DbCurrent;
     }
-    [StswAsyncCommand] async Task Export()
+    [StswCommand] async Task Export()
     {
         await Task.Run(() => StswDatabases.ExportList(AllDatabases));
     }

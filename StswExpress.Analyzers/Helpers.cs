@@ -6,6 +6,18 @@ namespace StswExpress.Analyzers;
 internal class Helpers
 {
     /// <summary>
+    /// Formats the documentation comment for a given symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol to format the documentation for.</param>
+    /// <returns>The formatted documentation comment, or <see langword="null"/> if no documentation is available.</returns>
+    public static string? FormatDocComment(ISymbol symbol)
+    {
+        var doc = symbol.GetDocumentationCommentXml();
+        if (string.IsNullOrWhiteSpace(doc)) return null;
+        return "        /// " + doc!.Trim().Replace("\n", "\n        /// ");
+    }
+
+    /// <summary>
     /// Retrieves the field symbol from the syntax context.
     /// </summary>
     /// <param name="context">The generator syntax context.</param>
@@ -26,32 +38,34 @@ internal class Helpers
     }
 
     /// <summary>
-    /// Retrieves the method symbol from the syntax context based on the specified attribute names.
+    /// Retrieves the method symbol from the syntax context.
     /// </summary>
     /// <param name="context">The generator syntax context.</param>
-    /// <param name="attributeNames">An array of attribute names to check against.</param>
     /// <returns>The method symbol if found; otherwise, <see langword="null"/>.</returns>
-    public static IMethodSymbol? GetMethodSymbol(GeneratorSyntaxContext context, params string[] attributeNames)
+    public static IMethodSymbol? GetMethodSymbol(GeneratorSyntaxContext context)
     {
         if (context.Node is not MethodDeclarationSyntax methodDecl)
             return null;
 
-        foreach (var attrList in methodDecl.AttributeLists)
-        {
-            foreach (var attr in attrList.Attributes)
-            {
-                var symbolInfo = context.SemanticModel.GetSymbolInfo(attr);
-                if (symbolInfo.Symbol is not IMethodSymbol attributeSymbol)
-                    continue;
-
-                var fullName = attributeSymbol.ContainingType.ToDisplayString();
-                if (attributeNames.Contains(fullName))
-                    return context.SemanticModel.GetDeclaredSymbol(methodDecl) as IMethodSymbol;
-            }
-        }
-
-        return null;
+        return context.SemanticModel.GetDeclaredSymbol(methodDecl);
     }
+
+    /// <summary>
+    /// Retrieves the attribute data for a specific attribute from the given symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol to check for attributes.</param>
+    /// <param name="attributeFullName">The full name of the attribute to look for.</param>
+    /// <returns>The attribute data if found; otherwise, <see langword="null"/>.</returns>
+    internal static AttributeData? GetAttribute(ISymbol symbol, string attributeFullName)
+        => symbol.GetAttributes().FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == attributeFullName);
+
+    /// <summary>
+    /// Creates a new instance of <see cref="PartialClassContext"/> for the specified class symbol.
+    /// </summary>
+    /// <param name="classSymbol">The class symbol to create the context for.</param>
+    /// <returns>A new instance of <see cref="PartialClassContext"/> containing the class symbol.</returns>
+    public static PartialClassContext GetClassContext(INamedTypeSymbol classSymbol)
+        => new PartialClassContext { ClassSymbol = classSymbol };
 
     /// <summary>
     /// Retrieves a named argument from the attribute data.
@@ -96,24 +110,60 @@ internal class Helpers
     }
 
     /// <summary>
-    /// Tries to get the attribute data for a specific invoking attribute from the field symbol.
+    /// Tries to get the symbol and attribute data for a specific attribute from the syntax context.
     /// </summary>
-    /// <param name="symbol">The field symbol to check.</param>
-    /// <param name="attributeFullName"> The full name of the attribute to look for.</param>
+    /// <typeparam name="TSymbol">The type of the symbol to retrieve (e.g., <see cref="IFieldSymbol"/> or <see cref="IMethodSymbol"/>).</typeparam>
+    /// <param name="context">The generator syntax context.</param>
+    /// <param name="attributeFullName">The full name of the attribute to look for.</param>
+    /// <param name="symbol">The symbol if found; otherwise, <see langword="null"/>.</param>
     /// <param name="attributeData">The attribute data if found; otherwise, <see langword="null"/>.</param>
-    /// <returns><see langword="true"/> if the attribute was found; otherwise, <see langword="false"/>.</returns>
-    internal static bool TryGetInvokingAttributeData(ISymbol symbol, string attributeFullName, out AttributeData? attributeData)
+    /// <returns></returns>
+    public static bool TryGetAttributedSymbol<TSymbol>(
+        GeneratorSyntaxContext context,
+        string attributeFullName,
+        out TSymbol? symbol,
+        out AttributeData? attributeData)
+        where TSymbol : class, ISymbol
     {
-        foreach (var attr in symbol.GetAttributes())
+        symbol = null;
+        attributeData = null;
+
+        if (context.Node is not MemberDeclarationSyntax memberSyntax)
+            return false;
+
+        var declaredSymbols = memberSyntax switch
         {
-            if (attr.AttributeClass?.ToDisplayString() == attributeFullName)
+            FieldDeclarationSyntax fieldDecl => fieldDecl.Declaration.Variables
+                .Select(v => context.SemanticModel.GetDeclaredSymbol(v)).OfType<TSymbol>(),
+
+            MethodDeclarationSyntax methodDecl => new[] { context.SemanticModel.GetDeclaredSymbol(methodDecl) }
+                .OfType<TSymbol>(),
+
+            _ => []
+        };
+
+        foreach (var s in declaredSymbols)
+        {
+            var attr = GetAttribute(s, attributeFullName);
+            if (attr is not null)
             {
+                symbol = s;
                 attributeData = attr;
                 return true;
             }
         }
 
-        attributeData = null;
         return false;
     }
+}
+
+/// <summary>
+/// Represents the context for a partial class, containing its symbol and related information.
+/// </summary>
+internal class PartialClassContext
+{
+    public INamedTypeSymbol ClassSymbol { get; set; } = default!;
+    public string Namespace => ClassSymbol.ContainingNamespace.ToDisplayString();
+    public string ClassName => ClassSymbol.Name;
+    public string FullName => $"{Namespace}.{ClassName}";
 }

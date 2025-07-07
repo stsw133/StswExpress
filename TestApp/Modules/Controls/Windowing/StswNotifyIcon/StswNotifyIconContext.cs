@@ -13,7 +13,7 @@ public partial class StswNotifyIconContext : ControlsContext
         IsAlwaysVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlwaysVisible)))?.Value ?? default;
     }
 
-    [StswAsyncCommand] async Task ShowTipMinimized()
+    [StswCommand] async Task ShowTipMinimized()
     {
         await Task.Run(() => Tip = new(
             "Lorem ipsum dolor sit amet...",
@@ -21,7 +21,7 @@ public partial class StswNotifyIconContext : ControlsContext
             (ToolTipIcon)new Random().Next(4)
         ));
     }
-    [StswAsyncCommand] async Task ShowTipStatic()
+    [StswCommand] async Task ShowTipStatic()
     {
         await StswNotifyIcon.Notify(
             "Lorem ipsum dolor sit amet...",

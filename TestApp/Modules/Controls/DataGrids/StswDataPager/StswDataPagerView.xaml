@@ -33,7 +33,7 @@
                              ItemsSource="{Binding ItemsOnPage}">
                 <se:StswDataGrid.Columns>
                     <se:StswDataGridStatusColumn/>
-                    <DataGridTextColumn Binding="{Binding ID}" Width="100">
+                    <DataGridTextColumn Binding="{Binding Id}" Width="100">
                         <DataGridTextColumn.Header>
                             <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
                         </DataGridTextColumn.Header>

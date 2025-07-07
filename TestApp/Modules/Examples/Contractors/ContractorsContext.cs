@@ -14,10 +14,9 @@ public partial class ContractorsContext : StswObservableObject
         Task.Run(Init);
         SelectedContractor = null;
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
-        InitializeGeneratedCommands();
     }
 
-    [StswAsyncCommand] async Task Init()
+    [StswCommand] async Task Init()
     {
         try
         {
@@ -29,7 +28,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    [StswAsyncCommand] async Task Clear()
+    [StswCommand] async Task Clear()
     {
         try
         {
@@ -41,7 +40,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    [StswAsyncCommand] async Task Refresh()
+    [StswCommand] async Task Refresh()
     {
         try
         {
@@ -63,8 +62,8 @@ public partial class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-
-    [StswAsyncCommand] async Task Save()
+    
+    [StswCommand] async Task Save()
     {
         try
         {
@@ -77,8 +76,8 @@ public partial class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-
-    [StswAsyncCommand] async Task Export()
+    
+    [StswCommand] async Task Export()
     {
         try
         {
@@ -90,7 +89,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    [StswAsyncCommand] async Task Add()
+    [StswCommand] async Task Add()
     {
         try
         {
@@ -115,7 +114,7 @@ public partial class ContractorsContext : StswObservableObject
         }
     }
 
-    [StswAsyncCommand] async Task Clone()
+    [StswCommand(ConditionMethodName = nameof(CloneCondition))] async Task Clone()
     {
         try
         {
@@ -144,7 +143,7 @@ public partial class ContractorsContext : StswObservableObject
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    [StswAsyncCommand] async Task Edit()
+    [StswCommand(ConditionMethodName = nameof(EditCondition))] async Task Edit()
     {
         try
         {
@@ -173,7 +172,7 @@ public partial class ContractorsContext : StswObservableObject
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    [StswAsyncCommand] async Task Delete()
+    [StswCommand(ConditionMethodName = nameof(DeleteCondition))] async Task Delete()
     {
         try
         {

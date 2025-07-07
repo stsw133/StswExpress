@@ -20,10 +20,10 @@
 	<PackageTags>Analyzers; Generators</PackageTags>
     <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	<IsRoslynAnalyzer>true</IsRoslynAnalyzer>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
     <AnalyzerLanguage>cs</AnalyzerLanguage>

@@ -12,7 +12,6 @@ public partial class StswIconContext : ControlsContext
         Task.Run(() => Icons = [.. typeof(StswIcons).GetProperties()
                                  .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
                                  .OrderBy(x => x.Display)]);
-        InitializeGeneratedCommands();
     }
 
     public override void SetDefaults()

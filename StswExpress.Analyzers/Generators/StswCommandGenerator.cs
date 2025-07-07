@@ -1,27 +1,17 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.Text;
-using System.Collections.Immutable;
-using System.Composition;
 using System.Text;
 
 namespace StswExpress.Analyzers;
 
 /// <summary>
-/// Generates command properties for methods marked with StswCommandAttribute or StswAsyncCommandAttribute.
+/// Generates command properties for methods marked with the StswCommandAttribute.
 /// </summary>
 [Generator]
 public class StswCommandGenerator : IIncrementalGenerator
 {
-    private static readonly string[] TargetAttributes =
-    [
-        "StswExpress.StswCommandAttribute",
-        "StswExpress.StswAsyncCommandAttribute"
-    ];
+    private const string AttributeFullName = "StswExpress.StswCommandAttribute";
 
     /// <summary>
     /// Initializes the generator by registering a syntax provider to collect declarations.
@@ -29,111 +19,82 @@ public class StswCommandGenerator : IIncrementalGenerator
     /// <param name="context">The generator initialization context.</param>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var symbolDeclarations = context.SyntaxProvider
+        var methodSymbols = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => node is MethodDeclarationSyntax m && m.AttributeLists.Count > 0,
-                transform: static (ctx, _) => Helpers.GetMethodSymbol(ctx, TargetAttributes))
+                transform: static (ctx, _) => Helpers.GetMethodSymbol(ctx))
             .Where(static symbol => symbol is not null)
             .Collect();
 
-        context.RegisterSourceOutput(symbolDeclarations, (spc, symbols) =>
+        context.RegisterSourceOutput(methodSymbols, (spc, symbols) =>
         {
             var grouped = symbols!
                 .OfType<IMethodSymbol>()
-                .Where(m => m.ContainingType is { } ct && Helpers.IsValidPartialClass(ct))
-                .GroupBy(m => m.ContainingType, SymbolEqualityComparer.Default);
+                .Select(method => new
+                {
+                    Method = method,
+                    Attribute = Helpers.GetAttribute(method, AttributeFullName)
+                })
+                .Where(m => m.Attribute is not null)
+                .GroupBy(m => m.Method.ContainingType, SymbolEqualityComparer.Default);
 
             foreach (var group in grouped)
             {
-                if (group.Key is not INamedTypeSymbol classSymbol)
+                if (group.Key is not INamedTypeSymbol namedTypeSymbol)
                     continue;
 
-                var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
-                var className = classSymbol.Name;
-
-                var existingProperties = classSymbol
-                    .GetMembers()
-                    .OfType<IPropertySymbol>()
-                    .Select(p => p.Name)
-                    .ToImmutableHashSet();
-
-                var commands = group
-                    .Select(method =>
-                    {
-                        var methodName = method.Name;
-                        var isAsync = method.ReturnType.ToDisplayString() == "System.Threading.Tasks.Task";
-                        var hasParameter = method.Parameters.Length == 1;
-                        var paramType = hasParameter
-                            ? method.Parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-                            : null;
-
-                        var commandBaseType = isAsync ? "StswAsyncCommand" : "StswCommand";
-                        var fullCommandType = hasParameter
-                            ? $"{commandBaseType}<{paramType}>"
-                            : commandBaseType;
-
-                        var propertyName = methodName + "Command";
-
-                        return new
-                        {
-                            MethodName = methodName,
-                            PropertyName = propertyName,
-                            FullCommandType = fullCommandType
-                        };
-                    })
-                    .Where(cmd => !existingProperties.Contains(cmd.PropertyName))
-                    .GroupBy(cmd => cmd.PropertyName)
-                    .Select(g => g.First())
-                    .ToList();
-
-                if (commands.Count == 0)
-                    continue;
-
-                var classDecl = classSymbol.DeclaringSyntaxReferences
-                    .Select(r => r.GetSyntax())
-                    .OfType<ClassDeclarationSyntax>()
-                    .FirstOrDefault();
-
-                var ctor = classDecl?.Members
-                    .OfType<ConstructorDeclarationSyntax>()
-                    .FirstOrDefault(x => x.ParameterList.Parameters.Count == 0);
+                var classCtx = Helpers.GetClassContext(namedTypeSymbol);
 
                 var sb = new StringBuilder();
-                sb.AppendLine($"namespace {namespaceName}");
+                sb.AppendLine($"#nullable enable");
+                sb.AppendLine($"namespace {classCtx.Namespace}");
                 sb.AppendLine($"{{");
-                sb.AppendLine($"    public partial class {className}");
+                sb.AppendLine($"    public partial class {classCtx.ClassName}");
                 sb.AppendLine($"    {{");
-                commands.ForEach(cmd => sb.AppendLine($"        public {cmd.FullCommandType} {cmd.PropertyName} {{ get; private set; }}"));
-                sb.AppendLine();
 
-                if (ctor is null)
+                foreach (var item in group)
                 {
-                    sb.AppendLine($"        public {className}()");
+                    var attrData = item.Method.GetAttributes().FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == AttributeFullName);
+                    if (attrData is null)
+                        continue;
+
+                    var methodName = item.Method.Name;
+                    var propertyName = methodName + "Command";
+                    var fieldName = "_" + char.ToLower(propertyName[0]) + propertyName.Substring(1);
+
+                    var isAsync = item.Method.ReturnType.ToDisplayString() == "System.Threading.Tasks.Task";
+                    var hasParameter = item.Method.Parameters.Length == 1;
+                    var parameterType = hasParameter
+                        ? item.Method.Parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+                        : null;
+
+                    var commandType = isAsync ? "StswAsyncCommand" : "StswCommand";
+                    var fullCommandType = hasParameter
+                        ? $"{commandType}<{parameterType}>"
+                        : commandType;
+
+                    var conditionMethod = Helpers.GetNamedArgument<string>(attrData, "ConditionMethodName");
+                    var conditionArg = !string.IsNullOrWhiteSpace(conditionMethod) ? conditionMethod : "null";
+                    var isReusable = isAsync && Helpers.GetNamedArgument<bool>(attrData, "IsReusable");
+
+                    sb.AppendLine($"        private {fullCommandType}? {fieldName};");
+                    sb.AppendLine($"        public {fullCommandType} {propertyName} => {fieldName} ??= new {fullCommandType}({methodName}, {conditionArg})");
                     sb.AppendLine($"        {{");
-                    foreach (var cmd in commands)
-                        sb.AppendLine($"            {cmd.PropertyName} = new({cmd.MethodName});");
-                    sb.AppendLine($"        }}");
-                }
-                else
-                {
-                    sb.AppendLine($"        partial void InitializeGeneratedCommands();");
+                    if (isReusable)
+                        sb.AppendLine($"            IsReusable = true");
+                    sb.AppendLine($"        }};");
                     sb.AppendLine();
-                    sb.AppendLine($"        partial void InitializeGeneratedCommands()");
-                    sb.AppendLine($"        {{");
-                    foreach (var cmd in commands)
-                        sb.AppendLine($"            {cmd.PropertyName} = new({cmd.MethodName});");
-                    sb.AppendLine($"        }}");
                 }
 
                 sb.AppendLine($"    }}");
                 sb.AppendLine($"}}");
 
-                spc.AddSource($"{className}_StswCommands.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+                spc.AddSource($"{classCtx.ClassName}_StswCommands.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
             }
         });
     }
 }
-
+/*
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MissingInitializeGeneratedCommandsAnalyzer : DiagnosticAnalyzer
 {
@@ -240,3 +201,4 @@ public class AddInitializeGeneratedCommandsFixProvider : CodeFixProvider
         return document.WithSyntaxRoot(newRoot);
     }
 }
+*/

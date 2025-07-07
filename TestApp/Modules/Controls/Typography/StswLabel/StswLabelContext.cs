@@ -20,7 +20,7 @@ public partial class StswLabelContext : ControlsContext
     
     [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
     [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
-    [StswAsyncCommand(IsReusable = true)] async Task Process(StswProgressState state)
+    [StswCommand(IsReusable = true)] async Task Process(StswProgressState state)
     {
         await Task.Run(() =>
         {

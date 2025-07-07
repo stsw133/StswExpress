@@ -11,7 +11,7 @@ namespace StswExpress.Analyzers;
 [Generator]
 public class StswObservablePropertyGenerator : IIncrementalGenerator
 {
-    private const string InvokingAttribute = "StswExpress.Commons.StswObservablePropertyAttribute";
+    private const string AttributeFullName = "StswExpress.Commons.StswObservablePropertyAttribute";
 
     /// <summary>
     /// Initializes the generator by registering a syntax provider to collect declarations.
@@ -19,47 +19,45 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     /// <param name="context">The generator initialization context.</param>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var symbolDeclarations = context.SyntaxProvider
+        var fieldSymbols = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => node is FieldDeclarationSyntax f && f.AttributeLists.Count > 0,
                 transform: static (ctx, _) => Helpers.GetFieldSymbol(ctx))
             .Where(static symbol => symbol is not null)
             .Collect();
 
-        context.RegisterSourceOutput(symbolDeclarations, (spc, symbols) =>
+        context.RegisterSourceOutput(fieldSymbols, (spc, symbols) =>
         {
             var grouped = symbols!
                 .OfType<IFieldSymbol>()
-                .Select(field =>
-                    Helpers.TryGetInvokingAttributeData(field, InvokingAttribute, out var attrData)
-                        ? (Field: field, AttrData: attrData)
-                        : (Field: null, AttrData: null))
-                .Where(t => t.Field is not null && t.AttrData is not null)
-                .GroupBy(t => t.Field!.ContainingType, SymbolEqualityComparer.Default);
+                .Select(field => new
+                {
+                    Field = field,
+                    Attribute = Helpers.GetAttribute(field, AttributeFullName)
+                })
+                .Where(t => t.Attribute is not null)
+                .GroupBy(t => t.Field.ContainingType, SymbolEqualityComparer.Default);
 
             foreach (var group in grouped)
             {
-                var classSymbol = group.Key!;
-                var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
-                var className = classSymbol.Name;
+                if (group.Key is not INamedTypeSymbol namedTypeSymbol)
+                    continue;
+
+                var classCtx = Helpers.GetClassContext(namedTypeSymbol);
 
                 var sb = new StringBuilder();
                 sb.AppendLine($"#nullable enable");
-                sb.AppendLine($"namespace {namespaceName}");
+                sb.AppendLine($"namespace {classCtx.Namespace}");
                 sb.AppendLine($"{{");
-                sb.AppendLine($"    public partial class {className}");
+                sb.AppendLine($"    public partial class {classCtx.ClassName}");
                 sb.AppendLine($"    {{");
 
-                foreach (var (field, attrData) in group)
+                foreach (var item in group)
                 {
-                    var fieldName = field!.Name;
-                    var propertyName = Helpers.ToPascalCase(field.Name.TrimStart('_'));
-                    var propertyType = field.Type.ToDisplayString();
-
-                    var docComment = field.GetDocumentationCommentXml();
-                    var documentation = string.IsNullOrWhiteSpace(docComment)
-                        ? ""
-                        : $"        /// {docComment!.Trim().Replace("\n", "\n        /// ")}\n";
+                    var documentation = Helpers.FormatDocComment(item.Field);
+                    var fieldName = item.Field.Name;
+                    var propertyName = Helpers.ToPascalCase(item.Field.Name.TrimStart('_'));
+                    var propertyType = item.Field.Type.ToDisplayString();
 
                     sb.AppendLine();
                     sb.Append(documentation);
@@ -69,17 +67,22 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
                     sb.AppendLine($"            set");
                     sb.AppendLine($"            {{");
                     sb.AppendLine($"                var oldValue = {fieldName};");
+                    sb.AppendLine($"                var cancel = false;");
+                    sb.AppendLine($"                On{propertyName}Changing(oldValue, value, ref cancel);");
+                    sb.AppendLine($"                if (cancel)");
+                    sb.AppendLine($"                    return;");
                     sb.AppendLine($"                if (SetProperty(ref {fieldName}, value))");
                     sb.AppendLine($"                    On{propertyName}Changed(oldValue, value);");
                     sb.AppendLine($"            }}");
                     sb.AppendLine($"        }}");
+                    sb.AppendLine($"        partial void On{propertyName}Changing({propertyType} oldValue, {propertyType} newValue, ref bool cancel);");
                     sb.AppendLine($"        partial void On{propertyName}Changed({propertyType} oldValue, {propertyType} newValue);");
                 }
 
                 sb.AppendLine($"    }}");
                 sb.AppendLine($"}}");
 
-                spc.AddSource($"{className}_StswObservableProperties.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+                spc.AddSource($"{classCtx.ClassName}_StswObservableProperties.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
             }
         });
     }
