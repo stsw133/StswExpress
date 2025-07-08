@@ -113,11 +113,11 @@ public class StswColorSelector : Control, IStswCornerControl
         );
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorSelector stsw)
-        {
-            /// event for non MVVM programming
-            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
-        }
+        if (obj is not StswColorSelector stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
     }
     #endregion
 

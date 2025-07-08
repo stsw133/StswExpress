@@ -109,7 +109,7 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- details -->
-                            <se:StswScrollView DockPanel.Dock="Top" IsDynamic="True">
+                            <se:StswScrollView DockPanel.Dock="Top" DynamicMode="Partial">
                                 <DockPanel>
                                     <StackPanel x:Name="OPT_Details" DockPanel.Dock="Bottom" Orientation="Vertical">
                                         <!-- separator -->

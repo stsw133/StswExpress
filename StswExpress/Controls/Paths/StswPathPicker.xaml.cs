@@ -240,10 +240,10 @@ public class StswPathPicker : StswBoxBase
         );
     public static void OnIsShiftingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathPicker stsw)
-        {
-            stsw.ListAdjacentPaths();
-        }
+        if (obj is not StswPathPicker stsw)
+            return;
+
+        stsw.ListAdjacentPaths();
     }
 
     /// <summary>
@@ -282,21 +282,21 @@ public class StswPathPicker : StswBoxBase
         );
     public static void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathPicker stsw)
+        if (obj is not StswPathPicker stsw)
+            return;
+
+        stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
+        stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
+
+        /// load adjacent paths
+        if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
         {
-            stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
-            stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
-
-            /// load adjacent paths
-            if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
-            {
-                stsw.parentPath = parentPath;
-                stsw.ListAdjacentPaths();
-            }
-
-            /// event for non MVVM programming
-            stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
+            stsw.parentPath = parentPath;
+            stsw.ListAdjacentPaths();
         }
+
+        /// event for non MVVM programming
+        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
     private string? parentPath;
 

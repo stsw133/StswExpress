@@ -1,5 +1,7 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -12,7 +14,7 @@ namespace StswExpress.Commons;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// var stswClient = new StswHttpClient(new HttpClient { BaseAddress = new Uri("https://api.example.com/") });
+/// var stswClient = new StswHttpClient(new HttpClient { BaseAddress = new Uri("https://api.example.com/") }, StswHttpClient.CreateBasicAuthHeader("myUser", "myPassword"));
 /// 
 /// var user = await stswClient.GetAsync&lt;UserDto&gt;("users/1");
 /// var users = await stswClient.GetAsyncList&lt;UserDto&gt;("users", new { role = "admin" });
@@ -23,16 +25,25 @@ namespace StswExpress.Commons;
 /// var user = await stswClient.GetAsync&lt;UserDto&gt;("users/1", ct: cts.Token);
 /// </code>
 /// </example>
-[Stsw("0.19.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
-public class StswHttpClient(HttpClient httpClient)
+[Stsw("0.19.0", Changes = StswPlannedChanges.None, IsTested = false)]
+public class StswHttpClient
 {
-    private readonly HttpClient _httpClient = httpClient;
+    private readonly HttpClient _httpClient;
     private static readonly JsonSerializerOptions _jsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Converters = { new JsonStringEnumConverter() }
     };
+
+    public StswHttpClient(HttpClient httpClient) : this(httpClient, null) { }
+    public StswHttpClient(HttpClient httpClient, string username, string password) : this(httpClient, CreateBasicAuthHeader(username, password)) { }
+    public StswHttpClient(HttpClient httpClient, AuthenticationHeaderValue? authHeader)
+    {
+        _httpClient = httpClient;
+        if (authHeader is not null)
+            _httpClient.DefaultRequestHeaders.Authorization = authHeader;
+    }
 
     /// <summary>
     /// Performs a GET request to the specified path with optional query parameters.
@@ -128,6 +139,7 @@ public class StswHttpClient(HttpClient httpClient)
         throw new HttpRequestException($"{(int)response.StatusCode} {response.ReasonPhrase}: {error}");
     }
 
+    #region Helpers
     /// <summary>
     /// Builds a URL by appending query parameters to the specified path.
     /// </summary>
@@ -148,11 +160,23 @@ public class StswHttpClient(HttpClient httpClient)
     }
 
     /// <summary>
+    /// Creates a Basic Authentication header value using the provided username and password.
+    /// </summary>
+    /// <param name="username">The username for the user.</param>
+    /// <param name="password">The password for the user.</param>
+    /// <returns>An <see cref="AuthenticationHeaderValue"/> representing the Basic Authentication header.</returns>
+    public static AuthenticationHeaderValue CreateBasicAuthHeader(string username, string password)
+    {
+        var byteArray = Encoding.ASCII.GetBytes($"{username}:{password}");
+        return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+    }
+
+    /// <summary>
     /// Attempts to read the error message from the response content.
     /// </summary>
     /// <param name="resp">The HTTP response message.</param>
     /// <param name="ct">The cancellation token to observe while waiting for the task to complete.</param>
-    /// <returns></returns>
+    /// <returns>A string containing the error message.</returns>
     private static async Task<string> TryReadErrorAsync(HttpResponseMessage resp, CancellationToken ct)
     {
         try
@@ -166,4 +190,5 @@ public class StswHttpClient(HttpClient httpClient)
             return await resp.Content.ReadAsStringAsync(ct);
         }
     }
+    #endregion
 }

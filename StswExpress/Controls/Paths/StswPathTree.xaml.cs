@@ -253,11 +253,11 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static void OnInitialPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            stsw.ReloadInitialPath();
-            // TODO - SelectedPath resets
-        }
+        if (obj is not StswPathTree stsw)
+            return;
+
+        stsw.ReloadInitialPath();
+        // TODO - SelectedPath resets
     }
 
     /// <inheritdoc/>
@@ -293,14 +293,14 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static async void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            if (e.NewValue is string newPath)
-                await stsw.SelectPathAsync(newPath);
+        if (obj is not StswPathTree stsw)
+            return;
 
-            /// event for non MVVM programming
-            stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
-        }
+        if (e.NewValue is string newPath)
+            await stsw.SelectPathAsync(newPath);
+
+        /// event for non MVVM programming
+        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <summary>
@@ -323,10 +323,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static void OnShowFilesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            stsw.ReloadInitialPath();
-        }
+        if (obj is not StswPathTree stsw)
+            return;
+
+        stsw.ReloadInitialPath();
     }
     #endregion
 

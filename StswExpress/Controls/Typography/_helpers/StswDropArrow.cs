@@ -59,9 +59,7 @@ public static class StswDropArrow
     private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is Control control)
-        {
             EnsureTemplate(control);
-        }
     }
 
     /// <summary>

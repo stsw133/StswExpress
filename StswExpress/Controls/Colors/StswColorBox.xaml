@@ -103,10 +103,10 @@
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                                     <se:StswScrollView x:Name="PART_ContentHost"
-                                                         Focusable="False"
-                                                         IsDynamic="True"
-                                                         HorizontalScrollBarVisibility="Hidden"
-                                                         VerticalScrollBarVisibility="Hidden"/>
+                                                       DynamicMode="Partial"
+                                                       Focusable="False"
+                                                       HorizontalScrollBarVisibility="Hidden"
+                                                       VerticalScrollBarVisibility="Hidden"/>
                                 </Grid>
                             </DockPanel>
                         </DockPanel>

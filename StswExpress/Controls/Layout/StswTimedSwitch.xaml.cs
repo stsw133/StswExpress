@@ -81,17 +81,17 @@ public class StswTimedSwitch : CheckBox
         );
     public static void OnSwitchTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimedSwitch stsw)
+        if (obj is not StswTimedSwitch stsw)
+            return;
+
+        if (stsw.SwitchTime.TotalMilliseconds > 0)
         {
-            if (stsw.SwitchTime.TotalMilliseconds > 0)
+            var newInterval = stsw.SwitchTime.TotalMilliseconds;
+            if (stsw.timer.Interval != newInterval)
             {
-                var newInterval = stsw.SwitchTime.TotalMilliseconds;
-                if (stsw.timer.Interval != newInterval)
-                {
-                    stsw.timer.Interval = newInterval;
-                    if (stsw.IsChecked == true)
-                        stsw.timer.Start();
-                }
+                stsw.timer.Interval = newInterval;
+                if (stsw.IsChecked == true)
+                    stsw.timer.Start();
             }
         }
     }

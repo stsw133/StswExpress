@@ -12,8 +12,8 @@ public partial class StswAdaptiveBoxContext : ControlsContext
         Type = (StswAdaptiveType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
 
-    [StswCommand] void ClearCommand() => SelectedValue = default;
-    [StswCommand] void ClearTypeCommand() => Type = null;
+    [StswCommand] void Clear() => SelectedValue = default;
+    [StswCommand] void ClearType() => Type = null;
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;

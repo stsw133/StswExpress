@@ -180,10 +180,10 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         );
     public static void OnIsLoopingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFlipView stsw)
-        {
-            stsw.CheckButtonAccessibility(null, EventArgs.Empty);
-        }
+        if (obj is not StswFlipView stsw)
+            return;
+
+        stsw.CheckButtonAccessibility(null, EventArgs.Empty);
     }
 
     /// <inheritdoc/>

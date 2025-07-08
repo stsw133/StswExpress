@@ -37,7 +37,7 @@
                     </DockPanel>
                 </se:StswGroupBox.Header>
 
-                <se:StswScrollView IsDynamic="True" Padding="3">
+                <se:StswScrollView DynamicMode="Partial" Padding="3">
                     <se:StswText Margin="3" TextAlignment="Justify" TextWrapping="Wrap">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                         <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>

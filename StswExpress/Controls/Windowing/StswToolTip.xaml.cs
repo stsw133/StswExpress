@@ -117,13 +117,13 @@ public class StswToolTip : ToolTip, IStswCornerControl
     public static void SetText(DependencyObject obj, string? value) => obj.SetValue(TextProperty, value);
     private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is FrameworkElement stsw)
-        {
-            if (e.NewValue is string text)
-                stsw.ToolTip = new StswToolTip { Content = text };
-            else
-                stsw.ClearValue(ToolTipProperty);
-        }
+        if (obj is not FrameworkElement stsw)
+            return;
+
+        if (e.NewValue is string text)
+            stsw.ToolTip = new StswToolTip { Content = text };
+        else
+            stsw.ClearValue(ToolTipProperty);
     }
 
     /// <summary>
@@ -146,10 +146,10 @@ public class StswToolTip : ToolTip, IStswCornerControl
         );
     public static void OnIsMoveableChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswToolTip stsw)
-        {
-            stsw.UpdateMoveableState();
-        }
+        if (obj is not StswToolTip stsw)
+            return;
+
+        stsw.UpdateMoveableState();
     }
     #endregion
 

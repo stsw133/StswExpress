@@ -175,64 +175,64 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
     public static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigationElement stsw)
+        if (obj is not StswNavigationElement stsw)
+            return;
+
+        if (stsw._stswNavigation != null)
         {
-            if (stsw._stswNavigation != null)
+            /// when expanding expander in compact mode
+            if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Compact)
             {
-                /// when expanding expander in compact mode
-                if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Compact)
+                /// move compact panel items back to previous expander
+                if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
                 {
-                    /// move compact panel items back to previous expander
-                    if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
+                    stsw._stswNavigation.CompactedExpander.Items.Clear();
+                    foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.TryClone())
                     {
-                        stsw._stswNavigation.CompactedExpander.Items.Clear();
-                        foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.TryClone())
-                        {
-                            item.IsInCompactPanel = false;
-                            stsw._stswNavigation.CompactedExpander.Items.Add(item);
-                        }
-                    }
-
-                    /// when clicking the same expander
-                    if (stsw._stswNavigation.CompactedExpander == stsw && stsw._stswNavigation.ItemsCompact.Count > 0)
-                        stsw._stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
-                    else /// when clicking different expander
-                    {
-                        /// load new items to compact panel
-                        stsw._stswNavigation.CompactedExpander = stsw;
-                        stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationElement>()];
-                        foreach (var item in stsw._stswNavigation.ItemsCompact)
-                            item.IsInCompactPanel = true;
-                    }
-
-                    stsw.IsChecked = false;
-                }
-                /// when clicking button
-                else if (!stsw.HasItems && stsw.IsChecked)
-                {
-                    /// uncheck last button, check new button
-                    if (stsw._stswNavigation.LastSelectedItem != stsw)
-                        stsw._stswNavigation.LastSelectedItem = stsw;
-
-                    /// hide compact panel
-                    if (stsw._stswNavigation.TabStripMode == StswCompactibility.Compact)
-                        stsw._stswNavigation.ItemsCompact.Clear();
-
-                    /// load context for content presenter
-                    if (stsw.ContextNamespace != null)
-                    {
-                        stsw.IsBusy = true;
-                        stsw._stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
-                        stsw.IsBusy = false;
+                        item.IsInCompactPanel = false;
+                        stsw._stswNavigation.CompactedExpander.Items.Add(item);
                     }
                 }
-                /// do not allow to uncheck checked button
-                else if (!stsw.HasItems && stsw._stswNavigation.LastSelectedItem == stsw)
-                    stsw.IsChecked = true;
-                /// collapse expander so it is not needed to click it twice
-                //else if (stsw.HasItems && stsw.stswNavigation.CurrentlyExpandedElement == stsw && stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
-                //    stsw.IsChecked = false;
+
+                /// when clicking the same expander
+                if (stsw._stswNavigation.CompactedExpander == stsw && stsw._stswNavigation.ItemsCompact.Count > 0)
+                    stsw._stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
+                else /// when clicking different expander
+                {
+                    /// load new items to compact panel
+                    stsw._stswNavigation.CompactedExpander = stsw;
+                    stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationElement>()];
+                    foreach (var item in stsw._stswNavigation.ItemsCompact)
+                        item.IsInCompactPanel = true;
+                }
+
+                stsw.IsChecked = false;
             }
+            /// when clicking button
+            else if (!stsw.HasItems && stsw.IsChecked)
+            {
+                /// uncheck last button, check new button
+                if (stsw._stswNavigation.LastSelectedItem != stsw)
+                    stsw._stswNavigation.LastSelectedItem = stsw;
+
+                /// hide compact panel
+                if (stsw._stswNavigation.TabStripMode == StswCompactibility.Compact)
+                    stsw._stswNavigation.ItemsCompact.Clear();
+
+                /// load context for content presenter
+                if (stsw.ContextNamespace != null)
+                {
+                    stsw.IsBusy = true;
+                    stsw._stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
+                    stsw.IsBusy = false;
+                }
+            }
+            /// do not allow to uncheck checked button
+            else if (!stsw.HasItems && stsw._stswNavigation.LastSelectedItem == stsw)
+                stsw.IsChecked = true;
+            /// collapse expander so it is not needed to click it twice
+            //else if (stsw.HasItems && stsw.stswNavigation.CurrentlyExpandedElement == stsw && stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
+            //    stsw.IsChecked = false;
         }
     }
 
@@ -256,11 +256,11 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
     public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigationElement stsw)
-        {
-            if (stsw.HasItems && stsw.TabStripMode == StswCompactibility.Compact)
-                stsw.IsChecked = false;
-        }
+        if (obj is not StswNavigationElement stsw)
+            return;
+
+        if (stsw.HasItems && stsw.TabStripMode == StswCompactibility.Compact)
+            stsw.IsChecked = false;
     }
     #endregion
 
@@ -355,19 +355,19 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
     public static void OnItemsIndentationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigationElement stsw)
-        {
-            var padding = stsw.Padding;
-            var ancestorElement = stsw;
+        if (obj is not StswNavigationElement stsw)
+            return;
 
-            while (ancestorElement != null)
-            {
-                ancestorElement = StswFnUI.FindVisualAncestor<StswNavigationElement>(ancestorElement);
-                if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
-                    padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
-            }
-            stsw.ItemsMargin = padding;
+        var padding = stsw.Padding;
+        var ancestorElement = stsw;
+
+        while (ancestorElement != null)
+        {
+            ancestorElement = StswFnUI.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+            if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
+                padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
         }
+        stsw.ItemsMargin = padding;
     }
 
     /// <summary>

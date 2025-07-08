@@ -195,11 +195,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Icon = stsw.Icon;
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Icon = stsw.Icon;
     }
 
     /// <summary>
@@ -219,11 +219,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
     }
 
     /// <summary>
@@ -243,11 +243,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw.UpdateIconVisibility();
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw.UpdateIconVisibility();
     }
 
     /// <summary>
@@ -267,11 +267,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Text = stsw.Text;
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Text = stsw.Text;
     }
 
     /// <summary>
@@ -291,10 +291,10 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
     }
     #endregion
 

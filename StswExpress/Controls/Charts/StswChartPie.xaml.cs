@@ -99,14 +99,14 @@ public class StswChartPie : ItemsControl
         );
     public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswChartPie stsw)
-        {
-            var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
-            if (items != null)
-                foreach (var item in items)
-                    if (item.Internal is StswChartElementPieModel elem)
-                        elem.IsPercentageVisible = item.Percentage >= stsw.MinPercentageRender;
-        }
+        if (obj is not StswChartPie stsw)
+            return;
+
+        var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
+        if (items != null)
+            foreach (var item in items)
+                if (item.Internal is StswChartElementPieModel elem)
+                    elem.IsPercentageVisible = item.Percentage >= stsw.MinPercentageRender;
     }
 
     /// <summary>
@@ -129,14 +129,14 @@ public class StswChartPie : ItemsControl
         );
     public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswChartPie stsw)
-        {
-            var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
-            if (items != null)
-                foreach (var item in items)
-                    if (item.Internal is StswChartElementPieModel elem)
-                        elem.StrokeDashArray = new DoubleCollection(new[] { Math.PI * item.Percentage * (1000 - stsw.StrokeThickness) / stsw.StrokeThickness / 100, 100 });
-        }
+        if (obj is not StswChartPie stsw)
+            return;
+
+        var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
+        if (items != null)
+            foreach (var item in items)
+                if (item.Internal is StswChartElementPieModel elem)
+                    elem.StrokeDashArray = new DoubleCollection(new[] { Math.PI * item.Percentage * (1000 - stsw.StrokeThickness) / stsw.StrokeThickness / 100, 100 });
     }
     #endregion
 }

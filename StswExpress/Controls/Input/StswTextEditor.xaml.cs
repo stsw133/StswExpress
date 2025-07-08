@@ -348,27 +348,27 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnFilePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        if (stsw.FilePath != null)
         {
-            if (stsw.FilePath != null)
+            if (File.Exists(stsw.FilePath))
             {
-                if (File.Exists(stsw.FilePath))
-                {
-                    using var fileStream = new FileStream(stsw.FilePath, FileMode.Open);
-                    var range = new TextRange(stsw.Document.ContentStart, stsw.Document.ContentEnd);
-                    range.Load(fileStream, DataFormats.Rtf);
-
-                    stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-                    stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-                }
-            }
-            else
-            {
-                stsw.Document.Blocks.Clear();
+                using var fileStream = new FileStream(stsw.FilePath, FileMode.Open);
+                var range = new TextRange(stsw.Document.ContentStart, stsw.Document.ContentEnd);
+                range.Load(fileStream, DataFormats.Rtf);
 
                 stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
                 stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
             }
+        }
+        else
+        {
+            stsw.Document.Blocks.Clear();
+
+            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
+            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
         }
     }
 
@@ -392,10 +392,10 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnSelectedColorTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
-        {
-            stsw.FontColorText();
-        }
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        stsw.FontColorText();
     }
 
     /// <summary>
@@ -418,10 +418,10 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnSelectedColorHighlightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
-        {
-            stsw.FontColorHighlight();
-        }
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        stsw.FontColorHighlight();
     }
 
     /// <summary>

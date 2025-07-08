@@ -413,19 +413,19 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnFilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
+        if (obj is not StswFilterBox stsw)
+            return;
+
+        /// update visual symbol if found
+        if (stsw.FilterMode != null
+         && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
+         && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
         {
-            /// update visual symbol if found
-            if (stsw.FilterMode != null
-             && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
-             && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
-            {
-                symbolBlock.Fill = newSymbolBlock.Fill;
-                symbolBlock.Text = newSymbolBlock.Text;
-                symbolBlock.UpdateLayout();
-            }
-            OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+            symbolBlock.Fill = newSymbolBlock.Fill;
+            symbolBlock.Text = newSymbolBlock.Text;
+            symbolBlock.UpdateLayout();
         }
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
     }
     internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
@@ -462,12 +462,12 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnFilterValuePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            /// create param name by removing non-alphanumeric characters
-            stsw.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
-            OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
-        }
+        if (obj is not StswFilterBox stsw)
+            return;
+
+        /// create param name by removing non-alphanumeric characters
+        stsw.SqlParam = "@" + new string([.. ((string)e.NewValue).Where(char.IsLetterOrDigit)]);
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -597,21 +597,21 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
-            {
-                if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                    throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+        if (obj is not StswFilterBox stsw)
+            return;
 
-                /// short usage for StswComboItem
-                if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-                {
-                    if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
-                        stsw.DisplayMemberPath = nameof(StswComboItem.Display);
-                    if (string.IsNullOrEmpty(stsw.SelectedValuePath))
-                        stsw.SelectedValuePath = nameof(StswComboItem.Value);
-                }
+        if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
+        {
+            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+            /// short usage for StswComboItem
+            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            {
+                if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
+                    stsw.DisplayMemberPath = nameof(StswComboItem.Display);
+                if (string.IsNullOrEmpty(stsw.SelectedValuePath))
+                    stsw.SelectedValuePath = nameof(StswComboItem.Value);
             }
         }
     }
@@ -696,24 +696,24 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
-            {
-                stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
-            }
-            else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
-            {
-                if (stsw.Value1 == null
-                 || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-                 || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
-                    stsw.SqlString = null;
-                else
-                    stsw.GenerateSqlString();
-            }
+        if (obj is not StswFilterBox stsw)
+            return;
 
-            stsw.NotifyFilterChanged();
+        if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
+        {
+            stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
         }
+        else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
+        {
+            if (stsw.Value1 == null
+             || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
+             || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
+                stsw.SqlString = null;
+            else
+                stsw.GenerateSqlString();
+        }
+
+        stsw.NotifyFilterChanged();
     }
     internal object? DefaultValue1 { get; set; } = null;
 

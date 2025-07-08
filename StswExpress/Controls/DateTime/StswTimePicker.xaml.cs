@@ -178,16 +178,16 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
-        {
-            stsw.UpdateVisibilityBasedOnFormat();
+        if (obj is not StswTimePicker stsw)
+            return;
 
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-            {
-                var newBinding = binding.Clone();
-                newBinding.StringFormat = stsw.Format;
-                stsw.SetBinding(TextProperty, newBinding);
-            }
+        stsw.UpdateVisibilityBasedOnFormat();
+
+        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
+        {
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = stsw.Format;
+            stsw.SetBinding(TextProperty, newBinding);
         }
     }
 
@@ -286,11 +286,11 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
-        {
-            if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
-                stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
-        }
+        if (obj is not StswTimePicker stsw)
+            return;
+
+        if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
+            stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
     }
 
     /// <summary>
@@ -328,30 +328,30 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnSelectedTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
-        {
-            if (!stsw._isTimeChanging)
-            {
-                stsw._isTimeChanging = true;
-                if (stsw.SelectedTime.HasValue)
-                {
-                    stsw.SelectedTimeH = stsw.SelectedTime.Value.Hours;
-                    stsw.SelectedTimeM = stsw.SelectedTime.Value.Minutes;
-                    stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
-                }
-                stsw._isTimeChanging = false;
+        if (obj is not StswTimePicker stsw)
+            return;
 
-                /// event for non MVVM programming
-                stsw.SelectedTimeChanged?.Invoke(stsw, new StswValueChangedEventArgs<TimeSpan?>((TimeSpan?)e.OldValue, (TimeSpan?)e.NewValue));
+        if (!stsw._isTimeChanging)
+        {
+            stsw._isTimeChanging = true;
+            if (stsw.SelectedTime.HasValue)
+            {
+                stsw.SelectedTimeH = stsw.SelectedTime.Value.Hours;
+                stsw.SelectedTimeM = stsw.SelectedTime.Value.Minutes;
+                stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
             }
+            stsw._isTimeChanging = false;
+
+            /// event for non MVVM programming
+            stsw.SelectedTimeChanged?.Invoke(stsw, new StswValueChangedEventArgs<TimeSpan?>((TimeSpan?)e.OldValue, (TimeSpan?)e.NewValue));
         }
     }
     private static object? OnSelectedTimeChanging(DependencyObject obj, object? baseValue)
     {
-        if (obj is StswTimePicker stsw)
-            return stsw.MinMaxValidate((TimeSpan?)baseValue);
+        if (obj is not StswTimePicker stsw)
+            return baseValue;
 
-        return baseValue;
+        return stsw.MinMaxValidate((TimeSpan?)baseValue);
     }
     private bool _isTimeChanging;
 
@@ -374,15 +374,15 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnSelectedTimeHChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
+        if (obj is not StswTimePicker stsw)
+            return;
+
+        if (stsw.SelectedTime.HasValue)
         {
-            if (stsw.SelectedTime.HasValue)
-            {
-                var t = stsw.SelectedTime.Value;
-                stsw.SelectedTime = new TimeSpan(t.Days, stsw.SelectedTimeH, t.Minutes, t.Seconds, t.Milliseconds);
-            }
-            else stsw.SelectedTime = new TimeSpan(stsw.SelectedTimeH, 0, 0);
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, stsw.SelectedTimeH, t.Minutes, t.Seconds, t.Milliseconds);
         }
+        else stsw.SelectedTime = new TimeSpan(stsw.SelectedTimeH, 0, 0);
     }
 
     /// <summary>
@@ -404,15 +404,15 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnSelectedTimeMChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
+        if (obj is not StswTimePicker stsw)
+            return;
+
+        if (stsw.SelectedTime.HasValue)
         {
-            if (stsw.SelectedTime.HasValue)
-            {
-                var t = stsw.SelectedTime.Value;
-                stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, stsw.SelectedTimeM, t.Seconds, t.Milliseconds);
-            }
-            else stsw.SelectedTime = new TimeSpan(0, stsw.SelectedTimeM, 0);
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, stsw.SelectedTimeM, t.Seconds, t.Milliseconds);
         }
+        else stsw.SelectedTime = new TimeSpan(0, stsw.SelectedTimeM, 0);
     }
 
     /// <summary>
@@ -434,15 +434,15 @@ public class StswTimePicker : StswBoxBase
         );
     public static void OnSelectedTimeSChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimePicker stsw)
+        if (obj is not StswTimePicker stsw)
+            return;
+
+        if (stsw.SelectedTime.HasValue)
         {
-            if (stsw.SelectedTime.HasValue)
-            {
-                var t = stsw.SelectedTime.Value;
-                stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, t.Minutes, stsw.SelectedTimeS, t.Milliseconds);
-            }
-            else stsw.SelectedTime = new TimeSpan(0, 0, stsw.SelectedTimeS);
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, t.Minutes, stsw.SelectedTimeS, t.Milliseconds);
         }
+        else stsw.SelectedTime = new TimeSpan(0, 0, stsw.SelectedTimeS);
     }
     #endregion
 }

@@ -26,7 +26,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <!-- content -->
-                        <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.Row="0">
+                        <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
                             <se:StswSubButton x:Name="OPT_LoadingButton"
                                               DockPanel.Dock="Bottom"
                                               Command="{TemplateBinding Command}"
@@ -51,7 +51,7 @@
                                           Grid.Column="0" Grid.Row="1"
                                           AutomationProperties.AutomationId="HorizontalScrollBar"
                                           Cursor="Arrow"
-                                          IsDynamic="{TemplateBinding IsDynamic}"
+                                          DynamicMode="{TemplateBinding DynamicMode}"
                                           Maximum="{TemplateBinding ScrollableWidth}"
                                           Orientation="Horizontal"
                                           Value="{TemplateBinding HorizontalOffset}"
@@ -61,7 +61,7 @@
                                           Grid.Column="1" Grid.Row="0"
                                           AutomationProperties.AutomationId="VerticalScrollBar"
                                           Cursor="Arrow"
-                                          IsDynamic="{TemplateBinding IsDynamic}"
+                                          DynamicMode="{TemplateBinding DynamicMode}"
                                           Maximum="{TemplateBinding ScrollableHeight}"
                                           Orientation="Vertical"
                                           Value="{TemplateBinding VerticalOffset}"
@@ -78,13 +78,13 @@
                         <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Visible">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
                         </Trigger>
+                        <Trigger Property="DynamicMode" Value="Off">
+                            <Setter Property="Grid.ColumnSpan" Value="1" TargetName="OPT_Content"/>
+                            <Setter Property="Grid.RowSpan" Value="1" TargetName="OPT_Content"/>
+                        </Trigger>
                         <Trigger Property="IsBusy" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Spinner"/>
-                        </Trigger>
-                        <Trigger Property="IsDynamic" Value="True">
-                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_Content"/>
-                            <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_Content"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource StswScroll.Disabled.Foreground}"/>
@@ -122,7 +122,7 @@
             <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Grid.Row="0"
                                             Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
             <!-- content-->
-            <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+            <DockPanel x:Name="OPT_Content" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2">
                 <se:StswSubButton x:Name="OPT_LoadingButton"
                                   DockPanel.Dock="Bottom"
                                   Command="{TemplateBinding Command}"
@@ -145,7 +145,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <se:StswScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1"
-                                  IsDynamic="{TemplateBinding IsDynamic}"
+                                  DynamicMode="{TemplateBinding DynamicMode}"
                                   Maximum="{TemplateBinding ScrollableWidth}"
                                   Orientation="Horizontal"
                                   Value="{TemplateBinding HorizontalOffset}"
@@ -153,7 +153,7 @@
                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
             </Grid>
             <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Grid.Row="1"
-                              IsDynamic="{TemplateBinding IsDynamic}"
+                              DynamicMode="{TemplateBinding DynamicMode}"
                               Maximum="{TemplateBinding ScrollableHeight}"
                               Orientation="Vertical"
                               Value="{TemplateBinding VerticalOffset}"
@@ -168,13 +168,13 @@
             <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Visible">
                 <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
             </Trigger>
+            <Trigger Property="DynamicMode" Value="Off">
+                <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_Content"/>
+                <Setter Property="Grid.RowSpan" Value="1" TargetName="OPT_Content"/>
+            </Trigger>
             <Trigger Property="IsBusy" Value="True">
                 <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_LoadingButton"/>
                 <Setter Property="Visibility" Value="Visible" TargetName="OPT_Spinner"/>
-            </Trigger>
-            <Trigger Property="IsDynamic" Value="True">
-                <Setter Property="Grid.ColumnSpan" Value="3" TargetName="OPT_Content"/>
-                <Setter Property="Grid.RowSpan" Value="2" TargetName="OPT_Content"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

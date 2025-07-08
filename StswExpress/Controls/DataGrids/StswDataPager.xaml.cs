@@ -148,10 +148,10 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     public static void OnCurrentPageChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDataPager stsw)
-        {
-            stsw.RefreshCurrentPageItems();
-        }
+        if (obj is not StswDataPager stsw)
+            return;
+
+        stsw.RefreshCurrentPageItems();
     }
 
     /// <summary>
@@ -207,10 +207,10 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDataPager stsw)
-        {
-            stsw.RecalculatePagination();
-        }
+        if (obj is not StswDataPager stsw)
+            return;
+
+        stsw.RecalculatePagination();
     }
 
     /// <summary>

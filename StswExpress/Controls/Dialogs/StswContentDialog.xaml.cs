@@ -334,47 +334,47 @@ public class StswContentDialog : ContentControl
         );
     private static void OnIsOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswContentDialog stsw)
+        if (obj is not StswContentDialog stsw)
+            return;
+
+        VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
+
+        if (!stsw.IsOpen)
         {
-            VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
-
-            if (!stsw.IsOpen)
+            object? closeParameter = null;
+            if (stsw.CurrentSession is { } session)
             {
-                object? closeParameter = null;
-                if (stsw.CurrentSession is { } session)
-                {
-                    if (!session.IsEnded)
-                        session.Close(session.CloseParameter);
-                    
-                    if (!session.IsEnded)
-                        throw new InvalidOperationException($"Cannot cancel dialog closing after {nameof(IsOpen)} property has been set to {bool.FalseString}");
-                    
-                    closeParameter = session.CloseParameter;
-                    stsw.CurrentSession = null;
-                }
-                stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
-                stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
+                if (!session.IsEnded)
+                    session.Close(session.CloseParameter);
 
-                return;
+                if (!session.IsEnded)
+                    throw new InvalidOperationException($"Cannot cancel dialog closing after {nameof(IsOpen)} property has been set to {bool.FalseString}");
+
+                closeParameter = session.CloseParameter;
+                stsw.CurrentSession = null;
             }
+            stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
+            stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
 
-            stsw.CurrentSession = new StswDialogSession(stsw);
-            var window = Window.GetWindow(stsw);
-            if (!stsw.IsRestoreFocusDisabled)
-            {
-                stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
-                if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
-                    stsw._restoreFocusDialogClose = focusOverride;
-            }
-
-            stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                CommandManager.InvalidateRequerySuggested();
-                var child = stsw.FocusPopup();
-                if (child != null)
-                    Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
-            }));
+            return;
         }
+
+        stsw.CurrentSession = new StswDialogSession(stsw);
+        var window = Window.GetWindow(stsw);
+        if (!stsw.IsRestoreFocusDisabled)
+        {
+            stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
+            if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
+                stsw._restoreFocusDialogClose = focusOverride;
+        }
+
+        stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            CommandManager.InvalidateRequerySuggested();
+            var child = stsw.FocusPopup();
+            if (child != null)
+                Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
+        }));
     }
 
     /// <summary>

@@ -165,14 +165,14 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
         {
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-            {
-                var newBinding = binding.Clone();
-                newBinding.StringFormat = stsw.Format;
-                stsw.SetBinding(TextProperty, newBinding);
-            }
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = stsw.Format;
+            stsw.SetBinding(TextProperty, newBinding);
         }
     }
 
@@ -209,11 +209,11 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-        {
-            if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
-                stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
-        }
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
+            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
     }
 
     /// <summary>
@@ -253,18 +253,18 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-        {
-            /// event for non MVVM programming
-            stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
-        }
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
     }
     private static object? OnValueChanging(DependencyObject obj, object? baseValue)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-            return stsw.MinMaxValidate((T?)baseValue);
-        
-        return baseValue;
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return baseValue;
+
+        return stsw.MinMaxValidate((T?)baseValue);
     }
     #endregion
 }

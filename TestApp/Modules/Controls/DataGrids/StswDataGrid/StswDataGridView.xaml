@@ -16,9 +16,9 @@
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
-            <!-- ScrollBehavior -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollBehavior, Type={x:Type se:StswDataGrid}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollBehavior}" Margin="0 0 0 3" SelectedValue="{Binding ScrollBehavior}"/>
+            <!-- ScrollToItemBehavior -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollToItemBehavior, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollToItemBehavior}" Margin="0 0 0 3" SelectedValue="{Binding ScrollToItemBehavior}"/>
             <!-- SelectionUnit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswDataGrid}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList DataGridSelectionUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
@@ -28,7 +28,7 @@
                          IsEnabled="{Binding IsEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding Items}"
-                         ScrollBehavior="{Binding ScrollBehavior}"
+                         ScrollToItemBehavior="{Binding ScrollToItemBehavior}"
                          SelectionUnit="{Binding SelectionUnit}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

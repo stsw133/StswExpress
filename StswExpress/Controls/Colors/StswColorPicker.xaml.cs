@@ -175,27 +175,27 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
+        if (obj is not StswColorPicker stsw)
+            return;
+
+        StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
+        stsw.SelectedColorA = stsw.SelectedColor.A;
+        stsw.SelectedColorR = stsw.SelectedColor.R;
+        stsw.SelectedColorG = stsw.SelectedColor.G;
+        stsw.SelectedColorB = stsw.SelectedColor.B;
+
+        if (!stsw._blockColorEllipse)
         {
-            StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
-            stsw.SelectedColorA = stsw.SelectedColor.A;
-            stsw.SelectedColorR = stsw.SelectedColor.R;
-            stsw.SelectedColorG = stsw.SelectedColor.G;
-            stsw.SelectedColorB = stsw.SelectedColor.B;
-
-            if (!stsw._blockColorEllipse)
-            {
-                stsw.PickedColor = StswFnUI.ColorFromHsv(h, s, 1);
-                if (stsw._colorGrid != null)
-                    stsw.UpdateEllipsePosition(stsw._colorGrid);
-            }
-
-            stsw.SelectedColorV = v;
-            stsw._blockColorEllipse = false;
-
-            /// event for non MVVM programming
-            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
+            stsw.PickedColor = StswFnUI.ColorFromHsv(h, s, 1);
+            if (stsw._colorGrid != null)
+                stsw.UpdateEllipsePosition(stsw._colorGrid);
         }
+
+        stsw.SelectedColorV = v;
+        stsw._blockColorEllipse = false;
+
+        /// event for non MVVM programming
+        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
     }
 
     /// <summary>
@@ -216,8 +216,10 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
+        if (obj is not StswColorPicker stsw)
+            return;
+
+        stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
 
     /// <summary>
@@ -238,8 +240,10 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
+        if (obj is not StswColorPicker stsw)
+            return;
+
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
 
     /// <summary>
@@ -261,8 +265,10 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
+        if (obj is not StswColorPicker stsw)
+            return;
+
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
     }
 
     /// <summary>
@@ -283,8 +289,10 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
+        if (obj is not StswColorPicker stsw)
+            return;
+        
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
     }
 
     /// <summary>
@@ -304,12 +312,12 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     public static void OnSelectedColorVChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorPicker stsw)
-        {
-            StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
-            stsw.SelectedColor = StswFnUI.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
-            stsw._blockColorEllipse = true;
-        }
+        if (obj is not StswColorPicker stsw)
+            return;
+
+        StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
+        stsw.SelectedColor = StswFnUI.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+        stsw._blockColorEllipse = true;
     }
     #endregion
 

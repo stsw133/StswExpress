@@ -80,10 +80,10 @@ public class StswPopup : Popup, IStswCornerControl
         );
     public static void OnScrollTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPopup stsw)
-        {
-            stsw.Init();
-        }
+        if (obj is not StswPopup stsw)
+            return;
+
+        stsw.Init();
     }
     #endregion
 

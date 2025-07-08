@@ -131,14 +131,14 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
     public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPasswordBox stsw)
-        {
-            if (stsw._passwordBox != null && !stsw._isPasswordChanging)
-                stsw._passwordBox.Password = stsw.Password;
+        if (obj is not StswPasswordBox stsw)
+            return;
 
-            /// event for non MVVM programming
-            stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
-        }
+        if (stsw._passwordBox != null && !stsw._isPasswordChanging)
+            stsw._passwordBox.Password = stsw.Password;
+
+        /// event for non MVVM programming
+        stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <inheritdoc/>

@@ -163,11 +163,11 @@ public class StswImage : Control, IStswCornerControl
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswImage stsw)
-        {
-            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        }
+        if (obj is not StswImage stsw)
+            return;
+
+        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
     }
 
     /// <summary>

@@ -230,11 +230,11 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
     public static void OnFilterTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswComboBox stsw)
-        {
-            if (stsw.ItemsSource is ICollectionView collectionView && stsw.IsFilterEnabled)
-                collectionView.Refresh();
-        }
+        if (obj is not StswComboBox stsw)
+            return;
+
+        if (stsw.ItemsSource is ICollectionView collectionView && stsw.IsFilterEnabled)
+            collectionView.Refresh();
     }
 
     /// <inheritdoc/>
@@ -283,18 +283,18 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
     public static void OnIsFilterEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswComboBox stsw)
-        {
-            if (stsw.IsFilterEnabled && stsw.ItemsSource != null && stsw.ItemsSource is not ICollectionView)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+        if (obj is not StswComboBox stsw)
+            return;
 
-            if (stsw.ItemsSource is ICollectionView collectionView)
-            {
-                if (stsw.IsFilterEnabled)
-                    collectionView.Filter += stsw.CollectionViewFilter;
-                else
-                    collectionView.Filter -= stsw.CollectionViewFilter;
-            }
+        if (stsw.IsFilterEnabled && stsw.ItemsSource != null && stsw.ItemsSource is not ICollectionView)
+            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+
+        if (stsw.ItemsSource is ICollectionView collectionView)
+        {
+            if (stsw.IsFilterEnabled)
+                collectionView.Filter += stsw.CollectionViewFilter;
+            else
+                collectionView.Filter -= stsw.CollectionViewFilter;
         }
     }
 

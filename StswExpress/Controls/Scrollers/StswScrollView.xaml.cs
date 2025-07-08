@@ -151,6 +151,25 @@ public class StswScrollView : ScrollViewer
     public static void SetCommandTarget(DependencyObject obj, IInputElement? value) => obj.SetValue(CommandTargetProperty, value);
 
     /// <summary>
+    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when not in use).
+    /// If set to <see cref="StswScrollDynamicMode.Full"/>, the scrollbars are shown only when scrolling is needed, hiding when idle.
+    /// </summary>
+    public StswScrollDynamicMode DynamicMode
+    {
+        get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
+        set => SetValue(DynamicModeProperty, value);
+    }
+    public static readonly DependencyProperty DynamicModeProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(DynamicMode),
+            typeof(StswScrollDynamicMode),
+            typeof(StswScrollView),
+            new PropertyMetadata(StswScrollDynamicMode.Off)
+        );
+    public static StswScrollDynamicMode GetDynamicMode(DependencyObject obj) => (StswScrollDynamicMode)obj.GetValue(DynamicModeProperty);
+    public static void SetDynamicMode(DependencyObject obj, StswScrollDynamicMode value) => obj.SetValue(DynamicModeProperty, value);
+
+    /// <summary>
     /// Gets or sets a value indicating whether the scroll viewer is in a busy state.
     /// When set to true, the scroll viewer prevents user interactions, indicating a loading or processing state.
     /// </summary>
@@ -168,25 +187,6 @@ public class StswScrollView : ScrollViewer
         );
     public static bool GetIsBusy(DependencyObject obj) => (bool)obj.GetValue(IsBusyProperty);
     public static void SetIsBusy(DependencyObject obj, bool value) => obj.SetValue(IsBusyProperty, value);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when not in use).
-    /// If set to <see langword="true"/>, the scrollbars are shown only when scrolling is needed, hiding when idle.
-    /// </summary>
-    public bool IsDynamic
-    {
-        get => (bool)GetValue(IsDynamicProperty);
-        set => SetValue(IsDynamicProperty, value);
-    }
-    public static readonly DependencyProperty IsDynamicProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(IsDynamic),
-            typeof(bool),
-            typeof(StswScrollView),
-            new PropertyMetadata(false)
-        );
-    public static bool GetIsDynamic(DependencyObject obj) => (bool)obj.GetValue(IsDynamicProperty);
-    public static void SetIsDynamic(DependencyObject obj, bool value) => obj.SetValue(IsDynamicProperty, value);
     #endregion
 
     #region Excluded properties

@@ -150,15 +150,15 @@ public class StswTimerControl : Control
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        stsw._display?.SetBinding(TextBlock.TextProperty, new Binding(nameof(CurrentTime))
         {
-            stsw._display?.SetBinding(TextBlock.TextProperty, new Binding(nameof(CurrentTime))
-            {
-                Source = stsw,
-                StringFormat = stsw.Format
-            });
-            stsw.UpdateTimerInterval();
-        }
+            Source = stsw,
+            StringFormat = stsw.Format
+        });
+        stsw.UpdateTimerInterval();
     }
 
     /// <summary>
@@ -195,16 +195,16 @@ public class StswTimerControl : Control
         );
     public static void OnIsRunningChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        if ((bool)e.NewValue)
         {
-            if ((bool)e.NewValue)
-            {
-                stsw._lastTickTime = DateTime.Now;
-                stsw._timer.Start();
-            }
-            else
-                stsw._timer.Stop();
+            stsw._lastTickTime = DateTime.Now;
+            stsw._timer.Start();
         }
+        else
+            stsw._timer.Stop();
     }
 
     /// <summary>
@@ -226,23 +226,23 @@ public class StswTimerControl : Control
         );
     public static void OnStartStopResetChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        var newValue = (bool?)e.NewValue;
+        if (newValue == true)
         {
-            var newValue = (bool?)e.NewValue;
-            if (newValue == true)
-            {
-                stsw.CurrentTime = stsw.StartTime;
-                stsw.IsRunning = true;
-            }
-            else if (newValue == false)
-            {
-                stsw.IsRunning = false;
-            }
-            else if (newValue == null)
-            {
-                stsw.IsRunning = false;
-                stsw.CurrentTime = stsw.StartTime;
-            }
+            stsw.CurrentTime = stsw.StartTime;
+            stsw.IsRunning = true;
+        }
+        else if (newValue == false)
+        {
+            stsw.IsRunning = false;
+        }
+        else if (newValue == null)
+        {
+            stsw.IsRunning = false;
+            stsw.CurrentTime = stsw.StartTime;
         }
     }
 

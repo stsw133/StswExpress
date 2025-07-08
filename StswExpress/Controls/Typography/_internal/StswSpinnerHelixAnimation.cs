@@ -53,13 +53,13 @@ internal class StswSpinnerHelixAnimation : Control
         );
     private static void OnIsActiveChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSpinnerHelixAnimation stsw)
-        {
-            if (!stsw.IsLoaded)
-                return;
+        if (obj is not StswSpinnerHelixAnimation stsw)
+            return;
 
-            stsw.IsActive.Do(stsw.InitAnimation, stsw.EndAnimation);
-        }
+        if (!stsw.IsLoaded)
+            return;
+
+        stsw.IsActive.Do(stsw.InitAnimation, stsw.EndAnimation);
     }
     #endregion
 

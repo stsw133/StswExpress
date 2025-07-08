@@ -12,7 +12,7 @@ public partial class StswTimedSwitchContext : ControlsContext
         SwitchTime = (TimeSpan?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SwitchTime)))?.Value ?? default;
     }
 
-    [StswCommand] void EnableTime() => IsChecked = true;
+    [StswCommand] void EnableTimer() => IsChecked = true;
 
     [StswObservableProperty] bool _isChecked;
     [StswObservableProperty] TimeSpan _switchTime;

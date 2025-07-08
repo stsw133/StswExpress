@@ -57,12 +57,12 @@ public class StswSidePanel : ContentControl
         );
     public static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSidePanel stsw)
-        {
-            var newIsCollapsed = !stsw.IsAlwaysVisible;
-            if (stsw.IsCollapsed != newIsCollapsed)
-                stsw.IsCollapsed = newIsCollapsed;
-        }
+        if (obj is not StswSidePanel stsw)
+            return;
+
+        var newIsCollapsed = !stsw.IsAlwaysVisible;
+        if (stsw.IsCollapsed != newIsCollapsed)
+            stsw.IsCollapsed = newIsCollapsed;
     }
 
     /// <summary>

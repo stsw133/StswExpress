@@ -86,11 +86,11 @@ public class StswProgressRing : ProgressBar
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressRing stsw)
-        {
-            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        }
+        if (obj is not StswProgressRing stsw)
+            return;
+
+        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class StswProgressRing : ProgressBar
         );
     public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressRing stsw)
-        {
-            if (stsw.TextMode == StswProgressTextMode.Custom)
-                stsw.Text = string.Empty;
-        }
+        if (obj is not StswProgressRing stsw)
+            return;
+
+        if (stsw.TextMode == StswProgressTextMode.Custom)
+            stsw.Text = string.Empty;
     }
     #endregion
 

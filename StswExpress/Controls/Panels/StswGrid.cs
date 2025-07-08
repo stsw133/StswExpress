@@ -170,10 +170,10 @@ public class StswGrid : Grid
         );
     public static void OnAutoLayoutModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswGrid stsw)
-        {
-            stsw.InvalidateMeasure();
-        }
+        if (obj is not StswGrid stsw)
+            return;
+
+        stsw.InvalidateMeasure();
     }
 
     /// <summary>

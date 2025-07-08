@@ -153,10 +153,10 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswInfoBadge stsw)
-        {
-            stsw.UpdateValue();
-        }
+        if (obj is not StswInfoBadge stsw)
+            return;
+
+        stsw.UpdateValue();
     }
     #endregion
 

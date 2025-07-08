@@ -78,16 +78,18 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
     private static void OnAutoCloseChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSplitButton stsw)
+        if (obj is not StswSplitButton stsw)
+            return;
+
+        if (stsw.Items != null)
         {
-            if (stsw.Items != null)
-                foreach (var btn in stsw.Items.OfType<ButtonBase>())
-                {
-                    if (stsw.AutoClose)
-                        btn.Click += (_, _) => stsw.IsDropDownOpen = false;
-                    else
-                        btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
-                }
+            foreach (var btn in stsw.Items.OfType<ButtonBase>())
+            {
+                if (stsw.AutoClose)
+                    btn.Click += (_, _) => stsw.IsDropDownOpen = false;
+                else
+                    btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
+            }
         }
     }
 

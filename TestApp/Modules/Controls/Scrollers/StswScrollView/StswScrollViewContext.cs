@@ -8,14 +8,14 @@ public partial class StswScrollViewContext : ControlsContext
     {
         base.SetDefaults();
 
+        DynamicMode = (StswScrollDynamicMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(DynamicMode)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
-        IsDynamic = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDynamic)))?.Value ?? default;
         HorizontalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalScrollBarVisibility)))?.Value ?? default;
         VerticalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalScrollBarVisibility)))?.Value ?? default;
     }
 
+    [StswObservableProperty] StswScrollDynamicMode _dynamicMode;
     [StswObservableProperty] bool _isBusy;
-    [StswObservableProperty] bool _isDynamic;
     [StswObservableProperty] ScrollBarVisibility _horizontalScrollBarVisibility;
     [StswObservableProperty] ScrollBarVisibility _verticalScrollBarVisibility;
 }

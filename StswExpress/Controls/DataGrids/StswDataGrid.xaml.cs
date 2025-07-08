@@ -70,7 +70,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         ApplyFilters();
 
-        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
 
@@ -122,7 +122,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     {
         base.OnItemsChanged(e);
 
-        if (ScrollBehavior == StswScrollBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
             Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
 
         UpdateOuterScrollVisibility();
@@ -159,7 +159,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     {
         base.OnSelectionChanged(e);
 
-        if (ScrollBehavior == StswScrollBehavior.OnSelection && SelectedItem != null)
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
 
@@ -382,13 +382,13 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         );
     private static void OnFiltersDataChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDataGrid stsw)
+        if (obj is not StswDataGrid stsw)
+            return;
+
+        if (e.NewValue is StswDataGridFiltersDataModel filtersData)
         {
-            if (e.NewValue is StswDataGridFiltersDataModel filtersData)
-            {
-                filtersData.Clear = stsw.ClearFilters;
-                filtersData.Apply = stsw.ApplyFilters;
-            }
+            filtersData.Clear = stsw.ClearFilters;
+            filtersData.Apply = stsw.ApplyFilters;
         }
     }
 
@@ -459,17 +459,17 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         );
 
     /// <summary>
-    /// Gets or sets the behavior of the scroll bar when the data grid is empty.
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    public StswScrollBehavior ScrollBehavior
+    public StswScrollToItemBehavior ScrollToItemBehavior
     {
-        get => (StswScrollBehavior)GetValue(ScrollBehaviorProperty);
-        set => SetValue(ScrollBehaviorProperty, value);
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
     }
-    public static readonly DependencyProperty ScrollBehaviorProperty
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
         = DependencyProperty.Register(
-            nameof(ScrollBehavior),
-            typeof(StswScrollBehavior),
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
             typeof(StswDataGrid)
         );
     #endregion

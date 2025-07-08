@@ -5,7 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A <see cref="ScrollBar"/> extension with dynamic visibility and animated resizing.
 /// Supports automatic expansion when hovered over.
@@ -17,7 +18,7 @@ public class StswScrollBar : ScrollBar
     private Border? _border;
 
     static StswScrollBar()
-	{
+    {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(typeof(StswScrollBar)));
     }
 
@@ -27,35 +28,27 @@ public class StswScrollBar : ScrollBar
     {
         base.OnApplyTemplate();
 
-        /// Border
-        if (GetTemplateChild("PART_Border") is Border border)
-            _border = border;
+        _border = GetTemplateChild("PART_Border") as Border;
 
-        /// Orientation
         if (Orientation == Orientation.Vertical)
         {
-            if (GetTemplateChild("PART_LineUpButton") is ButtonBase btnUp)
-                _arrowButton1 = btnUp;
-            if (GetTemplateChild("PART_LineDownButton") is ButtonBase btnDown)
-                _arrowButton2 = btnDown;
+            _arrowButton1 = GetTemplateChild("PART_LineUpButton") as ButtonBase;
+            _arrowButton2 = GetTemplateChild("PART_LineDownButton") as ButtonBase;
         }
         else
         {
-            if (GetTemplateChild("PART_LineLeftButton") is ButtonBase btnLeft)
-                _arrowButton1 = btnLeft;
-            if (GetTemplateChild("PART_LineRightButton") is ButtonBase btnRight)
-                _arrowButton2 = btnRight;
+            _arrowButton1 = GetTemplateChild("PART_LineLeftButton") as ButtonBase;
+            _arrowButton2 = GetTemplateChild("PART_LineRightButton") as ButtonBase;
         }
 
-        /// IsDynamic
-        OnIsDynamicChanged(this, new DependencyPropertyChangedEventArgs());
+        OnDynamicModeChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-        if (IsDynamic)
+        if (DynamicMode != StswScrollDynamicMode.Off)
             MouseEnterAnimation();
     }
 
@@ -63,7 +56,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        if (IsDynamic)
+        if (DynamicMode != StswScrollDynamicMode.Off)
             MouseLeaveAnimation();
     }
 
@@ -71,8 +64,52 @@ public class StswScrollBar : ScrollBar
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);
-        if (IsDynamic)
+        if (DynamicMode == StswScrollDynamicMode.Full)
             ValueChangedAnimation();
+    }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
+    /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
+    /// </summary>
+    public StswScrollDynamicMode DynamicMode
+    {
+        get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
+        set => SetValue(DynamicModeProperty, value);
+    }
+    public static readonly DependencyProperty DynamicModeProperty
+        = DependencyProperty.Register(
+            nameof(DynamicMode),
+            typeof(StswScrollDynamicMode),
+            typeof(StswScrollBar),
+            new PropertyMetadata(default(StswScrollDynamicMode), OnDynamicModeChanged)
+        );
+    public static void OnDynamicModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is not StswScrollBar stsw)
+            return;
+
+        stsw.StopAllAnimations();
+
+        if (stsw.DynamicMode == StswScrollDynamicMode.Off)
+        {
+            stsw.SetSize(stsw.ExpandedSize);
+            stsw.Opacity = 1;
+            stsw._border?.SetCurrentValue(OpacityProperty, 1d);
+            stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 1d);
+            stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 1d);
+        }
+        else
+        {
+            stsw.SetSize(stsw.CollapsedSize);
+            stsw.Opacity = stsw.DynamicMode == StswScrollDynamicMode.Full ? 0 : 1;
+            var showDecor = stsw.DynamicMode == StswScrollDynamicMode.Off;
+            stsw._border?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
+            stsw._arrowButton1?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
+            stsw._arrowButton2?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
+        }
     }
     #endregion
 
@@ -110,211 +147,173 @@ public class StswScrollBar : ScrollBar
             typeof(StswScrollBar),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
-    /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
-    /// </summary>
-    public bool IsDynamic
-    {
-        get => (bool)GetValue(IsDynamicProperty);
-        set => SetValue(IsDynamicProperty, value);
-    }
-    public static readonly DependencyProperty IsDynamicProperty
-        = DependencyProperty.Register(
-            nameof(IsDynamic),
-            typeof(bool),
-            typeof(StswScrollBar),
-            new PropertyMetadata(default(bool), OnIsDynamicChanged)
-        );
-    public static void OnIsDynamicChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswScrollBar stsw)
-        {
-            /// height & width
-            var newSize = stsw.IsDynamic ? stsw.CollapsedSize : stsw.ExpandedSize;
-
-            if (stsw.Orientation == Orientation.Horizontal)
-                stsw.Height = newSize;
-            else
-                stsw.Width = newSize;
-
-            /// opacity
-            var newOpacity = stsw.IsDynamic ? 0 : 1;
-
-            if (stsw._border != null)
-                stsw._border.Opacity = newOpacity;
-            if (stsw._arrowButton1 != null)
-                stsw._arrowButton1.Opacity = newOpacity;
-            if (stsw._arrowButton2 != null)
-                stsw._arrowButton2.Opacity = newOpacity;
-        }
-    }
     #endregion
 
     #region Animations
     /// <summary>
+    /// Animates the opacity of the scroll bar to fade out after a specified delay.
+    /// </summary>
+    /// <param name="delay">The delay before the fade-out animation starts.</param>
+    private void AnimateOpacityWithDelayedFadeOut()
+    {
+        if (!StswSettings.Default.EnableAnimations || DynamicMode != StswScrollDynamicMode.Full)
+        {
+            SetOpacity(this, DynamicMode == StswScrollDynamicMode.Full ? 0 : 1);
+            return;
+        }
+
+        var hold = new DoubleAnimation(1, TimeSpan.FromMilliseconds(500))
+        {
+            BeginTime = TimeSpan.Zero,
+            FillBehavior = FillBehavior.HoldEnd
+        };
+
+        var storyboard = new Storyboard();
+
+        var fade = new DoubleAnimation(0, TimeSpan.FromMilliseconds(300))
+        {
+            BeginTime = TimeSpan.FromSeconds(5),
+            EasingFunction = new CubicEase(),
+            FillBehavior = FillBehavior.HoldEnd
+        };
+
+        Storyboard.SetTarget(hold, this);
+        Storyboard.SetTargetProperty(hold, new PropertyPath(OpacityProperty));
+        Storyboard.SetTarget(fade, this);
+        Storyboard.SetTargetProperty(fade, new PropertyPath(OpacityProperty));
+
+        storyboard.Children.Add(hold);
+        storyboard.Children.Add(fade);
+        storyboard.Begin();
+    }
+
+    /// <summary>
+    /// Animates the opacity of the specified UI element to the target value.
+    /// </summary>
+    /// <param name="element">The UI element to animate.</param>
+    /// <param name="toValue">The target opacity value.</param>
+    /// <param name="duration">The duration of the animation.</param>
+    /// <param name="delay">An optional delay before the animation starts.</param>
+    private void AnimateOpacity(UIElement? element, double toValue, TimeSpan duration, TimeSpan? delay = null)
+    {
+        if (!StswSettings.Default.EnableAnimations || element == null)
+        {
+            SetOpacity(element, toValue);
+            return;
+        }
+
+        var anim = new DoubleAnimation(toValue, duration)
+        {
+            EasingFunction = new CubicEase(),
+            FillBehavior = FillBehavior.HoldEnd
+        };
+
+        element.BeginAnimation(OpacityProperty, anim);
+    }
+
+    /// <summary>
+    /// Animates the size of the scroll bar to the specified value.
+    /// </summary>
+    /// <param name="toValue">The target size value to animate to.</param>
+    private void AnimateSize(double toValue)
+    {
+        if (!StswSettings.Default.EnableAnimations)
+        {
+            SetSize(toValue);
+            return;
+        }
+
+        var anim = new DoubleAnimation(toValue, TimeSpan.FromMilliseconds(500))
+        {
+            EasingFunction = new CubicEase(),
+            FillBehavior = FillBehavior.HoldEnd
+        };
+
+        var prop = Orientation == Orientation.Horizontal ? HeightProperty : WidthProperty;
+        BeginAnimation(prop, anim);
+    }
+
+    /// <summary>
     /// Animates the control when the mouse enters.
-    /// Expands the scroll bar's width, increases opacity, and shows arrow buttons with a smooth animation.
     /// </summary>
     private void MouseEnterAnimation()
     {
-        var duration = TimeSpan.FromMilliseconds(500);
-
-        var sb = new Storyboard();
-
-        var widthAnim = new DoubleAnimation(
-            toValue: ExpandedSize,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        widthAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(widthAnim);
-        Storyboard.SetTarget(widthAnim, this);
-        Storyboard.SetTargetProperty(widthAnim, new PropertyPath(Orientation == Orientation.Horizontal ? HeightProperty : WidthProperty));
-
-        var backgroundOpacityAnim = new DoubleAnimation(
-            toValue: 1,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        backgroundOpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(backgroundOpacityAnim);
-        Storyboard.SetTarget(backgroundOpacityAnim, _border);
-        Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
-
-        var arrow1OpacityAnim = new DoubleAnimation(
-            toValue: 1,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        arrow1OpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(arrow1OpacityAnim);
-        Storyboard.SetTarget(arrow1OpacityAnim, _arrowButton1);
-        Storyboard.SetTargetProperty(arrow1OpacityAnim, new PropertyPath(OpacityProperty));
-
-        var arrow2OpacityAnim = new DoubleAnimation(
-            toValue: 1,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        arrow2OpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(arrow2OpacityAnim);
-        Storyboard.SetTarget(arrow2OpacityAnim, _arrowButton2);
-        Storyboard.SetTargetProperty(arrow2OpacityAnim, new PropertyPath(OpacityProperty));
-
-        var opacityAnim = new DoubleAnimation(
-            toValue: 1,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        opacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(opacityAnim);
-        Storyboard.SetTarget(opacityAnim, this);
-        Storyboard.SetTargetProperty(opacityAnim, new PropertyPath(OpacityProperty));
-
-        sb.Begin();
+        AnimateSize(ExpandedSize);
+        AnimateOpacity(this, 1, TimeSpan.FromMilliseconds(500));
+        AnimateOpacity(_border, 1, TimeSpan.FromMilliseconds(500));
+        AnimateOpacity(_arrowButton1, 1, TimeSpan.FromMilliseconds(500));
+        AnimateOpacity(_arrowButton2, 1, TimeSpan.FromMilliseconds(500));
     }
 
     /// <summary>
     /// Animates the control when the mouse leaves.
-    /// Collapses the scroll bar's width and hides the content (arrows and border) with a smooth animation.
     /// </summary>
     private void MouseLeaveAnimation()
     {
-        var duration = TimeSpan.FromMilliseconds(500);
+        if (Orientation == Orientation.Horizontal)
+            Height = ExpandedSize;
+        else
+            Width = ExpandedSize;
 
-        var sb = new Storyboard();
+        AnimateSize(CollapsedSize);
+        AnimateOpacity(_border, 0, TimeSpan.FromMilliseconds(500));
+        AnimateOpacity(_arrowButton1, 0, TimeSpan.FromMilliseconds(500));
+        AnimateOpacity(_arrowButton2, 0, TimeSpan.FromMilliseconds(500));
+        AnimateOpacityWithDelayedFadeOut();
+    }
 
-        var widthAnim = new DoubleAnimation(
-            toValue: CollapsedSize,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        widthAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(widthAnim);
-        Storyboard.SetTarget(widthAnim, this);
-        Storyboard.SetTargetProperty(widthAnim, new PropertyPath(Orientation == Orientation.Horizontal ? HeightProperty : WidthProperty));
+    /// <summary>
+    /// Stops all animations on the scroll bar and its components.
+    /// </summary>
+    private void StopAllAnimations()
+    {
+        BeginAnimation(OpacityProperty, null);
+        BeginAnimation(HeightProperty, null);
+        BeginAnimation(WidthProperty, null);
+        _border?.BeginAnimation(OpacityProperty, null);
+        _arrowButton1?.BeginAnimation(OpacityProperty, null);
+        _arrowButton2?.BeginAnimation(OpacityProperty, null);
+    }
 
-        var backgroundOpacityAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        backgroundOpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(backgroundOpacityAnim);
-        Storyboard.SetTarget(backgroundOpacityAnim, _border);
-        Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
+    /// <summary>
+    /// Sets the opacity of the specified UI element to a given value, stopping any existing animations.
+    /// </summary>
+    /// <param name="element">The UI element whose opacity is to be set.</param>
+    /// <param name="value">The opacity value to set (0.0 to 1.0).</param>
+    private void SetOpacity(UIElement? element, double value)
+    {
+        if (element != null)
+        {
+            element.BeginAnimation(OpacityProperty, null);
+            element.Opacity = value;
+        }
+    }
 
-        var arrow1OpacityAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        arrow1OpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(arrow1OpacityAnim);
-        Storyboard.SetTarget(arrow1OpacityAnim, _arrowButton1);
-        Storyboard.SetTargetProperty(arrow1OpacityAnim, new PropertyPath(OpacityProperty));
+    /// <summary>
+    /// Sets the size of the scroll bar based on its orientation.
+    /// </summary>
+    /// <param name="value">The size value to set.</param>
+    private void SetSize(double value)
+    {
+        var property = Orientation == Orientation.Horizontal ? HeightProperty : WidthProperty;
+        BeginAnimation(property, null);
 
-        var arrow2OpacityAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        arrow2OpacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(arrow2OpacityAnim);
-        Storyboard.SetTarget(arrow2OpacityAnim, _arrowButton2);
-        Storyboard.SetTargetProperty(arrow2OpacityAnim, new PropertyPath(OpacityProperty));
-
-        var opacityAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        opacityAnim.EasingFunction = new CubicEase();
-        opacityAnim.BeginTime = TimeSpan.FromSeconds(5);
-        sb.Children.Add(opacityAnim);
-        Storyboard.SetTarget(opacityAnim, this);
-        Storyboard.SetTargetProperty(opacityAnim, new PropertyPath(OpacityProperty));
-
-        sb.Begin();
+        if (Orientation == Orientation.Horizontal)
+            Height = value;
+        else
+            Width = value;
     }
 
     /// <summary>
     /// Animates the control when the value changes.
-    /// Makes the scroll bar more visible for a short time and then fades out if not hovered over.
     /// </summary>
     private void ValueChangedAnimation()
     {
         if (IsMouseOver)
             return;
 
-        var duration = TimeSpan.FromMilliseconds(300);
-
-        var sb = new Storyboard();
-
-        var opacityAnim = new DoubleAnimation(
-            toValue: 1,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        opacityAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(opacityAnim);
-        Storyboard.SetTarget(opacityAnim, this);
-        Storyboard.SetTargetProperty(opacityAnim, new PropertyPath(OpacityProperty));
-
-        var reverseOpacityAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: duration,
-            fillBehavior: FillBehavior.HoldEnd
-        );
-        reverseOpacityAnim.EasingFunction = new CubicEase();
-        reverseOpacityAnim.BeginTime = TimeSpan.FromSeconds(5);
-        sb.Children.Add(reverseOpacityAnim);
-        Storyboard.SetTarget(reverseOpacityAnim, this);
-        Storyboard.SetTargetProperty(reverseOpacityAnim, new PropertyPath(OpacityProperty));
-
-        sb.Begin();
+        AnimateOpacity(this, 1, TimeSpan.FromMilliseconds(300));
+        AnimateOpacityWithDelayedFadeOut();
     }
     #endregion
 }

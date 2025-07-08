@@ -151,13 +151,13 @@ public class StswRatingControl : Control, IStswIconControl
         );
     private static void OnDirectionChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswRatingControl stsw)
-        {
-            if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                stsw.Items = [.. stsw.Items.OrderByDescending(x => x.Value)];
-            else
-                stsw.Items = [.. stsw.Items.OrderBy(x => x.Value)];
-        }
+        if (obj is not StswRatingControl stsw)
+            return;
+
+        if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+            stsw.Items = [.. stsw.Items.OrderByDescending(x => x.Value)];
+        else
+            stsw.Items = [.. stsw.Items.OrderBy(x => x.Value)];
     }
 
     /// <inheritdoc/>
@@ -254,36 +254,36 @@ public class StswRatingControl : Control, IStswIconControl
         );
     private static void OnItemsNumberChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswRatingControl stsw)
+        if (obj is not StswRatingControl stsw)
+            return;
+
+        var val = (int)e.NewValue;
+        if (val < 0)
+            val = 0;
+
+        if (val > stsw.Items.Count)
         {
-            var val = (int)e.NewValue;
-            if (val < 0)
-                val = 0;
-
-            if (val > stsw.Items.Count)
+            for (var i = stsw.Items.Count + 1; i <= val; i++)
             {
-                for (var i = stsw.Items.Count + 1; i <= val; i++)
-                {
-                    var newItem = new StswRatingItem { Value = i };
-                    if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                        stsw.Items.Insert(0, newItem);
-                    else
-                        stsw.Items.Add(newItem);
-                }
+                var newItem = new StswRatingItem { Value = i };
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                    stsw.Items.Insert(0, newItem);
+                else
+                    stsw.Items.Add(newItem);
             }
-            else if (val < stsw.Items.Count)
-            {
-                for (var i = stsw.Items.Count - 1; i >= val; i--)
-                {
-                    if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                        stsw.Items.RemoveAt(0);
-                    else
-                        stsw.Items.RemoveAt(stsw.Items.Count - 1);
-                }
-            }
-
-            stsw.Value = stsw.Items.Count(x => x.IsChecked);
         }
+        else if (val < stsw.Items.Count)
+        {
+            for (var i = stsw.Items.Count - 1; i >= val; i--)
+            {
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                    stsw.Items.RemoveAt(0);
+                else
+                    stsw.Items.RemoveAt(stsw.Items.Count - 1);
+            }
+        }
+
+        stsw.Value = stsw.Items.Count(x => x.IsChecked);
     }
 
     /// <summary>
@@ -322,34 +322,34 @@ public class StswRatingControl : Control, IStswIconControl
         );
     private static void OnPlaceholderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswRatingControl stsw)
+        if (obj is not StswRatingControl stsw)
+            return;
+
+        foreach (var item in stsw.Items)
+            item.IsMouseOver = false;
+
+        var val = stsw.Placeholder;
+        if (val is < 0 or null || val > stsw.Items.Count)
+            return;
+
+        var startIndex = stsw.Direction switch
         {
-            foreach (var item in stsw.Items)
-                item.IsMouseOver = false;
-
-            var val = stsw.Placeholder;
-            if (val is < 0 or null || val > stsw.Items.Count)
-                return;
-
-            var startIndex = stsw.Direction switch
-            {
-                ExpandDirection.Down => 0,
-                ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
-                ExpandDirection.Right => 0,
-                ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
-                _ => 0
-            };
-            var endIndex = stsw.Direction switch
-            {
-                ExpandDirection.Down => val,
-                ExpandDirection.Left => stsw.Items.Count,
-                ExpandDirection.Right => val,
-                ExpandDirection.Up => stsw.Items.Count,
-                _ => 0
-            };
-            for (var i = startIndex; i < endIndex; i++)
-                stsw.Items[i].IsMouseOver = true;
-        }
+            ExpandDirection.Down => 0,
+            ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
+            ExpandDirection.Right => 0,
+            ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
+            _ => 0
+        };
+        var endIndex = stsw.Direction switch
+        {
+            ExpandDirection.Down => val,
+            ExpandDirection.Left => stsw.Items.Count,
+            ExpandDirection.Right => val,
+            ExpandDirection.Up => stsw.Items.Count,
+            _ => 0
+        };
+        for (var i = startIndex; i < endIndex; i++)
+            stsw.Items[i].IsMouseOver = true;
     }
 
     /// <summary>
@@ -372,33 +372,33 @@ public class StswRatingControl : Control, IStswIconControl
         );
     private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswRatingControl stsw)
+        if (obj is not StswRatingControl stsw)
+            return;
+
+        stsw.Items.ToList().ForEach(x => x.IsChecked = false);
+
+        var val = stsw.Value;
+        if (val is < 0 or null || val > stsw.Items.Count)
+            return;
+
+        var startIndex = stsw.Direction switch
         {
-            stsw.Items.ToList().ForEach(x => x.IsChecked = false);
-
-            var val = stsw.Value;
-            if (val is < 0 or null || val > stsw.Items.Count)
-                return;
-
-            var startIndex = stsw.Direction switch
-            {
-                ExpandDirection.Down => 0,
-                ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
-                ExpandDirection.Right => 0,
-                ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
-                _ => 0
-            };
-            var endIndex = stsw.Direction switch
-            {
-                ExpandDirection.Down => val,
-                ExpandDirection.Left => stsw.Items.Count,
-                ExpandDirection.Right => val,
-                ExpandDirection.Up => stsw.Items.Count,
-                _ => 0
-            };
-            for (var i = startIndex; i < endIndex; i++)
-                stsw.Items[i].IsChecked = true;
-        }
+            ExpandDirection.Down => 0,
+            ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
+            ExpandDirection.Right => 0,
+            ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
+            _ => 0
+        };
+        var endIndex = stsw.Direction switch
+        {
+            ExpandDirection.Down => val,
+            ExpandDirection.Left => stsw.Items.Count,
+            ExpandDirection.Right => val,
+            ExpandDirection.Up => stsw.Items.Count,
+            _ => 0
+        };
+        for (var i = startIndex; i < endIndex; i++)
+            stsw.Items[i].IsChecked = true;
     }
     #endregion
 

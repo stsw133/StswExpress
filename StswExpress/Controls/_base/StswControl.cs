@@ -49,13 +49,13 @@ public static class StswControl
     public static void SetEnableRippleEffect(DependencyObject obj, bool value) => obj.SetValue(EnableRippleEffectProperty, value);
     private static void OnEnableRippleEffectChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Control stsw)
-        {
-            if ((bool)e.NewValue)
-                stsw.PreviewMouseDown += Button_PreviewMouseDown;
-            else
-                stsw.PreviewMouseDown -= Button_PreviewMouseDown;
-        }
+        if (obj is not Control stsw)
+            return;
+
+        if ((bool)e.NewValue)
+            stsw.PreviewMouseDown += Button_PreviewMouseDown;
+        else
+            stsw.PreviewMouseDown -= Button_PreviewMouseDown;
     }
     private static void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -176,21 +176,21 @@ public static class StswControl
     public static void SetIsBorderless(DependencyObject obj, bool value) => obj.SetValue(IsBorderlessProperty, value);
     private static void OnIsBorderlessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is IStswCornerControl stsw)
+        if (obj is not IStswCornerControl stsw)
+            return;
+
+        if ((bool)e.NewValue)
         {
-            if ((bool)e.NewValue)
-            {
-                stsw.BorderThickness = new(0);
-                stsw.CornerClipping = false;
-                stsw.CornerRadius = new(0);
-            }
-            else if (Application.Current.TryFindResource(obj.GetType()) is Style defaultStyle)
-            {
-                var setters = defaultStyle.Setters.OfType<Setter>();
-                stsw.BorderThickness = (Thickness?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.BorderThickness))?.Value ?? new(0);
-                stsw.CornerClipping = (bool?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerClipping))?.Value ?? false;
-                stsw.CornerRadius = (CornerRadius?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerRadius))?.Value ?? new(0);
-            }
+            stsw.BorderThickness = new(0);
+            stsw.CornerClipping = false;
+            stsw.CornerRadius = new(0);
+        }
+        else if (Application.Current.TryFindResource(obj.GetType()) is Style defaultStyle)
+        {
+            var setters = defaultStyle.Setters.OfType<Setter>();
+            stsw.BorderThickness = (Thickness?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.BorderThickness))?.Value ?? new(0);
+            stsw.CornerClipping = (bool?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerClipping))?.Value ?? false;
+            stsw.CornerRadius = (CornerRadius?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerRadius))?.Value ?? new(0);
         }
     }
 
@@ -207,10 +207,10 @@ public static class StswControl
     public static void SetSubControlsDock(DependencyObject obj, Dock value) => obj.SetValue(SubControlsDockProperty, value);
     private static void OnSubControlsDockChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Control control)
-        {
-            if ((control.Template.FindName("OPT_SubControls", control) ?? control.Template.FindName("PART_SubControls", control)) is ItemsControl itemsControl)
-                DockPanel.SetDock(itemsControl, (Dock?)e.NewValue ?? (Dock)SubControlsDockProperty.DefaultMetadata.DefaultValue);
-        }
+        if (obj is not Control control)
+            return;
+
+        if ((control.Template.FindName("OPT_SubControls", control) ?? control.Template.FindName("PART_SubControls", control)) is ItemsControl itemsControl)
+            DockPanel.SetDock(itemsControl, (Dock?)e.NewValue ?? (Dock)SubControlsDockProperty.DefaultMetadata.DefaultValue);
     }
 }

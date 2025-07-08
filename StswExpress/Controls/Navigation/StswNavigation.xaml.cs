@@ -201,25 +201,25 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     public static void OnLastSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigation stsw)
+        if (obj is not StswNavigation stsw)
+            return;
+
+        var oldItem = e.OldValue as StswNavigationElement;
+        var newItem = e.NewValue as StswNavigationElement;
+
+        if (oldItem == newItem)
+            return;
+
+        if (!stsw.isLastSelectedItemChanging)
         {
-            var oldItem = e.OldValue as StswNavigationElement;
-            var newItem = e.NewValue as StswNavigationElement;
+            stsw.isLastSelectedItemChanging = true;
 
-            if (oldItem == newItem)
-                return;
+            if (oldItem != null)
+                oldItem.IsChecked = false;
+            if (newItem != null)
+                newItem.IsChecked = true;
 
-            if (!stsw.isLastSelectedItemChanging)
-            {
-                stsw.isLastSelectedItemChanging = true;
-
-                if (oldItem != null)
-                    oldItem.IsChecked = false;
-                if (newItem != null)
-                    newItem.IsChecked = true;
-
-                stsw.isLastSelectedItemChanging = false;
-            }
+            stsw.isLastSelectedItemChanging = false;
         }
     }
     bool isLastSelectedItemChanging;
@@ -244,23 +244,23 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigation stsw)
+        if (obj is not StswNavigation stsw)
+            return;
+
+        /// get back all items from compact panel into original expander
+        if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
         {
-            /// get back all items from compact panel into original expander
-            if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
+            if (stsw.TabStripMode == StswCompactibility.Full)
             {
-                if (stsw.TabStripMode == StswCompactibility.Full)
-                {
-                    stsw.CompactedExpander.Items.Clear();
-                    foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
-                        stsw.CompactedExpander.Items.Add(item);
-                }
-                else if (stsw.TabStripMode == StswCompactibility.Compact)
-                {
-                    stsw.ItemsCompact.Clear();
-                    foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
-                        stsw.ItemsCompact.Add(item);
-                }
+                stsw.CompactedExpander.Items.Clear();
+                foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
+                    stsw.CompactedExpander.Items.Add(item);
+            }
+            else if (stsw.TabStripMode == StswCompactibility.Compact)
+            {
+                stsw.ItemsCompact.Clear();
+                foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
+                    stsw.ItemsCompact.Add(item);
             }
         }
     }

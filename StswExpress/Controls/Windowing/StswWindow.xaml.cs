@@ -202,18 +202,18 @@ public class StswWindow : Window, IStswCornerControl
         );
     public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw)
+        if (obj is not StswWindow stsw)
+            return;
+
+        if (stsw._windowBar != null)
         {
-            if (stsw._windowBar != null)
-            {
-                if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
-                    return;
+            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
+                return;
 
-                stsw.HandleEnteringFullscreen(stsw.Fullscreen);
+            stsw.HandleEnteringFullscreen(stsw.Fullscreen);
 
-                /// event for non MVVM programming
-                stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
-            }
+            /// event for non MVVM programming
+            stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
         }
     }
     #endregion
@@ -248,13 +248,13 @@ public class StswWindow : Window, IStswCornerControl
         );
     public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw)
+        if (obj is not StswWindow stsw)
+            return;
+
+        if (!stsw.IsLoaded)
         {
-            if (!stsw.IsLoaded)
-            {
-                var cr = stsw.CornerRadius;
-                stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
-            }
+            var cr = stsw.CornerRadius;
+            stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
         }
     }
     #endregion

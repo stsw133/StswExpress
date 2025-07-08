@@ -12,7 +12,7 @@ public partial class StswDataGridContext : ControlsContext
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
-        ScrollBehavior = (StswScrollBehavior?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ScrollBehavior)))?.Value ?? default;
+        ScrollToItemBehavior = (StswScrollToItemBehavior?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ScrollToItemBehavior)))?.Value ?? default;
         SelectionUnit = (DataGridSelectionUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
@@ -33,7 +33,7 @@ public partial class StswDataGridContext : ControlsContext
     [StswObservableProperty] bool _isBusy;
     [StswObservableProperty] bool _isReadOnly;
     [StswObservableProperty] StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
-    [StswObservableProperty] StswScrollBehavior _scrollBehavior;
+    [StswObservableProperty] StswScrollToItemBehavior _scrollToItemBehavior;
     [StswObservableProperty] DataGridSelectionUnit _selectionUnit;
 }
 

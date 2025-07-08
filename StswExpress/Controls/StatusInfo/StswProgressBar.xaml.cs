@@ -105,11 +105,11 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressBar stsw)
-        {
-            if (stsw.TextMode == StswProgressTextMode.Custom)
-                stsw.Text = string.Empty;
-        }
+        if (obj is not StswProgressBar stsw)
+            return;
+
+        if (stsw.TextMode == StswProgressTextMode.Custom)
+            stsw.Text = string.Empty;
     }
     #endregion
 

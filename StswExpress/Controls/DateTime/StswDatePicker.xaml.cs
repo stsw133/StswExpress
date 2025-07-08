@@ -149,15 +149,15 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        stsw.Format ??= "d";
+        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
         {
-            stsw.Format ??= "d";
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-            {
-                var newBinding = binding.Clone();
-                newBinding.StringFormat = stsw.Format;
-                stsw.SetBinding(TextProperty, newBinding);
-            }
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = stsw.Format;
+            stsw.SetBinding(TextProperty, newBinding);
         }
     }
 
@@ -208,11 +208,11 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
-        {
-            if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
-                stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
-        }
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
+            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
     }
 
     /// <summary>
@@ -250,18 +250,18 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
-        {
-            /// event for non MVVM programming
-            stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
-        }
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
     }
     private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)
     {
-        if (obj is StswDatePicker stsw)
-            return stsw.MinMaxValidate((DateTime?)baseValue);
+        if (obj is not StswDatePicker stsw)
+            return baseValue;
 
-        return baseValue;
+        return stsw.MinMaxValidate((DateTime?)baseValue);
     }
 
     /// <summary>

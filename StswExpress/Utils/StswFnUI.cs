@@ -255,6 +255,39 @@ public static class StswFnUI
     }
     #endregion
 
+    #region Compare functions
+    /// <summary>
+    /// Compares two models of the same type and returns a dictionary indicating whether each property value is equal.
+    /// </summary>
+    /// <typeparam name="T">The type of the models to compare.</typeparam>
+    /// <param name="model1">The first model to compare.</param>
+    /// <param name="model2">The second model to compare.</param>
+    /// <returns>The dictionary where the key is the property name and the value is a boolean indicating whether the property values are equal.</returns>
+    [Stsw("0.19.0", Changes = StswPlannedChanges.None, IsTested = false)]
+    public static Dictionary<string, bool> CompareModels<T>(T model1, T model2)
+    {
+        var result = new Dictionary<string, bool>();
+
+        ArgumentNullException.ThrowIfNull(model1, nameof(model1));
+        ArgumentNullException.ThrowIfNull(model2, nameof(model2));
+
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (var prop in properties)
+        {
+            if (!prop.CanRead) continue;
+
+            var value1 = prop.GetValue(model1);
+            var value2 = prop.GetValue(model2);
+
+            var areEqual = Equals(value1, value2);
+            result[prop.Name] = areEqual;
+        }
+
+        return result;
+    }
+    #endregion
+
     #region Convert functions
     /// <summary>
     /// Converts a byte array to a <see cref="BitmapImage"/>.
