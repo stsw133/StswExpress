@@ -23,7 +23,7 @@ namespace StswExpress;
 /// When the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the comparison is <see langword="true"/>; otherwise, <see cref="Visibility.Collapsed"/>.
 /// Otherwise, the result is a <see cref="bool"/> indicating whether the comparison condition was met.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswCompareConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

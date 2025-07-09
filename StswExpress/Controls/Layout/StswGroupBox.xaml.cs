@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// A container control that groups related UI elements under a common header.
 /// </summary>
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswGroupBox : GroupBox, IStswCornerControl
 {
     static StswGroupBox()

@@ -7,7 +7,7 @@ namespace StswExpress;
 /// Represents a button control that continuously triggers an action while it is pressed and held.
 /// This control extends <see cref="RepeatButton"/>, providing additional styling options such as corner rounding.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswRepeatButton : RepeatButton, IStswCornerControl
 {
     static StswRepeatButton()

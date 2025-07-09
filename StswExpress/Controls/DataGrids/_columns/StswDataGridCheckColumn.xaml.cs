@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a checkbox column for <see cref="StswDataGrid"/> that allows selecting boolean values.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
     private static readonly Style StswDisplayElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))

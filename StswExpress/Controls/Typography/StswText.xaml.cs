@@ -8,7 +8,7 @@ namespace StswExpress;
 /// Supports inline text elements for rich text formatting.
 /// </summary>
 [ContentProperty(nameof(Inlines))]
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswText : TextBlock
 {
     static StswText()

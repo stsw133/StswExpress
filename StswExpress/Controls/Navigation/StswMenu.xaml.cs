@@ -6,7 +6,7 @@ namespace StswExpress;
 /// A customizable menu control with extended functionality, 
 /// including support for corner customization and styling.
 /// </summary>
-[Stsw("0.8.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.8.0")]
 public class StswMenu : Menu, IStswCornerControl
 {
     static StswMenu()

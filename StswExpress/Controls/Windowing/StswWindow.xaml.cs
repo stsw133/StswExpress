@@ -18,7 +18,7 @@ namespace StswExpress;
 /// This control enhances the standard WPF window by enabling fullscreen mode, 
 /// managing custom window chrome, and supporting additional UI elements in the title bar.
 /// </remarks>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswWindow : Window, IStswCornerControl
 {
     private double _defaultHeight, _defaultWidth;

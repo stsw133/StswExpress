@@ -19,7 +19,7 @@ namespace StswExpress.Commons;
 /// }
 /// </code>
 /// </example>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public abstract class StswObservableObject : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -38,7 +38,7 @@ public abstract class StswObservableObject : INotifyPropertyChanged
     /// <param name="value">The new value to set.</param>
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed; otherwise, <see langword="false"/>.</returns>
-    protected virtual bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
     {
         if (EqualityComparer<T>.Default.Equals(field, value))
             return false;

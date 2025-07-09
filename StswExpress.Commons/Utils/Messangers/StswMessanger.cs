@@ -29,7 +29,7 @@
 /// }
 /// </code>
 /// </example>
-[Stsw("0.9.2", Changes = StswPlannedChanges.None)]
+[Stsw("0.9.2")]
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];

@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a date column for <see cref="StswDataGrid"/> that allows selecting and displaying dates.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public class StswDataGridDateColumn : DataGridTextColumn
 {
     static StswDataGridDateColumn()
@@ -143,6 +143,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -158,6 +159,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -173,6 +175,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
+    [Stsw("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

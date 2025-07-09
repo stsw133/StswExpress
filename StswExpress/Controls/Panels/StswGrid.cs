@@ -9,7 +9,7 @@ namespace StswExpress;
 /// A custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on its children.
 /// Supports different auto-layout modes.
 /// </summary>
-[Stsw("0.7.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.7.0")]
 public class StswGrid : Grid
 {
     public StswGrid()

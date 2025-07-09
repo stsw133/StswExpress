@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Supports alpha channel selection, dynamic color updates, and precise color adjustments.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswColorPicker : Control, IStswCornerControl
 {
     private FrameworkElement? _colorEllipse, _colorGrid;
@@ -35,7 +35,6 @@ public class StswColorPicker : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// PART_ColorGrid
         if (GetTemplateChild("PART_ColorGrid") is FrameworkElement colorGrid)
         {
             colorGrid.MouseDown += PART_ColorGrid_MouseDown;
@@ -43,9 +42,7 @@ public class StswColorPicker : Control, IStswCornerControl
             colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
             _colorGrid = colorGrid;
         }
-        /// PART_ColorEllipse
-        if (GetTemplateChild("PART_ColorEllipse") is FrameworkElement colorEllipse)
-            _colorEllipse = colorEllipse;
+        _colorEllipse = GetTemplateChild("PART_ColorEllipse") as FrameworkElement;
     }
 
     /// <summary>

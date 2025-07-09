@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Supports custom formats, increment steps, and min/max value validation.
 /// </summary>
 [ContentProperty(nameof(Value))]
-[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.9.0")]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
     static StswNumberBoxBase()
@@ -278,7 +278,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
-[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.9.0")]
 public class StswDecimalBox : StswNumberBoxBase<decimal>
 {
     static StswDecimalBox()
@@ -290,7 +290,7 @@ public class StswDecimalBox : StswNumberBoxBase<decimal>
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
-[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.14.0")]
 public class StswDoubleBox : StswNumberBoxBase<double>
 {
     static StswDoubleBox()
@@ -302,7 +302,7 @@ public class StswDoubleBox : StswNumberBoxBase<double>
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
-[Stsw("0.14.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.14.0")]
 public class StswIntegerBox : StswNumberBoxBase<int>
 {
     static StswIntegerBox()

@@ -545,6 +545,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// Gets or sets the unit used for date selection.
     /// Determines whether the calendar selects individual days or whole months.
     /// </summary>
+    [Stsw("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

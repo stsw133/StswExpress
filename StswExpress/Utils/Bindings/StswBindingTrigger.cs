@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Allows creating a trigger object for data binding purposes.
 /// </summary>
-[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.3.0")]
 public class StswBindingTrigger : INotifyPropertyChanged
 {
     public StswBindingTrigger()

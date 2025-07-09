@@ -146,17 +146,17 @@ public class StswZoomControl : Border
     void Child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) => Reset();
 
     /// <summary>
-    /// 
+    /// Retrieves the ScaleTransform from the RenderTransform of the specified UIElement.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UIElement whose ScaleTransform is to be retrieved.</param>
+    /// <returns>The ScaleTransform applied to the element.</returns>
     private ScaleTransform GetScaleTransform(UIElement element) => (ScaleTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is ScaleTransform);
 
     /// <summary>
-    /// 
+    /// Retrieves the TranslateTransform from the RenderTransform of the specified UIElement.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UIElement whose TranslateTransform is to be retrieved.</param>
+    /// <returns>The TranslateTransform applied to the element.</returns>
     private TranslateTransform GetTranslateTransform(UIElement element) => (TranslateTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is TranslateTransform);
 
     /// <summary>
@@ -196,6 +196,7 @@ public class StswZoomControl : Border
     /// Gets or sets the maximum zoom scale.
     /// This prevents the content from being scaled above the specified value.
     /// </summary>
+    [Stsw("0.16.1")]
     public double? MaxScale
     {
         get => (double?)GetValue(MaxScaleProperty);
@@ -225,8 +226,9 @@ public class StswZoomControl : Border
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the zoom step factor.
     /// </summary>
+    [Stsw("0.16.1")]
     public double ZoomStep
     {
         get => (double)GetValue(ZoomStepProperty);
@@ -242,7 +244,7 @@ public class StswZoomControl : Border
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets the current zoom percentage of the content.
     /// </summary>
     public double ZoomPercentage
     {

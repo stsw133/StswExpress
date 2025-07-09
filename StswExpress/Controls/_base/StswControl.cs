@@ -18,7 +18,7 @@ namespace StswExpress;
 /// This static class offers flexible property extensions that can be applied to various controls 
 /// without modifying their base implementation.
 /// </remarks>
-[Stsw("0.7.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.7.0")]
 public static class StswControl
 {
     /// <summary>

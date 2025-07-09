@@ -7,7 +7,7 @@ namespace StswExpress;
 /// A slider control that allows users to select a numeric value within a range.
 /// Supports custom thumb size, track size, and optional icon inside the thumb.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswSlider : Slider
 {
     static StswSlider()

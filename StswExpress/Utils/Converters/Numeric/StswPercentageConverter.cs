@@ -12,7 +12,7 @@ namespace StswExpress;
 /// - If the value is greater than or equal to `1`, it assumes an absolute percentage (e.g., `75` → `"75%"`).
 /// - The parameter specifies the numeric format (e.g., `"N2"`, `"F1"`, `"0.0"`, etc.).
 /// </summary>
-[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.16.0")]
 public class StswPercentageConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -863,7 +863,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## New Functionality
 
-* Stsw check controls have read only mode controlled by "IsReadOnly" property.
+* Stsw check controls have read-only mode controlled by "IsReadOnly" property.
 * New interface: **IStswScrollableControl**. Other Stsw interfaces are extended too.
 * New property for **StswApp** named "AllowMultipleInstances". If it is set to false then any additional instance of application is automatically closed allowing only one instance to be runned at the same time.
 * New converter: **StswIsTypeConverter**.
@@ -909,7 +909,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 ## New Functionality
 
 * There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker** used to select either file or directory path.
-* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswPathPicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
+* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswFilePicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
 * New control style: **StswContextMenu**.
 * New interface: **IStswBoxControl**. **IStswComponentControl** renamed into **IStswSubControl**.
 * New converter: **StswListFromRangeConverter**.
@@ -1136,7 +1136,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 * All Stsw controls that were using sub-borders use **StswSeparator** instead of **Border**. They also use different property to set its thickness: "SeparatorThickness" that is a double instead of "SubBorderThickness" that was Thickness. It is important to notice that new property requires half of previous value.
 * **StswTabControl** and **StswTextEditor** both use **StswShifter** instead of **StswScrollViewer** (former on tab panel and latter on toolbar).
 * **StswTextEditor** have new property for changing toolbar content from full to compact (with less options) and even collapsing it.
-* All Stsw controls in read only state have different background and foreground brushes.
+* All Stsw controls in read-only state have different background and foreground brushes.
 * All Stsw controls have defined horizontal and vertical alignments in style.
 * Stsw check controls no longer have different FocusVisualStyle when they have content.
 * Base classes for Stsw controls have changed from **UserControl** into either **Control** or **ContentControl**.
@@ -1216,12 +1216,12 @@ In this version, library has been split into two separate libraries: `StswExpres
 * Some functional improvements in **StswNavigation** and **StswNavigationElement** (renamed from **StswNavigationButton** and now can function as both: button and expander).
 * **StswDataGrid** shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".
 * **StswNavigationElement** can take "GroupName" from **StswNavigation**.
-* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent** controls. Additionally, components will no longer be disabled when control is in read only mode.
+* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent** controls. Additionally, components will no longer be disabled when control is in read-only mode.
 * **StswDatePicker** and **StswColorBox** now have function button with Press click mode.
 * **StswLoadingCircle** changes its opacity when disabled instead of fill color (similarly to **StswIcon** and **StswImage**).
 * **StswImage** has different method for paste image from clipboard.
 * **StswSeparator** now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.
-* **StswComboBox** and **StswComboView** can be opened in read only mode (but selection can not be changed).
+* **StswComboBox** and **StswComboView** can be opened in read-only mode (but selection can not be changed).
 * **StswNumericBox** and **StswDatePicker** refreshes "Value"/"SelectedDate" property before incrementing.
 * **StswFilter** has been reworked. Clearing and getting filters data is moved from **StswFilter** to **StswDataGrid**.
 * Improvements for **StswPasswordBox**, **StswWindow**'s title bar, **StswCollection**.

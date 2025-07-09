@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a base data model for chart elements, containing values, descriptions, colors, and interactive properties.
 /// </summary>
-[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.4.0")]
 public class StswChartElementModel : StswObservableObject
 {
     /// <summary>
@@ -86,6 +86,7 @@ public class StswChartElementModel : StswObservableObject
 /// <summary>
 /// Data model for chart items.
 /// </summary>
+[Stsw("0.4.0")]
 internal class StswChartElementColumnModel : StswObservableObject
 {
     /// <summary>
@@ -112,6 +113,7 @@ internal class StswChartElementColumnModel : StswObservableObject
 /// <summary>
 /// Data model for chart items.
 /// </summary>
+[Stsw("0.4.0")]
 internal class StswChartElementPieModel : StswObservableObject
 {
     /// <summary>

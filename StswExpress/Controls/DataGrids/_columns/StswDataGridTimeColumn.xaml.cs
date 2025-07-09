@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a time column for <see cref="StswDataGrid"/> that allows selecting and displaying time values.
 /// </summary>
-[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.16.0")]
 public class StswDataGridTimeColumn : DataGridTextColumn
 {
     static StswDataGridTimeColumn()
@@ -125,6 +125,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -140,6 +141,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -155,6 +157,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
+    [Stsw("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a message interface.
 /// </summary>
-[Stsw("0.9.2", Changes = StswPlannedChanges.None)]
+[Stsw("0.9.2")]
 public interface IStswMessage
 {
 }

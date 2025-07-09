@@ -296,7 +296,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         var newTextDecoration = TextDecorations.Strikethrough;
         if (Selection.GetPropertyValue(Inline.TextDecorationsProperty) is TextDecorationCollection current && current == TextDecorations.Strikethrough)
-            newTextDecoration = new TextDecorationCollection();
+            newTextDecoration = [];
 
         Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, newTextDecoration);
     }

@@ -15,7 +15,7 @@ namespace StswExpress;
 /// The text is rendered with a configurable outline and fill, making it ideal for stylized UI elements.
 /// </remarks>
 [ContentProperty(nameof(Text))]
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswOutlinedText : FrameworkElement
 {
     private FormattedText? _formattedText;

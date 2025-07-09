@@ -19,7 +19,7 @@ namespace StswExpress;
 /// - `"*0.5"` (scales the value by 50%)  
 /// - `"*1.2,1.2,1.2,1.2"` (scales all `CornerRadius` values by 1.2)  
 /// </summary>
-[Stsw("0.9.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.9.0")]
 public class StswCalculateConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This extension allows binding an enumeration to a UI element, providing a list of selection items.
 /// Each item includes a display name and the corresponding enum value.
 /// </remarks>
-[Stsw("0.8.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.8.0")]
 public class StswEnumToListExtension : MarkupExtension
 {
     private readonly Type _enumType;

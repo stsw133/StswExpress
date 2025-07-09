@@ -14,7 +14,7 @@ namespace StswExpress;
 /// while <see langword="false"/> results in <see cref="Visibility.Collapsed"/>.
 /// For other target types, the boolean value is directly converted.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswBoolConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

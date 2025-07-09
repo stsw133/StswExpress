@@ -31,7 +31,7 @@ namespace StswExpress.Commons;
 /// }
 /// </code>
 /// </example>
-[Stsw("0.19.0", Changes = StswPlannedChanges.None, IsTested = false)]
+[Stsw("0.19.0", IsTested = false)]
 public abstract class StswObservableValidator : StswObservableObject, INotifyDataErrorInfo
 {
     private readonly Dictionary<string, List<string>> _errors = [];
@@ -132,12 +132,14 @@ public abstract class StswObservableValidator : StswObservableObject, INotifyDat
     /// <param name="value">The new value to set.</param>
     /// <param name="propertyName">The name of the property. This is optional and can be automatically provided by the compiler.</param>
     /// <returns><see langword="true"/> if the property value was changed and validated; otherwise, <see langword="false"/>.</returns>
-    protected override bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+    protected bool SetValidatedProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
     {
-        var result = base.SetProperty(ref field, value, propertyName);
-        if (result)
+        if (SetProperty(ref field, value, propertyName))
+        {
             ValidateProperty(value, propertyName);
+            return true;
+        }
 
-        return result;
+        return false;
     }
 }

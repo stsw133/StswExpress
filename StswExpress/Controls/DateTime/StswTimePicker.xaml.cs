@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Supports different time formats, min/max validation, and incremental adjustments via mouse scroll.
 /// </summary>
 [ContentProperty(nameof(SelectedTime))]
-[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.5.0")]
 public class StswTimePicker : StswBoxBase
 {
     static StswTimePicker()

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a chart control that visualizes data as vertical columns. 
 /// Automatically adjusts column heights based on data values and resizes dynamically with the control.
 /// </summary>
-[Stsw("0.7.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.7.0")]
 public class StswChartColumns : ItemsControl
 {
     static StswChartColumns()

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Supports different time formats, adjustable start and end times, and automatic updates using a <see cref="DispatcherTimer"/>.
 /// </summary>
 [ContentProperty(nameof(EndTime))]
-[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.10.0")]
 public class StswTimerControl : Control
 {
     private readonly DispatcherTimer _timer = new();
@@ -32,9 +32,8 @@ public class StswTimerControl : Control
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        
-        if (GetTemplateChild("PART_Display") is TextBlock display)
-            _display = display;
+
+        _display = GetTemplateChild("PART_Display") as TextBlock;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }

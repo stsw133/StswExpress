@@ -16,7 +16,7 @@ namespace StswExpress.Commons;
 /// items.Sort(new StswNaturalStringComparer());
 /// </code>
 /// </example>
-[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.10.0")]
 public class StswNaturalStringComparer : IComparer<string>
 {
     private static readonly Regex _tokenRegex = new(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant);

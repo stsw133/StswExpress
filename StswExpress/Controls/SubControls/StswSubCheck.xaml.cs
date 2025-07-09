@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This control is intended for use in toolbars, panels, and other compact UI areas where
 /// a small, checkbox-based toggle is needed.
 /// </remarks>
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//, IStswIconControl
 {
     static StswSubCheck()

@@ -9,7 +9,7 @@ namespace StswExpress;
 /// A secure password input control that hides the entered text.
 /// Supports placeholder text, show/hide password functionality, and validation.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
     private bool _isPasswordChanging;
@@ -61,6 +61,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [Stsw("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -74,6 +75,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [Stsw("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -87,6 +89,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);

@@ -8,7 +8,7 @@ namespace StswExpress;
 /// Represents a button styled as a hyperlink, allowing navigation to a specified URI when clicked.
 /// This control provides a visually distinct link-like appearance while maintaining button behavior.
 /// </summary>
-[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.5.0")]
 public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
     static StswHyperlinkButton()

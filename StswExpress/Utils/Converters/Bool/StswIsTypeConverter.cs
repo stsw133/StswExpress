@@ -14,7 +14,7 @@ namespace StswExpress;
 /// If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.
 /// Otherwise, it returns a <see cref="bool"/> indicating whether the value's type matches the specified type.
 /// </summary>
-[Stsw("0.6.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.6.0")]
 public class StswIsTypeConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This control is designed for use in compact UI areas where a small, icon-based radio button is needed.
 /// It provides enhanced styling options for better visual integration in toolbars, panels, or custom forms.
 /// </remarks>
-[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.4.0")]
 public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRadio()

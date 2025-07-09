@@ -14,7 +14,7 @@ namespace StswExpress;
 /// This extension allows binding to dynamic resources in XAML, enabling automatic updates when the resource changes.
 /// It supports converters, formatting, and fallback values.
 /// </remarks>
-[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.2.0")]
 public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 {
     private StswBindingProxy? _bindingProxy;

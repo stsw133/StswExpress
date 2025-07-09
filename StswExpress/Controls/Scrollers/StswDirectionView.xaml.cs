@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Supports automatic scrolling when hovering over navigation buttons.
 /// This control provides extra navigation buttons for controlling scroll behavior in both horizontal and vertical directions.
 /// </summary>
-[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.2.0")]
 public class StswDirectionView : ScrollViewer
 {
     private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
@@ -70,6 +70,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <inheritdoc/>
+    [Stsw("0.16.0")]
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonDown(e);
@@ -77,6 +78,7 @@ public class StswDirectionView : ScrollViewer
     }
 
     /// <inheritdoc/>
+    [Stsw("0.16.0")]
     protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonUp(e);
@@ -88,8 +90,8 @@ public class StswDirectionView : ScrollViewer
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
-        if (ComputedHorizontalScrollBarVisibility == Visibility.Visible
-        && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
+        if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
             if (e.Delta > 0)
                 ScrollInfo.MouseWheelLeft();
@@ -189,6 +191,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
+    [Stsw("0.16.0")]
     private void HandleMouseEnterOnButton(object sender, MouseEventArgs e)
     {
         if (_isLeftMouseDown)
@@ -215,6 +218,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
+    [Stsw("0.16.0")]
     private void HandleMouseLeaveFromButton(object sender, MouseEventArgs e)
     {
         StopAutoScrollTimer();
@@ -225,6 +229,7 @@ public class StswDirectionView : ScrollViewer
     /// The action will be invoked at regular intervals while the mouse is over the button and the left mouse button is pressed.
     /// </summary>
     /// <param name="interval">The interval to use for auto-scrolling.</param>
+    [Stsw("0.16.0")]
     private void StartAutoScrollTimer(TimeSpan interval)
     {
         if (_autoScrollTimer != null)
@@ -242,6 +247,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The timer instance.</param>
     /// <param name="e">The event arguments.</param>
+    [Stsw("0.16.0")]
     private void AutoScrollTimer_Tick(object? sender, EventArgs e)
     {
         if (_isLeftMouseDown)
@@ -253,6 +259,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Stops the auto-scroll timer and resets the current scroll action.
     /// </summary>
+    [Stsw("0.16.0")]
     private void StopAutoScrollTimer()
     {
         if (_autoScrollTimer != null)
@@ -269,6 +276,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the orientation of the control (horizontal or vertical).
     /// </summary>
+    [Stsw("0.12.0")]
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -287,6 +295,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the thickness of the back (up and left) buttons.
     /// </summary>
+    [Stsw("0.6.0")]
     public Thickness BBtnThickness
     {
         get => (Thickness)GetValue(BBtnThicknessProperty);
@@ -303,6 +312,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the thickness of the forward (down and right) buttons.
     /// </summary>
+    [Stsw("0.6.0")]
     public Thickness FBtnThickness
     {
         get => (Thickness)GetValue(FBtnThicknessProperty);

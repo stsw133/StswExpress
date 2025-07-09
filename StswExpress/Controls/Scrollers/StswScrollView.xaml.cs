@@ -9,7 +9,7 @@ namespace StswExpress;
 /// A <see cref="ScrollViewer"/> extension with dynamic scrolling behavior.
 /// Supports automatic scrolling to the bottom and dynamic visibility of scrollbars.
 /// </summary>
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswScrollView : ScrollViewer
 {
     static StswScrollView()
@@ -22,8 +22,8 @@ public class StswScrollView : ScrollViewer
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
-        if (ComputedHorizontalScrollBarVisibility == Visibility.Visible
-        && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
+        if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
             if (e.Delta > 0)
                 ScrollInfo.MouseWheelLeft();
@@ -52,6 +52,7 @@ public class StswScrollView : ScrollViewer
     }
 
     /// <inheritdoc/>
+    [Stsw("0.7.0")]
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         base.OnScrollChanged(e);
@@ -78,6 +79,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets a value indicating whether auto-scrolling is enabled.
     /// If set to true, the content automatically scrolls to the bottom when new content is added.
     /// </summary>
+    [Stsw("0.7.0")]
     public bool AutoScroll
     {
         get => (bool)GetValue(AutoScrollProperty);
@@ -97,6 +99,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets the command associated with the control.
     /// This property allows binding a command to the scroll control that is executed under certain conditions.
     /// </summary>
+    [Stsw("0.7.0")]
     public ICommand? Command
     {
         get => (ICommand?)GetValue(CommandProperty);
@@ -116,6 +119,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets the parameter to pass to the command associated with the control.
     /// This allows passing additional data to the command when it is executed.
     /// </summary>
+    [Stsw("0.7.0")]
     public object? CommandParameter
     {
         get => (object?)GetValue(CommandParameterProperty);
@@ -135,6 +139,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets the target element on which to execute the command associated with the control.
     /// This allows specifying a target element to run the command on, different from the control itself.
     /// </summary>
+    [Stsw("0.7.0")]
     public IInputElement? CommandTarget
     {
         get => (IInputElement?)GetValue(CommandTargetProperty);
@@ -154,6 +159,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when not in use).
     /// If set to <see cref="StswScrollDynamicMode.Full"/>, the scrollbars are shown only when scrolling is needed, hiding when idle.
     /// </summary>
+    [Stsw("0.19.0")]
     public StswScrollDynamicMode DynamicMode
     {
         get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
@@ -173,6 +179,7 @@ public class StswScrollView : ScrollViewer
     /// Gets or sets a value indicating whether the scroll viewer is in a busy state.
     /// When set to true, the scroll viewer prevents user interactions, indicating a loading or processing state.
     /// </summary>
+    [Stsw("0.7.0")]
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);

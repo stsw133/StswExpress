@@ -14,7 +14,7 @@ namespace StswExpress;
 /// - `<ComboBox ItemsSource="{se:StswListFromRange 1-10}" />`
 /// - `<ListBox ItemsSource="{se:StswListFromRange 5}" />`
 /// </summary>
-[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.16.0")]
 public class StswListFromRangeExtension : MarkupExtension
 {
     /// <summary>

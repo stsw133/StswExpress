@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides a way to store and display pairs of display and value objects for use in selection boxes.
 /// </summary>
-[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.3.0")]
 public partial class StswSelectionItem : StswComboItem, IStswSelectionItem
 {
     /// <summary>

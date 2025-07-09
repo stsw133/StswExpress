@@ -15,7 +15,7 @@ namespace StswExpress;
 /// </remarks>
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
-[Stsw("0.6.1", Changes = StswPlannedChanges.None)]
+[Stsw("0.6.1")]
 public class StswSubError : StswSubLabel
 {
     static StswSubError()

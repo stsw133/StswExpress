@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
 /// </summary>
 [ContentProperty(nameof(Header))]
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswFilterBox : Control, IStswCornerControl
 {
     private ButtonBase? _filterModeButton;
@@ -129,6 +129,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// Generates a filter predicate for use in a CollectionView filter.
     /// </summary>
     /// <returns>A predicate function that evaluates whether an item should be included.</returns>
+    [Stsw("0.15.0")]
     public Predicate<object>? GenerateFilterPredicate()
     {
         if (FilterMode == null)
@@ -315,6 +316,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <param name="text">The text to compare.</param>
     /// <param name="pattern">The LIKE pattern.</param>
     /// <returns><see langword="true"/> if the text matches the pattern, otherwise <see langword="false"/>.</returns>
+    [Stsw("0.15.0")]
     private bool MatchesLikePattern(string? text, string? pattern)
     {
         if (string.IsNullOrEmpty(pattern) || text == null)
@@ -345,6 +347,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
     /// </summary>
+    [Stsw("0.15.0")]
     private void NotifyFilterChanged()
     {
         RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
@@ -382,6 +385,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the menu mode for the filter mode button.
     /// </summary>
+    [Stsw("0.4.1")]
     public StswMenuMode FilterMenuMode
     {
         get => (StswMenuMode)GetValue(FilterMenuModeProperty);
@@ -635,6 +639,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the selection unit of the control.
     /// </summary>
+    [Stsw("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

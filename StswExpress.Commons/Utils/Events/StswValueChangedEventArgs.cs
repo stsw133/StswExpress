@@ -6,7 +6,7 @@
 /// <typeparam name="T">The type of the value that changed.</typeparam>
 /// <param name="oldValue">The previous value before the change.</param>
 /// <param name="newValue">The new value after the change.</param>
-[Stsw("0.14.0", Changes = StswPlannedChanges.None, IsTested = false)]
+[Stsw("0.14.0", IsTested = false)]
 public class StswValueChangedEventArgs<T>(T? oldValue, T? newValue) : EventArgs
 {
     /// <summary>

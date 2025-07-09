@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This control provides a structured way to present status information in an application.
 /// It allows for dynamic updates and styling of individual status bar items.
 /// </remarks>
-[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.16.0")]
 public class StswStatusBar : StatusBar
 {
     static StswStatusBar()

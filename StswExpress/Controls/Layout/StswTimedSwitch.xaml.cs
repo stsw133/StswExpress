@@ -8,7 +8,7 @@ namespace StswExpress;
 /// A switch control that automatically reverts to its default state after a specified duration.
 /// Supports custom content display during the active period.
 /// </summary>
-[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.5.0")]
 public class StswTimedSwitch : CheckBox
 {
     private readonly Timer timer = new() { AutoReset = false };

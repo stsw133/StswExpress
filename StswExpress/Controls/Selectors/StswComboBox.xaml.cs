@@ -14,7 +14,7 @@ namespace StswExpress;/// <summary>
 /// Supports filtering, selection binding, and corner customization.
 /// This control allows filtering of items based on user input and supports displaying icons and custom placeholders.
 /// </summary>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     private TextBoxBase? _filter;
@@ -39,10 +39,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     {
         base.OnApplyTemplate();
 
-        /// Filter
-        if (GetTemplateChild("PART_Filter") is TextBoxBase filter)
-            _filter = filter;
-        /// Popup
+        _filter = GetTemplateChild("PART_Filter") as TextBoxBase;
+        
         if (GetTemplateChild("PART_Popup") is Popup popup)
         {
             popup.Opened += OnIsDropDownOpenChanged;
@@ -56,6 +54,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
+    [Stsw("0.7.0")]
     private void OnIsDropDownOpenChanged(object? sender, EventArgs e)
     {
         if (IsDropDownOpen && IsFilterEnabled)
@@ -97,6 +96,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
     */
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -113,6 +113,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -120,6 +121,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -127,6 +129,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         // causes problem with starting selected value (to verify why it existed)
@@ -148,6 +151,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -168,6 +172,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// </summary>
     /// <param name="obj">The object to filter</param>
     /// <returns><see langword="true"/> if the object should be included, otherwise <see langword="false"/></returns>
+    [Stsw("0.7.0")]
     private bool CollectionViewFilter(object obj)
     {
         if (string.IsNullOrEmpty(FilterText))
@@ -184,6 +189,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
     #region Logic properties
     /// <inheritdoc/>
+    [Stsw("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -199,6 +205,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <summary>
     /// Gets or sets the member path used for filtering.
     /// </summary>
+    [Stsw("0.14.0")]
     public string FilterMemberPath
     {
         get => (string)GetValue(FilterMemberPathProperty);
@@ -214,6 +221,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <summary>
     /// Gets or sets the text used for filtering the items in list.
     /// </summary>
+    [Stsw("0.7.0")]
     public string FilterText
     {
         get => (string)GetValue(FilterTextProperty);
@@ -238,6 +246,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -251,6 +260,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -267,6 +277,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// Gets or sets whether filtering is enabled.
     /// Requires <see cref="ICollectionView"/> as <see cref="ItemsSource"/>.
     /// </summary>
+    [Stsw("0.7.0")]
     public bool IsFilterEnabled
     {
         get => (bool)GetValue(IsFilterEnabledProperty);
@@ -299,6 +310,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
+    [Stsw("0.1.0")]
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -355,6 +367,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <inheritdoc/>
+    [Stsw("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);

@@ -24,7 +24,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="bindingBase">The <see cref="BindingBase"/> to clone.</param>
     /// <returns>A cloned <see cref="BindingBase"/> object.</returns>
-    [Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.4.0")]
     public static BindingBase Clone(this BindingBase bindingBase)
     {
         ArgumentNullException.ThrowIfNull(bindingBase);
@@ -131,7 +131,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method does not perform a deep clone of items unless they explicitly implement <see cref="ICloneable"/>. Items that are not cloneable are included directly in the new collection, which may affect mutability depending on the item's type.
     /// </remarks>
-    [Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.1.0")]
     public static IEnumerable TryClone(this IEnumerable source)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -177,7 +177,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="bmp">The bitmap to convert.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
-    [Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.5.0")]
     public static ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
     {
         IntPtr handle = bmp.GetHbitmap();
@@ -203,7 +203,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="icon">The <see cref="Icon"/> to convert.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
-    [Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.5.0")]
     public static ImageSource ToImageSource(this System.Drawing.Icon icon)
     {
         using var bitmap = icon.ToBitmap();
@@ -233,7 +233,7 @@ public static partial class StswExtensions
     /// <param name="strokeThickness">Stroke thickness of the output image.</param>
     /// <param name="dpi">DPI of the output image. Defaults to 96.</param>
     /// <returns>The converted <see cref="ImageSource"/>.</returns>
-    [Stsw("0.11.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.11.0")]
     public static ImageSource ToImageSource(this Geometry geometry, double size, Brush? fill = null, Brush? stroke = null, double strokeThickness = 0, double dpi = 96)
     {
         var drawingVisual = new DrawingVisual();
@@ -261,7 +261,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="value">The <see cref="Color"/> to convert.</param>
     /// <returns>The converted <see cref="System.Drawing.Color"/>.</returns>
-    [Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.1.0")]
     public static System.Drawing.Color ToDrawingColor(this Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
@@ -269,7 +269,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="color">The color to convert.</param>
     /// <returns>The hexadecimal color string representation of the color (e.g., "#RRGGBB" or "#AARRGGBB").</returns>
-    [Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.1.0")]
     public static string ToHex(this Color color)
     {
         if (color.A < 255)
@@ -283,7 +283,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>
     /// <returns>The converted <see cref="Color"/>.</returns>
-    [Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.1.0")]
     public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
     #endregion
 
@@ -293,7 +293,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="process">The process whose owner is to be determined.</param>
     /// <returns>The username of the owner of the process, or <see langword="null"/> if it cannot be determined.</returns>
-    [Stsw("0.6.0", Changes = StswPlannedChanges.None)]
+    [Stsw("0.6.0")]
     public static string? GetUser(this Process process)
     {
         var processHandle = IntPtr.Zero;

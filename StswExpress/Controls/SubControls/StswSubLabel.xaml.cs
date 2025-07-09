@@ -9,7 +9,7 @@ namespace StswExpress;
 /// This control is designed for use in compact UI elements where an icon and text need to be displayed together,
 /// such as tooltips, labels, or inline notifications.
 /// </remarks>
-[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.4.0")]
 public class StswSubLabel : StswLabel, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubLabel()

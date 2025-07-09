@@ -14,7 +14,7 @@ namespace StswExpress;
 /// This control provides a visual representation of progress in a ring format.
 /// It supports different text display modes and scaling for various UI requirements.
 /// </remarks>
-[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.4.0")]
 public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()
@@ -70,6 +70,7 @@ public class StswProgressRing : ProgressBar
     /// Gets or sets the scale of the progress ring.
     /// Determines the size of the ring in proportion to its default dimensions.
     /// </summary>
+    [Stsw("0.14.0")]
     public GridLength Scale
     {
         get => (GridLength)GetValue(ScaleProperty);

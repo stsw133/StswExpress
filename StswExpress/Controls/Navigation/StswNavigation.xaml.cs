@@ -332,6 +332,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// Gets or sets the width of the navigation items list.
     /// Adjusts the size of the tab strip for a custom layout.
     /// </summary>
+    [Stsw("0.1.0")]
     public double TabStripWidth
     {
         get => (double)GetValue(TabStripWidthProperty);

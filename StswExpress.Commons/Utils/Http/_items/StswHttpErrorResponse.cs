@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a standard error response for Web API calls.
 /// </summary>
-[Stsw("0.19.0", Changes = StswPlannedChanges.None, IsTested = false)]
+[Stsw("0.19.0", IsTested = false)]
 public class StswHttpErrorResponse
 {
     /// <summary>

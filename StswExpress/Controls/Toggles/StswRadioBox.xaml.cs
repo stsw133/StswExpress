@@ -11,7 +11,7 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -30,6 +30,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
@@ -37,6 +38,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -44,6 +46,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -71,6 +74,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     /// Gets or sets a value indicating whether the radio button is in read-only mode.
     /// When set to <see langword="true"/>, the button cannot be toggled.
     /// </summary>
+    [Stsw("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

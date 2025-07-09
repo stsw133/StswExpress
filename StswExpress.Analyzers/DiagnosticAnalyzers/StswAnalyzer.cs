@@ -102,7 +102,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
 
         /// SinceVersion
         var sinceVersion = attr.ConstructorArguments[0].Value?.ToString();
-        if (!string.IsNullOrWhiteSpace(sinceVersion))
+        if (!string.IsNullOrWhiteSpace(sinceVersion) && ShouldReportVersion(sinceVersion))
         {
             var diagnostic = Diagnostic.Create(SinceVersionInfoRule, symbol.Locations[0], symbol.Name, sinceVersion);
             context.ReportDiagnostic(diagnostic);
@@ -141,6 +141,35 @@ public class StswAnalyzer : DiagnosticAnalyzer
                 context.ReportDiagnostic(diagnostic);
             }
         }
+    }
+
+    /// <summary>
+    /// The version of the analyzer assembly.
+    /// </summary>
+    private static readonly Version AnalyzerVersion = typeof(StswAnalyzer).Assembly.GetName().Version ?? new Version(0, 0);
+
+    /// <summary>
+    /// Determines if the version should be reported based on the sinceVersion parameter.
+    /// </summary>
+    /// <param name="sinceVersion">The version string to check.</param>
+    /// <returns><see langword="true"> if the version should be reported, otherwise <see langword="false"/>.</returns>
+    private static bool ShouldReportVersion(string? sinceVersion)
+    {
+        (var major1, var minor1) = ParseVersion(sinceVersion ?? "0.0.0");
+        return (AnalyzerVersion.Major == major1) && (AnalyzerVersion.Minor - minor1 <= 3);
+    }
+
+    /// <summary>
+    /// Parses the version string into major and minor components.
+    /// </summary>
+    /// <param name="version">The version string to parse.</param>
+    /// <returns>A tuple containing the major and minor version numbers.</returns>
+    private static (int major, int minor) ParseVersion(string version)
+    {
+        var parts = version.Split('.');
+        var major = parts.Length > 0 && int.TryParse(parts[0], out var m) ? m : 0;
+        var minor = parts.Length > 1 && int.TryParse(parts[1], out var n) ? n : 0;
+        return (major, minor);
     }
 }
 

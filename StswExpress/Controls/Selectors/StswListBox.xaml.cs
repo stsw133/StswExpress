@@ -12,7 +12,7 @@ namespace StswExpress;
 /// <remarks>
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </remarks>
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswListBox()
@@ -25,6 +25,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -32,6 +33,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -39,6 +41,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -46,6 +49,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -53,6 +57,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -70,6 +75,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [Stsw("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

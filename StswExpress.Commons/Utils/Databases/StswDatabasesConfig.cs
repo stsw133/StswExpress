@@ -6,7 +6,7 @@ namespace StswExpress.Commons;
 /// Provides configuration settings for managing database connections in the application.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.10.0")]
 public class StswDatabasesConfig
 {
     /// <summary>

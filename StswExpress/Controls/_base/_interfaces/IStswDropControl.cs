@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for drop-down controls.
 /// </summary>
-[Stsw("0.4.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.4.0")]
 public interface IStswDropControl
 {
     /// <summary>

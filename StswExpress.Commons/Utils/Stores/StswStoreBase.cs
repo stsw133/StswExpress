@@ -35,7 +35,7 @@
 /// }
 /// </code>
 /// </example>
-[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.10.0")]
 public class StswStoreBase<TModel>
 {
     /// <summary>

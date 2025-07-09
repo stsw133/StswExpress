@@ -40,8 +40,7 @@ public class StswContentDialog : ContentControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_PopupContentElement") is ContentControl popupContentElement)
-            _popupContentElement = popupContentElement;
+        _popupContentElement = GetTemplateChild("PART_PopupContentElement") as ContentControl;
     }
 
     /// <summary>

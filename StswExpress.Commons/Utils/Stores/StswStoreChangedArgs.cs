@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TModel">The type of the items in the store.</typeparam>
 /// <param name="newItems">The new collection of items in the store.</param>
-[Stsw("0.10.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.10.0")]
 public class StswStoreChangedArgs<TModel>(IEnumerable<TModel> newItems) : EventArgs
 {
     /// <summary>

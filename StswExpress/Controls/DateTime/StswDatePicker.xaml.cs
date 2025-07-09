@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Supports custom date formats, min/max date validation, and incremental adjustments via mouse scroll.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswDatePicker : StswBoxBase
 {
     static StswDatePicker()
@@ -268,6 +268,7 @@ public class StswDatePicker : StswBoxBase
     /// Gets or sets the selection unit of the control.
     /// Determines whether the user selects an individual day or an entire month.
     /// </summary>
+    [Stsw("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

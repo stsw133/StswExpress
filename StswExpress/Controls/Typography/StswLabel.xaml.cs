@@ -13,7 +13,7 @@ namespace StswExpress;
 /// This control extends <see cref="Label"/> with additional functionality, including icon support, 
 /// command integration, and the ability to indicate a busy state.
 /// </remarks>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswLabel : Label, IStswCornerControl, IStswIconControl
 {
     static StswLabel()
@@ -53,6 +53,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     /// <summary>
     /// Gets or sets the asynchronous command associated with the label.
     /// </summary>
+    [Stsw("0.14.0")]
     public IStswAsyncCommand Command
     {
         get => (IStswAsyncCommand)GetValue(CommandProperty);
@@ -214,6 +215,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
+    [Stsw("0.1.0")]
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -229,6 +231,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
+    [Stsw("0.1.0")]
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -247,6 +250,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     /// Gets or sets the text trimming behavior for the label.
     /// Defines how the text is trimmed when it overflows the available space.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);

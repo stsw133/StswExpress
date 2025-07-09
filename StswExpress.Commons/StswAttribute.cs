@@ -8,7 +8,7 @@ namespace StswExpress.Commons;
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Enum | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-[Stsw("0.19.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.19.0")]
 public sealed class StswAttribute(string? sinceVersion) : Attribute
 {
     /// <summary>

@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a numeric column for <see cref="StswDataGrid"/> that allows entering and displaying numbers.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
     static StswDataGridNumberColumnBase()
@@ -138,6 +138,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -153,6 +154,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
+    [Stsw("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -168,6 +170,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
+    [Stsw("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);
@@ -226,19 +229,19 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
 /// Represents a numeric column for decimal values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDecimalBox"/> as the editing control.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
 /// <summary>
 /// Represents a numeric column for double-precision floating-point values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDoubleBox"/> as the editing control.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
 /// <summary>
 /// Represents a numeric column for integer values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswIntegerBox"/> as the editing control.
 /// </summary>
-[Stsw("0.13.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.13.0")]
 public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

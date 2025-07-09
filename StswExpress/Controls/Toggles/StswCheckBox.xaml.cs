@@ -11,7 +11,7 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
-[Stsw(null, Changes = StswPlannedChanges.None)]
+[Stsw(null)]
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -30,12 +30,14 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.6.0")]
     protected override void OnToggle()
     {
         IsReadOnly.Do(null, base.OnToggle);
     }
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -43,6 +45,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -70,6 +73,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     /// Gets or sets a value indicating whether the checkbox is in read-only mode.
     /// When set to <see langword="true"/>, the checkbox cannot be toggled.
     /// </summary>
+    [Stsw("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

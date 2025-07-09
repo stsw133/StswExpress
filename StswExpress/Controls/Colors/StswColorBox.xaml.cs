@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Supports alpha channel selection, dynamic color updates, and text-based color input.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswColorBox : StswBoxBase
 {
     static StswColorBox()

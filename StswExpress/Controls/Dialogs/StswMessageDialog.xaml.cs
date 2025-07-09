@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a message dialog control that behaves like a content dialog.
 /// Supports customizable title, message, details, and predefined button layouts.
 /// </summary>
-[Stsw("0.2.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.2.0")]
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
     private ButtonBase? _buttonCopyToClipboard;
@@ -46,6 +46,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The button triggering the event.</param>
     /// <param name="e">The event arguments.</param>
+    [Stsw("0.8.0")]
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
@@ -69,6 +70,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <param name="saveLog">Indicates whether the message should be logged.</param>
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
+    [Stsw("0.13.0")]
     public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = true, object? identifier = null)
         => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
 
@@ -123,6 +125,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the additional details displayed in the dialog.
     /// </summary>
+    [Stsw("0.8.0")]
     public string? Details
     {
         get => (string?)GetValue(DetailsProperty);
@@ -201,6 +204,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the details section of the dialog is visible.
     /// </summary>
+    [Stsw("0.8.0")]
     public bool ShowDetails
     {
         get => (bool)GetValue(ShowDetailsProperty);

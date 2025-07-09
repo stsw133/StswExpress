@@ -8,7 +8,7 @@ namespace StswExpress;
 /// A resizable splitter control used to adjust the size of adjacent elements in a grid.
 /// This control allows users to dynamically resize grid columns or rows by dragging the splitter.
 /// </summary>
-[Stsw("0.16.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.16.0")]
 public class StswGridSplitter : GridSplitter
 {
     private Grid? _parentGrid;
@@ -29,8 +29,9 @@ public class StswGridSplitter : GridSplitter
     /// <summary>
     /// Handles the Loaded event for the splitter. It retrieves the parent grid and the index of the splitter within the grid.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender of the event, typically the splitter itself.</param>
+    /// <param name="e">The event arguments containing the routed event data.</param>
+    [Stsw("0.18.0")]
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         Dispatcher.BeginInvoke(() =>
@@ -42,6 +43,7 @@ public class StswGridSplitter : GridSplitter
     }
 
     /// <inheritdoc/>
+    [Stsw("0.18.0")]
     protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
     {
         base.OnMouseDoubleClick(e);
@@ -64,7 +66,8 @@ public class StswGridSplitter : GridSplitter
     /// <summary>
     /// Handles the MouseMove event for the splitter. It resizes the adjacent column or row based on the mouse position.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Returns <see langword="true"/> if the resizing was successful, otherwise <see langword="false"/>.</returns>
+    [Stsw("0.18.0")]
     private bool DetermineIsVertical()
     {
         if (_parentGrid == null)
@@ -93,6 +96,7 @@ public class StswGridSplitter : GridSplitter
     /// <summary>
     /// Initializes the original length of the adjacent column or row based on the splitter's position in the grid.
     /// </summary>
+    [Stsw("0.18.0")]
     private void InitOriginalLength()
     {
         if (_parentGrid == null)

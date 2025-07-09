@@ -12,7 +12,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
-[Stsw("0.3.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.3.0")]
 public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 {
     static StswTreeView()
@@ -25,6 +25,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -40,6 +41,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -47,6 +49,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -54,6 +57,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.10.0")]
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
@@ -61,6 +65,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
+    [Stsw("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -78,6 +83,7 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [Stsw("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

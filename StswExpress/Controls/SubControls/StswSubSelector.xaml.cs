@@ -15,7 +15,7 @@ namespace StswExpress;
 /// This control is useful for compact UI designs where a small, expandable selector provides access to multiple actions.
 /// </remarks>
 [ContentProperty(nameof(Items))]
-[Stsw("0.1.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.1.0")]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }
@@ -230,6 +230,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <inheritdoc/>
+    [Stsw("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);

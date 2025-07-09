@@ -14,7 +14,7 @@ namespace StswExpress;
 /// The bar automatically detects its parent window and configures its actions accordingly.
 /// </remarks>
 [ContentProperty(nameof(Components))]
-[Stsw("0.5.0", Changes = StswPlannedChanges.None)]
+[Stsw("0.5.0")]
 public class StswWindowBar : Control, IStswCornerControl
 {
     private StswWindow? _window;
@@ -43,6 +43,7 @@ public class StswWindowBar : Control, IStswCornerControl
     /// <summary>
     /// Configures window control buttons, assigning event handlers to enable minimize, maximize, restore, and close actions.
     /// </summary>
+    [Stsw("0.13.0")]
     private void ConfigureButtons()
     {
         if (_window == null)
@@ -70,6 +71,7 @@ public class StswWindowBar : Control, IStswCornerControl
     /// <summary>
     /// Initializes the context menu with appropriate event handlers and dynamically adjusts menu visibility based on the window's state.
     /// </summary>
+    [Stsw("0.13.0")]
     private void ConfigureMenu()
     {
         if (_window == null || ContextMenu == null)
@@ -85,6 +87,7 @@ public class StswWindowBar : Control, IStswCornerControl
     /// Ensures that each item performs the correct action when clicked.
     /// </summary>
     /// <param name="item">The context menu item to configure.</param>
+    [Stsw("0.13.0")]
     private void ConfigureMenuItemHandlers(FrameworkElement item)
     {
         if (_window == null || string.IsNullOrEmpty(item.Name) || item is not MenuItem menuItem)
@@ -131,6 +134,7 @@ public class StswWindowBar : Control, IStswCornerControl
     /// Ensures that only relevant options are displayed at any given moment.
     /// </summary>
     /// <param name="item">The context menu item whose visibility is being updated.</param>
+    [Stsw("0.13.0")]
     private void ConfigureMenuItemVisibility(FrameworkElement item)
     {
         if (_window == null || string.IsNullOrEmpty(item.Name))
