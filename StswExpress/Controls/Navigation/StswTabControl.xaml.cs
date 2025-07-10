@@ -10,7 +10,7 @@ namespace StswExpress;
 /// A tab control with extended functionality, including dynamic tab creation, 
 /// visibility toggling, and command-based item management.
 /// </summary>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 public class StswTabControl : TabControl
 {
     static StswTabControl()

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswBorder : Border, IStswCornerControl
 {
     private readonly RectangleGeometry _clipRect = new();

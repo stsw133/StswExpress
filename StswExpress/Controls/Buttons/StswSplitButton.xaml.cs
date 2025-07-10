@@ -16,7 +16,7 @@ namespace StswExpress;
 /// Supports optional auto-closing, customizable corner rounding, and styling enhancements.
 /// </summary>
 [ContentProperty(nameof(Items))]
-[Stsw(null)]
+[StswInfo(null)]
 public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }
@@ -39,7 +39,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     }
 
     /// <inheritdoc/>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
@@ -63,7 +63,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     /// <summary>
     /// Gets or sets a value indicating whether the drop-down should automatically close after an item inside it is clicked.
     /// </summary>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     public bool AutoClose
     {
         get => (bool)GetValue(AutoCloseProperty);
@@ -173,7 +173,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
 
     /// <inheritdoc/>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);

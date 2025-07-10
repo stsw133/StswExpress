@@ -13,7 +13,7 @@ namespace StswExpress;
 /// This control provides a compact way to display notifications with additional functionality like copying text 
 /// to the clipboard, expanding for more details, and dismissing messages.
 /// </remarks>
-[Stsw("0.5.0")]
+[StswInfo("0.5.0")]
 public class StswInfoBar : Control, IStswCornerControl
 {
     static StswInfoBar()
@@ -40,7 +40,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [Stsw("0.9.0")]
+    [StswInfo("0.9.0")]
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText($"{Title}{Environment.NewLine}{Text}");
@@ -88,7 +88,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// Gets or sets a value indicating whether the info bar content can be copied to the clipboard.
     /// When enabled, a copy button is displayed.
     /// </summary>
-    [Stsw("0.13.0")]
+    [StswInfo("0.13.0")]
     public bool IsCopyable
     {
         get => (bool)GetValue(IsCopyableProperty);
@@ -105,7 +105,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// Gets or sets a value indicating whether the info bar can be expanded.
     /// When enabled, an expand button is displayed to show additional content.
     /// </summary>
-    [Stsw("0.13.0")]
+    [StswInfo("0.13.0")]
     public bool IsExpandable
     {
         get => (bool)GetValue(IsExpandableProperty);
@@ -121,7 +121,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the info bar is currently expanded.
     /// </summary>
-    [Stsw("0.13.0")]
+    [StswInfo("0.13.0")]
     public bool IsExpanded
     {
         get => (bool)GetValue(IsExpandedProperty);

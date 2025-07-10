@@ -13,7 +13,7 @@ namespace StswExpress;
 /// A XAML markup extension that invokes a static method with parameters provided in XAML.
 /// </summary>
 [MarkupExtensionReturnType(typeof(object))]
-[Stsw("0.17.0", IsTested = false)]
+[StswInfo("0.17.0", IsTested = false)]
 public class StswInvokeMethodExtension : MarkupExtension
 {
     /// <summary>

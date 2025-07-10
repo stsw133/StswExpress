@@ -15,7 +15,7 @@ namespace StswExpress;
 /// Can be used as a modal popup with asynchronous handling of dialog results.
 /// </summary>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
-[Stsw("0.2.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
     private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];

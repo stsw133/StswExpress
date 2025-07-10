@@ -15,7 +15,7 @@ namespace StswExpress;
 /// The control allows for various transformations, including scaling and rotation, making it a versatile choice for UI design.
 /// </remarks>
 [ContentProperty(nameof(Data))]
-[Stsw(null)]
+[StswInfo(null)]
 public class StswIcon : Control
 {
     static StswIcon()
@@ -138,7 +138,7 @@ public class StswIcon : Control
     /// Gets or sets the stroke brush of the icon.
     /// This brush is used to paint the outline of the icon's geometry.
     /// </summary>
-    [Stsw("0.1.0")]
+    [StswInfo("0.1.0")]
     public Brush Stroke
     {
         get => (Brush)GetValue(StrokeProperty);
@@ -157,7 +157,7 @@ public class StswIcon : Control
     /// Gets or sets the thickness of the icon's stroke.
     /// Determines the width of the outline drawn around the icon.
     /// </summary>
-    [Stsw("0.1.0")]
+    [StswInfo("0.1.0")]
     public double StrokeThickness
     {
         get => (double)GetValue(StrokeThicknessProperty);

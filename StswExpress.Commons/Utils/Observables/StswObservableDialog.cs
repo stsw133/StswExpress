@@ -16,7 +16,7 @@
 /// }
 /// </code>
 /// </example>
-[Stsw("0.19.0")]
+[StswInfo("0.19.0")]
 public abstract class StswObservableDialog : StswObservableObject, IDisposable
 {
     public string? DialogIdentifier { get; set; }

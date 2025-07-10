@@ -15,7 +15,7 @@ namespace StswExpress;
 /// <remarks>
 /// This converter is useful for displaying user-friendly text in UI elements bound to enumeration values.
 /// </remarks>
-[Stsw("0.8.0")]
+[StswInfo("0.8.0")]
 public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

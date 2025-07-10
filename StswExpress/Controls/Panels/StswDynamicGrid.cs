@@ -9,7 +9,7 @@ namespace StswExpress;
 /// A dynamic panel that arranges its children in a flexible grid-like structure.
 /// It supports automatic layout based on the number of items, customizable spacing, and stretching specific rows or columns.
 /// </summary>
-[Stsw("0.17.0")]
+[StswInfo("0.17.0")]
 public class StswDynamicGrid : Panel
 {
     #region Events & methods

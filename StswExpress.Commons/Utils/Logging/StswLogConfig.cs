@@ -5,7 +5,7 @@ namespace StswExpress.Commons;
 /// Configuration settings for the <see cref="StswLog"/> class, including options for archiving and log types.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-[Stsw("0.9.0")]
+[StswInfo("0.9.0")]
 public class StswLogConfig()
 {
     public StswLogArchiveConfig Archive { get; set; } = new();

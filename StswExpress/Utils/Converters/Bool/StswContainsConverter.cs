@@ -17,7 +17,7 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the output will be <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, the output is a <see cref="bool"/> value.
 /// </summary>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswContainsConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

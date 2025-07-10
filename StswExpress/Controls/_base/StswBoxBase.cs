@@ -15,7 +15,7 @@ namespace StswExpress;
 /// This control extends <see cref="TextBox"/> and adds support for validation errors, dynamic sub-controls, 
 /// and customizable appearance. It is designed to be inherited by specialized text-based input components.
 /// </remarks>
-[Stsw("0.6.1")]
+[StswInfo("0.6.1")]
 public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswBoxBase()

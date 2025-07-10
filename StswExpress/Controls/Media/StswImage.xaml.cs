@@ -12,7 +12,7 @@ namespace StswExpress;
 /// A customizable image control that supports context menu actions such as copy, paste, load, and save.
 /// </summary>
 [ContentProperty(nameof(Source))]
-[Stsw(null)]
+[StswInfo(null)]
 public class StswImage : Control, IStswCornerControl
 {
     static StswImage()
@@ -203,7 +203,7 @@ public class StswImage : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the stretch direction, specifying whether the image can scale up, down, or both.
     /// </summary>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     public StretchDirection StretchDirection
     {
         get => (StretchDirection)GetValue(StretchDirectionProperty);

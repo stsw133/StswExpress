@@ -5,7 +5,7 @@ namespace StswExpress.Commons;
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
 //TODO - remove or base it on SqlConnectionStringBuilder
-[Stsw(null, Changes = StswPlannedChanges.ChangeName)]
+[StswInfo(null, Changes = StswPlannedChanges.ChangeName)]
 public partial class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }

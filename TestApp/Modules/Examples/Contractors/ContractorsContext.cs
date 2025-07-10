@@ -45,7 +45,7 @@ public partial class ContractorsContext : StswObservableObject
         try
         {
             // for CollectionView filters:
-            ListContractors = [.. await Task.Run(() => SQLService.GetContractors(null))];
+            ListContractors = new(await Task.Run(() => SQLService.GetContractors(null)));
             ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             FiltersContractors.Apply?.Invoke();
 

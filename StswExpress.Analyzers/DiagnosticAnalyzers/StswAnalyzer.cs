@@ -6,12 +6,12 @@ using System.Collections.Immutable;
 namespace StswExpress.Analyzers;
 
 /// <summary>
-/// Analyzer to check the status of elements marked with StswAttribute.
+/// Analyzer to check the status of elements marked with StswInfoAttribute.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class StswAnalyzer : DiagnosticAnalyzer
 {
-    private const string InvokingAttribute = "StswExpress.Commons.StswAttribute";
+    private const string InvokingAttribute = "StswExpress.Commons.StswInfoAttribute";
 
     public const string SinceVersionInfoId = "STSW000";
     public const string IsNotTestedId = "STSW001";
@@ -25,7 +25,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
         category: "StswExpress",
         defaultSeverity: DiagnosticSeverity.Info,
         isEnabledByDefault: true,
-        description: "This element was introduced in a specific version of the library to help track feature history.");
+        description: "This element was introduced in a specific version of the project to help track feature history.");
 
     private static readonly DiagnosticDescriptor IsNotTestedRule = new(
         id: IsNotTestedId,
@@ -94,19 +94,17 @@ public class StswAnalyzer : DiagnosticAnalyzer
         if (symbol == null)
             return;
 
-        var attr = symbol.GetAttributes()
-           .FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == InvokingAttribute);
-
+        var attr = symbol.GetAttributes().FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == InvokingAttribute);
         if (attr is null || attr.ConstructorArguments.Length == 0)
             return;
 
         /// SinceVersion
-        var sinceVersion = attr.ConstructorArguments[0].Value?.ToString();
-        if (!string.IsNullOrWhiteSpace(sinceVersion) && ShouldReportVersion(sinceVersion))
-        {
-            var diagnostic = Diagnostic.Create(SinceVersionInfoRule, symbol.Locations[0], symbol.Name, sinceVersion);
-            context.ReportDiagnostic(diagnostic);
-        }
+        //var sinceVersion = attr.ConstructorArguments[0].Value?.ToString();
+        //if (!string.IsNullOrWhiteSpace(sinceVersion) && ShouldReportVersion(sinceVersion))
+        //{
+        //    var diagnostic = Diagnostic.Create(SinceVersionInfoRule, symbol.Locations[0], symbol.Name, sinceVersion);
+        //    context.ReportDiagnostic(diagnostic);
+        //}
 
         /// IsTested = false
         var isTested = true;
@@ -118,7 +116,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
 
         if (!isTested)
         {
-            var diagnostic = Diagnostic.Create(IsNotTestedRule, symbol.Locations[0], symbol.Name, sinceVersion);
+            var diagnostic = Diagnostic.Create(IsNotTestedRule, symbol.Locations[0], symbol.Name);
             context.ReportDiagnostic(diagnostic);
         }
 
@@ -142,7 +140,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
             }
         }
     }
-
+    /*
     /// <summary>
     /// The version of the analyzer assembly.
     /// </summary>
@@ -171,6 +169,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
         var minor = parts.Length > 1 && int.TryParse(parts[1], out var n) ? n : 0;
         return (major, minor);
     }
+    */
 }
 
 /// <summary>

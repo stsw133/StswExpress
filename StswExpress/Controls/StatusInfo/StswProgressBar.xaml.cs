@@ -14,7 +14,7 @@ namespace StswExpress;
 /// This control provides a flexible progress visualization, allowing the display of progress in percentage,
 /// absolute values, or custom text.
 /// </remarks>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
@@ -73,7 +73,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     /// Gets or sets the text displayed on the progress bar.
     /// Updates dynamically based on the selected <see cref="TextMode"/>.
     /// </summary>
-    [Stsw("0.2.0")]
+    [StswInfo("0.2.0")]
     public string? Text
     {
         get => (string?)GetValue(TextProperty);

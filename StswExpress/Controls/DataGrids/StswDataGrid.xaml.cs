@@ -18,7 +18,7 @@ namespace StswExpress;
 /// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
 /// </summary>
-[Stsw(null)]
+[StswInfo(null)]
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     private static Type? SqlParameterType { get; set; }
@@ -75,7 +75,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.13.0")]
+    [StswInfo("0.13.0")]
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
         /// if a column with this same binding already exists, skip
@@ -119,7 +119,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -131,7 +131,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.10.0")]
+    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -139,7 +139,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.17.0")]
+    [StswInfo("0.17.0")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (e.Key == Key.V && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
@@ -152,7 +152,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -160,7 +160,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -172,7 +172,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
     /// </summary>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private static void DetectSqlClient()
     {
         try
@@ -205,7 +205,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Updates the visibility of the outer scroll bar based on the current items and column widths.
     /// </summary>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     private void UpdateOuterScrollVisibility()
     {
         if (!IsLoaded || Columns == null)
@@ -317,7 +317,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     /// <param name="key">The key representing the external filter.</param>
     /// <param name="filter">The filtering predicate to apply.</param>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public void RegisterExternalFilter(object key, Predicate<object>? filter)
     {
         _filterAggregator.RegisterFilter(key, filter);
@@ -405,7 +405,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// Gets or sets the filtering mode for the data grid.
     /// Supports either collection-based filtering or SQL-based filtering.
     /// </summary>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public StswDataGridFiltersType FiltersType
     {
         get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
@@ -423,7 +423,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     public bool HasVisibleOuterScroll
     {
         get => (bool)GetValue(HasVisibleOuterScrollProperty);
@@ -471,7 +471,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);

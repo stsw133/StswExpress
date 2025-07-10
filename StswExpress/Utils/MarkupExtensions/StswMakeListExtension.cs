@@ -14,7 +14,7 @@ namespace StswExpress;
 /// </remarks>
 /// <param name="values">The comma-separated string representing the list of values.</param>
 /// <exception cref="ArgumentNullException">Thrown when the <paramref name="values"/> parameter is <see langword="null"/>.</exception>
-[Stsw("0.8.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.8.0", Changes = StswPlannedChanges.Refactor)]
 public class StswMakeListExtension(string values) : MarkupExtension
 {
     private readonly string _values = values ?? throw new ArgumentNullException(nameof(values));

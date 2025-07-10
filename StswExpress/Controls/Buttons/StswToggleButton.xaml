@@ -127,6 +127,38 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <!-- template for StswToggleButton in: "StswExpander" -->
+    <ControlTemplate x:Key="StswExpanderToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
+        <!-- main -->
+        <se:StswBorder x:Name="OPT_MainBorder"
+                       Background="{TemplateBinding Background}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       CornerClipping="{TemplateBinding CornerClipping}"
+                       CornerRadius="{TemplateBinding CornerRadius}">
+            <ContentPresenter Focusable="False"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </se:StswBorder>
+        <!-- triggers -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <!-- template for StswToggleButton in: "StswNavigationElement" -->
     <ControlTemplate x:Key="StswNavigationToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
         <!-- main -->

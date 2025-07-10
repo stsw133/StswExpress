@@ -46,16 +46,16 @@
                         <DockPanel>
                             <!-- drop-button -->
                             <se:StswToggleButton DockPanel.Dock="Right"
-                                                 se:StswControl.EnableAnimations="False"
-                                                 se:StswControl.IsBorderless="True"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  ClickMode="Press"
                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Padding="0"
+                                                 Template="{DynamicResource StswDropToggleButtonTemplate}"
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
-                                                 Template="{DynamicResource StswDropToggleButtonTemplate}">
+                                                 se:StswControl.EnableAnimations="False"
+                                                 se:StswControl.IsBorderless="True">
                                 <DockPanel Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
                                     <se:StswIcon x:Name="OPT_DropArrow" Data="{x:Static se:StswIcons.ChevronDown}" IsRotated="{TemplateBinding IsDropDownOpen}"/>
                                 </DockPanel>

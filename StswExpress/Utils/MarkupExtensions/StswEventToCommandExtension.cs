@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Supports optional <see cref="AllowedKey"/> filtering and passing event args as <see cref="CommandParameter"/>.
 /// </summary>
 [MarkupExtensionReturnType(typeof(Delegate))]
-[Stsw("0.14.0")]
+[StswInfo("0.14.0")]
 public class StswEventToCommandExtension : MarkupExtension
 {
     /// <summary>

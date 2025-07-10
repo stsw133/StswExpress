@@ -3,16 +3,16 @@
 namespace StswExpress.Commons;
 
 /// <summary>
-/// Attribute to mark features in the StswExpress library.
+/// Flags to indicate planned changes for a feature.
 /// </summary>
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Enum | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-[Stsw("0.19.0")]
-public sealed class StswAttribute(string? sinceVersion) : Attribute
+[StswInfo("0.19.0")]
+public sealed class StswInfoAttribute(string? sinceVersion) : Attribute
 {
     /// <summary>
-    /// The version of the library when this feature was added.
+    /// Indicates the version since this feature is available.
     /// </summary>
     public string? SinceVersion { get; } = sinceVersion;
 

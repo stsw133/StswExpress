@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Supports pinned items, compact/full modes, and dynamic content switching.
 /// </summary>
 [ContentProperty(nameof(Items))]
-[Stsw(null, Changes = StswPlannedChanges.Rework)]
+[StswInfo(null, Changes = StswPlannedChanges.Rework)]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
     internal StswNavigationElement? CompactedExpander;
@@ -332,7 +332,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// Gets or sets the width of the navigation items list.
     /// Adjusts the size of the tab strip for a custom layout.
     /// </summary>
-    [Stsw("0.1.0")]
+    [StswInfo("0.1.0")]
     public double TabStripWidth
     {
         get => (double)GetValue(TabStripWidthProperty);

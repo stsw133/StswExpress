@@ -6,7 +6,7 @@ namespace StswExpress;
 /// Represents an individual item inside the <see cref="StswFilterTags"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
-[Stsw("0.17.0")]
+[StswInfo("0.17.0")]
 public class StswFilterTagsItem : ContentControl, IStswCornerControl
 {
     static StswFilterTagsItem()

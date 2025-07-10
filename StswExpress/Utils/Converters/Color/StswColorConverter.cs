@@ -25,7 +25,7 @@ namespace StswExpress;
 /// - `"A20% B-10%"` → Reduce alpha to 20%, decrease brightness by 10%
 /// - `"G B15% S25%"` → Generate color from value, then apply brightness & saturation modifications
 /// </summary>
-[Stsw("0.16.0")]
+[StswInfo("0.16.0")]
 public class StswColorConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

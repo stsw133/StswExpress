@@ -14,7 +14,7 @@ namespace StswExpress;
 /// The popup adapts to different scroll types and supports dynamic content updates.
 /// </remarks>
 [ContentProperty(nameof(Content))]
-[Stsw("0.2.0")]
+[StswInfo("0.2.0")]
 public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
@@ -30,7 +30,7 @@ public class StswPopup : Popup, IStswCornerControl
     /// <summary>
     /// Initializes the popup's child content based on the selected <see cref="ScrollType"/>.
     /// </summary>
-    [Stsw("0.8.0")]
+    [StswInfo("0.8.0")]
     private void Init()
     {
         Child = new ContentControl
@@ -65,7 +65,7 @@ public class StswPopup : Popup, IStswCornerControl
     /// Gets or sets the type of scroll viewer used within the popup content.
     /// Determines whether a directional or standard scroll view is used.
     /// </summary>
-    [Stsw("0.8.0")]
+    [StswInfo("0.8.0")]
     public StswScrollType ScrollType
     {
         get => (StswScrollType)GetValue(ScrollTypeProperty);

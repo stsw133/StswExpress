@@ -14,7 +14,7 @@ namespace StswExpress;
 /// The control includes built-in animations for smooth state transitions, 
 /// as well as an optional read-only mode to prevent user interaction.
 /// </remarks>
-[Stsw("0.2.0")]
+[StswInfo("0.2.0")]
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     private Border? _mainBorder, _backgroundBorder, _circleBorder;
@@ -41,7 +41,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -50,7 +50,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -59,7 +59,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
@@ -68,7 +68,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.6.0")]
+    [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
@@ -153,7 +153,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     /// Gets or sets a value indicating whether the toggle switch is in read-only mode.
     /// When set to <see langword="true"/>, the switch cannot be toggled.
     /// </summary>
-    [Stsw("0.6.0")]
+    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

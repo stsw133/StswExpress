@@ -32,7 +32,7 @@ namespace StswExpress.Commons;
 /// await manager.RunAllQueuedAsync();
 /// </code>
 /// </example>
-[Stsw("0.19.0", Changes = StswPlannedChanges.NewFeatures, IsTested = false)]
+[StswInfo("0.19.0", Changes = StswPlannedChanges.NewFeatures, IsTested = false)]
 public class StswTaskManager<T>
 {
     private bool _stopRequested = false;

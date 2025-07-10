@@ -29,7 +29,7 @@
 /// }
 /// </code>
 /// </example>
-[Stsw("0.9.2")]
+[StswInfo("0.9.2")]
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];

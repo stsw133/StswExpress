@@ -16,7 +16,7 @@ namespace StswExpress;
 /// to <see cref="StswCompactibility.Full"/> mode - all buttons in expander can become invisible.
 /// </remarks>
 [ContentProperty(nameof(Items))]
-[Stsw(null, Changes = StswPlannedChanges.Rework)]
+[StswInfo(null, Changes = StswPlannedChanges.Rework)]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;

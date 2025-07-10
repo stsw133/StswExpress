@@ -15,7 +15,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control enables intuitive navigation through a collection of items, providing smooth user interaction.
 /// </remarks>
-[Stsw("0.13.0")]
+[StswInfo("0.13.0")]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
     private ButtonBase? _buttonPrevious, _buttonNext;
@@ -187,7 +187,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

@@ -17,7 +17,7 @@ namespace StswExpress;
 /// and UI customization options.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-[Stsw("0.1.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor)]
 public class StswCalendar : Control, IStswCornerControl
 {
     private ContentControl? _buttonClear, _buttonToday;
@@ -545,7 +545,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// Gets or sets the unit used for date selection.
     /// Determines whether the calendar selects individual days or whole months.
     /// </summary>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

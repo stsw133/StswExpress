@@ -54,7 +54,7 @@ namespace StswExpress;
 /// }
 /// </code>
 /// </example>
-[Stsw("0.9.2")]
+[StswInfo("0.9.2")]
 public class StswCancellableAsyncCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswObservableObject, IStswAsyncCommand
 {
     private readonly Func<T, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -198,6 +198,6 @@ public class StswCancellableAsyncCommand<T>(Func<T, CancellationToken, Task> exe
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-[Stsw("0.9.2")]
+[StswInfo("0.9.2")]
 public class StswCancellableAsyncCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswCancellableAsyncCommand<object>((_, token) => execute(token), canExecute);

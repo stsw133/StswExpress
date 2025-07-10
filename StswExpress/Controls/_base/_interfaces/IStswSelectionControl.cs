@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Defines a contract for selection controls, providing properties and methods
 /// for managing item selection and presentation in custom selection controls.
 /// </summary>
-[Stsw("0.10.0")]
+[StswInfo("0.10.0")]
 public interface IStswSelectionControl
 {
     /// <summary>

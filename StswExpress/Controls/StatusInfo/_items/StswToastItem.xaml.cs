@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control is designed to display temporary notifications that can be dismissed individually.
 /// </remarks>
-[Stsw("0.14.0")]
+[StswInfo("0.14.0")]
 public class StswToastItem : ContentControl, IStswCornerControl
 {
     static StswToastItem()

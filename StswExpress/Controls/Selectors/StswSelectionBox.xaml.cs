@@ -17,7 +17,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </remarks>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     private ListBox? _listBox;
@@ -52,7 +52,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <inheritdoc/>
-    [Stsw("0.10.0")]
+    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
@@ -77,7 +77,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <inheritdoc/>
-    [Stsw("0.10.0")]
+    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
@@ -89,7 +89,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// Updates the displayed text based on the selected items.
     /// Also synchronizes the internal selection state.
     /// </summary>
-    [Stsw("0.1.1")]
+    [StswInfo("0.1.1")]
     internal void UpdateText()
     {
         if (ItemsSource == null)
@@ -138,7 +138,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
     #region Logic properties
     /// <inheritdoc/>
-    [Stsw("0.6.1")]
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -152,7 +152,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
-    [Stsw("0.6.1")]
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -166,7 +166,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -197,7 +197,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <inheritdoc/>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -273,7 +273,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <summary>
     /// Gets or sets the command that updates the displayed text based on selected items.
     /// </summary>
-    [Stsw("0.1.1")]
+    [StswInfo("0.1.1")]
     public ICommand UpdateTextCommand
     {
         get => (ICommand)GetValue(UpdateTextCommandProperty);
@@ -331,7 +331,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);

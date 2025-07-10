@@ -24,7 +24,7 @@ namespace StswExpress.Commons;
 /// var token = StswSecurity.GenerateRandomToken(32);
 /// </code>
 /// </example>
-[Stsw(null)]
+[StswInfo(null)]
 public static class StswSecurity
 {
     /// <summary>

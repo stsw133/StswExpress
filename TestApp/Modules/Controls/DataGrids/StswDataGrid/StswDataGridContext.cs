@@ -32,7 +32,12 @@ public partial class StswDataGridContext : ControlsContext
 
     [StswObservableProperty] bool _isBusy;
     [StswObservableProperty] bool _isReadOnly;
-    [StswObservableProperty] StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+    [StswObservableProperty] StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel
+    {
+        Id = i,
+        Name = "Row " + i,
+        ShowDetails = i % 3 == 0 ? null : false
+    }));
     [StswObservableProperty] StswScrollToItemBehavior _scrollToItemBehavior;
     [StswObservableProperty] DataGridSelectionUnit _selectionUnit;
 }

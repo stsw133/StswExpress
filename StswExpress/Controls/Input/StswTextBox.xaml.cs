@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Supports placeholder text, validation, and an optional icon.
 /// </summary>
 [ContentProperty(nameof(Text))]
-[Stsw(null)]
+[StswInfo(null)]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswTextBox()
@@ -34,7 +34,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
-    [Stsw("0.6.1")]
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -48,7 +48,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [Stsw("0.6.1")]
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -62,7 +62,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);

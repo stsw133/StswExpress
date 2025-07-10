@@ -35,7 +35,7 @@ namespace StswExpress;
 /// };
 /// </code>
 /// </example>
-[Stsw("0.15.0")]
+[StswInfo("0.15.0")]
 public static class StswTranslator
 {
     private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _translations = [];

@@ -7,7 +7,7 @@ namespace StswExpress;
 /// A menu item with extended functionality, including support for icons, 
 /// busy/loading states, and corner customization.
 /// </summary>
-[Stsw("0.5.0")]
+[StswInfo("0.5.0")]
 public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
 {
     static StswMenuItem()

@@ -9,7 +9,7 @@ namespace StswExpress;
 /// This control extends <see cref="ToggleButton"/>, providing additional styling options such as corner rounding
 /// and optional animations for state transitions.
 /// </summary>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -28,7 +28,7 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -36,7 +36,7 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.12.0")]
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);

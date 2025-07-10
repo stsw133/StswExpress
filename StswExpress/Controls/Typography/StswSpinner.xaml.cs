@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <remarks>
 /// The control provides visual feedback for loading states, making it useful for asynchronous operations.
 /// </remarks>
-[Stsw("0.7.0")]
+[StswInfo("0.7.0")]
 public class StswSpinner : Control
 {
     static StswSpinner()

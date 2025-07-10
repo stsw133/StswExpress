@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This converter is particularly useful in `DataGrid` or `TextBox` bindings where users 
 /// may enter decimal numbers using different separator conventions.
 /// </summary>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

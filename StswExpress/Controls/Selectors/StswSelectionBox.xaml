@@ -41,7 +41,6 @@
                 <ControlTemplate TargetType="{x:Type se:StswSelectionBox}">
                     <!-- main -->
                     <se:StswToggleButton x:Name="OPT_MainButton"
-                                         se:StswControl.EnableAnimations="False"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
                                          BorderThickness="{TemplateBinding BorderThickness}"
@@ -50,11 +49,12 @@
                                          CornerRadius="{TemplateBinding CornerRadius}"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                          Padding="0"
+                                         Template="{DynamicResource StswDropToggleButtonTemplate}"
                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                         Template="{DynamicResource StswDropToggleButtonTemplate}">
+                                         se:StswControl.EnableAnimations="False">
                         <DockPanel>
                             <!-- icon section -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>

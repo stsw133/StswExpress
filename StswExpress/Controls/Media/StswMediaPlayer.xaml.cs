@@ -13,7 +13,7 @@ namespace StswExpress;
 /// A media player control that supports playing audio and video files.
 /// Includes playback controls, timeline slider, and mute option.
 /// </summary>
-[Stsw("0.5.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
+[StswInfo("0.5.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswMediaPlayer : ItemsControl
 {
     private readonly Timer _timer = new() { AutoReset = true };

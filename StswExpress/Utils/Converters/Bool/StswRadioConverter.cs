@@ -12,7 +12,7 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, it returns a <see cref="bool"/> indicating whether the value matches the parameter.
 /// </summary>
-[Stsw("0.6.1")]
+[StswInfo("0.6.1")]
 public class StswRadioConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

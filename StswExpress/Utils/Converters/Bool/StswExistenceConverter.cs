@@ -25,7 +25,7 @@ namespace StswExpress;
 /// - `"empty"` → Returns <see langword="true"/> if value is an empty collection.
 /// - `"default !empty"` → Returns <see langword="true"/> if value is either default or NOT empty.
 /// </summary>
-[Stsw("0.16.0")]
+[StswInfo("0.16.0")]
 public class StswExistenceConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -16,7 +16,7 @@ namespace StswExpress;
 /// <remarks>
 /// The control manages application state visibility and interaction with the system tray.
 /// </remarks>
-[Stsw("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
+[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
 public class StswNotifyIcon : FrameworkElement
 {
     private NotifyIcon? _tray;
@@ -229,7 +229,7 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Gets or sets a value indicating whether the <see cref="NotifyIcon"/> remains visible even when the associated window is minimized.
     /// </summary>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     public bool IsAlwaysVisible
     {
         get => (bool)GetValue(IsAlwaysVisibleProperty);
@@ -307,7 +307,7 @@ public class StswNotifyIcon : FrameworkElement
     /// </summary>
     /// <param name="icon">Icon to be displayed in the tray.</param>
     /// <param name="text">Tooltip text for the tray icon.</param>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     private static void InitStaticIcon(Icon? icon, string? text)
     {
         if (_staticTray == null)
@@ -330,7 +330,7 @@ public class StswNotifyIcon : FrameworkElement
     /// <param name="tipIcon">Icon type for the notification balloon.</param>
     /// <param name="icon">Icon displayed in the system tray.</param>
     /// <param name="text">Tooltip text for the tray icon.</param>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     public static async Task Notify(string? tipTitle, string? tipText, ToolTipIcon? tipIcon, Icon? icon = null, string? text = null)
     {
         InitStaticIcon(icon, text);

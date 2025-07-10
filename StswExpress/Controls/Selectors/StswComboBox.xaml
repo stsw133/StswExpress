@@ -47,7 +47,6 @@
                         </Grid.ColumnDefinitions>
                         <!-- button -->
                         <se:StswToggleButton x:Name="OPT_MainButton"
-                                             se:StswControl.EnableAnimations="False"
                                              Grid.ColumnSpan="2"
                                              Background="{TemplateBinding Background}"
                                              BorderBrush="{TemplateBinding BorderBrush}"
@@ -57,11 +56,12 @@
                                              CornerRadius="{TemplateBinding CornerRadius}"
                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                              Padding="0"
+                                             Template="{DynamicResource StswDropToggleButtonTemplate}"
                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                              HorizontalContentAlignment="Stretch"
                                              VerticalContentAlignment="Stretch"
-                                             Template="{DynamicResource StswDropToggleButtonTemplate}">
+                                             se:StswControl.EnableAnimations="False">
                             <DockPanel>
                                 <!-- icon section -->
                                 <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>

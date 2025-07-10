@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a secondary busy animation with dynamic movement.
 /// Used as part of the <see cref="StswSpinner"/> control.
 /// </summary>
-[Stsw("0.15.0")]
+[StswInfo("0.15.0")]
 internal class StswSpinnerHelixAnimation : Control
 {
     private readonly Ellipse?[] _ellipses = new Ellipse[15];

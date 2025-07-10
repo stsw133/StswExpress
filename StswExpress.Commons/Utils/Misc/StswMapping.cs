@@ -8,7 +8,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Helper class for mapping <see cref="DataTable"/> rows to objects, including nested properties.
 /// </summary>
-[Stsw("0.9.0")]
+[StswInfo("0.9.0")]
 internal static class StswMapping
 {
     /// <summary>

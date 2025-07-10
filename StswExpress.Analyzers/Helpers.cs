@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace StswExpress.Analyzers;
-internal class Helpers
+internal static class Helpers
 {
     /// <summary>
     /// Formats the documentation comment for a given symbol.

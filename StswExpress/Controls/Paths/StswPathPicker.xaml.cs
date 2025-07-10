@@ -15,7 +15,7 @@ namespace StswExpress;
 /// Supports file filtering, multi-selection, and displaying file sizes.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
-[Stsw("0.5.0")]
+[StswInfo("0.5.0")]
 public class StswPathPicker : StswBoxBase
 {
     static StswPathPicker()
@@ -250,7 +250,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the multiselect behavior for open file dialog.
     /// If <see langword="true"/>, multiple files can be selected at once in the file dialog.
     /// </summary>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public bool Multiselect
     {
         get => (bool)GetValue(MultiselectProperty);
@@ -306,7 +306,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the currently selected path in the control.
     /// Represents the file or directory currently selected by the user.
     /// </summary>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public string[] SelectedPaths
     {
         get => (string[])GetValue(SelectedPathsProperty);
@@ -341,7 +341,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the suggested file name for file dialog default file name.
     /// Provides a default name for files when the save dialog is shown.
     /// </summary>
-    [Stsw("0.15.0")]
+    [StswInfo("0.15.0")]
     public string? SuggestedFilename
     {
         get => (string?)GetValue(SuggestedFilenameProperty);
@@ -360,7 +360,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets whether to show or not the file size.
     /// If true, the size of the selected file is displayed next to the selected path.
     /// </summary>
-    [Stsw("0.7.0")]
+    [StswInfo("0.7.0")]
     public bool IsFileSizeVisible
     {
         get => (bool)GetValue(IsFileSizeVisibleProperty);

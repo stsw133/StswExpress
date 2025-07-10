@@ -12,7 +12,7 @@ namespace StswExpress;
 /// making it useful for complex data binding scenarios in XAML.
 /// </remarks>
 [ContentProperty(nameof(Binding))]
-[Stsw("0.9.0")]
+[StswInfo("0.9.0")]
 public class StswBindableParameterExtension : MarkupExtension
 {
     /// <summary>

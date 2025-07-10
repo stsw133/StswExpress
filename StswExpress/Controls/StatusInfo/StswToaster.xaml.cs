@@ -15,7 +15,7 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows notifications to be dynamically added, clicked for interaction, and removed after a specified duration.
 /// </remarks>
-[Stsw("0.14.0")]
+[StswInfo("0.14.0")]
 public class StswToaster : ItemsControl
 {
     private readonly Timer? _timer;
@@ -99,7 +99,7 @@ public class StswToaster : ItemsControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -108,7 +108,7 @@ public class StswToaster : ItemsControl
     }
 
     /// <inheritdoc/>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
@@ -120,7 +120,7 @@ public class StswToaster : ItemsControl
     /// Handles the timer tick event for automatic removal of toasts.
     /// </summary>
     /// <param name="state">The state object passed to the timer (not used).</param>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     private void OnTimerTick(object? state)
     {
         Application.Current.Dispatcher.Invoke(() =>
@@ -147,7 +147,7 @@ public class StswToaster : ItemsControl
     /// Hides the specified toast item with a fade-out animation.
     /// </summary>
     /// <param name="item">The toast item to hide.</param>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     private void HideToastItem(StswToastItem? item)
     {
         if (item == null)
@@ -185,7 +185,7 @@ public class StswToaster : ItemsControl
     /// <summary>
     /// Starts the timer for automatic removal of toasts.
     /// </summary>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     private void StartTimer()
     {
         _timerStarted = true;
@@ -195,7 +195,7 @@ public class StswToaster : ItemsControl
     /// <summary>
     /// Stops the timer for automatic removal of toasts.
     /// </summary>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     private void StopTimer()
     {
         _timerStarted = false;
@@ -208,7 +208,7 @@ public class StswToaster : ItemsControl
     /// <summary>
     /// Gets or sets the duration for which toasts are displayed before being automatically removed.
     /// </summary>
-    [Stsw("0.18.0")]
+    [StswInfo("0.18.0")]
     public TimeSpan DisplayDuration
     {
         get => (TimeSpan)GetValue(DisplayDurationProperty);

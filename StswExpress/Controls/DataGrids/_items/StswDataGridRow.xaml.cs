@@ -6,7 +6,7 @@ namespace StswExpress;
 /// Represents a row in the <see cref="StswDataGrid"/> with built-in selection state synchronization.
 /// When the row is selected or unselected, its associated data model automatically updates the selection state.
 /// </summary>
-[Stsw("0.15.0")]
+[StswInfo("0.15.0")]
 public class StswDataGridRow : DataGridRow
 {
     static StswDataGridRow()

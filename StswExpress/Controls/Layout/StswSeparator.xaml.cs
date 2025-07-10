@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// A visual separator used to divide UI elements.
 /// </summary>
-[Stsw(null)]
+[StswInfo(null)]
 public class StswSeparator : Separator
 {
     static StswSeparator()

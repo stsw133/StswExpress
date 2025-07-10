@@ -3,7 +3,7 @@
 /// Provides a mechanism to defer an action until the object is disposed.
 /// </summary>
 /// <param name="onDispose">The action to perform when the object is disposed.</param>
-[Stsw("0.9.0")]
+[StswInfo("0.9.0")]
 public class StswRefreshBlocker(Action onDispose) : IDisposable
 {
     private readonly Action _onDispose = onDispose;

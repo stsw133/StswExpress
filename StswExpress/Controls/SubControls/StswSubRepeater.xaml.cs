@@ -11,7 +11,7 @@ namespace StswExpress;
 /// This control is useful for scenarios requiring repeated actions when a button is held down,
 /// such as volume adjustment, scrolling, or incremental value changes.
 /// </remarks>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRepeater()

@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// Data model representing the details of a notification tip in the <see cref="StswNotifyIcon"/> control, including title, text, and icon type.
 /// </summary>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 public struct StswNotifyIconTip(string title, string text, ToolTipIcon icon)
 {
     /// <summary>

@@ -13,7 +13,7 @@ namespace StswExpress;
 /// A rating control that allows users to select a rating level.
 /// Supports customizable number of items, reset option, and different expand directions.
 /// </summary>
-[Stsw("0.1.0", Changes = StswPlannedChanges.NewFeatures)]
+[StswInfo("0.1.0", Changes = StswPlannedChanges.NewFeatures)]
 public class StswRatingControl : Control, IStswIconControl
 {
     public StswRatingControl()
@@ -190,7 +190,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets a value indicating whether the rating control is read-only.
     /// When set to <see langword="true"/>, user input (mouse and keyboard) is disabled.
     /// </summary>
-    [Stsw("0.16.0")]
+    [StswInfo("0.16.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -207,7 +207,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets whether the rating control allows resetting to zero.
     /// If enabled, users can clear the rating by pressing the Backspace key.
     /// </summary>
-    [Stsw("0.2.0")]
+    [StswInfo("0.2.0")]
     public bool IsResetEnabled
     {
         get => (bool)GetValue(IsResetEnabledProperty);
@@ -292,7 +292,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets the visibility of the rating item count.
     /// This property controls whether the number of rating levels is displayed.
     /// </summary>
-    [Stsw("0.6.0")]
+    [StswInfo("0.6.0")]
     public Visibility ItemsNumberVisibility
     {
         get => (Visibility)GetValue(ItemsNumberVisibilityProperty);

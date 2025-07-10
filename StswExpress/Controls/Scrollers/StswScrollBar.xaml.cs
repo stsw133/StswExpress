@@ -11,7 +11,7 @@ namespace StswExpress;
 /// A <see cref="ScrollBar"/> extension with dynamic visibility and animated resizing.
 /// Supports automatic expansion when hovered over.
 /// </summary>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 public class StswScrollBar : ScrollBar
 {
     private ButtonBase? _arrowButton1, _arrowButton2;
@@ -74,7 +74,7 @@ public class StswScrollBar : ScrollBar
     /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
     /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
     /// </summary>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     public StswScrollDynamicMode DynamicMode
     {
         get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
@@ -155,7 +155,7 @@ public class StswScrollBar : ScrollBar
     /// Animates the opacity of the scroll bar to fade out after a specified delay.
     /// </summary>
     /// <param name="delay">The delay before the fade-out animation starts.</param>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void AnimateOpacityWithDelayedFadeOut()
     {
         if (!StswSettings.Default.EnableAnimations || DynamicMode != StswScrollDynamicMode.Full)
@@ -196,7 +196,7 @@ public class StswScrollBar : ScrollBar
     /// <param name="toValue">The target opacity value.</param>
     /// <param name="duration">The duration of the animation.</param>
     /// <param name="delay">An optional delay before the animation starts.</param>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void AnimateOpacity(UIElement? element, double toValue, TimeSpan duration, TimeSpan? delay = null)
     {
         if (!StswSettings.Default.EnableAnimations || element == null)
@@ -218,7 +218,7 @@ public class StswScrollBar : ScrollBar
     /// Animates the size of the scroll bar to the specified value.
     /// </summary>
     /// <param name="toValue">The target size value to animate to.</param>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void AnimateSize(double toValue)
     {
         if (!StswSettings.Default.EnableAnimations)
@@ -269,7 +269,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// Stops all animations on the scroll bar and its components.
     /// </summary>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void StopAllAnimations()
     {
         BeginAnimation(OpacityProperty, null);
@@ -285,7 +285,7 @@ public class StswScrollBar : ScrollBar
     /// </summary>
     /// <param name="element">The UI element whose opacity is to be set.</param>
     /// <param name="value">The opacity value to set (0.0 to 1.0).</param>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void SetOpacity(UIElement? element, double value)
     {
         if (element != null)
@@ -299,7 +299,7 @@ public class StswScrollBar : ScrollBar
     /// Sets the size of the scroll bar based on its orientation.
     /// </summary>
     /// <param name="value">The size value to set.</param>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void SetSize(double value)
     {
         var property = Orientation == Orientation.Horizontal ? HeightProperty : WidthProperty;
@@ -314,7 +314,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// Animates the control when the value changes.
     /// </summary>
-    [Stsw("0.19.0")]
+    [StswInfo("0.19.0")]
     private void ValueChangedAnimation()
     {
         if (IsMouseOver)

@@ -9,7 +9,7 @@ namespace StswExpress;
 /// A zoomable container that enables users to zoom and pan its child content.
 /// Supports mouse wheel zooming and drag-based panning.
 /// </summary>
-[Stsw("0.2.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
     private UIElement? _child;
@@ -196,7 +196,7 @@ public class StswZoomControl : Border
     /// Gets or sets the maximum zoom scale.
     /// This prevents the content from being scaled above the specified value.
     /// </summary>
-    [Stsw("0.16.1")]
+    [StswInfo("0.16.1")]
     public double? MaxScale
     {
         get => (double?)GetValue(MaxScaleProperty);
@@ -228,7 +228,7 @@ public class StswZoomControl : Border
     /// <summary>
     /// Gets or sets the zoom step factor.
     /// </summary>
-    [Stsw("0.16.1")]
+    [StswInfo("0.16.1")]
     public double ZoomStep
     {
         get => (double)GetValue(ZoomStepProperty);

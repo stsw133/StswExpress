@@ -9,7 +9,7 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="DataContext"/> implements <see cref="IStswSelectionItem"/>, selection binding is automatically applied.
 /// </remarks>
-[Stsw("0.14.0")]
+[StswInfo("0.14.0")]
 public class StswTreeViewItem : TreeViewItem
 {
     static StswTreeViewItem()

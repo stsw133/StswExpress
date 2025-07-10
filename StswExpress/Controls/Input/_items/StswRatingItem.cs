@@ -3,7 +3,7 @@
 /// <summary>
 /// Data model for <see cref="StswRatingControl"/>'s items.
 /// </summary>
-[Stsw("0.1.0")]
+[StswInfo("0.1.0")]
 internal class StswRatingItem : StswObservableObject
 {
     /// <summary>

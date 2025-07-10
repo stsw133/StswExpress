@@ -9,7 +9,7 @@ namespace StswExpress;
 /// This control extends <see cref="StswToolTip"/> and is intended for internal use with chart components.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-[Stsw("0.4.0")]
+[StswInfo("0.4.0")]
 public class StswChartTip : StswToolTip
 {
     static StswChartTip()
