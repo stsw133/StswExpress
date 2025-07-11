@@ -11,6 +11,13 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswRadioBox Content="Option A" GroupName="Settings"/&gt;
+/// &lt;se:StswRadioBox Content="Option B" GroupName="Settings" IsChecked="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
@@ -182,10 +189,3 @@ public class StswRadioBox : RadioButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswRadioBox Content="Option A" GroupName="Settings"/>
-<se:StswRadioBox Content="Option B" GroupName="Settings" IsChecked="True"/>
-
-*/

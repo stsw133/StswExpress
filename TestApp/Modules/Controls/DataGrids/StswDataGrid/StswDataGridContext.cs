@@ -25,7 +25,7 @@ public partial class StswDataGridContext : ControlsContext
             App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                 () => Items.AddRange(
                     Enumerable.Range((Items.LastOrDefault()?.Id ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }),
-                    itemsState: StswItemState.Unchanged, skipDuplicates: true));
+                    itemsState: StswItemState.Unchanged));
         });
         IsBusy = false;
     }

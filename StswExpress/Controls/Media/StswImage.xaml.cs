@@ -11,6 +11,12 @@ namespace StswExpress;
 /// <summary>
 /// A customizable image control that supports context menu actions such as copy, paste, load, and save.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswImage Source="example.png" Stretch="Uniform"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Source))]
 [StswInfo(null)]
 public class StswImage : Control, IStswCornerControl
@@ -247,9 +253,3 @@ public class StswImage : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswImage Source="example.png" Stretch="Uniform"/>
-
-*/

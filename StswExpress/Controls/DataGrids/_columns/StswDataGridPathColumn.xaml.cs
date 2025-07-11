@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a file path column for <see cref="StswDataGrid"/> that allows selecting file or folder paths.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridPathColumn Header="File Path" Binding="{Binding FilePath}" SelectionUnit="OpenFile"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0", IsTested = false)]
 public class StswDataGridPathColumn : DataGridTextColumn
 {
@@ -237,9 +243,3 @@ public class StswDataGridPathColumn : DataGridTextColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridPathColumn Header="File Path" Binding="{Binding FilePath}" SelectionUnit="OpenFile"/>
-
-*/

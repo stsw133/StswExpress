@@ -646,7 +646,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(insertQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.GetItemsByState(StswItemState.Added))
+            foreach (var item in items.AddedItems)
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
@@ -654,7 +654,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(updateQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.GetItemsByState(StswItemState.Modified))
+            foreach (var item in items.ModifiedItems)
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
@@ -662,7 +662,7 @@ public static class StswDatabaseHelper
         using (var sqlCmd = new SqlCommand(PrepareQuery(deleteQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
-            foreach (var item in items.GetItemsByState(StswItemState.Deleted))
+            foreach (var item in items.DeletedItems)
                 PrepareCommand(sqlCmd, GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
 

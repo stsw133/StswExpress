@@ -13,6 +13,15 @@ namespace StswExpress;
 /// A navigation control that manages multiple contexts and navigation elements.
 /// Supports pinned items, compact/full modes, and dynamic content switching.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNavigationView TabStripMode="Full"&gt;
+///     &lt;se:StswNavigationViewItem Header="Dashboard"/&gt;
+///     &lt;se:StswNavigationViewItem Header="Settings"/&gt;
+/// &lt;/se:StswNavigationView&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswNavigationView : ContentControl, IStswCornerControl
@@ -307,12 +316,3 @@ public class StswNavigationView : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswNavigationView TabStripMode="Full">
-    <se:StswNavigationViewItem Header="Dashboard"/>
-    <se:StswNavigationViewItem Header="Settings"/>
-</se:StswNavigationView>
-
-*/

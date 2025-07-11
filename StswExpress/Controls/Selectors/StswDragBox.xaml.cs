@@ -16,6 +16,15 @@ namespace StswExpress;
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDragBox ItemsSource="{Binding Employees}" IsReadOnly="True"&gt;
+///     &lt;se:StswDragBoxItem Content="John Doe"/&gt;
+///     &lt;se:StswDragBoxItem Content="Jane Smith"/&gt;
+/// &lt;/se:StswDragBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.15.0")]
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
@@ -282,12 +291,3 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDragBox ItemsSource="{Binding Employees}" IsReadOnly="True">
-    <se:StswDragBoxItem Content="John Doe"/>
-    <se:StswDragBoxItem Content="Jane Smith"/>
-</se:StswDragBox>
-
-*/

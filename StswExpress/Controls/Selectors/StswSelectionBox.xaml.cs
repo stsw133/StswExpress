@@ -17,6 +17,12 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
@@ -362,9 +368,3 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/>
-
-*/

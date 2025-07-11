@@ -11,6 +11,15 @@ namespace StswExpress;
 /// This control provides a structured way to present status information in an application.
 /// It allows for dynamic updates and styling of individual status bar items.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswStatusBar&gt;
+///     &lt;se:StswStatusBarItem Content="Ready"/&gt;
+///     &lt;se:StswStatusBarItem Content="Connection: Stable"/&gt;
+/// &lt;/se:StswStatusBar&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswStatusBar : StatusBar
 {
@@ -52,12 +61,3 @@ public class StswStatusBar : StatusBar
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswStatusBar>
-    <se:StswStatusBarItem Content="Ready"/>
-    <se:StswStatusBarItem Content="Connection: Stable"/>
-</se:StswStatusBar>
-
-*/

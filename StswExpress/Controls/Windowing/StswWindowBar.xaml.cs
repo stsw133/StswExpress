@@ -13,6 +13,14 @@ namespace StswExpress;
 /// Designed to be used inside a <see cref="StswWindow"/> to offer window control buttons and a context menu.
 /// The bar automatically detects its parent window and configures its actions accordingly.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswWindow&gt;
+///     &lt;se:StswWindowBar/&gt;
+/// &lt;/se:StswWindow&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Components))]
 [StswInfo("0.5.0")]
 public class StswWindowBar : Control, IStswCornerControl
@@ -205,11 +213,3 @@ public class StswWindowBar : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswWindow>
-    <se:StswWindowBar/>
-</se:StswWindow>
-
-*/

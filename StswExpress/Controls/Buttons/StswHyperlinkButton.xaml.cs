@@ -8,6 +8,12 @@ namespace StswExpress;
 /// Represents a button styled as a hyperlink, allowing navigation to a specified URI when clicked.
 /// This control provides a visually distinct link-like appearance while maintaining button behavior.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
@@ -94,9 +100,3 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/>
-
-*/

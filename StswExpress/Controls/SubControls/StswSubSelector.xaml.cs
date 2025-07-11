@@ -14,6 +14,15 @@ namespace StswExpress;
 /// <remarks>
 /// This control is useful for compact UI designs where a small, expandable selector provides access to multiple actions.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubSelector IconData="{StaticResource MoreIcon}"&gt;
+///     &lt;se:StswSubButton Content="Option 1"/&gt;
+///     &lt;se:StswSubButton Content="Option 2"/&gt;
+/// &lt;/se:StswSubSelector&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo("0.1.0")]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
@@ -245,12 +254,3 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubSelector IconData="{StaticResource MoreIcon}">
-    <se:StswSubButton Content="Option 1"/>
-    <se:StswSubButton Content="Option 2"/>
-</se:StswSubSelector>
-
-*/

@@ -11,6 +11,12 @@ namespace StswExpress;
 /// This control is useful for scenarios requiring repeated actions when a button is held down,
 /// such as volume adjustment, scrolling, or incremental value changes.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubRepeater IconData="{StaticResource PlusIcon}" Command="{Binding MyCommand}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
@@ -131,9 +137,3 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubRepeater IconData="{StaticResource PlusIcon}" Command="{Binding MyCommand}"/>
-
-*/

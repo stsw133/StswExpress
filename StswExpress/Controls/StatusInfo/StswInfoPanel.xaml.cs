@@ -15,6 +15,15 @@ namespace StswExpress;
 /// This control provides a structured way to display multiple notifications, allowing bulk operations like 
 /// closing all notifications at once or copying their content to the clipboard.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoPanel ShowControlPanel="True"&gt;
+///     &lt;se:StswInfoBar Title="Success" Text="Operation completed!" Type="Success"/&gt;
+///     &lt;se:StswInfoBar Title="Error" Text="Something went wrong." Type="Error"/&gt;
+/// &lt;/se:StswInfoPanel&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
@@ -198,12 +207,3 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoPanel ShowControlPanel="True">
-    <se:StswInfoBar Title="Success" Text="Operation completed!" Type="Success"/>
-    <se:StswInfoBar Title="Error" Text="Something went wrong." Type="Error"/>
-</se:StswInfoPanel>
-
-*/

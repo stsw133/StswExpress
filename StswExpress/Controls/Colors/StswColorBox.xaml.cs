@@ -11,6 +11,12 @@ namespace StswExpress;
 /// or using an integrated color picker and selector.
 /// Supports alpha channel selection, dynamic color updates, and text-based color input.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswColorBox SelectedColor="{Binding BackgroundColor}" IsAlphaEnabled="False"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedColor))]
 [StswInfo("0.1.0")]
 public class StswColorBox : StswBoxBase
@@ -124,9 +130,3 @@ public class StswColorBox : StswBoxBase
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswColorBox SelectedColor="{Binding BackgroundColor}" IsAlphaEnabled="False"/>
-
-*/

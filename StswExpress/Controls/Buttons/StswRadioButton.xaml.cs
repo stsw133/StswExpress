@@ -7,6 +7,15 @@ namespace StswExpress;
 /// Represents a radio button control that allows the user to select a single option from a group of mutually exclusive options.
 /// This control extends <see cref="RadioButton"/> with additional styling options, including corner rounding and animations.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;StackPanel&gt;
+///     &lt;se:StswRadioButton Content="Option 1" GroupName="Group1"/&gt;
+///     &lt;se:StswRadioButton Content="Option 2" GroupName="Group1"/&gt;
+/// &lt;/StackPanel&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswRadioButton : RadioButton, IStswCornerControl
 {
@@ -72,12 +81,3 @@ public class StswRadioButton : RadioButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<StackPanel>
-    <se:StswRadioButton Content="Option 1" GroupName="Group1"/>
-    <se:StswRadioButton Content="Option 2" GroupName="Group1"/>
-</StackPanel>
-
-*/

@@ -6,6 +6,21 @@ namespace StswExpress;
 /// A customizable menu control with extended functionality, 
 /// including support for corner customization and styling.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswMenu&gt;
+///     &lt;se:StswMenuItem Header="File"&gt;
+///         &lt;se:StswMenuItem Header="Open"/&gt;
+///         &lt;se:StswMenuItem Header="Save"/&gt;
+///     &lt;/se:StswMenuItem&gt;
+///     &lt;se:StswMenuItem Header="Edit"&gt;
+///         &lt;se:StswMenuItem Header="Undo"/&gt;
+///         &lt;se:StswMenuItem Header="Redo"/&gt;
+///     &lt;/se:StswMenuItem&gt;
+/// &lt;/se:StswMenu&gt;
+/// </code>
+/// </example>
 [StswInfo("0.8.0")]
 public class StswMenu : Menu, IStswCornerControl
 {
@@ -44,18 +59,3 @@ public class StswMenu : Menu, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswMenu>
-    <se:StswMenuItem Header="File">
-        <se:StswMenuItem Header="Open"/>
-        <se:StswMenuItem Header="Save"/>
-    </se:StswMenuItem>
-    <se:StswMenuItem Header="Edit">
-        <se:StswMenuItem Header="Undo"/>
-        <se:StswMenuItem Header="Redo"/>
-    </se:StswMenuItem>
-</se:StswMenu>
-
-*/

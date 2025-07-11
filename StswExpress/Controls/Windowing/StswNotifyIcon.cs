@@ -16,6 +16,12 @@ namespace StswExpress;
 /// <remarks>
 /// The control manages application state visibility and interaction with the system tray.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
 public class StswNotifyIcon : FrameworkElement
 {
@@ -349,9 +355,3 @@ public class StswNotifyIcon : FrameworkElement
         _tray?.Dispose();
     }
 }
-
-/* usage:
-
-<se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/>
-
-*/

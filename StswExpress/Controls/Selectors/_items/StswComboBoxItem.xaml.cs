@@ -5,6 +5,15 @@ namespace StswExpress;/// <summary>
 /// Represents an individual item inside the <see cref="StswComboBox"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswComboBox&gt;
+///     &lt;se:StswComboBoxItem Content="Option 1"/&gt;
+///     &lt;se:StswComboBoxItem Content="Option 2"/&gt;
+/// &lt;/se:StswComboBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
 {
@@ -73,12 +82,3 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswComboBox>
-    <se:StswComboBoxItem Content="Option 1"/>
-    <se:StswComboBoxItem Content="Option 2"/>
-</se:StswComboBox>
-
-*/

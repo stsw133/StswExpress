@@ -11,6 +11,12 @@ namespace StswExpress;
 /// A <see cref="ScrollBar"/> extension with dynamic visibility and animated resizing.
 /// Supports automatic expansion when hovered over.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswScrollBar Orientation="Vertical" IsDynamic="True" CollapsedWidth="5" ExpandedWidth="15"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswScrollBar : ScrollBar
 {
@@ -325,9 +331,3 @@ public class StswScrollBar : ScrollBar
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswScrollBar Orientation="Vertical" IsDynamic="True" CollapsedWidth="5" ExpandedWidth="15"/>
-
-*/

@@ -11,7 +11,13 @@ namespace StswExpress;
 /// Supports dynamic updates, customizable grid layout with adjustable rows and columns, 
 /// and optional percentage visibility inside legend items.
 /// </summary>
-[StswInfo("0.4.0")]
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswChartLegend ItemsSource="{Binding ChartData}" Columns="3" Rows="2" ShowDetails="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.4.0", Changes = StswPlannedChanges.Refactor)]
 public class StswChartLegend : HeaderedItemsControl
 {
     static StswChartLegend()
@@ -137,9 +143,3 @@ public class StswChartLegend : HeaderedItemsControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswChartLegend ItemsSource="{Binding ChartData}" Columns="3" Rows="2" ShowDetails="True"/>
-
-*/

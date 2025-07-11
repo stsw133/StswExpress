@@ -12,6 +12,15 @@ namespace StswExpress;
 /// This control is intended for use in toolbars, menus, and other compact UI areas where 
 /// a small, icon-based drop-down button is needed.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubDrop Header="Options"&gt;
+///     &lt;MenuItem Header="Action 1"/&gt;
+///     &lt;MenuItem Header="Action 2"/&gt;
+/// &lt;/se:StswSubDrop&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo("0.4.0")]
 public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
@@ -193,12 +202,3 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubDrop Header="Options">
-    <MenuItem Header="Action 1"/>
-    <MenuItem Header="Action 2"/>
-</se:StswSubDrop>
-
-*/

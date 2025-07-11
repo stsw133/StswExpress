@@ -9,6 +9,12 @@ namespace StswExpress;
 /// A secure password input control that hides the entered text.
 /// Supports placeholder text, show/hide password functionality, and validation.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
@@ -216,9 +222,3 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/>
-
-*/

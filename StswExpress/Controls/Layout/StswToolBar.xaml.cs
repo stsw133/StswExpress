@@ -6,6 +6,15 @@ namespace StswExpress;
 /// <summary>
 /// A customizable toolbar control for grouping command buttons and tools.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToolBar&gt;
+///     &lt;Button Content="Save"/&gt;
+///     &lt;Button Content="Open"/&gt;
+/// &lt;/se:StswToolBar&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswToolBar : ToolBar, IStswCornerControl
 {
@@ -45,19 +54,22 @@ public class StswToolBar : ToolBar, IStswCornerControl
     #endregion
 }
 
-/* usage:
-
-<se:StswToolBar>
-    <Button Content="Save"/>
-    <Button Content="Open"/>
-</se:StswToolBar>
-
-*/
-
 /// <summary>
 /// A container control designed for managing multiple toolbars in a flexible and customizable layout.
 /// Allows positioning and arranging toolbars dynamically.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToolBarTray&gt;
+///     &lt;se:StswToolBar&gt;
+///         &lt;Button Content="Cut"/&gt;
+///         &lt;Button Content="Copy"/&gt;
+///         &lt;Button Content="Paste"/&gt;
+///     &lt;/se:StswToolBar&gt;
+/// &lt;/se:StswToolBarTray&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswToolBarTray : ToolBarTray
 {
@@ -66,15 +78,3 @@ public class StswToolBarTray : ToolBarTray
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolBarTray), new FrameworkPropertyMetadata(typeof(StswToolBarTray)));
     }
 }
-
-/* usage:
-
-<se:StswToolBarTray>
-    <se:StswToolBar>
-        <Button Content="Cut"/>
-        <Button Content="Copy"/>
-        <Button Content="Paste"/>
-    </se:StswToolBar>
-</se:StswToolBarTray>
-
-*/

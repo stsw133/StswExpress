@@ -11,6 +11,12 @@ namespace StswExpress;
 /// This control is intended for use in toolbars, panels, and other compact UI areas where
 /// a small, checkbox-based toggle is needed.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubCheck IsBusy="True" IconFill="Red"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//, IStswIconControl
 {
@@ -111,9 +117,3 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubCheck IsBusy="True" IconFill="Red"/>
-
-*/

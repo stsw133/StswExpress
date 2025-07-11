@@ -14,6 +14,12 @@ namespace StswExpress;
 /// The control includes built-in animations for smooth state transitions, 
 /// as well as an optional read-only mode to prevent user interaction.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToggleSwitch Content="Dark Mode" IsChecked="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0")]
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
@@ -337,9 +343,3 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswToggleSwitch Content="Dark Mode" IsChecked="True"/>
-
-*/

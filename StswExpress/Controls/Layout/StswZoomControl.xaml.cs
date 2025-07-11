@@ -9,6 +9,14 @@ namespace StswExpress;
 /// A zoomable container that enables users to zoom and pan its child content.
 /// Supports mouse wheel zooming and drag-based panning.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswZoomControl MinScale="0.5" MaxScale="4.0"&gt;
+///     &lt;Image Source = "example.jpg" Stretch="None"/&gt;
+/// &lt;/se:StswZoomControl&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
@@ -261,11 +269,3 @@ public class StswZoomControl : Border
     public static readonly DependencyProperty ZoomPercentageProperty = ZoomPercentagePropertyKey!.DependencyProperty;
     #endregion
 }
-
-/* usage:
-
-<se:StswZoomControl MinScale="0.5" MaxScale="4.0">
-    <Image Source="example.jpg" Stretch="None"/>
-</se:StswZoomControl>
-
-*/

@@ -14,6 +14,15 @@ namespace StswExpress;
 /// Supports customizable items, automatic closure when an item is selected, 
 /// and additional styling options such as corner rounding.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDropButton Header="Options" AutoClose="True"&gt;
+///     &lt;StswButton Content="Option 1"/&gt;
+///     &lt;StswButton Content="Option 2"/&gt;
+/// &lt;/se:StswDropButton&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo(null)]
 public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
@@ -187,12 +196,3 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDropButton Header="Options" AutoClose="True">
-    <StswButton Content="Option 1"/>
-    <StswButton Content="Option 2"/>
-</se:StswDropButton>
-
-*/

@@ -13,6 +13,12 @@ namespace StswExpress;
 /// This control provides a compact way to display notifications with additional functionality like copying text 
 /// to the clipboard, expanding for more details, and dismissing messages.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoBar Title="Info" Text="Update available" Type="Info" IsCopyable="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswInfoBar : Control, IStswCornerControl
 {
@@ -210,9 +216,3 @@ public class StswInfoBar : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoBar Title="Info" Text="Update available" Type="Info" IsCopyable="True"/>
-
-*/

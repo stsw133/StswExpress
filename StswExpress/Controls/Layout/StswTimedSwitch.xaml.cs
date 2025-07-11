@@ -8,6 +8,12 @@ namespace StswExpress;
 /// A switch control that automatically reverts to its default state after a specified duration.
 /// Supports custom content display during the active period.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswTimedSwitch : CheckBox
 {
@@ -158,9 +164,3 @@ public class StswTimedSwitch : CheckBox
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/>
-
-*/

@@ -10,6 +10,12 @@ namespace StswExpress;
 /// A time picker control that allows users to select a time using a text box and a drop-down time selector.
 /// Supports different time formats, min/max validation, and incremental adjustments via mouse scroll.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTimePicker SelectedTime="{Binding StartTime}" Format="HH:mm" IncrementType="Minute"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedTime))]
 [StswInfo("0.5.0")]
 public class StswTimePicker : StswBoxBase
@@ -446,9 +452,3 @@ public class StswTimePicker : StswBoxBase
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswTimePicker SelectedTime="{Binding StartTime}" Format="HH:mm" IncrementType="Minute"/>
-
-*/

@@ -9,6 +9,17 @@ namespace StswExpress;
 /// A <see cref="ScrollViewer"/> extension with dynamic scrolling behavior.
 /// Supports automatic scrolling to the bottom and dynamic visibility of scrollbars.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswScrollView AutoScroll="True"&gt;
+///     &lt;StackPanel&gt;
+///         &lt;TextBlock Text="Scrollable Content"/&gt;
+///         &lt;TextBlock Text="More Content"/&gt;
+///     &lt;/StackPanel&gt;
+/// &lt;/se:StswScrollView&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswScrollView : ScrollViewer
 {
@@ -224,14 +235,3 @@ public class StswScrollView : ScrollViewer
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<se:StswScrollView AutoScroll="True">
-    <StackPanel>
-        <TextBlock Text="Scrollable Content"/>
-        <TextBlock Text="More Content"/>
-    </StackPanel>
-</se:StswScrollView>
-
-*/

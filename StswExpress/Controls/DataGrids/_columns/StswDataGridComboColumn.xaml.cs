@@ -12,6 +12,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a combo box column for <see cref="StswDataGrid"/> that allows selecting values from a dropdown list.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridComboColumn Header="Category" SelectedItemBinding="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
@@ -310,9 +316,3 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             => throw new NotImplementedException();
     }
 }
-
-/* usage:
-
-<se:StswDataGridComboColumn Header="Category" SelectedItemBinding="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
-
-*/

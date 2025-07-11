@@ -11,6 +11,14 @@ namespace StswExpress;
 /// This control extends <see cref="StatusBarItem"/> to provide additional styling capabilities,
 /// including corner radius control for rounded edges.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswStatusBar&gt;
+///     &lt;se:StswStatusBarItem Content="Loading..." CornerRadius="5"/&gt;
+/// &lt;/se:StswStatusBar&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswStatusBarItem : StatusBarItem, IStswCornerControl
 {
@@ -49,11 +57,3 @@ public class StswStatusBarItem : StatusBarItem, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswStatusBar>
-    <se:StswStatusBarItem Content="Loading..." CornerRadius="5"/>
-</se:StswStatusBar>
-
-*/

@@ -13,6 +13,14 @@ namespace StswExpress;
 /// <remarks>
 /// The popup adapts to different scroll types and supports dynamic content updates.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPopup IsOpen="True" CornerRadius="8" ScrollType="ScrollView"&gt;
+///     &lt;TextBlock Text="This is a popup message"/&gt;
+/// &lt;/se:StswPopup&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Content))]
 [StswInfo("0.2.0")]
 public class StswPopup : Popup, IStswCornerControl
@@ -193,11 +201,3 @@ public class StswPopup : Popup, IStswCornerControl
     public static void SetPadding(DependencyObject obj, Thickness value) => obj.SetValue(PaddingProperty, value);
     #endregion
 }
-
-/* usage:
-
-<se:StswPopup IsOpen="True" CornerRadius="8" ScrollType="ScrollView">
-    <TextBlock Text="This is a popup message"/>
-</se:StswPopup>
-
-*/

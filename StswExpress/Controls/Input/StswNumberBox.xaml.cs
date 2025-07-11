@@ -269,15 +269,15 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     #endregion
 }
 
-/* usage:
-
-<se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/>
-
-*/
-
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.9.0")]
 public class StswDecimalBox : StswNumberBoxBase<decimal>
 {
@@ -290,6 +290,12 @@ public class StswDecimalBox : StswNumberBoxBase<decimal>
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDoubleBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswDoubleBox : StswNumberBoxBase<double>
 {
@@ -302,6 +308,12 @@ public class StswDoubleBox : StswNumberBoxBase<double>
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswIntegerBox Value="{Binding Quantity}" Increment="1" Minimum="0"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswIntegerBox : StswNumberBoxBase<int>
 {

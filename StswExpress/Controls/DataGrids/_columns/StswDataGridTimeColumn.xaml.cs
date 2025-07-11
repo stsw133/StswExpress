@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a time column for <see cref="StswDataGrid"/> that allows selecting and displaying time values.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridTimeColumn Header="Time" Binding="{Binding StartTime}" Format="HH:mm" Placeholder="Select time"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswDataGridTimeColumn : DataGridTextColumn
 {
@@ -204,9 +210,3 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridTimeColumn Header="Time" Binding="{Binding StartTime}" Format="HH:mm" Placeholder="Select time"/>
-
-*/

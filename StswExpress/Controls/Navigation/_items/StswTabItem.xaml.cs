@@ -8,6 +8,12 @@ namespace StswExpress;
 /// A tab item with additional functionality, including support for a close button.
 /// Allows users to remove tabs dynamically from the tab control.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTabItem Header="Documents" IsClosable="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswTabItem : TabItem
 {
@@ -63,9 +69,3 @@ public class StswTabItem : TabItem
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTabItem Header="Documents" IsClosable="True"/>
-
-*/

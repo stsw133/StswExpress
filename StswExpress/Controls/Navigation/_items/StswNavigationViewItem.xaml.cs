@@ -8,6 +8,12 @@ namespace StswExpress;
 /// A navigation element that can contain sub-elements and interact with a parent navigation control.
 /// Supports icons, busy states, and dynamic context loading.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNavigationViewItem Header="Reports" IconData="{StaticResource UserIcon}" TargetType="{x:Type local:ReportsContext}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIconControl
 {
@@ -252,9 +258,3 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswNavigationViewItem Header="Reports" IconData="{StaticResource UserIcon}" TargetType="{x:Type local:ReportsContext}"/>
-
-*/

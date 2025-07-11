@@ -11,6 +11,12 @@ namespace StswExpress;
 /// Represents a pagination control for navigating through a large dataset by displaying a subset of items per page.
 /// Provides navigation buttons for switching pages, including automatic handling of page limits.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswDataPager : ContentControl, IStswCornerControl
 {
@@ -291,9 +297,3 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/>
-
-*/

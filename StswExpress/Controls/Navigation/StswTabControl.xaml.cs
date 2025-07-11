@@ -10,6 +10,15 @@ namespace StswExpress;
 /// A tab control with extended functionality, including dynamic tab creation, 
 /// visibility toggling, and command-based item management.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible"&gt;
+///     &lt;se:StswTabItem Header="Home"/&gt;
+///     &lt;se:StswTabItem Header="Settings"/&gt;
+/// &lt;/se:StswTabControl&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswTabControl : TabControl
 {
@@ -115,12 +124,3 @@ public class StswTabControl : TabControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible">
-    <se:StswTabItem Header="Home"/>
-    <se:StswTabItem Header="Settings"/>
-</se:StswTabControl>
-
-*/

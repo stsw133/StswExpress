@@ -11,6 +11,12 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
@@ -181,9 +187,3 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/>
-
-*/

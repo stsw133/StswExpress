@@ -14,6 +14,12 @@ namespace StswExpress;
 /// <remarks>
 /// The control allows for various transformations, including scaling and rotation, making it a versatile choice for UI design.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswIcon Data="{StaticResource HomeIcon}" Fill="Blue" Stroke="Black" StrokeThickness="1"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Data))]
 [StswInfo(null)]
 public class StswIcon : Control
@@ -287,9 +293,3 @@ public class StswIcon : Control
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswIcon Data="{StaticResource HomeIcon}" Fill="Blue" Stroke="Black" StrokeThickness="1"/>
-
-*/

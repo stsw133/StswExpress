@@ -218,17 +218,16 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     #endregion
 }
 
-/* usage:
-
-<se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}" Format="C2"/>
-<se:StswDataGridIntegerColumn Header="Quantity" Binding="{Binding Quantity}"/>
-
-*/
-
 /// <summary>
 /// Represents a numeric column for decimal values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDecimalBox"/> as the editing control.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
@@ -236,6 +235,12 @@ public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, S
 /// Represents a numeric column for double-precision floating-point values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswDoubleBox"/> as the editing control.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridDoubleColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
@@ -243,5 +248,11 @@ public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, Sts
 /// Represents a numeric column for integer values within <see cref="StswDataGrid"/>.
 /// Uses <see cref="StswIntegerBox"/> as the editing control.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridIntegerColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

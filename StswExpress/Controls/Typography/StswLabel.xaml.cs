@@ -13,6 +13,12 @@ namespace StswExpress;
 /// This control extends <see cref="Label"/> with additional functionality, including icon support, 
 /// command integration, and the ability to indicate a busy state.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswLabel Content="Download" IconData="{StaticResource DownloadIcon}" IsBusy="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswLabel : Label, IStswCornerControl, IStswIconControl
 {
@@ -266,9 +272,3 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswLabel Content="Download" IconData="{StaticResource DownloadIcon}" IsBusy="True"/>
-
-*/

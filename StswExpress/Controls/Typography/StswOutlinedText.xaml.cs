@@ -14,6 +14,12 @@ namespace StswExpress;
 /// <remarks>
 /// The text is rendered with a configurable outline and fill, making it ideal for stylized UI elements.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswOutlinedText Text="Outlined Text" FontSize="24" FontWeight="Bold" Stroke="Red" Fill="Blue"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Text))]
 [StswInfo(null)]
 public class StswOutlinedText : FrameworkElement
@@ -384,9 +390,3 @@ public class StswOutlinedText : FrameworkElement
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswOutlinedText Text="Outlined Text" FontSize="24" FontWeight="Bold" Stroke="Red" Fill="Blue"/>
-
-*/

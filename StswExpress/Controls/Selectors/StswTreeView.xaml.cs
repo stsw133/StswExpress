@@ -12,6 +12,15 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTreeView ItemsSource="{Binding Categories}" IsReadOnly="True"&gt;
+///     &lt;se:StswTreeViewItem Header="Category 1"/&gt;
+///     &lt;se:StswTreeViewItem Header="Category 2"/&gt;
+/// &lt;/se:StswTreeView&gt;
+/// </code>
+/// </example>
 [StswInfo("0.3.0")]
 public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 {
@@ -127,12 +136,3 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTreeView ItemsSource="{Binding Categories}" IsReadOnly="True">
-    <se:StswTreeViewItem Header="Category 1"/>
-    <se:StswTreeViewItem Header="Category 2"/>
-</se:StswTreeView>
-
-*/

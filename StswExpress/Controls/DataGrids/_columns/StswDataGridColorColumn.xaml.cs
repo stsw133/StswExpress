@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a color column for <see cref="StswDataGrid"/> that allows selecting and displaying colors.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridColorColumn Header="Theme Color" Binding="{Binding ThemeColor}" Placeholder="Select color"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0", IsTested = false)]
 public class StswDataGridColorColumn : DataGridTextColumn
 {
@@ -186,9 +192,3 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridColorColumn Header="Theme Color" Binding="{Binding ThemeColor}" Placeholder="Select color"/>
-
-*/

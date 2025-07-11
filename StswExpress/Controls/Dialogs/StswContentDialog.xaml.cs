@@ -14,6 +14,12 @@ namespace StswExpress;
 /// Represents a customizable content dialog control for displaying various types of content.
 /// Can be used as a modal popup with asynchronous handling of dialog results.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/&gt;
+/// </code>
+/// </example>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
 [StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
@@ -440,12 +446,6 @@ public class StswContentDialog : ContentControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/>
-
-*/
 
 /// <summary>
 /// Represents a session for managing an open dialog instance.

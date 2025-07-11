@@ -14,6 +14,12 @@ namespace StswExpress;/// <summary>
 /// Supports filtering, selection binding, and corner customization.
 /// This control allows filtering of items based on user input and supports displaying icons and custom placeholders.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswComboBox ItemsSource="{Binding Cities}" IsFilterEnabled="True" Placeholder="Select a city"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
@@ -398,9 +404,3 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswComboBox ItemsSource="{Binding Cities}" IsFilterEnabled="True" Placeholder="Select a city"/>
-
-*/

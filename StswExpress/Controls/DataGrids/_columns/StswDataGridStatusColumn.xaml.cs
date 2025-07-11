@@ -10,6 +10,12 @@ namespace StswExpress;
 /// Represents a status column for <see cref="StswDataGrid"/> that visually indicates row states.
 /// The column is read-only and automatically binds to row visibility properties.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridStatusColumn/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.11.0")]
 public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
@@ -73,9 +79,3 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         dataGrid.RowStyle = newStyle;
     }
 }
-
-/* usage:
-
-<se:StswDataGridStatusColumn/>
-
-*/

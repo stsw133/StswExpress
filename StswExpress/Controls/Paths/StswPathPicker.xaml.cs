@@ -14,6 +14,12 @@ namespace StswExpress;
 /// A file and directory path selection control with a built-in file dialog.
 /// Supports file filtering, multi-selection, and displaying file sizes.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPathPicker SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile" Filter="Text Files|*.txt"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedPath))]
 [StswInfo("0.5.0")]
 public class StswPathPicker : StswBoxBase
@@ -374,9 +380,3 @@ public class StswPathPicker : StswBoxBase
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPathPicker SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile" Filter="Text Files|*.txt"/>
-
-*/

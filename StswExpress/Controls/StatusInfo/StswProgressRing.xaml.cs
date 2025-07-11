@@ -14,6 +14,12 @@ namespace StswExpress;
 /// This control provides a visual representation of progress in a ring format.
 /// It supports different text display modes and scaling for various UI requirements.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.4.0")]
 public class StswProgressRing : ProgressBar
 {
@@ -187,9 +193,3 @@ public class StswProgressRing : ProgressBar
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/>
-
-*/

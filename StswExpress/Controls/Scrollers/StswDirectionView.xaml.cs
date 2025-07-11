@@ -13,6 +13,18 @@ namespace StswExpress;
 /// Supports automatic scrolling when hovering over navigation buttons.
 /// This control provides extra navigation buttons for controlling scroll behavior in both horizontal and vertical directions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDirectionView Orientation="Horizontal"&gt;
+///     &lt;StackPanel Orientation="Horizontal"&gt;
+///         &lt;TextBlock Text="Item 1"/&gt;
+///         &lt;TextBlock Text="Item 2"/&gt;
+///         &lt;TextBlock Text="Item 3"/&gt;
+///     &lt;/StackPanel&gt;
+/// &lt;/se:StswDirectionView&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0")]
 public class StswDirectionView : ScrollViewer
 {
@@ -355,15 +367,3 @@ public class StswDirectionView : ScrollViewer
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<se:StswDirectionView Orientation="Horizontal">
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Item 1"/>
-        <TextBlock Text="Item 2"/>
-        <TextBlock Text="Item 3"/>
-    </StackPanel>
-</se:StswDirectionView>
-
-*/

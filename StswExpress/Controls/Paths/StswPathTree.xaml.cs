@@ -16,6 +16,12 @@ namespace StswExpress;
 /// A hierarchical file tree control for navigating directories and files.
 /// Supports dynamic folder expansion and custom root paths.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPathTree InitialPath="C:\" SelectedPath="{Binding SelectedFile}" ShowFiles="True"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedPath))]
 [StswInfo("0.13.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
@@ -360,9 +366,3 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPathTree InitialPath="C:\" SelectedPath="{Binding SelectedFile}" ShowFiles="True"/>
-
-*/

@@ -9,6 +9,12 @@ namespace StswExpress;
 /// A standard text input control for displaying or editing unformatted text.
 /// Supports placeholder text, validation, and an optional icon.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTextBox Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Text))]
 [StswInfo(null)]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
@@ -132,9 +138,3 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTextBox Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/>
-
-*/

@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a text column for <see cref="StswDataGrid"/> that allows displaying and editing text.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}" Placeholder="Enter name"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridTextColumn : DataGridTextColumn
 {
@@ -257,9 +263,3 @@ public class StswDataGridTextColumn : DataGridTextColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}" Placeholder="Enter name"/>
-
-*/

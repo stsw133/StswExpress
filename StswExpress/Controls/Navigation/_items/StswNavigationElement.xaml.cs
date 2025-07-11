@@ -15,6 +15,12 @@ namespace StswExpress;
 /// WARNING: There are bugs when switching from <see cref="StswCompactibility.Compact"/> mode
 /// to <see cref="StswCompactibility.Full"/> mode - all buttons in expander can become invisible.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNavigationElement Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo(null, Changes = StswPlannedChanges.Rework)]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
@@ -405,9 +411,3 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswNavigationElement Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/>
-
-*/

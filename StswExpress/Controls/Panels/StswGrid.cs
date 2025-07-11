@@ -9,6 +9,15 @@ namespace StswExpress;
 /// A custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on its children.
 /// Supports different auto-layout modes.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswGrid AutoLayoutMode="AutoDefinitions"&gt;
+///     &lt;TextBlock Grid.Row="0" Text="Item 1"/&gt;
+///     &lt;TextBlock Grid.Row="1" Text="Item 2"/&gt;
+/// &lt;/se:StswGrid&gt;
+/// </code>
+/// </example>
 [StswInfo("0.7.0")]
 public class StswGrid : Grid
 {
@@ -211,12 +220,3 @@ public class StswGrid : Grid
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswGrid AutoLayoutMode="AutoDefinitions">
-    <TextBlock Grid.Row="0" Text="Item 1"/>
-    <TextBlock Grid.Row="1" Text="Item 2"/>
-</se:StswGrid>
-
-*/

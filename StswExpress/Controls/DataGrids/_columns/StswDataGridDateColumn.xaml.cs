@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a date column for <see cref="StswDataGrid"/> that allows selecting and displaying dates.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridDateColumn Header="Birth Date" Binding="{Binding BirthDate}" Format="dd/MM/yyyy"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridDateColumn : DataGridTextColumn
 {
@@ -222,9 +228,3 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridDateColumn Header="Birth Date" Binding="{Binding BirthDate}" Format="dd/MM/yyyy"/>
-
-*/

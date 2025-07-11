@@ -11,6 +11,14 @@ namespace StswExpress;
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswBorder CornerClipping="True" CornerRadius="20"&gt;
+///     &lt;Image Source="example.jpg"/&gt;
+/// &lt;/se:StswBorder&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswBorder : Border, IStswCornerControl
 {
@@ -75,11 +83,3 @@ public class StswBorder : Border, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswBorder CornerClipping="True" CornerRadius="20">
-    <Image Source="example.jpg"/>
-</se:StswBorder>
-
-*/

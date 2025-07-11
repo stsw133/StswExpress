@@ -11,6 +11,12 @@ namespace StswExpress;
 /// Represents a color picker control that allows users to select colors using a color spectrum or hue/saturation palette.
 /// Supports alpha channel selection, dynamic color updates, and precise color adjustments.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswColorPicker SelectedColor="{Binding SelectedThemeColor}" IsAlphaEnabled="True" SelectorSize="200"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedColor))]
 [StswInfo("0.1.0")]
 public class StswColorPicker : Control, IStswCornerControl
@@ -364,9 +370,3 @@ public class StswColorPicker : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswColorPicker SelectedColor="{Binding SelectedThemeColor}" IsAlphaEnabled="True" SelectorSize="200"/>
-
-*/

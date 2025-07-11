@@ -9,6 +9,12 @@ namespace StswExpress;
 /// This control extends <see cref="ToggleButton"/>, providing additional styling options such as corner rounding
 /// and optional animations for state transitions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToggleButton Content="Enable Feature" IsChecked="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
@@ -74,9 +80,3 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswToggleButton Content="Enable Feature" IsChecked="True"/>
-
-*/

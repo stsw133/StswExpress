@@ -7,6 +7,15 @@ namespace StswExpress;
 /// Represents an individual item inside the <see cref="StswListView"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswListView&gt;
+///     &lt;se:StswListViewItem Content="Item A"/&gt;
+///     &lt;se:StswListViewItem Content="Item B"/&gt;
+/// &lt;/se:StswListView&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswListViewItem : ListViewItem, IStswCornerControl
 {
@@ -74,12 +83,3 @@ public class StswListViewItem : ListViewItem, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswListView>
-    <se:StswListViewItem Content="Item A"/>
-    <se:StswListViewItem Content="Item B"/>
-</se:StswListView>
-
-*/

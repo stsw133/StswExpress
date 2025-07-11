@@ -15,6 +15,12 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows notifications to be dynamically added, clicked for interaction, and removed after a specified duration.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToaster/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswToaster : ItemsControl
 {
@@ -287,9 +293,3 @@ public class StswToaster : ItemsControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswToaster/>
-
-*/

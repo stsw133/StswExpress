@@ -7,6 +7,12 @@ namespace StswExpress;
 /// A menu item with extended functionality, including support for icons, 
 /// busy/loading states, and corner customization.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswMenuItem Header="Settings" IconData="{StaticResource SettingsIcon}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
 {
@@ -131,9 +137,3 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswMenuItem Header="Settings" IconData="{StaticResource SettingsIcon}"/>
-
-*/

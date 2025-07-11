@@ -9,6 +9,12 @@ namespace StswExpress;
 /// <summary>
 /// A control that displays a collection of filter tags, allowing users to include or exclude specific tags.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFilterTags Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.17.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.VisualChanges)]
 public class StswFilterTags : ItemsControl, IStswCornerControl
 {
@@ -171,9 +177,3 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFilterTags Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
-
-*/

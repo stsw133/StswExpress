@@ -11,6 +11,12 @@ namespace StswExpress;
 /// A dynamic input control that automatically selects the appropriate input box based on the value type.
 /// Supports text, number, date, checkbox, and selection inputs.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswAdaptiveBox Type="Text" Value="{Binding UserName}" Placeholder="Enter name"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Value))]
 [StswInfo("0.3.0", Changes = StswPlannedChanges.Refactor)]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
@@ -535,9 +541,3 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswAdaptiveBox Type="Text" Value="{Binding UserName}" Placeholder="Enter name"/>
-
-*/

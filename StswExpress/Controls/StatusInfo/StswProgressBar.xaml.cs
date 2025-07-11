@@ -14,6 +14,12 @@ namespace StswExpress;
 /// This control provides a flexible progress visualization, allowing the display of progress in percentage,
 /// absolute values, or custom text.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
@@ -160,9 +166,3 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/>
-
-*/

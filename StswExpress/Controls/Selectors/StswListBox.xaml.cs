@@ -12,6 +12,15 @@ namespace StswExpress;
 /// <remarks>
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswListBox ItemsSource="{Binding Products}" IsReadOnly="True"&gt;
+///     &lt;se:StswListBoxItem Content="Product A"/&gt;
+///     &lt;se:StswListBoxItem Content="Product B"/&gt;
+/// &lt;/se:StswListBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0")]
 public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
@@ -119,12 +128,3 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswListBox ItemsSource="{Binding Products}" IsReadOnly="True">
-    <se:StswListBoxItem Content="Product A"/>
-    <se:StswListBoxItem Content="Product B"/>
-</se:StswListBox>
-
-*/

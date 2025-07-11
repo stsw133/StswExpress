@@ -13,6 +13,12 @@ namespace StswExpress;
 /// A media player control that supports playing audio and video files.
 /// Includes playback controls, timeline slider, and mute option.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswMediaPlayer : ItemsControl
 {
@@ -316,8 +322,3 @@ public class StswMediaPlayer : ItemsControl
     #endregion
 }
 
-/* usage:
-
-<se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/>
-
-*/

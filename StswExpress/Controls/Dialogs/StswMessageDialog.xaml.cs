@@ -11,6 +11,12 @@ namespace StswExpress;
 /// Represents a message dialog control that behaves like a content dialog.
 /// Supports customizable title, message, details, and predefined button layouts.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswMessageDialog Title="Warning" Message="Are you sure?" Buttons="YesNoCancel" IsOpen="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0")]
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
@@ -268,9 +274,3 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswMessageDialog Title="Warning" Message="Are you sure?" Buttons="YesNoCancel" IsOpen="True"/>
-
-*/

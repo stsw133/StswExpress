@@ -18,6 +18,16 @@ namespace StswExpress;
 /// This control enhances the standard WPF window by enabling fullscreen mode, 
 /// managing custom window chrome, and supporting additional UI elements in the title bar.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswWindow Title="My Application" Width="800" Height="600"&gt;
+///     &lt;Grid&gt;
+///         &lt;TextBlock Text="Welcome to the custom window!" HorizontalAlignment="Center" VerticalAlignment="Center"/&gt;
+///     &lt;/Grid&gt;
+/// &lt;/se:StswWindow&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswWindow : Window, IStswCornerControl
 {
@@ -391,13 +401,3 @@ public class StswWindow : Window, IStswCornerControl
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 }
-
-/* usage:
-
-<se:StswWindow Title="My Application" Width="800" Height="600">
-    <Grid>
-        <TextBlock Text="Welcome to the custom window!" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
-</se:StswWindow>
-
-*/

@@ -11,6 +11,12 @@ namespace StswExpress;
 /// A date picker control that allows users to select a date using a text box and a drop-down calendar.
 /// Supports custom date formats, min/max date validation, and incremental adjustments via mouse scroll.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDatePicker SelectedDate="{Binding BirthDate}" Format="dd/MM/yyyy" IncrementType="Day"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedDate))]
 [StswInfo(null)]
 public class StswDatePicker : StswBoxBase
@@ -282,9 +288,3 @@ public class StswDatePicker : StswBoxBase
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDatePicker SelectedDate="{Binding BirthDate}" Format="dd/MM/yyyy" IncrementType="Day"/>
-
-*/

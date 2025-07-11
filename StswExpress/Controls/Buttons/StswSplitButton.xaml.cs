@@ -15,6 +15,18 @@ namespace StswExpress;
 /// while additional elements can be placed inside the drop-down menu.
 /// Supports optional auto-closing, customizable corner rounding, and styling enhancements.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSplitButton&gt;
+///     &lt;se:StswSplitButton.Header&gt;
+///         &lt;se:TextBox Text="Enter text..."/&gt;
+///     &lt;/se:StswSplitButton.Header&gt;
+///     &lt;se:Button Command="{Binding ClearTextCommand}" Content="Clear"/&gt;
+///     &lt;se:Button Command="{Binding SubmitTextCommand}" Content="Submit"/&gt;
+/// &lt;/se:StswSplitButton&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
 [StswInfo(null)]
 public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
@@ -204,15 +216,3 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSplitButton>
-    <se:StswSplitButton.Header>
-        <se:TextBox Text="Enter text..."/>
-    </se:StswSplitButton.Header>
-    <se:Button Command="{Binding ClearTextCommand}" Content="Clear"/>
-    <se:Button Command="{Binding SubmitTextCommand}" Content="Submit"/>
-</se:StswSplitButton>
-
-*/

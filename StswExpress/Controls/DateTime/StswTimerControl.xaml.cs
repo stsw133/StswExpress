@@ -10,6 +10,12 @@ namespace StswExpress;
 /// Represents a customizable timer control that can count up or down.
 /// Supports different time formats, adjustable start and end times, and automatic updates using a <see cref="DispatcherTimer"/>.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTimerControl StartTime="01:00:00" EndTime="00:00:00" Format="hh\:mm\:ss" IsCountingDown="True" IsRunning="True"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(EndTime))]
 [StswInfo("0.10.0")]
 public class StswTimerControl : Control
@@ -292,9 +298,3 @@ public class StswTimerControl : Control
         );
     #endregion
 }
-
-/* usage:
-
-<StswTimerControl StartTime="01:00:00" EndTime="00:00:00" Format="hh\:mm\:ss" IsCountingDown="True" IsRunning="True"/>
-
-*/

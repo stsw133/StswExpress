@@ -13,6 +13,12 @@ namespace StswExpress;
 /// A rating control that allows users to select a rating level.
 /// Supports customizable number of items, reset option, and different expand directions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswRatingControl Value="{Binding ProductRating}" ItemsNumber="10" IconData="{StaticResource StarIcon}" Direction="Right"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0", Changes = StswPlannedChanges.NewFeatures)]
 public class StswRatingControl : Control, IStswIconControl
 {
@@ -465,9 +471,3 @@ public class StswRatingControl : Control, IStswIconControl
     protected new Thickness? BorderThickness { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<se:StswRatingControl Value="{Binding ProductRating}" ItemsNumber="10" IconData="{StaticResource StarIcon}" Direction="Right"/>
-
-*/

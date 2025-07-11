@@ -11,6 +11,12 @@ namespace StswExpress;
 /// <remarks>
 /// The control provides visual feedback for loading states, making it useful for asynchronous operations.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSpinner Type="Dots" Scale="2" Fill="Red"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.7.0")]
 public class StswSpinner : Control
 {
@@ -147,9 +153,3 @@ public class StswSpinner : Control
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<se:StswSpinner Type="Dots" Scale="2" Fill="Red"/>
-
-*/

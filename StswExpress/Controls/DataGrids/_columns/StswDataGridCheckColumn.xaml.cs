@@ -7,6 +7,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a checkbox column for <see cref="StswDataGrid"/> that allows selecting boolean values.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGridCheckColumn Header="Active" Binding="{Binding IsActive}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
@@ -123,9 +129,3 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGridCheckColumn Header="Active" Binding="{Binding IsActive}"/>
-
-*/

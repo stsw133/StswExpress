@@ -12,6 +12,16 @@ namespace StswExpress;
 /// <remarks>
 /// When <see cref="IsMoveable"/> is enabled, the tooltip follows the cursor dynamically.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Button Content="Advanced Tooltip"&gt;
+///     &lt;Button.ToolTip&gt;
+///         &lt;se:StswToolTip Content="Custom Tooltip" CornerRadius="6"/&gt;
+///     &lt;/Button.ToolTip&gt;
+/// &lt;/Button&gt;
+/// </code>
+/// </example>
 [StswInfo("0.4.0")]
 public class StswToolTip : ToolTip, IStswCornerControl
 {
@@ -190,13 +200,3 @@ public class StswToolTip : ToolTip, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<Button Content="Advanced Tooltip">
-    <Button.ToolTip>
-        <se:StswToolTip Content="Custom Tooltip" CornerRadius="6"/>
-    </Button.ToolTip>
-</Button>
-
-*/

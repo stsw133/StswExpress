@@ -11,6 +11,12 @@ namespace StswExpress;
 /// Represents a color selector control that provides a selection of standard and theme colors.
 /// Supports automatic color selection, customizable palettes, and two-way binding for the selected color.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswColorSelector SelectedColor="{Binding UserPreferredColor}"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(ColorPaletteStandard))]
 [StswInfo("0.1.0")]
 public class StswColorSelector : Control, IStswCornerControl
@@ -167,9 +173,3 @@ public class StswColorSelector : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswColorSelector SelectedColor="{Binding UserPreferredColor}"/>
-
-*/

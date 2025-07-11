@@ -16,6 +16,12 @@ namespace StswExpress;
 /// and setting minimum/maximum date ranges. Includes quick selection of the current date 
 /// and UI customization options.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswCalendar SelectedDate="{Binding SelectedMonth}" SelectionUnit="Months" Maximum="2025-12-31"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedDate))]
 [StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor)]
 public class StswCalendar : Control, IStswCornerControl
@@ -608,9 +614,3 @@ public class StswCalendar : Control, IStswCornerControl
     public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(6)).Capitalize();
     #endregion
 }
-
-/* usage:
-
-<se:StswCalendar SelectedDate="{Binding SelectedMonth}" SelectionUnit="Months" Maximum="2025-12-31"/>
-
-*/

@@ -9,6 +9,17 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="DataContext"/> implements <see cref="IStswSelectionItem"/>, selection binding is automatically applied.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTreeView&gt;
+///     &lt;se:StswTreeViewItem Header="Root"&gt;
+///         &lt;se:StswTreeViewItem Header="Child 1"/&gt;
+///         &lt;se:StswTreeViewItem Header="Child 2"/&gt;
+///     &lt;/se:StswTreeViewItem&gt;
+/// &lt;/se:StswTreeView&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswTreeViewItem : TreeViewItem
 {
@@ -94,14 +105,3 @@ public class StswTreeViewItem : TreeViewItem
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTreeView>
-    <se:StswTreeViewItem Header="Root">
-        <se:StswTreeViewItem Header="Child 1"/>
-        <se:StswTreeViewItem Header="Child 2"/>
-    </se:StswTreeViewItem>
-</se:StswTreeView>
-
-*/

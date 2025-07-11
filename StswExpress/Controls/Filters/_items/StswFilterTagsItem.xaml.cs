@@ -6,6 +6,15 @@ namespace StswExpress;
 /// Represents an individual item inside the <see cref="StswFilterTags"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFilterTags&gt;
+///     &lt;se:StswFilterTagsItem Content="Tag 1"/&gt;
+///     &lt;se:StswFilterTagsItem Content="Tag 2"/&gt;
+/// &lt;/se:StswListBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.17.0")]
 public class StswFilterTagsItem : ContentControl, IStswCornerControl
 {
@@ -134,12 +143,3 @@ public class StswFilterTagsItem : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFilterTags>
-    <se:StswFilterTagsItem Content="Tag 1"/>
-    <se:StswFilterTagsItem Content="Tag 2"/>
-</se:StswListBox>
-
-*/

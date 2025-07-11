@@ -16,6 +16,12 @@ namespace StswExpress;
 /// A rich text editor control for creating and formatting text content.
 /// Supports file operations (open, save, print), text styling, and color selection.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.1.0", Changes = StswPlannedChanges.Rework)]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
@@ -550,9 +556,3 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/>
-
-*/

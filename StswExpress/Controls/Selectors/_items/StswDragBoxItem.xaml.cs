@@ -8,6 +8,15 @@ namespace StswExpress;
 /// Represents an individual item inside the <see cref="StswDragBox"/>.
 /// Supports selection state binding and corner customization.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDragBox&gt;
+///     &lt;se:StswDragBoxItem Content="Item A"/&gt;
+///     &lt;se:StswDragBoxItem Content="Item B"/&gt;
+/// &lt;/se:StswDragBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.15.0")]
 public class StswDragBoxItem : ListBoxItem, IStswCornerControl
 {
@@ -75,12 +84,3 @@ public class StswDragBoxItem : ListBoxItem, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDragBox>
-    <se:StswDragBoxItem Content="Item A"/>
-    <se:StswDragBoxItem Content="Item B"/>
-</se:StswDragBox>
-
-*/

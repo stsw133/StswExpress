@@ -13,6 +13,12 @@ namespace StswExpress;
 /// A filtering control designed for use with <see cref="StswDataGrid"/>.
 /// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Header))]
 [StswInfo(null)]
 public class StswFilterBox : Control, IStswCornerControl
@@ -788,9 +794,3 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
-
-*/

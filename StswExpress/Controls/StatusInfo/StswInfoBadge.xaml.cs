@@ -11,6 +11,12 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows displaying notifications, counters, or status indicators in a compact format.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoBadge Value="1500" Limit="999" Format="Number"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.5.0")]
 public class StswInfoBadge : Control, IStswCornerControl
 {
@@ -190,9 +196,3 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoBadge Value="1500" Limit="999" Format="Number"/>
-
-*/

@@ -18,6 +18,16 @@ namespace StswExpress;
 /// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataGrid ItemsSource="{Binding Products}"&gt;
+///     &lt;se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}"/&gt;
+///     &lt;se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}"/&gt;
+///     &lt;se:StswDataGridDateColumn Header="Added Date" Binding="{Binding AddedDate}"/&gt;
+/// &lt;/se:StswDataGrid&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
@@ -547,13 +557,3 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataGrid ItemsSource="{Binding Products}">
-    <se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-    <se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}"/>
-    <se:StswDataGridDateColumn Header="Added Date" Binding="{Binding AddedDate}"/>
-</se:StswDataGrid>
-
-*/

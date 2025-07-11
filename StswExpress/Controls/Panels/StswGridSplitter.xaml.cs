@@ -8,6 +8,20 @@ namespace StswExpress;
 /// A resizable splitter control used to adjust the size of adjacent elements in a grid.
 /// This control allows users to dynamically resize grid columns or rows by dragging the splitter.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Grid&gt;
+///     &lt;ColumnDefinition Width="*"/&gt;
+///     &lt;ColumnDefinition Width="auto"/&gt;
+///     &lt;ColumnDefinition Width="*"/&gt;
+/// 
+///     &lt;TextBlock Text="Left Pane" Grid.Column="0"/&gt;
+///     &lt;se:StswGridSplitter Grid.Column="1" Width="5"/&gt;
+///     &lt;TextBlock Text="Right Pane" Grid.Column="2"/&gt;
+/// &lt;/Grid&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswGridSplitter : GridSplitter
 {
@@ -121,17 +135,3 @@ public class StswGridSplitter : GridSplitter
     }
     #endregion
 }
-
-/* usage:
-
-<Grid>
-    <ColumnDefinition Width="*"/>
-    <ColumnDefinition Width="auto"/>
-    <ColumnDefinition Width="*"/>
-
-    <TextBlock Text="Left Pane" Grid.Column="0"/>
-    <se:StswGridSplitter Grid.Column="1" Width="5"/>
-    <TextBlock Text="Right Pane" Grid.Column="2"/>
-</Grid>
-
-*/

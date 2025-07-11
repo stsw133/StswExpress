@@ -15,6 +15,12 @@ namespace StswExpress;
 /// <remarks>
 /// This control enables intuitive navigation through a collection of items, providing smooth user interaction.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFlipView ItemsSource="{Binding NewsArticles}" IsLoopingEnabled="True"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.13.0")]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
@@ -231,9 +237,3 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFlipView ItemsSource="{Binding NewsArticles}" IsLoopingEnabled="True"/>
-
-*/

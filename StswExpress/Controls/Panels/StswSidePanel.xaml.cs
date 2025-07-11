@@ -7,6 +7,17 @@ namespace StswExpress;
 /// A collapsible side panel that expands on mouse hover and hides when the cursor leaves.
 /// Supports always-visible mode.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSidePanel IsAlwaysVisible="True"&gt;
+///     &lt;StackPanel&gt;
+///         &lt;Button Content="Option 1"/&gt;
+///         &lt;Button Content="Option 2"/&gt;
+///     &lt;/StackPanel&gt;
+/// &lt;/se:StswSidePanel&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0")]
 public class StswSidePanel : ContentControl
 {
@@ -85,14 +96,3 @@ public class StswSidePanel : ContentControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSidePanel IsAlwaysVisible="True">
-    <StackPanel>
-        <Button Content="Option 1"/>
-        <Button Content="Option 2"/>
-    </StackPanel>
-</se:StswSidePanel>
-
-*/
