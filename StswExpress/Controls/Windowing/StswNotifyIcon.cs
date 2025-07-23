@@ -16,8 +16,18 @@ namespace StswExpress;
 /// <remarks>
 /// The control manages application state visibility and interaction with the system tray.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
 public class StswNotifyIcon : FrameworkElement
 {
+    private NotifyIcon? _tray;
+    private Window? _window;
+
     public StswNotifyIcon()
     {
         Loaded += Initialize;
@@ -25,9 +35,6 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     #region Events & methods
-    private NotifyIcon? _tray;
-    private Window? _window;
-
     /// <summary>
     /// Initializes the <see cref="NotifyIcon"/> instance and sets up event handlers for tray icon actions and application state changes.
     /// </summary>
@@ -194,11 +201,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Icon = stsw.Icon;
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Icon = stsw.Icon;
     }
 
     /// <summary>
@@ -218,16 +225,17 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether the <see cref="NotifyIcon"/> remains visible even when the associated window is minimized.
     /// </summary>
+    [StswInfo("0.7.0")]
     public bool IsAlwaysVisible
     {
         get => (bool)GetValue(IsAlwaysVisibleProperty);
@@ -242,11 +250,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw.UpdateIconVisibility();
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw.UpdateIconVisibility();
     }
 
     /// <summary>
@@ -266,11 +274,11 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            if (stsw._tray != null)
-                stsw._tray.Text = stsw.Text;
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        if (stsw._tray != null)
+            stsw._tray.Text = stsw.Text;
     }
 
     /// <summary>
@@ -290,10 +298,10 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNotifyIcon stsw)
-        {
-            stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
-        }
+        if (obj is not StswNotifyIcon stsw)
+            return;
+
+        stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
     }
     #endregion
 
@@ -305,6 +313,7 @@ public class StswNotifyIcon : FrameworkElement
     /// </summary>
     /// <param name="icon">Icon to be displayed in the tray.</param>
     /// <param name="text">Tooltip text for the tray icon.</param>
+    [StswInfo("0.7.0")]
     private static void InitStaticIcon(Icon? icon, string? text)
     {
         if (_staticTray == null)
@@ -327,6 +336,7 @@ public class StswNotifyIcon : FrameworkElement
     /// <param name="tipIcon">Icon type for the notification balloon.</param>
     /// <param name="icon">Icon displayed in the system tray.</param>
     /// <param name="text">Tooltip text for the tray icon.</param>
+    [StswInfo("0.7.0")]
     public static async Task Notify(string? tipTitle, string? tipText, ToolTipIcon? tipIcon, Icon? icon = null, string? text = null)
     {
         InitStaticIcon(icon, text);
@@ -345,9 +355,3 @@ public class StswNotifyIcon : FrameworkElement
         _tray?.Dispose();
     }
 }
-
-/* usage:
-
-<se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/>
-
-*/

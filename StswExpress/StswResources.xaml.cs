@@ -7,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a resource manager for handling themes and application resources.
 /// </summary>
+[StswInfo("0.2.0")]
 public partial class StswResources
 {
     /// <summary>

@@ -13,13 +13,20 @@ namespace StswExpress;
 /// This control is designed to be used inside input fields or forms to indicate validation issues.
 /// It automatically updates visibility and tooltip content based on validation errors.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubError HasError="True"/&gt;
+/// </code>
+/// </example>
+[Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
+[StswInfo("0.6.1")]
 public class StswSubError : StswSubLabel
 {
     static StswSubError()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(typeof(StswSubError)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties
@@ -55,9 +62,3 @@ public class StswSubError : StswSubLabel
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubError HasError="True"/>
-
-*/

@@ -3,13 +3,13 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswImage}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-
         <Setter Property="MenuMode" Value="Disabled"/>
         <Setter Property="Scale" Value="auto"/>
         <Setter Property="Stretch" Value="Uniform"/>
         <Setter Property="StretchDirection" Value="Both"/>
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

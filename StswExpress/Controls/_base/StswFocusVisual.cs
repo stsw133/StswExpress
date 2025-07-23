@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <summary>
 /// Provides a custom focus visual style for WPF controls, enhancing the default focus rectangle with custom properties.
 /// </summary>
+[StswInfo("0.17.0")]
 public static class StswFocusVisual
 {
     /// <summary>
@@ -28,13 +29,13 @@ public static class StswFocusVisual
     public static bool GetAssign(DependencyObject element) => (bool)element.GetValue(AssignProperty);
     private static void OnAssignChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Control control)
-        {
-            if ((bool)e.NewValue)
-                control.FocusVisualStyle = CreateFocusVisualStyle(control);
-            else
-                control.ClearValue(FrameworkElement.FocusVisualStyleProperty);
-        }
+        if (obj is not Control control)
+            return;
+
+        if ((bool)e.NewValue)
+            control.FocusVisualStyle = CreateFocusVisualStyle(control);
+        else
+            control.ClearValue(FrameworkElement.FocusVisualStyleProperty);
     }
 
     /// <summary>

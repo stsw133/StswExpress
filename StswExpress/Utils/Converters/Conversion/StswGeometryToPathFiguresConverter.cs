@@ -9,6 +9,7 @@ namespace StswExpress;
 /// Converts a <see cref="Geometry"/> object into a collection of <see cref="PathFigure"/> elements.
 /// This allows extracting path data from a geometry for use in path-based UI elements.
 /// </summary>
+[StswInfo("0.15.0")]
 public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -17,11 +18,7 @@ public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConvert
     public static StswGeometryToPathFiguresConverter Instance => _instance ??= new StswGeometryToPathFiguresConverter();
     private static StswGeometryToPathFiguresConverter? _instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 
 namespace TestApp;
-
-public class StswPopupContext : ControlsContext
+public partial class StswPopupContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -11,19 +10,6 @@ public class StswPopupContext : ControlsContext
         ScrollType = (StswScrollType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ScrollType)))?.Value ?? default;
     }
 
-    /// IsOpen
-    public bool IsOpen
-    {
-        get => _isOpen;
-        set => SetProperty(ref _isOpen, value);
-    }
-    private bool _isOpen = false;
-
-    /// ScrollType
-    public StswScrollType ScrollType
-    {
-        get => _scrollType;
-        set => SetProperty(ref _scrollType, value);
-    }
-    private StswScrollType _scrollType;
+    [StswObservableProperty] bool _isOpen = false;
+    [StswObservableProperty] StswScrollType _scrollType;
 }

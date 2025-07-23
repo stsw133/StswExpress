@@ -14,22 +14,25 @@ namespace StswExpress;
 /// The control includes built-in animations for smooth state transitions, 
 /// as well as an optional read-only mode to prevent user interaction.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToggleSwitch Content="Dark Mode" IsChecked="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.2.0")]
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
+    private Border? _mainBorder, _backgroundBorder, _circleBorder;
+    private double _height = 0, _width = 0, _switchSize = 0;
+    private bool _isLoaded = false;
+
     static StswToggleSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(typeof(StswToggleSwitch)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private Border? _mainBorder, _backgroundBorder, _circleBorder;
-
-    private bool _isLoaded = false;
-    private double _width = 0;
-    private double _height = 0;
-    private double _switchSize = 0;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -44,10 +47,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the checked event and triggers the animation for the switch moving to the "on" position.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -56,10 +56,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the unchecked event and triggers the animation for the switch moving to the "off" position.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -68,10 +65,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    /// <summary>
-    /// Handles the indeterminate state event and centers the switch.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    [StswInfo("0.12.0")]
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
@@ -79,19 +73,15 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateIndeterminate();
     }
 
-    /// <summary>
-    /// Prevents the toggle state from changing when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
-    /// </summary>
+    /// <inheritdoc/>
+    [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
             base.OnToggle();
     }
 
-    /// <summary>
-    /// Updates the switch layout when the control is resized.
-    /// </summary>
-    /// <param name="sizeInfo">The size information.</param>
+    /// <inheritdoc/>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -169,6 +159,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     /// Gets or sets a value indicating whether the toggle switch is in read-only mode.
     /// When set to <see langword="true"/>, the switch cannot be toggled.
     /// </summary>
+    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -352,9 +343,3 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswToggleSwitch Content="Dark Mode" IsChecked="True"/>
-
-*/

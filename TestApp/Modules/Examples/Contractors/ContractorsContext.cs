@@ -7,40 +7,16 @@ using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TestApp;
-
-public class ContractorsContext : StswObservableObject
+public partial class ContractorsContext : StswObservableObject
 {
-    /// Grid commands
-    public ICommand ClearCommand { get; }
-    public ICommand RefreshCommand { get; }
-    public ICommand SaveCommand { get; }
-    public ICommand ExportCommand { get; }
-
-    /// Instances commands
-    public ICommand AddCommand { get; }
-    public ICommand CloneCommand { get; }
-    public ICommand EditCommand { get; }
-    public ICommand DeleteCommand { get; }
-
     public ContractorsContext()
     {
         Task.Run(Init);
-        ClearCommand = new StswAsyncCommand(Clear);
-        RefreshCommand = new StswAsyncCommand(Refresh);
-        SaveCommand = new StswAsyncCommand(Save);
-        ExportCommand = new StswAsyncCommand(Export);
-        AddCommand = new StswAsyncCommand(Add);
-        CloneCommand = new StswAsyncCommand(Clone, CloneCondition);
-        EditCommand = new StswAsyncCommand(Edit, EditCondition);
-        DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
-
         SelectedContractor = null;
-
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
     }
 
-    /// Init
-    private async Task Init()
+    [StswCommand] async Task Init()
     {
         try
         {
@@ -52,8 +28,7 @@ public class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Clear
-    private async Task Clear()
+    [StswCommand] async Task Clear()
     {
         try
         {
@@ -65,13 +40,12 @@ public class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Refresh
-    private async Task Refresh()
+    [StswCommand] async Task Refresh()
     {
         try
         {
             // for CollectionView filters:
-            ListContractors = await Task.Run(() => SQLService.GetContractors(null).ToStswObservableCollection());
+            ListContractors = new(await Task.Run(() => SQLService.GetContractors(null)));
             ListContractorsView = CollectionViewSource.GetDefaultView(ListContractors);
             FiltersContractors.Apply?.Invoke();
 
@@ -88,9 +62,8 @@ public class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-
-    /// Save
-    private async Task Save()
+    
+    [StswCommand] async Task Save()
     {
         try
         {
@@ -103,9 +76,8 @@ public class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-
-    /// Export
-    private async Task Export()
+    
+    [StswCommand] async Task Export()
     {
         try
         {
@@ -117,8 +89,7 @@ public class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Add
-    private async Task Add()
+    [StswCommand] async Task Add()
     {
         try
         {
@@ -143,24 +114,23 @@ public class ContractorsContext : StswObservableObject
         }
     }
 
-    /// Clone
-    private async Task Clone()
+    [StswCommand(ConditionMethodName = nameof(CloneCondition))] async Task Clone()
     {
         try
         {
-            if (SelectedContractor is ContractorModel m && m.ID > 0)
+            if (SelectedContractor is ContractorModel m && m.Id > 0)
             {
                 await Task.Run(() => App.Current.Dispatcher.Invoke(() =>
                 {
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.ID;
+                        context.Id = m.Id;
                         context.IsCloned = true;
                     }
                     if (NewTab.Header is StswLabel header)
                     {
-                        header.Content = $"Cloning contractor (ID: {m.ID})";
+                        header.Content = $"Cloning contractor (ID: {m.Id})";
                         header.IconData = StswIcons.AccountPlus;
                     }
                 }));
@@ -171,26 +141,25 @@ public class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-    private bool CloneCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
+    private bool CloneCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    /// Edit
-    private async Task Edit()
+    [StswCommand(ConditionMethodName = nameof(EditCondition))] async Task Edit()
     {
         try
         {
-            if (SelectedContractor is ContractorModel m && m.ID > 0)
+            if (SelectedContractor is ContractorModel m && m.Id > 0)
             {
                 await Task.Run(() => App.Current.Dispatcher.Invoke(() =>
                 {
                     NewTabCommand?.Execute(null);
                     if (NewTab.Content is ContractorsSingleContext context)
                     {
-                        context.ID = m.ID;
+                        context.Id = m.Id;
                         context.IsCloned = false;
                     }
                     if (NewTab.Header is StswLabel header)
                     {
-                        header.Content = $"Editing contractor (ID: {m.ID})";
+                        header.Content = $"Editing contractor (ID: {m.Id})";
                         header.IconData = StswIcons.AccountEdit;
                     }
                 }));
@@ -201,10 +170,9 @@ public class ContractorsContext : StswObservableObject
             await StswMessageDialog.Show(ex, $"Error occured in: {MethodBase.GetCurrentMethod()?.Name}");
         }
     }
-    private bool EditCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
+    private bool EditCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
-    /// Delete
-    private async Task Delete()
+    [StswCommand(ConditionMethodName = nameof(DeleteCondition))] async Task Delete()
     {
         try
         {
@@ -212,13 +180,13 @@ public class ContractorsContext : StswObservableObject
             {
                 await Task.Run(() =>
                 {
-                    if (m.ID == 0)
+                    if (m.Id == 0)
                     {
                         ListContractors.Remove(m);
                     }
-                    else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    else if (m.Id > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        SQLService.DeleteContractor(m.ID);
+                        SQLService.DeleteContractor(m.Id);
                         ListContractors.Remove(m);
                     }
                 });
@@ -231,52 +199,17 @@ public class ContractorsContext : StswObservableObject
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
 
-    /// FiltersContractors
-    public StswDataGridFiltersDataModel FiltersContractors
-    {
-        get => _filtersContractors;
-        set => SetProperty(ref _filtersContractors, value);
-    }
-    private StswDataGridFiltersDataModel _filtersContractors = new();
+    [StswObservableProperty] StswDataGridFiltersDataModel _filtersContractors = new();
+    [StswObservableProperty] StswObservableCollection<ContractorModel> _listContractors = [];
+    [StswObservableProperty] ICollectionView? _listContractorsView;
+    [StswObservableProperty] object? _selectedContractor = new();
 
-    /// ListContractors
-    public StswObservableCollection<ContractorModel> ListContractors
+    [StswObservableProperty] StswTabItem _newTab = new();
+    partial void OnNewTabChanging(StswTabItem oldValue, StswTabItem newValue, ref bool cancel)
     {
-        get => _listContractors;
-        set => SetProperty(ref _listContractors, value);
+        newValue.Content = new ContractorsSingleContext();
+        newValue.Header = new StswLabel() { Content = "New contractor", IconData = StswIcons.Plus };
+        newValue.IsClosable = true;
     }
-    private StswObservableCollection<ContractorModel> _listContractors = [];
-    
-    /// ListContractorsView
-    public ICollectionView? ListContractorsView
-    {
-        get => _listContractorsView;
-        set => SetProperty(ref _listContractorsView, value);
-    }
-    private ICollectionView? _listContractorsView;
-
-    /// NewTab
-    public StswTabItem NewTab
-    {
-        get => _newTab;
-        set
-        {
-            value.Content = new ContractorsSingleContext();
-            value.Header = new StswLabel() { Content = "New contractor", IconData = StswIcons.Plus };
-            value.IsClosable = true;
-            SetProperty(ref _newTab, value);
-        }
-    }
-    private StswTabItem _newTab = new();
-
-    /// NewTabCommand
     public ICommand? NewTabCommand { get; set; }
-
-    /// Selected items
-    public object? SelectedContractor
-    {
-        get => _selectedContractor;
-        set => SetProperty(ref _selectedContractor, value);
-    }
-    private object? _selectedContractor = new();
 }

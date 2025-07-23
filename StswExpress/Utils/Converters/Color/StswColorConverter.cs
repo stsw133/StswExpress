@@ -25,6 +25,7 @@ namespace StswExpress;
 /// - `"A20% B-10%"` → Reduce alpha to 20%, decrease brightness by 10%
 /// - `"G B15% S25%"` → Generate color from value, then apply brightness & saturation modifications
 /// </summary>
+[StswInfo("0.16.0")]
 public class StswColorConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -33,11 +34,7 @@ public class StswColorConverter : MarkupExtension, IValueConverter
     public static StswColorConverter Instance => instance ??= new StswColorConverter();
     private static StswColorConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

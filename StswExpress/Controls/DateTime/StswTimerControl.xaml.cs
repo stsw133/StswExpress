@@ -10,10 +10,18 @@ namespace StswExpress;
 /// Represents a customizable timer control that can count up or down.
 /// Supports different time formats, adjustable start and end times, and automatic updates using a <see cref="DispatcherTimer"/>.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTimerControl StartTime="01:00:00" EndTime="00:00:00" Format="hh\:mm\:ss" IsCountingDown="True" IsRunning="True"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(EndTime))]
+[StswInfo("0.10.0")]
 public class StswTimerControl : Control
 {
     private readonly DispatcherTimer _timer = new();
+    private TextBlock? _display;
     private DateTime _lastTickTime;
 
     public StswTimerControl()
@@ -23,19 +31,15 @@ public class StswTimerControl : Control
     static StswTimerControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(typeof(StswTimerControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private TextBlock? _display;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        
-        if (GetTemplateChild("PART_Display") is TextBlock display)
-            _display = display;
+
+        _display = GetTemplateChild("PART_Display") as TextBlock;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -151,15 +155,15 @@ public class StswTimerControl : Control
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        stsw._display?.SetBinding(TextBlock.TextProperty, new Binding(nameof(CurrentTime))
         {
-            stsw._display?.SetBinding(TextBlock.TextProperty, new Binding(nameof(CurrentTime))
-            {
-                Source = stsw,
-                StringFormat = stsw.Format
-            });
-            stsw.UpdateTimerInterval();
-        }
+            Source = stsw,
+            StringFormat = stsw.Format
+        });
+        stsw.UpdateTimerInterval();
     }
 
     /// <summary>
@@ -196,16 +200,16 @@ public class StswTimerControl : Control
         );
     public static void OnIsRunningChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        if ((bool)e.NewValue)
         {
-            if ((bool)e.NewValue)
-            {
-                stsw._lastTickTime = DateTime.Now;
-                stsw._timer.Start();
-            }
-            else
-                stsw._timer.Stop();
+            stsw._lastTickTime = DateTime.Now;
+            stsw._timer.Start();
         }
+        else
+            stsw._timer.Stop();
     }
 
     /// <summary>
@@ -227,23 +231,23 @@ public class StswTimerControl : Control
         );
     public static void OnStartStopResetChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimerControl stsw)
+        if (obj is not StswTimerControl stsw)
+            return;
+
+        var newValue = (bool?)e.NewValue;
+        if (newValue == true)
         {
-            var newValue = (bool?)e.NewValue;
-            if (newValue == true)
-            {
-                stsw.CurrentTime = stsw.StartTime;
-                stsw.IsRunning = true;
-            }
-            else if (newValue == false)
-            {
-                stsw.IsRunning = false;
-            }
-            else if (newValue == null)
-            {
-                stsw.IsRunning = false;
-                stsw.CurrentTime = stsw.StartTime;
-            }
+            stsw.CurrentTime = stsw.StartTime;
+            stsw.IsRunning = true;
+        }
+        else if (newValue == false)
+        {
+            stsw.IsRunning = false;
+        }
+        else if (newValue == null)
+        {
+            stsw.IsRunning = false;
+            stsw.CurrentTime = stsw.StartTime;
         }
     }
 
@@ -294,9 +298,3 @@ public class StswTimerControl : Control
         );
     #endregion
 }
-
-/* usage:
-
-<StswTimerControl StartTime="01:00:00" EndTime="00:00:00" Format="hh\:mm\:ss" IsCountingDown="True" IsRunning="True"/>
-
-*/

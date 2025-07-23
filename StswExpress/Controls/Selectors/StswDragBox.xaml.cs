@@ -16,21 +16,30 @@ namespace StswExpress;
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDragBox ItemsSource="{Binding Employees}" IsReadOnly="True"&gt;
+///     &lt;se:StswDragBoxItem Content="John Doe"/&gt;
+///     &lt;se:StswDragBoxItem Content="Jane Smith"/&gt;
+/// &lt;/se:StswDragBox&gt;
+/// </code>
+/// </example>
+[StswInfo("0.15.0")]
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
+    private object? _dragDropItem;
+    private IList? _sourceList;
+
     static StswDragBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(typeof(StswDragBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDragBoxItem();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDragBoxItem;
 
     #region Events & methods
-    private object? _dragDropItem;
-    private IList? _sourceList;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -45,13 +54,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         ItemContainerStyle.Setters.Add(new EventSetter(DragOverEvent, new DragEventHandler(OnItemDragOver)));
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Ensures that the new <see cref="ItemsSource"/> is an <see cref="ObservableCollection{T}"/> and 
-    /// updates selection binding accordingly.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         var type = newValue?.GetType();
@@ -62,46 +65,29 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Updates selection control logic based on the new item template.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
+    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles selection changes within the drag box.
-    /// If the control is in read-only mode, the selection change is prevented.
-    /// Otherwise, the selection state is updated accordingly.
-    /// </summary>
-    /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
+    /// <inheritdoc/>
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
 
-    /// <summary>
-    /// Prepares the specified element to display the given item.
-    /// Ensures that the item container inherits the <see cref="IsReadOnly"/> property binding.
-    /// </summary>
-    /// <param name="element">The element used to display the specified item.</param>
-    /// <param name="item">The data item to be displayed.</param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -305,12 +291,3 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDragBox ItemsSource="{Binding Employees}" IsReadOnly="True">
-    <se:StswDragBoxItem Content="John Doe"/>
-    <se:StswDragBoxItem Content="Jane Smith"/>
-</se:StswDragBox>
-
-*/

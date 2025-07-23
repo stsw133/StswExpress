@@ -7,12 +7,18 @@ namespace StswExpress;
 /// A slider control that allows users to select a numeric value within a range.
 /// Supports custom thumb size, track size, and optional icon inside the thumb.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSlider Minimum="1" Maximum="10" Value="{Binding UserPreference}" ThumbIcon="{StaticResource CustomIcon}" ThumbSize="20" TrackSize="4"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswSlider : Slider
 {
     static StswSlider()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(typeof(StswSlider)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -103,9 +109,3 @@ public class StswSlider : Slider
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSlider Minimum="1" Maximum="10" Value="{Binding UserPreference}" ThumbIcon="{StaticResource CustomIcon}" ThumbSize="20" TrackSize="4"/>
-
-*/

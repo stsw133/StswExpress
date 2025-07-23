@@ -11,6 +11,20 @@ namespace StswExpress;
 /// This control enhances the standard WPF context menu by providing automatic styling updates for menu items,
 /// including text, background, and border properties.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Button Content="Right Click Me"&gt;
+///     &lt;Button.ContextMenu&gt;
+///         &lt;se:StswContextMenu&gt;
+///             &lt;MenuItem Header="Option 1"/&gt;
+///             &lt;MenuItem Header="Option 2"/&gt;
+///         &lt;/se:StswContextMenu&gt;
+///     &lt;/Button.ContextMenu&gt;
+/// &lt;/Button&gt;
+/// </code>
+/// </example>
+[StswInfo("0.12.0")]
 public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerControl
 {
     static StswContextMenu()
@@ -18,11 +32,8 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContextMenu), new FrameworkPropertyMetadata(typeof(StswContextMenu)));
     }
 
-    /// <summary>
-    /// Called when the context menu is opened. 
-    /// Applies custom styling and layout updates to ensure consistency across menu items.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    #region Events & methods
+    /// <inheritdoc/>
     protected override void OnOpened(RoutedEventArgs e)
     {
         base.OnOpened(e);
@@ -47,6 +58,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
             SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
         UpdateLayout();
     }
+    #endregion
 
     #region Style properties
     /// <inheritdoc/>
@@ -78,16 +90,3 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         );
     #endregion
 }
-
-/* usage:
-
-<Button Content="Right Click Me">
-    <Button.ContextMenu>
-        <se:StswContextMenu>
-            <MenuItem Header="Option 1"/>
-            <MenuItem Header="Option 2"/>
-        </se:StswContextMenu>
-    </Button.ContextMenu>
-</Button>
-
-*/

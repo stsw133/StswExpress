@@ -10,11 +10,12 @@ namespace StswExpress;
 /// <br/>
 /// - Uses the <see cref="DescriptionAttribute"/> to get a human-readable string.  
 /// - If no description is found, returns the enumeration value as a string.  
-/// - Supports `Nullable<Enum>` values (e.g., `MyEnum?`).  
+/// - Supports <see cref="Nullable{T}"/> values (e.g., `MyEnum?`).  
 /// </summary>
 /// <remarks>
 /// This converter is useful for displaying user-friendly text in UI elements bound to enumeration values.
 /// </remarks>
+[StswInfo("0.8.0")]
 public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -23,11 +24,7 @@ public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
     public static StswEnumDescriptionConverter Instance => instance ??= new StswEnumDescriptionConverter();
     private static StswEnumDescriptionConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

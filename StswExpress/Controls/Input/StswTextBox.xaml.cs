@@ -9,7 +9,14 @@ namespace StswExpress;
 /// A standard text input control for displaying or editing unformatted text.
 /// Supports placeholder text, validation, and an optional icon.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTextBox Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Text))]
+[StswInfo(null)]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswTextBox()
@@ -19,15 +26,10 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     static StswTextBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles the KeyDown event for the text box.
-    /// If the Enter key is pressed and the control does not accept multi-line input (`AcceptsReturn` is false),
-    /// the binding source for the `Text` property is updated.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -38,6 +40,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -51,6 +54,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -64,6 +68,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -133,9 +138,3 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTextBox Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/>
-
-*/

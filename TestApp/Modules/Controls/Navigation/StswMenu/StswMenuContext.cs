@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
 namespace TestApp;
-
-public class StswMenuContext : ControlsContext
+public partial class StswMenuContext : ControlsContext
 {
-    public StswCommand<FrameworkElement> OnClickCommand => new((obj) => obj!.ContextMenu.IsOpen = true);
+    [StswCommand] void OnClick(FrameworkElement obj) => obj.ContextMenu.IsOpen = true;
 }

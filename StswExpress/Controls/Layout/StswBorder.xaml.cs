@@ -11,23 +11,27 @@ namespace StswExpress;
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswBorder CornerClipping="True" CornerRadius="20"&gt;
+///     &lt;Image Source="example.jpg"/&gt;
+/// &lt;/se:StswBorder&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswBorder : Border, IStswCornerControl
 {
-    static StswBorder()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
-    }
-
-    #region Events & methods
     private readonly RectangleGeometry _clipRect = new();
     private object? _oldClip;
 
-    /// <summary>
-    /// Called when the control is rendered. If <see cref="CornerClipping"/> is enabled and a child element is present, 
-    /// applies rounded clipping to the child.
-    /// </summary>
-    /// <param name="dc">The drawing context for rendering the control.</param>
+    static StswBorder()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
+    }
+
+    #region Events & methods
+    /// <inheritdoc/>
     protected override void OnRender(DrawingContext dc)
     {
         if (CornerClipping && Child is UIElement child)
@@ -36,13 +40,7 @@ public class StswBorder : Border, IStswCornerControl
         base.OnRender(dc);
     }
 
-    /// <summary>
-    /// Overrides the <see cref="Border.Child"/> property to apply rounded clipping and restore the previous Clip value 
-    /// when changing the child.
-    /// </summary>
-    /// <remarks>
-    /// Stores the original Clip value of the child and restores it when the child is removed.
-    /// </remarks>
+    /// <inheritdoc/>
     public override UIElement Child
     {
         get => base.Child;
@@ -85,11 +83,3 @@ public class StswBorder : Border, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswBorder CornerClipping="True" CornerRadius="20">
-    <Image Source="example.jpg"/>
-</se:StswBorder>
-
-*/

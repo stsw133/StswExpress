@@ -66,8 +66,6 @@
                     </TextBlock>
                 </DockPanel>
                 <!-- data grid -->
-                <!-- <se:StswScrollView HorizontalScrollBarVisibility="{Binding ListContractorsView.IsEmpty, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=True~Auto~Disabled}"
-                                   VerticalScrollBarVisibility="Disabled"> -->
                 <se:StswDataGrid FiltersData="{Binding FiltersContractors}"
                                  FiltersType="CollectionView"
                                  FrozenColumnCount="1"
@@ -82,7 +80,7 @@
                         <se:StswDataGridStatusColumn/>
 
                         <!-- ID -->
-                        <se:StswDataGridDecimalColumn Binding="{Binding ID}" IsReadOnly="True">
+                        <se:StswDataGridDecimalColumn Binding="{Binding Id}" IsReadOnly="True">
                             <se:StswDataGridDecimalColumn.Header>
                                 <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="ID"/>
                             </se:StswDataGridDecimalColumn.Header>
@@ -174,7 +172,6 @@
                         </DataTemplate>
                     </se:StswDataGrid.RowDetailsTemplate>
                 </se:StswDataGrid>
-                <!-- </se:StswScrollView> -->
             </DockPanel>
         </se:StswTabItem>
     </se:StswTabControl>

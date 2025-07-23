@@ -5,12 +5,20 @@ namespace StswExpress;
 /// <summary>
 /// A collapsible panel control that displays a header and allows the user to expand or collapse its content.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswExpander Header="Details" IsExpanded="True"&gt;
+///     &lt;TextBlock Text="Here are additional details..."/&gt;
+/// &lt;/se:StswExpander&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0", Changes = StswPlannedChanges.VisualChanges)]
 public class StswExpander : Expander, IStswCornerControl
 {
     static StswExpander()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -59,11 +67,3 @@ public class StswExpander : Expander, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswExpander Header="Details" IsExpanded="True">
-    <TextBlock Text="Here are additional details..." />
-</se:StswExpander>
-
-*/

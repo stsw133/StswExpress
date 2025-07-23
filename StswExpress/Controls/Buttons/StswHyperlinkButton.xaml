@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswHyperlinkButton}">
+        <Setter Property="Content" Value="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"/>
+
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswButton.Link.Standard.Foreground}"/>
@@ -11,8 +13,6 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="Content" Value="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Focusable" Value="True"/>
@@ -24,8 +24,8 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswControl.EnableRippleEffect" Value="True"/>
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

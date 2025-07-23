@@ -3,6 +3,33 @@
 /// <summary>
 /// A simple Messenger class for sending and receiving messages between view models.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public class ExampleMessage : IStswMessage
+/// {
+///     public string Content { get; set; }
+/// }
+/// class Program
+/// {
+///     static void Main()
+///     {
+///         StswMessanger.Instance.Register&lt;ExampleMessage&gt;(HandleExampleMessage);
+/// 
+///         var message = new ExampleMessage { Content = "Hello from StswMessanger!" };
+///         StswMessanger.Instance.Send(message);
+/// 
+///         StswMessanger.Instance.Unregister&lt;ExampleMessage&gt;(HandleExampleMessage);
+///     }
+/// 
+///     static void HandleExampleMessage(ExampleMessage message)
+///     {
+///         Console.WriteLine($"Message received: {message.Content}");
+///     }
+/// }
+/// </code>
+/// </example>
+[StswInfo("0.9.2")]
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];
@@ -54,30 +81,3 @@ public class StswMessanger
         }
     }
 }
-
-/* usage:
-
-public class ExampleMessage : IStswMessage
-{
-    public string Content { get; set; }
-}
-
-class Program
-{
-    static void Main()
-    {
-        StswMessanger.Instance.Register<ExampleMessage>(HandleExampleMessage);
-
-        var message = new ExampleMessage { Content = "Hello from StswMessanger!" };
-        StswMessanger.Instance.Send(message);
-
-        StswMessanger.Instance.Unregister<ExampleMessage>(HandleExampleMessage);
-    }
-
-    static void HandleExampleMessage(ExampleMessage message)
-    {
-        Console.WriteLine($"Message received: {message.Content}");
-    }
-}
-
-*/

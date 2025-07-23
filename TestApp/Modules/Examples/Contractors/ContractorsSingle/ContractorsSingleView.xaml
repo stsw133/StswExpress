@@ -8,6 +8,6 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsSingleContext}">
 
     <Grid>
-        <se:StswText Text="{Binding ID}"/>
+        <se:StswText Text="{Binding Id}"/>
     </Grid>
 </UserControl>

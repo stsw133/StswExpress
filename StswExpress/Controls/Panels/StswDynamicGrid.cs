@@ -9,14 +9,22 @@ namespace StswExpress;
 /// A dynamic panel that arranges its children in a flexible grid-like structure.
 /// It supports automatic layout based on the number of items, customizable spacing, and stretching specific rows or columns.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswGrid Columns="2" StretchColumnIndex="1"&gt;
+///     &lt;se:StswLabel Content="Header 1:" HorizontalContentAlignment="Right"/&gt;
+///     &lt;se:StswTextBox Text="{Binding Text1}"/&gt;
+///     &lt;se:StswLabel Content="Header 2:" HorizontalContentAlignment="Right"/&gt;
+///     &lt;se:StswTextBox Text="{Binding Text2}"/&gt;
+/// &lt;/se:StswGrid&gt;
+/// </code>
+/// </example>
+[StswInfo("0.17.0")]
 public class StswDynamicGrid : Panel
 {
     #region Events & methods
-    /// <summary>
-    /// Measures the size required for all child elements and determines the desired size of the panel.
-    /// </summary>
-    /// <param name="availableSize">The size available to the panel.</param>
-    /// <returns>The size required to arrange all children.</returns>
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         var itemCount = InternalChildren.Count;
@@ -44,11 +52,7 @@ public class StswDynamicGrid : Panel
         return new Size(totalWidth, totalHeight);
     }
 
-    /// <summary>
-    /// Positions child elements and determines the final size of the panel.
-    /// </summary>
-    /// <param name="finalSize">The final area within the parent that this panel should use.</param>
-    /// <returns>The actual size used by the panel.</returns>
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         var itemCount = InternalChildren.Count;
@@ -253,14 +257,3 @@ public class StswDynamicGrid : Panel
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswGrid Columns="2" StretchColumnIndex="1">
-    <se:StswLabel Content="Header 1:" HorizontalContentAlignment="Right"/>
-    <se:StswTextBox Text="{Binding Text1}"/>
-    <se:StswLabel Content="Header 2:" HorizontalContentAlignment="Right"/>
-    <se:StswTextBox Text="{Binding Text2}"/>
-</se:StswGrid>
-
-*/

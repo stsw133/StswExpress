@@ -46,8 +46,10 @@
                                                  Foreground="{TemplateBinding Foreground}"
                                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Padding="{TemplateBinding Padding}"
+                                                 Template="{DynamicResource StswExpanderToggleButtonTemplate}"
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
+                                                 se:StswControl.EnableAnimations="False"
                                                  se:StswControl.IsBorderless="True">
                                 <DockPanel>
                                     <DockPanel x:Name="OPT_DropArrowPanel" Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}" Width="24">
@@ -154,10 +156,12 @@
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="OPT_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
+                        <!--
                         <Trigger Property="IsChecked" Value="True" SourceName="OPT_Header">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="OPT_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="OPT_MainBorder"/>
                         </Trigger>
+                        -->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="OPT_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="OPT_MainBorder"/>

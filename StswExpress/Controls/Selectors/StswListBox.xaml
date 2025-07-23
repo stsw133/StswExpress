@@ -20,16 +20,15 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollView.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
         
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListBox}">
@@ -45,9 +44,9 @@
                                            Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
                                            CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                           DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
                                            Focusable="False"
                                            IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                           IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                            Padding="{TemplateBinding Padding}"
                                            PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                            HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"

@@ -3,6 +3,12 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswInfoPanel}">
+        <Setter Property="IsClosable" Value="True"/>
+        <Setter Property="IsCopyable" Value="True"/>
+        <Setter Property="IsExpandable" Value="True"/>
+        <Setter Property="IsExpanded" Value="False"/>
+        <Setter Property="ShowControlPanel" Value="True"/>
+
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
@@ -11,12 +17,6 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="1"/>
-
-        <Setter Property="IsClosable" Value="True"/>
-        <Setter Property="IsCopyable" Value="True"/>
-        <Setter Property="IsExpandable" Value="True"/>
-        <Setter Property="IsExpanded" Value="False"/>
-        <Setter Property="ShowControlPanel" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -27,19 +27,18 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
+        <Setter Property="se:StswScrollView.AutoScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
+        <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
-        <Setter Property="se:StswScrollView.AutoScroll" Value="True"/>
-        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
-        <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswInfoPanel}">
@@ -120,9 +119,9 @@
                                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                               DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
                                                Focusable="False"
                                                IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                               IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                                PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                                HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                                VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">

@@ -8,9 +8,26 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 /// <param name="execute">The action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// public StswCommand&lt;string&gt; SaveCommand { get; }
+/// 
+/// public MainViewModel()
+/// {
+///     SaveCommand = new(Save, () => SomeCondition);
+/// }
+/// 
+/// private void Save(string? parameter)
+/// {
+///     // some action here
+/// }
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
+public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
-    private readonly Action<T?> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+    private readonly Action<T> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
 
     /// <summary>
@@ -38,7 +55,7 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
         if (!CanExecute(parameter))
             return;
 
-        _execute((T?)parameter);
+        _execute(parameter is T validParameter ? validParameter : default!);
     }
 }
 
@@ -47,20 +64,5 @@ public class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) :
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
+[StswInfo(null)]
 public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);
-
-/* usage:
-
-public StswCommand<string> SaveCommand { get; }
-
-public MainViewModel()
-{
-    SaveCommand = new(Save, () => SomeCondition);
-}
-
-private void Save(string? parameter)
-{
-    // some action here
-}
-
-*/

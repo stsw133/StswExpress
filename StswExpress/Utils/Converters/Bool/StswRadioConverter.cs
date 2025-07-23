@@ -12,6 +12,7 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, it returns a <see cref="bool"/> indicating whether the value matches the parameter.
 /// </summary>
+[StswInfo("0.6.1")]
 public class StswRadioConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -20,11 +21,7 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
     public static StswRadioConverter Instance => instance ??= new StswRadioConverter();
     private static StswRadioConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

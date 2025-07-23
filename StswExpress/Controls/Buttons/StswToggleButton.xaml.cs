@@ -9,47 +9,44 @@ namespace StswExpress;
 /// This control extends <see cref="ToggleButton"/>, providing additional styling options such as corner rounding
 /// and optional animations for state transitions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswToggleButton Content="Enable Feature" IsChecked="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
+    private Border? _mainBorder;
+
     static StswToggleButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Invoked when the button is checked.
-    /// If animations are enabled in the settings, the method triggers an animation 
-    /// on the control's main border to visually indicate the checked state.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the checked event.</param>
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, true);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
     }
 
-    /// <summary>
-    /// Invoked when the button is unchecked.
-    /// If animations are enabled in the settings, the method triggers an animation 
-    /// on the control's main border to visually indicate the unchecked state.
-    /// </summary>
-    /// <param name="e">The event arguments associated with the unchecked event.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, false);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
     #endregion
 
@@ -83,9 +80,3 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswToggleButton Content="Enable Feature" IsChecked="True"/>
-
-*/

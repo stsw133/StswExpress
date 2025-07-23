@@ -12,6 +12,7 @@ namespace StswExpress;
 /// making it useful for complex data binding scenarios in XAML.
 /// </remarks>
 [ContentProperty(nameof(Binding))]
+[StswInfo("0.9.0")]
 public class StswBindableParameterExtension : MarkupExtension
 {
     /// <summary>
@@ -59,11 +60,7 @@ public class StswBindableParameterExtension : MarkupExtension
         Binding = binding;
     }
 
-    /// <summary>
-    /// Creates and returns a MultiBinding instance that incorporates the provided bindings and converter.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that supplies services for the markup extension.</param>
-    /// <returns>A configured <see cref="MultiBinding"/> instance.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var multiBinding = new MultiBinding();

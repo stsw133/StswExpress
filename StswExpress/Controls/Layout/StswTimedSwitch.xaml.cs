@@ -8,17 +8,23 @@ namespace StswExpress;
 /// A switch control that automatically reverts to its default state after a specified duration.
 /// Supports custom content display during the active period.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0")]
 public class StswTimedSwitch : CheckBox
 {
+    private readonly Timer timer = new() { AutoReset = false };
+
     static StswTimedSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private readonly Timer timer = new() { AutoReset = false };
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -29,10 +35,7 @@ public class StswTimedSwitch : CheckBox
         OnSwitchTimeChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Handles the checked event, starting the timer if the switch time is greater than zero.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -40,10 +43,7 @@ public class StswTimedSwitch : CheckBox
             timer.Start();
     }
 
-    /// <summary>
-    /// Handles the unchecked event, stopping the timer immediately.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -87,17 +87,17 @@ public class StswTimedSwitch : CheckBox
         );
     public static void OnSwitchTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTimedSwitch stsw)
+        if (obj is not StswTimedSwitch stsw)
+            return;
+
+        if (stsw.SwitchTime.TotalMilliseconds > 0)
         {
-            if (stsw.SwitchTime.TotalMilliseconds > 0)
+            var newInterval = stsw.SwitchTime.TotalMilliseconds;
+            if (stsw.timer.Interval != newInterval)
             {
-                var newInterval = stsw.SwitchTime.TotalMilliseconds;
-                if (stsw.timer.Interval != newInterval)
-                {
-                    stsw.timer.Interval = newInterval;
-                    if (stsw.IsChecked == true)
-                        stsw.timer.Start();
-                }
+                stsw.timer.Interval = newInterval;
+                if (stsw.IsChecked == true)
+                    stsw.timer.Start();
             }
         }
     }
@@ -164,9 +164,3 @@ public class StswTimedSwitch : CheckBox
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/>
-
-*/

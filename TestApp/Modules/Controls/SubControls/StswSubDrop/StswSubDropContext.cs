@@ -3,13 +3,8 @@ using System.Linq;
 using System.Windows;
 
 namespace TestApp;
-
-public class StswSubDropContext : ControlsContext
+public partial class StswSubDropContext : ControlsContext
 {
-    public StswCommand<string?> OnClickCommand => new((x) => { ClickOption = Convert.ToInt32(x); IsDropDownOpen = false; });
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -20,51 +15,18 @@ public class StswSubDropContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    /// ClickOption
-    public int ClickOption
+    [StswCommand] void OnClick(string option)
     {
-        get => _clickOption;
-        set => SetProperty(ref _clickOption, value);
+        ClickOption = Convert.ToInt32(option);
+        IsDropDownOpen = false;
     }
-    private int _clickOption;
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
-    /// IconScale
-    public GridLength IconScale
-    {
-        get => _iconScale;
-        set => SetProperty(ref _iconScale, value);
-    }
-    private GridLength _iconScale;
-
-    /// IsBusy
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => SetProperty(ref _isBusy, value);
-    }
-    private bool _isBusy;
-
-    /// IsContentVisible
-    public bool IsContentVisible
-    {
-        get => _isContentVisible;
-        set => SetProperty(ref _isContentVisible, value);
-    }
-    private bool _isContentVisible;
-
-    /// IsDropDownOpen
-    public bool IsDropDownOpen
-    {
-        get => _isDropDownOpen;
-        set => SetProperty(ref _isDropDownOpen, value);
-    }
-    private bool _isDropDownOpen = false;
-
-    /// IsReadOnly
-    public bool IsReadOnly
-    {
-        get => _isReadOnly;
-        set => SetProperty(ref _isReadOnly, value);
-    }
-    private bool _isReadOnly;
+    [StswObservableProperty] int _clickOption;
+    [StswObservableProperty] GridLength _iconScale;
+    [StswObservableProperty] bool _isBusy;
+    [StswObservableProperty] bool _isContentVisible;
+    [StswObservableProperty] bool _isDropDownOpen = false;
+    [StswObservableProperty] bool _isReadOnly;
 }

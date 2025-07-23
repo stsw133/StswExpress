@@ -6,6 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for controls with an icon.
 /// </summary>
+[StswInfo("0.4.0")]
 public interface IStswIconControl
 {
     /// <summary>

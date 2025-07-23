@@ -15,6 +15,7 @@ namespace StswExpress;
 /// </remarks>
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
 /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
+[StswInfo("0.6.0", Changes = StswPlannedChanges.Rework, IsTested = false)]
 internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
     /// <summary>
@@ -27,12 +28,7 @@ internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExte
     /// </summary>
     public string Args { get; set; } = args ?? string.Empty;
 
-    /// <summary>
-    /// Creates and returns an instance of the specified class type using the provided constructor arguments.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that provides services for the markup extension.</param>
-    /// <returns>The newly created instance of the specified type.</returns>
-    /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
+    /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         var parsedArgs = ParseArguments(Args);

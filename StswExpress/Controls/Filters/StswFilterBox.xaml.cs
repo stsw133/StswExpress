@@ -13,9 +13,18 @@ namespace StswExpress;
 /// A filtering control designed for use with <see cref="StswDataGrid"/>.
 /// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Header))]
+[StswInfo(null)]
 public class StswFilterBox : Control, IStswCornerControl
 {
+    private ButtonBase? _filterModeButton;
+    private StswDataGrid? _dataGrid;
     public ICommand SelectModeCommand { get; }
 
     public StswFilterBox()
@@ -25,13 +34,9 @@ public class StswFilterBox : Control, IStswCornerControl
     static StswFilterBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(typeof(StswFilterBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private ButtonBase? _filterModeButton;
-    private StswDataGrid? _dataGrid;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -130,6 +135,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// Generates a filter predicate for use in a CollectionView filter.
     /// </summary>
     /// <returns>A predicate function that evaluates whether an item should be included.</returns>
+    [StswInfo("0.15.0")]
     public Predicate<object>? GenerateFilterPredicate()
     {
         if (FilterMode == null)
@@ -179,6 +185,40 @@ public class StswFilterBox : Control, IStswCornerControl
 
             switch (FilterType)
             {
+                case StswAdaptiveType.Check:
+                    {
+                        if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
+                            return false;
+
+                        _ = bool.TryParse(Value1?.ToString(), out var boolVal1);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => boolValue == boolVal1,
+                            StswFilterMode.NotEqual => boolValue != boolVal1,
+                            _ => true
+                        };
+                    }
+                case StswAdaptiveType.Date:
+                    {
+                        if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
+                            return false;
+
+                        _ = DateTime.TryParse(Value1?.ToString(), out var dateVal1);
+                        _ = DateTime.TryParse(Value2?.ToString(), out var dateVal2);
+
+                        return FilterMode switch
+                        {
+                            StswFilterMode.Equal => dateValue.Date == dateVal1.Date,
+                            StswFilterMode.NotEqual => dateValue.Date != dateVal1.Date,
+                            StswFilterMode.Greater => dateValue.Date > dateVal1.Date,
+                            StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
+                            StswFilterMode.Less => dateValue.Date < dateVal1.Date,
+                            StswFilterMode.LessEqual => dateValue.Date <= dateVal1.Date,
+                            StswFilterMode.Between => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
+                            _ => true
+                        };
+                    }
                 case StswAdaptiveType.Number:
                     {
                         if (!decimal.TryParse(rowValue?.ToString(), out var decValue))
@@ -199,26 +239,6 @@ public class StswFilterBox : Control, IStswCornerControl
                             _ => true
                         };
                     }
-                case StswAdaptiveType.Date:
-                    {
-                        if (!DateTime.TryParse(rowValue?.ToString(), out var dateValue))
-                            return false;
-
-                        _ = DateTime.TryParse(Value1?.ToString(), out var dateVal1);
-                        _ = DateTime.TryParse(Value2?.ToString(), out var dateVal2);
-
-                        return FilterMode switch
-                        {
-                            StswFilterMode.Equal        => dateValue.Date == dateVal1.Date,
-                            StswFilterMode.NotEqual     => dateValue.Date != dateVal1.Date,
-                            StswFilterMode.Greater      => dateValue.Date > dateVal1.Date,
-                            StswFilterMode.GreaterEqual => dateValue.Date >= dateVal1.Date,
-                            StswFilterMode.Less         => dateValue.Date < dateVal1.Date,
-                            StswFilterMode.LessEqual    => dateValue.Date <= dateVal1.Date,
-                            StswFilterMode.Between      => dateValue.Date >= dateVal1.Date && dateValue.Date <= dateVal2.Date,
-                            _ => true
-                        };
-                    }
                 case StswAdaptiveType.Time:
                     {
                         if (!TimeSpan.TryParse(rowValue?.ToString(), out var timeValue))
@@ -236,20 +256,6 @@ public class StswFilterBox : Control, IStswCornerControl
                             StswFilterMode.Less         => timeValue.TotalSeconds < timeVal1.TotalSeconds,
                             StswFilterMode.LessEqual    => timeValue.TotalSeconds <= timeVal1.TotalSeconds,
                             StswFilterMode.Between      => timeValue.TotalSeconds >= timeVal1.TotalSeconds && timeValue.TotalSeconds <= timeVal2.TotalSeconds,
-                            _ => true
-                        };
-                    }
-                case StswAdaptiveType.Check:
-                    {
-                        if (!bool.TryParse(rowValue?.ToString(), out var boolValue))
-                            return false;
-
-                        _ = bool.TryParse(Value1?.ToString(), out var boolVal1);
-
-                        return FilterMode switch
-                        {
-                            StswFilterMode.Equal        => boolValue == boolVal1,
-                            StswFilterMode.NotEqual     => boolValue != boolVal1,
                             _ => true
                         };
                     }
@@ -316,6 +322,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <param name="text">The text to compare.</param>
     /// <param name="pattern">The LIKE pattern.</param>
     /// <returns><see langword="true"/> if the text matches the pattern, otherwise <see langword="false"/>.</returns>
+    [StswInfo("0.15.0")]
     private bool MatchesLikePattern(string? text, string? pattern)
     {
         if (string.IsNullOrEmpty(pattern) || text == null)
@@ -335,10 +342,7 @@ public class StswFilterBox : Control, IStswCornerControl
         return text == core;
     }
 
-    /// <summary>
-    /// Handles the KeyDown event. Pressing "Enter" refreshes the associated data grid.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -349,6 +353,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
     /// </summary>
+    [StswInfo("0.15.0")]
     private void NotifyFilterChanged()
     {
         RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
@@ -386,6 +391,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the menu mode for the filter mode button.
     /// </summary>
+    [StswInfo("0.4.1")]
     public StswMenuMode FilterMenuMode
     {
         get => (StswMenuMode)GetValue(FilterMenuModeProperty);
@@ -417,19 +423,19 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnFilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
+        if (obj is not StswFilterBox stsw)
+            return;
+
+        /// update visual symbol if found
+        if (stsw.FilterMode != null
+         && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
+         && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
         {
-            /// update visual symbol if found
-            if (stsw.FilterMode != null
-             && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
-             && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
-            {
-                symbolBlock.Fill = newSymbolBlock.Fill;
-                symbolBlock.Text = newSymbolBlock.Text;
-                symbolBlock.UpdateLayout();
-            }
-            OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+            symbolBlock.Fill = newSymbolBlock.Fill;
+            symbolBlock.Text = newSymbolBlock.Text;
+            symbolBlock.UpdateLayout();
         }
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
     }
     internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
@@ -466,12 +472,12 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnFilterValuePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            /// create param name by removing non-alphanumeric characters
-            stsw.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
-            OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
-        }
+        if (obj is not StswFilterBox stsw)
+            return;
+
+        /// create param name by removing non-alphanumeric characters
+        stsw.SqlParam = "@" + new string([.. ((string)e.NewValue).Where(char.IsLetterOrDigit)]);
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -601,21 +607,21 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
-            {
-                if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                    throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+        if (obj is not StswFilterBox stsw)
+            return;
 
-                /// short usage for StswComboItem
-                if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-                {
-                    if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
-                        stsw.DisplayMemberPath = nameof(StswComboItem.Display);
-                    if (string.IsNullOrEmpty(stsw.SelectedValuePath))
-                        stsw.SelectedValuePath = nameof(StswComboItem.Value);
-                }
+        if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
+        {
+            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+            /// short usage for StswComboItem
+            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            {
+                if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
+                    stsw.DisplayMemberPath = nameof(StswComboItem.Display);
+                if (string.IsNullOrEmpty(stsw.SelectedValuePath))
+                    stsw.SelectedValuePath = nameof(StswComboItem.Value);
             }
         }
     }
@@ -639,6 +645,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the selection unit of the control.
     /// </summary>
+    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
@@ -700,24 +707,24 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterBox stsw)
-        {
-            if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
-            {
-                stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
-            }
-            else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
-            {
-                if (stsw.Value1 == null
-                 || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-                 || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
-                    stsw.SqlString = null;
-                else
-                    stsw.GenerateSqlString();
-            }
+        if (obj is not StswFilterBox stsw)
+            return;
 
-            stsw.NotifyFilterChanged();
+        if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
+        {
+            stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
         }
+        else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
+        {
+            if (stsw.Value1 == null
+             || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
+             || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
+                stsw.SqlString = null;
+            else
+                stsw.GenerateSqlString();
+        }
+
+        stsw.NotifyFilterChanged();
     }
     internal object? DefaultValue1 { get; set; } = null;
 
@@ -787,9 +794,3 @@ public class StswFilterBox : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
-
-*/

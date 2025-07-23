@@ -13,9 +13,21 @@ namespace StswExpress;
 /// A navigation control that manages multiple contexts and navigation elements.
 /// Supports pinned items, compact/full modes, and dynamic content switching.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswNavigation TabStripMode="Full"&gt;
+///     &lt;se:StswNavigationElement Header="Dashboard"/&gt;
+///     &lt;se:StswNavigationElement Header="Settings"/&gt;
+/// &lt;/se:StswNavigation&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
+[StswInfo(null, Changes = StswPlannedChanges.Rework)]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
+    internal StswNavigationElement? CompactedExpander;
+
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
@@ -27,12 +39,9 @@ public class StswNavigation : ContentControl, IStswCornerControl
     static StswNavigation()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    internal StswNavigationElement? CompactedExpander;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -54,12 +63,21 @@ public class StswNavigation : ContentControl, IStswCornerControl
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
             return null;
 
-        if (context is string name1)
+        if (context is Type type)
+        {
+            if (createNewInstance || !Contexts.TryGetValue(type.FullName!, out var value))
+            {
+                Contexts.Remove(type.FullName!);
+                value = Activator.CreateInstance(type);
+                Contexts.Add(type.FullName!, value);
+            }
+            return Content = value;
+        }
+        else if (context is string name1)
         {
             if (createNewInstance || !Contexts.TryGetValue(name1, out var value))
             {
-                if (Contexts.ContainsKey(name1))
-                    Contexts.Remove(name1);
+                Contexts.Remove(name1);
                 value = (Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
                 Contexts.Add(name1, value);
             }
@@ -69,8 +87,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
         {
             if (createNewInstance || !Contexts.TryGetValue(name2, out var value))
             {
-                if (Contexts.ContainsKey(name2))
-                    Contexts.Remove(name2);
+                Contexts.Remove(name2);
                 value = context;
                 Contexts.Add(name2, value);
             }
@@ -193,25 +210,25 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     public static void OnLastSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigation stsw)
+        if (obj is not StswNavigation stsw)
+            return;
+
+        var oldItem = e.OldValue as StswNavigationElement;
+        var newItem = e.NewValue as StswNavigationElement;
+
+        if (oldItem == newItem)
+            return;
+
+        if (!stsw.isLastSelectedItemChanging)
         {
-            var oldItem = e.OldValue as StswNavigationElement;
-            var newItem = e.NewValue as StswNavigationElement;
+            stsw.isLastSelectedItemChanging = true;
 
-            if (oldItem == newItem)
-                return;
+            if (oldItem != null)
+                oldItem.IsChecked = false;
+            if (newItem != null)
+                newItem.IsChecked = true;
 
-            if (!stsw.isLastSelectedItemChanging)
-            {
-                stsw.isLastSelectedItemChanging = true;
-
-                if (oldItem != null)
-                    oldItem.IsChecked = false;
-                if (newItem != null)
-                    newItem.IsChecked = true;
-
-                stsw.isLastSelectedItemChanging = false;
-            }
+            stsw.isLastSelectedItemChanging = false;
         }
     }
     bool isLastSelectedItemChanging;
@@ -236,23 +253,23 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNavigation stsw)
+        if (obj is not StswNavigation stsw)
+            return;
+
+        /// get back all items from compact panel into original expander
+        if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
         {
-            /// get back all items from compact panel into original expander
-            if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
+            if (stsw.TabStripMode == StswCompactibility.Full)
             {
-                if (stsw.TabStripMode == StswCompactibility.Full)
-                {
-                    stsw.CompactedExpander.Items.Clear();
-                    foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
-                        stsw.CompactedExpander.Items.Add(item);
-                }
-                else if (stsw.TabStripMode == StswCompactibility.Compact)
-                {
-                    stsw.ItemsCompact.Clear();
-                    foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
-                        stsw.ItemsCompact.Add(item);
-                }
+                stsw.CompactedExpander.Items.Clear();
+                foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
+                    stsw.CompactedExpander.Items.Add(item);
+            }
+            else if (stsw.TabStripMode == StswCompactibility.Compact)
+            {
+                stsw.ItemsCompact.Clear();
+                foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
+                    stsw.ItemsCompact.Add(item);
             }
         }
     }
@@ -324,6 +341,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// Gets or sets the width of the navigation items list.
     /// Adjusts the size of the tab strip for a custom layout.
     /// </summary>
+    [StswInfo("0.1.0")]
     public double TabStripWidth
     {
         get => (double)GetValue(TabStripWidthProperty);
@@ -338,12 +356,3 @@ public class StswNavigation : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswNavigation TabStripMode="Full">
-    <se:StswNavigationElement Header="Dashboard"/>
-    <se:StswNavigationElement Header="Settings"/>
-</se:StswNavigation>
-
-*/

@@ -10,9 +10,10 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A XAML markup extension that invokes a static method with parameters provided in XAML.
 /// </summary>
 [MarkupExtensionReturnType(typeof(object))]
+[StswInfo("0.17.0", IsTested = false)]
 public class StswInvokeMethodExtension : MarkupExtension
 {
     /// <summary>
@@ -34,14 +35,7 @@ public class StswInvokeMethodExtension : MarkupExtension
         MethodName = methodName;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="MissingMethodException"></exception>
+    /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         var multiBinding = new MultiBinding
@@ -71,38 +65,38 @@ public class StswInvokeMethodExtension : MarkupExtension
     }
 
     /// <summary>
-    /// 
+    /// A simple observable object that holds a value to be used in the InvokeMethodConverter.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The value to hold.</param>
     public class ObjectValueProvider(object value) : StswObservableObject
     {
         /// <summary>
-        /// 
+        /// The value to be used in the method invocation.
         /// </summary>
         public object Value { get; } = value;
     }
 
     /// <summary>
-    /// 
+    /// A converter that invokes a static method with parameters provided through bindings.
     /// </summary>
     public class InvokeMethodConverter : IMultiValueConverter
     {
         /// <summary>
-        /// 
+        /// The fully qualified name of the static method to invoke.
         /// </summary>
         public string? MethodName { get; set; }
 
         /// <summary>
-        /// 
+        /// Converts an array of values to the result of invoking the specified static method.
         /// </summary>
-        /// <param name="values"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
+        /// <param name="values">An array of values to pass as parameters to the method.</param>
+        /// <param name="targetType">The type of the target property (not used in this converter).</param>
+        /// <param name="parameter">An optional parameter (not used in this converter).</param>
+        /// <param name="culture">The culture to use for conversion (not used in this converter).</param>
+        /// <returns>The result of the method invocation.</returns>
+        /// <exception cref="ArgumentException">Thrown when MethodName is not fully qualified or the method cannot be found.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the specified type cannot be found or the method does not exist.</exception>
+        /// <exception cref="MissingMethodException">Thrown when the method with the specified name and parameter count cannot be found.</exception>
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (string.IsNullOrWhiteSpace(MethodName))
@@ -127,14 +121,14 @@ public class StswInvokeMethodExtension : MarkupExtension
         }
 
         /// <summary>
-        /// 
+        /// Converts back the result of the method invocation to an array of values.
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetTypes"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <param name="value">The result of the method invocation.</param>
+        /// <param name="targetTypes">An array of target types (not used in this converter).</param>
+        /// <param name="parameter">An optional parameter (not used in this converter).</param>
+        /// <param name="culture">The culture to use for conversion (not used in this converter).</param>
+        /// <returns>Throws <see cref="NotSupportedException"/> since this converter is one-way only.</returns>
+        /// <exception cref="NotSupportedException">Always thrown since this converter is one-way only.</exception>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotSupportedException();
     }
 }

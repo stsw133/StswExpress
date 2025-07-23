@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 
 namespace TestApp;
-
-public class StswGridContext : ControlsContext
+public partial class StswGridContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -13,11 +12,5 @@ public class StswGridContext : ControlsContext
         VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
     }
 
-    /// AutoLayoutMode
-    public StswAutoLayoutMode AutoLayoutMode
-    {
-        get => _autoLayoutMode;
-        set => SetProperty(ref _autoLayoutMode, value);
-    }
-    private StswAutoLayoutMode _autoLayoutMode;
+    [StswObservableProperty] StswAutoLayoutMode _autoLayoutMode;
 }

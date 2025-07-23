@@ -2,12 +2,8 @@
 using System.Windows;
 
 namespace TestApp;
-
-public class StswSubLabelContext : ControlsContext
+public partial class StswSubLabelContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -17,27 +13,10 @@ public class StswSubLabelContext : ControlsContext
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
     }
 
-    /// IconScale
-    public GridLength IconScale
-    {
-        get => _iconScale;
-        set => SetProperty(ref _iconScale, value);
-    }
-    private GridLength _iconScale;
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
-    /// IsBusy
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => SetProperty(ref _isBusy, value);
-    }
-    private bool _isBusy;
-
-    /// IsContentVisible
-    public bool IsContentVisible
-    {
-        get => _isContentVisible;
-        set => SetProperty(ref _isContentVisible, value);
-    }
-    private bool _isContentVisible;
+    [StswObservableProperty] GridLength _iconScale;
+    [StswObservableProperty] bool _isBusy;
+    [StswObservableProperty] bool _isContentVisible;
 }

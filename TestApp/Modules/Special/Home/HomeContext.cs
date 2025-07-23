@@ -3,8 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace TestApp;
-
-public class HomeContext : StswObservableObject
+public partial class HomeContext : StswObservableObject
 {
     public string? Authors => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).CompanyName;
     public string? Name => typeof(StswApp).Assembly.GetName().Name;

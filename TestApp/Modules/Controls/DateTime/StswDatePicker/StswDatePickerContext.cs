@@ -2,12 +2,8 @@
 using System.Linq;
 
 namespace TestApp;
-
-public class StswDatePickerContext : ControlsContext
+public partial class StswDatePickerContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedDate = default);
-    public StswCommand RandomizeCommand => new(() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days)));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -18,75 +14,16 @@ public class StswDatePickerContext : ControlsContext
         SelectionUnit = (StswCalendarUnit?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionUnit)))?.Value ?? default;
     }
 
-    /// Format
-    public string? Format
-    {
-        get => _format;
-        set => SetProperty(ref _format, value);
-    }
-    private string? _format;
+    [StswCommand] void Clear() => SelectedDate = default;
+    [StswCommand] void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days));
 
-    /// Icon
-    public bool Icon
-    {
-        get => _icon;
-        set => SetProperty(ref _icon, value);
-    }
-    private bool _icon;
-
-    /// IncrementType
-    public StswDateTimeIncrementType IncrementType
-    {
-        get => _incrementType;
-        set => SetProperty(ref _incrementType, value);
-    }
-    private StswDateTimeIncrementType _incrementType;
-
-    /// IsReadOnly
-    public bool IsReadOnly
-    {
-        get => _isReadOnly;
-        set => SetProperty(ref _isReadOnly, value);
-    }
-    private bool _isReadOnly;
-
-    /// Maximum
-    public DateTime? Maximum
-    {
-        get => _maximum;
-        set => SetProperty(ref _maximum, value);
-    }
-    private DateTime? _maximum;
-
-    /// Minimum
-    public DateTime? Minimum
-    {
-        get => _minimum;
-        set => SetProperty(ref _minimum, value);
-    }
-    private DateTime? _minimum;
-
-    /// SelectedDate
-    public DateTime? SelectedDate
-    {
-        get => _selectedDate;
-        set => SetProperty(ref _selectedDate, value);
-    }
-    private DateTime? _selectedDate = DateTime.Now;
-
-    /// SelectionUnit
-    public StswCalendarUnit SelectionUnit
-    {
-        get => _selectionUnit;
-        set => SetProperty(ref _selectionUnit, value);
-    }
-    private StswCalendarUnit _selectionUnit;
-
-    /// SubControls
-    public bool SubControls
-    {
-        get => _subControls;
-        set => SetProperty(ref _subControls, value);
-    }
-    private bool _subControls = false;
+    [StswObservableProperty] string? _format;
+    [StswObservableProperty] bool _icon;
+    [StswObservableProperty] StswDateTimeIncrementType _incrementType;
+    [StswObservableProperty] bool _isReadOnly;
+    [StswObservableProperty] DateTime? _maximum;
+    [StswObservableProperty] DateTime? _minimum;
+    [StswObservableProperty] DateTime? _selectedDate = DateTime.Now;
+    [StswObservableProperty] StswCalendarUnit _selectionUnit;
+    [StswObservableProperty] bool _subControls = false;
 }

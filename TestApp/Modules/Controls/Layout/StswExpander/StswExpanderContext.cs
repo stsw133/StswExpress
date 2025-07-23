@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 
 namespace TestApp;
-
-public class StswExpanderContext : ControlsContext
+public partial class StswExpanderContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -12,11 +11,5 @@ public class StswExpanderContext : ControlsContext
         ExpandDirection = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ExpandDirection)))?.Value ?? default;
     }
 
-    /// ExpandDirection
-    public ExpandDirection ExpandDirection
-    {
-        get => _expandDirection;
-        set => SetProperty(ref _expandDirection, value);
-    }
-    private ExpandDirection _expandDirection;
+    [StswObservableProperty] ExpandDirection _expandDirection;
 }

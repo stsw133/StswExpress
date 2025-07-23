@@ -8,7 +8,14 @@ namespace StswExpress;
 /// Supports showing the element's name and description based on configurable properties.
 /// This control extends <see cref="StswToolTip"/> and is intended for internal use with chart components.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswChartTip ShowName="True" ShowDescription="True"/&gt;
+/// </code>
+/// </example>
 [EditorBrowsable(EditorBrowsableState.Never)]
+[StswInfo("0.4.0")]
 public class StswChartTip : StswToolTip
 {
     static StswChartTip()
@@ -50,9 +57,3 @@ public class StswChartTip : StswToolTip
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswChartTip ShowName="True" ShowDescription="True"/>
-
-*/

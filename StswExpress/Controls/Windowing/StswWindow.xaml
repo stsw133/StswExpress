@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswWindow}">
+        <Setter Property="ConfigPresentationMode" Value="ContentDialog"/>
+
         <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Active.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswWindow.Active.Foreground}"/>
@@ -11,8 +13,6 @@
         <Setter Property="FontFamily" Value="{DynamicResource StswWindow.Font.Family}"/>
         <Setter Property="FontSize" Value="{DynamicResource StswWindow.Font.Size}"/>
         <Setter Property="WindowStyle" Value="None"/>
-
-        <Setter Property="ConfigPresentationMode" Value="ContentDialog"/>
 
         <Setter Property="Template">
             <Setter.Value>

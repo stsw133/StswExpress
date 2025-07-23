@@ -184,6 +184,26 @@ public enum StswProgressTextMode
 }
 
 /// <summary>
+/// Enumerator for <see cref="StswScrollBar.DynamicMode"/>.
+/// </summary>
+public enum StswScrollDynamicMode
+{
+    Off,
+    Partial,
+    Full
+}
+
+/// <summary>
+/// Enumerator for <see cref="StswDataGrid.ScrollToItemBehavior"/>.
+/// </summary>
+public enum StswScrollToItemBehavior
+{
+    None,
+    OnInsert,
+    OnSelection,
+}
+
+/// <summary>
 /// Enumerator for <see cref="StswPopup.ScrollType"/>.
 /// </summary>
 public enum StswScrollType

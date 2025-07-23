@@ -3,15 +3,15 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswInfoBar}">
+        <Setter Property="IsClosable" Value="False"/>
+        <Setter Property="IsCopyable" Value="True"/>
+        <Setter Property="IsExpandable" Value="False"/>
+
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
         
-        <Setter Property="IsClosable" Value="False"/>
-        <Setter Property="IsCopyable" Value="True"/>
-        <Setter Property="IsExpandable" Value="False"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

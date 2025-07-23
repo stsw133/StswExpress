@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class StswWindowBarContext : ControlsContext
+public partial class StswWindowBarContext : ControlsContext
 {
-    
 }

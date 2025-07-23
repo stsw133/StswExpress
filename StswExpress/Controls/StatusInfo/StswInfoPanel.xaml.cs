@@ -15,12 +15,21 @@ namespace StswExpress;
 /// This control provides a structured way to display multiple notifications, allowing bulk operations like 
 /// closing all notifications at once or copying their content to the clipboard.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoPanel ShowControlPanel="True"&gt;
+///     &lt;se:StswInfoBar Title="Success" Text="Operation completed!" Type="Success"/&gt;
+///     &lt;se:StswInfoBar Title="Error" Text="Something went wrong." Type="Error"/&gt;
+/// &lt;/se:StswInfoPanel&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -43,6 +52,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
+    [StswInfo("0.9.0")]
     private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
     {
         var sb = new StringBuilder();
@@ -88,6 +98,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// Gets or sets a value indicating whether each information bar can be copied to the clipboard individually.
     /// When enabled, each item will have a copy button.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsCopyable
     {
         get => (bool)GetValue(IsCopyableProperty);
@@ -104,6 +115,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// Gets or sets a value indicating whether each information bar can be expanded for more details.
     /// When enabled, an expand button will be displayed for each item.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsExpandable
     {
         get => (bool)GetValue(IsExpandableProperty);
@@ -119,6 +131,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the information bars are currently expanded.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsExpanded
     {
         get => (bool)GetValue(IsExpandedProperty);
@@ -134,6 +147,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the control panel (containing batch operations) is visible.
     /// </summary>
+    [StswInfo("0.9.0")]
     public bool ShowControlPanel
     {
         get => (bool)GetValue(ShowControlPanelProperty);
@@ -193,12 +207,3 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoPanel ShowControlPanel="True">
-    <se:StswInfoBar Title="Success" Text="Operation completed!" Type="Success"/>
-    <se:StswInfoBar Title="Error" Text="Something went wrong." Type="Error"/>
-</se:StswInfoPanel>
-
-*/

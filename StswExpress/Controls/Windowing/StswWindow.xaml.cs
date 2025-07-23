@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Shell;
 
@@ -19,8 +18,23 @@ namespace StswExpress;
 /// This control enhances the standard WPF window by enabling fullscreen mode, 
 /// managing custom window chrome, and supporting additional UI elements in the title bar.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswWindow Title="My Application" Width="800" Height="600"&gt;
+///     &lt;Grid&gt;
+///         &lt;TextBlock Text="Welcome to the custom window!" HorizontalAlignment="Center" VerticalAlignment="Center"/&gt;
+///     &lt;/Grid&gt;
+/// &lt;/se:StswWindow&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswWindow : Window, IStswCornerControl
 {
+    private double _defaultHeight, _defaultWidth;
+    private WindowState _preFullscreenState;
+    private StswWindowBar? _windowBar;
+
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
@@ -31,10 +45,6 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    internal StswWindowBar? _windowBar;
-    private WindowState preFullscreenState;
-    private double defaultHeight, defaultWidth;
-
     /// <summary>
     /// Event that occurs when the <see cref="Fullscreen"/> property changes.
     /// </summary>
@@ -85,8 +95,8 @@ public class StswWindow : Window, IStswCornerControl
         if (WindowState == WindowState.Maximized)
             WindowState = WindowState.Normal;
 
-        Height = defaultHeight;
-        Width = defaultWidth;
+        Height = _defaultHeight;
+        Width = _defaultWidth;
         Center();
     }
 
@@ -98,7 +108,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (enteringFullscreen)
         {
-            preFullscreenState = WindowState;
+            _preFullscreenState = WindowState;
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
 
@@ -112,10 +122,10 @@ public class StswWindow : Window, IStswCornerControl
             if (_windowBar?.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.IsAlwaysVisible = true;
 
-            if (preFullscreenState == WindowState.Maximized)
+            if (_preFullscreenState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
 
-            WindowState = preFullscreenState;
+            WindowState = _preFullscreenState;
         }
 
         Activate();
@@ -202,18 +212,18 @@ public class StswWindow : Window, IStswCornerControl
         );
     public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw)
+        if (obj is not StswWindow stsw)
+            return;
+
+        if (stsw._windowBar != null)
         {
-            if (stsw._windowBar != null)
-            {
-                if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
-                    return;
+            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
+                return;
 
-                stsw.HandleEnteringFullscreen(stsw.Fullscreen);
+            stsw.HandleEnteringFullscreen(stsw.Fullscreen);
 
-                /// event for non MVVM programming
-                stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
-            }
+            /// event for non MVVM programming
+            stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
         }
     }
     #endregion
@@ -248,13 +258,13 @@ public class StswWindow : Window, IStswCornerControl
         );
     public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw)
+        if (obj is not StswWindow stsw)
+            return;
+
+        if (!stsw.IsLoaded)
         {
-            if (!stsw.IsLoaded)
-            {
-                var cr = stsw.CornerRadius;
-                stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
-            }
+            var cr = stsw.CornerRadius;
+            stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
         }
     }
     #endregion
@@ -269,10 +279,10 @@ public class StswWindow : Window, IStswCornerControl
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
             hwndSource.AddHook(new HwndSourceHook(WndProc));
 
-        if (defaultHeight == 0)
-            defaultHeight = Height;
-        if (defaultWidth == 0)
-            defaultWidth = Width;
+        if (_defaultHeight == 0)
+            _defaultHeight = Height;
+        if (_defaultWidth == 0)
+            _defaultWidth = Width;
     }
 
     /// <summary>
@@ -391,13 +401,3 @@ public class StswWindow : Window, IStswCornerControl
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 }
-
-/* usage:
-
-<se:StswWindow Title="My Application" Width="800" Height="600">
-    <Grid>
-        <TextBlock Text="Welcome to the custom window!" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
-</se:StswWindow>
-
-*/

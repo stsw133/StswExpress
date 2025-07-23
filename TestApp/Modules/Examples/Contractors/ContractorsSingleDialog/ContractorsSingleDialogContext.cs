@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class ContractorsSingleDialogContext : StswObservableObject
+public partial class ContractorsSingleDialogContext : StswObservableObject
 {
-    
 }

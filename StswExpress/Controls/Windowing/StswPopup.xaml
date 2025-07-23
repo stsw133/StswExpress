@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswPopup}">
+        <Setter Property="ScrollType" Value="ScrollView"/>
+        
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
@@ -12,12 +14,11 @@
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ScrollType" Value="ScrollView"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
     </Style>
     
     
@@ -59,9 +60,9 @@
                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
                                CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
                                CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                               DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                Focusable="False"
                                IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                               IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">

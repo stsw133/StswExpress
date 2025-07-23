@@ -5,6 +5,7 @@ namespace StswExpress.Commons;
 /// Provides configuration settings for managing email configurations in the application.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
+[StswInfo("0.10.0")]
 public class StswMailboxesConfig
 {
     /// <summary>

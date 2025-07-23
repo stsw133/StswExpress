@@ -12,68 +12,61 @@ namespace StswExpress;
 /// <remarks>
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswListBox ItemsSource="{Binding Products}" IsReadOnly="True"&gt;
+///     &lt;se:StswListBoxItem Content="Product A"/&gt;
+///     &lt;se:StswListBoxItem Content="Product B"/&gt;
+/// &lt;/se:StswListBox&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswListBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswListBoxItem();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListBoxItem;
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the ItemsSource property value changes.
-    /// Updates the selection control when the items source is modified.
-    /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
-    /// Updates the selection control when the item template is modified.
-    /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
+    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Occurs when the selection in the list changes.
-    /// Handles selection changes and ensures the control’s selection logic is respected.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
 
-    /// <summary>
-    /// Prepares the container for item override, setting bindings for read-only state.
-    /// </summary>
-    /// <param name="element">The element to prepare</param>
-    /// <param name="item">The item to bind</param>
+    /// <inheritdoc/>
+    [StswInfo("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -91,6 +84,7 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -134,12 +128,3 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswListBox ItemsSource="{Binding Products}" IsReadOnly="True">
-    <se:StswListBoxItem Content="Product A"/>
-    <se:StswListBoxItem Content="Product B"/>
-</se:StswListBox>
-
-*/

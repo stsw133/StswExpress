@@ -7,6 +7,18 @@ namespace StswExpress;
 /// A collapsible side panel that expands on mouse hover and hides when the cursor leaves.
 /// Supports always-visible mode.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSidePanel IsAlwaysVisible="True"&gt;
+///     &lt;StackPanel&gt;
+///         &lt;Button Content="Option 1"/&gt;
+///         &lt;Button Content="Option 2"/&gt;
+///     &lt;/StackPanel&gt;
+/// &lt;/se:StswSidePanel&gt;
+/// </code>
+/// </example>
+[StswInfo("0.2.0")]
 public class StswSidePanel : ContentControl
 {
     static StswSidePanel()
@@ -28,11 +40,7 @@ public class StswSidePanel : ContentControl
             };
     }
 
-    /// <summary>
-    /// Occurs when the mouse leaves the control.
-    /// If the control is not in always-visible mode and is expanded, it collapses when the mouse leaves.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
@@ -46,6 +54,7 @@ public class StswSidePanel : ContentControl
     /// Gets or sets a value indicating whether the side panel is always visible.
     /// If true, the panel remains expanded and doesn't collapse, overriding mouse hover behavior.
     /// </summary>
+    [StswInfo("0.7.0")]
     public bool IsAlwaysVisible
     {
         get => (bool)GetValue(IsAlwaysVisibleProperty);
@@ -60,18 +69,19 @@ public class StswSidePanel : ContentControl
         );
     public static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSidePanel stsw)
-        {
-            var newIsCollapsed = !stsw.IsAlwaysVisible;
-            if (stsw.IsCollapsed != newIsCollapsed)
-                stsw.IsCollapsed = newIsCollapsed;
-        }
+        if (obj is not StswSidePanel stsw)
+            return;
+
+        var newIsCollapsed = !stsw.IsAlwaysVisible;
+        if (stsw.IsCollapsed != newIsCollapsed)
+            stsw.IsCollapsed = newIsCollapsed;
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is collapsed.
     /// When collapsed, the side panel is hidden until the mouse hovers over it, unless it is in always-visible mode.
     /// </summary>
+    [StswInfo("0.7.0")]
     internal bool IsCollapsed
     {
         get => (bool)GetValue(IsCollapsedProperty);
@@ -86,14 +96,3 @@ public class StswSidePanel : ContentControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSidePanel IsAlwaysVisible="True">
-    <StackPanel>
-        <Button Content="Option 1"/>
-        <Button Content="Option 2"/>
-    </StackPanel>
-</se:StswSidePanel>
-
-*/

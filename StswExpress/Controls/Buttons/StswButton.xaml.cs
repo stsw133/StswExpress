@@ -7,12 +7,18 @@ namespace StswExpress;
 /// Represents a customizable button control that extends the standard <see cref="Button"/> functionality.
 /// Supports additional styling options, including corner clipping and rounded corners.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswButton Command="{Binding MyCommand}" Content="Click Me" CornerClipping="True" CornerRadius="10"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswButton : Button, IStswCornerControl
 {
     static StswButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButton), new FrameworkPropertyMetadata(typeof(StswButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -45,9 +51,3 @@ public class StswButton : Button, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswButton Command="{Binding MyCommand}" Content="Click Me" CornerClipping="True" CornerRadius="10"/>
-
-*/

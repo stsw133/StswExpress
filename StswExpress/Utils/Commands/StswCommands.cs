@@ -10,6 +10,7 @@ namespace StswExpress;
 /// <summary>
 /// Provides custom commands for common UI interactions.
 /// </summary>
+[StswInfo("0.9.0")]
 public static class StswCommands
 {
     /// <summary>

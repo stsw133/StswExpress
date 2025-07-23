@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class SettingsContext : StswObservableObject
+public partial class SettingsContext : StswObservableObject
 {
-
 }

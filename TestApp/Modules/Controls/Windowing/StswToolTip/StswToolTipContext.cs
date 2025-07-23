@@ -2,8 +2,7 @@
 using System.Windows.Controls;
 
 namespace TestApp;
-
-public class StswToolTipContext : ControlsContext
+public partial class StswToolTipContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -12,19 +11,6 @@ public class StswToolTipContext : ControlsContext
         IsMoveable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsMoveable)))?.Value ?? default;
     }
 
-    /// IsMoveable
-    public bool IsMoveable
-    {
-        get => _isMoveable;
-        set => SetProperty(ref _isMoveable, value);
-    }
-    private bool _isMoveable;
-
-    /// ShowDuration
-    public int ShowDuration
-    {
-        get => _showDuration;
-        set => SetProperty(ref _showDuration, value);
-    }
-    private int _showDuration = ToolTipService.GetShowDuration(StswApp.StswWindow);
+    [StswObservableProperty] bool _isMoveable;
+    [StswObservableProperty] int _showDuration = ToolTipService.GetShowDuration(StswApp.StswWindow);
 }

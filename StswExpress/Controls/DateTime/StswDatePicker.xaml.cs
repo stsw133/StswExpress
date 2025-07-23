@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -12,13 +11,19 @@ namespace StswExpress;
 /// A date picker control that allows users to select a date using a text box and a drop-down calendar.
 /// Supports custom date formats, min/max date validation, and incremental adjustments via mouse scroll.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDatePicker SelectedDate="{Binding BirthDate}" Format="dd/MM/yyyy" IncrementType="Day"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedDate))]
+[StswInfo(null)]
 public class StswDatePicker : StswBoxBase
 {
     static StswDatePicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -36,11 +41,7 @@ public class StswDatePicker : StswBoxBase
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
     /*
-    /// <summary>
-    /// Handles the MouseDown event for the internal content host of the time picker.
-    /// If the Middle mouse button is pressed, the IncrementType value is changed.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
@@ -48,11 +49,7 @@ public class StswDatePicker : StswBoxBase
             IncrementType = IncrementType.GetNextValue();
     }
     */
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the date picker.
-    /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -114,10 +111,7 @@ public class StswDatePicker : StswBoxBase
         return newValue;
     }
 
-    /// <summary>
-    /// Updates the main property associated with the selected date in the control based on user input.
-    /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedDate;
@@ -161,15 +155,15 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        stsw.Format ??= "d";
+        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
         {
-            stsw.Format ??= "d";
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-            {
-                var newBinding = binding.Clone();
-                newBinding.StringFormat = stsw.Format;
-                stsw.SetBinding(TextProperty, newBinding);
-            }
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = stsw.Format;
+            stsw.SetBinding(TextProperty, newBinding);
         }
     }
 
@@ -220,11 +214,11 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
-        {
-            if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
-                stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
-        }
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
+            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
     }
 
     /// <summary>
@@ -262,24 +256,25 @@ public class StswDatePicker : StswBoxBase
         );
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDatePicker stsw)
-        {
-            /// event for non MVVM programming
-            stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
-        }
+        if (obj is not StswDatePicker stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
     }
     private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)
     {
-        if (obj is StswDatePicker stsw)
-            return stsw.MinMaxValidate((DateTime?)baseValue);
+        if (obj is not StswDatePicker stsw)
+            return baseValue;
 
-        return baseValue;
+        return stsw.MinMaxValidate((DateTime?)baseValue);
     }
 
     /// <summary>
     /// Gets or sets the selection unit of the control.
     /// Determines whether the user selects an individual day or an entire month.
     /// </summary>
+    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
@@ -293,9 +288,3 @@ public class StswDatePicker : StswBoxBase
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDatePicker SelectedDate="{Binding BirthDate}" Format="dd/MM/yyyy" IncrementType="Day"/>
-
-*/

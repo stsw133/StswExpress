@@ -4,6 +4,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartTip}">
+        <Setter Property="IsMoveable" Value="True"/>
+
         <Setter Property="Background" Value="{DynamicResource StswTip.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswTip.Static.Border}"/>
 
@@ -11,8 +13,6 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="IsMoveable" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="HasDropShadow" Value="True"/>

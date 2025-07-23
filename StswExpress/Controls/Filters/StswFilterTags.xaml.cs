@@ -9,12 +9,18 @@ namespace StswExpress;
 /// <summary>
 /// A control that displays a collection of filter tags, allowing users to include or exclude specific tags.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswFilterTags Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.17.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.VisualChanges)]
 public class StswFilterTags : ItemsControl, IStswCornerControl
 {
     static StswFilterTags()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterTags), new FrameworkPropertyMetadata(typeof(StswFilterTags)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswFilterTags), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswFilterTagsItem();
@@ -85,57 +91,57 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         );
     private static void OnSelectedTagsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswFilterTags stsw)
+        if (obj is not StswFilterTags stsw)
+            return;
+
+        if (e.NewValue is not string str)
+            return;
+
+        var rawTags = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var included = new HashSet<string>();
+        var excluded = new HashSet<string>();
+
+        foreach (var tag in rawTags)
         {
-            if (e.NewValue is not string str)
-                return;
-
-            var rawTags = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var included = new HashSet<string>();
-            var excluded = new HashSet<string>();
-
-            foreach (var tag in rawTags)
-            {
-                if (tag.StartsWith('-'))
-                    excluded.Add(tag[1..]);
-                else
-                    included.Add(tag);
-            }
-
-            foreach (var conflict in included.Intersect(excluded).ToList())
-            {
-                included.Remove(conflict);
-                excluded.Remove(conflict);
-            }
-
-            if (!stsw.AllowCustomTags)
-            {
-                var validTags = stsw.ItemsSource?.Cast<object>()
-                    .Select(stsw.GetTagDisplayValue)
-                    .Where(tag => !string.IsNullOrWhiteSpace(tag))
-                    .ToHashSet();
-
-                included.RemoveWhere(tag => !validTags?.Contains(tag) ?? true);
-                excluded.RemoveWhere(tag => !validTags?.Contains(tag) ?? true);
-            }
-
-            stsw.IncludedTags.Clear();
-            stsw.ExcludedTags.Clear();
-
-            foreach (var tag in included)
-                stsw.IncludedTags.Add(tag);
-            foreach (var tag in excluded)
-                stsw.ExcludedTags.Add(tag);
-
-            var cleaned = string.Join(' ', included.Concat(excluded.Select(t => "-" + t)));
-            if (cleaned != str)
-                stsw.Dispatcher.BeginInvoke(() =>
-                {
-                    stsw.SetCurrentValue(SelectedTagsProperty, cleaned);
-                    BindingExpression? be = BindingOperations.GetBindingExpression(stsw, SelectedTagsProperty);
-                    be?.UpdateTarget();
-                });
+            if (tag.StartsWith('-'))
+                excluded.Add(tag[1..]);
+            else
+                included.Add(tag);
         }
+
+        foreach (var conflict in included.Intersect(excluded).ToList())
+        {
+            included.Remove(conflict);
+            excluded.Remove(conflict);
+        }
+
+        if (!stsw.AllowCustomTags)
+        {
+            var validTags = stsw.ItemsSource?.Cast<object>()
+                .Select(stsw.GetTagDisplayValue)
+                .Where(tag => !string.IsNullOrWhiteSpace(tag))
+                .ToHashSet();
+
+            included.RemoveWhere(tag => !validTags?.Contains(tag) ?? true);
+            excluded.RemoveWhere(tag => !validTags?.Contains(tag) ?? true);
+        }
+
+        stsw.IncludedTags.Clear();
+        stsw.ExcludedTags.Clear();
+
+        foreach (var tag in included)
+            stsw.IncludedTags.Add(tag);
+        foreach (var tag in excluded)
+            stsw.ExcludedTags.Add(tag);
+
+        var cleaned = string.Join(' ', included.Concat(excluded.Select(t => "-" + t)));
+        if (cleaned != str)
+            stsw.Dispatcher.BeginInvoke(() =>
+            {
+                stsw.SetCurrentValue(SelectedTagsProperty, cleaned);
+                BindingExpression? be = BindingOperations.GetBindingExpression(stsw, SelectedTagsProperty);
+                be?.UpdateTarget();
+            });
     }
     public IList<string> IncludedTags { get; } = [];
     public IList<string> ExcludedTags { get; } = [];
@@ -171,9 +177,3 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswFilterTags Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
-
-*/

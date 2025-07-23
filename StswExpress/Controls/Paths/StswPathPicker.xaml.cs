@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -15,13 +14,19 @@ namespace StswExpress;
 /// A file and directory path selection control with a built-in file dialog.
 /// Supports file filtering, multi-selection, and displaying file sizes.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPathPicker SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile" Filter="Text Files|*.txt"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedPath))]
+[StswInfo("0.5.0")]
 public class StswPathPicker : StswBoxBase
 {
     static StswPathPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(typeof(StswPathPicker)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -42,11 +47,7 @@ public class StswPathPicker : StswBoxBase
         ListAdjacentPaths();
     }
 
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the file picker.
-    /// Adjusts the selected path based on the mouse wheel's scrolling direction.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -96,11 +97,7 @@ public class StswPathPicker : StswBoxBase
         }
     }
 
-    /// <summary>
-    /// Updates the main property associated with the selected path in the control based on user input.
-    /// Forces a binding update if the alwaysUpdate flag is set to true.
-    /// </summary>
-    /// <param name="alwaysUpdate">Indicates whether to force an update of the binding</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         if (alwaysUpdate)
@@ -249,16 +246,17 @@ public class StswPathPicker : StswBoxBase
         );
     public static void OnIsShiftingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathPicker stsw)
-        {
-            stsw.ListAdjacentPaths();
-        }
+        if (obj is not StswPathPicker stsw)
+            return;
+
+        stsw.ListAdjacentPaths();
     }
 
     /// <summary>
     /// Gets or sets the multiselect behavior for open file dialog.
     /// If <see langword="true"/>, multiple files can be selected at once in the file dialog.
     /// </summary>
+    [StswInfo("0.15.0")]
     public bool Multiselect
     {
         get => (bool)GetValue(MultiselectProperty);
@@ -291,21 +289,21 @@ public class StswPathPicker : StswBoxBase
         );
     public static void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathPicker stsw)
+        if (obj is not StswPathPicker stsw)
+            return;
+
+        stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
+        stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
+
+        /// load adjacent paths
+        if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
         {
-            stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
-            stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
-
-            /// load adjacent paths
-            if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
-            {
-                stsw.parentPath = parentPath;
-                stsw.ListAdjacentPaths();
-            }
-
-            /// event for non MVVM programming
-            stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
+            stsw.parentPath = parentPath;
+            stsw.ListAdjacentPaths();
         }
+
+        /// event for non MVVM programming
+        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
     private string? parentPath;
 
@@ -314,6 +312,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the currently selected path in the control.
     /// Represents the file or directory currently selected by the user.
     /// </summary>
+    [StswInfo("0.15.0")]
     public string[] SelectedPaths
     {
         get => (string[])GetValue(SelectedPathsProperty);
@@ -348,6 +347,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the suggested file name for file dialog default file name.
     /// Provides a default name for files when the save dialog is shown.
     /// </summary>
+    [StswInfo("0.15.0")]
     public string? SuggestedFilename
     {
         get => (string?)GetValue(SuggestedFilenameProperty);
@@ -366,6 +366,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets whether to show or not the file size.
     /// If true, the size of the selected file is displayed next to the selected path.
     /// </summary>
+    [StswInfo("0.7.0")]
     public bool IsFileSizeVisible
     {
         get => (bool)GetValue(IsFileSizeVisibleProperty);
@@ -379,9 +380,3 @@ public class StswPathPicker : StswBoxBase
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPathPicker SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile" Filter="Text Files|*.txt"/>
-
-*/

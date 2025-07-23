@@ -15,17 +15,31 @@ namespace StswExpress;
 /// while additional elements can be placed inside the drop-down menu.
 /// Supports optional auto-closing, customizable corner rounding, and styling enhancements.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSplitButton&gt;
+///     &lt;se:StswSplitButton.Header&gt;
+///         &lt;se:TextBox Text="Enter text..."/&gt;
+///     &lt;/se:StswSplitButton.Header&gt;
+///     &lt;se:Button Command="{Binding ClearTextCommand}" Content="Clear"/&gt;
+///     &lt;se:Button Command="{Binding SubmitTextCommand}" Content="Submit"/&gt;
+/// &lt;/se:StswSplitButton&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
+[StswInfo(null)]
 public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswSplitButton()
     {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
     }
     static StswSplitButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -36,11 +50,8 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Occurs when the <see cref="ItemsSource"/> property value changes.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.7.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
@@ -62,9 +73,9 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the drop-down should automatically close 
-    /// after an item inside it is clicked.
+    /// Gets or sets a value indicating whether the drop-down should automatically close after an item inside it is clicked.
     /// </summary>
+    [StswInfo("0.7.0")]
     public bool AutoClose
     {
         get => (bool)GetValue(AutoCloseProperty);
@@ -81,16 +92,18 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
     private static void OnAutoCloseChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSplitButton stsw)
+        if (obj is not StswSplitButton stsw)
+            return;
+
+        if (stsw.Items != null)
         {
-            if (stsw.Items != null)
-                foreach (var btn in stsw.Items.OfType<ButtonBase>())
-                {
-                    if (stsw.AutoClose)
-                        btn.Click += (_, _) => stsw.IsDropDownOpen = false;
-                    else
-                        btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
-                }
+            foreach (var btn in stsw.Items.OfType<ButtonBase>())
+            {
+                if (stsw.AutoClose)
+                    btn.Click += (_, _) => stsw.IsDropDownOpen = false;
+                else
+                    btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
+            }
         }
     }
 
@@ -109,17 +122,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSplitButton stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is in read-only mode.
@@ -182,6 +185,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -212,15 +216,3 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSplitButton>
-    <se:StswSplitButton.Header>
-        <se:TextBox Text="Enter text..."/>
-    </se:StswSplitButton.Header>
-    <se:Button Command="{Binding ClearTextCommand}" Content="Clear"/>
-    <se:Button Command="{Binding SubmitTextCommand}" Content="Submit"/>
-</se:StswSplitButton>
-
-*/

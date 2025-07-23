@@ -13,18 +13,24 @@ namespace StswExpress;
 /// A media player control that supports playing audio and video files.
 /// Includes playback controls, timeline slider, and mute option.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswMediaPlayer : ItemsControl
 {
+    private readonly Timer _timer = new() { AutoReset = true };
+    private MediaElement? _mediaElement;
+
     static StswMediaPlayer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private MediaElement? _mediaElement;
-    private readonly Timer timer = new() { AutoReset = true };
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -64,7 +70,7 @@ public class StswMediaPlayer : ItemsControl
             _mediaElement = mediaElement;
         }
 
-        timer.Elapsed += Timer_Elapsed;
+        _timer.Elapsed += Timer_Elapsed;
     }
 
     /// <summary>
@@ -172,11 +178,11 @@ public class StswMediaPlayer : ItemsControl
         );
     public static void OnIsMutedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswMediaPlayer stsw)
-        {
-            if (stsw._mediaElement != null)
-                stsw._mediaElement.IsMuted = stsw.IsMuted;
-        }
+        if (obj is not StswMediaPlayer stsw)
+            return;
+
+        if (stsw._mediaElement != null)
+            stsw._mediaElement.IsMuted = stsw.IsMuted;
     }
 
     /// <summary>
@@ -199,26 +205,26 @@ public class StswMediaPlayer : ItemsControl
         );
     public static void OnIsPlayingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswMediaPlayer stsw)
+        if (obj is not StswMediaPlayer stsw)
+            return;
+
+        if (stsw._mediaElement != null)
         {
-            if (stsw._mediaElement != null)
+            if (stsw.IsPlaying == true)
             {
-                if (stsw.IsPlaying == true)
-                {
-                    stsw.timer.Start();
-                    stsw._mediaElement.Play();
-                }
-                else if (stsw.IsPlaying == false)
-                {
-                    stsw.timer.Stop();
-                    stsw._mediaElement.Pause();
-                }
-                else
-                {
-                    stsw._mediaElement.Position = new TimeSpan(0);
-                    stsw.timer.Stop();
-                    stsw._mediaElement.Stop();
-                }
+                stsw._timer.Start();
+                stsw._mediaElement.Play();
+            }
+            else if (stsw.IsPlaying == false)
+            {
+                stsw._timer.Stop();
+                stsw._mediaElement.Pause();
+            }
+            else
+            {
+                stsw._mediaElement.Position = new TimeSpan(0);
+                stsw._timer.Stop();
+                stsw._mediaElement.Stop();
             }
         }
     }
@@ -316,8 +322,3 @@ public class StswMediaPlayer : ItemsControl
     #endregion
 }
 
-/* usage:
-
-<se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/>
-
-*/

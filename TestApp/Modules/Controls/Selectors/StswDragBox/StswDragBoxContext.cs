@@ -4,8 +4,7 @@ using System.Linq;
 using System.Windows.Controls;
 
 namespace TestApp;
-
-public class StswDragBoxContext : ControlsContext
+public partial class StswDragBoxContext : ControlsContext
 {
     public StswDragBoxContext()
     {
@@ -20,38 +19,9 @@ public class StswDragBoxContext : ControlsContext
         SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
     }
 
-    /// Items
-    public ObservableCollection<StswListBoxTestModel> Items
-    {
-        get => _items;
-        set => SetProperty(ref _items, value);
-    }
-    private ObservableCollection<StswListBoxTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
-
-    //Items 2
-    public ObservableCollection<StswListBoxTestModel> Items2
-    {
-        get => _items2;
-        set => SetProperty(ref _items2, value);
-    }
-    private ObservableCollection<StswListBoxTestModel> _items2 = new(Enumerable.Range(16, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
-
-    /// SelectionCounter
+    [StswObservableProperty] ObservableCollection<StswListBoxTestModel> _items = new([.. Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 })]);
+    [StswObservableProperty] ObservableCollection<StswListBoxTestModel> _items2 = new([.. Enumerable.Range(16, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 })]);
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
-
-    /// IsReadOnly
-    public bool IsReadOnly
-    {
-        get => _isReadOnly;
-        set => SetProperty(ref _isReadOnly, value);
-    }
-    private bool _isReadOnly;
-
-    /// SelectionMode
-    public SelectionMode SelectionMode
-    {
-        get => _selectionMode;
-        set => SetProperty(ref _selectionMode, value);
-    }
-    private SelectionMode _selectionMode;
+    [StswObservableProperty] bool _isReadOnly;
+    [StswObservableProperty] SelectionMode _selectionMode;
 }

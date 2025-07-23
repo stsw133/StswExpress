@@ -7,12 +7,22 @@ namespace StswExpress;
 /// <summary>
 /// A visual separator used to divide UI elements.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;StackPanel&gt;
+///     &lt;TextBlock Text="Section 1"/&gt;
+///     &lt;se:StswSeparator Orientation="Horizontal" BorderThickness="2"/&gt;
+///     &lt;TextBlock Text="Section 2"/&gt;
+/// &lt;/StackPanel&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswSeparator : Separator
 {
     static StswSeparator()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties
@@ -107,13 +117,3 @@ public class StswSeparator : Separator
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<StackPanel>
-    <TextBlock Text="Section 1"/>
-    <se:StswSeparator Orientation="Horizontal" BorderThickness="2"/>
-    <TextBlock Text="Section 2"/>
-</StackPanel>
-
-*/

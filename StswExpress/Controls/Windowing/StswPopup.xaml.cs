@@ -13,7 +13,16 @@ namespace StswExpress;
 /// <remarks>
 /// The popup adapts to different scroll types and supports dynamic content updates.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPopup IsOpen="True" CornerRadius="8" ScrollType="ScrollView"&gt;
+///     &lt;TextBlock Text="This is a popup message"/&gt;
+/// &lt;/se:StswPopup&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Content))]
+[StswInfo("0.2.0")]
 public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
@@ -29,6 +38,7 @@ public class StswPopup : Popup, IStswCornerControl
     /// <summary>
     /// Initializes the popup's child content based on the selected <see cref="ScrollType"/>.
     /// </summary>
+    [StswInfo("0.8.0")]
     private void Init()
     {
         Child = new ContentControl
@@ -63,6 +73,7 @@ public class StswPopup : Popup, IStswCornerControl
     /// Gets or sets the type of scroll viewer used within the popup content.
     /// Determines whether a directional or standard scroll view is used.
     /// </summary>
+    [StswInfo("0.8.0")]
     public StswScrollType ScrollType
     {
         get => (StswScrollType)GetValue(ScrollTypeProperty);
@@ -79,10 +90,10 @@ public class StswPopup : Popup, IStswCornerControl
         );
     public static void OnScrollTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPopup stsw)
-        {
-            stsw.Init();
-        }
+        if (obj is not StswPopup stsw)
+            return;
+
+        stsw.Init();
     }
     #endregion
 
@@ -190,11 +201,3 @@ public class StswPopup : Popup, IStswCornerControl
     public static void SetPadding(DependencyObject obj, Thickness value) => obj.SetValue(PaddingProperty, value);
     #endregion
 }
-
-/* usage:
-
-<se:StswPopup IsOpen="True" CornerRadius="8" ScrollType="ScrollView">
-    <TextBlock Text="This is a popup message"/>
-</se:StswPopup>
-
-*/

@@ -17,36 +17,39 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
+    private ListBox? _listBox;
+    private Popup? _popup;
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswSelectionBox()
     {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswSelectionBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private Popup? _popup;
-    private ListBox? _listBox;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        /// ensure the command is not null; if it wasn't set from outside, we create a default.
-        UpdateTextCommand ??= new StswCommand(UpdateText);
+        UpdateTextCommand ??= new StswCommand(UpdateText); // ensure the command is initialized
 
-        /// Popup
-        if (GetTemplateChild("PART_Popup") is Popup popup)
-            _popup = popup;
+        _popup = GetTemplateChild("PART_Popup") as Popup;
 
-        /// ListBox
         if (GetTemplateChild("PART_ListBox") is ListBox listBox)
         {
             listBox.SelectionChanged += (_, _) => UpdateTextCommand?.Execute(null);
@@ -54,12 +57,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         }
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Validates item compatibility and updates selection tracking.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
@@ -83,12 +82,8 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         UpdateTextCommand?.Execute(null);
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Resets the <see cref="DisplayMemberPath"/> if a custom template is applied.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
@@ -100,6 +95,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// Updates the displayed text based on the selected items.
     /// Also synchronizes the internal selection state.
     /// </summary>
+    [StswInfo("0.1.1")]
     internal void UpdateText()
     {
         if (ItemsSource == null)
@@ -148,6 +144,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
     #region Logic properties
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -161,6 +158,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -174,6 +172,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -201,19 +200,10 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSelectionBox stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -289,6 +279,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <summary>
     /// Gets or sets the command that updates the displayed text based on selected items.
     /// </summary>
+    [StswInfo("0.1.1")]
     public ICommand UpdateTextCommand
     {
         get => (ICommand)GetValue(UpdateTextCommandProperty);
@@ -346,6 +337,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -376,9 +368,3 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/>
-
-*/

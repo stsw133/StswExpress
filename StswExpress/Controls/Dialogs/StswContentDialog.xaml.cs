@@ -14,9 +14,22 @@ namespace StswExpress;
 /// Represents a customizable content dialog control for displaying various types of content.
 /// Can be used as a modal popup with asynchronous handling of dialog results.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/&gt;
+/// </code>
+/// </example>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
+[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
+    private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
+    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
+    private ContentControl? _popupContentElement;
+    private IInputElement? _restoreFocusDialogClose;
+    public StswDialogSession? CurrentSession { get; private set; }
+
     public StswContentDialog()
     {
         Loaded += OnLoaded;
@@ -28,21 +41,12 @@ public class StswContentDialog : ContentControl
     }
 
     #region Events & methods
-    private static readonly HashSet<WeakReference<StswContentDialog>> LoadedInstances = [];
-
-    private ContentControl? _popupContentElement;
-
-    public StswDialogSession? CurrentSession { get; private set; }
-    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
-    private IInputElement? _restoreFocusDialogClose;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_PopupContentElement") is ContentControl popupContentElement)
-            _popupContentElement = popupContentElement;
+        _popupContentElement = GetTemplateChild("PART_PopupContentElement") as ContentControl;
     }
 
     /// <summary>
@@ -52,10 +56,10 @@ public class StswContentDialog : ContentControl
     /// <param name="e">The event arguments.</param>
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        foreach (var weakRef in LoadedInstances.ToList())
+        foreach (var weakRef in _loadedInstances.ToList())
             if (weakRef.TryGetTarget(out StswContentDialog? dialog) && ReferenceEquals(dialog, this))
                 return;
-        LoadedInstances.Add(new WeakReference<StswContentDialog>(this));
+        _loadedInstances.Add(new WeakReference<StswContentDialog>(this));
     }
 
     /// <summary>
@@ -65,10 +69,10 @@ public class StswContentDialog : ContentControl
     /// <param name="e">The event arguments.</param>
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        foreach (var weakRef in LoadedInstances.ToList())
+        foreach (var weakRef in _loadedInstances.ToList())
             if (!weakRef.TryGetTarget(out StswContentDialog? dialog) || ReferenceEquals(dialog, this))
             {
-                LoadedInstances.Remove(weakRef);
+                _loadedInstances.Remove(weakRef);
                 break;
             }
     }
@@ -135,11 +139,11 @@ public class StswContentDialog : ContentControl
     /// <exception cref="InvalidOperationException">Thrown if no matching instance is found or if multiple instances share the same identifier.</exception>
     internal static StswContentDialog GetInstance(object? dialogIdentifier)
     {
-        if (LoadedInstances.Count == 0)
+        if (_loadedInstances.Count == 0)
             throw new InvalidOperationException($"No loaded {nameof(StswContentDialog)} instances.");
 
         var targets = new List<StswContentDialog>();
-        foreach (var instance in LoadedInstances.ToList())
+        foreach (var instance in _loadedInstances.ToList())
         {
             if (instance.TryGetTarget(out var dialogInstance))
             {
@@ -153,7 +157,7 @@ public class StswContentDialog : ContentControl
                 if (Equals(dialogIdentifier, identifier))
                     targets.Add(dialogInstance);
             }
-            else LoadedInstances.Remove(instance);
+            else _loadedInstances.Remove(instance);
         }
 
         if (targets.Count == 0)
@@ -335,47 +339,47 @@ public class StswContentDialog : ContentControl
         );
     private static void OnIsOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswContentDialog stsw)
+        if (obj is not StswContentDialog stsw)
+            return;
+
+        VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
+
+        if (!stsw.IsOpen)
         {
-            VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
-
-            if (!stsw.IsOpen)
+            object? closeParameter = null;
+            if (stsw.CurrentSession is { } session)
             {
-                object? closeParameter = null;
-                if (stsw.CurrentSession is { } session)
-                {
-                    if (!session.IsEnded)
-                        session.Close(session.CloseParameter);
-                    
-                    if (!session.IsEnded)
-                        throw new InvalidOperationException($"Cannot cancel dialog closing after {nameof(IsOpen)} property has been set to {bool.FalseString}");
-                    
-                    closeParameter = session.CloseParameter;
-                    stsw.CurrentSession = null;
-                }
-                stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
-                stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
+                if (!session.IsEnded)
+                    session.Close(session.CloseParameter);
 
-                return;
+                if (!session.IsEnded)
+                    throw new InvalidOperationException($"Cannot cancel dialog closing after {nameof(IsOpen)} property has been set to {bool.FalseString}");
+
+                closeParameter = session.CloseParameter;
+                stsw.CurrentSession = null;
             }
+            stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
+            stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
 
-            stsw.CurrentSession = new StswDialogSession(stsw);
-            var window = Window.GetWindow(stsw);
-            if (!stsw.IsRestoreFocusDisabled)
-            {
-                stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
-                if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
-                    stsw._restoreFocusDialogClose = focusOverride;
-            }
-
-            stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                CommandManager.InvalidateRequerySuggested();
-                var child = stsw.FocusPopup();
-                if (child != null)
-                    Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
-            }));
+            return;
         }
+
+        stsw.CurrentSession = new StswDialogSession(stsw);
+        var window = Window.GetWindow(stsw);
+        if (!stsw.IsRestoreFocusDisabled)
+        {
+            stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
+            if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
+                stsw._restoreFocusDialogClose = focusOverride;
+        }
+
+        stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            CommandManager.InvalidateRequerySuggested();
+            var child = stsw.FocusPopup();
+            if (child != null)
+                Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
+        }));
     }
 
     /// <summary>
@@ -442,12 +446,6 @@ public class StswContentDialog : ContentControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/>
-
-*/
 
 /// <summary>
 /// Represents a session for managing an open dialog instance.

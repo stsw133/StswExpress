@@ -13,6 +13,7 @@ namespace StswExpress;
 /// or field needs to be obtained dynamically in XAML.
 /// </remarks>
 /// <param name="member">The name of the property or field.</param>
+[StswInfo("0.6.0", Changes = StswPlannedChanges.Refactor)]
 public class StswNameOfExtension(string? member) : MarkupExtension
 {
     /// <summary>
@@ -25,16 +26,7 @@ public class StswNameOfExtension(string? member) : MarkupExtension
     /// </summary>
     public string? Member { get; set; } = member;
 
-    /// <summary>
-    /// Provides the name of the specified property or field as a string.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The name of the specified property or field as a string.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null.</exception>
-    /// <exception cref="ArgumentException">
-    /// Thrown when the type is not specified, the member name is empty or contains '.', 
-    /// or no property or field is found with the specified name in the type.
-    /// </exception>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);

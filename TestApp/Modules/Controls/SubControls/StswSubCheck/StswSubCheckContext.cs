@@ -2,12 +2,8 @@
 using System.Windows;
 
 namespace TestApp;
-
-public class StswSubCheckContext : ControlsContext
+public partial class StswSubCheckContext : ControlsContext
 {
-    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
-    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -18,35 +14,11 @@ public class StswSubCheckContext : ControlsContext
         IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
     }
 
-    /// IconScale
-    public GridLength IconScale
-    {
-        get => _iconScale;
-        set => SetProperty(ref _iconScale, value);
-    }
-    private GridLength _iconScale;
+    [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
+    [StswCommand] void SetGridLengthFill() => IconScale = new GridLength(1, GridUnitType.Star);
 
-    /// IsBusy
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => SetProperty(ref _isBusy, value);
-    }
-    private bool _isBusy;
-
-    /// IsContentVisible
-    public bool IsContentVisible
-    {
-        get => _isContentVisible;
-        set => SetProperty(ref _isContentVisible, value);
-    }
-    private bool _isContentVisible;
-
-    /// IsThreeState
-    public bool IsThreeState
-    {
-        get => _isThreeState;
-        set => SetProperty(ref _isThreeState, value);
-    }
-    private bool _isThreeState;
+    [StswObservableProperty] GridLength _iconScale;
+    [StswObservableProperty] bool _isBusy;
+    [StswObservableProperty] bool _isContentVisible;
+    [StswObservableProperty] bool _isThreeState;
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -9,27 +8,29 @@ namespace StswExpress;
 /// Represents a button styled as a hyperlink, allowing navigation to a specified URI when clicked.
 /// This control provides a visually distinct link-like appearance while maintaining button behavior.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0")]
 public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
     static StswHyperlinkButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(typeof(StswHyperlinkButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Invoked when the hyperlink button is clicked. 
-    /// If a valid <see cref="NavigateUri"/> is set, it opens the specified URI in the default web browser.
-    /// Also sets <see cref="WasClicked"/> to <see langword="true"/> after navigation.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void OnClick()
     {
         base.OnClick();
 
         if (NavigateUri != null && !string.IsNullOrEmpty(NavigateUri.AbsoluteUri))
         {
-            StswFn.OpenHyperlink(NavigateUri.AbsoluteUri);
+            StswFn.OpenPath(NavigateUri.AbsoluteUri);
             WasClicked = true;
         }
     }
@@ -99,9 +100,3 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/>
-
-*/

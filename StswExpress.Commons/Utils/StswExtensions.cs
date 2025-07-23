@@ -22,6 +22,8 @@ public static partial class StswExtensions
     /// <param name="o">The object to convert. If <see langword="null"/>, the <see langword="null"/> is returned.</param>
     /// <param name="t">The target type to convert to.</param>
     /// <returns>The converted object of type <paramref name="t"/>, or <see langword="null"/> if conversion fails.</returns>
+
+    [StswInfo(null)]
     public static object? ConvertTo(this object? o, Type t)
     {
         var underlyingType = Nullable.GetUnderlyingType(t);
@@ -54,6 +56,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The target type to convert to.</typeparam>
     /// <param name="o">The object to convert. If null, the default value of <typeparamref name="T"/> is returned.</param>
     /// <returns>The converted object of type <typeparamref name="T"/>, or default if conversion fails.</returns>
+    [StswInfo(null)] 
     public static T? ConvertTo<T>(this object o) => o.ConvertTo(typeof(T)) is T tResult ? tResult : default;
 
     /// <summary>
@@ -62,15 +65,19 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to convert.</param>
     /// <returns>The corresponding <see cref="SqlDbType"/>, or <see langword="null"/> if no matching type is found.</returns>
+
+    [StswInfo("0.9.0")]
     public static SqlDbType InferSqlDbType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        var underlyingType = Nullable.GetUnderlyingType(type) ?? (type.IsEnum ? Enum.GetUnderlyingType(type) : type);
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        if (underlyingType.IsEnum)
+            underlyingType = Enum.GetUnderlyingType(underlyingType);
 
-        return TypeToSqlDbTypeMap.TryGetValue(underlyingType, out var sqlDbType) ? sqlDbType : SqlDbType.NVarChar;
+        return TypeToSqlDbTypeMap.TryGetValue(underlyingType) ?? SqlDbType.NVarChar;
     }
-    private static readonly Dictionary<Type, SqlDbType> TypeToSqlDbTypeMap = new()
+    private static readonly Dictionary<Type, SqlDbType?> TypeToSqlDbTypeMap = new()
     {
         { typeof(byte), SqlDbType.TinyInt },
         { typeof(sbyte), SqlDbType.TinyInt },
@@ -89,95 +96,186 @@ public static partial class StswExtensions
         { typeof(Guid), SqlDbType.UniqueIdentifier },
         { typeof(DateTime), SqlDbType.DateTime },
         { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
-        { typeof(byte[]), SqlDbType.VarBinary }
+        { typeof(TimeSpan), SqlDbType.Time },
+        { typeof(byte[]), SqlDbType.VarBinary },
+        //{ typeof(object), SqlDbType.Variant }
     };
 
     /// <summary>
-    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of objects to map to.</typeparam>
-    /// <param name="dt">The DataTable to map.</param>
-    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
+
+    [StswInfo("0.2.0")]
     public static IEnumerable<T?> MapTo<T>(this DataTable dt)
     {
         var type = typeof(T);
 
-        if (!type.IsClass || type == typeof(byte[]) || type == typeof(string))
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T?>();
         }
         else
         {
-            var objProps = type.GetProperties();
-            var mappings = new Dictionary<int, PropertyInfo>();
-
-            for (var i = 0; i < dt.Columns.Count; i++)
-            {
-                var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
-                var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
-
-                if (prop != null && prop.CanWrite)
-                    mappings.Add(i, prop);
-            }
-
-            foreach (var row in dt.AsEnumerable())
-            {
-                var obj = Activator.CreateInstance<T>();
-
-                foreach (var kvp in mappings)
-                {
-                    var colIndex = kvp.Key;
-                    var prop = kvp.Value;
-
-                    try
-                    {
-                        prop.SetValue(obj, row[colIndex].ConvertTo(prop.PropertyType));
-                    }
-                    catch
-                    {
-                        // Optional logging or handling
-                    }
-                }
-
-                yield return obj;
-            }
+            foreach (var obj in MapToClass(dt, type))
+                yield return (T?)obj;
         }
     }
 
     /// <summary>
-    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/> and supports nested class property mappings.
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
     /// </summary>
-    /// <typeparam name="T">The type of objects to map to.</typeparam>
-    /// <param name="dt">The DataTable to map.</param>
-    /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
-    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+
+    [StswInfo("0.18.0")]
+    public static IEnumerable<object?> MapTo(this DataTable dt, Type type)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type);
+        }
+        else
+        {
+            foreach (var obj in MapToClass(dt, type))
+                yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>, supporting nested classes and custom delimiters.
+    /// </summary>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
+
+    [StswInfo("0.9.0")]
     public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter)
     {
         var type = typeof(T);
 
-        if (!type.IsClass || type == typeof(string))
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T>();
         }
         else
         {
-            var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-                                                  .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-                                                  .ToArray();
-
-            var propCache = StswMapping.CacheProperties(typeof(T), normalizedColumnNames, delimiter);
-            var instanceFactory = StswMapping.CreateInstanceFactory<T>();
-
-            foreach (var row in dt.AsEnumerable())
-            {
-                var obj = instanceFactory();
-                StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
-                yield return obj;
-            }
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+                yield return (T?)obj;
         }
     }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
+    /// </summary>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+
+    [StswInfo("0.18.0")]
+    public static IEnumerable<object?> MapTo(this DataTable dt, Type type, char delimiter)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type);
+        }
+        else
+        {
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+                yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
+    /// </summary>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+
+    [StswInfo("0.18.0")]
+    private static IEnumerable<object?> MapToClass(DataTable dt, Type type)
+    {
+        var objProps = type.GetProperties();
+        var mappings = new Dictionary<int, PropertyInfo>();
+
+        for (var i = 0; i < dt.Columns.Count; i++)
+        {
+            var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
+            var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
+
+            if (prop != null && prop.CanWrite)
+                mappings.Add(i, prop);
+        }
+
+        var factory = StswMapping.CreateInstanceFactory(type);
+
+        foreach (var row in dt.AsEnumerable())
+        {
+            var obj = factory();
+            if (obj is null) continue;
+
+            foreach (var kvp in mappings)
+            {
+                try
+                {
+                    var value = row[kvp.Key].ConvertTo(kvp.Value.PropertyType);
+                    kvp.Value.SetValue(obj, value);
+                }
+                catch
+                {
+                    // Optional logging
+                }
+            }
+
+            yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
+    /// </summary>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns></returns>
+
+    [StswInfo("0.18.0")]
+    private static IEnumerable<object?> MapToNestedClass(DataTable dt, Type type, char delimiter)
+    {
+        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
+                                              .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
+                                              .ToArray();
+
+        var propCache = StswMapping.CacheProperties(type, normalizedColumnNames, delimiter);
+        var factory = StswMapping.CreateInstanceFactory(type);
+
+        foreach (var row in dt.AsEnumerable())
+        {
+            var obj = factory();
+            if (obj is null) continue;
+
+            StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
+            yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Checks if the specified type is a simple type (primitive, string, or byte array).
+    /// </summary>
+    /// <param name="type"> The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
+    [StswInfo("0.12.0")]
+    private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
 
     /// <summary>
     /// Converts a <see cref="SecureString"/> to a byte array.
@@ -211,6 +309,8 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     /// <param name="data">The collection of items to convert.</param>
     /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
+
+    [StswInfo("0.9.0")]
     public static DataTable ToDataTable<T>(this IEnumerable<T> data)
     {
         var dataTable = new DataTable(typeof(T).Name);
@@ -232,53 +332,45 @@ public static partial class StswExtensions
 
         return dataTable;
     }
-
-    /// <summary>
-    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswObservableCollection{T}"/>.
-    /// Supports tracking removed items and ignoring specified property changes.
-    /// </summary>
-    /// <typeparam name="T">The type of objects in the list.</typeparam>
-    /// <param name="value">The enumerable to convert.</param>
-    /// <returns>The converted <see cref="StswObservableCollection{T}"/>.</returns>
-    public static StswObservableCollection<T> ToStswObservableCollection<T>(this IEnumerable<T> value, bool showRemovedItems = false, IEnumerable<string>? ignoredPropertyNames = null) where T : IStswCollectionItem => new(value, showRemovedItems, ignoredPropertyNames);
-
-    /// <summary>
-    /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswObservableDictionary{TKey, TValue}"/>.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the dictionary keys.</typeparam>
-    /// <typeparam name="TValue">The type of the dictionary values.</typeparam>
-    /// <param name="value">The dictionary to convert.</param>
-    /// <returns>The converted <see cref="StswObservableDictionary{TKey, TValue}"/>.</returns>
-    public static StswObservableDictionary<TKey, TValue> ToStswObservableDictionary<TKey, TValue>(this IDictionary<TKey, TValue> value, bool autoAddOnGet = true) where TKey : notnull => new(value) { AutoAddOnGet = autoAddOnGet };
     #endregion
 
     #region DateTime extensions
+    /// <summary>
+    /// Calculates the quarter of the year for a given <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="date">The <see cref="DateTime"/> to calculate the quarter for.</param>
+    /// <returns>The quarter of the year (1 to 4) that the date falls in.</returns>
+    [StswInfo("0.19.0")]
+    public static int GetQuarter(this DateTime date) => (date.Month - 1) / 3 + 1;
+
     /// <summary>
     /// Checks if two <see cref="DateTime"/> instances are in the same year and month.
     /// </summary>
     /// <param name="dt1">The first <see cref="DateTime"/> instance to compare.</param>
     /// <param name="dt2">The second <see cref="DateTime"/> instance to compare.</param>
     /// <returns><see langword="true"/> if both <see cref="DateTime"/> instances are in the same year and month; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.17.0")]
     public static bool IsSameYearAndMonth(this DateTime dt1, DateTime dt2) => dt1.Year == dt2.Year && dt1.Month == dt2.Month;
 
     /// <summary>
     /// Finds the next occurrence of a specified day of the week after a given date.
     /// </summary>
-    /// <param name="from">The starting date.</param>
+    /// <param name="date">The starting date.</param>
     /// <param name="dayOfWeek">The day of the week to find.</param>
     /// <returns>The next date that falls on the specified day of the week.</returns>
     /// <remarks>
     /// This method is useful for scheduling or finding specific days, such as the next Monday after a given date.
     /// </remarks>
-    public static DateTime Next(this DateTime from, DayOfWeek dayOfWeek)
+    [StswInfo("0.10.0")]
+    public static DateTime Next(this DateTime date, DayOfWeek dayOfWeek)
     {
-        var start = (int)from.DayOfWeek;
+        var start = (int)date.DayOfWeek;
         var target = (int)dayOfWeek;
 
         var daysToAdd = (target - start + 7) % 7;
         if (daysToAdd == 0) daysToAdd = 7;
 
-        return from.AddDays(daysToAdd);
+        return date.AddDays(daysToAdd);
     }
 
     /// <summary>
@@ -286,6 +378,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="date">The source <see cref="DateTime"/>.</param>
     /// <returns>A <see cref="DateTime"/> representing the first day of the month at 00:00:00.</returns>
+    [StswInfo("0.15.0")]
     public static DateTime ToFirstDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, 1);
 
     /// <summary>
@@ -293,6 +386,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="date">The source <see cref="DateTime"/>.</param>
     /// <returns>A <see cref="DateTime"/> representing the last day of the month at 00:00:00.</returns>
+    [StswInfo("0.15.0")]
     public static DateTime ToLastDayOfMonth(this DateTime date) => new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
 
     /// <summary>
@@ -300,6 +394,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="dateTime">The <see cref="DateTime"/> to convert.</param>
     /// <returns>A long value representing the number of seconds since the Unix epoch (January 1, 1970).</returns>
+    [StswInfo("0.9.0")]
     public static long ToUnixTimeSeconds(this DateTime dateTime) => new DateTimeOffset(dateTime).ToUnixTimeSeconds();
     #endregion
 
@@ -312,13 +407,11 @@ public static partial class StswExtensions
     /// <param name="dict">The dictionary where the key should be changed.</param>
     /// <param name="oldKey">The existing key to be replaced.</param>
     /// <param name="newKey">The new key to assign.</param>
-    /// <param name="overwriteExisting">
-    /// If true, replaces the value of an existing newKey. 
-    /// If false, throws an exception if newKey already exists.
-    /// </param>
-    /// <returns>True if the key was successfully changed; otherwise, false.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if dictionary is null.</exception>
-    /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is false.</exception>
+    /// <param name="overwriteExisting">Indicates whether to overwrite the existing entry if the new key already exists.</param>
+    /// <returns><see langword="true"/> if the key was successfully changed; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if dictionary is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is <see langword="false"/>.</exception>
+    [StswInfo("0.15.0")]
     public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey, bool overwriteExisting = false)
     {
         ArgumentNullException.ThrowIfNull(dict);
@@ -349,6 +442,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
     /// </remarks>
+    [StswInfo("0.10.0")]
     public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector) where TKey : notnull
     {
         var dictionary = new Dictionary<TKey, TValue>();
@@ -358,6 +452,18 @@ public static partial class StswExtensions
 
         return dictionary;
     }
+
+    /// <summary>
+    /// Attempts to retrieve the value associated with the specified key from the dictionary.
+    /// Returns the value if the key exists; otherwise, returns <see langword="null"/> (for reference types)
+    /// or <see langword="default"/> wrapped in a nullable type (for value types).
+    /// </summary>
+    /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
+    /// <param name="dictionary">The dictionary to search.</param>
+    /// <param name="key">The key of the value to get.</param>
+    /// <returns>The value associated with the specified key, or <see langword="default"/> if the key is not found.</returns>
+    public static TValue? TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull => dictionary.TryGetValue(key, out var value) ? value : default;
     #endregion
 
     #region Enum extensions
@@ -386,6 +492,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method is useful when you want to display user-friendly descriptions of enum values in the UI or logs.
     /// </remarks>
+    [StswInfo("0.10.0")]
     public static string GetDescription(this Enum enumVal)
     {
         var field = enumVal.GetType().GetField(enumVal.ToString());
@@ -404,6 +511,7 @@ public static partial class StswExtensions
     /// <param name="count">The number of steps to move forward in the enumeration.</param>
     /// <param name="wrapAround">Whether to wrap around to the first value when the end of the enumeration is reached.</param>
     /// <returns>The next enum value. If wrapAround is <see langword="false"/> and the end is reached, returns the last enum value.</returns>
+    [StswInfo("0.5.0")]
     public static T GetNextValue<T>(this T value, int count = 1, bool wrapAround = true) where T : Enum
     {
         var values = (T[])Enum.GetValues(typeof(T));
@@ -423,21 +531,6 @@ public static partial class StswExtensions
     }
     #endregion
 
-    #region Exception extensions
-    /// <summary>
-    /// Gets the innermost exception of an exception.
-    /// </summary>
-    /// <param name="ex">The exception from which to get the innermost exception.</param>
-    /// <returns>The innermost <see cref="Exception"/>.</returns>
-    public static Exception GetInnermostException(this Exception ex)
-    {
-        while (ex.InnerException != null)
-            ex = ex.InnerException;
-
-        return ex;
-    }
-    #endregion
-
     #region List extensions
     /// <summary>
     /// Adds an item to a list if the list does not already contain the item.
@@ -445,6 +538,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to add the item to.</param>
     /// <param name="item">The item to add.</param>
+    [StswInfo("0.9.0")]
     public static void AddIfNotContains<T>(this IList<T> list, T item)
     {
         if (!list.Contains(item))
@@ -457,6 +551,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     /// <param name="list">The collection to add items to.</param>
     /// <param name="items">The items to add.</param>
+    [StswInfo("0.15.0")]
     public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
     {
         foreach (var item in items)
@@ -473,6 +568,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method can be useful when processing large collections in smaller chunks, such as when paging through data or processing data in smaller, manageable parts.
     /// </remarks>
+    [StswInfo("0.10.0", IsTested = false)]
     public static IEnumerable<IList<T>> Batch<T>(this IEnumerable<T> source, int size)
     {
         var batch = new List<T>(size);
@@ -498,6 +594,7 @@ public static partial class StswExtensions
     /// <param name="source">The <see cref="IEnumerable{}"/> to iterate over.</param>
     /// <param name="action">The action to perform on each element.</param>
     /// <exception cref="ArgumentNullException">Thrown when source or action is <see langword="null"/>.</exception>
+    [StswInfo("0.15.0")]
     public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -513,6 +610,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to remove elements from.</param>
     /// <param name="items">The collection containing the elements to remove.</param>
+    [StswInfo("0.6.1")]
     public static void Remove<T>(this IList<T> list, IEnumerable<T> items)
     {
         ArgumentNullException.ThrowIfNull(list, nameof(list));
@@ -542,6 +640,7 @@ public static partial class StswExtensions
     /// <param name="oldValue">The value to replace.</param>
     /// <param name="newValue">The value to replace with.</param>
     /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
+    [StswInfo("0.9.0")]
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -558,6 +657,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method can be useful in scenarios where random order is needed, such as randomizing test cases or mixing elements in non-deterministic processes.
     /// </remarks>
+    [StswInfo("0.10.0", IsTested = false)]
     public static void Shuffle<T>(this IList<T> list)
     {
         var rng = new Random();
@@ -580,6 +680,7 @@ public static partial class StswExtensions
     /// <param name="start">The start of the range.</param>
     /// <param name="end">The end of the range.</param>
     /// <returns><see langword="true"/> if the value is within the range; otherwise, <see langword="false"/>.</returns>
+    [StswInfo(null)]
     public static bool Between<T>(this T? value, T? start, T? end)
     {
         var comparer = Comparer<T>.Default;
@@ -593,7 +694,8 @@ public static partial class StswExtensions
     /// <param name="value">The value to check for.</param>
     /// <param name="collection">The collection to check in.</param>
     /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
+    [StswInfo(null)]
     public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
             ? throw new ArgumentNullException(nameof(collection))
             : collection.Contains(value);
@@ -605,17 +707,19 @@ public static partial class StswExtensions
     /// <param name="value">The value to check for.</param>
     /// <param name="parameters">The parameters to check in.</param>
     /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
+    [StswInfo(null)]
     public static bool In<T>(this T value, params T[] parameters) => parameters == null
             ? throw new ArgumentNullException(nameof(parameters))
             : parameters.Contains(value);
 
     /// <summary>
-    /// Checks if a type is a list type and retrieves the inner type if it is.
+    /// Checks if a type is a list type and retrieves the inner type if it is. In this method, <see cref="string"/> is not considered a list type.
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <param name="innerType">The inner type if the type is a list type.</param>
     /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.6.0")]
     public static bool IsListType(this Type type, out Type? innerType)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -640,46 +744,84 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Checks if a value is null, the default for its type, or an empty collection.
-    /// Supports reference types, value types, and collections.
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
     /// </summary>
-    /// <typeparam name="T">The type of the value to check.</typeparam>
-    /// <param name="value">The value to check.</param>
-    /// <returns><see langword="true"/> if the value is null, the default value for its type, or indicates absence of data; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrDefault<T>(this T? value)
-    {
-        if (value == null || Convert.IsDBNull(value))
-            return true;
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this DateTime? value) => value == null || value == default;
 
-        var type = typeof(T);
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this DateTimeOffset? value) => value == null || value == default;
 
-        if (Nullable.GetUnderlyingType(type) != null)
-        {
-            var underlyingType = Nullable.GetUnderlyingType(type)!;
-            return EqualityComparer<T>.Default.Equals(value, (T?)Activator.CreateInstance(underlyingType));
-        }
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this decimal? value) => value == null || value == default;
 
-        if (type == typeof(bool))
-            return false;
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this double? value) => value == null || value == default;
 
-        if (type.IsEnum)
-            return EqualityComparer<T>.Default.Equals(value, default);
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault<T>(this T? value) where T : Enum => value == null || EqualityComparer<T>.Default.Equals(value, default);
 
-        if (value is IEnumerable enumerable)
-            return enumerable.IsNullOrEmpty();
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this float? value) => value == null || value == default;
 
-        if (type.IsClass)
-            return value.IsSimilarTo((T?)Activator.CreateInstance(type));
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this Guid? value) => value == null || value == Guid.Empty;
 
-        return EqualityComparer<T>.Default.Equals(value, default);
-    }
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this int? value) => value == null || value == default;
+
+    /// <summary>
+    /// Checks if a nullable value is either <see langword="null"/>, the default value for its type, or an empty collection.
+    /// </summary>
+    /// <param name="value">The nullable value to check.</param>
+    /// <returns><see langword="true"/> if the value is <see langword="null"/>, the default value for its type, or an empty collection; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.9.0")]
+    public static bool IsNullOrDefault(this TimeSpan? value) => value == null || value == default;
 
     /// <summary>
     /// Checks if the given enumerable is null or empty.
     /// </summary>
     /// <param name="source">The enumerable to check.</param>
     /// <returns><see langword="true"/> if the enumerable is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty(this IEnumerable source) => source == null || !source.GetEnumerator().MoveNext();
+    [StswInfo("0.15.0")]
+    public static bool IsNullOrEmpty(this IEnumerable? source) => source == null || !source.GetEnumerator().MoveNext();
 
     /// <summary>
     /// Checks if the given generic enumerable is null or empty.
@@ -687,6 +829,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the enumerable.</typeparam>
     /// <param name="source">The enumerable to check.</param>
     /// <returns><see langword="true"/> if the enumerable is null or empty; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.15.0")]
     public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source) => source == null || !source.Any();
 
     /// <summary>
@@ -694,6 +837,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <returns><see langword="true"/> if the type is numeric; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.3.0")]
     public static bool IsNumericType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -727,10 +871,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the objects to compare.</typeparam>
     /// <param name="objA">The first object to compare.</param>
     /// <param name="objB">The second object to compare.</param>
-    /// <returns>
-    /// <see langword="true"/> if both objects are either null or have identical public property values;
-    /// otherwise, <see langword="false"/>.
-    /// </returns>
+    /// <returns><see langword="true"/> if both objects are either null or have identical public property values; otherwise, <see langword="false"/>.</returns>
     /// <remarks>
     /// This method performs a shallow comparison of the public properties of both objects. 
     /// It compares the values of public properties using <see cref="EqualityComparer{T}.Equals"/> method.
@@ -771,6 +912,7 @@ public static partial class StswExtensions
     /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting past boundaries.</param>
     /// <returns>The new shifted value, respecting looping and boundary conditions.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when max is less than or equal to 0.</exception>
+    [StswInfo("0.6.0")]
     public static int ShiftBy(this int value, int step, int max, bool isLoopingAllowed = true)
     {
         if (max <= 0)
@@ -804,6 +946,7 @@ public static partial class StswExtensions
     /// <typeparam name="TSource">The type of the source object (data provider).</typeparam>
     /// <param name="target">The target object to which values will be copied.</param>
     /// <param name="source">The source object from which values will be read.</param>
+    [StswInfo("0.18.0")]
     public static void CopyFrom<TTarget, TSource>(this TTarget target, TSource source) where TTarget : class
     {
         if (target == null || source == null)
@@ -839,7 +982,8 @@ public static partial class StswExtensions
     /// <typeparam name="T">Type of the object to copy.</typeparam>
     /// <param name="original">The object to clone.</param>
     /// <returns>A new instance with the same data, or <see langword="null"/> if cloning fails.</returns>
-    public static T? DeepCopy<T>(this T original) where T : class
+    [StswInfo("0.13.0")]
+    public static T? DeepCopyWithJson<T>(this T original) where T : class
     {
         if (original == null)
             return default;
@@ -861,6 +1005,7 @@ public static partial class StswExtensions
     /// <param name="obj1">The first object to compare.</param>
     /// <param name="obj2">The second object to compare.</param>
     /// <returns><see langword="true"/> if all public properties (including nested properties and collections) are equal; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.18.0")]
     public static bool DeepEquals<T>(this T obj1, T obj2) where T : class => DeepEquals(obj1, obj2, []);
 
     /// <summary>
@@ -871,6 +1016,7 @@ public static partial class StswExtensions
     /// <param name="obj2">The second object to compare.</param>
     /// <param name="visited">A set of already visited objects to avoid circular reference loops.</param>
     /// <returns><see langword="true"/> if the objects and all their properties are equal; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.18.0")]
     private static bool DeepEquals(object? obj1, object? obj2, HashSet<object> visited)
     {
         if (ReferenceEquals(obj1, obj2))
@@ -921,12 +1067,52 @@ public static partial class StswExtensions
     }
     #endregion
 
+    #region Task extensions
+    /// <summary>
+    /// Executes the task and suppresses any exception.
+    /// </summary>
+    /// <param name="task">The task to execute.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [StswInfo("0.19.0")]
+    public static async Task Try(this Task task)
+    {
+        try
+        {
+            await task;
+        }
+        catch
+        {
+            // Ignored
+        }
+    }
+
+    /// <summary>
+    /// Executes the task and suppresses any exception, returning default value.
+    /// </summary>
+    /// <typeparam name="T">The type of the result of the task.</typeparam>
+    /// <param name="task">The task to execute.</param>
+    /// <returns>A task that represents the asynchronous operation, returning the result of the task or <see langword="default"/> if an exception occurs.</returns>
+    [StswInfo("0.19.0")]
+    public static async Task<T?> Try<T>(this Task<T> task)
+    {
+        try
+        {
+            return await task;
+        }
+        catch
+        {
+            return default;
+        }
+    }
+    #endregion
+
     #region Text extensions
     /// <summary>
     /// Capitalizes the first letter of the string and converts the rest of the characters to lowercase.
     /// </summary>
     /// <param name="text">The string to capitalize.</param>
     /// <returns>A string with the first letter capitalized and the rest in lowercase.</returns>
+    [StswInfo(null)]
     public static string Capitalize(this string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -947,6 +1133,7 @@ public static partial class StswExtensions
     /// <returns>A new string that is equivalent to the original string, but right-aligned and padded on the left with paddingString characters.</returns>
     /// <exception cref="ArgumentNullException">Thrown when paddingString is null or empty.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when totalWidth is less than zero.</exception>
+    [StswInfo("0.1.0")]
     public static string? PadLeft(this string text, int totalWidth, string paddingString)
     {
         if (string.IsNullOrEmpty(paddingString))
@@ -975,6 +1162,7 @@ public static partial class StswExtensions
     /// <returns>A new string that is equivalent to the original string, but left-aligned and padded on the right with paddingString characters.</returns>
     /// <exception cref="ArgumentNullException">Thrown when paddingString is null or empty.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when totalWidth is less than zero.</exception>
+    [StswInfo("0.1.0")]
     public static string? PadRight(this string text, int totalWidth, string paddingString)
     {
         if (string.IsNullOrEmpty(paddingString))
@@ -999,12 +1187,13 @@ public static partial class StswExtensions
     /// <param name="source">The string to trim.</param>
     /// <param name="value">The string to remove from the end.</param>
     /// <returns>A new string that is equivalent to the original string but without the specified value at the end.</returns>
+    [StswInfo(null)]
     public static string TrimEnd(this string source, string value)
     {
         if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
             return source;
 
-        return source.EndsWith(value) ? source.Remove(source.LastIndexOf(value)) : source;
+        return source.EndsWith(value) ? source[..source.LastIndexOf(value)] : source;
     }
 
     /// <summary>
@@ -1013,6 +1202,7 @@ public static partial class StswExtensions
     /// <param name="source">The string to trim.</param>
     /// <param name="value">The string to remove from the start.</param>
     /// <returns>A new string that is equivalent to the original string but without the specified value at the start.</returns>
+    [StswInfo(null)]
     public static string TrimStart(this string source, string value)
     {
         if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
@@ -1029,6 +1219,7 @@ public static partial class StswExtensions
     /// <param name="obj">The object from which to get the property value.</param>
     /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
     /// <returns>The value of the specified property, or null if the property is not found.</returns>
-    public static object? GetPropertyValue(this object obj, string propertyName) => obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
+    [StswInfo("0.9.0")]
+    public static object? GetPropertyValue(this object obj, string propertyName) => propertyName == null ? null : obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
     #endregion
 }

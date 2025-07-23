@@ -9,8 +9,18 @@ namespace StswExpress;
 /// A secure password input control that hides the entered text.
 /// Supports placeholder text, show/hide password functionality, and validation.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
+    private bool _isPasswordChanging;
+    private PasswordBox? _passwordBox;
+
     public StswPasswordBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -18,13 +28,9 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     static StswPasswordBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(typeof(StswPasswordBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private bool _isPasswordChanging;
-    private PasswordBox? _passwordBox;
-
     /// <summary>
     /// Occurs when the password in the box changes.
     /// </summary>
@@ -61,6 +67,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -74,6 +81,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -87,6 +95,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -131,14 +140,14 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
     public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPasswordBox stsw)
-        {
-            if (stsw._passwordBox != null && !stsw._isPasswordChanging)
-                stsw._passwordBox.Password = stsw.Password;
+        if (obj is not StswPasswordBox stsw)
+            return;
 
-            /// event for non MVVM programming
-            stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
-        }
+        if (stsw._passwordBox != null && !stsw._isPasswordChanging)
+            stsw._passwordBox.Password = stsw.Password;
+
+        /// event for non MVVM programming
+        stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <inheritdoc/>
@@ -213,9 +222,3 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/>
-
-*/

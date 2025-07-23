@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace TestApp;
-
-public class StswFilterTagsContext : ControlsContext
+public partial class StswFilterTagsContext : ControlsContext
 {
     public StswFilterTagsContext()
     {
@@ -18,27 +17,7 @@ public class StswFilterTagsContext : ControlsContext
         AllowCustomTags = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AllowCustomTags)))?.Value ?? default;
     }
 
-    /// AllowCustomTags
-    public bool AllowCustomTags
-    {
-        get => _allowCustomTags;
-        set => SetProperty(ref _allowCustomTags, value);
-    }
-    private bool _allowCustomTags;
-    
-    /// ItemsSource
-    public List<string> ItemsSource
-    {
-        get => _itemsSource;
-        set => SetProperty(ref _itemsSource, value);
-    }
-    private List<string> _itemsSource = new([.. Enumerable.Range(1, 15).Select(i => new string("Tag" + i))]);
-
-    /// SelectedTags
-    public string SelectedTags
-    {
-        get => _selectedTags;
-        set => SetProperty(ref _selectedTags, value);
-    }
-    private string _selectedTags = string.Empty;
+    [StswObservableProperty] bool _allowCustomTags;
+    [StswObservableProperty] List<string> _itemsSource = new([.. Enumerable.Range(1, 15).Select(i => new string("Tag" + i))]);
+    [StswObservableProperty] string _selectedTags = string.Empty;
 }

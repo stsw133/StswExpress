@@ -1,6 +1,4 @@
 ﻿namespace TestApp;
-
-public class StswContextMenuContext : ControlsContext
+public partial class StswContextMenuContext : ControlsContext
 {
-    
 }

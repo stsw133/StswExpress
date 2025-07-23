@@ -9,18 +9,26 @@ namespace StswExpress;
 /// A zoomable container that enables users to zoom and pan its child content.
 /// Supports mouse wheel zooming and drag-based panning.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswZoomControl MinScale="0.5" MaxScale="4.0"&gt;
+///     &lt;Image Source = "example.jpg" Stretch="None"/&gt;
+/// &lt;/se:StswZoomControl&gt;
+/// </code>
+/// </example>
+[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
-    static StswZoomControl()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(typeof(StswZoomControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
-    }
-
-    #region Events & methods
     private UIElement? _child;
     private Point _origin, _start;
 
+    static StswZoomControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(typeof(StswZoomControl)));
+    }
+
+    #region Events & methods
     /// <summary>
     /// Initializes the zoom control with the specified UI element,
     /// setting up necessary transformations for scaling and translation.
@@ -146,17 +154,17 @@ public class StswZoomControl : Border
     void Child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) => Reset();
 
     /// <summary>
-    /// 
+    /// Retrieves the ScaleTransform from the RenderTransform of the specified UIElement.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UIElement whose ScaleTransform is to be retrieved.</param>
+    /// <returns>The ScaleTransform applied to the element.</returns>
     private ScaleTransform GetScaleTransform(UIElement element) => (ScaleTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is ScaleTransform);
 
     /// <summary>
-    /// 
+    /// Retrieves the TranslateTransform from the RenderTransform of the specified UIElement.
     /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="element">The UIElement whose TranslateTransform is to be retrieved.</param>
+    /// <returns>The TranslateTransform applied to the element.</returns>
     private TranslateTransform GetTranslateTransform(UIElement element) => (TranslateTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is TranslateTransform);
 
     /// <summary>
@@ -180,10 +188,7 @@ public class StswZoomControl : Border
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the child element of the zoom control.
-    /// When a new child is assigned, it automatically initializes zoom and pan support.
-    /// </summary>
+    /// <inheritdoc/>
     public override UIElement Child
     {
         get => base.Child;
@@ -199,6 +204,7 @@ public class StswZoomControl : Border
     /// Gets or sets the maximum zoom scale.
     /// This prevents the content from being scaled above the specified value.
     /// </summary>
+    [StswInfo("0.16.1")]
     public double? MaxScale
     {
         get => (double?)GetValue(MaxScaleProperty);
@@ -228,8 +234,9 @@ public class StswZoomControl : Border
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the zoom step factor.
     /// </summary>
+    [StswInfo("0.16.1")]
     public double ZoomStep
     {
         get => (double)GetValue(ZoomStepProperty);
@@ -245,7 +252,7 @@ public class StswZoomControl : Border
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets the current zoom percentage of the content.
     /// </summary>
     public double ZoomPercentage
     {
@@ -262,11 +269,3 @@ public class StswZoomControl : Border
     public static readonly DependencyProperty ZoomPercentageProperty = ZoomPercentagePropertyKey!.DependencyProperty;
     #endregion
 }
-
-/* usage:
-
-<se:StswZoomControl MinScale="0.5" MaxScale="4.0">
-    <Image Source="example.jpg" Stretch="None"/>
-</se:StswZoomControl>
-
-*/

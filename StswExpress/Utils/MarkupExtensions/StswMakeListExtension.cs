@@ -13,20 +13,13 @@ namespace StswExpress;
 /// The resulting list type is determined by the target property type.
 /// </remarks>
 /// <param name="values">The comma-separated string representing the list of values.</param>
-/// <exception cref="ArgumentNullException">Thrown when the <paramref name="values"/> parameter is null.</exception>
+/// <exception cref="ArgumentNullException">Thrown when the <paramref name="values"/> parameter is <see langword="null"/>.</exception>
+[StswInfo("0.8.0", Changes = StswPlannedChanges.Refactor)]
 public class StswMakeListExtension(string values) : MarkupExtension
 {
     private readonly string _values = values ?? throw new ArgumentNullException(nameof(values));
 
-    /// <summary>
-    /// Provides the value for the XAML markup extension.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that provides services for the markup extension.</param>
-    /// <returns>A newly created list containing the parsed values.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when the target property cannot be determined, the target type is not a list,
-    /// or the values cannot be converted to the list type.
-    /// </exception>
+    /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget targetProvider)

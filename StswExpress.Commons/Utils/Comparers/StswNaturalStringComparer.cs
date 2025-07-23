@@ -6,26 +6,35 @@ namespace StswExpress.Commons;
 /// Provides a natural string comparison that sorts strings in a human-expected order,
 /// taking into account numerical values within the strings.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// List<string> items = new()
+/// {
+///     "Item1", "Item20", "Item3", "Item10", "Item2"
+/// };
+/// items.Sort(new StswNaturalStringComparer());
+/// </code>
+/// </example>
+[StswInfo("0.10.0")]
 public class StswNaturalStringComparer : IComparer<string>
 {
+    private static readonly Regex _tokenRegex = new(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     /// <summary>
     /// Compares two strings using natural sorting, where numerical values are considered as whole numbers
     /// rather than individual characters, ensuring a human-friendly order.
     /// </summary>
     /// <param name="x">The first string to compare.</param>
     /// <param name="y">The second string to compare.</param>
-    /// <returns>
-    /// A negative value if <paramref name="x"/> is less than <paramref name="y"/>, 
-    /// zero if they are equal, or a positive value if <paramref name="x"/> is greater than <paramref name="y"/>.
-    /// </returns>
+    /// <returns>A signed integer that indicates the relative order of the strings.</returns>
     public int Compare(string? x, string? y)
     {
         if (x == null || y == null)
             return Comparer<string>.Default.Compare(x, y);
 
-        var regex = new Regex(@"\d+|\D+");
-        var xParts = regex.Matches(x).Cast<Match>().Select(m => m.Value).ToArray();
-        var yParts = regex.Matches(y).Cast<Match>().Select(m => m.Value).ToArray();
+        var xParts = _tokenRegex.Matches(x).Cast<Match>().Select(m => m.Value).ToArray();
+        var yParts = _tokenRegex.Matches(y).Cast<Match>().Select(m => m.Value).ToArray();
 
         for (var i = 0; i < Math.Min(xParts.Length, yParts.Length); i++)
         {
@@ -40,13 +49,3 @@ public class StswNaturalStringComparer : IComparer<string>
         return xParts.Length.CompareTo(yParts.Length);
     }
 }
-
-/* usage:
-
-List<string> items = new()
-{
-    "Item1", "Item20", "Item3", "Item10", "Item2"
-};
-items.Sort(new StswNaturalStringComparer());
-
-*/

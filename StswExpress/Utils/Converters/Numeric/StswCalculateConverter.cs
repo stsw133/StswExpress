@@ -19,6 +19,7 @@ namespace StswExpress;
 /// - `"*0.5"` (scales the value by 50%)  
 /// - `"*1.2,1.2,1.2,1.2"` (scales all `CornerRadius` values by 1.2)  
 /// </summary>
+[StswInfo("0.9.0")]
 public class StswCalculateConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -27,11 +28,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     public static StswCalculateConverter Instance => instance ??= new StswCalculateConverter();
     private static StswCalculateConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

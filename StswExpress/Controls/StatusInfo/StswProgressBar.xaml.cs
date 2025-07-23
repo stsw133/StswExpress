@@ -14,6 +14,13 @@ namespace StswExpress;
 /// This control provides a flexible progress visualization, allowing the display of progress in percentage,
 /// absolute values, or custom text.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
@@ -27,7 +34,6 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     static StswProgressBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(typeof(StswProgressBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -73,6 +79,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     /// Gets or sets the text displayed on the progress bar.
     /// Updates dynamically based on the selected <see cref="TextMode"/>.
     /// </summary>
+    [StswInfo("0.2.0")]
     public string? Text
     {
         get => (string?)GetValue(TextProperty);
@@ -105,11 +112,11 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressBar stsw)
-        {
-            if (stsw.TextMode == StswProgressTextMode.Custom)
-                stsw.Text = string.Empty;
-        }
+        if (obj is not StswProgressBar stsw)
+            return;
+
+        if (stsw.TextMode == StswProgressTextMode.Custom)
+            stsw.Text = string.Empty;
     }
     #endregion
 
@@ -159,9 +166,3 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/>
-
-*/

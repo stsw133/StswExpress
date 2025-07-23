@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
-                <se:StswScrollView Grid.Column="0" IsDynamic="True">
+                <se:StswScrollView Grid.Column="0" DynamicMode="Partial">
                     <StackPanel Margin="5">
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                             <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>

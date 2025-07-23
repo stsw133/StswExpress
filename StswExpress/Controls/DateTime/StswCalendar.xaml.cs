@@ -16,9 +16,18 @@ namespace StswExpress;
 /// and setting minimum/maximum date ranges. Includes quick selection of the current date 
 /// and UI customization options.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswCalendar SelectedDate="{Binding SelectedMonth}" SelectionUnit="Months" Maximum="2025-12-31"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedDate))]
+[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor)]
 public class StswCalendar : Control, IStswCornerControl
 {
+    private ContentControl? _buttonClear, _buttonToday;
+
     public StswCalendar()
     {
         SetValue(ItemsProperty, new ObservableCollection<StswCalendarItem>());
@@ -26,13 +35,9 @@ public class StswCalendar : Control, IStswCornerControl
     static StswCalendar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCalendar), new FrameworkPropertyMetadata(typeof(StswCalendar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswCalendar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private ContentControl? _buttonToday;
-    private ContentControl? _buttonClear;
-
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// This event is primarily for non-MVVM scenarios where direct event handling is required.
@@ -88,11 +93,7 @@ public class StswCalendar : Control, IStswCornerControl
     }
 
     /*
-    /// <summary>
-    /// Handles the MouseWheel event for the internal content host of the calendar.
-    /// Adjusts the selected month based on the mouse wheel's scrolling direction and the IncrementType property.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -368,11 +369,11 @@ public class StswCalendar : Control, IStswCornerControl
         );
     public static void OnCurrentUnitChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw)
-        {
-            stsw.UpdateCalendarViewName();
-            stsw.UpdateCalendarView();
-        }
+        if (obj is not StswCalendar stsw)
+            return;
+
+        stsw.UpdateCalendarViewName();
+        stsw.UpdateCalendarView();
     }
 
     /// <summary>
@@ -423,30 +424,30 @@ public class StswCalendar : Control, IStswCornerControl
         );
     private static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw)
+        if (obj is not StswCalendar stsw)
+            return;
+
+        var min = stsw.Minimum ?? DateTime.MinValue;
+        var max = stsw.Maximum ?? DateTime.MaxValue;
+
+        /// check if selected date is allowed
+        if (stsw.SelectedDate < min)
+            stsw.SelectedDate = min;
+        else if (stsw.SelectedDate > max)
+            stsw.SelectedDate = max;
+
+        /// today button visibility
+        if (stsw._buttonToday != null)
+            stsw._buttonToday.IsEnabled = DateTime.Today.Between(min, max);
+
+        /// to update buttons (days or months based on current unit) visibilities
+        if (stsw.CurrentUnit == StswCalendarUnit.Months)
         {
-            var min = stsw.Minimum ?? DateTime.MinValue;
-            var max = stsw.Maximum ?? DateTime.MaxValue;
-
-            /// check if selected date is allowed
-            if (stsw.SelectedDate < min)
-                stsw.SelectedDate = min;
-            else if (stsw.SelectedDate > max)
-                stsw.SelectedDate = max;
-
-            /// today button visibility
-            if (stsw._buttonToday != null)
-                stsw._buttonToday.IsEnabled = DateTime.Today.Between(min, max);
-
-            /// to update buttons (days or months based on current unit) visibilities
-            if (stsw.CurrentUnit == StswCalendarUnit.Months)
-            {
-                min = min.ToFirstDayOfMonth();
-                max = max.ToLastDayOfMonth();
-            }
-            foreach (var item in stsw.Items)
-                item.InMinMaxRange = item.Date.Between(min, max);
+            min = min.ToFirstDayOfMonth();
+            max = max.ToLastDayOfMonth();
         }
+        foreach (var item in stsw.Items)
+            item.InMinMaxRange = item.Date.Between(min, max);
     }
     
     /// <summary>
@@ -468,34 +469,34 @@ public class StswCalendar : Control, IStswCornerControl
         );
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw)
+        if (obj is not StswCalendar stsw)
+            return;
+
+        /// without this, clicking on button with date from another month, will not change view to different (previous or next) month
+        if (stsw.SelectedDate.HasValue)
+            stsw.SelectedMonth = stsw.SelectedDate.Value.ToFirstDayOfMonth();
+
+        /// marking new date in view (without this first date after loading calendar is not colored)
+        if (stsw.SelectedDate.HasValue)
         {
-            /// without this, clicking on button with date from another month, will not change view to different (previous or next) month
-            if (stsw.SelectedDate.HasValue)
-                stsw.SelectedMonth = stsw.SelectedDate.Value.ToFirstDayOfMonth();
+            var newValue = ((DateTime?)e.NewValue).Value.Date;
+            if (stsw.SelectionUnit == StswCalendarUnit.Months)
+                newValue = newValue.ToFirstDayOfMonth();
 
-            /// marking new date in view (without this first date after loading calendar is not colored)
-            if (stsw.SelectedDate.HasValue)
-            {
-                var newValue = ((DateTime?)e.NewValue).Value.Date;
-                if (stsw.SelectionUnit == StswCalendarUnit.Months)
-                    newValue = newValue.ToFirstDayOfMonth();
-
-                if (stsw.Items.FirstOrDefault(x => x.Date == newValue) is StswCalendarItem newItem)
-                    newItem.IsSelected = true;
-            }
-            else if (!stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue).Value.Date) is StswCalendarItem oldItem)
-            {
-                var oldValue = ((DateTime?)e.OldValue).Value.Date;
-                if (stsw.SelectionUnit == StswCalendarUnit.Months)
-                    oldValue = oldValue.ToFirstDayOfMonth();
-
-                oldItem.IsSelected = false;
-            }
-
-            /// event for non MVVM programming
-            stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
+            if (stsw.Items.FirstOrDefault(x => x.Date == newValue) is StswCalendarItem newItem)
+                newItem.IsSelected = true;
         }
+        else if (!stsw.SelectedDate.HasValue && stsw.Items.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue).Value.Date) is StswCalendarItem oldItem)
+        {
+            var oldValue = ((DateTime?)e.OldValue).Value.Date;
+            if (stsw.SelectionUnit == StswCalendarUnit.Months)
+                oldValue = oldValue.ToFirstDayOfMonth();
+
+            oldItem.IsSelected = false;
+        }
+
+        /// event for non MVVM programming
+        stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
     }
 
     /// <summary>
@@ -517,17 +518,17 @@ public class StswCalendar : Control, IStswCornerControl
         );
     public static void OnSelectedMonthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw)
-        {
-            var oldValue = (DateTime)e.OldValue;
-            var newValue = (DateTime)e.NewValue;
+        if (obj is not StswCalendar stsw)
+            return;
 
-            if ((stsw.CurrentUnit == StswCalendarUnit.Days && (oldValue.Year != newValue.Year || oldValue.Month != newValue.Month))
-             || (stsw.CurrentUnit == StswCalendarUnit.Months && oldValue.Year != newValue.Year))
-            {
-                stsw.UpdateCalendarViewName();
-                stsw.UpdateCalendarView();
-            }
+        var oldValue = (DateTime)e.OldValue;
+        var newValue = (DateTime)e.NewValue;
+
+        if ((stsw.CurrentUnit == StswCalendarUnit.Days && (oldValue.Year != newValue.Year || oldValue.Month != newValue.Month))
+         || (stsw.CurrentUnit == StswCalendarUnit.Months && oldValue.Year != newValue.Year))
+        {
+            stsw.UpdateCalendarViewName();
+            stsw.UpdateCalendarView();
         }
     }
 
@@ -550,6 +551,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// Gets or sets the unit used for date selection.
     /// Determines whether the calendar selects individual days or whole months.
     /// </summary>
+    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
@@ -564,12 +566,12 @@ public class StswCalendar : Control, IStswCornerControl
         );
     private static void OnSelectionUnitChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw)
-        {
-            /// for Months selection unit, only Months view is available
-            if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
-                stsw.CurrentUnit = stswCalendarUnit;
-        }
+        if (obj is not StswCalendar stsw)
+            return;
+
+        /// for Months selection unit, only Months view is available
+        if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
+            stsw.CurrentUnit = stswCalendarUnit;
     }
     #endregion
 
@@ -612,9 +614,3 @@ public class StswCalendar : Control, IStswCornerControl
     public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(6)).Capitalize();
     #endregion
 }
-
-/* usage:
-
-<se:StswCalendar SelectedDate="{Binding SelectedMonth}" SelectionUnit="Months" Maximum="2025-12-31"/>
-
-*/

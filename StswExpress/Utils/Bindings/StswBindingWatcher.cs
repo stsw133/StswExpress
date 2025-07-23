@@ -9,6 +9,7 @@ namespace StswExpress;
 /// Provides a mechanism to observe changes in the binding assignment of a dependency property
 /// and execute a callback when a binding is applied.
 /// </summary>
+[StswInfo("0.14.0")]
 public class StswBindingWatcher
 {
     /// <summary>

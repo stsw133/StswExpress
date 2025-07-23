@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -15,9 +14,20 @@ namespace StswExpress;
 /// <remarks>
 /// The text is rendered with a configurable outline and fill, making it ideal for stylized UI elements.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswOutlinedText Text="Outlined Text" FontSize="24" FontWeight="Bold" Stroke="Red" Fill="Blue"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Text))]
+[StswInfo(null)]
 public class StswOutlinedText : FrameworkElement
 {
+    private FormattedText? _formattedText;
+    private Geometry? _textGeometry;
+    private Pen? _pen;
+
     public StswOutlinedText()
     {
         UpdatePen();
@@ -26,14 +36,9 @@ public class StswOutlinedText : FrameworkElement
     static StswOutlinedText()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(typeof(StswOutlinedText)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private FormattedText? _FormattedText;
-    private Geometry? _TextGeometry;
-    private Pen? _Pen;
-
     /// <summary>
     /// Updates the pen used for drawing the text outline.
     /// Adjusts stroke properties such as thickness and line caps.
@@ -48,64 +53,50 @@ public class StswOutlinedText : FrameworkElement
             StartLineCap = PenLineCap.Round
         };
 
-        if (!newPen.Equals(_Pen))
+        if (!newPen.Equals(_pen))
         {
-            _Pen = newPen;
+            _pen = newPen;
             InvalidateVisual();
         }
     }
 
-    /// <summary>
-    /// Renders the outlined text.
-    /// Draws both the stroke and fill geometry based on the configured properties.
-    /// </summary>
-    /// <param name="drawingContext">The drawing context used for rendering.</param>
+    /// <inheritdoc/>
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
 
-        if (_TextGeometry != null)
+        if (_textGeometry != null)
         {
-            if (_Pen != null)
-                drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
+            if (_pen != null)
+                drawingContext.DrawGeometry(null, _pen, _textGeometry);
             if (Fill != null)
-                drawingContext.DrawGeometry(Fill, null, _TextGeometry);
+                drawingContext.DrawGeometry(Fill, null, _textGeometry);
         }
     }
 
-    /// <summary>
-    /// Measures the required size for rendering the outlined text.
-    /// Considers text wrapping and alignment settings.
-    /// </summary>
-    /// <param name="availableSize">The available space for rendering.</param>
-    /// <returns>The desired size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
-        if (_FormattedText != null)
+        if (_formattedText != null)
         {
-            _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
-            _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
-            return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
+            _formattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+            _formattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
+            return new Size(Math.Ceiling(_formattedText.Width), Math.Ceiling(_formattedText.Height));
         }
         return new Size();
     }
 
-    /// <summary>
-    /// Arranges the text within the allocated space.
-    /// Adjusts the maximum width and height for proper rendering.
-    /// </summary>
-    /// <param name="finalSize">The final size of the control.</param>
-    /// <returns>The arranged size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();
-        if (_FormattedText != null)
+        if (_formattedText != null)
         {
-            _FormattedText.MaxTextWidth = finalSize.Width;
-            _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
+            _formattedText.MaxTextWidth = finalSize.Width;
+            _formattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
         }
-        _TextGeometry = null;
+        _textGeometry = null;
 
         return finalSize;
     }
@@ -118,8 +109,8 @@ public class StswOutlinedText : FrameworkElement
     private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
-        outlinedTextBlock._FormattedText = null;
-        outlinedTextBlock._TextGeometry = null;
+        outlinedTextBlock._formattedText = null;
+        outlinedTextBlock._textGeometry = null;
 
         outlinedTextBlock.InvalidateMeasure();
         outlinedTextBlock.InvalidateVisual();
@@ -134,7 +125,7 @@ public class StswOutlinedText : FrameworkElement
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
         outlinedTextBlock.UpdateFormattedText();
-        outlinedTextBlock._TextGeometry = null;
+        outlinedTextBlock._textGeometry = null;
 
         outlinedTextBlock.InvalidateMeasure();
         outlinedTextBlock.InvalidateVisual();
@@ -146,10 +137,10 @@ public class StswOutlinedText : FrameworkElement
     /// </summary>
     private void EnsureFormattedText()
     {
-        if (_FormattedText != null)
+        if (_formattedText != null)
             return;
 
-        _FormattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+        _formattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
         UpdateFormattedText();
     }
@@ -159,19 +150,19 @@ public class StswOutlinedText : FrameworkElement
     /// </summary>
     private void UpdateFormattedText()
     {
-        if (_FormattedText == null)
+        if (_formattedText == null)
             return;
 
-        _FormattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
-        _FormattedText.TextAlignment = TextAlignment;
-        _FormattedText.Trimming = TextTrimming;
+        _formattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
+        _formattedText.TextAlignment = TextAlignment;
+        _formattedText.Trimming = TextTrimming;
 
-        _FormattedText.SetFontSize(FontSize);
-        _FormattedText.SetFontStyle(FontStyle);
-        _FormattedText.SetFontWeight(FontWeight);
-        _FormattedText.SetFontFamily(FontFamily);
-        _FormattedText.SetFontStretch(FontStretch);
-        _FormattedText.SetTextDecorations(TextDecorations);
+        _formattedText.SetFontSize(FontSize);
+        _formattedText.SetFontStyle(FontStyle);
+        _formattedText.SetFontWeight(FontWeight);
+        _formattedText.SetFontFamily(FontFamily);
+        _formattedText.SetFontStretch(FontStretch);
+        _formattedText.SetTextDecorations(TextDecorations);
     }
 
     /// <summary>
@@ -179,11 +170,11 @@ public class StswOutlinedText : FrameworkElement
     /// </summary>
     private void EnsureGeometry()
     {
-        if (_TextGeometry != null)
+        if (_textGeometry != null)
             return;
 
         EnsureFormattedText();
-        _TextGeometry = _FormattedText?.BuildGeometry(new Point(0, 0));
+        _textGeometry = _formattedText?.BuildGeometry(new Point(0, 0));
     }
     #endregion
 
@@ -399,9 +390,3 @@ public class StswOutlinedText : FrameworkElement
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswOutlinedText Text="Outlined Text" FontSize="24" FontWeight="Bold" Stroke="Red" Fill="Blue"/>
-
-*/

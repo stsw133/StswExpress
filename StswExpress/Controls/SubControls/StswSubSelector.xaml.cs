@@ -14,9 +14,21 @@ namespace StswExpress;
 /// <remarks>
 /// This control is useful for compact UI designs where a small, expandable selector provides access to multiple actions.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubSelector IconData="{StaticResource MoreIcon}"&gt;
+///     &lt;se:StswSubButton Content="Option 1"/&gt;
+///     &lt;se:StswSubButton Content="Option 2"/&gt;
+/// &lt;/se:StswSubSelector&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
+[StswInfo("0.1.0")]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswSubSelector()
     {
         SetValue(ItemsProperty, new ObservableCollection<IStswSubControl>());
@@ -24,7 +36,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     static StswSubSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(typeof(StswSubSelector)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -38,10 +49,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             popup.Child.MouseLeave += (_, _) => IsDropDownOpen = false;
     }
 
-    /// <summary>
-    /// Handles the mouse enter event to automatically open the drop-down portion of the control.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -231,6 +239,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -245,12 +254,3 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubSelector IconData="{StaticResource MoreIcon}">
-    <se:StswSubButton Content="Option 1"/>
-    <se:StswSubButton Content="Option 2"/>
-</se:StswSubSelector>
-
-*/

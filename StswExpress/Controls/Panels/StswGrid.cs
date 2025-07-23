@@ -9,6 +9,16 @@ namespace StswExpress;
 /// A custom grid control that automatically manages RowDefinitions and ColumnDefinitions based on its children.
 /// Supports different auto-layout modes.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswGrid AutoLayoutMode="AutoDefinitions"&gt;
+///     &lt;TextBlock Grid.Row="0" Text="Item 1"/&gt;
+///     &lt;TextBlock Grid.Row="1" Text="Item 2"/&gt;
+/// &lt;/se:StswGrid&gt;
+/// </code>
+/// </example>
+[StswInfo("0.7.0")]
 public class StswGrid : Grid
 {
     public StswGrid()
@@ -25,12 +35,7 @@ public class StswGrid : Grid
         EnsureDefinitions();
     }
 
-    /// <summary>
-    /// Overrides the MeasureOverride method to ensure proper layout when AutoDefinitions is enabled.
-    /// Ensures the grid's definitions are adjusted based on the number of children.
-    /// </summary>
-    /// <param name="constraint">The size constraint for the control.</param>
-    /// <returns>The desired size of the control.</returns>
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size constraint)
     {
         EnsureDefinitions();
@@ -174,10 +179,10 @@ public class StswGrid : Grid
         );
     public static void OnAutoLayoutModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswGrid stsw)
-        {
-            stsw.InvalidateMeasure();
-        }
+        if (obj is not StswGrid stsw)
+            return;
+
+        stsw.InvalidateMeasure();
     }
 
     /// <summary>
@@ -215,12 +220,3 @@ public class StswGrid : Grid
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswGrid AutoLayoutMode="AutoDefinitions">
-    <TextBlock Grid.Row="0" Text="Item 1"/>
-    <TextBlock Grid.Row="1" Text="Item 2"/>
-</se:StswGrid>
-
-*/

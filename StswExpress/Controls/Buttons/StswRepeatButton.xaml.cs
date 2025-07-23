@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
@@ -8,12 +7,18 @@ namespace StswExpress;
 /// Represents a button control that continuously triggers an action while it is pressed and held.
 /// This control extends <see cref="RepeatButton"/>, providing additional styling options such as corner rounding.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswRepeatButton Command="{Binding MyCommand}" Content="Hold Me"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswRepeatButton : RepeatButton, IStswCornerControl
 {
     static StswRepeatButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(typeof(StswRepeatButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -46,9 +51,3 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswRepeatButton Command="{Binding MyCommand}" Content="Hold Me"/>
-
-*/

@@ -11,7 +11,14 @@ namespace StswExpress;
 /// Represents a color selector control that provides a selection of standard and theme colors.
 /// Supports automatic color selection, customizable palettes, and two-way binding for the selected color.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswColorSelector SelectedColor="{Binding UserPreferredColor}"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(ColorPaletteStandard))]
+[StswInfo("0.1.0")]
 public class StswColorSelector : Control, IStswCornerControl
 {
     public ICommand SelectColorCommand { get; }
@@ -23,7 +30,6 @@ public class StswColorSelector : Control, IStswCornerControl
     static StswColorSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorSelector), new FrameworkPropertyMetadata(typeof(StswColorSelector)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswColorSelector), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -113,11 +119,11 @@ public class StswColorSelector : Control, IStswCornerControl
         );
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorSelector stsw)
-        {
-            /// event for non MVVM programming
-            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
-        }
+        if (obj is not StswColorSelector stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
     }
     #endregion
 
@@ -167,9 +173,3 @@ public class StswColorSelector : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswColorSelector SelectedColor="{Binding UserPreferredColor}"/>
-
-*/

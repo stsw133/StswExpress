@@ -3,6 +3,11 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTextEditor}">
+        <Setter Property="AcceptsTab" Value="True"/>
+        <Setter Property="SelectedColorHighlight" Value="Transparent"/>
+        <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="ToolbarMode" Value="Full"/>
+
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
@@ -16,11 +21,6 @@
         <Setter Property="SubCornerRadius" Value="6"/>
         <Setter Property="SubPadding" Value="2"/>
 
-        <Setter Property="AcceptsTab" Value="True"/>
-        <Setter Property="SelectedColorHighlight" Value="Transparent"/>
-        <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="ToolbarMode" Value="Full"/>
-
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -32,15 +32,14 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollView.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="VerticalFirst"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTextEditor}">
@@ -518,9 +517,9 @@
                                                Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                               DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
                                                Focusable="False"
                                                IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                               IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                                PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                                HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                                VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>

@@ -11,12 +11,18 @@ namespace StswExpress;
 /// This control is designed for use in compact UI areas where a small, icon-based radio button is needed.
 /// It provides enhanced styling options for better visual integration in toolbars, panels, or custom forms.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswSubRadio Content="Option 2" GroupName="Settings" IconData="{StaticResource SelectIcon}"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.4.0")]
 public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRadio()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(typeof(StswSubRadio)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Logic properties
@@ -131,9 +137,3 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswSubRadio Content="Option 2" GroupName="Settings" IconData="{StaticResource SelectIcon}"/>
-
-*/

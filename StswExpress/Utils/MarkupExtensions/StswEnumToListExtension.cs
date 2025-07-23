@@ -11,6 +11,7 @@ namespace StswExpress;
 /// This extension allows binding an enumeration to a UI element, providing a list of selection items.
 /// Each item includes a display name and the corresponding enum value.
 /// </remarks>
+[StswInfo("0.8.0")]
 public class StswEnumToListExtension : MarkupExtension
 {
     private readonly Type _enumType;
@@ -29,11 +30,7 @@ public class StswEnumToListExtension : MarkupExtension
             throw new ArgumentException("Type must be an enum.", nameof(enumType));
     }
 
-    /// <summary>
-    /// Provides a list of selection items created from the enum type.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider for the markup extension (typically not used).</param>
-    /// <returns>A list of selection items representing the enum values.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return Enum.GetValues(_enumType)

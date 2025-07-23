@@ -11,6 +11,7 @@ namespace StswExpress;
 /// This converter is particularly useful in `DataGrid` or `TextBox` bindings where users 
 /// may enter decimal numbers using different separator conventions.
 /// </summary>
+[StswInfo(null)]
 public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -19,11 +20,7 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
     public static StswMultiCultureNumberConverter Instance => instance ??= new StswMultiCultureNumberConverter();
     private static StswMultiCultureNumberConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

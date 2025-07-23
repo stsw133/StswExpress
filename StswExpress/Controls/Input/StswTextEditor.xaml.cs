@@ -16,8 +16,17 @@ namespace StswExpress;
 /// A rich text editor control for creating and formatting text content.
 /// Supports file operations (open, save, print), text styling, and color selection.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0", Changes = StswPlannedChanges.Rework)]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
+    private StswComboBox? _fontFamily;
+    private StswDecimalBox? _fontSize;
     public ICommand FileNewCommand { get; }
     public ICommand FileOpenCommand { get; }
     public ICommand FileSaveCommand { get; }
@@ -51,13 +60,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     static StswTextEditor()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private StswComboBox? _fontFamily;
-    private StswDecimalBox? _fontSize;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -81,11 +86,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
     }
 
-    /// <summary>
-    /// Occurs when the selection in the editor changes.
-    /// Updates font family and font size dropdowns based on the currently selected text.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnSelectionChanged(RoutedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -301,7 +302,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         var newTextDecoration = TextDecorations.Strikethrough;
         if (Selection.GetPropertyValue(Inline.TextDecorationsProperty) is TextDecorationCollection current && current == TextDecorations.Strikethrough)
-            newTextDecoration = new TextDecorationCollection();
+            newTextDecoration = [];
 
         Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, newTextDecoration);
     }
@@ -353,27 +354,27 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnFilePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        if (stsw.FilePath != null)
         {
-            if (stsw.FilePath != null)
+            if (File.Exists(stsw.FilePath))
             {
-                if (File.Exists(stsw.FilePath))
-                {
-                    using var fileStream = new FileStream(stsw.FilePath, FileMode.Open);
-                    var range = new TextRange(stsw.Document.ContentStart, stsw.Document.ContentEnd);
-                    range.Load(fileStream, DataFormats.Rtf);
-
-                    stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-                    stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-                }
-            }
-            else
-            {
-                stsw.Document.Blocks.Clear();
+                using var fileStream = new FileStream(stsw.FilePath, FileMode.Open);
+                var range = new TextRange(stsw.Document.ContentStart, stsw.Document.ContentEnd);
+                range.Load(fileStream, DataFormats.Rtf);
 
                 stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
                 stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
             }
+        }
+        else
+        {
+            stsw.Document.Blocks.Clear();
+
+            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
+            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
         }
     }
 
@@ -397,10 +398,10 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnSelectedColorTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
-        {
-            stsw.FontColorText();
-        }
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        stsw.FontColorText();
     }
 
     /// <summary>
@@ -423,10 +424,10 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     public static void OnSelectedColorHighlightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTextEditor stsw)
-        {
-            stsw.FontColorHighlight();
-        }
+        if (obj is not StswTextEditor stsw)
+            return;
+
+        stsw.FontColorHighlight();
     }
 
     /// <summary>
@@ -555,9 +556,3 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/>
-
-*/

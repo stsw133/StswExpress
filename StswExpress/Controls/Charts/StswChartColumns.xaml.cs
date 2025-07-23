@@ -11,21 +11,22 @@ namespace StswExpress;
 /// Represents a chart control that visualizes data as vertical columns. 
 /// Automatically adjusts column heights based on data values and resizes dynamically with the control.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswChartColumns ItemsSource="{Binding RevenueData}" Width="400" Height="300"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.7.0", Changes = StswPlannedChanges.Refactor)]
 public class StswChartColumns : ItemsControl
 {
     static StswChartColumns()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartColumns), new FrameworkPropertyMetadata(typeof(StswChartColumns)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswChartColumns), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Called when the <see cref="ItemsControl.ItemsSource"/> property changes.
-    /// Recalculates chart data and updates column heights dynamically.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsControl.ItemsSource"/> property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);
@@ -36,11 +37,7 @@ public class StswChartColumns : ItemsControl
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Called when the render size of the control changes.
-    /// Triggers a recalculation of column sizes to maintain proper chart proportions.
-    /// </summary>
-    /// <param name="sizeInfo">The size change details.</param>
+    /// <inheritdoc/>
     protected override async void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -107,9 +104,3 @@ public class StswChartColumns : ItemsControl
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswChartColumns ItemsSource="{Binding RevenueData}" Width="400" Height="300"/>
-
-*/

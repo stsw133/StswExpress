@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski, Hubert Rogowski</Authors>
-    <Version>0.18.0</Version>
+    <Version>0.19.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -52,26 +52,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\TestApp\Resources\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\TestApp\Resources\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+	<ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+	<ItemGroup>
     <Resource Include="Themes\Resources\halloween_background.webp" />
     <Resource Include="Themes\Resources\night_background.webp" />
     <Resource Include="Themes\Resources\pink_background.webp" />
@@ -110,10 +99,10 @@
     <Page Update="Controls\Charts\StswChartPie.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\DataGrids\Columns\StswDataGridStatusColumn.xaml">
+    <Page Update="Controls\DataGrids\_columns\StswDataGridStatusColumn.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\DataGrids\Items\StswDataGridRow.xaml">
+    <Page Update="Controls\DataGrids\_items\StswDataGridRow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DataGrids\StswDataPager.xaml">
@@ -122,19 +111,19 @@
     <Page Update="Controls\Panels\StswGridSplitter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswComboBoxItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswComboBoxItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswListBoxItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswListBoxItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswListViewItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswListViewItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswSegmentItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswSegmentItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Selectors\Items\StswTreeViewItem.xaml">
+    <Page Update="Controls\Selectors\_items\StswTreeViewItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Selectors\StswSegment.xaml">
@@ -176,7 +165,7 @@
     <Page Update="Controls\Navigation\StswMenu.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswMenuItem.xaml">
+    <Page Update="Controls\Navigation\_items\StswMenuItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\SubControls\StswSubCheck.xaml">
@@ -237,7 +226,7 @@
     <Page Update="Controls\Filters\StswFilterBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswTabItem.xaml">
+    <Page Update="Controls\Navigation\_items\StswTabItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -297,7 +286,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Navigation\Items\StswNavigationElement.xaml">
+    <Page Update="Controls\Navigation\_items\StswNavigationElement.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Scrollers\StswScrollView.xaml">

@@ -14,13 +14,19 @@ namespace StswExpress;
 /// <remarks>
 /// The control allows for various transformations, including scaling and rotation, making it a versatile choice for UI design.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswIcon Data="{StaticResource HomeIcon}" Fill="Blue" Stroke="Black" StrokeThickness="1"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Data))]
+[StswInfo(null)]
 public class StswIcon : Control
 {
     static StswIcon()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -107,11 +113,11 @@ public class StswIcon : Control
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswIcon stsw)
-        {
-            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        }
+        if (obj is not StswIcon stsw)
+            return;
+
+        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
     }
     #endregion
 
@@ -138,6 +144,7 @@ public class StswIcon : Control
     /// Gets or sets the stroke brush of the icon.
     /// This brush is used to paint the outline of the icon's geometry.
     /// </summary>
+    [StswInfo("0.1.0")]
     public Brush Stroke
     {
         get => (Brush)GetValue(StrokeProperty);
@@ -156,6 +163,7 @@ public class StswIcon : Control
     /// Gets or sets the thickness of the icon's stroke.
     /// Determines the width of the outline drawn around the icon.
     /// </summary>
+    [StswInfo("0.1.0")]
     public double StrokeThickness
     {
         get => (double)GetValue(StrokeThicknessProperty);
@@ -285,9 +293,3 @@ public class StswIcon : Control
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswIcon Data="{StaticResource HomeIcon}" Fill="Blue" Stroke="Black" StrokeThickness="1"/>
-
-*/

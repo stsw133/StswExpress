@@ -5,12 +5,20 @@ namespace StswExpress;
 /// <summary>
 /// A container control that groups related UI elements under a common header.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswGroupBox Header="Settings"&gt;
+///     &lt;CheckBox Content="Enable dark mode"/&gt;
+/// &lt;/se:StswGroupBox&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswGroupBox : GroupBox, IStswCornerControl
 {
     static StswGroupBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Style properties
@@ -59,11 +67,3 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswGroupBox Header="Settings">
-    <CheckBox Content="Enable dark mode"/>
-</se:StswGroupBox>
-
-*/

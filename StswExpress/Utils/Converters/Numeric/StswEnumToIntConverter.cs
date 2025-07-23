@@ -8,6 +8,7 @@ namespace StswExpress;
 /// Converts an <see cref="Enum"/> value to its corresponding integer representation and vice versa.
 /// This is useful for bindings where you need to work with enums as integers.
 /// </summary>
+[StswInfo("0.9.0")]
 public class StswEnumToIntConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -16,11 +17,7 @@ public class StswEnumToIntConverter : MarkupExtension, IValueConverter
     public static StswEnumToIntConverter Instance => instance ??= new StswEnumToIntConverter();
     private static StswEnumToIntConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

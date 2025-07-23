@@ -10,13 +10,25 @@ namespace StswExpress;
 /// A tab control with extended functionality, including dynamic tab creation, 
 /// visibility toggling, and command-based item management.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible"&gt;
+///     &lt;se:StswTabItem Header="Home"/&gt;
+///     &lt;se:StswTabItem Header="Settings"/&gt;
+/// &lt;/se:StswTabControl&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswTabControl : TabControl
 {
     static StswTabControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(typeof(StswTabControl)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
+
+    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -26,9 +38,6 @@ public class StswTabControl : TabControl
 
         NewItemCommand = new StswCommand(CreateItem);
     }
-
-    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
 
     /// <summary>
     /// Creates a new tab item and adds it to the tab control. 
@@ -115,12 +124,3 @@ public class StswTabControl : TabControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible">
-    <se:StswTabItem Header="Home"/>
-    <se:StswTabItem Header="Settings"/>
-</se:StswTabControl>
-
-*/

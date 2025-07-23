@@ -1,11 +1,8 @@
 ﻿using System.Linq;
 
 namespace TestApp;
-
-public class StswFilterBoxContext : ControlsContext
+public partial class StswFilterBoxContext : ControlsContext
 {
-    public StswCommand<ControlsBase?> RefreshCommand => new(Refresh);
-
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -15,10 +12,8 @@ public class StswFilterBoxContext : ControlsContext
         IsFilterCaseSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterCaseSensitive)))?.Value ?? default;
         IsFilterNullSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterNullSensitive)))?.Value ?? default;
     }
-
-    #region Events & methods
-    /// Command: refresh
-    private void Refresh(ControlsBase? controlsBase)
+    
+    [StswCommand] void Refresh(ControlsBase? controlsBase)
     {
         if (controlsBase?.Content is StswFilterBox filter)
         {
@@ -29,75 +24,14 @@ public class StswFilterBoxContext : ControlsContext
             Value2 = filter.Value2;
         }
     }
-    #endregion
 
-    /// FilterMenuMode
-    public StswMenuMode FilterMenuMode
-    {
-        get => _filterMenuMode;
-        set => SetProperty(ref _filterMenuMode, value);
-    }
-    private StswMenuMode _filterMenuMode;
-
-    /// FilterType
-    public StswAdaptiveType FilterType
-    {
-        get => _filterType;
-        set => SetProperty(ref _filterType, value);
-    }
-    private StswAdaptiveType _filterType;
-
-    /// IsFilterCaseSensitive
-    public bool IsFilterCaseSensitive
-    {
-        get => _isFilterCaseSensitive;
-        set => SetProperty(ref _isFilterCaseSensitive, value);
-    }
-    private bool _isFilterCaseSensitive;
-
-    /// IsFilterNullSensitive
-    public bool IsFilterNullSensitive
-    {
-        get => _isFilterNullSensitive;
-        set => SetProperty(ref _isFilterNullSensitive, value);
-    }
-    private bool _isFilterNullSensitive;
-
-    /// SqlParam
-    public string SqlParam1
-    {
-        get => _sqlParam1;
-        set => SetProperty(ref _sqlParam1, value);
-    }
-    private string _sqlParam1 = string.Empty;
-
-    public string SqlParam2
-    {
-        get => _sqlParam2;
-        set => SetProperty(ref _sqlParam2, value);
-    }
-    private string _sqlParam2 = string.Empty;
-
-    /// SqlString
-    public string? SqlString
-    {
-        get => _sqlString;
-        set => SetProperty(ref _sqlString, value);
-    }
-    private string? _sqlString = string.Empty;
-
-    /// Value
-    public object? Value1
-    {
-        get => _value1;
-        set => SetProperty(ref _value1, value);
-    }
-    private object? _value1;
-
-    public object? Value2
-    {
-        get => _value2;
-        set => SetProperty(ref _value2, value);
-    }
-    private object? _value2;
+    [StswObservableProperty] StswMenuMode _filterMenuMode;
+    [StswObservableProperty] StswAdaptiveType _filterType;
+    [StswObservableProperty] bool _isFilterCaseSensitive;
+    [StswObservableProperty] bool _isFilterNullSensitive;
+    [StswObservableProperty] string _sqlParam1 = string.Empty;
+    [StswObservableProperty] string _sqlParam2 = string.Empty;
+    [StswObservableProperty] string? _sqlString = string.Empty;
+    [StswObservableProperty] object? _value1;
+    [StswObservableProperty] object? _value2;
 }

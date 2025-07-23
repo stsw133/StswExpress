@@ -16,7 +16,14 @@ namespace StswExpress;
 /// A hierarchical file tree control for navigating directories and files.
 /// Supports dynamic folder expansion and custom root paths.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswPathTree InitialPath="C:\" SelectedPath="{Binding SelectedFile}" ShowFiles="True"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedPath))]
+[StswInfo("0.13.0", Changes = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
     public StswPathTree()
@@ -26,7 +33,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     static StswPathTree()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(typeof(StswPathTree)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
@@ -46,42 +52,28 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         OnInitialPathChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Occurs when the ItemsSource property value changes.
-    /// </summary>
-    /// <param name="oldValue">The old value of the ItemsSource property.</param>
-    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Occurs when the ItemTemplate property value changes.
-    /// </summary>
-    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
-    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    /// <inheritdoc/>
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles item selection changes and animations.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
@@ -92,11 +84,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
     private bool _isSelectingPath = false;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="element"></param>
-    /// <param name="item"></param>
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -271,11 +259,11 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static void OnInitialPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            stsw.ReloadInitialPath();
-            // TODO - SelectedPath resets
-        }
+        if (obj is not StswPathTree stsw)
+            return;
+
+        stsw.ReloadInitialPath();
+        // TODO - SelectedPath resets
     }
 
     /// <inheritdoc/>
@@ -311,14 +299,14 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static async void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            if (e.NewValue is string newPath)
-                await stsw.SelectPathAsync(newPath);
+        if (obj is not StswPathTree stsw)
+            return;
 
-            /// event for non MVVM programming
-            stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
-        }
+        if (e.NewValue is string newPath)
+            await stsw.SelectPathAsync(newPath);
+
+        /// event for non MVVM programming
+        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <summary>
@@ -341,10 +329,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     public static void OnShowFilesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPathTree stsw)
-        {
-            stsw.ReloadInitialPath();
-        }
+        if (obj is not StswPathTree stsw)
+            return;
+
+        stsw.ReloadInitialPath();
     }
     #endregion
 
@@ -378,9 +366,3 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswPathTree InitialPath="C:\" SelectedPath="{Binding SelectedFile}" ShowFiles="True"/>
-
-*/

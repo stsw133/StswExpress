@@ -11,52 +11,53 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswRadioBox Content="Option A" GroupName="Settings"/&gt;
+/// &lt;se:StswRadioBox Content="Option B" GroupName="Settings" IsChecked="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.1.0")]
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
+    private Border? _mainBorder;
+
     static StswRadioBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioBox), new FrameworkPropertyMetadata(typeof(StswRadioBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswRadioBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Prevents state changes when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
-    /// </summary>
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+
+    /// <inheritdoc/>
+    [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
             base.OnToggle();
     }
 
-    /// <summary>
-    /// Handles the checked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, true);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
     }
 
-    /// <summary>
-    /// Handles the unchecked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, false);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
     #endregion
 
@@ -80,6 +81,7 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     /// Gets or sets a value indicating whether the radio button is in read-only mode.
     /// When set to <see langword="true"/>, the button cannot be toggled.
     /// </summary>
+    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -187,10 +189,3 @@ public class StswRadioBox : RadioButton, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswRadioBox Content="Option A" GroupName="Settings"/>
-<se:StswRadioBox Content="Option B" GroupName="Settings" IsChecked="True"/>
-
-*/

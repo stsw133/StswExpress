@@ -3,23 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace TestApp;
-
-public class GalleryContext : StswObservableObject
+public partial class GalleryContext : StswObservableObject
 {
-    public StswCommand ChangeNavigationModeCommand { get; }
-    public StswCommand SelectDirectoryCommand { get; }
-    public StswCommand<string?> NextFileCommand { get; }
-
-    public GalleryContext()
-    {
-        ChangeNavigationModeCommand = new(ChangeNavigationMode);
-        SelectDirectoryCommand = new(SelectDirectory);
-        NextFileCommand = new(NextFile);
-    }
-
-    #region Commands & methods
-    /// ChangeNavigationMode
-    private void ChangeNavigationMode()
+    [StswCommand] void ChangeNavigationMode()
     {
         if (StswFnUI.FindVisualChild<StswNavigation>(StswApp.StswWindow) is StswNavigation navi)
         {
@@ -32,24 +18,18 @@ public class GalleryContext : StswObservableObject
             navi.TabStripMode = navi.TabStripMode == StswCompactibility.Collapsed ? StswCompactibility.Compact : StswCompactibility.Collapsed;
         }
     }
-
-    /// SelectDirectory
-    private void SelectDirectory()
+    [StswCommand] void SelectDirectory()
     {
         var dialog = new FolderBrowserDialog();
         if (dialog.ShowDialog() == DialogResult.OK)
             SelectedDirectory = dialog.SelectedPath;
     }
-
-    /// LoadDirectory
-    private void LoadDirectory()
+    [StswCommand] void LoadDirectory()
     {
         if (Directory.Exists(SelectedDirectory))
             SelectedFile = Directory.GetFiles(SelectedDirectory).First();
     }
-
-    /// NextFile
-    private void NextFile(string? parameter)
+    [StswCommand] void NextFile(string parameter)
     {
         if (Directory.Exists(SelectedDirectory) && !string.IsNullOrEmpty(SelectedFile) && int.TryParse(parameter, out var step))
         {
@@ -66,29 +46,9 @@ public class GalleryContext : StswObservableObject
             }
         }
     }
-    #endregion
 
-    /// IsLoopingEnabled
-    public bool IsLoopingEnabled
-    {
-        get => _isLoopingEnabled;
-        set => SetProperty(ref _isLoopingEnabled, value);
-    }
-    private bool _isLoopingEnabled;
-
-    /// SelectedDirectory
-    public string? SelectedDirectory
-    {
-        get => _selectedDirectory;
-        set => SetProperty(ref _selectedDirectory, value, LoadDirectory);
-    }
-    private string? _selectedDirectory;
-
-    /// SelectedFile
-    public string? SelectedFile
-    {
-        get => _selectedFile;
-        set => SetProperty(ref _selectedFile, value);
-    }
-    private string? _selectedFile;
+    [StswObservableProperty] bool _isLoopingEnabled;
+    [StswObservableProperty] string? _selectedFile;
+    [StswObservableProperty] string? _selectedDirectory;
+    partial void OnSelectedDirectoryChanged(string? oldValue, string? newValue) => LoadDirectory();
 }

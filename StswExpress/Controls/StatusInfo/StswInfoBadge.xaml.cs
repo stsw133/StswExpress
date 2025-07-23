@@ -11,12 +11,18 @@ namespace StswExpress;
 /// <remarks>
 /// This control allows displaying notifications, counters, or status indicators in a compact format.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoBadge Value="1500" Limit="999" Format="Number"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0")]
 public class StswInfoBadge : Control, IStswCornerControl
 {
     static StswInfoBadge()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(typeof(StswInfoBadge)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -153,10 +159,10 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswInfoBadge stsw)
-        {
-            stsw.UpdateValue();
-        }
+        if (obj is not StswInfoBadge stsw)
+            return;
+
+        stsw.UpdateValue();
     }
     #endregion
 
@@ -190,9 +196,3 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoBadge Value="1500" Limit="999" Format="Number"/>
-
-*/

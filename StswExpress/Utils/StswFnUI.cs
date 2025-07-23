@@ -27,6 +27,7 @@ public static class StswFnUI
     /// Gets the name and version number of the currently executing application.
     /// </summary>
     /// <returns>A string containing the name and version number of the currently executing application.</returns>
+    [StswInfo(null)]
     public static string? AppNameAndVersion
     {
         get
@@ -45,6 +46,7 @@ public static class StswFnUI
     /// <param name="resourcePath">The path of the resource file within the assembly.</param>
     /// <returns>The content of the resource file as a string.</returns>
     /// <exception cref="FileNotFoundException">Thrown if the specified resource is not found.</exception>
+    [StswInfo("0.15.0")]
     public static string? GetResourceText(string assemblyName, string resourcePath)
     {
         var resourceUri = new Uri($"pack://application:,,,/{assemblyName};component/{resourcePath}", UriKind.Absolute);
@@ -68,6 +70,7 @@ public static class StswFnUI
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="lightness">The lightness component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSL values.</returns>
+    [StswInfo("0.1.0")]
     public static Color ColorFromHsl(byte alpha, double hue, double saturation, double lightness)
     {
         var h = hue / 360.0;
@@ -99,6 +102,7 @@ public static class StswFnUI
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="lightness">The lightness component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSL values with full opacity.</returns>
+    [StswInfo("0.1.0")]
     public static Color ColorFromHsl(double hue, double saturation, double lightness) => ColorFromHsl(255, hue, saturation, lightness);
 
     /// <summary>
@@ -108,6 +112,7 @@ public static class StswFnUI
     /// <param name="hue">The hue component (0-360).</param>
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="lightness">The lightness component (0-1).</param>
+    [StswInfo("0.1.0")]
     public static void ColorToHsl(Color color, out double hue, out double saturation, out double lightness)
     {
         var r = color.R / 255.0;
@@ -151,6 +156,7 @@ public static class StswFnUI
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="value">The value component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSV values.</returns>
+    [StswInfo("0.1.0")]
     public static Color ColorFromHsv(byte alpha, double hue, double saturation, double value)
     {
         hue = hue % 360;
@@ -180,6 +186,7 @@ public static class StswFnUI
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="value">The value component (0-1).</param>
     /// <returns>A <see cref="Color"/> object representing the specified HSV values with full opacity.</returns>
+    [StswInfo("0.1.0")]
     public static Color ColorFromHsv(double hue, double saturation, double value) => ColorFromHsv(255, hue, saturation, value);
 
     /// <summary>
@@ -189,6 +196,7 @@ public static class StswFnUI
     /// <param name="hue">The hue component (0-360).</param>
     /// <param name="saturation">The saturation component (0-1).</param>
     /// <param name="value">The value component (0-1).</param>
+    [StswInfo("0.1.0")]
     public static void ColorToHsv(Color color, out double hue, out double saturation, out double value)
     {
         var r = color.R / 255.0;
@@ -223,6 +231,7 @@ public static class StswFnUI
     /// <param name="text">The text to convert into a color.</param>
     /// <param name="seed">The seed value used to adjust the brightness of the generated color.</param>
     /// <returns>A <see cref="Color"/> object generated from the text and adjusted by the seed value.</returns>
+    [StswInfo("0.7.0")]
     public static Color GenerateColor(string text, int seed)
     {
         static int AdjustBrightness(int component, int seed) => component + (seed - component) / 2;
@@ -243,6 +252,39 @@ public static class StswFnUI
         }
 
         return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
+    }
+    #endregion
+
+    #region Compare functions
+    /// <summary>
+    /// Compares two models of the same type and returns a dictionary indicating whether each property value is equal.
+    /// </summary>
+    /// <typeparam name="T">The type of the models to compare.</typeparam>
+    /// <param name="model1">The first model to compare.</param>
+    /// <param name="model2">The second model to compare.</param>
+    /// <returns>The dictionary where the key is the property name and the value is a boolean indicating whether the property values are equal.</returns>
+    [StswInfo("0.19.0", IsTested = false)]
+    public static Dictionary<string, bool> CompareModels<T>(T model1, T model2)
+    {
+        var result = new Dictionary<string, bool>();
+
+        ArgumentNullException.ThrowIfNull(model1, nameof(model1));
+        ArgumentNullException.ThrowIfNull(model2, nameof(model2));
+
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (var prop in properties)
+        {
+            if (!prop.CanRead) continue;
+
+            var value1 = prop.GetValue(model1);
+            var value2 = prop.GetValue(model2);
+
+            var areEqual = Equals(value1, value2);
+            result[prop.Name] = areEqual;
+        }
+
+        return result;
     }
     #endregion
 
@@ -277,6 +319,7 @@ public static class StswFnUI
     /// </summary>
     /// <param name="path">The file or directory path to extract the icon from.</param>
     /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
+    [StswInfo("0.12.0")]
     public static System.Drawing.Icon? ExtractAssociatedIcon(string? path)
     {
         const uint SHGFI_ICON = 0x100;
@@ -288,7 +331,7 @@ public static class StswFnUI
         if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
         {
             var shinfo = new SHFILEINFO();
-            if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
+            if (SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero && shinfo.hIcon != IntPtr.Zero)
                 return System.Drawing.Icon.FromHandle(shinfo.hIcon);
         }
         else
@@ -302,11 +345,26 @@ public static class StswFnUI
 
     #region Finding functions
     /// <summary>
+    /// Finds a <see cref="DependencyProperty"/> by its name in the specified object.
+    /// </summary>
+    /// <param name="obj"> The object in which to search for the dependency property.</param>
+    /// <param name="propertyName"> The name of the dependency property to find.</param>
+    /// <returns>The <see cref="DependencyProperty"/> if found; otherwise, <see langword="null"/>.</returns>
+    [StswInfo("0.19.0")]
+    public static DependencyProperty? FindDependencyProperty(object obj, string propertyName)
+    {
+        var type = obj.GetType();
+        var field = type.GetField($"{propertyName}Property", BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+        return field?.GetValue(null) as DependencyProperty;
+    }
+
+    /// <summary>
     /// Finds the first logical ancestor of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
     /// <param name="obj">The control for which to find the logical ancestor.</param>
     /// <returns>The first logical ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
+    [StswInfo("0.17.0")]
     public static T? FindLogicalAncestor<T>(DependencyObject obj) where T : class
     {
         var parent = LogicalTreeHelper.GetParent(obj);
@@ -328,6 +386,7 @@ public static class StswFnUI
     /// <typeparam name="T">The type of the child to find.</typeparam>
     /// <param name="obj">The control for which to find the logical child.</param>
     /// <returns>The first logical child of the specified type, or <see langword="null"/> if no such child exists.</returns>
+    [StswInfo("0.10.0")]
     public static T? FindLogicalChild<T>(DependencyObject obj) where T : class
     {
         foreach (var child in LogicalTreeHelper.GetChildren(obj))
@@ -373,6 +432,7 @@ public static class StswFnUI
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
     /// <param name="obj">The control for which to find the visual ancestor.</param>
     /// <returns>The first visual ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
+    [StswInfo("0.1.0")]
     public static T? FindVisualAncestor<T>(DependencyObject obj) where T : class
     {
         var parent = obj;
@@ -393,6 +453,7 @@ public static class StswFnUI
     /// <typeparam name="T">The type of the child to find.</typeparam>
     /// <param name="obj">The control for which to find the visual child.</param>
     /// <returns>The first visual child of the specified type, or <see langword="null"/> if no such child exists.</returns>
+    [StswInfo(null)]
     public static T? FindVisualChild<T>(DependencyObject obj) where T : class
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
@@ -416,6 +477,7 @@ public static class StswFnUI
     /// <typeparam name="T">The type of the children to find.</typeparam>
     /// <param name="obj">The control for which to find the visual children.</param>
     /// <returns>An enumerable collection of visual children of the specified type.</returns>
+    [StswInfo(null)]
     public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : class
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
@@ -434,6 +496,7 @@ public static class StswFnUI
     /// </summary>
     /// <param name="obj">The control for which to find the parent.</param>
     /// <returns>The parent of the control, or <see langword="null"/> if no parent exists.</returns>
+    [StswInfo("0.1.0")]
     public static DependencyObject? GetParent(DependencyObject obj)
     {
         if (obj == null)
@@ -488,6 +551,7 @@ public static class StswFnUI
     /// </summary>
     /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
     /// <exception cref="UnauthorizedAccessException">Thrown if access to the registry is denied.</exception>
+    [StswInfo(null)]
     public static string? GetWindowsTheme()
     {
         try
@@ -536,6 +600,7 @@ public static class StswFnUI
     /// Determines whether the specified element is part of the visual tree of the specified control.
     /// </summary>
     /// <param name="dataGrid"></param>
+    [StswInfo("0.17.0")]
     public static void PasteFromClipboard(DataGrid dataGrid)
     {
         if (dataGrid == null || dataGrid.ItemsSource is not IEnumerable itemsSource)
@@ -567,7 +632,9 @@ public static class StswFnUI
             return;
 
         var startRowIndex = dataGrid.Items.IndexOf(selectedCells.First().Item);
-        var startColumnIndex = dataGrid.Columns.IndexOf(selectedCells.First().Column);
+
+        var isCellSelection = dataGrid.SelectionUnit == DataGridSelectionUnit.Cell || dataGrid.SelectionUnit == DataGridSelectionUnit.CellOrRowHeader;
+        var startColumnIndex = isCellSelection ? dataGrid.Columns.IndexOf(selectedCells.First().Column) : 0;
 
         var props = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var affectedCells = new List<DataGridCellInfo>();
@@ -631,9 +698,20 @@ public static class StswFnUI
         }
 
         dataGrid.Items.Refresh();
-        dataGrid.SelectedCells.Clear();
-        foreach (var cell in affectedCells)
-            dataGrid.SelectedCells.Add(cell);
+
+        if (dataGrid.SelectionUnit == DataGridSelectionUnit.Cell || dataGrid.SelectionUnit == DataGridSelectionUnit.CellOrRowHeader)
+        {
+            dataGrid.SelectedCells.Clear();
+            foreach (var cell in affectedCells)
+                dataGrid.SelectedCells.Add(cell);
+        }
+        else if (dataGrid.SelectionUnit == DataGridSelectionUnit.FullRow)
+        {
+            dataGrid.SelectedItems.Clear();
+            var distinctItems = affectedCells.Select(cell => cell.Item).Distinct();
+            foreach (var item in distinctItems)
+                dataGrid.SelectedItems.Add(item);
+        }
     }
 
     /// <summary>
@@ -641,6 +719,7 @@ public static class StswFnUI
     /// Supports <see cref="ContentControl"/>, <see cref="ContentPresenter"/>, <see cref="Decorator"/>, <see cref="ItemsControl"/>, and <see cref="Panel"/>.
     /// </summary>
     /// <param name="element">The element to remove from its parent.</param>
+    [StswInfo("0.5.0")]
     public static void RemoveFromParent(FrameworkElement element)
     {
         var parent = element.Parent;

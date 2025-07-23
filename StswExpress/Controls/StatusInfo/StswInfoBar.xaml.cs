@@ -13,12 +13,18 @@ namespace StswExpress;
 /// This control provides a compact way to display notifications with additional functionality like copying text 
 /// to the clipboard, expanding for more details, and dismissing messages.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswInfoBar Title="Info" Text="Update available" Type="Info" IsCopyable="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0")]
 public class StswInfoBar : Control, IStswCornerControl
 {
     static StswInfoBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBar), new FrameworkPropertyMetadata(typeof(StswInfoBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswInfoBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -40,6 +46,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
+    [StswInfo("0.9.0")]
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText($"{Title}{Environment.NewLine}{Text}");
@@ -87,6 +94,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// Gets or sets a value indicating whether the info bar content can be copied to the clipboard.
     /// When enabled, a copy button is displayed.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsCopyable
     {
         get => (bool)GetValue(IsCopyableProperty);
@@ -103,6 +111,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// Gets or sets a value indicating whether the info bar can be expanded.
     /// When enabled, an expand button is displayed to show additional content.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsExpandable
     {
         get => (bool)GetValue(IsExpandableProperty);
@@ -118,6 +127,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the info bar is currently expanded.
     /// </summary>
+    [StswInfo("0.13.0")]
     public bool IsExpanded
     {
         get => (bool)GetValue(IsExpandedProperty);
@@ -206,9 +216,3 @@ public class StswInfoBar : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswInfoBar Title="Info" Text="Update available" Type="Info" IsCopyable="True"/>
-
-*/

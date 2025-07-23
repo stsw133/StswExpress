@@ -4,12 +4,10 @@ namespace StswExpress;
 /// <summary>
 /// Allows creating a proxy object for data binding purposes.
 /// </summary>
+[StswInfo(null)]
 public class StswBindingProxy : Freezable
 {
-    /// <summary>
-    /// Creates a new instance of the <see cref="StswBindingProxy"/> class.
-    /// </summary>
-    /// <returns>A new instance of the <see cref="StswBindingProxy"/> class.</returns>
+    /// <inheritdoc/>
     protected override Freezable CreateInstanceCore() => new StswBindingProxy();
 
     /// <summary>

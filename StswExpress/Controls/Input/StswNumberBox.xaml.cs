@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -15,12 +14,12 @@ namespace StswExpress;
 /// Supports custom formats, increment steps, and min/max value validation.
 /// </summary>
 [ContentProperty(nameof(Value))]
+[StswInfo("0.9.0")]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
     static StswNumberBoxBase()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -88,11 +87,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         CaretIndex = Text?.Length ?? 0;
     }
 
-    /// <summary>
-    /// Handles the mouse wheel event, adjusting the numeric value based on scroll direction.
-    /// The value is incremented or decremented according to <see cref="Increment"/>.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -126,12 +121,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         return newValue;
     }
 
-    /// <summary>
-    /// Updates the main property associated with the control's value based on user input.
-    /// If the entered text is a valid number, it updates the bound value. If empty, it sets the value to null.
-    /// Also supports evaluating mathematical expressions.
-    /// </summary>
-    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = Value;
@@ -175,14 +165,14 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
         {
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-            {
-                var newBinding = binding.Clone();
-                newBinding.StringFormat = stsw.Format;
-                stsw.SetBinding(TextProperty, newBinding);
-            }
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = stsw.Format;
+            stsw.SetBinding(TextProperty, newBinding);
         }
     }
 
@@ -219,11 +209,11 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-        {
-            if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
-                stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
-        }
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
+            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
     }
 
     /// <summary>
@@ -263,60 +253,72 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-        {
-            /// event for non MVVM programming
-            stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
-        }
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
     }
     private static object? OnValueChanging(DependencyObject obj, object? baseValue)
     {
-        if (obj is StswNumberBoxBase<T> stsw)
-            return stsw.MinMaxValidate((T?)baseValue);
-        
-        return baseValue;
+        if (obj is not StswNumberBoxBase<T> stsw)
+            return baseValue;
+
+        return stsw.MinMaxValidate((T?)baseValue);
     }
     #endregion
 }
 
-/* usage:
-
-<se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/>
-
-*/
-
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.9.0")]
 public class StswDecimalBox : StswNumberBoxBase<decimal>
 {
     static StswDecimalBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDecimalBox), new FrameworkPropertyMetadata(typeof(StswDecimalBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDecimalBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
 
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDoubleBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.14.0")]
 public class StswDoubleBox : StswNumberBoxBase<double>
 {
     static StswDoubleBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDoubleBox), new FrameworkPropertyMetadata(typeof(StswDoubleBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDoubleBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }
 
 /// <summary>
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswIntegerBox Value="{Binding Quantity}" Increment="1" Minimum="0"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.14.0")]
 public class StswIntegerBox : StswNumberBoxBase<int>
 {
     static StswIntegerBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIntegerBox), new FrameworkPropertyMetadata(typeof(StswIntegerBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswIntegerBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 }

@@ -4,6 +4,12 @@
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
     <Style TargetType="{x:Type se:StswDataGrid}">
+        <Setter Property="AreFiltersVisible" Value="True"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="FiltersType" Value="CollectionView"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource StswDataGrid.Row.Static.Border}"/>
@@ -14,12 +20,6 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
 
-        <Setter Property="AreFiltersVisible" Value="True"/>
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="FiltersType" Value="CollectionView"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -29,19 +29,18 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-
         <Setter Property="CellStyle" Value="{DynamicResource StswDataGridCellStyle}"/>
         <Setter Property="ColumnHeaderStyle" Value="{DynamicResource StswDataGridColumnHeaderStyle}"/>
         <Setter Property="RowHeaderStyle" Value="{DynamicResource StswDataGridRowHeaderStyle}"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDataGrid}">
@@ -54,24 +53,33 @@
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True">
-                        <se:StswScrollView x:Name="DG_ScrollViewer"
-                                           AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                           Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                           Focusable="False"
-                                           IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                           IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                           PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                           Template="{DynamicResource StswDataGridScrollTemplate}"
+                        <se:StswScrollView x:Name="OPT_OuterScroll"
+                                           CanContentScroll="False"
+                                           DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
                                            HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                           VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                           VerticalScrollBarVisibility="Disabled">
+                            <se:StswScrollView x:Name="DG_ScrollViewer"
+                                               AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Focusable="False"
+                                               DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                               IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                               PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Template="{DynamicResource StswDataGridScrollTemplate}"
+                                               HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                               VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                <ItemsPresenter x:Name="OPT_Items" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </se:StswScrollView>
                         </se:StswScrollView>
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="HasVisibleOuterScroll" Value="False">
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="OPT_OuterScroll"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="OPT_MainBorder"/>
@@ -156,9 +164,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCellsPresenter}">
-                    <Grid Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
+                    <DockPanel>
                         <ItemsPresenter/>
-                    </Grid>
+                        <Grid Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
+                    </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -166,7 +175,7 @@
 
     <!-- StswDataGridCellStyle -->
     <Style x:Key="StswDataGridCellStyle" TargetType="{x:Type DataGridCell}">
-        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Cell.Static.Background}"/>
+        <Setter Property="Background" Value="Transparent"/> <!-- "{DynamicResource StswDataGrid.Cell.Static.Background}" -->
         <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Cell.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswText.Static.Foreground}"/>
 

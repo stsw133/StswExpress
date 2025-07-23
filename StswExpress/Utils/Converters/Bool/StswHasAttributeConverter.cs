@@ -11,6 +11,7 @@ namespace StswExpress;
 /// A value converter that checks if an enumeration field or a property of an object has a specific attribute.
 /// It can be used in XAML bindings to control UI visibility or boolean conditions based on attribute presence.
 /// </summary>
+[StswInfo("0.16.0")]
 public class StswHasAttributeConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -19,11 +20,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     public static StswHasAttributeConverter Instance => instance ??= new StswHasAttributeConverter();
     private static StswHasAttributeConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

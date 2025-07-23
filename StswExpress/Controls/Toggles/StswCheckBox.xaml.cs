@@ -11,52 +11,51 @@ namespace StswExpress;
 /// The control provides enhanced visual customization, including the ability to change icons 
 /// for different states and prevent state changes when read-only mode is enabled.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/&gt;
+/// </code>
+/// </example>
+[StswInfo(null)]
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
+    private Border? _mainBorder;
+
     static StswCheckBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    /// <summary>
-    /// Prevents state changes when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
-    /// </summary>
-    protected override void OnToggle()
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
     {
-        if (!IsReadOnly)
-            base.OnToggle();
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
     }
 
-    /// <summary>
-    /// Handles the checked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.6.0")]
+    protected override void OnToggle()
+    {
+        IsReadOnly.Do(null, base.OnToggle);
+    }
+
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, true);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
     }
 
-    /// <summary>
-    /// Handles the unchecked event and triggers an animation if animations are enabled.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
-        {
-            if (GetTemplateChild("OPT_MainBorder") is Border border)
-                StswSharedAnimations.AnimateClick(this, border, false);
-        }
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
     #endregion
 
@@ -80,6 +79,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     /// Gets or sets a value indicating whether the checkbox is in read-only mode.
     /// When set to <see langword="true"/>, the checkbox cannot be toggled.
     /// </summary>
+    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -187,9 +187,3 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/>
-
-*/

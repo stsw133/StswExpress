@@ -11,70 +11,61 @@ namespace StswExpress;/// <summary>
 /// <remarks>
 /// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswListView ItemsSource="{Binding Logs}" IsReadOnly="True"&gt;
+///     &lt;se:StswListViewItem Content="Log Entry 1"/&gt;
+///     &lt;se:StswListViewItem Content="Log Entry 2"/&gt;
+/// &lt;/se:StswListView&gt;
+/// </code>
+/// </example>
+[StswInfo("0.2.0")]
 public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 {
     static StswListView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(typeof(StswListView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswListViewItem();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListViewItem;
 
     #region Events & methods
-    /// <summary>
-    /// Called when the <see cref="ItemsSource"/> property changes.
-    /// Updates the selection state and propagates changes to the selection control logic.
-    /// </summary>
-    /// <param name="oldValue">The previous <see cref="ItemsSource"/> collection.</param>
-    /// <param name="newValue">The new <see cref="ItemsSource"/> collection.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
-    /// <summary>
-    /// Called when the <see cref="ItemTemplate"/> property changes.
-    /// Updates the selection control logic based on the new item template.
-    /// </summary>
-    /// <param name="oldItemTemplate">The previous data template for items.</param>
-    /// <param name="newItemTemplate">The new data template for items.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
-    /// <summary>
-    /// Occurs when the PreviewKeyDown event is triggered.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
+    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
         base.OnPreviewKeyDown(e);
     }
 
-    /// <summary>
-    /// Handles selection changes within the list view.
-    /// If the control is in read-only mode, the selection change is prevented.
-    /// Otherwise, the selection state is updated accordingly.
-    /// </summary>
-    /// <param name="e">Provides data for the <see cref="SelectionChanged"/> event.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.10.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
     }
 
-    /// <summary>
-    /// Prepares the specified element to display the given item.
-    /// Ensures that the item container (list item) inherits the <see cref="IsReadOnly"/> property binding.
-    /// </summary>
-    /// <param name="element">The element used to display the specified item.</param>
-    /// <param name="item">The data item to be displayed.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -92,6 +83,7 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -135,12 +127,3 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswListView ItemsSource="{Binding Logs}" IsReadOnly="True">
-    <se:StswListViewItem Content="Log Entry 1"/>
-    <se:StswListViewItem Content="Log Entry 2"/>
-</se:StswListView>
-
-*/

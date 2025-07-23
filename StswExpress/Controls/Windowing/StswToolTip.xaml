@@ -3,15 +3,15 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswToolTip}">
+        <Setter Property="IsMoveable" Value="False"/>
+
         <Setter Property="Background" Value="{DynamicResource StswTip.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswTip.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1.5"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="IsMoveable" Value="False"/>
+        <Setter Property="Padding" Value="5 3"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="HasDropShadow" Value="True"/>

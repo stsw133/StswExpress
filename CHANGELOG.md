@@ -1,4 +1,6 @@
 **Table of contents**:
+- [Version 0.18.1](#0-18-1)
+- [Version 0.18.0](#0-18-0)
 - [Version 0.17.0](#0-17-0)
 - [Version 0.16.1](#0-16-1)
 - [Version 0.16.0](#0-16-0)
@@ -36,6 +38,72 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-18-1">0.18.1</h1>
+
+**Release Date**: 2025-06-04
+
+## StswExpress.Commons
+
+### Changes
+- `MergeObjects` method has optional `mergePriority` parameter to control which object takes precedence during merging.
+
+## StswExpress (WPF)
+
+### Fixes
+- Fixed `StswDataGrid` columns so that font-related properties (such as `FontFamily`, `FontSize`, `FontWeight`, etc.) can once again be set directly on the column, not only through `RowStyle` or `CellStyle`.
+- Fixed `StswDataGridStatusColumn` so it no longer overrides `RowStyle` in a way that conflicts with the `RowStyle` of `StswDataGrid`.
+
+---
+
+<h1 id="0-18-0">0.18.0</h1>
+
+**Release Date**: 2025-05-31
+
+## StswExpress.Commons
+
+### Additions
+- Extensive improvements to `StswLog`:
+  - Additionally writes logs to the console.
+  - Archive configuration extracted to a dedicated subclass.
+  - Faster import performance.
+  - New `WriteException` and `WriteWithCaller` methods.
+  - Prevents archive conflicts when log file name matches one inside the archive.
+  - Synchronized access using semaphores.
+  - Unified logic for sync and async writing.
+- New `DeepEquals` extension method for deep object comparison.
+- New `CopyFrom` extension method for copying values between objects.
+- Overloads for `Get` and `MapTo` in `StswDatabaseHelper` that accept a `Type` parameter.
+
+### Changes
+- `GetDivided` method in `StswDatabaseHelper` received functionality and performance upgrades.
+- `MapTo` with delimiter support improved and bug-fixed.
+- `MergeObjects` method upgraded to support merging `IEnumerable` types.
+- `OpenFile` method renamed and refactored to `OpenPath` for improved versatility.
+- `ToDataTable` extension now preserves the declared order of properties when creating columns.
+
+### Fixes
+- Fixed bug in `ExecuteStoredCommand` that ignored passed parameters.
+- Fixed infinite recursion issue in `StswMapping`.
+- Resolved an I/O exception in `StswLog`.
+- `StswMapping` now correctly maps `byte[]` properties.
+
+## StswExpress (WPF)
+
+### Additions
+- Added `ScrollBehavior` property to `StswDataGrid` with three options: `None`, `OnSelection`, and `OnInsert`.
+- `StswGridSplitter` now supports reverting to its original position after a double-click.
+- `StswWindowBar`'s icon now uses `BitmapScalingMode.Fant`.
+
+### Changes
+- `StswDataGrid` columns now fully support `FontWeight`.
+- `StswDataGrid` now includes an internal `ScrollViewer` allowing column scrolling even when there are no items.
+- `StswToaster` now hides alerts automatically after a defined time interval.
+
+### Fixes
+- `PasteFromClipboard` now works correctly when `StswDataGrid` has `SelectionUnit` set to `FullRow`.
 
 ---
 
@@ -422,7 +490,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Added new option to disable SQL connections in `StswDatabaseConfig`.
 - Introduced the `StswAnimations` class for managing animations across collection controls, check controls, and checkable button controls.
 - New helper methods: 
-  - Added a new `ExtractAssociatedIcon` utility extracted from `StswPathPicker` control. Allows to extract associated icon from files and directories.
+  - Added a new `ExtractAssociatedIcon` utility extracted from `StswFilePicker` control. Allows to extract associated icon from files and directories.
   - Added a new `ToImageSource` method for converting from `System.Drawing.Icon` to `ImageSource`.
   - Added a new `TryCompute` method for additional computation flexibility.
 
@@ -432,7 +500,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Added full MVVM support for `StswTabControl` control, with `StswTabItem` control as the default item type.
 - Default behaviour changed for `StswDropButton` and `StswSplitButton` controls with `AutoClose` property set to `true` by default.
 - Property changes:
-  - `StswPathPicker` control's property `IconSource` renamed to `FileIcon`.
+  - `StswFilePicker` control's property `IconSource` renamed to `FileIcon`.
   - `StswImage` control now includes `StretchDirection`.
 - Template changes:
   - `StswCalendar` control template major updates and improvements.
@@ -664,7 +732,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## Fixes
 * **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
-* **StswPathPicker** has small bugfix for separating by thousands.
+* **StswFilePicker** has small bugfix for separating by thousands.
 
 ---
 
@@ -733,7 +801,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 * **StswMessageDialog** template has been improved. One new message type has been added named "Blockade". Message type "Question" has slightly different color now.
 * **StswDropArrow** is no longer hidden from designer and has additional properties similar to **StswIcon**. Property "IsDropDownOpen" renamed into "IsExpanded".
 * **StswDropButton** and **StswSplitButton** both have new property named "AutoClose" that allows to close popup after clicking any button inside.
-* **StswPathPicker** has new property named "IsFileSizeVisible" that allows it to display file size.
+* **StswFilePicker** has new property named "IsFileSizeVisible" that allows it to display file size.
 * Stsw chart controls have been improved.
 * **StswHyperlinkButton** has been improved.
 * **StswRatingControl** has been improved and now supports key shortcuts.
@@ -795,7 +863,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## New Functionality
 
-* Stsw check controls have read only mode controlled by "IsReadOnly" property.
+* Stsw check controls have read-only mode controlled by "IsReadOnly" property.
 * New interface: **IStswScrollableControl**. Other Stsw interfaces are extended too.
 * New property for **StswApp** named "AllowMultipleInstances". If it is set to false then any additional instance of application is automatically closed allowing only one instance to be runned at the same time.
 * New converter: **StswIsTypeConverter**.
@@ -840,8 +908,8 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ## New Functionality
 
-* There is new category for Stsw controls named "File" that includes 1 new control: **StswPathPicker** used to select either file or directory path.
-* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswPathPicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
+* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker** used to select either file or directory path.
+* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswFilePicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
 * New control style: **StswContextMenu**.
 * New interface: **IStswBoxControl**. **IStswComponentControl** renamed into **IStswSubControl**.
 * New converter: **StswListFromRangeConverter**.
@@ -1068,7 +1136,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 * All Stsw controls that were using sub-borders use **StswSeparator** instead of **Border**. They also use different property to set its thickness: "SeparatorThickness" that is a double instead of "SubBorderThickness" that was Thickness. It is important to notice that new property requires half of previous value.
 * **StswTabControl** and **StswTextEditor** both use **StswShifter** instead of **StswScrollViewer** (former on tab panel and latter on toolbar).
 * **StswTextEditor** have new property for changing toolbar content from full to compact (with less options) and even collapsing it.
-* All Stsw controls in read only state have different background and foreground brushes.
+* All Stsw controls in read-only state have different background and foreground brushes.
 * All Stsw controls have defined horizontal and vertical alignments in style.
 * Stsw check controls no longer have different FocusVisualStyle when they have content.
 * Base classes for Stsw controls have changed from **UserControl** into either **Control** or **ContentControl**.
@@ -1148,12 +1216,12 @@ In this version, library has been split into two separate libraries: `StswExpres
 * Some functional improvements in **StswNavigation** and **StswNavigationElement** (renamed from **StswNavigationButton** and now can function as both: button and expander).
 * **StswDataGrid** shows different colors for special column's buttons when "ItemState" property has value other than "Unchanged".
 * **StswNavigationElement** can take "GroupName" from **StswNavigation**.
-* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent** controls. Additionally, components will no longer be disabled when control is in read only mode.
+* Property "Buttons" for Stsw box controls has been renamed into "Components". This property can only receive **IStswComponent** controls. Additionally, components will no longer be disabled when control is in read-only mode.
 * **StswDatePicker** and **StswColorBox** now have function button with Press click mode.
 * **StswLoadingCircle** changes its opacity when disabled instead of fill color (similarly to **StswIcon** and **StswImage**).
 * **StswImage** has different method for paste image from clipboard.
 * **StswSeparator** now has a little more intuitive "BorderThickness" logic (shortly described: separator's thickness is not doubled). Additionally has different look when disabled.
-* **StswComboBox** and **StswComboView** can be opened in read only mode (but selection can not be changed).
+* **StswComboBox** and **StswComboView** can be opened in read-only mode (but selection can not be changed).
 * **StswNumericBox** and **StswDatePicker** refreshes "Value"/"SelectedDate" property before incrementing.
 * **StswFilter** has been reworked. Clearing and getting filters data is moved from **StswFilter** to **StswDataGrid**.
 * Improvements for **StswPasswordBox**, **StswWindow**'s title bar, **StswCollection**.

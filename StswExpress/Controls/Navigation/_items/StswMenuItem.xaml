@@ -1,0 +1,429 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswMenuItem}">
+        <Setter Property="Background" Value="{DynamicResource StswMenuItem.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Static.Border}"/>
+        <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="Padding" Value="3"/>
+
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
+        <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswPopup.CornerClipping" Value="True"/>
+        <Setter Property="se:StswPopup.CornerRadius" Value="3"/>
+        <Setter Property="se:StswPopup.Padding" Value="0"/>
+        
+        <Setter Property="Template" Value="{DynamicResource StswMenuSubItem}"/>
+        
+        <Style.Triggers>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{DynamicResource StswMenuSubHeader}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{DynamicResource StswMenuTopHeader}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{DynamicResource StswMenuTopItem}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    
+    <!-- StswMenuTopItem -->
+    <ControlTemplate x:Key="StswMenuTopItem" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
+        <se:StswBorder x:Name="OPT_MainBorder"
+                       Background="{TemplateBinding Background}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       CornerClipping="{TemplateBinding CornerClipping}"
+                       CornerRadius="{TemplateBinding CornerRadius}">
+            <se:StswGrid AutoLayoutMode="IncrementColumns">
+                <se:StswSubCheck x:Name="OPT_Icon"
+                                 Content="{TemplateBinding Icon}"
+                                 Focusable="False"
+                                 IconUnchecked="{TemplateBinding IconData}"
+                                 IconChecked="{x:Static se:StswIcons.Check}"
+                                 IconFill="{TemplateBinding IconFill}"
+                                 IconScale="{TemplateBinding IconScale}"
+                                 IconStroke="{TemplateBinding IconStroke}"
+                                 IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                 IsBusy="{TemplateBinding IsBusy}"
+                                 IsChecked="{TemplateBinding IsChecked}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Width="20"/>
+                <ContentPresenter ContentSource="Header"
+                                  Margin="{TemplateBinding Padding}"
+                                  RecognizesAccessKey="True"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </se:StswGrid>
+        </se:StswBorder>
+        <!-- triggers -->
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconData" Value="{x:Null}"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+            </MultiTrigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderThickness" Value="1" TargetName="OPT_Icon"/>
+                <Setter Property="CornerRadius" Value="3" TargetName="OPT_Icon"/>
+                <Setter Property="IconFill" Value="{DynamicResource StswText.Static.Foreground}" TargetName="OPT_Icon"/>
+                <Setter Property="Padding" Value="0" TargetName="OPT_Icon"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="OPT_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="OPT_MainBorder"/> -->
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- StswMenuTopHeader -->
+    <ControlTemplate x:Key="StswMenuTopHeader" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
+        <se:StswBorder x:Name="OPT_MainBorder"
+                       Background="{TemplateBinding Background}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       CornerClipping="{TemplateBinding CornerClipping}"
+                       CornerRadius="{TemplateBinding CornerRadius}">
+            <se:StswGrid AutoLayoutMode="IncrementColumns">
+                <se:StswSubCheck x:Name="OPT_Icon"
+                                 Content="{TemplateBinding Icon}"
+                                 Focusable="False"
+                                 IconUnchecked="{TemplateBinding IconData}"
+                                 IconChecked="{x:Static se:StswIcons.Check}"
+                                 IconFill="{TemplateBinding IconFill}"
+                                 IconScale="{TemplateBinding IconScale}"
+                                 IconStroke="{TemplateBinding IconStroke}"
+                                 IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                 IsChecked="{TemplateBinding IsChecked}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Width="20"/>
+                <ContentPresenter ContentSource="Header"
+                                  Margin="{TemplateBinding Padding}"
+                                  RecognizesAccessKey="True"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                <se:StswPopup x:Name="PART_Popup"
+                              Focusable="False"
+                              IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                              Placement="Bottom"
+                              PlacementTarget="{Binding ElementName=OPT_MainBorder}"
+                              PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                              ScrollType="DirectionView"
+                              se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
+                    <Grid RenderOptions.ClearTypeHint="Enabled">
+                        <ItemsPresenter x:Name="ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                        KeyboardNavigation.TabNavigation="Cycle"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Grid>
+                </se:StswPopup>
+            </se:StswGrid>
+        </se:StswBorder>
+        <!-- triggers -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>
+            </Trigger>
+            <!--
+            <Trigger Property="ScrollViewer.CanContentScroll" Value="False">
+                <Setter Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" TargetName="OpaqueRect"/>
+                <Setter Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}" TargetName="OpaqueRect"/>
+            </Trigger>
+            -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconData" Value="{x:Null}"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+            </MultiTrigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderThickness" Value="1" TargetName="OPT_Icon"/>
+                <Setter Property="CornerRadius" Value="3" TargetName="OPT_Icon"/>
+                <Setter Property="IconFill" Value="{DynamicResource StswText.Static.Foreground}" TargetName="OPT_Icon"/>
+                <Setter Property="Padding" Value="0" TargetName="OPT_Icon"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="OPT_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="OPT_MainBorder"/> -->
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- StswMenuSubItem -->
+    <ControlTemplate x:Key="StswMenuSubItem" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
+        <se:StswBorder x:Name="OPT_MainBorder"
+                       Background="{TemplateBinding Background}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       CornerClipping="{TemplateBinding CornerClipping}"
+                       CornerRadius="{TemplateBinding CornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="20" SharedSizeGroup="MenuItemIconColumnGroup" Width="auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="20"/>
+                    <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <se:StswSubCheck x:Name="OPT_Icon"
+                                 Content="{TemplateBinding Icon}"
+                                 Focusable="False"
+                                 IconUnchecked="{TemplateBinding IconData}"
+                                 IconChecked="{x:Static se:StswIcons.Check}"
+                                 IconFill="{TemplateBinding IconFill}"
+                                 IconScale="{TemplateBinding IconScale}"
+                                 IconStroke="{TemplateBinding IconStroke}"
+                                 IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                 IsChecked="{TemplateBinding IsChecked}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Width="20"/>
+                <ContentPresenter x:Name="menuHeaderContainer"
+                                  Grid.Column="2"
+                                  ContentSource="Header"
+                                  Margin="{TemplateBinding MenuItem.Padding}"
+                                  RecognizesAccessKey="True"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                <se:StswText x:Name="menuGestureText"
+                             Grid.Column="4"
+                             Margin="{TemplateBinding MenuItem.Padding}"
+                             Opacity="0.8"
+                             Text="{TemplateBinding InputGestureText}"
+                             VerticalAlignment="Center">
+                    <se:StswText.LayoutTransform>
+                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    </se:StswText.LayoutTransform>
+                </se:StswText>
+            </Grid>
+        </se:StswBorder>
+        <!-- triggers -->
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconData" Value="{x:Null}"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+            </MultiTrigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderThickness" Value="1" TargetName="OPT_Icon"/>
+                <Setter Property="CornerRadius" Value="3" TargetName="OPT_Icon"/>
+                <Setter Property="IconFill" Value="{DynamicResource StswText.Static.Foreground}" TargetName="OPT_Icon"/>
+                <Setter Property="Padding" Value="0" TargetName="OPT_Icon"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="OPT_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="OPT_MainBorder"/> -->
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- StswMenuSubHeader -->
+    <ControlTemplate x:Key="StswMenuSubHeader" TargetType="{x:Type se:StswMenuItem}">
+        <!-- main -->
+        <se:StswBorder x:Name="OPT_MainBorder"
+                       Background="{TemplateBinding Background}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       CornerClipping="{TemplateBinding CornerClipping}"
+                       CornerRadius="{TemplateBinding CornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="20" SharedSizeGroup="MenuItemIconColumnGroup" Width="auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="20"/>
+                    <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <se:StswSubCheck x:Name="OPT_Icon"
+                                 Content="{TemplateBinding Icon}"
+                                 Focusable="False"
+                                 IconUnchecked="{TemplateBinding IconData}"
+                                 IconChecked="{x:Static se:StswIcons.Check}"
+                                 IconFill="{TemplateBinding IconFill}"
+                                 IconScale="{TemplateBinding IconScale}"
+                                 IconStroke="{TemplateBinding IconStroke}"
+                                 IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                 IsChecked="{TemplateBinding IsChecked}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Width="20"/>
+                <ContentPresenter Grid.Column="2"
+                                  ContentSource="Header"
+                                  Margin="{TemplateBinding MenuItem.Padding}"
+                                  RecognizesAccessKey="True"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                <se:StswText Grid.Column="4"
+                             Margin="{TemplateBinding MenuItem.Padding}"
+                             Opacity="0.8"
+                             Text="{TemplateBinding InputGestureText}"
+                             VerticalAlignment="Center">
+                    <se:StswText.LayoutTransform>
+                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    </se:StswText.LayoutTransform>
+                </se:StswText>
+                <se:StswIcon x:Name="RightArrow" Grid.Column="5" Data="{x:Static se:StswIcons.MenuRight}"/>
+                <se:StswPopup x:Name="PART_Popup"
+                              se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                              se:StswPopup.Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
+                              Focusable="False"
+                              IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                              Placement="Right"
+                              PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                              ScrollType="DirectionView">
+                    <Grid RenderOptions.ClearTypeHint="Enabled">
+                        <ItemsPresenter x:Name="ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                        KeyboardNavigation.TabNavigation="Cycle"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Grid>
+                </se:StswPopup>
+            </Grid>
+        </se:StswBorder>
+        <!-- triggers -->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                <Setter Property="PopupAnimation" Value="None" TargetName="PART_Popup"/>
+            </Trigger>
+            <!--
+            <Trigger Property="ScrollViewer.CanContentScroll" Value="False">
+                <Setter Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" TargetName="OpaqueRect"/>
+                <Setter Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}" TargetName="OpaqueRect"/>
+            </Trigger>
+            -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconData" Value="{x:Null}"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Icon"/>
+            </MultiTrigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="OPT_Icon"/>
+                <Setter Property="BorderThickness" Value="1" TargetName="OPT_Icon"/>
+                <Setter Property="CornerRadius" Value="3" TargetName="OPT_Icon"/>
+                <Setter Property="IconFill" Value="{DynamicResource StswText.Static.Foreground}" TargetName="OPT_Icon"/>
+                <Setter Property="Padding" Value="0" TargetName="OPT_Icon"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswMenuItem.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!-- <Setter Property="Background" Value="{DynamicResource StswMenuItem.Disabled.Background}" TargetName="OPT_MainBorder"/> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource StswMenuItem.Disabled.Border}" TargetName="OPT_MainBorder"/> -->
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswMenuItem.Disabled.Foreground}" TargetName="OPT_MainBorder"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

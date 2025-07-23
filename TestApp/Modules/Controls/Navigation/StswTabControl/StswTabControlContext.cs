@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace TestApp;
-
-public class StswTabControlContext : ControlsContext
+public partial class StswTabControlContext : ControlsContext
 {
     public override void SetDefaults()
     {
@@ -17,36 +15,16 @@ public class StswTabControlContext : ControlsContext
         TabStripPlacement = (Dock?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TabStripPlacement)))?.Value ?? default;
     }
 
-    /// AreTabsVisible
-    public bool AreTabsVisible
-    {
-        get => _areTabsVisible;
-        set => SetProperty(ref _areTabsVisible, value);
-    }
-    private bool _areTabsVisible = true;
-
-    /// Items
-    public ObservableCollection<StswTabItemModel> Items
-    {
-        get => _items;
-        set => SetProperty(ref _items, value);
-    }
-    private ObservableCollection<StswTabItemModel> _items =
+    [StswObservableProperty] bool _areTabsVisible = true;
+    [StswObservableProperty] ObservableCollection<StswTabItemModel> _items =
     [
         new(nameof(StswButton), StswIcons.Dice1, new StswButtonContext(), false),
         new(nameof(StswCheckBox), StswIcons.Dice2, new StswCheckBoxContext(), true),
         new(nameof(StswGroupBox), StswIcons.Dice3, new StswGroupBoxContext(), true)
     ];
+    [StswObservableProperty] Visibility _newItemButtonVisibility;
+    [StswObservableProperty] Dock _tabStripPlacement;
 
-    /// NewItemButtonVisibility
-    public Visibility NewItemButtonVisibility
-    {
-        get => _newItemButtonVisibility;
-        set => SetProperty(ref _newItemButtonVisibility, value);
-    }
-    private Visibility _newItemButtonVisibility;
-
-    /// NewItem
     public StswTabItemModel NewItem
     {
         get => _newItem;
@@ -60,14 +38,6 @@ public class StswTabControlContext : ControlsContext
         }
     }
     private StswTabItemModel _newItem = new();
-
-    /// TabStripPlacement
-    public Dock TabStripPlacement
-    {
-        get => _tabStripPlacement;
-        set => SetProperty(ref _tabStripPlacement, value);
-    }
-    private Dock _tabStripPlacement;
 }
 
 /// <summary>

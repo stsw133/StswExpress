@@ -4,6 +4,11 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTimePicker}">
+        <!-- <Setter Property="Format" Value="dd\.hh\:mm\:ss"/> -->
+        <Setter Property="IncrementType" Value="Second"/>
+        <!-- <Setter Property="IncrementType" Value="{Binding TimeSpanDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"/> -->
+        <Setter Property="Text" Value="{Binding SelectedTime, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
@@ -16,11 +21,6 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
-
-        <!-- <Setter Property="Format" Value="dd\.hh\:mm\:ss"/> -->
-        <Setter Property="IncrementType" Value="Second"/>
-        <!-- <Setter Property="IncrementType" Value="{Binding TimeSpanDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"/> -->
-        <Setter Property="Text" Value="{Binding SelectedTime, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -121,8 +121,8 @@
                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                              Visibility="Collapsed"/>
                                 <se:StswScrollView x:Name="PART_ContentHost"
+                                                   DynamicMode="Partial"
                                                    Focusable="False"
-                                                   IsDynamic="True"
                                                    HorizontalScrollBarVisibility="Hidden"
                                                    VerticalScrollBarVisibility="Hidden"/>
                             </Grid>

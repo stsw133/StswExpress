@@ -17,6 +17,7 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the output will be <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, the output is a <see cref="bool"/> value.
 /// </summary>
+[StswInfo(null)]
 public class StswContainsConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -25,11 +26,7 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     public static StswContainsConverter Instance => instance ??= new StswContainsConverter();
     private static StswContainsConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

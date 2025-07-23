@@ -17,22 +17,23 @@ namespace StswExpress;
 /// It is clipped to the provided <see cref="Border"/> to ensure it does not exceed its bounds.
 /// The animation scales the ripple from 0 to full size while gradually reducing its opacity.
 /// </remarks>
-internal class RippleAdorner : Adorner
+[StswInfo("0.10.0")]
+internal class StswRippleAdorner : Adorner
 {
-    private readonly Ellipse _ellipse;
     private readonly Border _border;
     private readonly Canvas _canvas;
-    private readonly TranslateTransform _translateTransform;
+    private readonly Ellipse _ellipse;
     private readonly ScaleTransform _scaleTransform;
+    private readonly TranslateTransform _translateTransform;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RippleAdorner"/> class.
+    /// Initializes a new instance of the <see cref="StswRippleAdorner"/> class.
     /// </summary>
     /// <param name="adornedElement">The UI element to which the ripple effect is applied.</param>
     /// <param name="clickPosition">The position of the mouse click, which serves as the center of the ripple effect.</param>
     /// <param name="size">The initial size of the ripple effect.</param>
     /// <param name="border">The border within which the ripple effect is clipped.</param>
-    public RippleAdorner(UIElement adornedElement, Point clickPosition, double size, Border border) : base(adornedElement)
+    public StswRippleAdorner(UIElement adornedElement, Point clickPosition, double size, Border border) : base(adornedElement)
     {
         _border = border;
 
@@ -104,23 +105,13 @@ internal class RippleAdorner : Adorner
         sb.Begin(_ellipse);
     }
 
-    /// <summary>
-    /// Gets the number of visual child elements within this adorner.
-    /// </summary>
+    /// <inheritdoc/>
     protected override int VisualChildrenCount => 1;
-
-    /// <summary>
-    /// Returns a specific visual child element by index.
-    /// </summary>
-    /// <param name="index">The index of the visual child element.</param>
-    /// <returns>The visual child element at the specified index.</returns>
+    
+    /// <inheritdoc/>
     protected override Visual GetVisualChild(int index) => _canvas;
 
-    /// <summary>
-    /// Arranges the size and position of the canvas and its child elements.
-    /// </summary>
-    /// <param name="finalSize">The final area within the parent that this element should use to arrange itself and its children.</param>
-    /// <returns>The actual size used by the canvas.</returns>
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         _canvas.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));

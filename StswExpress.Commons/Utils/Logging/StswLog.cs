@@ -1,18 +1,23 @@
 ﻿using System.Globalization;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace StswExpress.Commons;
 /// <summary>
 /// Provides a simple way to write and manage log messages, including support for automatic archiving and error handling.
 /// </summary>
+[StswInfo(null)]
 public static class StswLog
 {
+    private static readonly Dictionary<Guid, Dictionary<StswInfoType, int>> _logCounters = [];
+    private static readonly SemaphoreSlim _logSemaphore = new(1, 1);
     private static int _failureCount = 0;
 
     static StswLog()
     {
-        if (!string.IsNullOrEmpty(Config.ArchiveDirectoryPath) && !Directory.Exists(Config.ArchiveDirectoryPath))
-            Directory.CreateDirectory(Config.ArchiveDirectoryPath);
+        if (!string.IsNullOrEmpty(Config.Archive.ArchiveDirectoryPath) && !Directory.Exists(Config.Archive.ArchiveDirectoryPath))
+            Directory.CreateDirectory(Config.Archive.ArchiveDirectoryPath);
 
         if (!string.IsNullOrEmpty(Config.LogDirectoryPath) && !Directory.Exists(Config.LogDirectoryPath))
             Directory.CreateDirectory(Config.LogDirectoryPath);
@@ -39,11 +44,11 @@ public static class StswLog
         var oldestFileDT = oldestFileInfo.CreationTime;
         var dateNow = DateTime.Now.Date;
 
-        if (Config.ArchiveFullMonth && !oldestFileDT.IsSameYearAndMonth(dateNow))
+        if (Config.Archive.ArchiveFullMonth && !oldestFileDT.IsSameYearAndMonth(dateNow))
             foreach (var (year, month) in StswFn.GetUniqueMonthsFromRange(oldestFileDT, dateNow.AddMonths(-1)))
                 Archive(new DateTime(year, month, 1), new DateTime(year, month, DateTime.DaysInMonth(year, month)));
-        else if ((dateNow - oldestFileDT).TotalDays > Config.ArchiveWhenDaysOver)
-                Archive(oldestFileDT, dateNow.AddDays(-Config.ArchiveUpToLastDays));
+        else if ((dateNow - oldestFileDT).TotalDays > Config.Archive.ArchiveWhenDaysOver)
+            Archive(oldestFileDT, dateNow.AddDays(-Config.Archive.ArchiveUpToLastDays));
 
         DeleteOldArchives();
     }
@@ -55,29 +60,37 @@ public static class StswLog
     /// <param name="dateTo">The end date of the range.</param>
     public static void Archive(DateTime dateFrom, DateTime dateTo)
     {
-        string archiveName;
-        if (Config.ArchiveFullMonth && dateFrom.IsSameYearAndMonth(dateTo))
-            archiveName = $"archive_{dateFrom:yyyy-MM}.zip";
-        else if (dateFrom == dateTo)
-            archiveName = $"archive_{dateFrom:yyyy-MM-dd}.zip";
-        else
-            archiveName = $"archive_{dateFrom:yyyy-MM-dd}_{dateTo:yyyy-MM-dd}.zip";
-
-        var fullArchivePath = Path.Combine(Config.ArchiveDirectoryPath, archiveName);
-        if (File.Exists(fullArchivePath))
-            return;
-
-        using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Create);
-        foreach (var filePath in Directory.GetFiles(Config.LogDirectoryPath, "log_*.log"))
+        _logSemaphore.Wait();
+        try
         {
-            if (!TryGetDateFromFilename(filePath, out var fileDate))
-                continue;
+            string archiveName;
+            if (Config.Archive.ArchiveFullMonth && dateFrom.IsSameYearAndMonth(dateTo))
+                archiveName = $"archive_{dateFrom:yyyy-MM}.zip";
+            else if (dateFrom == dateTo)
+                archiveName = $"archive_{dateFrom:yyyy-MM-dd}.zip";
+            else
+                archiveName = $"archive_{dateFrom:yyyy-MM-dd}_{dateTo:yyyy-MM-dd}.zip";
 
-            if (fileDate.Date.Between(dateFrom.Date, dateTo.Date))
+            var fullArchivePath = Path.Combine(Config.Archive.ArchiveDirectoryPath, archiveName);
+            //if (File.Exists(fullArchivePath))
+            //    return;
+
+            using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Update);
+            foreach (var filePath in Directory.GetFiles(Config.LogDirectoryPath, "log_*.log"))
             {
-                AddFileToZipWithPossibleRename(archive, filePath);
-                File.Delete(filePath);
+                if (!TryGetDateFromFilename(filePath, out var fileDate))
+                    continue;
+
+                if (fileDate.Date.Between(dateFrom.Date, dateTo.Date))
+                {
+                    AddFileToZipWithPossibleRename(archive, filePath);
+                    File.Delete(filePath);
+                }
             }
+        }
+        finally
+        {
+            _logSemaphore.Release();
         }
     }
 
@@ -92,30 +105,38 @@ public static class StswLog
     /// </summary>
     private static void DeleteOldArchives()
     {
-        if (!Config.DeleteArchivesOlderThanDays.HasValue || Config.DeleteArchivesOlderThanDays.Value <= 0)
-            return;
-
-        int limitDays = Config.DeleteArchivesOlderThanDays.Value;
-        var thresholdDate = DateTime.Now.Date.AddDays(-limitDays);
-
-        foreach (var zipPath in Directory.GetFiles(Config.ArchiveDirectoryPath, "archive_*.zip"))
+        _logSemaphore.Wait();
+        try
         {
-            var fileName = Path.GetFileNameWithoutExtension(zipPath);
+            if (!Config.Archive.DeleteArchivesOlderThanDays.HasValue || Config.Archive.DeleteArchivesOlderThanDays.Value <= 0)
+                return;
 
-            if (TryGetArchiveDateRange(fileName, out var df, out var dt))
+            int limitDays = Config.Archive.DeleteArchivesOlderThanDays.Value;
+            var thresholdDate = DateTime.Now.Date.AddDays(-limitDays);
+
+            foreach (var zipPath in Directory.GetFiles(Config.Archive.ArchiveDirectoryPath, "archive_*.zip"))
             {
-                if (dt.Date < thresholdDate)
+                var fileName = Path.GetFileNameWithoutExtension(zipPath);
+
+                if (TryGetArchiveDateRange(fileName, out var df, out var dt))
                 {
-                    try
+                    if (dt.Date < thresholdDate)
                     {
-                        File.Delete(zipPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        Config.OnLogFailure?.Invoke(ex);
+                        try
+                        {
+                            File.Delete(zipPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Config.OnLogFailure?.Invoke(ex);
+                        }
                     }
                 }
             }
+        }
+        finally
+        {
+            _logSemaphore.Release();
         }
     }
 
@@ -126,29 +147,29 @@ public static class StswLog
     /// <param name="sourceFilePath"></param>
     private static void AddFileToZipWithPossibleRename(ZipArchive zip, string sourceFilePath)
     {
-        var baseFileName = Path.GetFileName(sourceFilePath);
-        var datePart = baseFileName.Substring(4, 10);
+        var baseFileName = Path.GetFileName(sourceFilePath); // log_2025-05-30.log
+        var datePart = baseFileName.Substring(4, 10);        // 2025-05-30
+        var extension = Path.GetExtension(baseFileName);     // .log
+        var baseEntryName = $"log_{datePart}.log";
 
-        var sameDateEntries = zip.Entries.Where(e => e.FullName.StartsWith($"log_{datePart}", StringComparison.OrdinalIgnoreCase)).ToList();
+        var existingBaseEntry = zip.Entries.FirstOrDefault(e =>
+            e.FullName.Equals(baseEntryName, StringComparison.OrdinalIgnoreCase));
 
-        if (sameDateEntries.Count == 0)
+        if (existingBaseEntry == null)
         {
-            zip.CreateEntryFromFile(sourceFilePath, baseFileName);
-        }
-        else if (sameDateEntries.Count == 1)
-        {
-            var existingEntry = sameDateEntries[0];
-            var existingName = existingEntry.FullName;
-            if (existingName.Equals($"log_{datePart}.log", StringComparison.OrdinalIgnoreCase))
-                RenameZipArchiveEntry(zip, existingEntry, $"log_{datePart}_{DateTime.Now:HH-mm-ss}.log");
-
-            var newName = $"log_{datePart}_{DateTime.Now:HH-mm-ss}.log";
-            zip.CreateEntryFromFile(sourceFilePath, newName);
+            zip.CreateEntryFromFile(sourceFilePath, baseEntryName);
         }
         else
         {
-            var newName = $"log_{datePart}_{DateTime.Now:HH-mm-ss}.log";
-            zip.CreateEntryFromFile(sourceFilePath, newName);
+            var timestamp = DateTime.Now.ToString("HH-mm-ss");
+            var renamedName = $"log_{datePart}_{timestamp}{extension}";
+            int counter = 1;
+
+            while (zip.Entries.Any(e => e.FullName.Equals(renamedName, StringComparison.OrdinalIgnoreCase)))
+                renamedName = $"log_{datePart}_{timestamp}_{counter++}{extension}";
+
+            RenameZipArchiveEntry(zip, existingBaseEntry, renamedName);
+            zip.CreateEntryFromFile(sourceFilePath, baseEntryName);
         }
     }
 
@@ -161,7 +182,7 @@ public static class StswLog
         string datePart = logFile.Name.Substring(4, 10);
         string archiveFileName = $"archive_{datePart}.zip";
 
-        var archivePath = Path.Combine(Config.ArchiveDirectoryPath, archiveFileName);
+        var archivePath = Path.Combine(Config.Archive.ArchiveDirectoryPath, archiveFileName);
         using var zip = ZipFile.Open(archivePath, ZipArchiveMode.Update);
 
         AddFileToZipWithPossibleRename(zip, logFile.FullName);
@@ -174,7 +195,7 @@ public static class StswLog
     /// </summary>
     private static void ForceSizeArchiveIfNeeded()
     {
-        if (Config.ArchiveWhenSizeOver == null)
+        if (Config.Archive.ArchiveWhenSizeOver == null)
             return;
 
         var path = GetDailyLogFilePath();
@@ -182,7 +203,7 @@ public static class StswLog
         if (!fi.Exists)
             return;
 
-        if (fi.Length > Config.ArchiveWhenSizeOver.Value)
+        if (fi.Length > Config.Archive.ArchiveWhenSizeOver.Value)
             ArchiveSingleLogBySize(fi);
     }
 
@@ -348,34 +369,42 @@ public static class StswLog
                 if (!File.Exists(logFilePath))
                     continue;
 
-                var lines = await File.ReadAllLinesAsync(logFilePath);
-                var currentBlock = new List<string>();
+                //try
+                //{
+                    using var reader = new StreamReader(logFilePath);
+                    var currentBlock = new List<string>();
 
-                foreach (var line in lines)
-                {
-                    if (string.IsNullOrWhiteSpace(line))
-                        continue;
-
-                    if (line.Length >= 19 && DateTime.TryParse(line[..19], out var _))
+                    while (!reader.EndOfStream)
                     {
-                        if (currentBlock.Count > 0)
+                        var line = await reader.ReadLineAsync();
+                        if (string.IsNullOrWhiteSpace(line))
+                            continue;
+
+                        if (line.Length >= 19 && DateTime.TryParse(line[..19], out _))
                         {
-                            var parsed = ParseLogEntry(currentBlock);
-                            if (parsed.HasValue)
-                                logItems.Add(parsed.Value);
-                            currentBlock.Clear();
+                            if (currentBlock.Count > 0)
+                            {
+                                var parsed = ParseLogEntry(currentBlock);
+                                if (parsed.HasValue)
+                                    logItems.Add(parsed.Value);
+                                currentBlock.Clear();
+                            }
                         }
+
+                        currentBlock.Add(line);
                     }
 
-                    currentBlock.Add(line);
-                }
-
-                if (currentBlock.Count > 0)
-                {
-                    var parsed = ParseLogEntry(currentBlock);
-                    if (parsed.HasValue)
-                        logItems.Add(parsed.Value);
-                }
+                    if (currentBlock.Count > 0)
+                    {
+                        var parsed = ParseLogEntry(currentBlock);
+                        if (parsed.HasValue)
+                            logItems.Add(parsed.Value);
+                    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Config.OnLogFailure?.Invoke(ex);
+                //}
             }
         }
 
@@ -419,6 +448,60 @@ public static class StswLog
     }
     #endregion
 
+    #region Summary
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static Guid StartCounter()
+    {
+        var token = Guid.NewGuid();
+        lock (_logCounters)
+            _logCounters[token] = [];
+        return token;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static Dictionary<StswInfoType, int> StopCounter(Guid token)
+    {
+        lock (_logCounters)
+        {
+            if (_logCounters.TryGetValue(token, out var result))
+            {
+                _logCounters.Remove(token);
+                return result;
+            }
+            return [];
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="type"></param>
+    private static void CountLogToActiveCounters(StswInfoType? type)
+    {
+        if (type == null)
+            return;
+
+        lock (_logCounters)
+        {
+            foreach (var counter in _logCounters.Values)
+            {
+                if (counter.TryGetValue(type.Value, out var value))
+                    counter[type.Value] = ++value;
+                else
+                    counter[type.Value] = 1;
+            }
+        }
+    }
+    #endregion
+
     #region Write
     /// <summary>
     /// Writes a log entry to a file synchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
@@ -433,23 +516,7 @@ public static class StswLog
         if (!ShouldLog(type))
             return;
 
-        /// CREATE LOG
-        try
-        {
-            ForceSizeArchiveIfNeeded();
-
-            var logPath = GetDailyLogFilePath();
-            var logLine = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {(type ?? StswInfoType.None).ToString()[0]} | {text}";
-
-            Console.WriteLine(logLine);
-            using var sw = new StreamWriter(logPath, true);
-            sw.WriteLine(logLine);
-            _failureCount = 0;
-        }
-        catch (Exception ex)
-        {
-            HandleLoggingFailure(ex);
-        }
+        WriteInternal(type, text).GetAwaiter().GetResult();
     }
 
     /// <summary>
@@ -463,7 +530,31 @@ public static class StswLog
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
-    public static async Task WriteAsync(StswInfoType? type, string text)
+    public static Task WriteAsync(StswInfoType? type, string text)
+    {
+        if (Config.IsLoggingDisabled)
+            return Task.CompletedTask;
+
+        if (!ShouldLog(type))
+            return Task.CompletedTask;
+
+        /// CREATE LOG
+        return WriteInternal(type, text);
+    }
+
+    /// <summary>
+    /// Writes a log entry to a file asynchronously without specifying a log type.
+    /// </summary>
+    /// <param name="text">The text to log.</param>
+    public static Task WriteAsync(string text) => WriteAsync(null, text);
+
+    /// <summary>
+    /// Writes an exception to the log file, including its type, message, stack trace, and any inner exceptions.
+    /// </summary>
+    /// <param name="ex">Exception to log</param>
+    /// <param name="type">Optional type of the log entry. If not specified, defaults to <see cref="StswInfoType.Error"/>.</param>
+    /// <param name="context">Optional context for the log entry, which can provide additional information about where the exception occurred.</param>
+    public static void WriteException(Exception ex, StswInfoType? type = StswInfoType.Error, string? context = null)
     {
         if (Config.IsLoggingDisabled)
             return;
@@ -474,27 +565,80 @@ public static class StswLog
         /// CREATE LOG
         try
         {
+            var msg = new StringBuilder();
+
+            if (!string.IsNullOrWhiteSpace(context))
+                msg.AppendLine($"[{context}]");
+
+            void AppendException(Exception e, int level)
+            {
+                var prefix = new string('>', level);
+                msg.AppendLine($"{prefix} {e.GetType().Name}: {e.Message}");
+                msg.AppendLine($"{prefix} {e.StackTrace}");
+                if (e.InnerException != null)
+                    AppendException(e.InnerException, level + 1);
+            }
+
+            AppendException(ex, 0);
+            Write(type, msg.ToString());
+            _failureCount = 0;
+        }
+        catch (Exception ex2)
+        {
+            HandleLoggingFailure(ex2);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private static async Task WriteInternal(StswInfoType? type, string text)
+    {
+        await _logSemaphore.WaitAsync();
+        try
+        {
             ForceSizeArchiveIfNeeded();
 
             var logPath = GetDailyLogFilePath();
-            var logLine = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type?.ToString().FirstOrDefault()} | {text}";
+            var logLine = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {(type ?? StswInfoType.None).ToString()[0]} | {text}";
 
             Console.WriteLine(logLine);
             using var sw = new StreamWriter(logPath, true);
             await sw.WriteLineAsync(logLine);
+
+            if (!Config.IsLoggingDisabled && Config.SqlLogger is not null)
+                Config.SqlLogger.Invoke(new StswLogItem(type, text));
+
+            CountLogToActiveCounters(type);
             _failureCount = 0;
         }
         catch (Exception ex)
         {
             HandleLoggingFailure(ex);
         }
+        finally
+        {
+            _logSemaphore.Release();
+        }
     }
 
     /// <summary>
-    /// Writes a log entry to a file asynchronously without specifying a log type.
+    /// Writes a log entry to a file synchronously, including caller information such as member name, file path, and line number.
     /// </summary>
-    /// <param name="text">The text to log.</param>
-    public static Task WriteAsync(string text) => WriteAsync(null, text);
+    /// <param name="type">Type of the log entry.</param>
+    /// <param name="text">Text to log.</param>
+    /// <param name="memberName"></param>
+    /// <param name="filePath"></param>
+    /// <param name="lineNumber"></param>
+    public static void WriteWithCaller(StswInfoType? type, string text, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    {
+        var fileName = Path.GetFileName(filePath);
+        text = $"[{fileName}:{lineNumber} {memberName}] {text}";
+        Write(type, text);
+    }
 
     /// <summary>
     /// Handles logging failures by incrementing the failure count and disabling logging if the maximum number of failures is reached.

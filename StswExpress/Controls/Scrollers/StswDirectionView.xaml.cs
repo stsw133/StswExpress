@@ -13,20 +13,32 @@ namespace StswExpress;
 /// Supports automatic scrolling when hovering over navigation buttons.
 /// This control provides extra navigation buttons for controlling scroll behavior in both horizontal and vertical directions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDirectionView Orientation="Horizontal"&gt;
+///     &lt;StackPanel Orientation="Horizontal"&gt;
+///         &lt;TextBlock Text="Item 1"/&gt;
+///         &lt;TextBlock Text="Item 2"/&gt;
+///         &lt;TextBlock Text="Item 3"/&gt;
+///     &lt;/StackPanel&gt;
+/// &lt;/se:StswDirectionView&gt;
+/// </code>
+/// </example>
+[StswInfo("0.2.0")]
 public class StswDirectionView : ScrollViewer
 {
+    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
+    private DispatcherTimer? _autoScrollTimer;
+    private Action? _currentScrollAction;
+    private bool _isLeftMouseDown;
+
     static StswDirectionView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(typeof(StswDirectionView)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
-    private bool _isLeftMouseDown;
-    private DispatcherTimer? _autoScrollTimer;
-    private Action? _currentScrollAction;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -69,20 +81,16 @@ public class StswDirectionView : ScrollViewer
         OnVerticalOffsetChanged();
     }
 
-    /// <summary>
-    /// Detects when the left mouse button is pressed and sets a flag to start auto-scrolling when hovering over directional buttons.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.16.0")]
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonDown(e);
         _isLeftMouseDown = true;
     }
 
-    /// <summary>
-    /// Detects when the left mouse button is released, stopping any active auto-scrolling.
-    /// </summary>
-    /// <param name="e">The event arguments.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.16.0")]
     protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonUp(e);
@@ -90,16 +98,12 @@ public class StswDirectionView : ScrollViewer
         StopAutoScrollTimer();
     }
 
-    /// <summary>
-    /// Handles scrolling behavior using the mouse wheel.
-    /// Supports both vertical and horizontal scrolling, and raises events for parent elements when the scroll reaches the top or bottom.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
-        if (ComputedHorizontalScrollBarVisibility == Visibility.Visible
-        && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
+        if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
             if (e.Delta > 0)
                 ScrollInfo.MouseWheelLeft();
@@ -127,10 +131,7 @@ public class StswDirectionView : ScrollViewer
         //}
     }
 
-    /// <summary>
-    /// Handles the ScrollChanged event, enabling or disabling the directional buttons based on the current scroll offsets.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
+    /// <inheritdoc/>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         if (e.HorizontalChange != 0)
@@ -202,6 +203,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
+    [StswInfo("0.16.0")]
     private void HandleMouseEnterOnButton(object sender, MouseEventArgs e)
     {
         if (_isLeftMouseDown)
@@ -228,6 +230,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The button which raised the event.</param>
     /// <param name="e">The mouse event arguments.</param>
+    [StswInfo("0.16.0")]
     private void HandleMouseLeaveFromButton(object sender, MouseEventArgs e)
     {
         StopAutoScrollTimer();
@@ -238,6 +241,7 @@ public class StswDirectionView : ScrollViewer
     /// The action will be invoked at regular intervals while the mouse is over the button and the left mouse button is pressed.
     /// </summary>
     /// <param name="interval">The interval to use for auto-scrolling.</param>
+    [StswInfo("0.16.0")]
     private void StartAutoScrollTimer(TimeSpan interval)
     {
         if (_autoScrollTimer != null)
@@ -255,6 +259,7 @@ public class StswDirectionView : ScrollViewer
     /// </summary>
     /// <param name="sender">The timer instance.</param>
     /// <param name="e">The event arguments.</param>
+    [StswInfo("0.16.0")]
     private void AutoScrollTimer_Tick(object? sender, EventArgs e)
     {
         if (_isLeftMouseDown)
@@ -266,6 +271,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Stops the auto-scroll timer and resets the current scroll action.
     /// </summary>
+    [StswInfo("0.16.0")]
     private void StopAutoScrollTimer()
     {
         if (_autoScrollTimer != null)
@@ -282,6 +288,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the orientation of the control (horizontal or vertical).
     /// </summary>
+    [StswInfo("0.12.0")]
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);
@@ -300,6 +307,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the thickness of the back (up and left) buttons.
     /// </summary>
+    [StswInfo("0.6.0")]
     public Thickness BBtnThickness
     {
         get => (Thickness)GetValue(BBtnThicknessProperty);
@@ -316,6 +324,7 @@ public class StswDirectionView : ScrollViewer
     /// <summary>
     /// Gets or sets the thickness of the forward (down and right) buttons.
     /// </summary>
+    [StswInfo("0.6.0")]
     public Thickness FBtnThickness
     {
         get => (Thickness)GetValue(FBtnThicknessProperty);
@@ -358,15 +367,3 @@ public class StswDirectionView : ScrollViewer
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }
-
-/* usage:
-
-<se:StswDirectionView Orientation="Horizontal">
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Item 1"/>
-        <TextBlock Text="Item 2"/>
-        <TextBlock Text="Item 3"/>
-    </StackPanel>
-</se:StswDirectionView>
-
-*/

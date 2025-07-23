@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswDataPager}">
+        <Setter Property="CurrentPage" Value="1"/>
+        <Setter Property="ItemsPerPage" Value="50"/>
+
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
@@ -12,9 +15,6 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         
-        <Setter Property="CurrentPage" Value="1"/>
-        <Setter Property="ItemsPerPage" Value="50"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

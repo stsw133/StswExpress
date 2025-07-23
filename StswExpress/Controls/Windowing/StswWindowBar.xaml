@@ -38,7 +38,8 @@
                                           Content="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                                           IconScale="*"
                                           IconSource="{Binding Icon, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                                          IsHitTestVisible="False"/>
+                                          IsHitTestVisible="False"
+                                          RenderOptions.BitmapScalingMode="Fant"/>
                             <!-- buttons panel -->
                             <DockPanel Grid.Column="1">
                                 <DockPanel.Resources>

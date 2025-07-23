@@ -11,6 +11,13 @@ namespace StswExpress;
 /// Represents a pagination control for navigating through a large dataset by displaying a subset of items per page.
 /// Provides navigation buttons for switching pages, including automatic handling of page limits.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.5.0")]
 public class StswDataPager : ContentControl, IStswCornerControl
 {
     public StswDataPager()
@@ -20,7 +27,6 @@ public class StswDataPager : ContentControl, IStswCornerControl
     static StswDataPager()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(typeof(StswDataPager)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -148,10 +154,10 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     public static void OnCurrentPageChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDataPager stsw)
-        {
-            stsw.RefreshCurrentPageItems();
-        }
+        if (obj is not StswDataPager stsw)
+            return;
+
+        stsw.RefreshCurrentPageItems();
     }
 
     /// <summary>
@@ -207,10 +213,10 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDataPager stsw)
-        {
-            stsw.RecalculatePagination();
-        }
+        if (obj is not StswDataPager stsw)
+            return;
+
+        stsw.RecalculatePagination();
     }
 
     /// <summary>
@@ -291,9 +297,3 @@ public class StswDataPager : ContentControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/>
-
-*/

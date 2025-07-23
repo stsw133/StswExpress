@@ -11,9 +11,18 @@ namespace StswExpress;
 /// A dynamic input control that automatically selects the appropriate input box based on the value type.
 /// Supports text, number, date, checkbox, and selection inputs.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswAdaptiveBox Type="Text" Value="{Binding UserName}" Placeholder="Enter name"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Value))]
+[StswInfo("0.3.0", Changes = StswPlannedChanges.Refactor)]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
+    private ContentPresenter? _contentPresenter;
+
     public StswAdaptiveBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -21,20 +30,15 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
-    private ContentPresenter? _contentPresenter;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        /// content
-        if (GetTemplateChild("PART_ContentPresenter") is ContentPresenter contentPresenter)
-            _contentPresenter = contentPresenter;
+        _contentPresenter = GetTemplateChild("PART_ContentPresenter") as ContentPresenter;
 
         OnTypeChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -43,6 +47,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// Dynamically creates and assigns the appropriate input control based on the specified <see cref="Type"/>.
     /// Ensures correct bindings and properties are applied.
     /// </summary>
+    [StswInfo("0.11.0")]
     protected void CreateControlBasedOnType()
     {
         if (_contentPresenter == null || Type == StswAdaptiveType.Auto)
@@ -239,6 +244,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -270,6 +276,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -283,6 +290,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -371,6 +379,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the selection unit for the date picker input.
     /// </summary>
+    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
@@ -418,52 +427,52 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
     public static void OnTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswAdaptiveBox stsw)
-        {
-            if (stsw.Type == StswAdaptiveType.Auto)
-            {
-                if (stsw.ItemsSource != default)
-                    stsw.Type = StswAdaptiveType.List;
-                else
-                {
-                    /// find type based on binded property type
-                    if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b)
-                    {
-                        if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t)
-                        {
-                            if (t.In(typeof(bool), typeof(bool?)))
-                                stsw.Type = StswAdaptiveType.Check;
-                            else if (t.In(typeof(DateTime), typeof(DateTime?)))
-                                stsw.Type = StswAdaptiveType.Date;
-                            else if (t.IsNumericType())
-                                stsw.Type = StswAdaptiveType.Number;
-                            else if (t.In(typeof(string)))
-                                stsw.Type = StswAdaptiveType.Text;
-                            else if (t.In(typeof(TimeSpan), typeof(TimeSpan?)))
-                                stsw.Type = StswAdaptiveType.Time;
-                        }
-                    }
+        if (obj is not StswAdaptiveBox stsw)
+            return;
 
-                    /// if type is still not found then try to determine type based on value
-                    if (stsw.Type == StswAdaptiveType.Auto)
+        if (stsw.Type == StswAdaptiveType.Auto)
+        {
+            if (stsw.ItemsSource != default)
+                stsw.Type = StswAdaptiveType.List;
+            else
+            {
+                /// find type based on binded property type
+                if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b)
+                {
+                    if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t)
                     {
-                        if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
+                        if (t.In(typeof(bool), typeof(bool?)))
                             stsw.Type = StswAdaptiveType.Check;
-                        else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
+                        else if (t.In(typeof(DateTime), typeof(DateTime?)))
                             stsw.Type = StswAdaptiveType.Date;
-                        else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
-                              || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
-                              || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
+                        else if (t.IsNumericType())
                             stsw.Type = StswAdaptiveType.Number;
-                        else if (stsw.Value is string)
+                        else if (t.In(typeof(string)))
                             stsw.Type = StswAdaptiveType.Text;
-                        else if (stsw.Value is TimeSpan? || TimeSpan.TryParse(stsw.Value?.ToString(), out var _))
+                        else if (t.In(typeof(TimeSpan), typeof(TimeSpan?)))
                             stsw.Type = StswAdaptiveType.Time;
                     }
                 }
+
+                /// if type is still not found then try to determine type based on value
+                if (stsw.Type == StswAdaptiveType.Auto)
+                {
+                    if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Check;
+                    else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Date;
+                    else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
+                          || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
+                          || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Number;
+                    else if (stsw.Value is string)
+                        stsw.Type = StswAdaptiveType.Text;
+                    else if (stsw.Value is TimeSpan? || TimeSpan.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Time;
+                }
             }
-            stsw.CreateControlBasedOnType();
         }
+        stsw.CreateControlBasedOnType();
     }
 
     /// <summary>
@@ -532,9 +541,3 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswAdaptiveBox Type="Text" Value="{Binding UserName}" Placeholder="Enter name"/>
-
-*/

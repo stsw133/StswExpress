@@ -12,6 +12,7 @@ namespace StswExpress;
 /// - If the value is greater than or equal to `1`, it assumes an absolute percentage (e.g., `75` → `"75%"`).
 /// - The parameter specifies the numeric format (e.g., `"N2"`, `"F1"`, `"0.0"`, etc.).
 /// </summary>
+[StswInfo("0.16.0")]
 public class StswPercentageConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -20,11 +21,7 @@ public class StswPercentageConverter : MarkupExtension, IValueConverter
     public static StswPercentageConverter Instance => instance ??= new StswPercentageConverter();
     private static StswPercentageConverter? instance;
 
-    /// <summary>
-    /// Provides the singleton instance of the converter for XAML bindings.
-    /// </summary>
-    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
-    /// <returns>The singleton instance of the converter.</returns>
+    /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <summary>

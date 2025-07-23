@@ -13,12 +13,12 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- DynamicMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf DynamicMode, Type={x:Type se:StswScrollView}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollDynamicMode}" Margin="0 0 0 3" SelectedValue="{Binding DynamicMode}"/>
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswScrollView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
-            <!-- IsDynamic -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsDynamic, Type={x:Type se:StswScrollView}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
             <!-- HorizontalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollView}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
@@ -27,8 +27,8 @@
             <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswScrollView IsBusy="{Binding IsBusy}"
-                           IsDynamic="{Binding IsDynamic}"
+        <se:StswScrollView DynamicMode="{Binding DynamicMode}"
+                           IsBusy="{Binding IsBusy}"
                            IsEnabled="{Binding IsEnabled}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"

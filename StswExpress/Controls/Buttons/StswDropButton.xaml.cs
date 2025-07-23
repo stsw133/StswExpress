@@ -14,17 +14,28 @@ namespace StswExpress;
 /// Supports customizable items, automatic closure when an item is selected, 
 /// and additional styling options such as corner rounding.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswDropButton Header="Options" AutoClose="True"&gt;
+///     &lt;StswButton Content="Option 1"/&gt;
+///     &lt;StswButton Content="Option 2"/&gt;
+/// &lt;/se:StswDropButton&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Items))]
+[StswInfo(null)]
 public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
     public StswDropButton()
     {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
     }
     static StswDropButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -35,11 +46,8 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Occurs when the <see cref="ItemsSource"/> property value changes.
-    /// </summary>
-    /// <param name="oldValue">The previous value of the <see cref="ItemsSource"/> property.</param>
-    /// <param name="newValue">The new value of the <see cref="ItemsSource"/> property.</param>
+    /// <inheritdoc/>
+    [StswInfo("0.7.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
@@ -61,9 +69,9 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the drop-down should automatically close 
-    /// after an item inside it is clicked.
+    /// Gets or sets a value indicating whether the drop-down should automatically close after an item inside it is clicked.
     /// </summary>
+    [StswInfo("0.7.0")]
     public bool AutoClose
     {
         get => (bool)GetValue(AutoCloseProperty);
@@ -80,16 +88,18 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         );
     private static void OnAutoCloseChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDropButton stsw)
+        if (obj is not StswDropButton stsw)
+            return;
+
+        if (stsw.Items != null)
         {
-            if (stsw.Items != null)
-                foreach (var btn in stsw.Items.OfType<ButtonBase>())
-                {
-                    if (stsw.AutoClose)
-                        btn.Click += (_, _) => stsw.IsDropDownOpen = false;
-                    else
-                        btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
-                }
+            foreach (var btn in stsw.Items.OfType<ButtonBase>())
+            {
+                if (stsw.AutoClose)
+                    btn.Click += (_, _) => stsw.IsDropDownOpen = false;
+                else
+                    btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
+            }
         }
     }
 
@@ -108,17 +118,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswDropButton stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is in read-only mode.
@@ -181,6 +181,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         );
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);
@@ -195,12 +196,3 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswDropButton Header="Options" AutoClose="True">
-    <StswButton Content="Option 1"/>
-    <StswButton Content="Option 2"/>
-</se:StswDropButton>
-
-*/

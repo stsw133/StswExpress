@@ -21,11 +21,10 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item"/>
         
-        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSegment}">

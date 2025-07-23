@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -12,13 +11,19 @@ namespace StswExpress;
 /// or using an integrated color picker and selector.
 /// Supports alpha channel selection, dynamic color updates, and text-based color input.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswColorBox SelectedColor="{Binding BackgroundColor}" IsAlphaEnabled="False"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(SelectedColor))]
+[StswInfo("0.1.0")]
 public class StswColorBox : StswBoxBase
 {
     static StswColorBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(typeof(StswColorBox)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -28,11 +33,7 @@ public class StswColorBox : StswBoxBase
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// <summary>
-    /// Updates the selected color property based on user input in the text field.
-    /// Supports various input formats, including ARGB, RGB, and named colors.
-    /// </summary>
-    /// <param name="alwaysUpdate">If set to <see langword="true"/>, forces an update even if the color has not changed.</param>
+    /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedColor ?? default;
@@ -114,11 +115,11 @@ public class StswColorBox : StswBoxBase
         );
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColorBox stsw)
-        {
-            /// event for non MVVM programming
-            stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
-        }
+        if (obj is not StswColorBox stsw)
+            return;
+
+        /// event for non MVVM programming
+        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
     }
     private static object OnSelectedColorChanging(DependencyObject d, object baseValue)
     {
@@ -129,9 +130,3 @@ public class StswColorBox : StswBoxBase
     }
     #endregion
 }
-
-/* usage:
-
-<se:StswColorBox SelectedColor="{Binding BackgroundColor}" IsAlphaEnabled="False"/>
-
-*/

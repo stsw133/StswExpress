@@ -3,16 +3,16 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswInfoBadge}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerClipping" Value="False"/>
-        <Setter Property="CornerRadius" Value="4"/>
-        <Setter Property="Padding" Value="3 1"/>
-
         <Setter Property="FontFamily" Value="Arial"/>
         <Setter Property="FontSize" Value="11"/>
         <Setter Property="Format" Value="Number"/>
         <Setter Property="Limit" Value="{x:Null}"/>
         <Setter Property="Type" Value="Information"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="3 1"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

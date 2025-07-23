@@ -11,13 +11,19 @@ namespace StswExpress;
 /// <summary>
 /// A customizable image control that supports context menu actions such as copy, paste, load, and save.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswImage Source="example.png" Stretch="Uniform"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Source))]
+[StswInfo(null)]
 public class StswImage : Control, IStswCornerControl
 {
     static StswImage()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -163,11 +169,11 @@ public class StswImage : Control, IStswCornerControl
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswImage stsw)
-        {
-            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        }
+        if (obj is not StswImage stsw)
+            return;
+
+        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
     }
 
     /// <summary>
@@ -203,6 +209,7 @@ public class StswImage : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the stretch direction, specifying whether the image can scale up, down, or both.
     /// </summary>
+    [StswInfo("0.12.0")]
     public StretchDirection StretchDirection
     {
         get => (StretchDirection)GetValue(StretchDirectionProperty);
@@ -246,9 +253,3 @@ public class StswImage : Control, IStswCornerControl
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswImage Source="example.png" Stretch="Uniform"/>
-
-*/

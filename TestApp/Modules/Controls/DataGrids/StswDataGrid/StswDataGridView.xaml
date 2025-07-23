@@ -16,6 +16,9 @@
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- ScrollToItemBehavior -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollToItemBehavior, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollToItemBehavior}" Margin="0 0 0 3" SelectedValue="{Binding ScrollToItemBehavior}"/>
             <!-- SelectionUnit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswDataGrid}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList DataGridSelectionUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
@@ -25,6 +28,7 @@
                          IsEnabled="{Binding IsEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          ItemsSource="{Binding Items}"
+                         ScrollToItemBehavior="{Binding ScrollToItemBehavior}"
                          SelectionUnit="{Binding SelectionUnit}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
@@ -35,7 +39,7 @@
             <se:StswDataGrid.Columns>
                 <se:StswDataGridStatusColumn/>
                 <!-- ID -->
-                <se:StswDataGridDecimalColumn Binding="{Binding ID}" Width="100">
+                <se:StswDataGridDecimalColumn Binding="{Binding Id}" Width="100">
                     <se:StswDataGridDecimalColumn.Header>
                         <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
                     </se:StswDataGridDecimalColumn.Header>
@@ -54,9 +58,24 @@
                 </DataTemplate>
             </se:StswDataGrid.RowDetailsTemplate>
 
+            <se:StswDataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource StswDataGridCellStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%14}" Value="0">
+                            <Setter Property="Background" Value="#32E2"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </se:StswDataGrid.CellStyle>
+
             <se:StswDataGrid.RowStyle>
                 <Style TargetType="{x:Type se:StswDataGridRow}">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%15}" Value="0">
+                            <Setter Property="Background" Value="#3E22"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </se:StswDataGrid.RowStyle>
         </se:StswDataGrid>

@@ -1,56 +1,21 @@
 ﻿namespace TestApp;
-public class StswSecurityContext : StswObservableObject
+public partial class StswSecurityContext : StswObservableObject
 {
-    /// Key
-    public string Key
-    {
-        get => _key;
-        set => SetProperty(ref _key, value, () => StswSecurity.Key = value);
-    }
-    private string _key = string.Empty;
+    [StswObservableProperty] string _key = string.Empty;
+    partial void OnKeyChanged(string oldValue, string newValue) => StswSecurity.Key = newValue;
 
-    /// GetHashString
-    public string? InputGetHashString
-    {
-        get => _inputGetHashString;
-        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = value == null ? null : StswSecurity.GetHashString(value));
-    }
-    private string? _inputGetHashString;
+    [StswObservableProperty] string? _inputGetHashString;
+    partial void OnInputGetHashStringChanged(string? oldValue, string? newValue) => OutputGetHashString = newValue == null ? null : StswSecurity.GetHashString(newValue);
 
-    public string? OutputGetHashString
-    {
-        get => _outputGetHashString;
-        set => SetProperty(ref _outputGetHashString, value);
-    }
-    private string? _outputGetHashString;
+    [StswObservableProperty] string? _outputGetHashString;
 
-    /// Encrypt
-    public string? InputEncrypt
-    {
-        get => _inputEncrypt;
-        set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = value == null ? null : StswSecurity.Encrypt(value));
-    }
-    private string? _inputEncrypt;
+    [StswObservableProperty] string? _inputEncrypt;
+    partial void OnInputEncryptChanged(string? oldValue, string? newValue) => OutputEncrypt = newValue == null ? null : StswSecurity.Encrypt(newValue);
+    
+    [StswObservableProperty] string? _outputEncrypt;
 
-    public string? OutputEncrypt
-    {
-        get => _outputEncrypt;
-        set => SetProperty(ref _outputEncrypt, value);
-    }
-    private string? _outputEncrypt;
+    [StswObservableProperty] string? _inputDecrypt;
+    partial void OnInputDecryptChanged(string? oldValue, string? newValue) => OutputDecrypt = newValue == null ? null : StswSecurity.Decrypt(newValue);
 
-    /// Decrypt
-    public string? InputDecrypt
-    {
-        get => _inputDecrypt;
-        set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = value == null ? null : StswSecurity.Decrypt(value));
-    }
-    private string? _inputDecrypt;
-
-    public string? OutputDecrypt
-    {
-        get => _outputDecrypt;
-        set => SetProperty(ref _outputDecrypt, value);
-    }
-    private string? _outputDecrypt;
+    [StswObservableProperty] string? _outputDecrypt;
 }

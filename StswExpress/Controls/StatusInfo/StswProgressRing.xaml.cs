@@ -14,6 +14,13 @@ namespace StswExpress;
 /// This control provides a visual representation of progress in a ring format.
 /// It supports different text display modes and scaling for various UI requirements.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/&gt;
+/// </code>
+/// </example>
+[StswInfo("0.4.0")]
 public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()
@@ -31,7 +38,6 @@ public class StswProgressRing : ProgressBar
     static StswProgressRing()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(typeof(StswProgressRing)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region Events & methods
@@ -70,6 +76,7 @@ public class StswProgressRing : ProgressBar
     /// Gets or sets the scale of the progress ring.
     /// Determines the size of the ring in proportion to its default dimensions.
     /// </summary>
+    [StswInfo("0.14.0")]
     public GridLength Scale
     {
         get => (GridLength)GetValue(ScaleProperty);
@@ -86,11 +93,11 @@ public class StswProgressRing : ProgressBar
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressRing stsw)
-        {
-            stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-            stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        }
+        if (obj is not StswProgressRing stsw)
+            return;
+
+        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
     }
 
     /// <summary>
@@ -160,11 +167,11 @@ public class StswProgressRing : ProgressBar
         );
     public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswProgressRing stsw)
-        {
-            if (stsw.TextMode == StswProgressTextMode.Custom)
-                stsw.Text = string.Empty;
-        }
+        if (obj is not StswProgressRing stsw)
+            return;
+
+        if (stsw.TextMode == StswProgressTextMode.Custom)
+            stsw.Text = string.Empty;
     }
     #endregion
 
@@ -186,9 +193,3 @@ public class StswProgressRing : ProgressBar
         );
     #endregion
 }
-
-/* usage:
-
-<se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/>
-
-*/

@@ -18,13 +18,13 @@ namespace StswExpress;
 /// If <see cref="AllowMultipleInstances"/> is set to <see langword="false"/>, only one instance of the application
 /// is allowed per user session. If a second instance is launched, it will attempt to bring the existing instance to the foreground.
 /// </remarks>
+[StswInfo("0.1.0")]
 public class StswApp : Application
 {
-    /// <summary>
-    /// Entry point that configures application settings, prevents multiple instances if needed, 
-    /// initializes resources, loads translations asynchronously, and registers data templates if enabled.
-    /// </summary>
-    /// <param name="e">The startup event arguments.</param>
+    //public static IConfiguration Configuration { get; private set; } = null!;
+    //public static IServiceProvider? ServiceProvider { get; private set; }
+
+    /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)
     {
         if (!AllowMultipleInstances && CheckForExistingInstance())
@@ -40,6 +40,22 @@ public class StswApp : Application
         StswResources.InitializeResources(Resources);
         if (IsRegisterDataTemplatesEnabled)
             RegisterDataTemplates(ContextSuffix, ViewSuffix);
+        /*
+        /// Configuration
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+        Configuration = configurationBuilder.Build();
+        
+        /// DependencyInjection
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        ServiceProvider = serviceCollection.BuildServiceProvider();
+        
+        MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        MainWindow.Show();
+        */
     }
 
     /// <summary>
@@ -84,7 +100,61 @@ public class StswApp : Application
 
         return false;
     }
+    /*
+    /// ConfigureServices
+    protected virtual void ConfigureServices(ServiceCollection services)
+    {
+        if (!services.Any(x => x.ServiceType == typeof(IConfiguration)))
+            services.Configure<AppSettings>(Configuration.GetSection(string.Empty));
 
+        if (!services.Any(x => x.ServiceType == typeof(Func<Type, BaseContext>)))
+            services.AddSingleton<Func<Type, BaseContext>>(provider => contextType => (BaseContext)provider.GetRequiredService(contextType));
+
+        if (!services.Any(x => x.ServiceType == typeof(Func<Type, string?, BaseDialog>)))
+            services.AddSingleton<Func<Type, string?, BaseDialog>>(provider => (contextType, identifier) =>
+            {
+                var dialog = (BaseDialog)provider.GetRequiredService(contextType);
+                dialog.DialogIdentifier = identifier;
+                return dialog;
+            });
+
+        if (!services.Any(x => x.ServiceType == typeof(MainWindow)))
+            services.AddSingleton(provider => new MainWindow
+            {
+                Content = provider.GetRequiredService<MainContext>()
+            });
+
+        var alreadyRegistered = new HashSet<Type>(services.Select(x => x.ServiceType));
+        var assembly = Assembly.GetEntryAssembly();
+        if (assembly is null)
+            return;
+
+        var types = assembly.GetTypes();
+
+        foreach (var type in types)
+        {
+            if (type.IsAbstract || type.IsInterface || type.IsGenericType || type.IsValueType)
+                continue;
+
+            if (type.Name.EndsWith("Context", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!alreadyRegistered.Contains(type))
+                {
+                    services.AddSingleton(type);
+                    alreadyRegistered.Add(type);
+                }
+                continue;
+            }
+
+            var iface = type.GetInterface($"I{type.Name}");
+            if (iface != null && !alreadyRegistered.Contains(iface) && !alreadyRegistered.Contains(type))
+            {
+                services.AddSingleton(iface, type);
+                alreadyRegistered.Add(iface);
+            }
+        }
+    }
+    */
     /// <summary>
     /// Handles the global preview key down event.
     /// Toggles the fullscreen mode of the window when the F11 key is pressed.

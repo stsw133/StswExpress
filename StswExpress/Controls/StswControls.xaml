@@ -20,8 +20,8 @@
         <ResourceDictionary Source="Colors/StswColorPicker.xaml"/>
         <ResourceDictionary Source="Colors/StswColorSelector.xaml"/>
 
-        <ResourceDictionary Source="DataGrids/Columns/StswDataGridStatusColumn.xaml"/>
-        <ResourceDictionary Source="DataGrids/Items/StswDataGridRow.xaml"/>
+        <ResourceDictionary Source="DataGrids/_columns/StswDataGridStatusColumn.xaml"/>
+        <ResourceDictionary Source="DataGrids/_items/StswDataGridRow.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
         
@@ -33,7 +33,7 @@
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
-        <ResourceDictionary Source="Filters/Items/StswFilterTagsItem.xaml"/>
+        <ResourceDictionary Source="Filters/_items/StswFilterTagsItem.xaml"/>
         <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
         <ResourceDictionary Source="Filters/StswFilterTags.xaml"/>
         
@@ -56,11 +56,14 @@
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
-        <ResourceDictionary Source="Navigation/Items/StswMenuItem.xaml"/>
-        <ResourceDictionary Source="Navigation/Items/StswNavigationElement.xaml"/>
-        <ResourceDictionary Source="Navigation/Items/StswTabItem.xaml"/>
+        <ResourceDictionary Source="Navigation/_items/StswMenuItem.xaml"/>
+        <ResourceDictionary Source="Navigation/_items/StswNavigationElement.xaml"/>
+        <ResourceDictionary Source="Navigation/_items/StswNavigationTree.xaml"/>
+        <ResourceDictionary Source="Navigation/_items/StswNavigationViewItem.xaml"/>
+        <ResourceDictionary Source="Navigation/_items/StswTabItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
+        <ResourceDictionary Source="Navigation/StswNavigationView.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
 
         <ResourceDictionary Source="Panels/StswGridSplitter.xaml"/>
@@ -73,12 +76,12 @@
         <ResourceDictionary Source="Scrollers/StswScrollBar.xaml"/>
         <ResourceDictionary Source="Scrollers/StswScrollView.xaml"/>
 
-        <ResourceDictionary Source="Selectors/Items/StswComboBoxItem.xaml"/>
-        <ResourceDictionary Source="Selectors/Items/StswDragBoxItem.xaml"/>
-        <ResourceDictionary Source="Selectors/Items/StswListBoxItem.xaml"/>
-        <ResourceDictionary Source="Selectors/Items/StswListViewItem.xaml"/>
-        <ResourceDictionary Source="Selectors/Items/StswSegmentItem.xaml"/>
-        <ResourceDictionary Source="Selectors/Items/StswTreeViewItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswComboBoxItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswDragBoxItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswListBoxItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswListViewItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswSegmentItem.xaml"/>
+        <ResourceDictionary Source="Selectors/_items/StswTreeViewItem.xaml"/>
         <ResourceDictionary Source="Selectors/StswComboBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswDragBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswFlipView.xaml"/>
@@ -88,8 +91,8 @@
         <ResourceDictionary Source="Selectors/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
 
-        <ResourceDictionary Source="StatusInfo/Items/StswStatusBarItem.xaml"/>
-        <ResourceDictionary Source="StatusInfo/Items/StswToastItem.xaml"/>
+        <ResourceDictionary Source="StatusInfo/_items/StswStatusBarItem.xaml"/>
+        <ResourceDictionary Source="StatusInfo/_items/StswToastItem.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>

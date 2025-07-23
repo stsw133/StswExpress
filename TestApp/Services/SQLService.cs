@@ -5,12 +5,16 @@ namespace TestApp;
 
 internal static class SQLService
 {
-    internal static StswDatabaseModel DbCurrent;
-
-    static SQLService()
+    internal static StswDatabaseModel DbCurrent
     {
-        DbCurrent = StswDatabases.ImportList().First();
+        get
+        {
+            _dbCurrent ??= StswDatabases.ImportList().First();
+            return _dbCurrent;
+        }
+        set => _dbCurrent = value;
     }
+    private static StswDatabaseModel? _dbCurrent;
 
     /// InitializeTables
     internal static void InitializeContractorsTables() => DbCurrent.ExecuteNonQuery(@"
@@ -33,7 +37,7 @@ internal static class SQLService
 
     /// GetContractors
     internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel? filter) => DbCurrent.Get<ContractorModel>($@"
-        select a.ID [{nameof(ContractorModel.ID)}]
+        select a.ID [{nameof(ContractorModel.Id)}]
             , a.Type [{nameof(ContractorModel.Type)}]
             , a.Icon [{nameof(ContractorModel.Icon)}]
             , a.Name [{nameof(ContractorModel.Name)}]
@@ -51,7 +55,7 @@ internal static class SQLService
     /// SetContractors
     internal static void SetContractors(StswObservableCollection<ContractorModel> list) => DbCurrent.Set(list,
         "dbo.StswExpressTEST_Contractors", typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
-            nameof(ContractorModel.ID),
+            nameof(ContractorModel.Id),
             nameof(ContractorModel.IconSource),
             nameof(ContractorModel.Address),
             nameof(ContractorModel.ItemState)

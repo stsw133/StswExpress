@@ -3,12 +3,12 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswScrollBar}">
+        <Setter Property="DynamicMode" Value="Off"/>
+        <Setter Property="CollapsedSize" Value="6"/>
+        <Setter Property="ExpandedSize" Value="15"/>
+
         <Setter Property="Background" Value="{DynamicResource StswScroll.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswScroll.Static.Border}"/>
-
-        <Setter Property="CollapsedWidth" Value="6"/>
-        <Setter Property="ExpandedWidth" Value="15"/>
-        <Setter Property="IsDynamic" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

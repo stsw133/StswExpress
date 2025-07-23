@@ -8,6 +8,7 @@ namespace StswExpress;
 /// Defines a contract for box controls, providing properties for error handling, placeholder text, icons, 
 /// read-only state, and sub-controls management.
 /// </summary>
+[StswInfo("0.5.0")]
 public interface IStswBoxControl
 {
     /// <summary>
