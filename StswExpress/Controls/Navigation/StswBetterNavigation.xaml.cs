@@ -10,7 +10,7 @@ public class StswBetterNavigation : ItemsControl
     static StswBetterNavigation()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBetterNavigation), new FrameworkPropertyMetadata(typeof(StswBetterNavigation)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+        //ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
     public StswBetterNavigation()
     {

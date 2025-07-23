@@ -124,6 +124,7 @@ internal class StswSpinnerHelixAnimation : Control
         Enumerable.Range(1, _ellipses.Length - 1).ForEach(x => AddEllipseSlideInAnimation(_ellipses[x]!, sb));
 
         var mainEllipseWidthAnim = new DoubleAnimation(
+            fromValue: _ellipseMain.ActualWidth != double.NaN ? _ellipseMain.ActualWidth : 0.0,
             toValue: 300,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)
@@ -135,6 +136,7 @@ internal class StswSpinnerHelixAnimation : Control
         Storyboard.SetTargetProperty(mainEllipseWidthAnim, new PropertyPath(WidthProperty));
 
         var mainEllipseHeightAnim = new DoubleAnimation(
+            fromValue: _ellipseMain.ActualHeight != double.NaN ? _ellipseMain.ActualHeight : 0.0,
             toValue: 300,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)
@@ -169,6 +171,7 @@ internal class StswSpinnerHelixAnimation : Control
     private static void AddEllipseSlideInAnimation(Ellipse ellipse, Storyboard sb)
     {
         var ellipseLeftAnim = new DoubleAnimation(
+            fromValue: Canvas.GetLeft(ellipse),
             toValue: 375,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)
@@ -180,6 +183,7 @@ internal class StswSpinnerHelixAnimation : Control
         Storyboard.SetTargetProperty(ellipseLeftAnim, new PropertyPath(Canvas.LeftProperty));
 
         var ellipseTopAnim = new DoubleAnimation(
+            fromValue: Canvas.GetTop(ellipse),
             toValue: 375,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)
@@ -200,6 +204,7 @@ internal class StswSpinnerHelixAnimation : Control
     private static void GoToStartPositionAnimation(Ellipse? ellipse, int left, Storyboard sb)
     {
         var leftEllipseAnim = new DoubleAnimation(
+            fromValue: Canvas.GetLeft(ellipse),
             toValue: left,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)

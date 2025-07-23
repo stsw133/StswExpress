@@ -27,7 +27,7 @@ public class StswStepBar : Control
     static StswStepBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(typeof(StswStepBar)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+        //ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region OnApplyTemplate
@@ -213,7 +213,7 @@ public class StswStepBarItem : Control
     static StswStepBarItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStepBarItem), new FrameworkPropertyMetadata(typeof(StswStepBarItem)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBarItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+        //ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBarItem), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region OnApplyTemplate
@@ -342,7 +342,7 @@ public class StswStepBarLine : Control
     static StswStepBarLine()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStepBarLine), new FrameworkPropertyMetadata(typeof(StswStepBarLine)));
-        ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBarLine), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
+        //ToolTipService.ToolTipProperty.OverrideMetadata(typeof(StswStepBarLine), new FrameworkPropertyMetadata(null, StswToolTip.OnToolTipChanged));
     }
 
     #region OnApplyTemplate
