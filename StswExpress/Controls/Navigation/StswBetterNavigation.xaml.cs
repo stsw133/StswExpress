@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswBetterNavigation : ItemsControl
 {
     static StswBetterNavigation()
@@ -26,6 +29,10 @@ public class StswBetterNavigation : ItemsControl
     #endregion
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswBetterNavigationGroup : ItemsControl, IStswBetterNavigationItem
 {
     public bool IsGroupElement => true;
@@ -43,11 +50,19 @@ public class StswBetterNavigationGroup : ItemsControl, IStswBetterNavigationItem
     #endregion
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswBetterNavigationElement : ContentControl ,IStswBetterNavigationItem
 {
     public bool IsGroupElement => false;
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public interface IStswBetterNavigationItem
 {
     public bool IsGroupElement { get; }

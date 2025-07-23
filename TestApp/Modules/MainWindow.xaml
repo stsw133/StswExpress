@@ -93,6 +93,7 @@
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="{x:Type local:StswMediaPlayerContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
+                <se:StswNavigationElement Header="StswBetterNavigation" ContextNamespace="{x:Type local:StswBetterNavigationContext}"/>
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="{x:Type local:StswMenuContext}"/>
                 <se:StswNavigationElement Header="StswNavigationView" ContextNamespace="{x:Type local:StswNavigationViewContext}"/>
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="{x:Type local:StswTabControlContext}"/>
@@ -150,6 +151,7 @@
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="{x:Type local:StswLabelContext}"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="{x:Type local:StswOutlinedTextContext}"/>
                 <se:StswNavigationElement Header="StswSpinner" ContextNamespace="{x:Type local:StswSpinnerContext}"/>
+                <se:StswNavigationElement Header="StswStepBar" ContextNamespace="{x:Type local:StswStepBarContext}"/>
                 <se:StswNavigationElement Header="StswText" ContextNamespace="{x:Type local:StswTextContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Windowing" IconData="{x:Static se:StswIcons.WindowRestore}">

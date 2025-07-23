@@ -8,6 +8,7 @@ namespace StswExpress.Commons;
 public partial class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
+    public StswDatabaseModel(string? server = null, string? database = null, string? login = null, string? password = null) : this(server, null, database, login, password) { }
     public StswDatabaseModel(string? server = null, int? port = null, string? database = null, string? login = null, string? password = null)
     {
         Server = server;

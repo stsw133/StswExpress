@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswStepBar : Control
 {
     #region PARTS
@@ -199,6 +201,10 @@ public class StswStepBar : Control
     #endregion
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswStepBarItem : Control
 {
     #region PARTS
@@ -328,6 +334,10 @@ public class StswStepBarItem : Control
     #endregion
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public class StswStepBarLine : Control
 {
     private Color _completedColor;
@@ -434,6 +444,10 @@ public class StswStepBarLine : Control
     }
 }
 
+/// <summary>
+/// 
+/// </summary>
+[StswInfo("0.19.0", Changes = StswPlannedChanges.Finish)]
 public enum StepBarItemStatus
 {
     Normal,

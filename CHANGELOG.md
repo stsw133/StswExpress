@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.19.0](#0-19-0)
 - [Version 0.18.1](#0-18-1)
 - [Version 0.18.0](#0-18-0)
 - [Version 0.17.0](#0-17-0)
@@ -38,6 +39,71 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-19-0">0.19.0</h1>
+
+**Release Date**: 2025-07-23
+
+In this version, there is new `StswExpress.Analyzers` library (for code generating).
+
+## StswExpress.Analyzers
+
+### Additions
+- Added `StswCommandGenerator`, which generates `StswCommand` or `StswAsyncCommand` declarations and assignments based on method type.
+- Added `StswInfoAttribute` with a corresponding Roslyn analyzer to annotate types with version, test status, and future plans.
+- Added `StswObservablePropertyGenerator`, which generates public observable properties, `OnChanged`/`OnChanging` hooks, and copies XML comments.
+
+## StswExpress.Commons
+
+### Additions
+- Added `StswHttpClient` and `StswHttpErrorResponse` classes for managing data from web-services.
+- Added `StswObservableValidator` and `StswObservableDialog` classes as extensions for `StswObservableObject`.
+- Added `StswTaskManager` and `StswTask` classes for managing tasks.
+- New `StswFn` methods: `CompareModels` (for comparing property values between models), `Do` (for `bool`) and `GetQuarter` (for `DateTime`).
+- New `StswExtensions` method: `Try` (for `Task`).
+
+### Changes
+- `IsFileInUse` and `MoveToRecycleBin` methods in `StswFn` have been reworked. `SplitStringByLines` was replaced by `ChunkBySeparator` method.
+- Mail address validation uses regular expressions instead of attributes.
+- `StswMailboxModel` now uses `MailKit` instead of `System.Net.Mail`, allowing finer control over security settings.
+- `StswObservableCollection` improved:
+  - `AddRange` method performs better.
+  - Constructor supports custom `ItemState` for initial items.
+
+### Fixes
+- Bulk inserts in `StswDatabaseHelper` now support column mappings.
+- Fixed `StswLog` I/O exception issue.
+- Fixed `StswMapping` infinite recursion bug.
+- `StswMapping` now uses a `ConcurrentDictionary` for instance factories, fixing concurrency issues. Nested object mapping now works correctly and more efficiently.
+
+## StswExpress (WPF)
+
+### Additions
+- Added a very early version of the new navigation control. The old one is still present, but now supports specifying `Type` in `ContextNamespace`.
+- Reworked `StswScrollBar` dynamic mode: now supports `Off`, `Partial`, and `Full`. Most controls use `Partial` as default.
+- `StswToastItem` has a new `IsClosable` property. `StswToaster` also gained `IsClosable` and `DisplayDuration` properties.
+
+### Changes
+- Improved `StswDataGrid` detection of `Microsoft.Data.SqlClient` presence.
+- Removed the deprecated control `StswLabelPanel`.
+- `StswCompareConverter` has improved enum support.
+- `StswDataGrid`'s `ScrollBehavior` has been renamed to `ScrollToItemBehavior`.
+- `StswDataGridComboColumn` now properly displays values via `DisplayMemberPath`.
+- `StswExpander` no longer highlights its button in checked mode.
+- `StswToolTip` string assignment changed from metadata override to attached property (more reliable with triggers).
+
+### Fixes
+- Clicking a dropdown control again after it lost focus no longer reopens the popup.
+- Fixed drop-down controls so they no longer reopen after being defocused and clicked again.
+- Fixed issue where `StswDataGrid` left blank space in `DataGridCellsPresenter` or failed to apply `RowStyle`.
+- Fixed layout bug in `StswDataGridStatusColumn` that prevented proper usage of `RowStyle`.
+- Fixed `StswDataGrid` column width issues when no items are present and at least one column uses `*` width.
+- Fixed `StswDataGrid` so font properties (e.g. `FontSize`, `FontWeight`) can be set directly on columns again.
+- Selector controls no longer display a hand cursor when in read-only mode. `StswTreeView` also no longer uses a hand cursor by default.
+- `StswPathTree` now extracts icons correctly when multiple drives exist.
+- `StswSpinner` of type `Dots` starts with opacity set to `0` for smoother animation.
 
 ---
 
