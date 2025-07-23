@@ -298,7 +298,13 @@ public static class StswDatabaseHelper
         var dt = new DataTable();
         sqlDA.Fill(dt);
 
-        return dt.MapTo<TResult>(StswDatabases.Config.DelimiterForMapping);
+        var delimiter = StswDatabases.Config.DelimiterForMapping;
+        var hasDelimiter = dt.Columns.Cast<DataColumn>()
+            .Any(col => col.ColumnName.Contains(delimiter));
+
+        return hasDelimiter
+            ? dt.MapTo<TResult>(delimiter)
+            : dt.MapTo<TResult>();
     }
 
     /// <summary>
@@ -350,7 +356,13 @@ public static class StswDatabaseHelper
         var dt = new DataTable();
         sqlDA.Fill(dt);
 
-        return dt.MapTo(type, StswDatabases.Config.DelimiterForMapping);
+        var delimiter = StswDatabases.Config.DelimiterForMapping;
+        var hasDelimiter = dt.Columns.Cast<DataColumn>()
+            .Any(col => col.ColumnName.Contains(delimiter));
+
+        return hasDelimiter
+            ? dt.MapTo(type, delimiter)
+            : dt.MapTo(type);
     }
 
     /// <summary>

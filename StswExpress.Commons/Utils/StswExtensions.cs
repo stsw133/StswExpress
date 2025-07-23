@@ -120,7 +120,7 @@ public static partial class StswExtensions
         }
         else
         {
-            foreach (var obj in MapToClass(dt, type))
+            foreach (var obj in StswMapping.MapToClass(dt, type))
                 yield return (T?)obj;
         }
     }
@@ -142,7 +142,7 @@ public static partial class StswExtensions
         }
         else
         {
-            foreach (var obj in MapToClass(dt, type))
+            foreach (var obj in StswMapping.MapToClass(dt, type))
                 yield return obj;
         }
     }
@@ -167,7 +167,7 @@ public static partial class StswExtensions
         }
         else
         {
-            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+            foreach (var obj in StswMapping.MapToNestedClass(dt, type, delimiter))
                 yield return (T?)obj;
         }
     }
@@ -190,82 +190,8 @@ public static partial class StswExtensions
         }
         else
         {
-            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+            foreach (var obj in StswMapping.MapToNestedClass(dt, type, delimiter))
                 yield return obj;
-        }
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
-    /// </summary>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <param name="type"> The type of objects to map to.</param>
-    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-
-    [StswInfo("0.18.0")]
-    private static IEnumerable<object?> MapToClass(DataTable dt, Type type)
-    {
-        var objProps = type.GetProperties();
-        var mappings = new Dictionary<int, PropertyInfo>();
-
-        for (var i = 0; i < dt.Columns.Count; i++)
-        {
-            var columnName = StswFn.NormalizeDiacritics(dt.Columns[i].ColumnName.Replace(" ", ""));
-            var prop = objProps.FirstOrDefault(p => p.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase));
-
-            if (prop != null && prop.CanWrite)
-                mappings.Add(i, prop);
-        }
-
-        var factory = StswMapping.CreateInstanceFactory(type);
-
-        foreach (var row in dt.AsEnumerable())
-        {
-            var obj = factory();
-            if (obj is null) continue;
-
-            foreach (var kvp in mappings)
-            {
-                try
-                {
-                    var value = row[kvp.Key].ConvertTo(kvp.Value.PropertyType);
-                    kvp.Value.SetValue(obj, value);
-                }
-                catch
-                {
-                    // Optional logging
-                }
-            }
-
-            yield return obj;
-        }
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
-    /// </summary>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <param name="type"> The type of objects to map to.</param>
-    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
-    /// <returns></returns>
-
-    [StswInfo("0.18.0")]
-    private static IEnumerable<object?> MapToNestedClass(DataTable dt, Type type, char delimiter)
-    {
-        var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
-                                              .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))
-                                              .ToArray();
-
-        var propCache = StswMapping.CacheProperties(type, normalizedColumnNames, delimiter);
-        var factory = StswMapping.CreateInstanceFactory(type);
-
-        foreach (var row in dt.AsEnumerable())
-        {
-            var obj = factory();
-            if (obj is null) continue;
-
-            StswMapping.MapRowToObject(obj, row, normalizedColumnNames, delimiter, propCache);
-            yield return obj;
         }
     }
 
