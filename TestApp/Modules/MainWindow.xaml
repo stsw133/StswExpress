@@ -93,6 +93,7 @@
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
+                <se:StswNavigationElement Header="StswBetterNavigation" ContextNamespace="TestApp.StswBetterNavigationContext"/>
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="TestApp.StswMenuContext"/>
                 <se:StswNavigationElement Header="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
@@ -129,6 +130,7 @@
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
                 <se:StswNavigationElement Header="StswStatusBar" ContextNamespace="TestApp.StswStatusBarContext"/>
+                <se:StswNavigationElement Header="StswStepBar" ContextNamespace="TestApp.StswStepBarContext"/>
                 <se:StswNavigationElement Header="StswToaster" ContextNamespace="TestApp.StswToasterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Sub-controls" IconData="{x:Static se:StswIcons.WidgetsOutline}">

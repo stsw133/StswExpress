@@ -96,6 +96,7 @@
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswStatusBar.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswStepBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswToaster.xaml"/>
 
         <ResourceDictionary Source="SubControls/StswSubButton.xaml"/>
