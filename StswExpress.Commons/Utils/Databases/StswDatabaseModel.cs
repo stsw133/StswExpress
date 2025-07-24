@@ -30,53 +30,103 @@ public partial class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets the name of the database connection.
     /// </summary>
-    [StswObservableProperty] string? _name;
+    public string? Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+    private string? _name;
 
     //TODO - remove
     /// <summary>
     /// Gets or sets the type of the database.
     /// </summary>
-    [StswObservableProperty] StswDatabaseType _type = default;
+    public StswDatabaseType Type
+    {
+        get => _type;
+        set => SetProperty(ref _type, value);
+    }
+    private StswDatabaseType _type = default;
 
     /// <summary>
     /// Gets or sets the server address of the database.
     /// </summary>
-    [StswObservableProperty] string? _server;
+    public string? Server
+    {
+        get => _server;
+        set => SetProperty(ref _server, value);
+    }
+    private string? _server;
 
     /// <summary>
     /// Gets or sets the port number of the database.
     /// </summary>
-    [StswObservableProperty] int? _port;
+    public int? Port
+    {
+        get => _port;
+        set => SetProperty(ref _port, value);
+    }
+    private int? _port;
 
     /// <summary>
     /// Gets or sets the database name.
     /// </summary>
-    [StswObservableProperty] string? _database;
+    public string? Database
+    {
+        get => _database;
+        set => SetProperty(ref _database, value);
+    }
+    private string? _database;
 
     /// <summary>
     /// Gets or sets the login name for the database.
     /// </summary>
-    [StswObservableProperty] string? _login;
+    public string? Login
+    {
+        get => _login;
+        set => SetProperty(ref _login, value);
+    }
+    private string? _login;
 
     /// <summary>
     /// Gets or sets the password for the database.
     /// </summary>
-    [StswObservableProperty] string? _password;
+    public string? Password
+    {
+        get => _password;
+        set => SetProperty(ref _password, value);
+    }
+    private string? _password;
 
     /// <summary>
     /// Gets or sets the version of the database.
     /// </summary>
-    [StswObservableProperty] string? _version;
+    public string? Version
+    {
+        get => _version;
+        set => SetProperty(ref _version, value);
+    }
+    private string? _version;
 
     /// <summary>
     /// Gets or sets the default timeout for all commands associated with the database.
     /// </summary>
-    [StswObservableProperty] int? _defaultTimeout;
+    public int? DefaultTimeout
+    {
+        get => _defaultTimeout;
+        set => SetProperty(ref _defaultTimeout, value);
+    }
+    private int? _defaultTimeout;
 
     /// <summary>
     /// Gets or sets the encrypt mode for the connection.
     /// </summary>
-    [StswObservableProperty] bool _encrypt;
+    public bool Encrypt
+    {
+        get => _encrypt;
+        set => SetProperty(ref _encrypt, value);
+    }
+    private bool _encrypt;
 
     /// <summary>
     /// Constructs the connection string based on the model's properties.

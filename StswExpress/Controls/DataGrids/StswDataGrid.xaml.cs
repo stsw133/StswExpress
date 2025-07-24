@@ -82,6 +82,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+
+        HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
     }
 
     /// <inheritdoc/>
@@ -96,7 +98,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
 
         /// skip generating column if StswIgnoreAutoGenerateColumnAttribute is present
-        if (e.PropertyDescriptor is System.ComponentModel.PropertyDescriptor property && property.Attributes[typeof(StswIgnoreAutoGenerateColumnAttribute)] != null)
+        if (e.PropertyDescriptor is PropertyDescriptor property && property.Attributes[typeof(StswIgnoreAutoGenerateColumnAttribute)] != null)
         {
             e.Cancel = true;
             return;
@@ -137,7 +139,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
             Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
 
-        UpdateOuterScrollVisibility();
+        HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
     }
 
     /// <inheritdoc/>
@@ -159,14 +161,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
 
         base.OnKeyDown(e);
-    }
-
-    /// <inheritdoc/>
-    [StswInfo("0.18.0")]
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-    {
-        base.OnRenderSizeChanged(sizeInfo);
-        UpdateOuterScrollVisibility();
     }
 
     /// <inheritdoc/>
@@ -210,19 +204,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             SqlClientAvailable = false;
             SqlParameterType = null;
         }
-    }
-
-    /// <summary>
-    /// Updates the visibility of the outer scroll bar based on the current items and column widths.
-    /// </summary>
-    [StswInfo("0.18.0")]
-    private void UpdateOuterScrollVisibility()
-    {
-        if (!IsLoaded || Columns == null)
-            return;
-
-        var totalColumnsWidth = Columns.Where(c => c.Visibility == Visibility.Visible).Sum(c => c.ActualWidth);
-        HasVisibleOuterScroll = HasItems || totalColumnsWidth > ActualWidth;
     }
     #endregion
 
@@ -429,22 +410,22 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the outer scroll bar is visible.
+    /// Gets or sets a value indicating whether the background grid is visible.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [StswInfo("0.18.0")]
-    public bool HasVisibleOuterScroll
+    [StswInfo("0.19.1")]
+    public bool HasVisibleBackgroundGrid
     {
-        get => (bool)GetValue(HasVisibleOuterScrollProperty);
-        set => SetValue(HasVisibleOuterScrollProperty, value);
+        get => (bool)GetValue(HasVisibleBackgroundGridProperty);
+        set => SetValue(HasVisibleBackgroundGridProperty, value);
     }
-    public static readonly DependencyProperty HasVisibleOuterScrollProperty
+    public static readonly DependencyProperty HasVisibleBackgroundGridProperty
         = DependencyProperty.Register(
-            nameof(HasVisibleOuterScroll),
+            nameof(HasVisibleBackgroundGrid),
             typeof(bool),
             typeof(StswDataGrid),
-            new PropertyMetadata(true)
+            new PropertyMetadata(false)
         );
 
     /// <summary>

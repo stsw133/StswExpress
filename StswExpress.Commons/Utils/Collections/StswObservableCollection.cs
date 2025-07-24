@@ -79,6 +79,31 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             return;
 
         CheckReentrancy();
+
+        foreach (var item in items)
+        {
+            if (Items.Contains(item))
+                continue;
+
+            item.ItemState = itemsState;
+            Add(item);
+            item.PropertyChanged += OnItemPropertyChanged;
+        }
+
+        RecountStates();
+    }
+
+    /// <summary>
+    /// Adds a range of items to the collection without triggering change notifications.
+    /// </summary>
+    /// <param name="items">The items to add to the collection.</param>
+    /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
+    public void AddRangeFast(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added)
+    {
+        if (items.IsNullOrEmpty())
+            return;
+
+        CheckReentrancy();
         _isBulkLoading = true;
 
         foreach (var item in items)

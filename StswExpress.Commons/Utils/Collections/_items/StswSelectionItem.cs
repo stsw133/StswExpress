@@ -9,5 +9,10 @@ public partial class StswSelectionItem : StswComboItem, IStswSelectionItem
     /// <summary>
     /// Gets or sets the selection associated with the item.
     /// </summary>
-    [StswObservableProperty] bool _isSelected;
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
+    }
+    private bool _isSelected;
 }

@@ -35,13 +35,38 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
+                            
+                            <!-- cells presenter -->
                             <DataGridCellsPresenter Grid.Column="1"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}"
                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                    Style="{DynamicResource StswDataGridCellsPresenterStyle}"/>
+                                                    Style="{DynamicResource StswDataGridCellsPresenterStyle}">
+                                <DataGridCellsPresenter.Template>
+                                    <ControlTemplate TargetType="{x:Type DataGridCellsPresenter}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <ItemsPresenter x:Name="OPT_Items"/>
+                                            <Grid x:Name="OPT_BackgroundGrid" Grid.Column="1" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding HasVisibleBackgroundGrid, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="False">
+                                                <Setter Property="Grid.ColumnSpan" Value="2" TargetName="OPT_Items"/>
+                                                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_BackgroundGrid"/>
+                                            </DataTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </DataGridCellsPresenter.Template>
+                            </DataGridCellsPresenter>
+                            <!-- details presenter -->
                             <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1"
                                                       SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}}"
                                                       Visibility="{TemplateBinding DetailsVisibility}"/>
+                            <!-- row header -->
                             <DataGridRowHeader Grid.RowSpan="2"
                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                                                Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>

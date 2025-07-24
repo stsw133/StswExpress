@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.19.1](#0-19-1)
 - [Version 0.19.0](#0-19-0)
 - [Version 0.18.1](#0-18-1)
 - [Version 0.18.0](#0-18-0)
@@ -39,6 +40,26 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-19-1">0.19.1</h1>
+
+**Release Date**: 2025-07-24
+
+## StswExpress.Commons
+
+### Changes
+- `StswObservableCollection` has 2 versions of `AddRange` method: one that adds items one by one and another that adds items in bulk. The bulk version is more efficient for large collections.
+
+### Fixes
+- Fixed initial column width in `StswDataGrid` when using `*` width with items present. There is still a bug when no items are present, but it is not critical.
+
+## StswExpress (WPF)
+
+### Fixes
+- `StswMailboxModel` has new `IgnoreCertificateErrors` property to ignore certificate errors when sending mail.
+- `StswMailBoxModel` has new version of `Send` method so exceptions can be caught and handled.
 
 ---
 
