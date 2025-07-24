@@ -44,7 +44,7 @@
 
 <h1 id="0-19-0">0.19.0</h1>
 
-**Release Date**: 2025-07-23
+**Release Date**: 2025-07-24
 
 In this version, there is new `StswExpress.Analyzers` library (for code generating).
 
