@@ -13,8 +13,23 @@ namespace StswExpress.Commons;
 /// A static helper class that provides extension methods for performing common database operations 
 /// such as bulk inserts, executing queries, and handling stored procedures in a more efficient manner.
 /// </summary>
-public static class StswDatabaseHelper
+public static partial class StswDatabaseHelper
 {
+    [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
+    private static partial Regex BlockCommentsRegex();
+
+    [GeneratedRegex(@"('([^']*)')|([^']+)")]
+    private static partial Regex LessSpaceRegex();
+
+    [GeneratedRegex(@"--.*?$", RegexOptions.Multiline)]
+    private static partial Regex LineCommentsRegex();
+
+    [GeneratedRegex(@"@(\w+)")]
+    private static partial Regex ParameterRegex();
+
+    [GeneratedRegex(@"'[^']*'")]
+    private static partial Regex SingleQuotesRegex();
+
     /// <summary>
     /// Opens a new SQL connection using the connection string.
     /// </summary>
@@ -870,15 +885,15 @@ public static class StswDatabaseHelper
     /// <param name="query">The SQL query to process and reduce unnecessary whitespace.</param>
     /// <returns>The processed SQL query with reduced whitespace.</returns>
     public static string LessSpaceQuery(string query)
-        => new Regex(@"('([^']*)')|([^']+)").Matches(query)
-                                            .Cast<Match>()
-                                            .Select(x => x.Groups[2].Success ? (x.Groups[2].Value, true) : (x.Groups[3].Value, false))
-                                            .ToList()
-                                            .Aggregate(string.Empty, (current, part) => current + (
-                                                part.Item2
-                                                    ? $"'{part.Value}'"
-                                                    : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")
-                                            ));
+        => LessSpaceRegex().Matches(query)
+                           .Cast<Match>()
+                           .Select(x => x.Groups[2].Success ? (x.Groups[2].Value, true) : (x.Groups[3].Value, false))
+                           .ToList()
+                           .Aggregate(string.Empty, (current, part) => current + (
+                               part.Item2
+                                   ? $"'{part.Value}'"
+                                   : StswFn.RemoveConsecutiveText(part.Value.Replace("\t", " "), " ")
+                           ));
 
     /// <summary>
     /// Adds a list of parameters to the <see cref="SqlCommand"/> by replacing the specified parameter name in the SQL query with the list of values.
@@ -938,12 +953,12 @@ public static class StswDatabaseHelper
             /// remove everything between -- and newline (keeping the newline)
             /// and get all used parameters
             
-            var query = Regex.Replace(sqlCommand.CommandText, @"'[^']*'", "");
-            query = Regex.Replace(query, @"/\*.*?\*/", "", RegexOptions.Singleline);
-            query = Regex.Replace(query, @"--.*?$", "", RegexOptions.Multiline);
+            var query = SingleQuotesRegex().Replace(sqlCommand.CommandText, "");
+            query = BlockCommentsRegex().Replace(query, "");
+            query = LineCommentsRegex().Replace(query, "");
 
-            var cmdParameters = Regex.Matches(query, @"@(\w+)").Cast<Match>().Select(x => x.Groups[1].Value.ToLower());
-
+            var cmdParameters = ParameterRegex().Matches(query).Cast<Match>().Select(x => x.Groups[1].Value.ToLower());
+            
             /// prepare parameters from model
             var sqlParameters = (parameterModel switch
             {

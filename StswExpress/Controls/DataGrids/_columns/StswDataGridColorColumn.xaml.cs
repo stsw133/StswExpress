@@ -88,7 +88,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(PlaceholderProperty),
+            nameof(Placeholder),
             typeof(string),
             typeof(StswDataGridColorColumn)
         );
@@ -105,7 +105,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridColorColumn)
         );
@@ -121,7 +121,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
-            nameof(TextAlignmentProperty),
+            nameof(TextAlignment),
             typeof(TextAlignment),
             typeof(StswDataGridColorColumn)
         );
@@ -137,7 +137,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
-            nameof(TextTrimmingProperty),
+            nameof(TextTrimming),
             typeof(TextTrimming),
             typeof(StswDataGridColorColumn)
         );
@@ -153,7 +153,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
-            nameof(TextWrappingProperty),
+            nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(StswDataGridColorColumn),
             new PropertyMetadata(TextWrapping.NoWrap)

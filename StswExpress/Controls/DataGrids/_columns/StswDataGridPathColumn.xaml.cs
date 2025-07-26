@@ -122,7 +122,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(PlaceholderProperty),
+            nameof(Placeholder),
             typeof(string),
             typeof(StswDataGridPathColumn)
         );
@@ -156,7 +156,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridPathColumn)
         );
@@ -172,7 +172,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
-            nameof(TextAlignmentProperty),
+            nameof(TextAlignment),
             typeof(TextAlignment),
             typeof(StswDataGridPathColumn)
         );
@@ -188,7 +188,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
-            nameof(TextTrimmingProperty),
+            nameof(TextTrimming),
             typeof(TextTrimming),
             typeof(StswDataGridPathColumn)
         );
@@ -204,7 +204,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
-            nameof(TextWrappingProperty),
+            nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(StswDataGridPathColumn),
             new PropertyMetadata(TextWrapping.NoWrap)

@@ -13,8 +13,12 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
-public static class StswFn
+public static partial class StswFn
 {
+    [GeneratedRegex(@"^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])$", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+    [StswInfo("0.19.0")]
+    private static partial Regex EmailRegex();
+
     #region Action functions
     /// <summary>
     /// Executes one of the two specified actions based on the condition.
@@ -473,21 +477,6 @@ public static class StswFn
     #region Validation functions
     /// <summary>
     /// Validates whether the specified string contains only valid email addresses.
-    /// </summary>
-    [StswInfo("0.19.0")]
-    private static readonly Regex EmailRegex = new(
-        @"^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|" +
-        @"""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|" +
-        @"\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@" +
-        @"(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+" +
-        @"[a-zA-Z]{2,}|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}" +
-        @"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|" +
-        @"[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-" +
-        @"\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])$",
-        RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-    /// <summary>
-    /// Validates whether the specified string contains only valid email addresses.
     /// Multiple email addresses can be separated by a specified character.
     /// </summary>
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
@@ -500,7 +489,7 @@ public static class StswFn
             return false;
 
         var emailList = emails.Split(separator, StringSplitOptions.TrimEntries);
-        return emailList.All(EmailRegex.IsMatch);
+        return emailList.All(EmailRegex().IsMatch);
     }
 
     /// <summary>
@@ -509,7 +498,7 @@ public static class StswFn
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
     [StswInfo("0.3.0")]
-    public static bool IsValidEmail(string email) => EmailRegex.IsMatch(email);
+    public static bool IsValidEmail(string email) => EmailRegex().IsMatch(email);
 
     /// <summary>
     /// Validates whether a phone number matches the expected format for a specified country.

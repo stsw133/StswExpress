@@ -26,8 +26,11 @@ namespace StswExpress;
 /// - `"G B15% S25%"` → Generate color from value, then apply brightness & saturation modifications
 /// </summary>
 [StswInfo("0.16.0")]
-public class StswColorConverter : MarkupExtension, IValueConverter
+public partial class StswColorConverter : MarkupExtension, IValueConverter
 {
+    [GeneratedRegex(@"([A-Za-z])([^A-Za-z]*)")]
+    private static partial Regex ParameterRegex();
+
     /// <summary>
     /// Gets the singleton instance of the converter.
     /// </summary>
@@ -83,8 +86,7 @@ public class StswColorConverter : MarkupExtension, IValueConverter
     private static Dictionary<char, string> ParseParameters(object? parameter)
     {
         var adjustments = new Dictionary<char, string>();
-        var regex = new Regex(@"([A-Za-z])([^A-Za-z]*)");
-        foreach (Match match in regex.Matches(parameter?.ToString() ?? string.Empty))
+        foreach (Match match in ParameterRegex().Matches(parameter?.ToString() ?? string.Empty))
         {
             var key = match.Groups[1].Value[0];
             var val = match.Groups[2].Value.Trim();
