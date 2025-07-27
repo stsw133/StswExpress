@@ -751,18 +751,27 @@ public static partial class StswDatabaseHelper
     /// <returns>True if in design mode, otherwise false.</returns>
     private static bool IsInDesignMode()
     {
+        if (_isInDesignMode.HasValue)
+            return _isInDesignMode.Value;
+
         if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesignerProcess())
+        {
+            _isInDesignMode = true;
             return true;
+        }
 
         if (StswFn.IsUiThreadAvailable())
         {
             var isInDesignMode = false;
             SynchronizationContext.Current?.Send(_ => isInDesignMode = CheckDesignerEnvironment(), null);
+            _isInDesignMode = isInDesignMode;
             return isInDesignMode;
         }
 
+        _isInDesignMode = false;
         return false;
     }
+    private static bool? _isInDesignMode;
 
     /// <summary>
     /// Checks if the current process is running inside a designer.
