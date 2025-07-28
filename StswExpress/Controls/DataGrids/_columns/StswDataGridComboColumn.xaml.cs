@@ -168,7 +168,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(PlaceholderProperty),
+            nameof(Placeholder),
             typeof(string),
             typeof(StswDataGridComboColumn)
         );
@@ -185,7 +185,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridComboColumn)
         );
@@ -201,7 +201,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
-            nameof(TextAlignmentProperty),
+            nameof(TextAlignment),
             typeof(TextAlignment),
             typeof(StswDataGridComboColumn)
         );
@@ -217,7 +217,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
-            nameof(TextTrimmingProperty),
+            nameof(TextTrimming),
             typeof(TextTrimming),
             typeof(StswDataGridComboColumn)
         );
@@ -233,7 +233,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
-            nameof(TextWrappingProperty),
+            nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(StswDataGridComboColumn),
             new PropertyMetadata(TextWrapping.NoWrap)

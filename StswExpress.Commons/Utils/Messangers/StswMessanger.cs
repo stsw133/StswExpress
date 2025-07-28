@@ -1,7 +1,7 @@
 ﻿namespace StswExpress.Commons;
 
 /// <summary>
-/// A simple Messenger class for sending and receiving messages between view models.
+/// A simple messenger class for sending and receiving messages within an application.
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -33,6 +33,7 @@
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];
+    private readonly Dictionary<Delegate, Action<IStswMessage>> _wrappers = [];
 
     /// <summary>
     /// Gets the singleton instance of the Messenger.
@@ -51,7 +52,9 @@ public class StswMessanger
         if (!_subscribers.ContainsKey(messageType))
             _subscribers[messageType] = [];
 
-        _subscribers[messageType].Add((message) => callback((TMessage)message));
+        Action<IStswMessage> wrapper = (message) => callback((TMessage)message);
+        _wrappers[callback] = wrapper;
+        _subscribers[messageType].Add(wrapper);
     }
 
     /// <summary>
@@ -62,8 +65,12 @@ public class StswMessanger
     public void Unregister<TMessage>(Action<TMessage> callback) where TMessage : IStswMessage
     {
         var messageType = typeof(TMessage);
-        if (_subscribers.TryGetValue(messageType, out var value))
-            value.Remove((message) => callback((TMessage)message));
+        if (_wrappers.TryGetValue(callback, out var wrapper))
+        {
+            if (_subscribers.TryGetValue(messageType, out var value))
+                value.Remove(wrapper);
+            _wrappers.Remove(callback);
+        }
     }
 
     /// <summary>

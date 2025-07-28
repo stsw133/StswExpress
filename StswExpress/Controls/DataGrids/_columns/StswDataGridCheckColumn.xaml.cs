@@ -91,7 +91,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridCheckColumn)
         );

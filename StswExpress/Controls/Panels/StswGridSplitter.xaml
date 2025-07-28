@@ -22,10 +22,12 @@
                             BorderThickness="{TemplateBinding BorderThickness}"/>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <!--
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Header}" TargetName="OPT_MainShape"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Header}" TargetName="OPT_MainShape"/>
                         </Trigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

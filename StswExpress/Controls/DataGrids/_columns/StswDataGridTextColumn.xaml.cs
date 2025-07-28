@@ -129,7 +129,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty AcceptsReturnProperty
         = DependencyProperty.Register(
-            nameof(AcceptsReturnProperty),
+            nameof(AcceptsReturn),
             typeof(bool),
             typeof(StswDataGridTextColumn)
         );
@@ -144,7 +144,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty MaxLengthProperty
         = DependencyProperty.Register(
-            nameof(MaxLengthProperty),
+            nameof(MaxLength),
             typeof(int),
             typeof(StswDataGridTextColumn)
         );
@@ -159,7 +159,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(PlaceholderProperty),
+            nameof(Placeholder),
             typeof(string),
             typeof(StswDataGridTextColumn)
         );
@@ -176,7 +176,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridTextColumn)
         );
@@ -192,7 +192,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
-            nameof(TextAlignmentProperty),
+            nameof(TextAlignment),
             typeof(TextAlignment),
             typeof(StswDataGridTextColumn)
         );
@@ -208,7 +208,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
-            nameof(TextTrimmingProperty),
+            nameof(TextTrimming),
             typeof(TextTrimming),
             typeof(StswDataGridTextColumn)
         );
@@ -224,7 +224,7 @@ public class StswDataGridTextColumn : DataGridTextColumn
     }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
-            nameof(TextWrappingProperty),
+            nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(StswDataGridTextColumn),
             new PropertyMetadata(TextWrapping.NoWrap)

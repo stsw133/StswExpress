@@ -16,8 +16,11 @@ namespace StswExpress;
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
 /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
 [StswInfo("0.6.0", Changes = StswPlannedChanges.Rework, IsTested = false)]
-internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
+internal partial class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
+    [GeneratedRegex("\"(.*?)\"|([^,]+)")]
+    private static partial Regex ArgsRegex();
+
     /// <summary>
     /// Gets or sets the type of the class to instantiate.
     /// </summary>
@@ -41,13 +44,13 @@ internal class StswCreateInstanceExtension(Type type, string? args) : MarkupExte
     private static object?[] ParseArguments(string args)
     {
         if (string.IsNullOrWhiteSpace(args))
-            return Array.Empty<object?>();
+            return [];
 
-        var matches = Regex.Matches(args, "\"(.*?)\"|([^,]+)")
-                           .Cast<Match>()
-                           .Select(m => m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value.Trim())
-                           .Select(ConvertArgument)
-                           .ToArray();
+        var matches = ArgsRegex().Matches(args)
+                                 .Cast<Match>()
+                                 .Select(m => m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value.Trim())
+                                 .Select(ConvertArgument)
+                                 .ToArray();
 
         return matches;
     }

@@ -98,7 +98,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty FormatProperty
         = DependencyProperty.Register(
-            nameof(FormatProperty),
+            nameof(Format),
             typeof(string),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
@@ -113,7 +113,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(PlaceholderProperty),
+            nameof(Placeholder),
             typeof(string),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
@@ -130,7 +130,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.Register(
-            nameof(PaddingProperty),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
@@ -146,7 +146,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
-            nameof(TextAlignmentProperty),
+            nameof(TextAlignment),
             typeof(TextAlignment),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
@@ -162,7 +162,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
-            nameof(TextTrimmingProperty),
+            nameof(TextTrimming),
             typeof(TextTrimming),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
@@ -178,7 +178,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
-            nameof(TextWrappingProperty),
+            nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(StswDataGridNumberColumnBase<T, TControl>),
             new PropertyMetadata(TextWrapping.NoWrap)
