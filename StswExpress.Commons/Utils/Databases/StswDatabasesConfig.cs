@@ -10,7 +10,7 @@ namespace StswExpress.Commons;
 public class StswDatabasesConfig
 {
     /// <summary>
-    /// Gets or sets a value indicating whether connections should be automatically disposed of after use.
+    /// Gets or sets a value indicating whether connections should be automatically disposed after use.
     /// </summary>
     public bool AutoDisposeConnection { get; set; } = true;
 

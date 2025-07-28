@@ -39,8 +39,7 @@
                             <!-- cells presenter -->
                             <DataGridCellsPresenter Grid.Column="1"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                    Style="{DynamicResource StswDataGridCellsPresenterStyle}">
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                 <DataGridCellsPresenter.Template>
                                     <ControlTemplate TargetType="{x:Type DataGridCellsPresenter}">
                                         <Grid>

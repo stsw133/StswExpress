@@ -75,7 +75,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     public static void BulkInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().BulkInsert(items, tableName, timeout, sqlTran);
+        => model.OpenedConnection().BulkInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a non-query SQL command and returns the number of rows affected.
@@ -132,7 +132,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteNonQuery(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().ExecuteNonQuery(query, parameters, timeout, sqlTran);
+        => model.OpenedConnection().ExecuteNonQuery(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a <see cref="SqlDataReader"/> for advanced data handling.
@@ -176,7 +176,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
     public static SqlDataReader ExecuteReader(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().ExecuteReader(query, parameters, timeout, sqlTran);
+        => model.OpenedConnection().ExecuteReader(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a scalar value.
@@ -225,7 +225,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     public static TResult? ExecuteScalar<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().ExecuteScalar<TResult>(query, parameters, timeout, sqlTran);
+        => model.OpenedConnection().ExecuteScalar<TResult>(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a stored procedure with parameters and returns the number of rows affected.
@@ -271,7 +271,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
     public static int? ExecuteStoredProcedure(this StswDatabaseModel model, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().ExecuteStoredProcedure(procName, parameters, timeout, sqlTran);
+        => model.OpenedConnection().ExecuteStoredProcedure(procName, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a collection of results.
@@ -329,7 +329,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
     public static IEnumerable<TResult?> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().Get<TResult?>(query, parameters, timeout, sqlTran);
+        => model.OpenedConnection().Get<TResult?>(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a collection of results.
@@ -387,7 +387,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
     public static IEnumerable<object?> Get(this StswDatabaseModel model, Type type, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().Get(type, query, parameters, timeout, sqlTran);
+        => model.OpenedConnection().Get(type, query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query that returns combined data for both header and item entities, separates the result into two model types,
@@ -568,7 +568,7 @@ public static class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this StswDatabaseModel model, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
+        => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
@@ -626,7 +626,7 @@ public static class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     public static void TempTableInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().TempTableInsert(items, tableName, timeout, sqlTran);
+        => model.OpenedConnection().TempTableInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Performs insert, update, and delete operations on a SQL table based on the state of the items in the provided <see cref="StswObservableCollection{TModel}"/>.
@@ -711,7 +711,7 @@ public static class StswDatabaseHelper
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
     public static void Set<TModel>(this StswDatabaseModel model, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
-        => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
+        => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Checks if the query can be executed based on the current application state.

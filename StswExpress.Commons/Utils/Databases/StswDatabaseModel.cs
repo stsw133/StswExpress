@@ -137,7 +137,7 @@ public partial class StswDatabaseModel : StswObservableObject
         if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database) || string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
             throw new InvalidOperationException("Connection details are incomplete.");
 
-        //TODO - change on ConnectionBuilder
+        //TODO - change to ConnectionBuilder
         return Type switch
         {
             StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",

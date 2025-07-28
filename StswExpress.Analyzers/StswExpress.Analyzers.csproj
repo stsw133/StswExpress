@@ -5,7 +5,7 @@
     <LangVersion>Latest</LangVersion>
 	<ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>0.19.0.$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 2))</Version>
+	<Version>0.20.0.$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 2))</Version>
     <Authors>Karol Staszewski</Authors>
 	<Description>This package offers analyzers such as:
 • observable property generator

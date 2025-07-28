@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.20.0](#0-20-0)
 - [Version 0.19.1](#0-19-1)
 - [Version 0.19.0](#0-19-0)
 - [Version 0.18.1](#0-18-1)
@@ -40,6 +41,12 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-20-0">0.20.0</h1>
+
+**Release Date**: 2025-XX-XX
 
 ---
 
