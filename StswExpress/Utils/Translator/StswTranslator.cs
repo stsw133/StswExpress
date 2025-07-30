@@ -260,7 +260,7 @@ public static class StswTranslator
         var language = string.IsNullOrEmpty(CurrentLanguage) ? "en" : CurrentLanguage;
         var resourcePath = $"Utils/Translator/Translations/{language}.json";
 
-        var json = StswFnUI.GetResourceText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
+        var json = StswFnUI.GetResourceAsText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
         if (json == null)
             return;
 

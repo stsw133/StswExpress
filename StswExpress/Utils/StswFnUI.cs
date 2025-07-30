@@ -40,22 +40,40 @@ public static class StswFnUI
     }
 
     /// <summary>
+    /// Retrieves the name of the currently executing assembly.
+    /// </summary>
+    /// <param name="relativeUri">Relative URI of the resource</param>
+    /// <returns>The resource as a byte array</returns>
+    [StswInfo("0.15.0")]
+    public static byte[]? GetResourceAsBytes(string relativeUri)
+    {
+        var uri = new Uri(relativeUri, UriKind.Relative);
+        var resourceInfo = Application.GetResourceStream(uri);
+        if (resourceInfo == null)
+            return null;
+
+        using var stream = resourceInfo.Stream;
+        using var ms = new MemoryStream();
+        stream.CopyTo(ms);
+        return ms.ToArray();
+    }
+
+    /// <summary>
     /// Retrieves the content of an embedded resource file from a specified assembly.
     /// </summary>
     /// <param name="assemblyName">The name of the assembly containing the resource.</param>
     /// <param name="resourcePath">The path of the resource file within the assembly.</param>
     /// <returns>The content of the resource file as a string.</returns>
-    /// <exception cref="FileNotFoundException">Thrown if the specified resource is not found.</exception>
     [StswInfo("0.15.0")]
-    public static string? GetResourceText(string assemblyName, string resourcePath)
+    public static string? GetResourceAsText(string assemblyName, string resourcePath)
     {
         var resourceUri = new Uri($"pack://application:,,,/{assemblyName};component/{resourcePath}", UriKind.Absolute);
 
-        var resource = Application.GetResourceStream(resourceUri);
-        if (resource == null)
+        var resourceInfo = Application.GetResourceStream(resourceUri);
+        if (resourceInfo == null)
             return null;
 
-        using var stream = resource.Stream;
+        using var stream = resourceInfo.Stream;
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }
