@@ -208,6 +208,7 @@ public partial class StswMailboxModel : StswObservableObject
         var message = BuildMessage(to, subject, body, isBodyHtml ?? false, attachments, cc, bcc);
 
         using var client = CreateConfiguredClient();
+        client.LocalDomain = Domain;
         await client.ConnectAsync(Host, Port.Value, SecurityOption);
         if (!string.IsNullOrEmpty(Username))
             await client.AuthenticateAsync(Username, Password);
@@ -254,9 +255,11 @@ public partial class StswMailboxModel : StswObservableObject
         var message = new MimeMessage();
         message.From.Add(MailboxAddress.Parse(From));
 
-        if (!string.IsNullOrEmpty(StswMailboxes.Config.DebugEmailRecipient) && StswFn.IsInDebug())
+        if (!StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty() && StswFn.IsInDebug())
         {
-            message.To.Add(MailboxAddress.Parse(StswMailboxes.Config.DebugEmailRecipient));
+            foreach (var email in StswMailboxes.Config.DebugEmailRecipients!)
+                if (!string.IsNullOrEmpty(email))
+                    message.To.Add(MailboxAddress.Parse(email));
         }
         else
         {

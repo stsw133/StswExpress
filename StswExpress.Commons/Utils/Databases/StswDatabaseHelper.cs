@@ -65,6 +65,7 @@ public static partial class StswDatabaseHelper
         var dt = items.ToDataTable();
         foreach (DataColumn column in dt.Columns)
             sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
+        // add indexes
         sqlBulkCopy.WriteToServer(dt);
 
         factory.Commit();
@@ -610,10 +611,11 @@ public static partial class StswDatabaseHelper
         
         using var sqlBulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);
         sqlBulkCopy.BulkCopyTimeout = timeout ?? sqlBulkCopy.BulkCopyTimeout;
-        sqlBulkCopy.DestinationTableName = "#" + tableName;
+        sqlBulkCopy.DestinationTableName = "#" + tableName.TrimStart('#');
 
         foreach (DataColumn column in dt.Columns)
             sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
+        // add indexes
         sqlBulkCopy.WriteToServer(dt);
 
         factory.Commit();
@@ -748,7 +750,7 @@ public static partial class StswDatabaseHelper
     /// <summary>
     /// Determines if the application is in design mode.
     /// </summary>
-    /// <returns>True if in design mode, otherwise false.</returns>
+    /// <returns><see langword="true"/> if in design mode, otherwise <see langword="false"/>.</returns>
     private static bool IsInDesignMode()
     {
         if (_isInDesignMode.HasValue)
@@ -776,7 +778,7 @@ public static partial class StswDatabaseHelper
     /// <summary>
     /// Checks if the current process is running inside a designer.
     /// </summary>
-    /// <returns>True if running inside a designer, otherwise false.</returns>
+    /// <returns><see langword="true"/> if running inside a designer, otherwise <see langword="false"/>.</returns>
     private static bool IsDesignerProcess()
     {
         var processName = Process.GetCurrentProcess().ProcessName;
@@ -786,7 +788,7 @@ public static partial class StswDatabaseHelper
     /// <summary>
     /// Placeholder method for additional design-time detection logic.
     /// </summary>
-    /// <returns>True if the environment is detected as a designer.</returns>
+    /// <returns><see langword="true"/> if the environment is detected as a designer, otherwise <see langword="false"/>.</returns>
     private static bool CheckDesignerEnvironment()
     {
         var processName = Process.GetCurrentProcess().ProcessName.ToLower();

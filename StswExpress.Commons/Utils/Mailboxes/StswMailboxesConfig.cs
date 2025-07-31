@@ -9,10 +9,10 @@ namespace StswExpress.Commons;
 public class StswMailboxesConfig
 {
     /// <summary>
-    /// Gets or sets the email address to use for all recipients when the application is in DEBUG mode.
-    /// If this value is set, all outgoing emails will be sent to this address instead of the intended recipients.
+    /// Gets or sets the email addresses to use for all recipients when the application is in DEBUG mode.
+    /// If this value is set, all outgoing emails will be sent to these addresses instead of the actual recipients.
     /// </summary>
-    public string? DebugEmailRecipient { get; set; }
+    public string[]? DebugEmailRecipients { get; set; }
 
     /// <summary>
     /// Gets or sets the location of the file where encrypted email configurations are stored.
