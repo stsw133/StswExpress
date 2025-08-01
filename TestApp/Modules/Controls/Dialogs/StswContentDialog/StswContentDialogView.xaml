@@ -32,7 +32,7 @@
                                           CommandParameter="StswContentDialogView"
                                           IconData="{x:Static se:StswIcons.CloseBox}"
                                           IconFill="{DynamicResource StswColor.Negative}"
-                                          ToolTip="Close dialog"/>
+                                          se:StswToolTip.Text="Close dialog"/>
                         <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
                     </DockPanel>
                 </se:StswGroupBox.Header>

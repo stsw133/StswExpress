@@ -49,8 +49,8 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         if (GetValue(IsBusyProperty) == null)
         {
             var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
-            if (commandSource?.Command is IStswAsyncCommand cmd)
-                SetBinding(IsBusyProperty, new Binding(nameof(IStswAsyncCommand.IsBusy)) { Source = cmd });
+            if (commandSource?.Command is StswAsyncCommandBase cmd)
+                SetBinding(IsBusyProperty, new Binding(nameof(StswAsyncCommandBase.IsBusy)) { Source = cmd });
         }
     }
     #endregion
@@ -60,15 +60,15 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     /// Gets or sets the asynchronous command associated with the label.
     /// </summary>
     [StswInfo("0.14.0")]
-    public IStswAsyncCommand Command
+    public StswAsyncCommandBase Command
     {
-        get => (IStswAsyncCommand)GetValue(CommandProperty);
+        get => (StswAsyncCommandBase)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
     public static readonly DependencyProperty CommandProperty
         = DependencyProperty.Register(
             nameof(Command),
-            typeof(IStswAsyncCommand),
+            typeof(StswAsyncCommandBase),
             typeof(StswLabel)
         );
 

@@ -77,7 +77,7 @@
                                     <se:StswSubButton x:Name="PART_ButtonCopyAllToClipboard"
                                                       IconData="{x:Static se:StswIcons.ContentCopy}"
                                                       Margin="3 0 0 0"
-                                                      ToolTip="{se:StswTranslate StswInfoPanel.CopyAllToClipboard}">
+                                                      se:StswToolTip.Text="{se:StswTranslate StswInfoPanel.CopyAllToClipboard}">
                                         <se:StswSubButton.Triggers>
                                             <EventTrigger RoutedEvent="Button.Click">
                                                 <BeginStoryboard>
@@ -97,12 +97,12 @@
                                                      IconChecked="{x:Static se:StswIcons.ChevronDown}"
                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Margin="3 0 0 0"
-                                                     ToolTip="{se:StswTranslate StswInfoPanel.ExpandAll}"/>
+                                                     se:StswToolTip.Text="{se:StswTranslate StswInfoPanel.ExpandAll}"/>
                                     <!-- close all button -->
                                     <se:StswSubButton x:Name="PART_ButtonCloseAll"
                                                       IconData="{x:Static se:StswIcons.Close}"
                                                       Margin="3 0 0 0"
-                                                      ToolTip="{se:StswTranslate StswInfoPanel.CloseAll}"/>
+                                                      se:StswToolTip.Text="{se:StswTranslate StswInfoPanel.CloseAll}"/>
                                 </StackPanel>
                             </DockPanel>
                             <!-- separator -->

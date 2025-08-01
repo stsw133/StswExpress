@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -28,7 +27,7 @@ namespace StswExpress.Commons;
 public static class StswSecurity
 {
     /// <summary>
-    /// Sets the encryption key, which must be at least 16 characters long.
+    /// Optional: manually set the key (must be at least 16 characters). Overrides the default derived from AppName.
     /// </summary>
     [MinLength(16)]
     public static string Key
@@ -37,10 +36,37 @@ public static class StswSecurity
         {
             if (value.Length < 16)
                 throw new ArgumentException("The key must be at least 16 characters long.");
-            key = value;
+            _manualKey = Encoding.UTF8.GetBytes(value.PadRight(32)[..32]);
         }
     }
-    private static string? key = "".PadRight(16, StswFn.AppName() ?? " ");
+    private static byte[]? _manualKey;
+
+    /// <summary>
+    /// Returns the encryption key, derived from AppName or manually set.
+    /// </summary>
+    private static byte[] AesKey
+    {
+        get
+        {
+            if (_manualKey != null)
+                return _manualKey;
+
+            var appName = StswFn.AppName() ?? "DefaultAppName";
+            return SHA256.HashData(Encoding.UTF8.GetBytes(appName));
+        }
+    }
+
+    /// <summary>
+    /// Returns a static salt derived from the application name.
+    /// </summary>
+    public static byte[] Salt
+    {
+        get
+        {
+            var appName = StswFn.AppName() ?? "DefaultAppName";
+            return SHA1.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
+        }
+    }
 
     /// <summary>
     /// Computes the hash of data using the specified hashing algorithm.
@@ -100,7 +126,16 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">The text to hash.</param>
     /// <returns>A byte array containing the hashed text.</returns>
-    public static string GetHashString(string text) => GetHashString(text);
+    public static string GetHashString(string text) => GetHashString(text, SHA256.Create);
+
+    /// <summary>
+    /// Returns a password hash using the built-in salt and PBKDF2 (recommended for authentication scenarios).
+    /// </summary>
+    public static string HashPassword(string password)
+    {
+        var pbkdf2 = new Rfc2898DeriveBytes(password, Salt, 100_000, HashAlgorithmName.SHA256);
+        return Convert.ToBase64String(pbkdf2.GetBytes(32));
+    }
 
     /// <summary>
     /// Encrypts a string using AES encryption.
@@ -111,22 +146,20 @@ public static class StswSecurity
     /// <exception cref="ArgumentException">Thrown when the encryption key is less than 16 characters long.</exception>
     public static string Encrypt(string text)
     {
-        if (key == null)
-            throw new ArgumentNullException(nameof(Key), "The encryption key cannot be null.");
-        if (key.Length < 16)
-            throw new ArgumentException("The encryption key must be at least 16 characters long.", nameof(Key));
-
         using var aesAlg = Aes.Create();
-        aesAlg.Key = Encoding.UTF8.GetBytes(key);
-        aesAlg.IV = new byte[16];
-        var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+        aesAlg.Key = AesKey;
+        aesAlg.GenerateIV();
 
+        using var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
         using var msEncrypt = new MemoryStream();
+        msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
+
         using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+        using (var swEncrypt = new StreamWriter(csEncrypt))
         {
-            using var swEncrypt = new StreamWriter(csEncrypt);
             swEncrypt.Write(text);
         }
+
         return Convert.ToBase64String(msEncrypt.ToArray());
     }
 
@@ -139,38 +172,20 @@ public static class StswSecurity
     /// <exception cref="ArgumentException">Thrown when the encryption key is less than 16 characters long.</exception>
     public static string Decrypt(string text)
     {
-        if (key == null)
-            throw new ArgumentNullException(nameof(Key), "The encryption key cannot be null.");
-        if (key.Length < 16)
-            throw new ArgumentException("The encryption key must be at least 16 characters long.", nameof(Key));
-
+        var fullCipher = Convert.FromBase64String(text);
         using var aesAlg = Aes.Create();
-        aesAlg.Key = Encoding.UTF8.GetBytes(key);
-        aesAlg.IV = new byte[16];
-        var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        aesAlg.Key = AesKey;
 
-        using var msDecrypt = new MemoryStream(Convert.FromBase64String(text));
+        var iv = new byte[16];
+        Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+        aesAlg.IV = iv;
+
+        using var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        using var msDecrypt = new MemoryStream(fullCipher, iv.Length, fullCipher.Length - iv.Length);
         using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using var srDecrypt = new StreamReader(csDecrypt);
+
         return srDecrypt.ReadToEnd();
-    }
-
-    /// <summary>
-    /// Converts a string to a SecureString.
-    /// </summary>
-    /// <param name="text">The text to secure.</param>
-    /// <returns>A SecureString containing the text.</returns>
-    public static SecureString GetSecureString(string text)
-    {
-        if (text == null)
-            throw new ArgumentNullException(nameof(text), "The text to secure cannot be null.");
-
-        var secureString = new SecureString();
-        foreach (char c in text)
-            secureString.AppendChar(c);
-
-        secureString.MakeReadOnly();
-        return secureString;
     }
 
     /// <summary>
@@ -187,7 +202,7 @@ public static class StswSecurity
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(data);
 
-        for (int i = 0; i < token.Length; i++)
+        for (var i = 0; i < token.Length; i++)
         {
             var rnd = data[i] % chars.Length;
             token[i] = chars[rnd];

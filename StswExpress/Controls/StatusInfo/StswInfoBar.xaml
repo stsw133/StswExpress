@@ -49,7 +49,7 @@
                                 <se:StswSubButton x:Name="PART_ButtonCopyToClipboard"
                                                   IconData="{x:Static se:StswIcons.ContentCopy}"
                                                   Margin="3 0 0 0"
-                                                  ToolTip="{se:StswTranslate StswInfoBar.CopyToClipboard}">
+                                                  se:StswToolTip.Text="{se:StswTranslate StswInfoBar.CopyToClipboard}">
                                     <se:StswSubButton.Triggers>
                                         <EventTrigger RoutedEvent="Button.Click">
                                             <BeginStoryboard>
@@ -69,12 +69,12 @@
                                                  IconChecked="{x:Static se:StswIcons.ChevronDown}"
                                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Margin="3 0 0 0"
-                                                 ToolTip="{se:StswTranslate StswInfoBar.Expand}"/>
+                                                 se:StswToolTip.Text="{se:StswTranslate StswInfoBar.Expand}"/>
                                 <!-- close button -->
                                 <se:StswSubButton x:Name="PART_ButtonClose"
                                                   IconData="{x:Static se:StswIcons.Close}"
                                                   Margin="3 0 0 0"
-                                                  ToolTip="{se:StswTranslate StswInfoBar.Close}"/>
+                                                  se:StswToolTip.Text="{se:StswTranslate StswInfoBar.Close}"/>
                             </StackPanel>
                             <!-- title -->
                             <se:StswLabel x:Name="OPT_Header"

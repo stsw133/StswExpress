@@ -109,19 +109,19 @@ public static partial class StswExtensions
     /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
 
     [StswInfo("0.2.0")]
-    public static IEnumerable<T?> MapTo<T>(this DataTable dt)
+    public static IEnumerable<T> MapTo<T>(this DataTable dt)
     {
         var type = typeof(T);
 
-        if (IsSimpleType(type))
+        if (IsSimpleType(type)) //TODO - move directly do StswDatabaseHelper.Get
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo<T?>();
+                yield return value.ConvertTo<T>()!;
         }
         else
         {
             foreach (var obj in StswMapping.MapToClass(dt, type))
-                yield return (T?)obj;
+                yield return (T)obj;
         }
     }
 
@@ -133,12 +133,12 @@ public static partial class StswExtensions
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
 
     [StswInfo("0.18.0")]
-    public static IEnumerable<object?> MapTo(this DataTable dt, Type type)
+    public static IEnumerable<object> MapTo(this DataTable dt, Type type)
     {
-        if (IsSimpleType(type))
+        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo(type);
+                yield return value.ConvertTo(type)!;
         }
         else
         {
@@ -156,19 +156,19 @@ public static partial class StswExtensions
     /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
 
     [StswInfo("0.9.0")]
-    public static IEnumerable<T?> MapTo<T>(this DataTable dt, char delimiter)
+    public static IEnumerable<T> MapTo<T>(this DataTable dt, char delimiter)
     {
         var type = typeof(T);
 
-        if (IsSimpleType(type))
+        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo<T>();
+                yield return value.ConvertTo<T>()!;
         }
         else
         {
             foreach (var obj in StswMapping.MapToNestedClass(dt, type, delimiter))
-                yield return (T?)obj;
+                yield return (T)obj;
         }
     }
 
@@ -181,12 +181,12 @@ public static partial class StswExtensions
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
 
     [StswInfo("0.18.0")]
-    public static IEnumerable<object?> MapTo(this DataTable dt, Type type, char delimiter)
+    public static IEnumerable<object> MapTo(this DataTable dt, Type type, char delimiter)
     {
-        if (IsSimpleType(type))
+        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo(type);
+                yield return value.ConvertTo(type)!;
         }
         else
         {
@@ -203,31 +203,6 @@ public static partial class StswExtensions
     [StswInfo("0.12.0")]
     private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
 
-    /// <summary>
-    /// Converts a <see cref="SecureString"/> to a byte array.
-    /// </summary>
-    /// <param name="value">The <see cref="SecureString"/> to convert.</param>
-    /// <returns>A byte array representing the secure string.</returns>
-    public static byte[] ToBytes(this SecureString value)
-    {
-        ArgumentNullException.ThrowIfNull(value);
-
-        var ptr = IntPtr.Zero;
-        try
-        {
-            ptr = Marshal.SecureStringToGlobalAllocUnicode(value);
-            var length = value.Length;
-            var bytes = new byte[length * sizeof(char)];
-
-            Marshal.Copy(ptr, bytes, 0, bytes.Length);
-
-            return Encoding.Convert(Encoding.Unicode, Encoding.UTF8, bytes);
-        }
-        finally
-        {
-            Marshal.ZeroFreeGlobalAllocUnicode(ptr);
-        }
-    }
 
     /// <summary>
     /// Converts a collection of items to a <see cref="DataTable"/>.

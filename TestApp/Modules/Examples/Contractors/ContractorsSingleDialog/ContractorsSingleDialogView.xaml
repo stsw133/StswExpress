@@ -19,7 +19,7 @@
                                   IconFill="{DynamicResource StswColor.Negative}"
                                   IconScale="2"
                                   Padding="0"
-                                  ToolTip="Zamknij"/>
+                                  se:StswToolTip.Text="Close"/>
                 <se:StswLabel Content="New contractor" FontWeight="Medium" IconData="{x:Static se:StswIcons.Plus}"/>
             </DockPanel>
         </se:StswGroupBox.Header>

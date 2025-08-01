@@ -58,7 +58,14 @@ public static class StswDatabases
         if (string.IsNullOrEmpty(decryptedData))
             return [];
 
-        return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
+        try
+        {
+            return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
+        }
+        catch (JsonException)
+        {
+            return [];
+        }
     }
 
     /// <summary>
@@ -79,6 +86,13 @@ public static class StswDatabases
         if (string.IsNullOrEmpty(decryptedData))
             return [];
 
-        return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
+        try
+        {
+            return JsonSerializer.Deserialize<List<StswDatabaseModel>>(decryptedData) ?? [];
+        }
+        catch (JsonException)
+        {
+            return [];
+        }
     }
 }

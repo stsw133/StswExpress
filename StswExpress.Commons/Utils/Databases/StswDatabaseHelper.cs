@@ -42,6 +42,12 @@ public static partial class StswDatabaseHelper
     }
 
     /// <summary>
+    /// Opens a new SQL connection using the connection string from the provided <see cref="StswDatabaseModel"/>.
+    /// </summary>
+    /// <returns>An open <see cref="SqlConnection"/>.</returns>
+    public static SqlConnection OpenedConnection(this StswDatabaseModel model) => new SqlConnection(model.GetConnString()).GetOpened();
+
+    /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
     /// <typeparam name="TModel">The type of the items to insert.</typeparam>
@@ -300,7 +306,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
             return [];
@@ -332,8 +338,8 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
-        => sqlTran.Connection.Get<TResult?>(query, parameters, timeout, sqlTran);
+    public static IEnumerable<TResult> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
+        => sqlTran.Connection.Get<TResult>(query, parameters, timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a collection of results.
@@ -344,8 +350,8 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
-    public static IEnumerable<TResult?> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().Get<TResult?>(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
+    public static IEnumerable<TResult> Get<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().Get<TResult>(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
     /// Executes a SQL query and returns a collection of results.
@@ -602,7 +608,7 @@ public static partial class StswDatabaseHelper
             return;
 
         var dt = items.ToDataTable();
-        tableName = tableName.Trim('#');
+        tableName = "#" + tableName.TrimStart('#');
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, false);
         using var sqlCmd = new SqlCommand(GenerateCreateTableScript(dt, tableName), factory.Connection, factory.Transaction);
@@ -611,7 +617,7 @@ public static partial class StswDatabaseHelper
         
         using var sqlBulkCopy = new SqlBulkCopy(factory.Connection, SqlBulkCopyOptions.Default, factory.Transaction);
         sqlBulkCopy.BulkCopyTimeout = timeout ?? sqlBulkCopy.BulkCopyTimeout;
-        sqlBulkCopy.DestinationTableName = "#" + tableName.TrimStart('#');
+        sqlBulkCopy.DestinationTableName = tableName;
 
         foreach (DataColumn column in dt.Columns)
             sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
@@ -825,7 +831,7 @@ public static partial class StswDatabaseHelper
             .Cast<DataColumn>()
             .Select(col => $"[{col.ColumnName}] {GetSqlType(col.DataType)}");
 
-        return $"CREATE TABLE #{tableName} ({string.Join(", ", columnsDefinitions)});";
+        return $"CREATE TABLE {tableName} ({string.Join(", ", columnsDefinitions)});";
     }
 
     /// <summary>

@@ -213,7 +213,7 @@ internal static class StswMapping
     /// <param name="type"> The type of objects to map to.</param>
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
     [StswInfo("0.18.0")]
-    internal static IEnumerable<object?> MapToClass(DataTable dt, Type type)
+    internal static IEnumerable<object> MapToClass(DataTable dt, Type type)
     {
         var objProps = type.GetProperties();
         var mappings = new Dictionary<int, PropertyInfo>();
@@ -259,7 +259,7 @@ internal static class StswMapping
     /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
     [StswInfo("0.18.0")]
-    internal static IEnumerable<object?> MapToNestedClass(DataTable dt, Type type, char delimiter)
+    internal static IEnumerable<object> MapToNestedClass(DataTable dt, Type type, char delimiter)
     {
         var normalizedColumnNames = dt.Columns.Cast<DataColumn>()
             .Select(x => StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")))

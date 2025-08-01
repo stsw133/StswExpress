@@ -1,10 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-
-namespace StswExpress.Commons;
+﻿namespace StswExpress.Commons;
 /// <summary>
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
-[StswInfo(null, Changes = StswPlannedChanges.ChangeName)] //TODO - remove or base it on SqlConnectionStringBuilder
+[StswInfo(null, Changes = StswPlannedChanges.ChangeName)]
 public partial class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
@@ -17,15 +15,6 @@ public partial class StswDatabaseModel : StswObservableObject
         Login = login;
         Password = password;
     }
-    public StswDatabaseModel(SqlConnection sqlConn)
-    {
-        Server = sqlConn.DataSource;
-        Database = sqlConn.Database;
-
-        var builder = new SqlConnectionStringBuilder(sqlConn.ConnectionString);
-        Login = builder.UserID;
-        Password = builder.Password;
-    }
 
     /// <summary>
     /// Gets or sets the name of the database connection.
@@ -37,7 +26,6 @@ public partial class StswDatabaseModel : StswObservableObject
     }
     private string? _name;
 
-    //TODO - remove
     /// <summary>
     /// Gets or sets the type of the database.
     /// </summary>
@@ -46,7 +34,7 @@ public partial class StswDatabaseModel : StswObservableObject
         get => _type;
         set => SetProperty(ref _type, value);
     }
-    private StswDatabaseType _type = default;
+    private StswDatabaseType _type = StswDatabaseType.MSSQL;
 
     /// <summary>
     /// Gets or sets the server address of the database.
@@ -129,27 +117,44 @@ public partial class StswDatabaseModel : StswObservableObject
     private bool _encrypt;
 
     /// <summary>
+    /// Gets or sets whether Windows Authentication should be used (Integrated Security).
+    /// </summary>
+    public bool UseIntegratedSecurity
+    {
+        get => _useIntegratedSecurity;
+        set => SetProperty(ref _useIntegratedSecurity, value);
+    }
+    private bool _useIntegratedSecurity;
+
+    /// <summary>
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
     public string GetConnString()
     {
-        if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database) || string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
-            throw new InvalidOperationException("Connection details are incomplete.");
+        if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database))
+            throw new InvalidOperationException("Server and Database must be specified.");
 
-        //TODO - change to ConnectionBuilder
+        if (!UseIntegratedSecurity && (string.IsNullOrEmpty(Login) || Password == null))
+            throw new InvalidOperationException("Login and Password must be specified when not using integrated security.");
+
+        var appName = $"Application Name={StswFn.AppName()};";
+
         return Type switch
         {
-            StswDatabaseType.MSSQL => $"Server={Server},{Port ?? 1433};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
-            StswDatabaseType.MySQL => $"Server={Server};Port={Port ?? 3306};Database={Database};Uid={Login};Pwd={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
-            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};Application Name={StswFn.AppName()};",
-            _ => throw new Exception("This type of database management system is not supported!")
+            StswDatabaseType.MSSQL => UseIntegratedSecurity
+                ? $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};Integrated Security=True;Encrypt={Encrypt};{appName}"
+                : $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};{appName}",
+
+            StswDatabaseType.MySQL => UseIntegratedSecurity
+                ? throw new NotSupportedException("Integrated security is not supported for MySQL.")
+                : $"Server={Server}{(Port.HasValue ? $";Port={Port}" : "")};Database={Database};Uid={Login};Pwd={Password};Encrypt={Encrypt};{appName}",
+
+            StswDatabaseType.PostgreSQL => UseIntegratedSecurity
+                ? throw new NotSupportedException("Integrated security is not supported for PostgreSQL.")
+                : $"Host={Server}{(Port.HasValue ? $";Port={Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};{appName}",
+
+            _ => throw new NotSupportedException("This type of database management system is not supported!")
         };
     }
-
-    /// <summary>
-    /// Opens a new SQL connection using the connection string.
-    /// </summary>
-    /// <returns>An open <see cref="SqlConnection"/>.</returns>
-    public SqlConnection OpenedConnection() => new SqlConnection(GetConnString()).GetOpened();
 }

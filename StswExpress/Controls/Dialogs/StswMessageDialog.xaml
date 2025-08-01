@@ -41,9 +41,9 @@
                                 <!-- copy button -->
                                 <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" DockPanel.Dock="Right" Margin="3">
                                     <se:StswTimedSwitch>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" ToolTip="{se:StswTranslate StswMessageDialog.CopyToClipboard}"/>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.CopyToClipboard}"/>
                                         <se:StswTimedSwitch.TimedContent>
-                                            <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" ToolTip="{se:StswTranslate StswMessageDialog.Copied}"/>
+                                            <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.Copied}"/>
                                         </se:StswTimedSwitch.TimedContent>
                                     </se:StswTimedSwitch>
                                 </se:StswSubButton>

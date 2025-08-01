@@ -58,7 +58,7 @@
                                 </DockPanel.Resources>
                                 
                                 <!-- close -->
-                                <se:StswButton x:Name="PART_ButtonClose" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Close}">
+                                <se:StswButton x:Name="PART_ButtonClose" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" se:StswToolTip.Text="{se:StswTranslate StswWindow.Close}">
                                     <se:StswOutlinedText Text="🗙"/>
                                     <se:StswButton.Resources>
                                         <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
@@ -66,11 +66,11 @@
                                     </se:StswButton.Resources>
                                 </se:StswButton>
                                 <!-- restore -->
-                                <se:StswButton x:Name="PART_ButtonRestate" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Maximize}">
+                                <se:StswButton x:Name="PART_ButtonRestate" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" se:StswToolTip.Text="{se:StswTranslate StswWindow.Maximize}">
                                     <se:StswOutlinedText x:Name="OPT_ButtonRestateText" Text="🗖"/>
                                 </se:StswButton>
                                 <!-- minimize -->
-                                <se:StswButton x:Name="PART_ButtonMinimize" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:StswTranslate StswWindow.Minimize}">
+                                <se:StswButton x:Name="PART_ButtonMinimize" DockPanel.Dock="Right" Style="{DynamicResource StswWindowButtonStyle}" se:StswToolTip.Text="{se:StswTranslate StswWindow.Minimize}">
                                     <se:StswOutlinedText Text="🗕"/>
                                 </se:StswButton>
                                 <!-- custom components -->
