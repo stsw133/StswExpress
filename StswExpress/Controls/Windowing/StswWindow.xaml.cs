@@ -45,11 +45,6 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Event that occurs when the <see cref="Fullscreen"/> property changes.
-    /// </summary>
-    public event EventHandler? FullscreenChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -221,9 +216,6 @@ public class StswWindow : Window, IStswCornerControl
                 return;
 
             stsw.HandleEnteringFullscreen(stsw.Fullscreen);
-
-            /// event for non MVVM programming
-            stsw.FullscreenChanged?.Invoke(stsw, new StswValueChangedEventArgs<bool?>((bool?)e.OldValue, (bool?)e.NewValue));
         }
     }
     #endregion

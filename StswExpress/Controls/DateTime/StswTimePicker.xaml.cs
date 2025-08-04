@@ -26,12 +26,6 @@ public class StswTimePicker : StswBoxBase
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected time in the control changes.
-    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
-    /// </summary>
-    public event EventHandler? SelectedTimeChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -347,9 +341,6 @@ public class StswTimePicker : StswBoxBase
                 stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
             }
             stsw._isTimeChanging = false;
-
-            /// event for non MVVM programming
-            stsw.SelectedTimeChanged?.Invoke(stsw, new StswValueChangedEventArgs<TimeSpan?>((TimeSpan?)e.OldValue, (TimeSpan?)e.NewValue));
         }
     }
     private static object? OnSelectedTimeChanging(DependencyObject obj, object? baseValue)

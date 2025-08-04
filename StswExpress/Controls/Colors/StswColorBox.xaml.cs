@@ -27,12 +27,6 @@ public class StswColorBox : StswBoxBase
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected color in the control changes.
-    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
-    /// </summary>
-    public event EventHandler? SelectedColorChanged;
-
     /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
@@ -111,16 +105,8 @@ public class StswColorBox : StswBoxBase
             typeof(StswColorBox),
             new FrameworkPropertyMetadata(default(Color?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, OnSelectedColorChanging, false, UpdateSourceTrigger.PropertyChanged)
+                null, OnSelectedColorChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswColorBox stsw)
-            return;
-
-        /// event for non MVVM programming
-        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
-    }
     private static object OnSelectedColorChanging(DependencyObject d, object baseValue)
     {
         if (baseValue == null)
