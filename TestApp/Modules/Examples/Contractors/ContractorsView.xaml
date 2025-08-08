@@ -150,7 +150,7 @@
                         <!-- IsArchival -->
                         <se:StswDataGridCheckColumn Binding="{Binding IsArchival}">
                             <se:StswDataGridCheckColumn.Header>
-                                <se:StswFilterBox Header="Is archival" FilterType="Check" FilterValuePath="IsArchival" IsFilterNullSensitive="True"/>
+                                <se:StswFilterBox Header="Is archival" FilterType="Check" FilterValuePath="IsArchival" ApplyNullReplacement="True"/>
                             </se:StswDataGridCheckColumn.Header>
                         </se:StswDataGridCheckColumn>
 

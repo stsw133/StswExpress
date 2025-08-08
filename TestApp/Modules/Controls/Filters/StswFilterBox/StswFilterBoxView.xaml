@@ -13,27 +13,27 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- ApplyCaseTransform -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyCaseTransform, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyCaseTransform}"/>
+            <!-- ApplyNullReplacement -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyNullReplacement, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyNullReplacement}"/>
             <!-- FilterMenuMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterMenuMode, Type={x:Type se:StswFilterBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswMenuMode}" Margin="0 0 0 3" SelectedValue="{Binding FilterMenuMode}"/>
             <!-- FilterType -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterType, Type={x:Type se:StswFilterBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAdaptiveType}" Margin="0 0 0 3" SelectedValue="{Binding FilterType}"/>
-            <!-- IsFilterCaseSensitive -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFilterCaseSensitive, Type={x:Type se:StswFilterBox}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterCaseSensitive}"/>
-            <!-- IsFilterNullSensitive -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFilterNullSensitive, Type={x:Type se:StswFilterBox}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswFilterBox FilterMenuMode="{Binding FilterMenuMode}"
+        <se:StswFilterBox ApplyCaseTransform="{Binding ApplyCaseTransform}"
+                          ApplyNullReplacement="{Binding ApplyNullReplacement}"
+                          FilterMenuMode="{Binding FilterMenuMode}"
                           FilterMode="Contains"
                           FilterType="{Binding FilterType}"
                           FilterValuePath="tab.ColumnName"
                           IsEnabled="{Binding IsEnabled}"
-                          IsFilterCaseSensitive="{Binding IsFilterCaseSensitive}"
-                          IsFilterNullSensitive="{Binding IsFilterNullSensitive}"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"

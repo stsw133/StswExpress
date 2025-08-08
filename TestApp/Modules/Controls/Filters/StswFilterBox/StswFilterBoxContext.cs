@@ -7,10 +7,10 @@ public partial class StswFilterBoxContext : ControlsContext
     {
         base.SetDefaults();
 
+        ApplyCaseTransform = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ApplyCaseTransform)))?.Value ?? default;
+        ApplyNullReplacement = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ApplyNullReplacement)))?.Value ?? default;
         FilterMenuMode = (StswMenuMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(FilterMenuMode)))?.Value ?? default;
         FilterType = (StswAdaptiveType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(FilterType)))?.Value ?? default;
-        IsFilterCaseSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterCaseSensitive)))?.Value ?? default;
-        IsFilterNullSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterNullSensitive)))?.Value ?? default;
     }
     
     [StswCommand] void Refresh(ControlsBase? controlsBase)
@@ -25,10 +25,10 @@ public partial class StswFilterBoxContext : ControlsContext
         }
     }
 
+    [StswObservableProperty] bool _applyCaseTransform;
+    [StswObservableProperty] bool _applyNullReplacement;
     [StswObservableProperty] StswMenuMode _filterMenuMode;
     [StswObservableProperty] StswAdaptiveType _filterType;
-    [StswObservableProperty] bool _isFilterCaseSensitive;
-    [StswObservableProperty] bool _isFilterNullSensitive;
     [StswObservableProperty] string _sqlParam1 = string.Empty;
     [StswObservableProperty] string _sqlParam2 = string.Empty;
     [StswObservableProperty] string? _sqlString = string.Empty;

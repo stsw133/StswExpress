@@ -628,10 +628,13 @@ public static partial class StswDatabaseHelper
             return;
 
         var dt = items.ToDataTable();
+        var columnsDefinitions = dt.Columns
+            .Cast<DataColumn>()
+            .Select(col => $"[{col.ColumnName}] {GetSqlType(col.DataType)}");
         tableName = "#" + tableName.TrimStart('#');
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, false);
-        using var sqlCmd = new SqlCommand(GenerateCreateTableScript(dt, tableName), factory.Connection, factory.Transaction);
+        using var sqlCmd = new SqlCommand($"CREATE TABLE {tableName} ({string.Join(", ", columnsDefinitions)});", factory.Connection, factory.Transaction);
         sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
         sqlCmd.ExecuteNonQuery();
         
@@ -760,75 +763,6 @@ public static partial class StswDatabaseHelper
         => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
-    /// Checks if the query can be executed based on the current application state.
-    /// </summary>
-    /// <returns>
-    /// Returns <see langword="false"/> if the application is in design mode and queries should not be executed, otherwise returns <see langword="true"/>.
-    /// </returns>
-    public static bool CheckQueryConditions()
-    {
-        if (!StswDatabases.Config.IsEnabled)
-            return false;
-
-        if (StswDatabases.Config.ReturnIfInDesignerMode && IsInDesignMode())
-            return false;
-
-        return true;
-    }
-
-    /// <summary>
-    /// Determines if the application is in design mode.
-    /// </summary>
-    /// <returns><see langword="true"/> if in design mode, otherwise <see langword="false"/>.</returns>
-    private static bool IsInDesignMode()
-    {
-        if (_isInDesignMode.HasValue)
-            return _isInDesignMode.Value;
-
-        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesignerProcess())
-        {
-            _isInDesignMode = true;
-            return true;
-        }
-
-        if (StswFn.IsUiThreadAvailable())
-        {
-            var isInDesignMode = false;
-            SynchronizationContext.Current?.Send(_ => isInDesignMode = CheckDesignerEnvironment(), null);
-            _isInDesignMode = isInDesignMode;
-            return isInDesignMode;
-        }
-
-        _isInDesignMode = false;
-        return false;
-    }
-    private static bool? _isInDesignMode;
-
-    /// <summary>
-    /// Checks if the current process is running inside a designer.
-    /// </summary>
-    /// <returns><see langword="true"/> if running inside a designer, otherwise <see langword="false"/>.</returns>
-    private static bool IsDesignerProcess()
-    {
-        var processName = Process.GetCurrentProcess().ProcessName;
-        return processName.Contains("devenv") || processName.Contains("Blend");
-    }
-
-    /// <summary>
-    /// Placeholder method for additional design-time detection logic.
-    /// </summary>
-    /// <returns><see langword="true"/> if the environment is detected as a designer, otherwise <see langword="false"/>.</returns>
-    private static bool CheckDesignerEnvironment()
-    {
-        var processName = Process.GetCurrentProcess().ProcessName.ToLower();
-
-        if (processName.Contains("xdesproc"))
-            return true;
-
-        return false;
-    }
-
-    /// <summary>
     /// Builds a getter function for the specified property using expression trees.
     /// </summary>
     /// <param name="prop"> The property for which to build the getter.</param>
@@ -844,18 +778,20 @@ public static partial class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Generates the SQL script to create a temporary table based on the structure of the provided DataTable.
+    /// Checks if the query can be executed based on the current application state.
     /// </summary>
-    /// <param name="dt">The DataTable that defines the structure of the table to be created.</param>
-    /// <param name="tableName">The name of the temporary table to be created.</param>
-    /// <returns>A SQL script string for creating the temporary table.</returns>
-    private static string GenerateCreateTableScript(DataTable dt, string tableName)
+    /// <returns>
+    /// Returns <see langword="false"/> if the application is in design mode and queries should not be executed, otherwise returns <see langword="true"/>.
+    /// </returns>
+    private static bool CheckQueryConditions()
     {
-        var columnsDefinitions = dt.Columns
-            .Cast<DataColumn>()
-            .Select(col => $"[{col.ColumnName}] {GetSqlType(col.DataType)}");
+        if (!StswDatabases.Config.IsEnabled)
+            return false;
 
-        return $"CREATE TABLE {tableName} ({string.Join(", ", columnsDefinitions)});";
+        if (StswDatabases.Config.ReturnIfInDesignerMode && IsInDesignMode())
+            return false;
+
+        return true;
     }
 
     /// <summary>
@@ -921,6 +857,44 @@ public static partial class StswDatabaseHelper
     };
 
     /// <summary>
+    /// Checks if the current process is running inside a designer.
+    /// </summary>
+    /// <returns><see langword="true"/> if running inside a designer, otherwise <see langword="false"/>.</returns>
+    private static bool IsDesignerProcess()
+    {
+        var processName = Process.GetCurrentProcess().ProcessName;
+        return processName.Contains("devenv") || processName.Contains("Blend");
+    }
+
+    /// <summary>
+    /// Determines if the application is in design mode.
+    /// </summary>
+    /// <returns><see langword="true"/> if in design mode, otherwise <see langword="false"/>.</returns>
+    private static bool IsInDesignMode()
+    {
+        if (_isInDesignMode.HasValue)
+            return _isInDesignMode.Value;
+
+        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesignerProcess())
+        {
+            _isInDesignMode = true;
+            return true;
+        }
+
+        if (StswFn.IsUiThreadAvailable())
+        {
+            var isInDesignMode = false;
+            SynchronizationContext.Current?.Send(_ => isInDesignMode = Process.GetCurrentProcess().ProcessName.Contains("xdesproc", StringComparison.CurrentCultureIgnoreCase), null);
+            _isInDesignMode = isInDesignMode;
+            return isInDesignMode;
+        }
+
+        _isInDesignMode = false;
+        return false;
+    }
+    private static bool? _isInDesignMode;
+
+    /// <summary>
     /// Reduces the amount of space in the given SQL query string by removing unnecessary whitespace 
     /// while preserving the content within string literals.
     /// </summary>
@@ -984,55 +958,101 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="sqlCommand">The SQL command to prepare with parameters.</param>
     /// <param name="parameterModel">The model containing the values to be added as parameters.</param>
+    /// <param name="passAllParametersAnyway">If <see langword="true"/>, all parameters from the model will be added regardless of their usage in the query.</param>
     /// <returns>The prepared <see cref="SqlCommand"/>.</returns>
     private static SqlCommand PrepareCommand(this SqlCommand sqlCommand, object? parameterModel, bool passAllParametersAnyway = false)
     {
         sqlCommand.Parameters.Clear();
 
-        if (parameterModel != null)
-        {
-            /// in query:
-            /// remove everything between '' marks (including the quotes)
-            /// remove everything between /* and */ (including the markers)
-            /// remove everything between -- and newline (keeping the newline)
-            /// and get all used parameters
-            
-            var query = SingleQuotesRegex().Replace(sqlCommand.CommandText, "");
-            query = BlockCommentsRegex().Replace(query, "");
-            query = LineCommentsRegex().Replace(query, "");
+        if (parameterModel == null)
+            return sqlCommand;
 
-            var cmdParameters = ParameterRegex().Matches(query).Cast<Match>().Select(x => x.Groups[1].Value.ToLower());
-            
-            /// prepare parameters from model
-            var sqlParameters = (parameterModel switch
-            {
-                IEnumerable<SqlParameter> paramList => paramList,
-                IDictionary<string, object> dict => dict.Where(x => x.Key.ToLower().In(cmdParameters))
-                                                        .Select(x => new SqlParameter("@" + x.Key, x.Value ?? DBNull.Value)),
-                _ => parameterModel.GetType()
-                          .GetProperties()
-                          .Where(x => passAllParametersAnyway || x.Name.ToLower().In(cmdParameters))
-                          .Select(x => new SqlParameter("@" + x.Name, x.GetValue(parameterModel) ?? DBNull.Value))
-            }).ToList();
-            
-            /// add prepared parameters to command
-            foreach (var sqlParameter in sqlParameters)
-            {
-                if (sqlParameter.Value?.GetType()?.IsListType(out var type) == true)
+        /// in query:
+        /// remove everything between '' marks (including the quotes)
+        /// remove everything between /* and */ (including the markers)
+        /// remove everything between -- and newline (keeping the newline)
+        /// and get all used parameters
+
+        var query = SingleQuotesRegex().Replace(sqlCommand.CommandText, "");
+        query = BlockCommentsRegex().Replace(query, "");
+        query = LineCommentsRegex().Replace(query, "");
+
+        var usedParameters = new HashSet<string>(
+            ParameterRegex().Matches(query).Cast<Match>().Select(m => m.Groups[1].Value),
+            StringComparer.OrdinalIgnoreCase
+        );
+
+        bool ShouldPass(string paramNameNoAt) => passAllParametersAnyway || usedParameters.Contains(paramNameNoAt);
+        static string TrimAt(string n) => n?.TrimStart('@') ?? string.Empty;
+        static string EnsureAt(string n) => n.StartsWith("@", StringComparison.Ordinal) ? n : "@" + n;
+
+        switch (parameterModel)
+        {
+            case IEnumerable<SqlParameter> paramList:
                 {
-                    if (type == typeof(byte))
-                        sqlCommand.Parameters.Add(sqlParameter.ParameterName, SqlDbType.VarBinary, -1).Value = sqlParameter.Value;
-                    else if (type?.IsValueType == true)
-                        sqlCommand.ParametersAddList(sqlParameter.ParameterName, (IList?)sqlParameter.Value);
+                    foreach (var p in paramList.Where(x => x is not null))
+                    {
+                        if (!ShouldPass(TrimAt(p.ParameterName)))
+                            continue;
+
+                        if (p.Value is IList list && p.Value is not byte[])
+                            sqlCommand.ParametersAddList(p.ParameterName, list);
+                        else
+                            sqlCommand.Parameters.Add(p);
+                    }
+                    break;
                 }
-                else
+
+            case IDictionary<string, object?> dict:
                 {
-                    sqlCommand.Parameters.Add(sqlParameter);
+                    foreach (var kv in dict)
+                    {
+                        if (!ShouldPass(TrimAt(kv.Key)))
+                            continue;
+
+                        sqlCommand.PrepareParameter(EnsureAt(kv.Key), kv.Value);
+                    }
+                    break;
                 }
-            }
+
+            default:
+                {
+                    var t = parameterModel.GetType();
+                    foreach (var pi in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    {
+                        if (!ShouldPass(TrimAt(pi.Name)))
+                            continue;
+
+                        sqlCommand.PrepareParameter(EnsureAt(pi.Name), pi.GetValue(parameterModel));
+                    }
+                    break;
+                }
         }
 
         return sqlCommand;
+    }
+
+    /// <summary>
+    /// Prepares a single SQL parameter for the command, handling special cases like byte arrays and lists.
+    /// </summary>
+    /// <param name="sqlCommand">The SQL command to which the parameter will be added.</param>
+    /// <param name="name">The name of the parameter, including the '@' prefix.</param>
+    /// <param name="value">The value of the parameter to be added.</param>
+    private static void PrepareParameter(this SqlCommand sqlCommand, string name, object? value)
+    {
+        if (value is byte[] bytes)
+        {
+            sqlCommand.Parameters.Add(name, SqlDbType.VarBinary, -1).Value = bytes;
+            return;
+        }
+
+        if (value is IList list && value is not string)
+        {
+            sqlCommand.ParametersAddList(name, list);
+            return;
+        }
+
+        sqlCommand.Parameters.Add(new SqlParameter(name, value ?? DBNull.Value));
     }
 
     /// <summary>

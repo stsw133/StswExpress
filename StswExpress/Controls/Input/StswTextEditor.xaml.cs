@@ -22,6 +22,7 @@ namespace StswExpress;
 /// &lt;se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
 /// </code>
 /// </example>
+[Obsolete]
 [StswInfo("0.1.0", Changes = StswPlannedChanges.Rework)]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
@@ -76,11 +77,11 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             _fontFamily = fontFamily;
         }
         /// Box: font size
-        if (GetTemplateChild("PART_FontSize") is StswDecimalBox fontSize)
-        {
-            fontSize.ValueChanged += PART_FontSize_ValueChanged;
-            _fontSize = fontSize;
-        }
+        //if (GetTemplateChild("PART_FontSize") is StswDecimalBox fontSize)
+        //{
+        //    fontSize.ValueChanged += PART_FontSize_ValueChanged;
+        //    _fontSize = fontSize;
+        //}
 
         OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;

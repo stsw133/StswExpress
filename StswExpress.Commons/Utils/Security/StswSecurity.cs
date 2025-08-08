@@ -67,6 +67,7 @@ public static class StswSecurity
             return SHA256.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
         }
     }
+    //TODO - set Salt manually if needed
 
     /// <summary>
     /// Computes the hash of data using the specified hashing algorithm.

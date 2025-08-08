@@ -20,7 +20,6 @@ public static partial class StswExtensions
     /// <param name="o">The object to convert. If <see langword="null"/>, the <see langword="null"/> is returned.</param>
     /// <param name="t">The target type to convert to.</param>
     /// <returns>The converted object of type <paramref name="t"/>, or <see langword="null"/> if conversion fails.</returns>
-
     [StswInfo(null)]
     public static object? ConvertTo(this object? o, Type t)
     {
@@ -294,6 +293,8 @@ public static partial class StswExtensions
     /// <returns>A long value representing the number of seconds since the Unix epoch (January 1, 1970).</returns>
     [StswInfo("0.9.0")]
     public static long ToUnixTimeSeconds(this DateTime dateTime) => new DateTimeOffset(dateTime).ToUnixTimeSeconds();
+
+    //TODO - last second of day
     #endregion
 
     #region Dictionary extensions
@@ -362,6 +363,7 @@ public static partial class StswExtensions
     /// <param name="key">The key of the value to get.</param>
     /// <returns>The value associated with the specified key, or <see langword="default"/> if the key is not found.</returns>
     public static TValue? TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull => dictionary.TryGetValue(key, out var value) ? value : default;
+    //TODO - change name to GetValueOrDefault
     #endregion
 
     #region Enum extensions
@@ -529,6 +531,7 @@ public static partial class StswExtensions
                     list.RemoveAt(i);
         }
     }
+    //TODO - rename to RemoveRange
 
     /// <summary>
     /// Replaces all occurrences of a specified value in an <see cref="IList{T}"/> with another value.

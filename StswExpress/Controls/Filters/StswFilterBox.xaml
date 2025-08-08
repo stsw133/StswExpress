@@ -325,7 +325,7 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeStartsWith"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeEndsWith"/>
                         </Trigger>
-                        <Trigger Property="IsFilterNullSensitive" Value="True">
+                        <Trigger Property="ApplyNullReplacement" Value="False">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNull"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_ModeNotNull"/>
                         </Trigger>

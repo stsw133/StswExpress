@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -68,69 +69,16 @@ public class StswFilterBox : Control, IStswCornerControl
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
-    /// <summary>
-    /// Generates an SQL WHERE clause string based on the current filter settings.
-    /// </summary>
-    public void GenerateSqlString()
+    /// <inheritdoc/>
+    protected override void OnKeyDown(KeyEventArgs e)
     {
-        if (_dataGrid?.FiltersType != StswDataGridFiltersType.SQL)
-        {
-            SqlString = null;
-            return;
-        }
-
-        /// separator
-        string s = FilterType is StswAdaptiveType.Date or StswAdaptiveType.List or StswAdaptiveType.Text or StswAdaptiveType.Time ? "'" : string.Empty;
-        /// case sensitive
-        string cs1 = FilterType is StswAdaptiveType.List or StswAdaptiveType.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
-        string cs2 = cs1.Length > 0 ? ")" : string.Empty;
-        /// null sensitive
-        string ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
-        string ns2 = !IsFilterNullSensitive ? FilterType switch
-        {
-            StswAdaptiveType.Check => ", 0)",
-            StswAdaptiveType.Date => ", '1900-01-01')",
-            StswAdaptiveType.List or StswAdaptiveType.Text => ", '')",
-            StswAdaptiveType.Number => ", 0)",
-            StswAdaptiveType.Time => ", '00:00:00')",
-            _ => string.Empty
-        } : string.Empty;
-
-        /// get any selected items (if ItemsSource uses IStswSelectionItem)
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected).ToList();
-        var listValues = selectedItems?
-            .Select(item => SelectedValuePath != null
-                ? item.GetType().GetProperty(SelectedValuePath)?.GetValue(item) ?? item
-                : item)
-            .Select(value => value?.GetType().IsEnum == true ? value.ConvertTo<int>() : value)
-            .ToList() ?? [];
-
-        var listString = string.Join($"{s}{cs2},{cs1}{s}", listValues);
-
-        /// build final SQL
-        SqlString = FilterMode switch
-        {
-            StswFilterMode.Equal        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotEqual     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Greater      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.GreaterEqual => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Less         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.LessEqual    => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Between      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
-            StswFilterMode.Contains     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.NotContains  => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.Like         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotLike      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.StartsWith   => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
-            StswFilterMode.EndsWith     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
-            StswFilterMode.In           => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} in ({cs1}{s}{listString}{s}{cs2})",
-            StswFilterMode.NotIn        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not in ({cs1}{s}{listString}{s}{cs2})",
-            StswFilterMode.Null         => $"{FilterValuePath} is null",
-            StswFilterMode.NotNull      => $"{FilterValuePath} is not null",
-            _ => SqlString
-        };
+        base.OnKeyDown(e);
+        if (e.Key == Key.Enter)
+            _dataGrid?.RefreshCommand?.Execute(null);
     }
+    #endregion
 
+    #region ICollectionView filtering
     /// <summary>
     /// Generates a filter predicate for use in a CollectionView filter.
     /// </summary>
@@ -157,7 +105,7 @@ public class StswFilterBox : Control, IStswCornerControl
         object? GetValueForFilter(object rowItem)
         {
             var rawValue = rowItem.GetPropertyValue(FilterValuePath);
-            if (rawValue == null && !IsFilterNullSensitive)
+            if (rawValue == null && ApplyNullReplacement)
             {
                 return FilterType switch
                 {
@@ -229,13 +177,13 @@ public class StswFilterBox : Control, IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal        => decValue == decVal1,
-                            StswFilterMode.NotEqual     => decValue != decVal1,
-                            StswFilterMode.Greater      => decValue > decVal1,
+                            StswFilterMode.Equal => decValue == decVal1,
+                            StswFilterMode.NotEqual => decValue != decVal1,
+                            StswFilterMode.Greater => decValue > decVal1,
                             StswFilterMode.GreaterEqual => decValue >= decVal1,
-                            StswFilterMode.Less         => decValue < decVal1,
-                            StswFilterMode.LessEqual    => decValue <= decVal1,
-                            StswFilterMode.Between      => decValue >= decVal1 && decValue <= decVal2,
+                            StswFilterMode.Less => decValue < decVal1,
+                            StswFilterMode.LessEqual => decValue <= decVal1,
+                            StswFilterMode.Between => decValue >= decVal1 && decValue <= decVal2,
                             _ => true
                         };
                     }
@@ -249,13 +197,13 @@ public class StswFilterBox : Control, IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal        => timeValue.TotalSeconds == timeVal1.TotalSeconds,
-                            StswFilterMode.NotEqual     => timeValue.TotalSeconds != timeVal1.TotalSeconds,
-                            StswFilterMode.Greater      => timeValue.TotalSeconds > timeVal1.TotalSeconds,
+                            StswFilterMode.Equal => timeValue.TotalSeconds == timeVal1.TotalSeconds,
+                            StswFilterMode.NotEqual => timeValue.TotalSeconds != timeVal1.TotalSeconds,
+                            StswFilterMode.Greater => timeValue.TotalSeconds > timeVal1.TotalSeconds,
                             StswFilterMode.GreaterEqual => timeValue.TotalSeconds >= timeVal1.TotalSeconds,
-                            StswFilterMode.Less         => timeValue.TotalSeconds < timeVal1.TotalSeconds,
-                            StswFilterMode.LessEqual    => timeValue.TotalSeconds <= timeVal1.TotalSeconds,
-                            StswFilterMode.Between      => timeValue.TotalSeconds >= timeVal1.TotalSeconds && timeValue.TotalSeconds <= timeVal2.TotalSeconds,
+                            StswFilterMode.Less => timeValue.TotalSeconds < timeVal1.TotalSeconds,
+                            StswFilterMode.LessEqual => timeValue.TotalSeconds <= timeVal1.TotalSeconds,
+                            StswFilterMode.Between => timeValue.TotalSeconds >= timeVal1.TotalSeconds && timeValue.TotalSeconds <= timeVal2.TotalSeconds,
                             _ => true
                         };
                     }
@@ -267,14 +215,14 @@ public class StswFilterBox : Control, IStswCornerControl
                         var val1 = Value1?.ToString();
                         var val2 = Value2?.ToString() ?? string.Empty;
 
-                        if (!IsFilterCaseSensitive)
+                        if (ApplyCaseTransform)
                         {
                             textValue = textValue?.ToLowerInvariant();
                             val1 = val1?.ToLowerInvariant();
                             val2 = val2?.ToLowerInvariant();
                         }
 
-                        if (textValue == null && IsFilterNullSensitive)
+                        if (textValue == null && !ApplyNullReplacement)
                             return false;
 
                         if (FilterMode == StswFilterMode.In)
@@ -282,7 +230,7 @@ public class StswFilterBox : Control, IStswCornerControl
                             return listValues.Any(o =>
                             {
                                 var str = o?.ToString();
-                                if (!IsFilterCaseSensitive)
+                                if (ApplyCaseTransform)
                                     str = str?.ToLowerInvariant();
                                 return str == textValue;
                             });
@@ -292,7 +240,7 @@ public class StswFilterBox : Control, IStswCornerControl
                             return !listValues.Any(o =>
                             {
                                 var str = o?.ToString();
-                                if (!IsFilterCaseSensitive)
+                                if (ApplyCaseTransform)
                                     str = str?.ToLowerInvariant();
                                 return str == textValue;
                             });
@@ -300,15 +248,15 @@ public class StswFilterBox : Control, IStswCornerControl
 
                         return FilterMode switch
                         {
-                            StswFilterMode.Equal        => textValue == val1,
-                            StswFilterMode.NotEqual     => textValue != val1,
-                            StswFilterMode.Contains     => val1 != null && textValue?.Contains(val1) == true,
-                            StswFilterMode.NotContains  => val1 != null && !(textValue?.Contains(val1) == true),
-                            StswFilterMode.StartsWith   => val1 != null && textValue?.StartsWith(val1) == true,
-                            StswFilterMode.EndsWith     => val1 != null && textValue?.EndsWith(val1) == true,
-                            StswFilterMode.Like         => MatchesLikePattern(textValue, val1),
-                            StswFilterMode.NotLike      => !MatchesLikePattern(textValue, val1),
-                            StswFilterMode.Between      => textValue.Between(val1, val2),
+                            StswFilterMode.Equal => textValue == val1,
+                            StswFilterMode.NotEqual => textValue != val1,
+                            StswFilterMode.Contains => val1 != null && textValue?.Contains(val1) == true,
+                            StswFilterMode.NotContains => val1 != null && !(textValue?.Contains(val1) == true),
+                            StswFilterMode.StartsWith => val1 != null && textValue?.StartsWith(val1) == true,
+                            StswFilterMode.EndsWith => val1 != null && textValue?.EndsWith(val1) == true,
+                            StswFilterMode.Like => MatchesLikePattern(textValue, val1),
+                            StswFilterMode.NotLike => !MatchesLikePattern(textValue, val1),
+                            StswFilterMode.Between => textValue.Between(val1, val2),
                             _ => true
                         };
                     }
@@ -341,38 +289,167 @@ public class StswFilterBox : Control, IStswCornerControl
 
         return text == core;
     }
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void OnKeyDown(KeyEventArgs e)
+    #region SQL filtering
+    /// <summary>
+    /// Generates an SQL WHERE clause string based on the current filter settings.
+    /// </summary>
+    public void GenerateSqlString()
     {
-        base.OnKeyDown(e);
-        if (e.Key == Key.Enter)
-            _dataGrid?.RefreshCommand?.Execute(null);
+        if (_dataGrid?.FiltersType != StswDataGridFiltersType.SQL)
+        {
+            SqlString = null;
+            return;
+        }
+
+        /// check if list values are selected
+        var isListFilter = FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
+        var valueType = isListFilter ? ResolveListValueType() : null;
+        var listIsNumeric = valueType != null && (valueType.IsEnum || valueType.IsNumericType());
+        var effType = FilterType == StswAdaptiveType.List
+            ? (listIsNumeric ? StswAdaptiveType.Number : StswAdaptiveType.Text)
+            : FilterType;
+
+        /// separator
+        string s = effType is StswAdaptiveType.Date or StswAdaptiveType.Text or StswAdaptiveType.Time ? "'" : string.Empty;
+        /// case sensitive
+        string cs1 = effType is StswAdaptiveType.Text && ApplyCaseTransform ? "lower(" : string.Empty;
+        string cs2 = cs1.Length > 0 ? ")" : string.Empty;
+        /// null sensitive
+        string ns1 = ApplyNullReplacement ? "coalesce(" : string.Empty;
+        string ns2 = ApplyNullReplacement ? effType switch
+        {
+            StswAdaptiveType.Check => ", 0)",
+            StswAdaptiveType.Date => ", '1900-01-01')",
+            StswAdaptiveType.List or StswAdaptiveType.Text => ", '')",
+            StswAdaptiveType.Number => ", 0)",
+            StswAdaptiveType.Time => ", '00:00:00')",
+            _ => string.Empty
+        } : string.Empty;
+
+        /// helper method to escape text values
+        string EscapeIfText(object? v) =>
+            v == null ? string.Empty
+              : (s.Length > 0 ? v.ToString()?.Replace("'", "''") ?? string.Empty
+                              : v.ToString() ?? string.Empty);
+
+        IEnumerable<string> EnumerateValues()
+        {
+            if (ItemsSource == null) yield break;
+            foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+            {
+                if (!it.IsSelected) continue;
+
+                object? v = SelectedValuePath != null
+                    ? it.GetType().GetProperty(SelectedValuePath)?.GetValue(it) ?? it
+                    : it;
+
+                if (v?.GetType().IsEnum == true)
+                    v = Convert.ToInt32(v);
+
+                yield return EscapeIfText(v);
+            }
+        }
+
+        var listString = string.Join($"{s}{cs2},{cs1}{s}", EnumerateValues());
+
+        /// build final SQL
+        SqlString = FilterMode switch
+        {
+            StswFilterMode.Equal        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotEqual     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Greater      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.GreaterEqual => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Less         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.LessEqual    => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Between      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
+            StswFilterMode.Contains     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.NotContains  => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.Like         => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotLike      => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.StartsWith   => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
+            StswFilterMode.EndsWith     => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
+            StswFilterMode.In           => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} in ({cs1}{s}{listString}{s}{cs2})",
+            StswFilterMode.NotIn        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} not in ({cs1}{s}{listString}{s}{cs2})",
+            StswFilterMode.Null         => $"{FilterValuePath} is null",
+            StswFilterMode.NotNull      => $"{FilterValuePath} is not null",
+            _ => SqlString
+        };
     }
 
     /// <summary>
-    /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
+    /// Generates the SQL parameter name for the filter value.
     /// </summary>
-    [StswInfo("0.15.0")]
-    private void NotifyFilterChanged()
+    /// <param name="sampleLimit">The maximum number of items to sample for determining the value type.</param>
+    /// <returns>The SQL parameter name.</returns>
+    private Type? ResolveListValueType(int sampleLimit = 8)
     {
-        RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
+        if (ItemsSource?.GetType().IsListType(out var innerType) == true && innerType != null && !string.IsNullOrEmpty(SelectedValuePath))
+        {
+            var propType = innerType.GetProperty(SelectedValuePath)?.PropertyType;
+            if (propType != null && propType != typeof(object))
+                return propType;
+        }
+
+        if (ItemsSource == null)
+            return null;
+
+        int seen = 0;
+        foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+        {
+            if (!it.IsSelected)
+                continue;
+
+            object? val = SelectedValuePath != null
+                ? it.GetType().GetProperty(SelectedValuePath)?.GetValue(it) ?? it
+                : it;
+
+            if (val?.GetType().IsEnum == true)
+                val = Convert.ToInt32(val);
+
+            if (val != null)
+                return val.GetType();
+
+            if (++seen >= sampleLimit)
+                break;
+        }
+
+        return null;
     }
-    public event RoutedEventHandler FilterChanged
-    {
-        add => AddHandler(FilterChangedEvent, value);
-        remove => RemoveHandler(FilterChangedEvent, value);
-    }
-    public static readonly RoutedEvent FilterChangedEvent
-        = EventManager.RegisterRoutedEvent(
-            nameof(FilterChanged),
-            RoutingStrategy.Bubble,
-            typeof(RoutedEventHandler),
-            typeof(StswFilterBox)
-        );
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets whether to apply case transformation to the filter values.
+    /// </summary>
+    public bool ApplyCaseTransform
+    {
+        get => (bool)GetValue(ApplyCaseTransformProperty);
+        set => SetValue(ApplyCaseTransformProperty, value);
+    }
+    public static readonly DependencyProperty ApplyCaseTransformProperty
+        = DependencyProperty.Register(
+            nameof(ApplyCaseTransform),
+            typeof(bool),
+            typeof(StswFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets whether to apply a null replacement for the filter values.
+    /// </summary>
+    public bool ApplyNullReplacement
+    {
+        get => (bool)GetValue(ApplyNullReplacementProperty);
+        set => SetValue(ApplyNullReplacementProperty, value);
+    }
+    public static readonly DependencyProperty ApplyNullReplacementProperty
+        = DependencyProperty.Register(
+            nameof(ApplyNullReplacement),
+            typeof(bool),
+            typeof(StswFilterBox)
+        );
+
     /// <summary>
     /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
     /// </summary>
@@ -385,6 +462,23 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
+            typeof(StswFilterBox)
+        );
+
+    /// <summary>
+    /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
+    /// </summary>
+    //[StswInfo("0.15.0")]
+    public event RoutedEventHandler FilterChanged
+    {
+        add => AddHandler(FilterChangedEvent, value);
+        remove => RemoveHandler(FilterChangedEvent, value);
+    }
+    public static readonly RoutedEvent FilterChangedEvent
+        = EventManager.RegisterRoutedEvent(
+            nameof(FilterChanged),
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
             typeof(StswFilterBox)
         );
 
@@ -544,36 +638,6 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets whether filtering is case-sensitive.
-    /// </summary>
-    public bool IsFilterCaseSensitive
-    {
-        get => (bool)GetValue(IsFilterCaseSensitiveProperty);
-        set => SetValue(IsFilterCaseSensitiveProperty, value);
-    }
-    public static readonly DependencyProperty IsFilterCaseSensitiveProperty
-        = DependencyProperty.Register(
-            nameof(IsFilterCaseSensitive),
-            typeof(bool),
-            typeof(StswFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets whether filtering is case-sensitive.
-    /// </summary>
-    public bool IsFilterNullSensitive
-    {
-        get => (bool)GetValue(IsFilterNullSensitiveProperty);
-        set => SetValue(IsFilterNullSensitiveProperty, value);
-    }
-    public static readonly DependencyProperty IsFilterNullSensitiveProperty
-        = DependencyProperty.Register(
-            nameof(IsFilterNullSensitive),
-            typeof(bool),
-            typeof(StswFilterBox)
-        );
-
-    /// <summary>
     /// Indicates whether the control is inside a StswDataGrid.
     /// </summary>
     internal bool IsInDataGrid
@@ -710,21 +774,29 @@ public class StswFilterBox : Control, IStswCornerControl
         if (obj is not StswFilterBox stsw)
             return;
 
-        if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.CollectionView)
+        var filtersType = stsw._dataGrid?.FiltersType;
+        if (filtersType == StswDataGridFiltersType.CollectionView)
         {
             stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
         }
-        else if (stsw._dataGrid?.FiltersType == StswDataGridFiltersType.SQL)
+        else if (filtersType == StswDataGridFiltersType.SQL)
         {
-            if (stsw.Value1 == null
-             || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-             || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
+            var needsTwo = stsw.FilterMode == StswFilterMode.Between;
+            var hasList = stsw.FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
+
+            if ((needsTwo && (stsw.Value1 == null || stsw.Value2 == null)) ||
+                (!needsTwo && !hasList && stsw.Value1 == null) ||
+                (hasList && (stsw.ItemsSource?.OfType<IStswSelectionItem>().Any(x => x.IsSelected) != true)))
+            {
                 stsw.SqlString = null;
+            }
             else
+            {
                 stsw.GenerateSqlString();
+            }
         }
 
-        stsw.NotifyFilterChanged();
+        stsw.RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
     }
     internal object? DefaultValue1 { get; set; } = null;
 
