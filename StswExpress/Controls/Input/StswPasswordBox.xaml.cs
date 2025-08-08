@@ -31,11 +31,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the password in the box changes.
-    /// </summary>
-    public event EventHandler? PasswordChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -145,9 +140,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
         if (stsw._passwordBox != null && !stsw._isPasswordChanging)
             stsw._passwordBox.Password = stsw.Password;
-
-        /// event for non MVVM programming
-        stsw.PasswordChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <inheritdoc/>

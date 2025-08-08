@@ -30,11 +30,6 @@ public class StswPathPicker : StswBoxBase
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected path in the control changes.
-    /// </summary>
-    public event EventHandler? SelectedPathChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -301,12 +296,8 @@ public class StswPathPicker : StswBoxBase
             stsw.parentPath = parentPath;
             stsw.ListAdjacentPaths();
         }
-
-        /// event for non MVVM programming
-        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
     private string? parentPath;
-
 
     /// <summary>
     /// Gets or sets the currently selected path in the control.

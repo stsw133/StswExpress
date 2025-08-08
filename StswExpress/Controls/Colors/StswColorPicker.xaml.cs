@@ -30,12 +30,6 @@ public class StswColorPicker : Control, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected color in the control changes.
-    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
-    /// </summary>
-    public event EventHandler? SelectedColorChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -196,9 +190,6 @@ public class StswColorPicker : Control, IStswCornerControl
 
         stsw.SelectedColorV = v;
         stsw._blockColorEllipse = false;
-
-        /// event for non MVVM programming
-        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
     }
 
     /// <summary>

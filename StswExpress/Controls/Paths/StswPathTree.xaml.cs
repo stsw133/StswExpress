@@ -39,11 +39,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected path in the control changes.
-    /// </summary>
-    public event EventHandler? SelectedPathChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -304,9 +299,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 
         if (e.NewValue is string newPath)
             await stsw.SelectPathAsync(newPath);
-
-        /// event for non MVVM programming
-        stsw.SelectedPathChanged?.Invoke(stsw, new StswValueChangedEventArgs<string?>((string?)e.OldValue, (string?)e.NewValue));
     }
 
     /// <summary>

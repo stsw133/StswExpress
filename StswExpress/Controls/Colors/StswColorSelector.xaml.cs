@@ -34,12 +34,6 @@ public class StswColorSelector : Control, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Occurs when the selected color in the control changes.
-    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
-    /// </summary>
-    public event EventHandler? SelectedColorChanged;
-
-    /// <summary>
     /// Executes the command to select a color in the color selector.
     /// Updates the <see cref="SelectedColor"/> property when a new color is chosen.
     /// </summary>
@@ -115,16 +109,8 @@ public class StswColorSelector : Control, IStswCornerControl
             typeof(StswColorSelector),
             new FrameworkPropertyMetadata(default(Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswColorSelector stsw)
-            return;
-
-        /// event for non MVVM programming
-        stsw.SelectedColorChanged?.Invoke(stsw, new StswValueChangedEventArgs<Color?>((Color?)e.OldValue, (Color?)e.NewValue));
-    }
     #endregion
 
     #region Style properties

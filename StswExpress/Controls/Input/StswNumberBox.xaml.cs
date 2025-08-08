@@ -23,11 +23,6 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the value of the control changes.
-    /// </summary>
-    public event EventHandler? ValueChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -244,16 +239,8 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             typeof(StswNumberBoxBase<T>),
             new FrameworkPropertyMetadata(default(T?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
+                null, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswNumberBoxBase<T> stsw)
-            return;
-
-        /// event for non MVVM programming
-        stsw.ValueChanged?.Invoke(stsw, new StswValueChangedEventArgs<T?>((T?)e.OldValue, (T?)e.NewValue));
-    }
     private static object? OnValueChanging(DependencyObject obj, object? baseValue)
     {
         if (obj is not StswNumberBoxBase<T> stsw)

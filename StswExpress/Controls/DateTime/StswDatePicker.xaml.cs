@@ -27,12 +27,6 @@ public class StswDatePicker : StswBoxBase
     }
 
     #region Events & methods
-    /// <summary>
-    /// Occurs when the selected date in the control changes.
-    /// This event is primarily for non-MVVM scenarios where direct event handling is required.
-    /// </summary>
-    public event EventHandler? SelectedDateChanged;
-
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -246,16 +240,8 @@ public class StswDatePicker : StswBoxBase
             typeof(StswDatePicker),
             new FrameworkPropertyMetadata(default(DateTime?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedDateChanged, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
+                null, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswDatePicker stsw)
-            return;
-
-        /// event for non MVVM programming
-        stsw.SelectedDateChanged?.Invoke(stsw, new StswValueChangedEventArgs<DateTime?>((DateTime?)e.OldValue, (DateTime?)e.NewValue));
-    }
     private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)
     {
         if (obj is not StswDatePicker stsw)
