@@ -168,12 +168,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         if (obj is not StswNumberBoxBase<T> stsw)
             return;
 
-        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-        {
-            var newBinding = binding.Clone();
-            newBinding.StringFormat = stsw.Format;
-            stsw.SetBinding(TextProperty, newBinding);
-        }
+        stsw.FormatChanged(stsw.Format);
     }
 
     /// <summary>

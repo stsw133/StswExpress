@@ -172,8 +172,7 @@ public class StswImage : Control, IStswCornerControl
         if (obj is not StswImage stsw)
             return;
 
-        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
 
     /// <summary>

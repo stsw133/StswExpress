@@ -32,10 +32,13 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsResetEnabled}"/>
             <!-- ItemsNumber -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsNumber, Type={x:Type se:StswRatingControl}}"/>
-            <se:StswDecimalBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
+            <se:StswIntegerBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
             <!-- ItemsNumberVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsNumberVisibility, Type={x:Type se:StswRatingControl}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}"/>
+            <!-- Step -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Step, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswDoubleBox Margin="0 0 0 3" Value="{Binding Step}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswRatingControl Direction="{Binding Direction}"
@@ -45,6 +48,7 @@
                               IsResetEnabled="{Binding IsResetEnabled}"
                               ItemsNumber="{Binding ItemsNumber}"
                               ItemsNumberVisibility="{Binding ItemsNumberVisibility}"
+                              Step="{Binding Step}"
                               Value="{Binding SelectedValue}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

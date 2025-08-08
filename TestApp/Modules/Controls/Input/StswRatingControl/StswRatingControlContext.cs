@@ -15,6 +15,7 @@ public partial class StswRatingControlContext : ControlsContext
         IsResetEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsResetEnabled)))?.Value ?? default;
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
         ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
+        Step = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Step)))?.Value ?? default;
     }
 
     [StswCommand] void SetGridLengthAuto() => IconScale = GridLength.Auto;
@@ -27,4 +28,5 @@ public partial class StswRatingControlContext : ControlsContext
     [StswObservableProperty] int _itemsNumber;
     [StswObservableProperty] Visibility _itemsNumberVisibility;
     [StswObservableProperty] double? _selectedValue = 0;
+    [StswObservableProperty] double? _step;
 }

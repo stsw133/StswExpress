@@ -158,13 +158,7 @@ public class StswDatePicker : StswBoxBase
         if (obj is not StswDatePicker stsw)
             return;
 
-        stsw.Format ??= "d";
-        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-        {
-            var newBinding = binding.Clone();
-            newBinding.StringFormat = stsw.Format;
-            stsw.SetBinding(TextProperty, newBinding);
-        }
+        stsw.FormatChanged(stsw.Format ?? "d");
     }
 
     /// <summary>

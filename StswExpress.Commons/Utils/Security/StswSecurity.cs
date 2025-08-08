@@ -64,7 +64,7 @@ public static class StswSecurity
         get
         {
             var appName = StswFn.AppName() ?? "DefaultAppName";
-            return SHA1.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
+            return SHA256.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
         }
     }
 
@@ -150,15 +150,15 @@ public static class StswSecurity
         aesAlg.Key = AesKey;
         aesAlg.GenerateIV();
 
-        using var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
         using var msEncrypt = new MemoryStream();
         msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
 
-        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-        using (var swEncrypt = new StreamWriter(csEncrypt))
-        {
-            swEncrypt.Write(text);
-        }
+        using var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+        using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+        using var swEncrypt = new StreamWriter(csEncrypt);
+        swEncrypt.Write(text);
+        swEncrypt.Flush();
+        csEncrypt.FlushFinalBlock();
 
         return Convert.ToBase64String(msEncrypt.ToArray());
     }
@@ -172,6 +172,9 @@ public static class StswSecurity
     /// <exception cref="ArgumentException">Thrown when the encryption key is less than 16 characters long.</exception>
     public static string Decrypt(string text)
     {
+        if (string.IsNullOrEmpty(text))
+            return string.Empty;
+
         var fullCipher = Convert.FromBase64String(text);
         using var aesAlg = Aes.Create();
         aesAlg.Key = AesKey;
@@ -184,7 +187,6 @@ public static class StswSecurity
         using var msDecrypt = new MemoryStream(fullCipher, iv.Length, fullCipher.Length - iv.Length);
         using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using var srDecrypt = new StreamReader(csDecrypt);
-
         return srDecrypt.ReadToEnd();
     }
 

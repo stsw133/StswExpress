@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -37,6 +38,20 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     {
         UpdateMainProperty(false);
         base.OnLostFocus(e);
+    }
+
+    /// <summary>
+    /// Handles changes to the format of the text displayed in the control.
+    /// </summary>
+    /// <param name="newFormat">The new string format to apply to the text.</param>
+    protected virtual void FormatChanged(string? newFormat)
+    {
+        if (GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
+        {
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = newFormat;
+            SetBinding(TextProperty, newBinding);
+        }
     }
 
     /// <summary>

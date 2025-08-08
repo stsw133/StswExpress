@@ -7,6 +7,16 @@
 internal class StswRatingItem : StswObservableObject
 {
     /// <summary>
+    /// Gets or sets the fill fraction of the item, where 0 is empty and 1 is fully filled.
+    /// </summary>
+    public double FillFraction
+    {
+        get => _fillFraction;
+        internal set => SetProperty(ref _fillFraction, value);
+    }
+    private double _fillFraction;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the item is checked.
     /// </summary>
     public bool IsChecked

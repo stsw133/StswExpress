@@ -116,8 +116,7 @@ public class StswIcon : Control
         if (obj is not StswIcon stsw)
             return;
 
-        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
     #endregion
 

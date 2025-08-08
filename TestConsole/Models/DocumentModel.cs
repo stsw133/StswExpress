@@ -7,5 +7,6 @@ public class DocumentModel
     public int ContractorId { get; set; }
     public string? ContractorCode { get; set; }
     public string? ContractorName { get; set; }
+    public IEnumerable<DocumentPaymentModel> Payments { get; set; } = [];
     public IEnumerable<DocumentPositionModel> Positions { get; set; } = [];
 }

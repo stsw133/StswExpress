@@ -34,6 +34,7 @@ public static class StswLog
     /// <summary>
     /// Automatically archives log files based on the configuration settings.
     /// </summary>
+    [StswInfo("0.9.0")]
     private static void AutoArchive()
     {
         var dir = new DirectoryInfo(Config.LogDirectoryPath);
@@ -58,6 +59,7 @@ public static class StswLog
     /// </summary>
     /// <param name="dateFrom">The start date of the range.</param>
     /// <param name="dateTo">The end date of the range.</param>
+    [StswInfo("0.9.0")]
     public static void Archive(DateTime dateFrom, DateTime dateTo)
     {
         _logSemaphore.Wait();
@@ -98,11 +100,13 @@ public static class StswLog
     /// Archives log files for a single specified date.
     /// </summary>
     /// <param name="date">The date to archive.</param>
+    [StswInfo("0.9.0")]
     public static void Archive(DateTime date) => Archive(date, date);
 
     /// <summary>
     /// Deletes log archives that are older than the specified number of days.
     /// </summary>
+    [StswInfo("0.9.0")]
     private static void DeleteOldArchives()
     {
         _logSemaphore.Wait();
@@ -145,6 +149,7 @@ public static class StswLog
     /// </summary>
     /// <param name="zip"></param>
     /// <param name="sourceFilePath"></param>
+    [StswInfo("0.9.0")]
     private static void AddFileToZipWithPossibleRename(ZipArchive zip, string sourceFilePath)
     {
         var baseFileName = Path.GetFileName(sourceFilePath); // log_2025-05-30.log
@@ -177,6 +182,7 @@ public static class StswLog
     /// Archives a single log file based on its size.
     /// </summary>
     /// <param name="logFile"></param>
+    [StswInfo("0.9.0")]
     private static void ArchiveSingleLogBySize(FileInfo logFile)
     {
         string datePart = logFile.Name.Substring(4, 10);
@@ -193,6 +199,7 @@ public static class StswLog
     /// <summary>
     /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="Config.ArchiveWhenSizeOver"/>.
     /// </summary>
+    [StswInfo("0.9.0")]
     private static void ForceSizeArchiveIfNeeded()
     {
         if (Config.Archive.ArchiveWhenSizeOver == null)
@@ -213,6 +220,7 @@ public static class StswLog
     /// <param name="zip"></param>
     /// <param name="entry"></param>
     /// <param name="newName"></param>
+    [StswInfo("0.9.0")]
     private static void RenameZipArchiveEntry(ZipArchive zip, ZipArchiveEntry entry, string newName)
     {
         if (zip.Entries.Any(e => e.FullName.Equals(newName, StringComparison.OrdinalIgnoreCase)))
@@ -236,6 +244,7 @@ public static class StswLog
     /// <param name="dateFrom"></param>
     /// <param name="dateTo"></param>
     /// <returns></returns>
+    [StswInfo("0.9.0")]
     private static bool TryGetArchiveDateRange(string archiveName, out DateTime dateFrom, out DateTime dateTo)
     {
         dateFrom = default;
@@ -294,9 +303,9 @@ public static class StswLog
     /// <summary>
     /// Tries to extract a date from a log file name.
     /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="dt"></param>
-    /// <returns></returns>
+    /// <param name="filePath">The path of the log file.</param>
+    /// <param name="dt">The extracted date if successful.</param>
+    /// <returns><see langword="true"/> if the date was successfully extracted; otherwise, <see langword="false"/>.</returns>
     private static bool TryGetDateFromFilename(string filePath, out DateTime dt)
     {
         dt = default;
@@ -315,9 +324,9 @@ public static class StswLog
     /// <summary>
     /// Tries to parse a string in the format "yyyy-MM" into a <see cref="DateTime"/> object.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="yearMonth"></param>
-    /// <returns></returns>
+    /// <param name="s">The string to parse.</param>
+    /// <param name="yearMonth">The parsed <see cref="DateTime"/> representing the first day of the month.</param>
+    /// <returns><see langword="true"/> if the parsing was successful; otherwise, <see langword="false"/>.</returns>
     private static bool TryParseYearMonth(string s, out DateTime yearMonth)
     {
         yearMonth = default;
@@ -341,7 +350,38 @@ public static class StswLog
     /// This method blocks the calling thread while the log files are being read. 
     /// For non-blocking operations, consider using the asynchronous version <see cref="ImportListAsync"/>.
     /// </remarks>
-    public static IEnumerable<StswLogItem> ImportList(DateTime dateFrom, DateTime dateTo) => ImportListAsync(dateFrom, dateTo).GetAwaiter().GetResult();
+    public static IEnumerable<StswLogItem> ImportList(DateTime dateFrom, DateTime dateTo)
+    {
+        var logItems = new List<StswLogItem>();
+
+        foreach (var filePath in GetFilesInRange(dateFrom, dateTo))
+        {
+            if (!File.Exists(filePath))
+                continue;
+
+            using var reader = new StreamReader(filePath);
+            var currentBlock = new List<string>();
+
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                if (IsNewLogEntryLine(line, out _))
+                {
+                    TryAddLogBlock(currentBlock, logItems);
+                    currentBlock.Clear();
+                }
+
+                currentBlock.Add(line);
+            }
+
+            TryAddLogBlock(currentBlock, logItems);
+        }
+
+        return logItems;
+    }
 
     /// <summary>
     /// Asynchronously imports log entries from log files within the specified date range.
@@ -353,62 +393,60 @@ public static class StswLog
     {
         var logItems = new List<StswLogItem>();
 
-        for (DateTime d = dateFrom.Date; d <= dateTo.Date; d = d.AddDays(1))
+        foreach (var filePath in GetFilesInRange(dateFrom, dateTo))
         {
-            var filesThisDate = Directory
-                .GetFiles(Config.LogDirectoryPath, "log_*.log")
-                .Where(p =>
-                {
-                    if (!TryGetDateFromFilename(p, out var fd)) return false;
-                    return fd.Date == d.Date;
-                })
-                .ToList();
+            if (!File.Exists(filePath))
+                continue;
 
-            foreach (var logFilePath in filesThisDate)
+            using var reader = new StreamReader(filePath);
+            var currentBlock = new List<string>();
+
+            while (!reader.EndOfStream)
             {
-                if (!File.Exists(logFilePath))
+                var line = await reader.ReadLineAsync();
+                if (string.IsNullOrWhiteSpace(line))
                     continue;
 
-                //try
-                //{
-                    using var reader = new StreamReader(logFilePath);
-                    var currentBlock = new List<string>();
+                if (IsNewLogEntryLine(line, out _))
+                {
+                    TryAddLogBlock(currentBlock, logItems);
+                    currentBlock.Clear();
+                }
 
-                    while (!reader.EndOfStream)
-                    {
-                        var line = await reader.ReadLineAsync();
-                        if (string.IsNullOrWhiteSpace(line))
-                            continue;
-
-                        if (line.Length >= 19 && DateTime.TryParse(line[..19], out _))
-                        {
-                            if (currentBlock.Count > 0)
-                            {
-                                var parsed = ParseLogEntry(currentBlock);
-                                if (parsed.HasValue)
-                                    logItems.Add(parsed.Value);
-                                currentBlock.Clear();
-                            }
-                        }
-
-                        currentBlock.Add(line);
-                    }
-
-                    if (currentBlock.Count > 0)
-                    {
-                        var parsed = ParseLogEntry(currentBlock);
-                        if (parsed.HasValue)
-                            logItems.Add(parsed.Value);
-                    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Config.OnLogFailure?.Invoke(ex);
-                //}
+                currentBlock.Add(line);
             }
+
+            TryAddLogBlock(currentBlock, logItems);
         }
 
         return logItems;
+    }
+
+    /// <summary>
+    /// Gets a list of log files within the specified date range.
+    /// </summary>
+    /// <param name="from">The start date of the range.</param>
+    /// <param name="to">The end date of the range.</param>
+    /// <returns>The list of file paths that match the date range.</returns>
+    [StswInfo("0.20.0")]
+    private static IEnumerable<string> GetFilesInRange(DateTime from, DateTime to)
+        => Directory
+            .GetFiles(Config.LogDirectoryPath, "log_*.log")
+            .Where(path =>
+                TryGetDateFromFilename(path, out var fileDate) &&
+                fileDate.Date >= from.Date && fileDate.Date <= to.Date);
+
+    /// <summary>
+    /// Determines whether a line in the log file is the start of a new log entry.
+    /// </summary>
+    /// <param name="line">The line to check.</param>
+    /// <param name="date">The parsed date from the line if it is a new log entry.</param>
+    /// <returns><see langword="true"/> if the line is a new log entry; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.20.0")]
+    private static bool IsNewLogEntryLine(string line, out DateTime date)
+    {
+        date = default;
+        return line.Length >= 19 && DateTime.TryParse(line[..19], out date);
     }
 
     /// <summary>
@@ -423,14 +461,10 @@ public static class StswLog
     /// </remarks>
     private static StswLogItem? ParseLogEntry(List<string> logEntryLines)
     {
-        if (logEntryLines.Count == 0)
+        if (logEntryLines.Count == 0 || !IsNewLogEntryLine(logEntryLines[0], out var date))
             return null;
 
-        var firstLine = logEntryLines[0];
-        if (firstLine.Length < 19 || !DateTime.TryParse(firstLine[..19], out var date))
-            return null;
-
-        var typeChar = firstLine.Length > 22 ? firstLine[22] : (char?)null;
+        var typeChar = logEntryLines[0].Length > 22 ? logEntryLines[0][22] : (char?)null;
         var type = Enum.GetValues(typeof(StswInfoType))
                        .Cast<StswInfoType>()
                        .FirstOrDefault(t =>
@@ -439,66 +473,28 @@ public static class StswLog
 
         var textList = new List<string>
         {
-            firstLine.Length > 26 ? firstLine[26..] : string.Empty
+            logEntryLines[0].Length > 26 ? logEntryLines[0][26..] : string.Empty
         };
         textList.AddRange(logEntryLines.Skip(1));
 
         var text = string.Join(Environment.NewLine, textList);
         return new StswLogItem(type, text, date);
     }
-    #endregion
-
-    #region Summary
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public static Guid StartCounter()
-    {
-        var token = Guid.NewGuid();
-        lock (_logCounters)
-            _logCounters[token] = [];
-        return token;
-    }
 
     /// <summary>
-    /// 
+    /// Tries to add a parsed log block to the output list.
     /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public static Dictionary<StswInfoType, int> StopCounter(Guid token)
+    /// <param name="currentBlock">The current block of log lines to parse.</param>
+    /// <param name="output">The output list to which the parsed log item will be added.</param>
+    [StswInfo("0.20.0")]
+    private static void TryAddLogBlock(List<string> currentBlock, List<StswLogItem> output)
     {
-        lock (_logCounters)
-        {
-            if (_logCounters.TryGetValue(token, out var result))
-            {
-                _logCounters.Remove(token);
-                return result;
-            }
-            return [];
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="token"></param>
-    /// <param name="type"></param>
-    private static void CountLogToActiveCounters(StswInfoType? type)
-    {
-        if (type == null)
+        if (currentBlock.Count == 0)
             return;
 
-        lock (_logCounters)
-        {
-            foreach (var counter in _logCounters.Values)
-            {
-                if (counter.TryGetValue(type.Value, out var value))
-                    counter[type.Value] = ++value;
-                else
-                    counter[type.Value] = 1;
-            }
-        }
+        var parsed = ParseLogEntry(currentBlock);
+        if (parsed.HasValue)
+            output.Add(parsed.Value);
     }
     #endregion
 
@@ -516,7 +512,7 @@ public static class StswLog
         if (!ShouldLog(type))
             return;
 
-        WriteInternal(type, text).GetAwaiter().GetResult();
+        _ = WriteInternal(type, text);
     }
 
     /// <summary>
@@ -530,6 +526,7 @@ public static class StswLog
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
+    [StswInfo("0.9.3")]
     public static Task WriteAsync(StswInfoType? type, string text)
     {
         if (Config.IsLoggingDisabled)
@@ -546,6 +543,7 @@ public static class StswLog
     /// Writes a log entry to a file asynchronously without specifying a log type.
     /// </summary>
     /// <param name="text">The text to log.</param>
+    [StswInfo("0.9.3")]
     public static Task WriteAsync(string text) => WriteAsync(null, text);
 
     /// <summary>
@@ -554,6 +552,7 @@ public static class StswLog
     /// <param name="ex">Exception to log</param>
     /// <param name="type">Optional type of the log entry. If not specified, defaults to <see cref="StswInfoType.Error"/>.</param>
     /// <param name="context">Optional context for the log entry, which can provide additional information about where the exception occurred.</param>
+    [StswInfo("0.18.0")]
     public static void WriteException(Exception ex, StswInfoType? type = StswInfoType.Error, string? context = null)
     {
         if (Config.IsLoggingDisabled)
@@ -590,11 +589,12 @@ public static class StswLog
     }
 
     /// <summary>
-    /// 
+    /// Writes a log entry to a file asynchronously, including the type of the log entry and the text to log.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <param name="type">The type of the log entry.</param>
+    /// <param name="text">The text to log.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    [StswInfo("0.18.0")]
     private static async Task WriteInternal(StswInfoType? type, string text)
     {
         await _logSemaphore.WaitAsync();
@@ -633,11 +633,33 @@ public static class StswLog
     /// <param name="memberName"></param>
     /// <param name="filePath"></param>
     /// <param name="lineNumber"></param>
+    [StswInfo("0.18.0")]
     public static void WriteWithCaller(StswInfoType? type, string text, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         var fileName = Path.GetFileName(filePath);
         text = $"[{fileName}:{lineNumber} {memberName}] {text}";
         Write(type, text);
+    }
+
+    /// <summary>
+    /// Increments the active counters for the specified log type.
+    /// </summary>
+    /// <param name="type">The type of log entry to increment the counter for.</param>
+    private static void CountLogToActiveCounters(StswInfoType? type)
+    {
+        if (type == null)
+            return;
+
+        lock (_logCounters)
+        {
+            foreach (var counter in _logCounters.Values)
+            {
+                if (counter.TryGetValue(type.Value, out var value))
+                    counter[type.Value] = ++value;
+                else
+                    counter[type.Value] = 1;
+            }
+        }
     }
 
     /// <summary>

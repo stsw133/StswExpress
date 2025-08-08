@@ -119,6 +119,7 @@ public partial class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets whether Windows Authentication should be used (Integrated Security).
     /// </summary>
+    [StswInfo("0.20.0")]
     public bool UseIntegratedSecurity
     {
         get => _useIntegratedSecurity;

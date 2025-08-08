@@ -188,13 +188,7 @@ public class StswTimePicker : StswBoxBase
             return;
 
         stsw.UpdateVisibilityBasedOnFormat();
-
-        if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-        {
-            var newBinding = binding.Clone();
-            newBinding.StringFormat = stsw.Format;
-            stsw.SetBinding(TextProperty, newBinding);
-        }
+        stsw.FormatChanged(stsw.Format);
     }
 
     /// <summary>

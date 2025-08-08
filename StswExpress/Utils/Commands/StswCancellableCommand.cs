@@ -41,7 +41,7 @@ namespace StswExpress;
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.9.2", IsTested = false)]
+[StswInfo("0.9.2")]
 public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswAsyncCommandBase
 {
     private readonly Func<T, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));

@@ -63,16 +63,32 @@ public class StswCommandGenerator : IIncrementalGenerator
                     var fieldName = "_" + char.ToLower(propertyName[0]) + propertyName.Substring(1);
 
                     var isAsync = item.Method.ReturnType.ToDisplayString() == "System.Threading.Tasks.Task";
-                    var hasParameter = item.Method.Parameters.Length == 1;
-                    var parameterType = hasParameter
-                        ? item.Method.Parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-                        : null;
+                    var parameters = item.Method.Parameters;
+                    var hasToken = parameters.Length > 0 && parameters.Last().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.Threading.CancellationToken";
 
-                    var commandType = isAsync ? "StswAsyncCommand" : "StswCommand";
-                    var fullCommandType = hasParameter
-                        ? $"{commandType}<{parameterType}>"
-                        : commandType;
+                    string commandType;
+                    string? parameterType = null;
 
+                    if (isAsync && hasToken)
+                    {
+                        commandType = "StswCancellableCommand";
+                        if (parameters.Length > 1)
+                            parameterType = parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    }
+                    else if (isAsync)
+                    {
+                        commandType = "StswAsyncCommand";
+                        if (parameters.Length == 1)
+                            parameterType = parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    }
+                    else
+                    {
+                        commandType = "StswCommand";
+                        if (parameters.Length == 1)
+                            parameterType = parameters[0].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    }
+
+                    var fullCommandType = parameterType is not null ? $"{commandType}<{parameterType}>" : commandType;
                     var conditionMethod = Helpers.GetNamedArgument<string>(attrData, "ConditionMethodName");
                     var conditionArg = !string.IsNullOrWhiteSpace(conditionMethod) ? conditionMethod : "null";
                     var isReusable = isAsync && Helpers.GetNamedArgument<bool>(attrData, "IsReusable");

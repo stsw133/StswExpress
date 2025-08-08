@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using TestConsole;
 
-var db = new StswDatabaseModel("", "", "", "");
+var db = new StswDatabaseModel("", "") { UseIntegratedSecurity = true };
 var stopwatch = new System.Diagnostics.Stopwatch();
 
 // TEST 1A: Fetching contractors into DataTable
@@ -202,7 +202,7 @@ using (var sqlConn = db.OpenedConnection())
         where TrN_GIDTyp=2033 and TrN_Data2 >= datediff(d, '18001228', '20250401')
         order by TrN_GIDNumer desc", disposeConnection: false).ToList();
 
-    sqlConn.TempTableInsert(documents3.Select(x => new { Id = x!.Id }), "#TEST");
+    sqlConn.TempTableInsert(documents3.Select(x => new { x.Id }), "#TEST");
 
     var positions3 = sqlConn.Get<DocumentPositionModel>($@"
         select t.Id [{nameof(DocumentPositionModel.HeadId)}]
@@ -215,12 +215,20 @@ using (var sqlConn = db.OpenedConnection())
              , TrE_JmZ [{nameof(DocumentPositionModel.Unit)}]
         from #TEST t
         join cdn.TraElem with(nolock) on TrE_GIDNumer=t.Id
-        join cdn.TwrKarty with(nolock) on Twr_GIDNumer=TrE_TwrNumer");
+        join cdn.TwrKarty with(nolock) on Twr_GIDNumer=TrE_TwrNumer", disposeConnection: false);
 
     documents3.ForEach(x => x.Positions = positions3.Where(y => y.HeadId == x.Id));
 
+    var payments3 = sqlConn.Get<DocumentPaymentModel>($@"
+        select t.Id [{nameof(DocumentPaymentModel.HeadId)}]
+             , TrP_Kwota [{nameof(DocumentPaymentModel.Amount)}]
+        from #TEST t
+        join cdn.TraPlat with(nolock) on TrP_GIDNumer=t.Id");
+
+    documents3.ForEach(x => x.Payments = payments3.Where(y => y.HeadId == x.Id));
+
     stopwatch.Stop();
-    Console.WriteLine($"Fetched into IEnumerable (with temp table) {documents3.Count()} documents with {positions3.Count()} positions in {stopwatch.ElapsedMilliseconds} ms");
+    Console.WriteLine($"Fetched into IEnumerable (with temp table) {documents3.Count()} documents with {positions3.Count()} positions and {payments3.Count()} payments in {stopwatch.ElapsedMilliseconds} ms");
 }
 
 // TEST 9: Fetching IDs into IEnumerable<int>

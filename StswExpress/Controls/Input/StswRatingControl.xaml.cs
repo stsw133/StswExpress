@@ -74,28 +74,28 @@ public class StswRatingControl : Control, IStswIconControl
                     Value = numericValue;
                 break;
             case Key.Down:
-                if (Direction == ExpandDirection.Down && Value < ItemsNumber)
-                    Value += 1;
-                else if (Direction == ExpandDirection.Up && Value > 0 && !(Value == 1 && !IsResetEnabled))
-                    Value -= 1;
-                break;
-            case Key.Left:
-                if (Direction == ExpandDirection.Left && Value < ItemsNumber)
-                    Value += 1;
-                else if (Direction == ExpandDirection.Right && Value > 0 && !(Value == 1 && !IsResetEnabled))
-                    Value -= 1;
-                break;
-            case Key.Right:
-                if (Direction == ExpandDirection.Right && Value < ItemsNumber)
-                    Value += 1;
-                else if (Direction == ExpandDirection.Left && Value > 0 && !(Value == 1 && !IsResetEnabled))
-                    Value -= 1;
+                if (Direction == ExpandDirection.Down)
+                    Increment(-1);
+                else if (Direction == ExpandDirection.Up)
+                    Increment(1);
                 break;
             case Key.Up:
-                if (Direction == ExpandDirection.Up && Value < ItemsNumber)
-                    Value += 1;
-                else if (Direction == ExpandDirection.Down && Value > 0 && !(Value == 1 && !IsResetEnabled))
-                    Value -= 1;
+                if (Direction == ExpandDirection.Up)
+                    Increment(-1);
+                else if (Direction == ExpandDirection.Down)
+                    Increment(1);
+                break;
+            case Key.Left:
+                if (Direction == ExpandDirection.Left)
+                    Increment(-1);
+                else if (Direction == ExpandDirection.Right)
+                    Increment(1);
+                break;
+            case Key.Right:
+                if (Direction == ExpandDirection.Right)
+                    Increment(-1);
+                else if (Direction == ExpandDirection.Left)
+                    Increment(1);
                 break;
         }
         e.Handled = true;
@@ -116,15 +116,21 @@ public class StswRatingControl : Control, IStswIconControl
         base.OnMouseMove(e);
 
         var position = e.GetPosition(this);
-        var percentage = Direction switch
+        var fraction = Math.Round(Direction switch
         {
             ExpandDirection.Down => position.Y / ActualHeight,
             ExpandDirection.Left => (ActualWidth - position.X) / ActualWidth,
             ExpandDirection.Right => position.X / ActualWidth,
             ExpandDirection.Up => (ActualHeight - position.Y) / ActualHeight,
             _ => 0
-        };
-        Placeholder = Convert.ToInt32(Math.Round(percentage * Items.Count + 0.4));
+        } * Items.Count / Step) * Step;
+
+        if (fraction < 0)
+            fraction = 0;
+        if (fraction > ItemsNumber)
+            fraction = ItemsNumber;
+
+        Placeholder = fraction;
 
         if (!IsResetEnabled && Placeholder == 0)
             Placeholder = 1;
@@ -135,6 +141,74 @@ public class StswRatingControl : Control, IStswIconControl
     {
         base.OnMouseLeave(e);
         Placeholder = null;
+    }
+
+    /// <summary>
+    /// Increments the current rating value by the specified direction.
+    /// </summary>
+    /// <param name="direction">The direction to increment: -1 for decrement, 1 for increment.</param>
+    [StswInfo("0.20.0")]
+    private void Increment(int direction)
+    {
+        if (!Value.HasValue)
+            Value = 0;
+
+        double current = Value.Value;
+        double newVal = current + direction * Step;
+
+        if (newVal < 0 && IsResetEnabled)
+            newVal = 0;
+        else if (newVal < 1 && !IsResetEnabled)
+            newVal = 1;
+
+        if (newVal > ItemsNumber)
+            newVal = ItemsNumber;
+
+        Value = newVal;
+    }
+
+    /// <summary>
+    /// Updates the fill fractions of each rating item based on the current value.
+    /// </summary>
+    /// <param name="tempValue">Optional temporary value to use instead of the current Value.</param>
+    /// <param name="isPlaceholder">Indicates if the update is for a placeholder (mouse hover) state.</param>
+    [StswInfo("0.20.0")]
+    private void UpdateFillFractions(double? tempValue = null, bool isPlaceholder = false)
+    {
+        double actualValue = tempValue ?? Value ?? 0.0;
+
+        foreach (var item in Items)
+        {
+            item.FillFraction = 0;
+            if (!isPlaceholder)
+                item.IsChecked = false;
+            item.IsMouseOver = false;
+        }
+
+        foreach (var item in Items)
+        {
+            double index = item.Value;
+            double lowerBound = index - 1.0;
+            double upperBound = index;
+
+            if (actualValue >= upperBound)
+            {
+                item.FillFraction = 1.0;
+                if (!isPlaceholder)
+                    item.IsChecked = true;
+            }
+            else if (actualValue <= lowerBound)
+            {
+                item.FillFraction = 0.0;
+            }
+            else
+            {
+                item.FillFraction = actualValue - lowerBound;
+            }
+
+            if (isPlaceholder)
+                item.IsMouseOver = item.FillFraction > 0;
+        }
     }
     #endregion
 
@@ -291,7 +365,10 @@ public class StswRatingControl : Control, IStswIconControl
             }
         }
 
-        stsw.Value = stsw.Items.Count(x => x.IsChecked);
+        if (stsw.Value.HasValue && stsw.Value.Value > val)
+            stsw.Value = val;
+        else
+            stsw.UpdateFillFractions();
     }
 
     /// <summary>
@@ -315,17 +392,17 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets a temporary rating value based on mouse hover.
     /// Provides a visual preview of the rating before selection.
     /// </summary>
-    public int? Placeholder
+    public double? Placeholder
     {
-        get => (int?)GetValue(PlaceholderProperty);
+        get => (double?)GetValue(PlaceholderProperty);
         internal set => SetValue(PlaceholderProperty, value);
     }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
-            typeof(int?),
+            typeof(double?),
             typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(int?),
+            new FrameworkPropertyMetadata(default(double?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnPlaceholderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -334,48 +411,42 @@ public class StswRatingControl : Control, IStswIconControl
         if (obj is not StswRatingControl stsw)
             return;
 
-        foreach (var item in stsw.Items)
-            item.IsMouseOver = false;
-
-        var val = stsw.Placeholder;
-        if (val is < 0 or null || val > stsw.Items.Count)
-            return;
-
-        var startIndex = stsw.Direction switch
-        {
-            ExpandDirection.Down => 0,
-            ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
-            ExpandDirection.Right => 0,
-            ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
-            _ => 0
-        };
-        var endIndex = stsw.Direction switch
-        {
-            ExpandDirection.Down => val,
-            ExpandDirection.Left => stsw.Items.Count,
-            ExpandDirection.Right => val,
-            ExpandDirection.Up => stsw.Items.Count,
-            _ => 0
-        };
-        for (var i = startIndex; i < endIndex; i++)
-            stsw.Items[i].IsMouseOver = true;
+        if (stsw.Placeholder.HasValue)
+            stsw.UpdateFillFractions(stsw.Placeholder.Value, isPlaceholder: true);
+        else
+            stsw.UpdateFillFractions();
     }
+
+    /// <summary>
+    /// Gets or sets the step value for the rating control.
+    /// </summary>
+    public double Step
+    {
+        get => (double)GetValue(StepProperty);
+        set => SetValue(StepProperty, value);
+    }
+    public static readonly DependencyProperty StepProperty
+        = DependencyProperty.Register(
+            nameof(Step),
+            typeof(double),
+            typeof(StswRatingControl)
+        );
 
     /// <summary>
     /// Gets or sets the currently selected rating value.
     /// Represents the user's chosen rating level within the control.
     /// </summary>
-    public int? Value
+    public double? Value
     {
-        get => (int?)GetValue(ValueProperty);
+        get => (double?)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
             nameof(Value),
-            typeof(int?),
+            typeof(double?),
             typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(int?),
+            new FrameworkPropertyMetadata(default(double?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -384,30 +455,12 @@ public class StswRatingControl : Control, IStswIconControl
         if (obj is not StswRatingControl stsw)
             return;
 
-        stsw.Items.ToList().ForEach(x => x.IsChecked = false);
+        if (stsw.Value is < 0 && stsw.IsResetEnabled)
+            stsw.Value = 0;
+        if (stsw.Value > stsw.Items.Count)
+            stsw.Value = stsw.Items.Count;
 
-        var val = stsw.Value;
-        if (val is < 0 or null || val > stsw.Items.Count)
-            return;
-
-        var startIndex = stsw.Direction switch
-        {
-            ExpandDirection.Down => 0,
-            ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
-            ExpandDirection.Right => 0,
-            ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
-            _ => 0
-        };
-        var endIndex = stsw.Direction switch
-        {
-            ExpandDirection.Down => val,
-            ExpandDirection.Left => stsw.Items.Count,
-            ExpandDirection.Right => val,
-            ExpandDirection.Up => stsw.Items.Count,
-            _ => 0
-        };
-        for (var i = startIndex; i < endIndex; i++)
-            stsw.Items[i].IsChecked = true;
+        stsw.UpdateFillFractions();
     }
     #endregion
 

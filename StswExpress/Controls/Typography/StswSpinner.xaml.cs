@@ -49,8 +49,7 @@ public class StswSpinner : Control
         if (obj is not StswSpinner stsw)
             return;
 
-        stsw.Height = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
-        stsw.Width = stsw.Scale.IsStar ? double.NaN : stsw.Scale!.Value * 12;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
 
     /// <summary>

@@ -47,41 +47,44 @@
         </DockPanel>
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
         <!-- selected database model -->
-        <se:StswScrollView DynamicMode="Partial" Padding="3">
-            <StackPanel DataContext="{Binding SelectedDatabase}" IsEnabled="{Binding Converter={x:Static se:StswExistenceConverter.Instance}}">
+        <se:StswScrollView IsEnabled="{Binding SelectedDatabase, Converter={x:Static se:StswExistenceConverter.Instance}}">
+            <StackPanel DataContext="{Binding SelectedDatabase}" Margin="3">
                 
                 <!-- name -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3">
                     <Label Content="Name:"/>
                     <se:StswTextBox Text="{Binding Name}"/>
                 </StackPanel>
 
                 <!-- server -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3">
                     <Label Content="Server:"/>
                     <se:StswTextBox Text="{Binding Server}"/>
                 </StackPanel>
 
                 <!-- port -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3">
                     <Label Content="Port:"/>
                     <se:StswIntegerBox Value="{Binding Port}"/>
                 </StackPanel>
 
                 <!-- database -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3">
                     <Label Content="Database:"/>
                     <se:StswTextBox Text="{Binding Database}"/>
                 </StackPanel>
 
+                <!-- use integrated security -->
+                <se:StswCheckBox Content="Use integrated security" IsChecked="{Binding UseIntegratedSecurity}" Margin="3 10 3 0"/>
+
                 <!-- login -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3" IsEnabled="{Binding UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
                     <Label Content="Login:"/>
                     <se:StswTextBox Text="{Binding Login}"/>
                 </StackPanel>
 
                 <!-- password -->
-                <StackPanel DockPanel.Dock="Top" Margin="3">
+                <StackPanel Margin="3" IsEnabled="{Binding UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
                     <Label Content="Password:"/>
                     <se:StswPasswordBox Password="{Binding Password}">
                         <se:StswPasswordBox.SubControls>

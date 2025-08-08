@@ -3,8 +3,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using System.Text.Json;
 
@@ -113,7 +111,7 @@ public static partial class StswExtensions
     {
         var type = typeof(T);
 
-        if (IsSimpleType(type)) //TODO - move directly do StswDatabaseHelper.Get
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T>()!;
@@ -135,7 +133,7 @@ public static partial class StswExtensions
     [StswInfo("0.18.0")]
     public static IEnumerable<object> MapTo(this DataTable dt, Type type)
     {
-        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo(type)!;
@@ -160,7 +158,7 @@ public static partial class StswExtensions
     {
         var type = typeof(T);
 
-        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo<T>()!;
@@ -183,7 +181,7 @@ public static partial class StswExtensions
     [StswInfo("0.18.0")]
     public static IEnumerable<object> MapTo(this DataTable dt, Type type, char delimiter)
     {
-        if (IsSimpleType(type)) //TODO - probably will be better to move directly to StswDatabaseHelper.Get
+        if (IsSimpleType(type))
         {
             foreach (var value in dt.AsEnumerable().Select(x => x[0]))
                 yield return value.ConvertTo(type)!;
@@ -202,7 +200,6 @@ public static partial class StswExtensions
     /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
     [StswInfo("0.12.0")]
     private static bool IsSimpleType(Type type) => !type.IsClass || type == typeof(string) || type == typeof(byte[]);
-
 
     /// <summary>
     /// Converts a collection of items to a <see cref="DataTable"/>.

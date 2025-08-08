@@ -13,6 +13,7 @@ namespace StswExpress.Commons;
 /// A static helper class that provides extension methods for performing common database operations 
 /// such as bulk inserts, executing queries, and handling stored procedures in a more efficient manner.
 /// </summary>
+[StswInfo("0.9.2")]
 public static partial class StswDatabaseHelper
 {
     [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
@@ -57,6 +58,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
+    [StswInfo("0.9.3")]
     public static void BulkInsert<TModel>(this SqlConnection sqlConn, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -85,6 +87,7 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    [StswInfo("0.9.3")]
     public static void BulkInsert<TModel>(this SqlTransaction sqlTran, IEnumerable<TModel> items, string tableName, int? timeout = null)
         => sqlTran.Connection.BulkInsert(items, tableName, timeout, sqlTran);
 
@@ -109,6 +112,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static int? ExecuteNonQuery(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -142,6 +146,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static int? ExecuteNonQuery(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteNonQuery(query, parameters, timeout, sqlTran);
 
@@ -165,6 +170,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static SqlDataReader ExecuteReader(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
     {
         if (!CheckQueryConditions())
@@ -186,6 +192,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A <see cref="SqlDataReader"/> instance for reading the data, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static SqlDataReader ExecuteReader(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteReader(query, parameters, timeout, sqlTran);
 
@@ -211,6 +218,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static TResult? ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -234,6 +242,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static TResult? ExecuteScalar<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteScalar<TResult>(query, parameters, timeout, sqlTran);
 
@@ -259,6 +268,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static int? ExecuteStoredProcedure(this SqlConnection sqlConn, string procName, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -281,6 +291,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The number of rows affected, or null if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static int? ExecuteStoredProcedure(this SqlTransaction sqlTran, string procName, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteStoredProcedure(procName, parameters, timeout, sqlTran);
 
@@ -306,6 +317,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static IEnumerable<TResult> Get<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -338,6 +350,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    [StswInfo("0.9.3")]
     public static IEnumerable<TResult> Get<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.Get<TResult>(query, parameters, timeout, sqlTran);
 
@@ -364,6 +377,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    [StswInfo("0.18.0")]
     public static IEnumerable<object?> Get(this SqlConnection sqlConn, Type type, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -396,6 +410,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    [StswInfo("0.18.0")]
     public static IEnumerable<object?> Get(this SqlTransaction sqlTran, Type type, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.Get(type, query, parameters, timeout, sqlTran);
 
@@ -408,6 +423,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A collection of results, or an empty collection if the query conditions are not met.</returns>
+    [StswInfo("0.18.0")]
     public static IEnumerable<object?> Get(this StswDatabaseModel model, Type type, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().Get(type, query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
@@ -427,6 +443,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    [StswInfo("0.13.0")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlConnection sqlConn, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (string.IsNullOrWhiteSpace(joinKeys.Key)
@@ -572,6 +589,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    [StswInfo("0.13.0")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlTransaction sqlTran, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
 
@@ -589,6 +607,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
+    [StswInfo("0.13.0")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this StswDatabaseModel model, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
@@ -602,6 +621,7 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the temporary table to be created and populated.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    [StswInfo("0.9.3")]
     public static void TempTableInsert<TModel>(this SqlConnection sqlConn, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
     {
         if (!CheckQueryConditions())
@@ -636,6 +656,7 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the temporary table to be created and populated.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    [StswInfo("0.9.3")]
     public static void TempTableInsert<TModel>(this SqlTransaction sqlTran, IEnumerable<TModel> items, string tableName, int? timeout = null)
         => sqlTran.Connection.TempTableInsert(items, tableName, timeout, sqlTran);
 
@@ -666,6 +687,7 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
+    [StswInfo("0.9.3")]
     public static void Set<TModel>(this SqlConnection sqlConn, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
     {
         if (!CheckQueryConditions())
@@ -717,6 +739,7 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{T}{TModel}"/>.
     /// </remarks>
+    [StswInfo("0.9.3")]
     public static void Set<TModel>(this SqlTransaction sqlTran, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
         => sqlTran.Connection.Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
@@ -810,6 +833,7 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="prop"> The property for which to build the getter.</param>
     /// <returns>A function that takes an object and returns the value of the specified property.</returns>
+    [StswInfo("0.18.0")]
     private static Func<object, object?> BuildGetter(PropertyInfo prop)
     {
         var param = Expression.Parameter(typeof(object), "obj");
@@ -862,6 +886,7 @@ public static partial class StswDatabaseHelper
     /// <param name="fullTable"> The string from which to trim trailing digits.</param>
     /// <param name="itemType"> The type of the item to which the column names belong.</param>
     /// <returns>A normalized string with trailing digits removed.</returns>
+    [StswInfo("0.18.0")]
     private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
     {
         var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -901,6 +926,7 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="query">The SQL query to process and reduce unnecessary whitespace.</param>
     /// <returns>The processed SQL query with reduced whitespace.</returns>
+    [StswInfo("0.8.0")]
     public static string LessSpaceQuery(string query)
         => LessSpaceRegex().Matches(query)
                            .Cast<Match>()
@@ -920,6 +946,7 @@ public static partial class StswDatabaseHelper
     /// <param name="parameterName">The parameter name to be replaced in the SQL query.</param>
     /// <param name="list">The list of values to be added as parameters.</param>
     /// <exception cref="ArgumentException">Thrown when the list contains more than 20 elements.</exception>
+    [StswInfo("0.9.0")]
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
         ArgumentNullException.ThrowIfNull(sqlCommand);
@@ -1020,6 +1047,7 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="name"> The string from which to trim trailing digits.</param>
     /// <returns>The string with trailing digits removed.</returns>
+    [StswInfo("0.18.0")]
     private static string TrimTrailingDigits(string name)
     {
         var i = name.Length - 1;

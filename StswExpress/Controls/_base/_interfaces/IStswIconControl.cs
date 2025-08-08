@@ -38,4 +38,16 @@ public interface IStswIconControl
     /// </summary>
     public double IconStrokeThickness { get; set; }
     public static readonly DependencyProperty? IconStrokeThicknessProperty;
+
+
+    /// <summary>
+    /// Handles changes to the scale of the icon, adjusting its size accordingly.
+    /// </summary>
+    /// <param name="elem">The element whose scale has changed.</param>
+    /// <param name="scale">The new scale value.</param>
+    public static void ScaleChanged(FrameworkElement elem, GridLength scale)
+    {
+        elem.Height = scale.IsStar ? double.NaN : scale!.Value * 12;
+        elem.Width = scale.IsStar ? double.NaN : scale!.Value * 12;
+    }
 }
