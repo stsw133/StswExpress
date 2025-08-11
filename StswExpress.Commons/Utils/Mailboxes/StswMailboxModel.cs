@@ -255,7 +255,7 @@ public partial class StswMailboxModel : StswObservableObject
         var message = new MimeMessage();
         message.From.Add(MailboxAddress.Parse(From));
 
-        if (!StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty() && StswFn.IsInDebug())
+        if (StswFn.IsInDebug && !StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty())
         {
             foreach (var email in StswMailboxes.Config.DebugEmailRecipients!)
                 if (!string.IsNullOrEmpty(email))

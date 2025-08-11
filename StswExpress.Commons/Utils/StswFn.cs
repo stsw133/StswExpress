@@ -33,24 +33,63 @@ public static partial class StswFn
     /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.
     /// </summary>
     /// <param name="action">The action to execute.</param>
-    /// <param name="maxTries">The maximum number of attempts before failing. Defaults to 5.</param>
-    /// <param name="msInterval">The delay in milliseconds between attempts. Defaults to 200ms.</param>
-    /// <remarks>
-    /// If the action throws an exception, it will be retried up to <paramref name="maxTries"/> times.
-    /// </remarks>
+    /// <param name="maxTries">The maximum number of attempts before failing.</param>
+    /// <param name="msInterval">The delay in milliseconds between attempts.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="action"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
     [StswInfo(null)]
     public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
     {
+        ArgumentNullException.ThrowIfNull(action);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxTries);
+        ArgumentOutOfRangeException.ThrowIfNegative(msInterval);
+
         for (var attempt = 1; attempt <= maxTries; attempt++)
         {
             try
             {
                 action.Invoke();
-                break;
+                return;
             }
             catch (Exception) when (attempt < maxTries)
             {
                 Thread.Sleep(msInterval);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Attempts to execute the specified asynchronous action multiple times until it succeeds or reaches the maximum number of attempts.
+    /// </summary>
+    /// <param name="action">The asynchronous action to execute.</param>
+    /// <param name="maxTries">The maximum number of attempts before failing.</param>
+    /// <param name="msInterval">The delay in milliseconds between attempts.</param>
+    /// <param name="ct">The cancellation token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="action"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
+    [StswInfo(null)]
+    public static async Task TryMultipleTimesAsync(Func<Task> action, int maxTries = 5, int msInterval = 200, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxTries);
+        ArgumentOutOfRangeException.ThrowIfNegative(msInterval);
+
+        for (var attempt = 1; attempt <= maxTries; attempt++)
+        {
+            ct.ThrowIfCancellationRequested();
+            try
+            {
+                await action().ConfigureAwait(false);
+                return;
+            }
+            catch (Exception) when (attempt < maxTries)
+            {
+                await Task.Delay(msInterval, ct).ConfigureAwait(false);
             }
             catch
             {
@@ -75,21 +114,16 @@ public static partial class StswFn
     [StswInfo(null)]
     public static string? AppVersion()
     {
-        if (Assembly.GetEntryAssembly()?.GetName().Version is Version version)
-        {
-            int?[] versionParts = [version.Major, version.Minor, version.Build, version.Revision];
-            for (var i = versionParts.Length - 1; i >= 0; i--)
-            {
-                if (versionParts[i] == 0)
-                    versionParts[i] = null;
-                else
-                    break;
-            }
+        var ver = Assembly.GetEntryAssembly()?.GetName().Version;
+        if (ver is null)
+            return null;
 
-            return string.Join('.', versionParts.Where(part => part != null));
-        }
+        var fields = ver.Revision != 0 ? 4
+                   : ver.Build != 0 ? 3
+                   : ver.Minor != 0 ? 2
+                   : 1;
 
-        return null;
+        return ver.ToString(fields);
     }
 
     /// <summary>
@@ -106,7 +140,16 @@ public static partial class StswFn
     /// </summary>
     /// <returns><see langword="true"/> if the assembly was compiled in debug mode, <see langword="false"/> otherwise.</returns>
     [StswInfo("0.9.0")]
-    public static bool IsInDebug() => Assembly.GetEntryAssembly()?.GetCustomAttributes<DebuggableAttribute>().FirstOrDefault()?.IsJITTrackingEnabled == true;
+    public static bool IsInDebug { get; } = ComputeIsInDebug();
+    private static bool ComputeIsInDebug()
+    {
+        var asm = Assembly.GetEntryAssembly();
+        if (asm is null)
+            return false;
+
+        var da = asm.GetCustomAttribute<DebuggableAttribute>();
+        return da is not null && (da.IsJITTrackingEnabled || da.IsJITOptimizerDisabled);
+    }
 
     /// <summary>
     /// Checks if a UI thread is available using SynchronizationContext.
@@ -143,15 +186,24 @@ public static partial class StswFn
                 if (param == null)
                     continue;
 
-                if (param is IEnumerable list && param is not string)
+                if (param is IEnumerable enumerable && param is not string)
                 {
-                    var items = list.Cast<object?>().ToList();
-                    for (var j = 0; j < baseList.Count && j < items.Count; j++)
-                        MergeInto(baseList[j], items[j], mergePriority);
+                    using var enumerableBase = baseList.GetEnumerator();
+                    using var enumerableNew = enumerable.Cast<object?>().GetEnumerator();
+
+                    while (enumerableBase.MoveNext())
+                    {
+                        if (!enumerableNew.MoveNext())
+                            break;
+
+                        MergeInto(enumerableBase.Current, enumerableNew.Current, mergePriority);
+                    }
                 }
                 else
+                {
                     foreach (var item in baseList)
                         MergeInto(item, param, mergePriority);
+                }
             }
 
             return baseList;
@@ -180,8 +232,8 @@ public static partial class StswFn
     /// <summary>
     /// Merges properties of a source object into a target dictionary.
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="source"></param>
+    /// <param name="target">The target dictionary to merge properties into.</param>
+    /// <param name="source">The source object whose properties will be merged into the target dictionary.</param>
     [StswInfo("0.18.1")]
     private static void MergeInto(IDictionary<string, object?> target, object? source, StswMergePriority mergePriority)
     {
@@ -219,8 +271,8 @@ public static partial class StswFn
     /// <summary>
     /// Converts an object to an <see cref="ExpandoObject"/> by copying its properties.
     /// </summary>
-    /// <param name="source"></param>
-    /// <returns></returns>
+    /// <param name="source">The source object to convert.</param>
+    /// <returns>An <see cref="ExpandoObject"/> containing the properties of the source object.</returns>
     [StswInfo("0.11.0")]
     private static ExpandoObject ToExpando(object? source)
     {
@@ -253,12 +305,14 @@ public static partial class StswFn
         if (startDate > endDate)
             return [];
 
-        var monthsDifference = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
-        var months = new List<(int Year, int Month)>(monthsDifference);
+        var start = new DateTime(startDate.Year, startDate.Month, 1);
+        var end = new DateTime(endDate.Year, endDate.Month, 1);
 
-        var current = new DateTime(startDate.Year, startDate.Month, 1);
+        var monthsCount = (end.Year - start.Year) * 12 + (end.Month - start.Month) + 1;
+        var months = new List<(int Year, int Month)>(monthsCount);
 
-        while (current <= endDate)
+        var current = start;
+        while (current <= end)
         {
             months.Add((current.Year, current.Month));
             current = current.AddMonths(1);
@@ -277,11 +331,9 @@ public static partial class StswFn
     [StswInfo("0.9.0")]
     public static bool IsFileInUse(string path)
     {
-        if (!File.Exists(path))
-            return false;
+        if (!File.Exists(path)) return false;
 
         SafeFileHandle? handle = null;
-
         try
         {
             handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.None);
@@ -308,8 +360,8 @@ public static partial class StswFn
     [StswInfo("0.3.0")]
     public static bool MoveToRecycleBin(string path)
     {
-        if (!Path.Exists(path))
-            return false;
+        if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException();
+        if (!Path.Exists(path)) return false;
 
         var shf = new SHFILEOPSTRUCT
         {
@@ -327,18 +379,19 @@ public static partial class StswFn
     [StswInfo(null)]
     public static void OpenPath(string path)
     {
+        if (string.IsNullOrWhiteSpace(path))
+            throw new ArgumentNullException(nameof(path));
+
+        if (path.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || path.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true, Verb = "open" });
+            return;
+        }
+
         if (!Path.Exists(path))
             throw new FileNotFoundException($"Path '{path}' not found.", path);
 
-        new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = path,
-                UseShellExecute = true,
-                Verb = "open"
-            }
-        }.Start();
+        Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true, Verb = "open" });
     }
 
     /// <summary>
@@ -395,41 +448,35 @@ public static partial class StswFn
     /// <param name="separator"> The separator used to split the string.</param>
     /// <param name="n"> The maximum number of parts in each chunk.</param>
     /// <returns>A list of strings, each containing up to n parts from the original string.</returns>
-    /// <exception cref="ArgumentException">Thrown when n is less than or equal to 0.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="n"/> is less than or equal to 0.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="separator"/> is <see langword="null"/> or empty.</exception>
     [StswInfo("0.5.0")]
-    public static List<string> ChunkBySeparator(string input, string separator, int n)
+    public static List<string> ChunkBySeparator(string input, string separator, int n, StringComparison cmp = StringComparison.Ordinal)
     {
-        if (n <= 0)
-            throw new ArgumentException($"Parameter {nameof(n)} must be greater than 0.", nameof(n));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(n);
         if (string.IsNullOrEmpty(separator))
-            throw new ArgumentException("Separator cannot be null or empty.", nameof(separator));
+            throw new ArgumentNullException(nameof(separator));
 
         var result = new List<string>();
-        var count = 0;
-        var lastCutPosition = 0;
-        var index = 0;
+        int count = 0,  lastCut = 0,  index = 0;
 
         while (index < input.Length)
         {
-            var sepIndex = input.IndexOf(separator, index);
-            if (sepIndex == -1)
-                break;
+            var sepIndex = input.IndexOf(separator, index, cmp);
+            if (sepIndex < 0) break;
 
             count++;
             index = sepIndex + separator.Length;
 
             if (count == n)
             {
-                var cutPosition = index;
-                var chunk = input[lastCutPosition..cutPosition];
-                result.Add(chunk);
-                lastCutPosition = cutPosition;
+                result.Add(input[lastCut..index]);
+                lastCut = index;
                 count = 0;
             }
         }
-
-        if (lastCutPosition < input.Length)
-            result.Add(input[lastCutPosition..]);
+        if (lastCut < input.Length)
+            result.Add(input[lastCut..]);
 
         return result;
     }
@@ -448,14 +495,12 @@ public static partial class StswFn
         if (string.IsNullOrWhiteSpace(text))
             return text;
 
-        var normalizedString = text.Normalize(NormalizationForm.FormD);
-        var stringBuilder = new StringBuilder(text.Length);
-
-        foreach (var c in normalizedString)
+        var sb = new StringBuilder(text.Length);
+        foreach (var c in text.Normalize(NormalizationForm.FormD))
             if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                stringBuilder.Append(c);
+                sb.Append(c);
 
-        return stringBuilder.ToString();
+        return sb.ToString().Normalize(NormalizationForm.FormC);
     }
 
     /// <summary>
@@ -469,7 +514,7 @@ public static partial class StswFn
         if (string.IsNullOrEmpty(textToRemove))
             return originalText;
 
-        var pattern = $"({Regex.Escape(textToRemove)})+";
+        var pattern = $"(?:{Regex.Escape(textToRemove)}){{2,}}";
         return Regex.Replace(originalText, pattern, textToRemove);
     }
     #endregion
@@ -488,8 +533,8 @@ public static partial class StswFn
         if (string.IsNullOrWhiteSpace(emails))
             return false;
 
-        var emailList = emails.Split(separator, StringSplitOptions.TrimEntries);
-        return emailList.All(EmailRegex().IsMatch);
+        var emailList = emails.Split(separator, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        return emailList.Length > 0 && emailList.All(EmailRegex().IsMatch);
     }
 
     /// <summary>
@@ -504,33 +549,38 @@ public static partial class StswFn
     /// Validates whether a phone number matches the expected format for a specified country.
     /// </summary>
     /// <param name="number">The phone number to validate.</param>
-    /// <param name="countryCode">The country code (e.g., "PL" for Poland, "US" for United States).</param>
+    /// <param name="countryCode">The country code to validate against (e.g., "PL" for Poland, "UK" for United Kingdom, "US" for United States).</param>
     /// <returns><see langword="true"/> if the phone number is valid; otherwise, <see langword="false"/>.</returns>
     /// <remarks>
-    /// Supports PL (Poland), UK (United Kingdom), US (United States), and generic validation for other countries.
+    /// Supports: Poland (PL), United Kingdom (UK), United States (US), Germany (DE), France (FR).
     /// </remarks>
     [StswInfo("0.3.0", Changes = StswPlannedChanges.Rework)]
-    public static bool IsValidPhoneNumber(string number, string countryCode)
+    public static bool IsValidPhoneNumber(string number, string? countryCode = null)
     {
-        var digits = new string([.. number.Where(char.IsDigit)]);
+        if (string.IsNullOrWhiteSpace(number))
+            return false;
 
-        switch (countryCode.ToUpper())
+        static string DigitsWithPlus(string s)
         {
-            case "PL":
-                if (digits.Length == 9)
-                    return true;
-
-                if (digits.Length == 11 && digits.StartsWith("48"))
-                    return true;
-
-                return false;
-            case "UK":
-                return digits.Length == 10 || digits.Length == 11;
-            case "US":
-                return digits.Length == 10;
-            default:
-                return digits.Length >= 7 && digits.Length <= 15;
+            var sb = new StringBuilder(s.Length);
+            foreach (var ch in s)
+                if (char.IsDigit(ch) || (sb.Length == 0 && ch == '+')) sb.Append(ch);
+            return sb.ToString();
         }
+
+        number = DigitsWithPlus(number);
+        if (number.StartsWith('+'))
+            return number.Length >= 9 && number.Length <= 16;
+
+        return (countryCode?.ToUpperInvariant()) switch
+        {
+            "PL" => number.Length is 9 || (number.Length is 11 && number.StartsWith("48")),
+            "UK" => number.Length is 10 or 11,
+            "US" => number.Length is 10,
+            "DE" => number.Length is >= 10 and <= 14,
+            "FR" => number.Length is 9 or 10,
+            _ => number.Length is >= 7 and <= 15,
+        };
     }
 
     /// <summary>
@@ -541,13 +591,14 @@ public static partial class StswFn
     [StswInfo("0.3.0", IsTested = false)]
     public static bool IsValidUrl(string url)
     {
-        if (Uri.TryCreate(url, UriKind.Absolute, out var result)
-         && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps))
-        {
-            var host = result.Host;
-            return !string.IsNullOrWhiteSpace(host) && host.Contains('.') && !host.Any(char.IsWhiteSpace);
-        }
-        return false;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var u)) return false;
+        if (u.Scheme != Uri.UriSchemeHttp && u.Scheme != Uri.UriSchemeHttps) return false;
+
+        var host = u.IdnHost;
+        if (string.IsNullOrWhiteSpace(host))
+            return false;
+
+        return Uri.CheckHostName(host) != UriHostNameType.Unknown;
     }
     #endregion
 

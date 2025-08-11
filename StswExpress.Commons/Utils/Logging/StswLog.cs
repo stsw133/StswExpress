@@ -686,7 +686,7 @@ public static class StswLog
         if (type == null)
             return true;
 
-        return StswFn.IsInDebug()
+        return StswFn.IsInDebug
             ? type.Value.In(Config.LogTypes_DEBUG)
             : type.Value.In(Config.LogTypes_RELEASE);
     }
@@ -695,6 +695,6 @@ public static class StswLog
     /// <summary>
     /// Gets the path to the log file for the current day.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The full path to the log file for today.</returns>
     private static string GetDailyLogFilePath() => Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log");
 }
