@@ -74,6 +74,9 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         {
             Style = StswEditingElementStyle,
             Format = Format,
+            Increment = Increment,
+            Maximum = Maximum,
+            Minimum = Minimum,
             Padding = Padding,
             Placeholder = Placeholder,
             HorizontalContentAlignment = HorizontalContentAlignment,
@@ -100,6 +103,56 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
+        );
+
+    /// <summary>
+    /// Gets or sets the step value used when adjusting the number using the up/down buttons or mouse wheel.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public T Increment
+    {
+        get => (T)GetValue(IncrementProperty);
+        set => SetValue(IncrementProperty, value);
+    }
+    public static readonly DependencyProperty IncrementProperty
+        = DependencyProperty.Register(
+            nameof(Increment),
+            typeof(T),
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable value in the control. 
+    /// The input value will be clamped to this maximum if exceeded.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public T? Maximum
+    {
+        get => (T?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(T?),
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum allowable value in the control. 
+    /// The input value will be clamped to this minimum if lower.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public T? Minimum
+    {
+        get => (T?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(T?),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 

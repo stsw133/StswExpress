@@ -65,10 +65,13 @@ public class StswDataGridPathColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle,
             Filter = Filter,
+            IsFileSizeVisible = IsFileSizeVisible,
+            IsShiftingEnabled = IsShiftingEnabled,
             Multiselect = Multiselect,
             Padding = Padding,
             Placeholder = Placeholder,
             SelectionUnit = SelectionUnit,
+            SuggestedFilename = SuggestedFilename,
             HorizontalContentAlignment = HorizontalContentAlignment,
             VerticalContentAlignment = VerticalContentAlignment,
         };
@@ -94,6 +97,23 @@ public class StswDataGridPathColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
+            typeof(StswDataGridPathColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.
+    /// If enabled, users can navigate between directories or files in the current folder using mouse wheel or keyboard keys.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public bool IsShiftingEnabled
+    {
+        get => (bool)GetValue(IsShiftingEnabledProperty);
+        set => SetValue(IsShiftingEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsShiftingEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsShiftingEnabled),
+            typeof(bool),
             typeof(StswDataGridPathColumn)
         );
 
@@ -143,9 +163,43 @@ public class StswDataGridPathColumn : DataGridTextColumn
             typeof(StswDataGridPathColumn),
             new PropertyMetadata(StswPathType.OpenFile)
         );
+
+    /// <summary>
+    /// Gets or sets the suggested file name for file dialog default file name.
+    /// Provides a default name for files when the save dialog is shown.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public string? SuggestedFilename
+    {
+        get => (string?)GetValue(SuggestedFilenameProperty);
+        set => SetValue(SuggestedFilenameProperty, value);
+    }
+    public static readonly DependencyProperty SuggestedFilenameProperty
+        = DependencyProperty.Register(
+            nameof(SuggestedFilename),
+            typeof(string),
+            typeof(StswDataGridPathColumn)
+        );
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets whether to show or not the file size.
+    /// If true, the size of the selected file is displayed next to the selected path.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public bool IsFileSizeVisible
+    {
+        get => (bool)GetValue(IsFileSizeVisibleProperty);
+        set => SetValue(IsFileSizeVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsFileSizeVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsFileSizeVisible),
+            typeof(bool),
+            typeof(StswDataGridPathColumn)
+        );
+
     /// <summary>
     /// Gets or sets the padding around the content inside the column's cells.
     /// </summary>

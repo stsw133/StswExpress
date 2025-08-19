@@ -44,7 +44,7 @@ public static class StswFnUI
     /// </summary>
     /// <param name="relativeUri">Relative URI of the resource</param>
     /// <returns>The resource as a byte array</returns>
-    [StswInfo("0.15.0")]
+    [StswInfo("0.20.0")]
     public static byte[]? GetResourceAsBytes(string relativeUri)
     {
         var uri = new Uri(relativeUri, UriKind.Relative);
@@ -252,24 +252,13 @@ public static class StswFnUI
     [StswInfo("0.7.0")]
     public static Color GenerateColor(string text, int seed)
     {
-        static int AdjustBrightness(int component, int seed) => component + (seed - component) / 2;
-
         if (string.IsNullOrEmpty(text))
             return Colors.Transparent;
 
-        byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
-        int r = hashBytes[0];
-        int g = hashBytes[1];
-        int b = hashBytes[2];
+        var combined = $"{seed}\u001F{text}";
+        var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(combined));
 
-        if (seed >= 0 && seed <= 255)
-        {
-            r = AdjustBrightness(r, seed);
-            g = AdjustBrightness(g, seed);
-            b = AdjustBrightness(b, seed);
-        }
-
-        return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
+        return Color.FromArgb(255, hashBytes[0], hashBytes[1], hashBytes[2]);
     }
     #endregion
 
@@ -337,7 +326,7 @@ public static class StswFnUI
     /// </summary>
     /// <param name="path">The file or directory path to extract the icon from.</param>
     /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
-    [StswInfo("0.12.0")]
+    [StswInfo("0.12.0", "0.19.0")]
     public static System.Drawing.Icon? ExtractAssociatedIcon(string? path)
     {
         const uint SHGFI_ICON = 0x100;

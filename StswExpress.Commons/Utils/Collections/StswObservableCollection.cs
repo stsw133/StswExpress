@@ -12,7 +12,7 @@ namespace StswExpress.Commons;
 /// items as modified when those properties change.
 /// </summary>
 /// <typeparam name="T">Item type implementing <see cref="IStswCollectionItem"/></typeparam>
-[StswInfo("0.15.0")] //TODO - handle changes in nested classes
+[StswInfo("0.15.0", "0.19.1")] //TODO - handle changes in nested classes
 public class StswObservableCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     private bool _isBulkLoading;
@@ -73,6 +73,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
     /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
+    [StswInfo("0.15.0", "0.19.1")]
     public void AddRange(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added)
     {
         if (items.IsNullOrEmpty())
@@ -98,6 +99,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
     /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
+    [StswInfo("0.19.1")]
     public void AddRangeFast(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added)
     {
         if (items.IsNullOrEmpty())
@@ -124,6 +126,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0", "0.19.0")]
     protected override void ClearItems()
     {
         foreach (var item in this)
@@ -152,6 +155,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0", "0.19.0")]
     protected override void InsertItem(int index, T item)
     {
         base.InsertItem(index, item);
@@ -164,6 +168,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0", "0.19.0")]
     protected override void RemoveItem(int index)
     {
         var item = this[index];
@@ -209,6 +214,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.15.0", "0.19.0")]
     protected override void SetItem(int index, T item)
     {
         var oldItem = this[index];
@@ -257,6 +263,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     /// <param name="sender">The item that raised the event.</param>
     /// <param name="e">PropertyChangedEventArgs details.</param>
+    [StswInfo("0.15.0", "0.19.0")]
     private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (sender is not T trackableItem)
@@ -280,23 +287,27 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Unchanged"/> state."/>
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     public IEnumerable<T> UnchangedItems => this.Where(x => x.ItemState == StswItemState.Unchanged);
 
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Added"/> state."/>
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     public IReadOnlyList<T> AddedItems => (IReadOnlyList<T>)_addedItems;
     private readonly IList<T> _addedItems = [];
 
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Deleted"/> state.
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     public IReadOnlyList<T> DeletedItems => (IReadOnlyList<T>)_deletedItems;
     private readonly IList<T> _deletedItems = [];
 
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Modified"/> state.
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     public IReadOnlyList<T> ModifiedItems => (IReadOnlyList<T>)_modifiedItems;
     private readonly IList<T> _modifiedItems = [];
 
@@ -423,6 +434,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Recounts the states of the items in the collection and updates the counters accordingly.
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     private void RecountStates()
     {
         if (_countersAreDirty)

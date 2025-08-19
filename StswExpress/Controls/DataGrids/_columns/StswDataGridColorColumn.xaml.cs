@@ -64,6 +64,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         var editingElement = new StswColorBox()
         {
             Style = StswEditingElementStyle,
+            IsAlphaEnabled = IsAlphaEnabled,
             Padding = Padding,
             Placeholder = Placeholder,
             HorizontalContentAlignment = HorizontalContentAlignment,
@@ -78,6 +79,23 @@ public class StswDataGridColorColumn : DataGridTextColumn
     }
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
+    /// When disabled, the selected color will always have full opacity.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsAlphaEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsAlphaEnabled),
+            typeof(bool),
+            typeof(StswDataGridColorColumn)
+        );
+
     /// <summary>
     /// Gets or sets the placeholder text displayed in the editing element when no color is selected.
     /// </summary>

@@ -130,8 +130,8 @@ public class StswDatePicker : StswBoxBase
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the custom date and time format string used to display the selected date in the control.
-    /// When set, the date is formatted according to the provided format string.
+    /// Gets or sets the date format displayed in the column.
+    /// Example: "dd/MM/yyyy".
     /// </summary>
     public string? Format
     {

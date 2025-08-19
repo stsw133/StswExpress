@@ -37,7 +37,7 @@ public static partial class StswFn
     /// <param name="msInterval">The delay in milliseconds between attempts.</param>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="action"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
     {
         ArgumentNullException.ThrowIfNull(action);
@@ -72,7 +72,7 @@ public static partial class StswFn
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="action"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
-    [StswInfo(null)]
+    [StswInfo("0.20.0")]
     public static async Task TryMultipleTimesAsync(Func<Task> action, int maxTries = 5, int msInterval = 200, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(action);
@@ -111,7 +111,7 @@ public static partial class StswFn
     /// Gets the version number of the currently executing application.
     /// </summary>
     /// <returns>The version number of the currently executing application as a string, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static string? AppVersion()
     {
         var ver = Assembly.GetEntryAssembly()?.GetName().Version;
@@ -139,7 +139,7 @@ public static partial class StswFn
     /// with JIT tracking enabled.
     /// </summary>
     /// <returns><see langword="true"/> if the assembly was compiled in debug mode, <see langword="false"/> otherwise.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static bool IsInDebug { get; } = ComputeIsInDebug();
     private static bool ComputeIsInDebug()
     {
@@ -170,7 +170,7 @@ public static partial class StswFn
     /// A single dynamic object (<see cref="ExpandoObject"/>) if the first parameter is not a collection;
     /// otherwise a <see cref="List{ExpandoObject}"/> containing merged elements.
     /// </returns>
-    [StswInfo("0.18.1")]
+    [StswInfo("0.18.1", "0.20.0")]
     public static dynamic MergeObjects(StswMergePriority mergePriority, params object?[] parameters)
     {
         if (parameters.Length == 0)
@@ -299,7 +299,7 @@ public static partial class StswFn
     /// <param name="startDate">The start date of the range.</param>
     /// <param name="endDate">The end date of the range.</param>
     /// <returns>A list of tuples, where each tuple contains the year and month within the specified date range.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static List<(int Year, int Month)> GetUniqueMonthsFromRange(DateTime startDate, DateTime endDate)
     {
         if (startDate > endDate)
@@ -328,7 +328,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="path">The path to the file.</param>
     /// <returns><see langword="true"/> if the file is in use; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.19.0")]
     public static bool IsFileInUse(string path)
     {
         if (!File.Exists(path)) return false;
@@ -357,7 +357,7 @@ public static partial class StswFn
     /// Moves a file or directory to the recycle bin.
     /// </summary>
     /// <param name="path"> The path to the file or directory to be moved to the recycle bin.</param>
-    [StswInfo("0.3.0")]
+    [StswInfo("0.3.0", "0.20.0")]
     public static bool MoveToRecycleBin(string path)
     {
         if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException();
@@ -376,7 +376,7 @@ public static partial class StswFn
     /// Opens a file in its associated application, a hyperlink in the default web browser, or a folder in Windows Explorer.
     /// </summary>
     /// <param name="path">The path to the file, hyperlink, or folder to be opened.</param>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static void OpenPath(string path)
     {
         if (string.IsNullOrWhiteSpace(path))
@@ -450,7 +450,7 @@ public static partial class StswFn
     /// <returns>A list of strings, each containing up to n parts from the original string.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="n"/> is less than or equal to 0.</exception>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="separator"/> is <see langword="null"/> or empty.</exception>
-    [StswInfo("0.5.0")]
+    [StswInfo("0.5.0", "0.20.0")]
     public static List<string> ChunkBySeparator(string input, string separator, int n, StringComparison cmp = StringComparison.Ordinal)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(n);
@@ -489,7 +489,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="text">The input string containing diacritics.</param>
     /// <returns>The normalized string with diacritics replaced by ASCII characters.</returns>
-    [StswInfo("0.8.0")]
+    [StswInfo("0.8.0", "0.20.0")]
     public static string NormalizeDiacritics(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -509,6 +509,7 @@ public static partial class StswFn
     /// <param name="originalText">The original text to process.</param>
     /// <param name="textToRemove">The string to remove when consecutive occurrences are found.</param>
     /// <returns>The processed string with consecutive occurrences removed.</returns>
+    [StswInfo(null, "0.20.0")]
     public static string RemoveConsecutiveText(string originalText, string textToRemove)
     {
         if (string.IsNullOrEmpty(textToRemove))
@@ -527,7 +528,7 @@ public static partial class StswFn
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
     /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0")]
+    [StswInfo("0.3.0", "0.19.0")]
     public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
@@ -542,7 +543,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0")]
+    [StswInfo("0.3.0", "0.19.0")]
     public static bool IsValidEmail(string email) => EmailRegex().IsMatch(email);
 
     /// <summary>
@@ -554,7 +555,7 @@ public static partial class StswFn
     /// <remarks>
     /// Supports: Poland (PL), United Kingdom (UK), United States (US), Germany (DE), France (FR).
     /// </remarks>
-    [StswInfo("0.3.0", Changes = StswPlannedChanges.Rework)]
+    [StswInfo("0.3.0", "0.20.0", Changes = StswPlannedChanges.Rework)]
     public static bool IsValidPhoneNumber(string number, string? countryCode = null)
     {
         if (string.IsNullOrWhiteSpace(number))
@@ -588,7 +589,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="url">The URL to validate.</param>
     /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0", IsTested = false)]
+    [StswInfo("0.3.0", "0.20.0", IsTested = false)]
     public static bool IsValidUrl(string url)
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out var u)) return false;

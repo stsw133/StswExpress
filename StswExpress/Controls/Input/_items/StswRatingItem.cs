@@ -9,6 +9,7 @@ internal class StswRatingItem : StswObservableObject
     /// <summary>
     /// Gets or sets the fill fraction of the item, where 0 is empty and 1 is fully filled.
     /// </summary>
+    [StswInfo("0.1.0", "0.20.0")]
     public double FillFraction
     {
         get => _fillFraction;

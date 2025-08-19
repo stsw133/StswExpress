@@ -24,7 +24,7 @@ namespace StswExpress;
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
+[StswInfo("0.1.0", "0.19.0")]
 public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
     private readonly Action<T> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -64,5 +64,5 @@ public class StswCommand<T>(Action<T> execute, Func<bool>? canExecute = null) : 
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-[StswInfo(null)]
+[StswInfo(null, "0.19.0")]
 public class StswCommand(Action execute, Func<bool>? canExecute = null) : StswCommand<object>(_ => execute(), canExecute);

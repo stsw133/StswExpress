@@ -80,7 +80,7 @@ public class StswScrollBar : ScrollBar
     /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
     /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
     /// </summary>
-    [StswInfo("0.19.0")]
+    [StswInfo(null, "0.19.0")]
     public StswScrollDynamicMode DynamicMode
     {
         get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
@@ -125,6 +125,7 @@ public class StswScrollBar : ScrollBar
     /// Gets or sets the size of the scroll bar when collapsed.
     /// This size is applied when the scroll bar is not being interacted with (in dynamic mode).
     /// </summary>
+    [StswInfo("0.1.0", "0.19.0")]
     public double CollapsedSize
     {
         get => (double)GetValue(CollapsedSizeProperty);
@@ -142,6 +143,7 @@ public class StswScrollBar : ScrollBar
     /// Gets or sets the size of the scroll bar when expanded.
     /// This size is applied when the scroll bar is actively being used or hovered over in dynamic mode.
     /// </summary>
+    [StswInfo("0.1.0", "0.19.0")]
     public double ExpandedSize
     {
         get => (double)GetValue(ExpandedSizeProperty);
@@ -246,6 +248,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// Animates the control when the mouse enters.
     /// </summary>
+    [StswInfo("0.1.0", "0.19.0")]
     private void MouseEnterAnimation()
     {
         AnimateSize(ExpandedSize);
@@ -258,6 +261,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// Animates the control when the mouse leaves.
     /// </summary>
+    [StswInfo("0.1.0", "0.19.0")]
     private void MouseLeaveAnimation()
     {
         if (Orientation == Orientation.Horizontal)

@@ -131,6 +131,7 @@ public partial class StswDatabaseModel : StswObservableObject
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
+    [StswInfo(null, "0.20.0")]
     public string GetConnString()
     {
         if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database))

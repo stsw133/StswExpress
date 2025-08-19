@@ -206,8 +206,8 @@ public class StswPathPicker : StswBoxBase
         );
 
     /// <summary>
-    /// Gets or sets the filter string for file dialog filters.
-    /// Specifies the types of files that can be selected within the file dialog.
+    /// Gets or sets the file filter used in the file selection dialog.
+    /// Example: "Image Files (*.png;*.jpg)|*.png;*.jpg".
     /// </summary>
     public string Filter
     {

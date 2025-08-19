@@ -126,7 +126,7 @@ public class StswToaster : ItemsControl
     /// Handles the timer tick event for automatic removal of toasts.
     /// </summary>
     /// <param name="state">The state object passed to the timer (not used).</param>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.19.0")]
     private void OnTimerTick(object? state)
     {
         Application.Current.Dispatcher.Invoke(() =>
@@ -153,7 +153,7 @@ public class StswToaster : ItemsControl
     /// Hides the specified toast item with a fade-out animation.
     /// </summary>
     /// <param name="item">The toast item to hide.</param>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.19.0")]
     private void HideToastItem(StswToastItem? item)
     {
         if (item == null)
@@ -230,6 +230,7 @@ public class StswToaster : ItemsControl
     /// <summary>
     /// Gets or sets a value indicating whether toasts are closable, providing a close button for each alert.
     /// </summary>
+    [StswInfo("0.19.0")]
     public bool IsClosable
     {
         get => (bool)GetValue(IsClosableProperty);

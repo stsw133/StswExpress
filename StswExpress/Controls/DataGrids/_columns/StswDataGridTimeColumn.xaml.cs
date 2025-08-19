@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -66,6 +67,9 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle,
             Format = Format,
+            IncrementType = IncrementType,
+            Maximum = Maximum,
+            Minimum = Minimum,
             Padding = Padding,
             Placeholder = Placeholder,
             HorizontalContentAlignment = HorizontalContentAlignment,
@@ -93,6 +97,54 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
+            typeof(StswDataGridTimeColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the increment type that determines how the time changes when scrolling with the mouse wheel.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public StswTimeSpanIncrementType IncrementType
+    {
+        get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+            nameof(IncrementType),
+            typeof(StswTimeSpanIncrementType),
+            typeof(StswDataGridTimeColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable time in the control.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public TimeSpan? Maximum
+    {
+        get => (TimeSpan?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(TimeSpan?),
+            typeof(StswDataGridTimeColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum allowable time in the control.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public TimeSpan? Minimum
+    {
+        get => (TimeSpan?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(TimeSpan?),
             typeof(StswDataGridTimeColumn)
         );
 

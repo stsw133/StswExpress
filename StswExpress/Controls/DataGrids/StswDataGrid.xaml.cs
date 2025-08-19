@@ -54,9 +54,10 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
     protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
-    
+
     #region Events & methods
     /// <inheritdoc/>
+    [StswInfo(null, "0.19.1")]
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -131,7 +132,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.19.1")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -462,7 +463,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.19.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);

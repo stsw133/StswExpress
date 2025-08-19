@@ -295,6 +295,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Generates an SQL WHERE clause string based on the current filter settings.
     /// </summary>
+    [StswInfo(null, "0.20.0")]
     public void GenerateSqlString()
     {
         if (_dataGrid?.FiltersType != StswDataGridFiltersType.SQL)
@@ -383,6 +384,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// </summary>
     /// <param name="sampleLimit">The maximum number of items to sample for determining the value type.</param>
     /// <returns>The SQL parameter name.</returns>
+    [StswInfo("0.20.0")]
     private Type? ResolveListValueType(int sampleLimit = 8)
     {
         if (ItemsSource?.GetType().IsListType(out var innerType) == true && innerType != null && !string.IsNullOrEmpty(SelectedValuePath))
@@ -423,6 +425,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets whether to apply case transformation to the filter values.
     /// </summary>
+    [StswInfo(null, "0.20.0")]
     public bool ApplyCaseTransform
     {
         get => (bool)GetValue(ApplyCaseTransformProperty);
@@ -438,6 +441,7 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets whether to apply a null replacement for the filter values.
     /// </summary>
+    [StswInfo(null, "0.20.0")]
     public bool ApplyNullReplacement
     {
         get => (bool)GetValue(ApplyNullReplacementProperty);

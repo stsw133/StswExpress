@@ -20,7 +20,7 @@ public static partial class StswExtensions
     /// <param name="o">The object to convert. If <see langword="null"/>, the <see langword="null"/> is returned.</param>
     /// <param name="t">The target type to convert to.</param>
     /// <returns>The converted object of type <paramref name="t"/>, or <see langword="null"/> if conversion fails.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static object? ConvertTo(this object? o, Type t)
     {
         var underlyingType = Nullable.GetUnderlyingType(t);
@@ -75,7 +75,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The target type to convert to.</typeparam>
     /// <param name="o">The object to convert. If null, the default value of <typeparamref name="T"/> is returned.</param>
     /// <returns>The converted object of type <typeparamref name="T"/>, or default if conversion fails.</returns>
-    [StswInfo(null)] 
+    [StswInfo(null, "0.20.0")] 
     public static T? ConvertTo<T>(this object o) => o.ConvertTo(typeof(T)) is T tResult ? tResult : default;
 
     /// <summary>
@@ -84,7 +84,6 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to convert.</param>
     /// <returns>The corresponding <see cref="SqlDbType"/>, or <see langword="null"/> if no matching type is found.</returns>
-
     [StswInfo("0.9.0")]
     public static SqlDbType InferSqlDbType(this Type type)
     {
@@ -219,7 +218,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
-    [StswInfo("0.12.0")]
+    [StswInfo("0.12.0", "0.20.0")]
     public static bool IsSimpleType(Type type)
     {
         if (type.IsEnum) return true;
@@ -242,7 +241,7 @@ public static partial class StswExtensions
     /// <param name="data">The collection of items to convert.</param>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="data"/> is <see langword="null"/>.</exception>
     /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static DataTable ToDataTable<T>(this IEnumerable<T> data)
     {
         ArgumentNullException.ThrowIfNull(data);
@@ -338,7 +337,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="dt">The <see cref="DateTime"/> to convert.</param>
     /// <returns>A long value representing the number of seconds since the Unix epoch (January 1, 1970).</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static long ToUnixTimeSeconds(this DateTime dt)
     {
         if (dt.Kind == DateTimeKind.Unspecified)
@@ -388,6 +387,7 @@ public static partial class StswExtensions
     /// <param name="dictionary">The dictionary to search.</param>
     /// <param name="key">The key of the value to get.</param>
     /// <returns>The value associated with the specified key, or <see langword="default"/> if the key is not found.</returns>
+    [StswInfo(null, "0.20.0")]
     public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull => dictionary.TryGetValue(key, out var value) ? value : default;
 
     /// <summary>
@@ -460,7 +460,7 @@ public static partial class StswExtensions
     /// <param name="count">The number of steps to move forward in the enumeration.</param>
     /// <param name="wrapAround">Whether to wrap around to the first value when the end of the enumeration is reached.</param>
     /// <returns>The next enum value. If wrapAround is <see langword="false"/> and the end is reached, returns the last enum value.</returns>
-    [StswInfo("0.5.0")]
+    [StswInfo("0.5.0", "0.20.0")]
     public static T GetNextValue<T>(this T value, int count = 1, bool wrapAround = true) where T : struct, Enum
     {
         var values = Enum.GetValues<T>();
@@ -508,7 +508,7 @@ public static partial class StswExtensions
     /// <param name="list">The collection to add items to.</param>
     /// <param name="items">The items to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="list"/> or <paramref name="items"/> is <see langword="null"/>.</exception>"
-    [StswInfo("0.15.0")]
+    [StswInfo("0.15.0", "0.20.0")]
     public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
     {
         ArgumentNullException.ThrowIfNull(list);
@@ -582,7 +582,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to remove elements from.</param>
     /// <param name="items">The collection containing the elements to remove.</param>
-    [StswInfo("0.6.1")]
+    [StswInfo("0.6.1", "0.20.0")]
     public static void RemoveRange<T>(this IList<T> list, IEnumerable<T> items)
     {
         ArgumentNullException.ThrowIfNull(list, nameof(list));
@@ -630,7 +630,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method can be useful in scenarios where random order is needed, such as randomizing test cases or mixing elements in non-deterministic processes.
     /// </remarks>
-    [StswInfo("0.10.0", IsTested = false)]
+    [StswInfo("0.10.0", "0.20.0", IsTested = false)]
     public static void Shuffle<T>(this IList<T> list)
     {
         ArgumentNullException.ThrowIfNull(list);
@@ -663,7 +663,7 @@ public static partial class StswExtensions
     /// <param name="start">The start of the range.</param>
     /// <param name="end">The end of the range.</param>
     /// <returns><see langword="true"/> if the value is within the range; otherwise, <see langword="false"/>.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static bool Between<T>(this T? value, T? start, T? end) where T : struct, IComparable<T>
     {
         var cmp = Comparer<T?>.Default;
@@ -702,7 +702,7 @@ public static partial class StswExtensions
     /// <param name="type">The type to check.</param>
     /// <param name="innerType">The inner type if the type is a list type.</param>
     /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.6.0")]
+    [StswInfo("0.6.0", "0.20.0")]
     public static bool IsListType(this Type type, out Type? innerType)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -739,7 +739,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to check.</param>
     /// <returns><see langword="true"/> if the value is null or its default value; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static bool IsNullOrDefault<T>(this T? value) where T : struct => !value.HasValue || EqualityComparer<T>.Default.Equals(value.Value, default);
 
     /// <summary>
@@ -748,7 +748,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the enumerable.</typeparam>
     /// <param name="source">The source <see cref="IEnumerable{T}"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.15.0")]
+    [StswInfo("0.15.0", "0.20.0")]
     public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
     {
         if (source is null)
@@ -771,7 +771,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="source">The source <see cref="IEnumerable"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.15.0")]
+    [StswInfo("0.15.0", "0.20.0")]
     public static bool IsNullOrEmpty(this IEnumerable? source)
     {
         if (source is null)
@@ -1072,7 +1072,7 @@ public static partial class StswExtensions
     /// <param name="text">The string to capitalize.</param>
     /// <param name="culture">The culture to use for capitalization. If <see langword="null"/>, the current culture is used.</param>
     /// <returns>A string with the first letter capitalized and the rest in lowercase.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static string Capitalize(this string text, CultureInfo? culture = null)
     {
         if (string.IsNullOrEmpty(text)) return text;
@@ -1147,7 +1147,7 @@ public static partial class StswExtensions
     /// <param name="source">The string to trim.</param>
     /// <param name="value">The string to remove from the end.</param>
     /// <returns>A new string that is equivalent to the original string but without the specified value at the end.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static string TrimEnd(this string source, string value)
     {
         if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
@@ -1164,7 +1164,7 @@ public static partial class StswExtensions
     /// <param name="source">The string to trim.</param>
     /// <param name="value">The string to remove from the start.</param>
     /// <returns>A new string that is equivalent to the original string but without the specified value at the start.</returns>
-    [StswInfo(null)]
+    [StswInfo(null, "0.20.0")]
     public static string TrimStart(this string source, string value)
     {
         if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
@@ -1184,7 +1184,7 @@ public static partial class StswExtensions
     /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
     /// <param name="ignoreCase">Specifies whether the property name comparison should be case-insensitive.</param>
     /// <returns>The value of the property if it exists; otherwise, <see langword="null"/>.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static object? GetPropertyValue(this object obj, string propertyName, bool ignoreCase = false)
     {
         if (obj is null || propertyName is null)

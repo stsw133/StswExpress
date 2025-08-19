@@ -35,7 +35,7 @@ namespace StswExpress;
 /// // Calling it again resumes from where it left off.
 /// </code>
 /// </example>
-[StswInfo("0.9.2", IsTested = false)]
+[StswInfo("0.9.2", "0.20.0", IsTested = false)]
 public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem, Func<bool>? canExecute = null) : StswCancellableCommand<T>((_, _) => Task.CompletedTask, canExecute)
 {
     private readonly Func<T, CancellationToken, Task> _executeItem = executeItem ?? throw new ArgumentNullException(nameof(executeItem));
@@ -45,6 +45,7 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
     /// <summary>
     /// Sets the items to be processed.
     /// </summary>
+    [StswInfo("0.20.0")]
     public void SetItems(IEnumerable<T> items)
     {
         _items = items is IReadOnlyList<T> list ? list : [.. items];
@@ -55,6 +56,7 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
     /// Executes the command asynchronously with the specified parameter.
     /// </summary>
     /// <param name="parameter">The parameter to pass to the command.</param>
+    [StswInfo("0.9.2", "0.20.0")]
     public override async void Execute(object? parameter = null)
     {
         if (IsBusy)
@@ -91,6 +93,7 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
     /// <summary>
     /// Internal logic to process items one by one.
     /// </summary>
+    [StswInfo("0.20.0")]
     private async Task ProcessItemsAsync(CancellationToken token)
     {
         for (; _items is not null && _currentIndex < _items.Count; _currentIndex++)
@@ -107,6 +110,7 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
     /// Gets or sets the current processing index.
     /// Can be used externally to track or manipulate progress manually.
     /// </summary>
+    [StswInfo("0.9.2", "0.20.0")]
     public int CurrentIndex
     {
         get => _currentIndex;
@@ -116,6 +120,7 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
     /// <summary>
     /// Gets or sets the currently assigned item list.
     /// </summary>
+    [StswInfo("0.9.2", "0.20.0")]
     public IReadOnlyList<T>? Items
     {
         get => _items;
@@ -132,6 +137,6 @@ public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-[StswInfo("0.9.2")]
+[StswInfo("0.9.2", "0.20.0")]
 public class StswPausableCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswPausableCommand<object>((_, token) => execute(token), canExecute);

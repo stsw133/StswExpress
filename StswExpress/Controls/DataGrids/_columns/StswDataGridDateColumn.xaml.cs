@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -66,6 +67,9 @@ public class StswDataGridDateColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle,
             Format = Format,
+            IncrementType = IncrementType,
+            Maximum = Maximum,
+            Minimum = Minimum,
             Padding = Padding,
             Placeholder = Placeholder,
             SelectionUnit = SelectionUnit,
@@ -94,6 +98,54 @@ public class StswDataGridDateColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
+            typeof(StswDataGridDateColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the increment type that determines how the date changes when scrolling with the mouse wheel.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public StswDateTimeIncrementType IncrementType
+    {
+        get => (StswDateTimeIncrementType)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+            nameof(IncrementType),
+            typeof(StswDateTimeIncrementType),
+            typeof(StswDataGridDateColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable date in the control.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(DateTime?),
+            typeof(StswDataGridDateColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum allowable date in the control.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(DateTime?),
             typeof(StswDataGridDateColumn)
         );
 

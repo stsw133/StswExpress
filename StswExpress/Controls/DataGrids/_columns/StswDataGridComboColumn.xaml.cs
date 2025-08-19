@@ -18,7 +18,7 @@ namespace StswExpress;
 /// &lt;se:StswDataGridComboColumn Header="Category" SelectedItemBinding="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
+[StswInfo("0.13.0", "0.20.0")]
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
     private static readonly Style StswEditingElementStyle = new(typeof(StswComboBox), (Style)Application.Current.FindResource(typeof(StswComboBox)))
@@ -39,6 +39,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     };
 
     /// <inheritdoc/>
+    [StswInfo("0.13.0", "0.20.0")]
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         cell.PreviewKeyDown += OnPreviewKeyDown;
@@ -53,24 +54,30 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         };
 
         /// bindings
-        if (SelectedItemBinding is Binding selectedItemBinding && !string.IsNullOrEmpty(DisplayMemberPath))
+        if (SelectedItemBinding is Binding selectedItemBinding && selectedItemBinding.Path?.Path is string selectedItemPath && !string.IsNullOrEmpty(DisplayMemberPath))
+        {
             BindingOperations.SetBinding(displayElement, StswText.TextProperty, new Binding
             {
-                Path = new PropertyPath(selectedItemBinding.Path.Path + "." + DisplayMemberPath),
+                Path = new PropertyPath($"{selectedItemPath}.{DisplayMemberPath}"),
                 Mode = BindingMode.OneWay
             });
-        else if (SelectedValueBinding != null && !string.IsNullOrEmpty(DisplayMemberPath) && ItemsSource != null)
+        }
+        else if (SelectedValueBinding != null && ItemsSource != null && !string.IsNullOrEmpty(DisplayMemberPath))
+        {
             BindingOperations.SetBinding(displayElement, StswText.TextProperty, new MultiBinding
             {
-                Converter = new SelectedValueToDisplayConverter(),
+                Converter = new SelectedValueToDisplayConverter(SelectedValuePath, DisplayMemberPath),
                 Bindings =
                 {
                     SelectedValueBinding,
                     new Binding { Source = ItemsSource }
                 }
             });
+        }
         else if (SelectedValueBinding != null)
+        {
             BindingOperations.SetBinding(displayElement, StswText.TextProperty, SelectedValueBinding);
+        }
 
         return displayElement;
     }
@@ -272,36 +279,40 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         );
     #endregion
 
-    private class SelectedValueToDisplayConverter : IMultiValueConverter
+    /// <summary>
+    /// Converter that retrieves the display value for a selected item in a combo box.
+    /// </summary>
+    [StswInfo("0.19.0", "0.20.0")]
+    private class SelectedValueToDisplayConverter(string? selectedValuePath, string? displayMemberPath) : IMultiValueConverter
     {
+        private readonly string? selectedValuePath = selectedValuePath;
+        private readonly string? displayMemberPath = displayMemberPath;
         private readonly Dictionary<object, string> _cache = [];
 
+        /// <inheritdoc/>
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length < 2)
+            if (values.Length < 2 || values[0] == null || values[1] is not IEnumerable items)
                 return null;
 
             var selectedValue = values[0];
-            if (values[1] is not IEnumerable items || selectedValue == null)
-                return null;
-
-            if (_cache.TryGetValue(selectedValue, out var cachedDisplay))
-                return cachedDisplay;
+            if (_cache.TryGetValue(selectedValue, out var cached))
+                return cached;
 
             foreach (var item in items)
             {
                 var itemType = item.GetType();
-                var valueProp = itemType.GetProperty("Value");
-                var displayProp = itemType.GetProperty("Display");
+                var valueProp = !string.IsNullOrEmpty(selectedValuePath)
+                    ? itemType.GetProperty(selectedValuePath)
+                    : null;
+                var displayProp = !string.IsNullOrEmpty(displayMemberPath)
+                    ? itemType.GetProperty(displayMemberPath)
+                    : null;
 
-                if (valueProp == null || displayProp == null)
-                    continue;
-
-                var itemValue = valueProp.GetValue(item);
-
+                var itemValue = valueProp?.GetValue(item) ?? item;
                 if (Equals(itemValue, selectedValue))
                 {
-                    var display = displayProp.GetValue(item)?.ToString() ?? string.Empty;
+                    var display = displayProp?.GetValue(item)?.ToString() ?? item.ToString() ?? string.Empty;
                     _cache[selectedValue] = display;
                     return display;
                 }
@@ -312,7 +323,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             return fallback;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-            => throw new NotImplementedException();
+        /// <inheritdoc/>
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

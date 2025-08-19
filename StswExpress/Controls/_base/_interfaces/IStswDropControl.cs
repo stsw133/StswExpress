@@ -13,6 +13,7 @@ public interface IStswDropControl
     /// <summary>
     /// Gets or sets the path to a value on the source object to serve as the visual representation of the object.
     /// </summary>
+    [StswInfo("0.19.0")]
     internal bool SuppressNextOpen { get; set; }
     
     /// <summary>
@@ -38,6 +39,7 @@ public interface IStswDropControl
     /// </summary>
     /// <param name="obj">The drop-down control to suppress the next open action for.</param>
     /// <param name="e"> The event arguments containing the new value for the <see cref="IsDropDownOpen"/> property.</param>
+    [StswInfo("0.19.0")]
     public static void IsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is not IStswDropControl dropControl)
@@ -71,6 +73,7 @@ public interface IStswDropControl
     /// </summary>
     /// <param name="sender">The drop-down control to handle the event for.</param>
     /// <param name="e">The mouse button event arguments.</param>
+    [StswInfo("0.19.0")]
     public static void PreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
     {
         if (sender is DependencyObject obj && obj is IStswDropControl)

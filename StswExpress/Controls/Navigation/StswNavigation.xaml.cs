@@ -58,6 +58,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
     /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
     /// <returns>The newly assigned content.</returns>
+    [StswInfo(null, "0.19.0")]
     public object? ChangeContext(object context, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)

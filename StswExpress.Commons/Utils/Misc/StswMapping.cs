@@ -49,6 +49,7 @@ internal static class StswMapping
     /// <param name="PropPath">The path to the property in the object, represented as an array of strings.</param>
     /// <param name="FullPath">The full path to the property, including any nested properties, represented as a string.</param>
     /// <param name="PropInfo">The <see cref="PropertyInfo"/> of the property in the object.</param>
+    [StswInfo("0.19.0")]
     internal record PropColumnMapping(int ColumnIndex, string[] PropPath, string FullPath, PropertyInfo PropInfo);
 
     /// <summary>
@@ -60,6 +61,7 @@ internal static class StswMapping
     /// <param name="parentPath">The parent path for nested properties, used for recursive calls.</param>
     /// <param name="visitedTypes">A set of visited types to avoid infinite recursion in case of circular references.</param>
     /// <returns></returns>
+    [StswInfo("0.9.0", "0.19.0")]
     private static Dictionary<string, PropertyInfo> CacheProperties(Type type, HashSet<string> columnNames, char delimiter, string parentPath = "", HashSet<Type>? visitedTypes = null)
     {
         visitedTypes ??= [];
@@ -151,10 +153,11 @@ internal static class StswMapping
     /// <param name="propCache">A cache of property information for the object, used to optimize property access.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <returns></returns>
+    [StswInfo("0.9.0", "0.19.0")]
     private static List<PropColumnMapping> PrepareColumnMappings(string[] normalizedNames, DataTable dt, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
         var mappings = new List<PropColumnMapping>();
-        for (int i = 0; i < normalizedNames.Length; i++)
+        for (var i = 0; i < normalizedNames.Length; i++)
         {
             var fullPath = normalizedNames[i];
             if (propCache.TryGetValue(fullPath, out var prop))
@@ -176,6 +179,7 @@ internal static class StswMapping
     /// <param name="value">The value to set for the property.</param>
     /// <param name="propCache">A cache of property information for the object, used to optimize property access.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the property path.</param>
+    [StswInfo("0.9.0", "0.19.0")]
     private static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
         if (obj == null)
@@ -258,7 +262,7 @@ internal static class StswMapping
     /// <param name="type"> The type of objects to map to.</param>
     /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.19.0")]
     internal static IEnumerable<object> MapToNestedClass(DataTable dt, Type type, char delimiter)
     {
         var normalizedColumnNames = dt.Columns.Cast<DataColumn>()

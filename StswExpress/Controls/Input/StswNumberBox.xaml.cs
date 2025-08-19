@@ -141,8 +141,7 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the custom numeric format string used to display the value in the control.
-    /// Example: "C2" for currency, "N0" for whole numbers.
+    /// Gets or sets the numeric format used for displaying values (e.g., "N2" for two decimal places, "C2" for currency).
     /// </summary>
     public string? Format
     {

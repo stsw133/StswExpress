@@ -23,7 +23,7 @@ namespace StswExpress;
 /// When the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the comparison is <see langword="true"/>; otherwise, <see cref="Visibility.Collapsed"/>.
 /// Otherwise, the result is a <see cref="bool"/> indicating whether the comparison condition was met.
 /// </summary>
-[StswInfo(null)]
+[StswInfo(null, "0.19.0")]
 public class StswCompareConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -46,6 +46,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
     /// - A <see cref="bool"/> value indicating the result of the comparison.
     /// </returns>
+    [StswInfo(null, "0.19.0")]
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         /// handle Enum comparison separately

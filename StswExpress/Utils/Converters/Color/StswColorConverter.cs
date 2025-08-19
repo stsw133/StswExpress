@@ -23,7 +23,9 @@ namespace StswExpress;
 /// Example usages:
 /// - `"S40%"` → Adjust saturation to 40%
 /// - `"A20% B-10%"` → Reduce alpha to 20%, decrease brightness by 10%
-/// - `"G B15% S25%"` → Generate color from value, then apply brightness & saturation modifications
+/// - `"G B15% S25%"` → Generate color from value (seed 0), then apply brightness & saturation
+/// - `"G15 B10%"` → Generate color with seed 15, then increase brightness by 10%
+/// - `"G-7 S30%"` → Generate color with seed -7, then set saturation to 30%
 /// </summary>
 [StswInfo("0.16.0")]
 public partial class StswColorConverter : MarkupExtension, IValueConverter
@@ -53,17 +55,28 @@ public partial class StswColorConverter : MarkupExtension, IValueConverter
         var color = Colors.Transparent;
         var parameters = ParseParameters(parameter);
 
-        if (parameters.ContainsKey('G'))
-            color = StswFnUI.GenerateColor(value?.ToString() ?? "", -1);
+        if (parameters.TryGetValue('G', out var gParam))
+        {
+            var seed = 0;
+            var seedText = gParam?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(seedText))
+            {
+                if (!int.TryParse(seedText, NumberStyles.Integer, CultureInfo.InvariantCulture, out seed))
+                    int.TryParse(seedText, NumberStyles.Integer, culture, out seed);
+            }
+
+            color = StswFnUI.GenerateColor(value?.ToString() ?? "", seed);
+        }
         else
             color = GetColorFromValue(value);
 
-        if (parameters.TryGetValue('A', out var alphaParam))
-            color = ApplyAlpha(color, alphaParam, culture);
-        if (parameters.TryGetValue('B', out var brightnessParam))
-            color = ApplyBrightness(color, brightnessParam, culture);
-        if (parameters.TryGetValue('S', out var saturationParam))
-            color = ApplySaturation(color, saturationParam, culture);
+        if (parameters.TryGetValue('A', out var aParam))
+            color = ApplyAlpha(color, aParam, culture);
+        if (parameters.TryGetValue('B', out var bParam))
+            color = ApplyBrightness(color, bParam, culture);
+        if (parameters.TryGetValue('S', out var sParam))
+            color = ApplySaturation(color, sParam, culture);
 
         return GetResultFromColor(color, targetType);
     }
@@ -133,15 +146,13 @@ public partial class StswColorConverter : MarkupExtension, IValueConverter
     /// </param>
     /// <returns>The converted value in the requested type.</returns>
     private static object GetResultFromColor(Color color, Type targetType)
-    {
-        return targetType switch
+        => targetType switch
         {
             Type t when t == typeof(Color) || t == typeof(Color?) => color,
             Type t when t == typeof(System.Drawing.Color) || t == typeof(System.Drawing.Color?) => System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B),
             Type t when t == typeof(Brush) || t == typeof(SolidColorBrush) => new SolidColorBrush(color),
             _ => color.ToString()
         };
-    }
 
     /// <summary>
     /// Adjusts the alpha (transparency) of the given color.

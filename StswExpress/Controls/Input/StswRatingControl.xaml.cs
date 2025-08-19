@@ -33,6 +33,7 @@ public class StswRatingControl : Control, IStswIconControl
 
     #region Events & methods
     /// <inheritdoc/>
+    [StswInfo("0.1.0", "0.20.0")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -111,6 +112,7 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.1.0", "0.20.0")]
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
@@ -392,6 +394,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets a temporary rating value based on mouse hover.
     /// Provides a visual preview of the rating before selection.
     /// </summary>
+    [StswInfo("0.1.0", "0.20.0")]
     public double? Placeholder
     {
         get => (double?)GetValue(PlaceholderProperty);
@@ -420,6 +423,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// <summary>
     /// Gets or sets the step value for the rating control.
     /// </summary>
+    [StswInfo("0.20.0")]
     public double Step
     {
         get => (double)GetValue(StepProperty);
@@ -436,6 +440,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets the currently selected rating value.
     /// Represents the user's chosen rating level within the control.
     /// </summary>
+    [StswInfo("0.1.0", "0.20.0")]
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);

@@ -117,6 +117,7 @@ internal class StswSpinnerHelixAnimation : Control
     /// <summary>
     /// Ends the animation sequence when the control is deactivated.
     /// </summary>
+    [StswInfo("0.15.0", "0.19.0")]
     private void EndAnimation()
     {
         var sb = new Storyboard();
@@ -124,7 +125,7 @@ internal class StswSpinnerHelixAnimation : Control
         Enumerable.Range(1, _ellipses.Length - 1).ForEach(x => AddEllipseSlideInAnimation(_ellipses[x]!, sb));
 
         var mainEllipseWidthAnim = new DoubleAnimation(
-            fromValue: _ellipseMain.ActualWidth != double.NaN ? _ellipseMain.ActualWidth : 0.0,
+            fromValue: _ellipseMain!.ActualWidth != double.NaN ? _ellipseMain.ActualWidth : 0.0,
             toValue: 300,
             duration: TimeSpan.FromMilliseconds(500),
             fillBehavior: FillBehavior.HoldEnd)
@@ -168,6 +169,7 @@ internal class StswSpinnerHelixAnimation : Control
     /// </summary>
     /// <param name="ellipse">The ellipse to animate.</param>
     /// <param name="sb">The storyboard managing the animation.</param>
+    [StswInfo("0.15.0", "0.19.0")]
     private static void AddEllipseSlideInAnimation(Ellipse ellipse, Storyboard sb)
     {
         var ellipseLeftAnim = new DoubleAnimation(

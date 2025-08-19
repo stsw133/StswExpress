@@ -159,8 +159,8 @@ public class StswTimePicker : StswBoxBase
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the custom time and time format string used to display the selected time in the control.
-    /// When set, the time is formatted according to the provided format string.
+    /// Gets or sets the format used for displaying the time value.
+    /// The format follows standard time formatting conventions, such as "HH:mm".
     /// </summary>
     public string? Format
     {

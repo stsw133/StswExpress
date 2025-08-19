@@ -23,7 +23,7 @@ namespace StswExpress.Commons;
 /// var token = StswSecurity.GenerateRandomToken(32);
 /// </code>
 /// </example>
-[StswInfo(null)]
+[StswInfo(null, "0.20.0")]
 public static class StswSecurity
 {
     private static byte[]? _manualKey;
@@ -138,7 +138,7 @@ public static class StswSecurity
     /// <param name="text">The text to hash.</param>
     /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>A string containing the hashed text.</returns>
-    [StswInfo("0.14.0")]
+    [StswInfo("0.14.0", "0.20.0")]
     public static string GetHashString(string text, Func<HashAlgorithm> algorithmFactory) => Convert.ToHexString(GetHash(text, algorithmFactory));
 
     /// <summary>
@@ -146,6 +146,7 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">The text to hash.</param>
     /// <returns>A byte array containing the hashed text.</returns>
+    [StswInfo(null, "0.20.0")]
     public static string GetHashString(string text) => Convert.ToHexString(GetHash(text));
 
     /// <summary>
@@ -221,6 +222,7 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">The text to encrypt.</param>
     /// <returns>The encrypted text as a Base64 string.</returns>
+    [StswInfo(null, "0.20.0")]
     public static string Encrypt(string text)
     {
         using var aesAlg = Aes.Create();
@@ -246,6 +248,7 @@ public static class StswSecurity
     /// <param name="text">The text to decrypt.</param>
     /// <returns>The decrypted text.</returns>
     /// <exception cref="CryptographicException">Thrown if the ciphertext is too short or decryption fails.</exception>
+    [StswInfo(null, "0.20.0")]
     public static string Decrypt(string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -338,7 +341,7 @@ public static class StswSecurity
     /// <param name="length">The length of the token to generate.</param>
     /// <returns>A randomly generated token.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the length is less than or equal to zero.</exception>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", "0.20.0")]
     public static string GenerateRandomToken(int length)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);

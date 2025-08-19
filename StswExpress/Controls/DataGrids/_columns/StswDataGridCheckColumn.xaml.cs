@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -66,6 +67,10 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         var editingElement = new StswCheckBox()
         {
             Style = StswEditingElementStyle,
+            IconScale = IconScale,
+            IconChecked = IconChecked,
+            IconIndeterminate = IconIndeterminate,
+            IconUnchecked = IconUnchecked,
             Padding = Padding,
             HorizontalAlignment = HorizontalContentAlignment,
             HorizontalContentAlignment = HorizontalContentAlignment,
@@ -80,7 +85,76 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         return editingElement;
     }
 
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets the scale of the icon inside the checkbox.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswDataGridCheckColumn)
+        );
+    #endregion
+
     #region Style properties
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the checked state.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public Geometry? IconChecked
+    {
+        get => (Geometry?)GetValue(IconCheckedProperty);
+        set => SetValue(IconCheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconCheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconChecked),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the indeterminate state.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public Geometry? IconIndeterminate
+    {
+        get => (Geometry?)GetValue(IconIndeterminateProperty);
+        set => SetValue(IconIndeterminateProperty, value);
+    }
+    public static readonly DependencyProperty IconIndeterminateProperty
+        = DependencyProperty.Register(
+            nameof(IconIndeterminate),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public Geometry? IconUnchecked
+    {
+        get => (Geometry?)GetValue(IconUncheckedProperty);
+        set => SetValue(IconUncheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconUncheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconUnchecked),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
     /// <summary>
     /// Gets or sets the padding around the checkbox inside the column's cells.
     /// </summary>

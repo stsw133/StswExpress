@@ -44,6 +44,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles changes to the format of the text displayed in the control.
     /// </summary>
     /// <param name="newFormat">The new string format to apply to the text.</param>
+    [StswInfo("0.20.0")]
     protected virtual void FormatChanged(string? newFormat)
     {
         if (GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)

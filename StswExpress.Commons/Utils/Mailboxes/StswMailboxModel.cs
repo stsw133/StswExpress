@@ -140,6 +140,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
     /// <param name="bcc">An optional collection of BCC recipients.</param>
+    [StswInfo(null, "0.19.1")]
     public void Send(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
     {
         if (!StswMailboxes.Config.IsEnabled)
@@ -172,6 +173,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
+    [StswInfo(null, "0.19.1")]
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
         => Send(to, subject, body, null, attachments, null);
 
@@ -181,6 +183,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="to">The collection of recipient email addresses.</param>
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
+    [StswInfo(null, "0.19.1")]
     public void Send(IEnumerable<string> to, string subject, string body)
         => Send(to, subject, body, null, null, null);
 
@@ -193,6 +196,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
     /// <param name="bcc">An optional collection of BCC recipients.</param>
+    [StswInfo(null, "0.19.1")]
     public async Task SendAsync(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
     {
         if (!StswMailboxes.Config.IsEnabled)
@@ -226,6 +230,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
     /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
+    [StswInfo(null, "0.19.1")]
     public Task SendAsync(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
         => SendAsync(to, subject, body, null, attachments, null);
 
@@ -235,6 +240,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="to">The collection of recipient email addresses.</param>
     /// <param name="subject">The subject of the email.</param>
     /// <param name="body">The body content of the email.</param>
+    [StswInfo(null, "0.19.1")]
     public Task SendAsync(IEnumerable<string> to, string subject, string body)
         => SendAsync(to, subject, body, null, null, null);
 
@@ -249,7 +255,7 @@ public partial class StswMailboxModel : StswObservableObject
     /// <param name="cc">The collection of CC recipients.</param>
     /// <param name="bcc">The collection of BCC recipients.</param>
     /// <returns>A configured <see cref="MimeMessage"/> instance.</returns>
-    [StswInfo("0.19.1")]
+    [StswInfo("0.19.1", "0.20.0")]
     private MimeMessage BuildMessage(IEnumerable<string> to, string subject, string body, bool isBodyHtml, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
     {
         var message = new MimeMessage();
