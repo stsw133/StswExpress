@@ -14,7 +14,7 @@ namespace StswExpress;
 /// <br/>
 /// Example usage: `"Admin~Yes~No"` will return `"Yes"` if the input value is `"Admin"`, otherwise `"No"`.
 /// </summary>
-[StswInfo(null)]
+[StswInfo(null, "0.17.0")]
 public class StswIfElseConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

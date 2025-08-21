@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
@@ -34,6 +36,26 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
+    [StswInfo("0.20.0")]
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+    }
+
+    /// <inheritdoc/>
+    [StswInfo("0.20.0")]
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+    }
+
+    /// <inheritdoc/>
     [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
@@ -58,11 +80,14 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
+    [StswInfo("0.10.0", "0.20.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
+            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
 
     /// <inheritdoc/>
@@ -94,6 +119,22 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
+            typeof(StswListBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public StswScrollToItemBehavior ScrollToItemBehavior
+    {
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
             typeof(StswListBox)
         );
     #endregion

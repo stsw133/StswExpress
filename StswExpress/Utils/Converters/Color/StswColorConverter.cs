@@ -27,7 +27,7 @@ namespace StswExpress;
 /// - `"G15 B10%"` → Generate color with seed 15, then increase brightness by 10%
 /// - `"G-7 S30%"` → Generate color with seed -7, then set saturation to 30%
 /// </summary>
-[StswInfo("0.16.0")]
+[StswInfo("0.16.0", "0.20.0")]
 public partial class StswColorConverter : MarkupExtension, IValueConverter
 {
     [GeneratedRegex(@"([A-Za-z])([^A-Za-z]*)")]

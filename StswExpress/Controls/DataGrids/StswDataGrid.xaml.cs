@@ -165,10 +165,11 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", "0.20.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
+        IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);

@@ -19,6 +19,9 @@
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSegment}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <!-- ScrollToItemBehavior -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollToItemBehavior, Type={x:Type se:StswSegment}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollToItemBehavior}" Margin="0 0 0 3" SelectedValue="{Binding ScrollToItemBehavior}"/>
             <!-- SelectionMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswListBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList SelectionMode}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
@@ -29,6 +32,7 @@
                         IsReadOnly="{Binding IsReadOnly}"
                         ItemsSource="{Binding Items}"
                         Orientation="{Binding Orientation}"
+                        ScrollToItemBehavior="{Binding ScrollToItemBehavior}"
                         SelectionMode="{Binding SelectionMode}"
                         SelectedValuePath="Name"
                         HorizontalAlignment="{Binding HorizontalAlignment}"

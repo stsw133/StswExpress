@@ -53,6 +53,12 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             TextWrapping = TextWrapping
         };
 
+        if (dataItem == CollectionView.NewItemPlaceholder || dataItem == null)
+        {
+            displayElement.Text = "";
+            return displayElement;
+        }
+
         /// bindings
         if (SelectedItemBinding is Binding selectedItemBinding && selectedItemBinding.Path?.Path is string selectedItemPath && !string.IsNullOrEmpty(DisplayMemberPath))
         {

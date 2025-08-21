@@ -28,7 +28,7 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <Grid Height="30">
+                        <Grid Height="28">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -36,9 +36,10 @@
                             <!-- icon & title -->
                             <se:StswLabel x:Name="OPT_Header"
                                           Content="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                                          IconScale="*"
+                                          IconScale="1.5"
                                           IconSource="{Binding Icon, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                                           IsHitTestVisible="False"
+                                          Margin="2 0 0 0"
                                           RenderOptions.BitmapScalingMode="Fant"/>
                             <!-- buttons panel -->
                             <DockPanel Grid.Column="1">

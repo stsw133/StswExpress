@@ -17,6 +17,7 @@ public partial class StswSegmentContext : ControlsContext
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
+        ScrollToItemBehavior = (StswScrollToItemBehavior?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ScrollToItemBehavior)))?.Value ?? default;
         SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
     }
 
@@ -24,6 +25,7 @@ public partial class StswSegmentContext : ControlsContext
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
     [StswObservableProperty] bool _isReadOnly;
     [StswObservableProperty] Orientation _orientation;
+    [StswObservableProperty] StswScrollToItemBehavior _scrollToItemBehavior;
     [StswObservableProperty] SelectionMode _selectionMode;
 }
 

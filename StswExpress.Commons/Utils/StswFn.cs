@@ -528,7 +528,7 @@ public static partial class StswFn
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
     /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0", "0.19.0")]
+    [StswInfo("0.3.0", "0.20.0")]
     public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
