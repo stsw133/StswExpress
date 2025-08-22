@@ -12,6 +12,15 @@ namespace StswExpress;
 /// - If the value is greater than or equal to `1`, it assumes an absolute percentage (e.g., `75` → `"75%"`).
 /// - The parameter specifies the numeric format (e.g., `"N2"`, `"F1"`, `"0.0"`, etc.).
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{Binding Completion, Converter={x:Static se:StswPercentageConverter.Instance}}"/&gt;
+/// &lt;TextBlock Text="{Binding Progress, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='N2'}"/&gt;
+/// &lt;TextBlock Text="{Binding LoadFactor, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='F1'}"/&gt;
+/// &lt;TextBlock Text="{Binding Accuracy, Mode=TwoWay, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='0.000'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswPercentageConverter : MarkupExtension, IValueConverter
 {
@@ -68,15 +77,3 @@ public class StswPercentageConverter : MarkupExtension, IValueConverter
         return Binding.DoNothing;
     }
 }
-
-/* usage:
-
-<TextBlock Text="{Binding Completion, Converter={x:Static se:StswPercentageConverter.Instance}}"/>
-
-<TextBlock Text="{Binding Progress, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='N2'}"/>
-
-<TextBlock Text="{Binding LoadFactor, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='F1'}"/>
-
-<TextBlock Text="{Binding Accuracy, Mode=TwoWay, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='0.000'}"/>
-
-*/

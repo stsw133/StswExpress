@@ -14,6 +14,13 @@ namespace StswExpress;
 /// - `<ComboBox ItemsSource="{se:StswListFromRange 1-10}" />`
 /// - `<ListBox ItemsSource="{se:StswListFromRange 5}" />`
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;ComboBox ItemsSource="{se:StswListFromRange 1-10}"/&gt;
+/// &lt;ListBox ItemsSource="{se:StswListFromRange 5}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswListFromRangeExtension : MarkupExtension
 {
@@ -42,11 +49,3 @@ public class StswListFromRangeExtension : MarkupExtension
         return Array.Empty<int>();
     }
 }
-
-/* usage:
-
-<ComboBox ItemsSource="{se:StswListFromRange 1-10}"/>
-
-<ListBox ItemsSource="{se:StswListFromRange 5}"/>
-
-*/

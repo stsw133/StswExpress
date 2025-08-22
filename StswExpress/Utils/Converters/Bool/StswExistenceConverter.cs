@@ -25,6 +25,16 @@ namespace StswExpress;
 /// - `"empty"` → Returns <see langword="true"/> if value is an empty collection.
 /// - `"default !empty"` → Returns <see langword="true"/> if value is either default or NOT empty.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='null'}"/&gt;
+/// &lt;TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/&gt;
+/// &lt;TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='empty null'}"/&gt;
+/// &lt;TextBlock Visibility="{Binding SomeNumber, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!default'}"/&gt;
+/// &lt;TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='default !empty'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswExistenceConverter : MarkupExtension, IValueConverter
 {
@@ -127,17 +137,3 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
         return type.IsValueType && Equals(value, Activator.CreateInstance(type));
     }
 }
-
-/* usage:
-
-<TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='null'}"/>
-
-<TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-
-<TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='empty null'}"/>
-
-<TextBlock Visibility="{Binding SomeNumber, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!default'}"/>
-
-<TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='default !empty'}"/>
-
-*/

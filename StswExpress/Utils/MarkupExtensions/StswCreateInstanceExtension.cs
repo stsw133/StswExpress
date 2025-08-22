@@ -15,6 +15,15 @@ namespace StswExpress;
 /// </remarks>
 /// <exception cref="ArgumentNullException">Thrown when the type parameter is null.</exception>
 /// <exception cref="MissingMethodException">Thrown if no suitable constructor is found.</exception>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{se:StswCreateInstance local:MyClass}"/&gt;
+/// &lt;TextBlock Text="{se:StswCreateInstance local:MyClass, '7, false, \"Test Name\", 2023-12-31'}"/&gt;
+/// &lt;TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswCreateInstance local:MyClass, '99'} }"/&gt;
+/// &lt;ListBox ItemsSource="{se:StswCreateInstance local:MyCollection, '\"Item 1\", \"Item 2\", \"Item 3\"'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.6.0", Changes = StswPlannedChanges.Rework, IsTested = false)]
 internal partial class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
@@ -93,15 +102,3 @@ internal partial class StswCreateInstanceExtension(Type type, string? args) : Ma
         return arg;
     }
 }
-
-/* usage:
-
-<TextBlock Text="{se:StswCreateInstance local:MyClass}"/>
-
-<TextBlock Text="{se:StswCreateInstance local:MyClass, '7, false, \"Test Name\", 2023-12-31'}"/>
-
-<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswCreateInstance local:MyClass, '99'} }"/>
-
-<ListBox ItemsSource="{se:StswCreateInstance local:MyCollection, '\"Item 1\", \"Item 2\", \"Item 3\"'}"/>
-
-*/

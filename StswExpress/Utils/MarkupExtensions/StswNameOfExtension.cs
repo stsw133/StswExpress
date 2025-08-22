@@ -13,6 +13,14 @@ namespace StswExpress;
 /// or field needs to be obtained dynamically in XAML.
 /// </remarks>
 /// <param name="member">The name of the property or field.</param>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{se:StswNameOf Type={x:Type local:MyClass}, Member=MyProperty}"/&gt;
+/// &lt;TextBlock Text="{se:StswNameOf Type={x:Type local:Constants}, Member=StaticField}"/&gt;
+/// &lt;TextBlock Text="{Binding Path={se:StswNameOf Type={x:Type local:UserModel}, Member=UserName}}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.6.0", Changes = StswPlannedChanges.Refactor)]
 public class StswNameOfExtension(string? member) : MarkupExtension
 {
@@ -36,20 +44,8 @@ public class StswNameOfExtension(string? member) : MarkupExtension
 
         if (!Type.GetRuntimeProperties().Any(pi => pi.Name == Member) &&
             !Type.GetRuntimeFields().Any(fi => fi.Name == Member))
-        {
             throw new ArgumentException($"No property or field found for '{Member}' in type '{Type.FullName}'");
-        }
 
         return Member;
     }
 }
-
-/* usage:
-
-<TextBlock Text="{se:StswNameOf Type={x:Type local:MyClass}, Member=MyProperty}"/>
-
-<TextBlock Text="{se:StswNameOf Type={x:Type local:Constants}, Member=StaticField}"/>
-
-<TextBlock Text="{Binding Path={se:StswNameOf Type={x:Type local:UserModel}, Member=UserName}}"/>
-
-*/

@@ -27,6 +27,15 @@ namespace StswExpress;
 /// - `"G15 B10%"` → Generate color with seed 15, then increase brightness by 10%
 /// - `"G-7 S30%"` → Generate color with seed -7, then set saturation to 30%
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}}" /&gt;
+/// &lt;Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='A50%'}"/&gt;
+/// &lt;Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B?20%'}"/&gt;
+/// &lt;TextBlock Foreground="{Binding MyText, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='G'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0", "0.20.0")]
 public partial class StswColorConverter : MarkupExtension, IValueConverter
 {
@@ -244,15 +253,3 @@ public partial class StswColorConverter : MarkupExtension, IValueConverter
         return Color.FromArgb(color.A, (byte)Math.Round(r), (byte)Math.Round(g), (byte)Math.Round(b));
     }
 }
-
-/* usage:
-
-<Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}}" />
-
-<Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='A50%'}"/>
-
-<Border Background="{Binding MyBrush, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B?20%'}"/>
-
-<TextBlock Foreground="{Binding MyText, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='G'}"/>
-
-*/

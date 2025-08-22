@@ -11,6 +11,13 @@ namespace StswExpress;
 /// This converter is particularly useful in `DataGrid` or `TextBox` bindings where users 
 /// may enter decimal numbers using different separator conventions.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBox Text="{Binding Amount, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/&gt;
+/// &lt;DataGridTextColumn Binding="{Binding Price, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
@@ -64,11 +71,3 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
         return Binding.DoNothing;
     }
 }
-
-/* usage:
-
-<TextBox Text="{Binding Amount, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
-
-<DataGridTextColumn Binding="{Binding Price, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
-
-*/

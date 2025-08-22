@@ -14,6 +14,14 @@ namespace StswExpress;
 /// </remarks>
 /// <param name="values">The comma-separated string representing the list of values.</param>
 /// <exception cref="ArgumentNullException">Thrown when the <paramref name="values"/> parameter is <see langword="null"/>.</exception>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;ListBox ItemsSource="{se:StswMakeList '1, 2, 3, 4, 5'}"/&gt;
+/// &lt;ListBox ItemsSource="{se:StswMakeList 'Red, Green, Blue'}"/&gt;
+/// &lt;ListBox ItemsSource="{se:StswMakeList '1.5, 2.75, 3.14'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.8.0", Changes = StswPlannedChanges.Refactor)]
 public class StswMakeListExtension(string values) : MarkupExtension
 {
@@ -46,13 +54,3 @@ public class StswMakeListExtension(string values) : MarkupExtension
         return result;
     }
 }
-
-/* usage:
-
-<ListBox ItemsSource="{se:StswMakeList '1, 2, 3, 4, 5'}"/>
-
-<ListBox ItemsSource="{se:StswMakeList 'Red, Green, Blue'}"/>
-
-<ListBox ItemsSource="{se:StswMakeList '1.5, 2.75, 3.14'}"/>
-
-*/

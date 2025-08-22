@@ -11,6 +11,22 @@ namespace StswExpress;
 /// This extension allows binding an enumeration to a UI element, providing a list of selection items.
 /// Each item includes a display name and the corresponding enum value.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;ComboBox ItemsSource="{se:StswEnumToList local:MyEnum}" DisplayMemberPath="Display" SelectedValuePath="Value"/&gt;
+/// 
+/// &lt;StackPanel&gt;
+///     &lt;ItemsControl ItemsSource="{se:StswEnumToList local:MyEnum}"&gt;
+///         &lt;ItemsControl.ItemTemplate&gt;
+///             &lt;DataTemplate&gt;
+///                 &lt;RadioButton Content="{Binding Display}" IsChecked="{Binding Path=Value, Mode=TwoWay}"/&gt;
+///             &lt;/DataTemplate&gt;
+///         &lt;/ItemsControl.ItemTemplate&gt;
+///     &lt;/ItemsControl&gt;
+/// &lt;/StackPanel&gt;
+/// </code>
+/// </example>
 [StswInfo("0.8.0")]
 public class StswEnumToListExtension : MarkupExtension
 {
@@ -43,19 +59,3 @@ public class StswEnumToListExtension : MarkupExtension
                    .ToList();
     }
 }
-
-/* usage:
-
-<ComboBox ItemsSource="{se:StswEnumToList local:MyEnum}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
-
-<StackPanel>
-    <ItemsControl ItemsSource="{se:StswEnumToList local:MyEnum}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <RadioButton Content="{Binding Display}" IsChecked="{Binding Path=Value, Mode=TwoWay}"/>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
-</StackPanel>
-
-*/

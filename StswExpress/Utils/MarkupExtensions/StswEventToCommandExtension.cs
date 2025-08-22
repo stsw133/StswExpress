@@ -12,6 +12,15 @@ namespace StswExpress;
 /// with a fallback for events that have the signature (object sender, EventArgs e).
 /// Supports optional <see cref="AllowedKey"/> filtering and passing event args as <see cref="CommandParameter"/>.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Button Content="Click Me" Click="{se:StswEventToCommand CommandBinding={Binding MyCommand}}"/&gt;
+/// &lt;TextBox KeyDown="{se:StswEventToCommand CommandBinding={Binding EnterCommand}, AllowedKey=Enter}"/&gt;
+/// &lt;Button Content="Details" Click="{se:StswEventToCommand CommandBinding={Binding ShowDetailsCommand}, PassEventArgsAsParameter=True}"/&gt;
+/// &lt;Button Content="Delete" Click="{se:StswEventToCommand CommandBinding={Binding DeleteCommand}, CommandParameterBinding={Binding SelectedItem}}"/&gt;
+/// </code>
+/// </example>
 [MarkupExtensionReturnType(typeof(Delegate))]
 [StswInfo("0.14.0")]
 public class StswEventToCommandExtension : MarkupExtension
@@ -174,15 +183,3 @@ public class StswEventToCommandExtension : MarkupExtension
         return lambda.Compile();
     }
 }
-
-/* usage:
-
-<Button Content="Click Me" Click="{se:StswEventToCommand CommandBinding={Binding MyCommand}}"/>
-
-<TextBox KeyDown="{se:StswEventToCommand CommandBinding={Binding EnterCommand}, AllowedKey=Enter}"/>
-
-<Button Content="Details" Click="{se:StswEventToCommand CommandBinding={Binding ShowDetailsCommand}, PassEventArgsAsParameter=True}"/>
-
-<Button Content="Delete" Click="{se:StswEventToCommand CommandBinding={Binding DeleteCommand}, CommandParameterBinding={Binding SelectedItem}}"/>
-
-*/

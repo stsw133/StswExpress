@@ -11,6 +11,14 @@ namespace StswExpress;
 /// Usage example:
 /// <TextBlock Text="{local:Translate Key=Config.Confirmation, DefaultValue=Confirmation, Suffix=':'}" />
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{se:StswTranslate 'WelcomeMessage', DefaultValue='Welcome'}"/&gt;
+/// &lt;TextBlock Text="{se:StswTranslate 'Save', Prefix='[', Suffix=']'}"/&gt;
+/// &lt;Label Content="{se:StswTranslate 'Goodbye', Language='en'}"/&gt;
+/// </code>
+/// </example>
 [MarkupExtensionReturnType(typeof(string))]
 [StswInfo("0.15.0")]
 public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
@@ -80,13 +88,3 @@ public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
             OnPropertyChanged(nameof(TranslatedText));
     }
 }
-
-/* usage:
-
-<TextBlock Text="{se:StswTranslate 'WelcomeMessage', DefaultValue='Welcome'}"/>
-
-<TextBlock Text="{se:StswTranslate 'Save', Prefix='[', Suffix=']'}"/>
-
-<Label Content="{se:StswTranslate 'Goodbye', Language='en'}"/>
-
-*/

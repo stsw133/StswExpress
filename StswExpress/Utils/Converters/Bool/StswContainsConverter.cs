@@ -17,6 +17,15 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the output will be <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, the output is a <see cref="bool"/> value.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="Found" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1'}"/&gt;
+/// &lt;TextBlock Text="Match" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,Item3'}"/&gt;
+/// &lt;CheckBox Content="Option available" Visibility="{Binding AvailableOptions, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Premium'}"/&gt;
+/// &lt;TextBlock Text="Acceptable" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,!Item5'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswContainsConverter : MarkupExtension, IValueConverter
 {
@@ -78,15 +87,3 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
-
-/* usage:
-
-<TextBlock Text="Found" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1'}"/>
-
-<TextBlock Text="Match" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,Item3'}"/>
-
-<CheckBox Content="Option available" Visibility="{Binding AvailableOptions, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Premium'}"/>
-
-<TextBlock Text="Acceptable" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,!Item5'}"/>
-
-*/

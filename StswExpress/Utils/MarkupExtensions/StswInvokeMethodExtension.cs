@@ -12,6 +12,21 @@ namespace StswExpress;
 /// <summary>
 /// A XAML markup extension that invokes a static method with parameters provided in XAML.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock&gt;
+///     &lt;TextBlock.Text&gt;
+///         &lt;se:StswInvokeMethod MethodName="YourNamespace.Helper.FormatName"&gt;
+///             &lt;se:StswInvokeMethod.Parameters&gt;
+///                 &lt;sys:String&gt;John&lt;/sys:String&gt;
+///                 &lt;Binding Path="LastName" /&gt;
+///             &lt;/se:StswInvokeMethod.Parameters&gt;
+///         &lt;/se:StswInvokeMethod&gt;
+///     &lt;/TextBlock.Text&gt;
+/// &lt;/TextBlock&gt;
+/// </code>
+/// </example>
 [MarkupExtensionReturnType(typeof(object))]
 [StswInfo("0.17.0", IsTested = false)]
 public class StswInvokeMethodExtension : MarkupExtension
@@ -132,18 +147,3 @@ public class StswInvokeMethodExtension : MarkupExtension
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotSupportedException();
     }
 }
-
-/* usage:
-
-<TextBlock>
-    <TextBlock.Text>
-        <se:StswInvokeMethod MethodName="YourNamespace.Helper.FormatName">
-            <se:StswInvokeMethod.Parameters>
-                <sys:String>John</sys:String>
-                <Binding Path="LastName" />
-            </se:StswInvokeMethod.Parameters>
-        </se:StswInvokeMethod>
-    </TextBlock.Text>
-</TextBlock>
-
-*/

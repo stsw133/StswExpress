@@ -10,6 +10,16 @@ namespace StswExpress;
 /// <br/>
 /// This is useful in controls like <see cref="System.Windows.Controls.Image"/>, where <c>null</c> does not properly remove a binding value.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Image Source="{Binding SelectedImagePath, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/&gt;
+/// &lt;TextBox Text="{Binding SelectedText, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/&gt;
+/// &lt;Style TargetType="Button"&gt;
+///     &lt;Setter Property="Content" Value="{Binding ButtonText, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/&gt;
+/// &lt;/Style&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
 {
@@ -42,15 +52,3 @@ public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
     /// <returns><see langword="null"/> if <paramref name="value"/> is <see cref="DependencyProperty.UnsetValue"/>; otherwise, <see cref="Binding.DoNothing"/>.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => value == DependencyProperty.UnsetValue ? null : Binding.DoNothing;
 }
-
-/* usage:
-
-<Image Source="{Binding SelectedImagePath, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/>
-
-<TextBox Text="{Binding SelectedText, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/>
-
-<Style TargetType="Button">
-    <Setter Property="Content" Value="{Binding ButtonText, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"/>
-</Style>
-
-*/

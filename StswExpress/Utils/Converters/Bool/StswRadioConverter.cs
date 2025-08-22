@@ -12,6 +12,22 @@ namespace StswExpress;
 /// - If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.  
 /// - Otherwise, it returns a <see cref="bool"/> indicating whether the value matches the parameter.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TabControl SelectedItem="{Binding SelectedTab}"&gt;
+///     &lt;TabItem Header="Option 1" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab1}"/&gt;
+///     &lt;TabItem Header="Option 2" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab2}"/&gt;
+/// &lt;/TabControl&gt;
+/// 
+/// &lt;RadioButton Content="Option A" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=0}"/&gt;
+/// &lt;RadioButton Content="Option B" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=1}"/&gt;
+/// 
+/// &lt;TextBlock Text="Only for users" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Admin}"/&gt;
+/// 
+/// &lt;TextBlock Text="Limited access" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.6.1")]
 public class StswRadioConverter : MarkupExtension, IValueConverter
 {
@@ -62,19 +78,3 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
     /// <returns>The converter parameter.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => parameter;
 }
-
-/* usage:
-
-<TabControl SelectedItem="{Binding SelectedTab}">
-    <TabItem Header="Option 1" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab1}"/>
-    <TabItem Header="Option 2" IsSelected="{Binding SelectedTab, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Tab2}"/>
-</TabControl>
-
-<RadioButton Content="Option A" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=0}"/>
-<RadioButton Content="Option B" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=1}"/>
-
-<TextBlock Text="Only for users" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Admin}"/>
-
-<TextBlock Text="Limited access" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/>
-
-*/

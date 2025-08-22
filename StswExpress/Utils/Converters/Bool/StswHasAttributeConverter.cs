@@ -11,6 +11,13 @@ namespace StswExpress;
 /// A value converter that checks if an enumeration field or a property of an object has a specific attribute.
 /// It can be used in XAML bindings to control UI visibility or boolean conditions based on attribute presence.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="Deprecated Option" Visibility="{Binding MyEnumValue, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
+/// &lt;TextBlock Text="Warning: Deprecated" Visibility="{Binding MyObject.DeprecatedProperty, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.16.0")]
 public class StswHasAttributeConverter : MarkupExtension, IValueConverter
 {
@@ -106,11 +113,3 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
             : hasAttribute;
     }
 }
-
-/* usage:
-
-<TextBlock Text="Deprecated Option" Visibility="{Binding MyEnumValue, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/>
-
-<TextBlock Text="Warning: Deprecated" Visibility="{Binding MyObject.DeprecatedProperty, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/>
-
-*/

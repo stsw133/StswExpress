@@ -14,6 +14,15 @@ namespace StswExpress;
 /// If the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the condition is met, otherwise <see cref="Visibility.Collapsed"/>.
 /// Otherwise, it returns a <see cref="bool"/> indicating whether the value's type matches the specified type.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="This is a text" Visibility="{Binding SelectedObject, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.String}}"/&gt;
+/// &lt;TextBlock Text="This is a number" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Double}}"/&gt;
+/// &lt;TextBlock Text="Matches MyCustomClass" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type local:MyCustomClass}}"/&gt;
+/// &lt;CheckBox IsChecked="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Int32}}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.6.0")]
 public class StswIsTypeConverter : MarkupExtension, IValueConverter
 {
@@ -69,15 +78,3 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
-
-/* usage:
-
-<TextBlock Text="This is a text" Visibility="{Binding SelectedObject, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.String}}"/>
-
-<TextBlock Text="This is a number" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Double}}"/>
-
-<TextBlock Text="Matches MyCustomClass" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type local:MyCustomClass}}"/>
-
-<CheckBox IsChecked="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Int32}}"/>
-
-*/

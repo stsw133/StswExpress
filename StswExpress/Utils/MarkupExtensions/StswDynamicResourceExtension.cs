@@ -14,6 +14,15 @@ namespace StswExpress;
 /// This extension allows binding to dynamic resources in XAML, enabling automatic updates when the resource changes.
 /// It supports converters, formatting, and fallback values.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="Dynamic Color" Foreground="{Binding Source={se:StswDynamicResource MyBrushResource}, Converter={StaticResource BrushToColorConverter}}"/&gt;
+/// &lt;Border BorderBrush="{se:StswDynamicResource MyBorderBrush}" BorderThickness="2"/&gt;
+/// &lt;TextBlock Text="{se:StswDynamicResource MyNumberResource, StringFormat='Value: {0:F2}'}"/&gt;
+/// &lt;TextBlock Text="{se:StswDynamicResource NonExistingResource, TargetNullValue='Default Text'}" /&gt;
+/// </code>
+/// </example>
 [StswInfo("0.2.0")]
 public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 {
@@ -118,15 +127,3 @@ public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
         return dynamicResourceBindingResult!;
     }
 }
-
-/* usage:
-
-<TextBlock Text="Dynamic Color" Foreground="{Binding Source={se:StswDynamicResource MyBrushResource}, Converter={StaticResource BrushToColorConverter}}"/>
-
-<Border BorderBrush="{se:StswDynamicResource MyBorderBrush}" BorderThickness="2"/>
-
-<TextBlock Text="{se:StswDynamicResource MyNumberResource, StringFormat='Value: {0:F2}'}"/>
-
-<TextBlock Text="{se:StswDynamicResource NonExistingResource, TargetNullValue='Default Text'}" />
-
-*/

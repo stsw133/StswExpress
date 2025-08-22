@@ -14,6 +14,14 @@ namespace StswExpress;
 /// Useful for scenarios where a color is needed directly instead of a brush, such as bindings to properties
 /// expecting a <see cref="Color"/> instead of a <see cref="SolidColorBrush"/>.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;LinearGradientBrush&gt;
+///     &lt;GradientStop Color="{se:StswDynamicColor GradientBrushResource}" Offset="0.5"/&gt;
+/// &lt;/LinearGradientBrush&gt;
+/// </code>
+/// </example>
 [StswInfo("0.14.0")]
 public class StswDynamicColorExtension : MarkupExtension
 {
@@ -41,11 +49,3 @@ public class StswDynamicColorExtension : MarkupExtension
         return brush.Color;
     }
 }
-
-/* usage:
-
-<LinearGradientBrush>
-    <GradientStop Color="{se:StswDynamicColor GradientBrushResource}" Offset="0.5"/>
-</LinearGradientBrush>
-
-*/

@@ -11,6 +11,23 @@ namespace StswExpress;
 /// This extension enables multi-bindings with a dynamically bound converter parameter, 
 /// making it useful for complex data binding scenarios in XAML.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter SomeOtherValue}}"/&gt;
+/// 
+/// &lt;TextBlock&gt;
+///     &lt;TextBlock.Text&gt;
+///         &lt;MultiBinding Converter="{StaticResource ExampleMultiConverter}"&gt;
+///             &lt;Binding Path="MainValue"/&gt;
+///             &lt;se:StswBindableParameter Binding="{Binding AdditionalValue}"/&gt;
+///         &lt;/MultiBinding&gt;
+///     &lt;/TextBlock.Text&gt;
+/// &lt;/TextBlock&gt;
+/// 
+/// &lt;TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter FormatString}}"/&gt;
+/// </code>
+/// </example>
 [ContentProperty(nameof(Binding))]
 [StswInfo("0.9.0")]
 public class StswBindableParameterExtension : MarkupExtension
@@ -132,20 +149,3 @@ public class StswBindableParameterExtension : MarkupExtension
         }
     }
 }
-
-/* usage:
-
-<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter SomeOtherValue}}"/>
-
-<TextBlock>
-    <TextBlock.Text>
-        <MultiBinding Converter="{StaticResource ExampleMultiConverter}">
-            <Binding Path="MainValue"/>
-            <se:StswBindableParameter Binding="{Binding AdditionalValue}"/>
-        </MultiBinding>
-    </TextBlock.Text>
-</TextBlock>
-
-<TextBlock Text="{Binding Value, Converter={StaticResource ExampleConverter}, ConverterParameter={se:StswBindableParameter FormatString}}"/>
-
-*/

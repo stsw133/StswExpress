@@ -15,6 +15,20 @@ namespace StswExpress;
 /// <remarks>
 /// This converter is useful for displaying user-friendly text in UI elements bound to enumeration values.
 /// </remarks>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{Binding Status, Converter={x:Static se:StswEnumDescriptionConverter.Instance}}"/&gt;
+/// 
+/// &lt;ComboBox ItemsSource="{Binding OrderStatuses}" SelectedItem="{Binding SelectedStatus}"&gt;
+///     &lt;ComboBox.ItemTemplate&gt;
+///         &lt;DataTemplate&gt;
+///             &lt;TextBlock Text="{Binding Converter={x:Static se:StswEnumDescriptionConverter.Instance}}"/&gt;
+///         &lt;/DataTemplate&gt;
+///     &lt;/ComboBox.ItemTemplate&gt;
+/// &lt;/ComboBox&gt;
+/// </code>
+/// </example>
 [StswInfo("0.8.0")]
 public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
 {
@@ -57,17 +71,3 @@ public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
-
-/* usage:
-
-<TextBlock Text="{Binding Status, Converter={x:Static se:StswEnumDescriptionConverter.Instance}}"/>
-
-<ComboBox ItemsSource="{Binding OrderStatuses}" SelectedItem="{Binding SelectedStatus}">
-    <ComboBox.ItemTemplate>
-        <DataTemplate>
-            <TextBlock Text="{Binding Converter={x:Static se:StswEnumDescriptionConverter.Instance}}"/>
-        </DataTemplate>
-    </ComboBox.ItemTemplate>
-</ComboBox>
-
-*/

@@ -23,6 +23,15 @@ namespace StswExpress;
 /// When the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the comparison is <see langword="true"/>; otherwise, <see cref="Visibility.Collapsed"/>.
 /// Otherwise, the result is a <see cref="bool"/> indicating whether the comparison condition was met.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="Only for small values" Visibility="{Binding SomeNumber, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&lt;=10'}"/&gt;
+/// &lt;Button Content="Administration panel" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='=Admin'}"/&gt;
+/// &lt;Button Content="Delete" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='!Guest'}"/&gt;
+/// &lt;Button Content="Advanced options" Visibility="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&amp;2'}"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null, "0.19.0")]
 public class StswCompareConverter : MarkupExtension, IValueConverter
 {
@@ -121,15 +130,3 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
-
-/* usage:
-
-<TextBlock Text="Only for small values" Visibility="{Binding SomeNumber, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='<=10'}"/>
-
-<Button Content="Administration panel" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='=Admin'}"/>
-
-<Button Content="Delete" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='!Guest'}"/>
-
-<Button Content="Advanced options" Visibility="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&2'}"/>
-
-*/

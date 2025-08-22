@@ -14,6 +14,14 @@ namespace StswExpress;
 /// while <see langword="false"/> results in <see cref="Visibility.Collapsed"/>.
 /// For other target types, the boolean value is directly converted.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;Button Content="Save" Visibility="{Binding CanSave, Converter={x:Static se:StswBoolConverter.Instance}}"/&gt;
+/// &lt;Button Content="Edit" Visibility="{Binding IsEditing, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!'}"/&gt;
+/// &lt;TextBlock Text="{Binding IsAdmin, Converter={x:Static se:StswBoolConverter.Instance}, TargetType={x:Type sys:Int32}}"/&gt;
+/// </code>
+/// </example>
 [StswInfo(null)]
 public class StswBoolConverter : MarkupExtension, IValueConverter
 {
@@ -60,13 +68,3 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
     /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
-
-/* usage:
-
-<Button Content="Save" Visibility="{Binding CanSave, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-
-<Button Content="Edit" Visibility="{Binding IsEditing, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!' }"/>
-
-<TextBlock Text="{Binding IsAdmin, Converter={x:Static se:StswBoolConverter.Instance}, TargetType={x:Type sys:Int32}}"/>
-
-*/

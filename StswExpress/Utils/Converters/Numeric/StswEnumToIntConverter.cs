@@ -8,6 +8,14 @@ namespace StswExpress;
 /// Converts an <see cref="Enum"/> value to its corresponding integer representation and vice versa.
 /// This is useful for bindings where you need to work with enums as integers.
 /// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;TextBlock Text="{Binding MyEnumValue, Converter={x:Static se:StswEnumToIntConverter.Instance}}"/&gt;
+/// &lt;ComboBox SelectedValue="{Binding MyEnumIntValue, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type local:MyEnum}}"/&gt;
+/// &lt;TextBlock Text="{Binding MyEnumString, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type local:MyEnum}}"/&gt;
+/// </code>
+/// </example>
 [StswInfo("0.9.0")]
 public class StswEnumToIntConverter : MarkupExtension, IValueConverter
 {
@@ -80,13 +88,3 @@ public class StswEnumToIntConverter : MarkupExtension, IValueConverter
         return Binding.DoNothing;
     }
 }
-
-/* usage:
-
-<TextBlock Text="{Binding MyEnumValue, Converter={x:Static se:StswEnumToIntConverter.Instance}}" />
-
-<ComboBox SelectedValue="{Binding MyEnumIntValue, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type local:MyEnum}}" />
-
-<TextBlock Text="{Binding MyEnumString, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type local:MyEnum}}" />
-
-*/
