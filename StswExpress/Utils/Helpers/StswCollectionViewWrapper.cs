@@ -31,6 +31,6 @@ public class StswCollectionViewWrapper<T> : StswObservableObject where T : IStsw
     public void ReplaceWith(IEnumerable<T> items)
     {
         Items.Clear();
-        Items.AddRangeFast(items, StswItemState.Unchanged);
+        Items.AddRangeFast(items);
     }
 }

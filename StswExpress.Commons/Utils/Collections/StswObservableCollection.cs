@@ -12,7 +12,7 @@ namespace StswExpress.Commons;
 /// items as modified when those properties change.
 /// </summary>
 /// <typeparam name="T">Item type implementing <see cref="IStswCollectionItem"/></typeparam>
-[StswInfo("0.15.0", "0.19.1")] //TODO - handle changes in nested classes
+[StswInfo("0.15.0", "0.20.0")] //TODO - handle changes in nested classes
 public class StswObservableCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     private bool _isBulkLoading;
@@ -41,7 +41,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             _isBulkLoading = false;
         }
 
-        RecountStates();
+        UpdateCountersIfEnabled();
 
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
@@ -52,29 +52,28 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     public void AcceptChanges()
     {
-        foreach (var item in _addedItems)
+        foreach (var item in _addedItems.ToList())
             item.ItemState = StswItemState.Unchanged;
 
-        foreach (var item in _deletedItems)
+        foreach (var item in _deletedItems.ToList())
             item.ItemState = StswItemState.Unchanged;
 
-        foreach (var item in _modifiedItems)
+        foreach (var item in _modifiedItems.ToList())
             item.ItemState = StswItemState.Unchanged;
 
         _addedItems.Clear();
         _deletedItems.Clear();
         _modifiedItems.Clear();
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <summary>
     /// Adds a range of items to the collection. Each item is marked with the specified state.
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
-    /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
-    [StswInfo("0.15.0", "0.19.1")]
-    public void AddRange(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added)
+    [StswInfo("0.15.0", "0.20.0")]
+    public void AddRange(IEnumerable<T> items)
     {
         if (items.IsNullOrEmpty())
             return;
@@ -86,12 +85,11 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             if (Items.Contains(item))
                 continue;
 
-            item.ItemState = itemsState;
             Add(item);
-            item.PropertyChanged += OnItemPropertyChanged;
+            HandleItemStateChange(item);
         }
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <summary>
@@ -99,59 +97,88 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
     /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
-    [StswInfo("0.19.1")]
-    public void AddRangeFast(IEnumerable<T> items, StswItemState itemsState = StswItemState.Added)
+    [StswInfo("0.19.1", "0.20.0")]
+    public void AddRangeFast(IEnumerable<T> items, StswItemState? itemState = null)
     {
         if (items.IsNullOrEmpty())
             return;
 
         CheckReentrancy();
         _isBulkLoading = true;
+        var addedAny = false;
 
         foreach (var item in items)
         {
             if (Items.Contains(item))
                 continue;
 
-            item.ItemState = itemsState;
             Items.Add(item);
             item.PropertyChanged += OnItemPropertyChanged;
+
+            var targetState = itemState ?? item.ItemState;
+            if (!EqualityComparer<StswItemState>.Default.Equals(item.ItemState, targetState))
+                item.ItemState = targetState;
+            else
+                HandleItemStateChange(item);
+
+            addedAny = true;
         }
 
         _isBulkLoading = false;
 
-        RecountStates();
-        OnPropertyChanged(nameof(Count));
-        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        if (addedAny)
+        {
+            UpdateCountersIfEnabled();
+            OnPropertyChanged(nameof(Count));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.19.0")]
+    [StswInfo("0.15.0", "0.20.0")]
     protected override void ClearItems()
     {
+        foreach (var item in this)
+            item.PropertyChanged -= OnItemPropertyChanged;
+
+        base.ClearItems();
+
+        _addedItems.Clear();
+        _modifiedItems.Clear();
+        _deletedItems.Clear();
+
+        UpdateCountersIfEnabled();
+    }
+
+    /// <summary>
+    /// Deletes all items in the collection by marking them as deleted.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public void DeleteItems()
+    {
+        if (Count == 0)
+            return;
+
         foreach (var item in this)
         {
             item.PropertyChanged -= OnItemPropertyChanged;
 
-            if (item.ItemState == StswItemState.Added && _addedItems.Contains(item))
+            if (item.ItemState == StswItemState.Added)
             {
                 _addedItems.Remove(item);
             }
             else
             {
-                if (item.ItemState != StswItemState.Deleted)
-                {
-                    item.ItemState = StswItemState.Deleted;
-                    _deletedItems.AddIfNotContains(item);
-                }
-
+                item.ItemState = StswItemState.Deleted;
+                _deletedItems.AddIfNotContains(item);
                 _modifiedItems.Remove(item);
             }
         }
 
-        base.ClearItems();
+        if (!ShowRemovedItems)
+            base.ClearItems();
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <inheritdoc/>
@@ -164,7 +191,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (!_isBulkLoading)
             item.ItemState = StswItemState.Added;
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <inheritdoc/>
@@ -190,8 +217,6 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         {
             base.RemoveItem(index);
 
-            var oldState = item.ItemState;
-
             item.PropertyChanged -= OnItemPropertyChanged;
 
             if (item.ItemState == StswItemState.Added && _addedItems.Contains(item))
@@ -210,7 +235,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             }
         }
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <inheritdoc/>
@@ -226,7 +251,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (!_isBulkLoading)
             item.ItemState = StswItemState.Added;
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
     #endregion
 
@@ -255,7 +280,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
                 break;
         }
 
-        RecountStates();
+        UpdateCountersIfEnabled();
     }
 
     /// <summary>
@@ -327,13 +352,6 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     #endregion
 
     #region Counters
-    private bool _countersAreDirty = true;
-
-    private int _countUnchanged;
-    private int _countAdded;
-    private int _countDeleted;
-    private int _countModified;
-
     /// <summary>
     /// Gets the number of items in the Unchanged state.
     /// </summary>
@@ -341,7 +359,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     {
         get
         {
-            EnsureCountersAreUpToDate();
+            EnsureCountersEnabled();
             return _countUnchanged;
         }
         private set
@@ -353,6 +371,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             }
         }
     }
+    private int _countUnchanged;
 
     /// <summary>
     /// Gets the number of items in the Added state.
@@ -361,7 +380,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     {
         get
         {
-            EnsureCountersAreUpToDate();
+            EnsureCountersEnabled();
             return _countAdded;
         }
         private set
@@ -373,6 +392,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             }
         }
     }
+    private int _countAdded;
 
     /// <summary>
     /// Gets the number of items in the Deleted state.
@@ -381,7 +401,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     {
         get
         {
-            EnsureCountersAreUpToDate();
+            EnsureCountersEnabled();
             return _countDeleted;
         }
         private set
@@ -393,6 +413,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             }
         }
     }
+    private int _countDeleted;
 
     /// <summary>
     /// Gets the number of items in the Modified state.
@@ -401,7 +422,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     {
         get
         {
-            EnsureCountersAreUpToDate();
+            EnsureCountersEnabled();
             return _countModified;
         }
         private set
@@ -413,18 +434,19 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             }
         }
     }
+    private int _countModified;
 
     /// <summary>
     /// Ensures the counters are up-to-date. If they are dirty, it recalculates them.
     /// </summary>
-    private void EnsureCountersAreUpToDate()
+    [StswInfo("0.15.0", "0.20.0")]
+    private void EnsureCountersEnabled()
     {
-        if (_countersAreDirty)
-        {
-            _countersAreDirty = false;
-            RecountStates();
-        }
+        if (_countersEnabled) return;
+        _countersEnabled = true;
+        UpdateCountersIfEnabled();
     }
+    private bool _countersEnabled;
 
     /// <summary>
     /// Triggers change notifications for property changes.
@@ -434,10 +456,10 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Recounts the states of the items in the collection and updates the counters accordingly.
     /// </summary>
-    [StswInfo("0.15.0", "0.19.0")]
-    private void RecountStates()
+    [StswInfo("0.15.0", "0.20.0")]
+    private void UpdateCountersIfEnabled()
     {
-        if (_countersAreDirty)
+        if (!_countersEnabled)
             return;
 
         if (ShowRemovedItems)
