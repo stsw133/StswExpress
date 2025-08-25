@@ -35,29 +35,10 @@ public static partial class StswExtensions
         {
             if (Enum.TryParse(targetType, o.ToString(), out var result))
                 return result;
+
             return null;
-            /*
-            if (o is string es)
-                return Enum.TryParse(targetType, es, ignoreCase: true, out var er) ? er : null;
-
-            try
-            {
-                var num = Convert.ChangeType(o, Enum.GetUnderlyingType(targetType), CultureInfo.InvariantCulture);
-                return num is null ? null : Enum.ToObject(targetType, num);
-            }
-            catch { return null; }
-            */
         }
-        /*
-        if (targetType == typeof(Guid))
-            return Guid.TryParse(o.ToString(), out var g) ? g : null;
-
-        if (targetType == typeof(TimeSpan))
-            return TimeSpan.TryParse(o.ToString(), CultureInfo.InvariantCulture, out var ts) ? ts : null;
-
-        if (targetType == typeof(DateTimeOffset))
-            return DateTimeOffset.TryParse(o.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var dto) ? dto : null;
-        */
+        
         try
         {
             return Convert.ChangeType(o, targetType, CultureInfo.InvariantCulture);
@@ -93,31 +74,31 @@ public static partial class StswExtensions
         if (underlyingType.IsEnum)
             underlyingType = Enum.GetUnderlyingType(underlyingType);
 
-        return TypeToSqlDbTypeMap.GetValueOrDefault(underlyingType) ?? SqlDbType.NVarChar;
+        return new Dictionary<Type, SqlDbType?>()
+        {
+            { typeof(byte), SqlDbType.TinyInt },
+            { typeof(sbyte), SqlDbType.TinyInt },
+            { typeof(short), SqlDbType.SmallInt },
+            { typeof(ushort), SqlDbType.SmallInt },
+            { typeof(int), SqlDbType.Int },
+            { typeof(uint), SqlDbType.Int },
+            { typeof(long), SqlDbType.BigInt },
+            { typeof(ulong), SqlDbType.BigInt },
+            { typeof(float), SqlDbType.Real },
+            { typeof(double), SqlDbType.Float },
+            { typeof(decimal), SqlDbType.Decimal },
+            { typeof(bool), SqlDbType.Bit },
+            { typeof(string), SqlDbType.NVarChar },
+            { typeof(char), SqlDbType.NChar },
+            { typeof(Guid), SqlDbType.UniqueIdentifier },
+            { typeof(DateTime), SqlDbType.DateTime },
+            { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
+            { typeof(TimeSpan), SqlDbType.Time },
+            { typeof(byte[]), SqlDbType.VarBinary },
+            //{ typeof(object), SqlDbType.Variant }
+        }
+        .GetValueOrDefault(underlyingType) ?? SqlDbType.NVarChar;
     }
-    private static readonly Dictionary<Type, SqlDbType?> TypeToSqlDbTypeMap = new()
-    {
-        { typeof(byte), SqlDbType.TinyInt },
-        { typeof(sbyte), SqlDbType.TinyInt },
-        { typeof(short), SqlDbType.SmallInt },
-        { typeof(ushort), SqlDbType.SmallInt },
-        { typeof(int), SqlDbType.Int },
-        { typeof(uint), SqlDbType.Int },
-        { typeof(long), SqlDbType.BigInt },
-        { typeof(ulong), SqlDbType.BigInt },
-        { typeof(float), SqlDbType.Real },
-        { typeof(double), SqlDbType.Float },
-        { typeof(decimal), SqlDbType.Decimal },
-        { typeof(bool), SqlDbType.Bit },
-        { typeof(string), SqlDbType.NVarChar },
-        { typeof(char), SqlDbType.NChar },
-        { typeof(Guid), SqlDbType.UniqueIdentifier },
-        { typeof(DateTime), SqlDbType.DateTime },
-        { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
-        { typeof(TimeSpan), SqlDbType.Time },
-        { typeof(byte[]), SqlDbType.VarBinary },
-        //{ typeof(object), SqlDbType.Variant }
-    };
 
     /// <summary>
     /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>.
@@ -125,7 +106,6 @@ public static partial class StswExtensions
     /// <typeparam name="T"> The type of objects to map to.</typeparam>
     /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
     /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
-
     [StswInfo("0.2.0")]
     public static IEnumerable<T> MapTo<T>(this DataTable dt)
     {
@@ -214,24 +194,81 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Checks if a type is a simple type, which includes primitive types, strings, decimals, DateTime, DateTimeOffset, TimeSpan, Guids, and byte arrays.
+    /// Builds a CSV string from a collection of objects.
     /// </summary>
-    /// <param name="type">The type to check.</param>
-    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
-    [StswInfo("0.12.0", "0.20.0")]
-    public static bool IsSimpleType(Type type)
+    /// <typeparam name="T">The type of the objects in the collection.</typeparam>
+    /// <param name="source">The collection of objects to convert to CSV.</param>
+    /// <param name="separator">The character used to separate values in the CSV. Default is ';'.</param>
+    /// <param name="includeHeaders">Whether to include a header row with property names. Default is <see langword="true"/>.</param>
+    /// <param name="useDescriptionAttribute">Whether to use the <see cref="DescriptionAttribute"/> for headers if available. Default is <see langword="true"/>.</param>
+    /// <param name="culture">The culture to use for formatting values. Default is the current culture.</param>
+    /// <returns>A CSV string representing the collection of objects.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="source"/> is <see langword="null"/>.</exception>
+    [StswInfo("0.20.0", IsTested = false)]
+    public static string ToCsv<T>(this IEnumerable<T> source, char separator = ';', bool includeHeaders = true, bool useDescriptionAttribute = true, CultureInfo? culture = null)
     {
-        if (type.IsEnum) return true;
-        if (Nullable.GetUnderlyingType(type) is Type u) type = u;
+        ArgumentNullException.ThrowIfNull(source);
+        culture ??= CultureInfo.CurrentCulture;
 
-        return type.IsPrimitive
-            || type == typeof(string)
-            || type == typeof(decimal)
-            || type == typeof(DateTime)
-            || type == typeof(DateTimeOffset)
-            || type == typeof(TimeSpan)
-            || type == typeof(Guid)
-            || type == typeof(byte[]);
+        var props = typeof(T)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(p => p.CanRead && p.GetIndexParameters().Length == 0)
+            .OrderBy(p => p.MetadataToken)
+            .ToArray();
+
+        static string Escape(string input, char separator)
+        {
+            var mustQuote = input.Contains(separator)
+                || input.Contains('"')
+                || input.Contains('\r')
+                || input.Contains('\n')
+                || (input.Length > 0 && (char.IsWhiteSpace(input[0]) || char.IsWhiteSpace(input[^1])));
+
+            if (!mustQuote)
+                return input;
+
+            var escaped = input.Replace("\"", "\"\"");
+            return $"\"{escaped}\"";
+        }
+
+        var sb = new StringBuilder(4096);
+        if (includeHeaders)
+        {
+            var headers = props.Select(p =>
+            {
+                if (useDescriptionAttribute)
+                {
+                    var desc = p.GetCustomAttribute<DescriptionAttribute>(inherit: true)?.Description;
+                    if (!string.IsNullOrWhiteSpace(desc))
+                        return Escape(desc!, separator);
+                }
+                return Escape(p.Name, separator);
+            });
+
+            sb.AppendJoin(separator, headers);
+            sb.AppendLine();
+        }
+
+        foreach (var item in source)
+        {
+            var cells = props.Select(p =>
+            {
+                var value = p.GetValue(item, null);
+                if (value is null)
+                    return string.Empty;
+
+                var str = value is IFormattable f
+                    ? f.ToString(null, culture)
+                    : value.ToString();
+
+                return Escape(str ?? string.Empty, separator);
+            });
+
+            sb.AppendJoin(separator, cells);
+            sb.AppendLine();
+        }
+
+        return sb.ToString();
     }
 
     /// <summary>
@@ -858,6 +895,27 @@ public static partial class StswExtensions
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// Checks if a type is a simple type, which includes primitive types, strings, decimals, DateTime, DateTimeOffset, TimeSpan, Guids, and byte arrays.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
+    [StswInfo("0.12.0", "0.20.0")]
+    public static bool IsSimpleType(Type type)
+    {
+        if (type.IsEnum) return true;
+        if (Nullable.GetUnderlyingType(type) is Type u) type = u;
+
+        return type.IsPrimitive
+            || type == typeof(string)
+            || type == typeof(decimal)
+            || type == typeof(DateTime)
+            || type == typeof(DateTimeOffset)
+            || type == typeof(TimeSpan)
+            || type == typeof(Guid)
+            || type == typeof(byte[]);
     }
     #endregion
 

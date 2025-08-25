@@ -260,7 +260,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Handles the state change of an item in the collection.
     /// </summary>
     /// <param name="item">The item whose state has changed.</param>
-    [StswInfo("0.19.0")]
+    [StswInfo("0.19.0", "0.20.0")]
     private void HandleItemStateChange(T item)
     {
         _addedItems.Remove(item);
@@ -270,13 +270,13 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         switch (item.ItemState)
         {
             case StswItemState.Added:
-                _addedItems.AddIfNotContains(item);
+                _addedItems.Add(item);
                 break;
             case StswItemState.Modified:
-                _modifiedItems.AddIfNotContains(item);
+                _modifiedItems.Add(item);
                 break;
             case StswItemState.Deleted:
-                _deletedItems.AddIfNotContains(item);
+                _deletedItems.Add(item);
                 break;
         }
 
