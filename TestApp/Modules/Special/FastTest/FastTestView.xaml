@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="TestApp.FastTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:FastTestContext}">
+
+    <DockPanel>
+        <se:StswDirectionView DockPanel.Dock="Top">
+            <UniformGrid HorizontalAlignment="Left" Margin="3" Rows="1">
+                <se:StswButton Command="{Binding TestCommand}" Margin="3">
+                    <se:StswLabel IsBusy="False">
+                        <se:StswLabel.Style>
+                            <Style TargetType="{x:Type se:StswLabel}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TestCommand.IsBusy}" Value="False">
+                                        <Setter Property="Content" Value="Run"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.Play}"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswColor.Positive}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TestCommand.IsBusy}" Value="True">
+                                        <Setter Property="Content" Value="Stop"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.Stop}"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </se:StswLabel.Style>
+                    </se:StswLabel>
+                </se:StswButton>
+                <se:StswButton Command="{x:Static se:StswCommands.Clear}" CommandParameter="{Binding Logs}" Margin="3">
+                    <se:StswLabel Content="Clear logs" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}"/>
+                </se:StswButton>
+            </UniformGrid>
+        </se:StswDirectionView>
+
+        <se:StswInfoPanel BorderThickness="0 1 0 0"
+                          IsCopyable="False" IsClosable="False" IsExpandable="False"
+                          ItemsSource="{Binding Logs}"
+                          ScrollToItemBehavior="OnInsert"
+                          ShowControlPanel="False"
+                          se:StswScrollView.DynamicMode="Off"/>
+    </DockPanel>
+</UserControl>

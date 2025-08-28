@@ -31,6 +31,7 @@
 
         <se:StswNavigationElement/>
         <se:StswNavigationElement Header="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="{x:Type local:HomeContext}" IsChecked="True"/>
+        <se:StswNavigationElement Header="FastTest" IconData="{x:Static se:StswIcons.Console}" ContextNamespace="{x:Type local:FastTestContext}"/>
         <se:StswNavigationElement/>
         <se:StswNavigationElement Header="Controls" IconData="{x:Static se:StswIcons.WidgetsOutline}" IsChecked="True">
             <se:StswNavigationElement Header="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">

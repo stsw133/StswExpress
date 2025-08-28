@@ -231,6 +231,9 @@
     <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Special\FastTest\FastTestView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Special\Home\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

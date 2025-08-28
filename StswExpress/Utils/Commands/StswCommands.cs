@@ -43,6 +43,7 @@ public static class StswCommands
     /// </summary>
     static StswCommands()
     {
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(Selector), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(StswSelectionBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
@@ -91,6 +92,9 @@ public static class StswCommands
     {
         switch (e.Parameter ?? sender)
         {
+            case IList list:
+                list.Clear();
+                break;
             case Selector selector:
                 selector.SelectedIndex = -1;
                 break;
@@ -116,6 +120,7 @@ public static class StswCommands
     {
         e.CanExecute = (e.Parameter ?? sender) switch
         {
+            IList list => list.Count > 0,
             Selector selector => selector.SelectedIndex >= 0,
             StswPasswordBox stswPasswordBox => !string.IsNullOrEmpty(stswPasswordBox.Password),
             StswSelectionBox stswSelectionBox => stswSelectionBox.ItemsSource?.Cast<IStswSelectionItem>()?.Any(x => x.IsSelected) == true,

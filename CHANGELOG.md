@@ -48,6 +48,58 @@
 
 **Release Date**: 2025-XX-XX
 
+## StswExpress.Analyzers
+
+### Additions
+- `StswCommandGenerator` now supports generating `StswCancellableCommand`.
+
+## StswExpress.Commons
+
+### Additions
+- Added `GetResourceAsBytes` and renamed `GetResourceText` to `GetResourceAsText`.
+- Enhanced `StswSecurity` with configurable salt and new `HashPassword`, `VerifyPassword`, `EncryptGcm` and `DecryptGcm` methods.
+- Introduced `ToEndOfDay` and `Between` extension methods, `TryMultipleTimesAsync` helper and `StswFormatParser.ToCsv`.
+- `StswDatabaseModel` supports integrated security and applies `DefaultTimeout` in `StswDatabaseHelper`; design-mode detection is cached.
+- `StswInfoAttribute` exposes a new `LastUpdatedVersion` property.
+
+### Changes
+- `DebugEmailRecipient` renamed to `DebugEmailRecipients` with optional `LocalDomain`.
+- `Get` and `MapTo` extensions now return non-nullable types.
+- Optimized numerous `StswExtensions` and `StswFn` methods; renamed `TryGetValue` to `GetValueOrDefault` and `Remove` to `RemoveRange`.
+- Removed `StswValueChangedEventArgs` and related types.
+- Renamed and simplified `StswCancellableAsyncCommand` and `StswPausableAsyncCommand`.
+- `StswDatabaseHelper`'s `PrepareCommand` skips unused parameters.
+- `StswDatabaseModel` no longer accepts `SqlConnection` in its constructor.
+- `StswObservableCollection` renamed counter members, introduced `DeleteItems`, and improved `AddRange`.
+- `StswObservableDialog` now derives from `StswObservableValidator`.
+
+### Fixes
+- Fixed `StswObservableCollection`'s `AcceptChanges` behaviour.
+- Fixed unregister handling in `StswMessager`.
+- Optimized regular expression usage across multiple classes.
+- `StswLog` synchronous `Write` and `ImportList` work correctly with `StswMessageDialog`.
+
+## StswExpress (WPF)
+
+### Additions
+- Data grid columns expose more properties from related input controls.
+- Introduced `StswCollectionViewWrapper`.
+- `StswDragBox`, `StswListBox`, `StswListView` and `StswSegment` now have a `ScrollToItemBehavior` property.
+- `StswFilterBox` detects whether its list is numeric or textual.
+- `StswIfElseConverter` supports multiple delimiters, `?` and `:` syntax, and `||` conditions.
+- `StswRatingControl` supports fractional values via a new `Step` property.
+
+### Changes
+- `GenerateColor` uses a true seed and `StswColorConverter` accepts it.
+- `StswDataGridComboColumn` uses `DisplayMemberPath` for its element and returns an empty string for `NewItemPlaceholder`.
+- `StswFilterBox` properties renamed: `IsFilterCaseSensitive` -> `ApplyCaseTransform`, `IsFilterNullSensitive` -> `ApplyNullReplacement`.
+- `StswPathToIconConverter` is now public.
+- `StswWindowBar` height reduced and its icon no longer has a maximum size.
+- Tooltips have been updated to use Stsw implementations.
+
+### Fixes
+- Corrected dependency property registration in data grid columns.
+
 ---
 
 <h1 id="0-19-1">0.19.1</h1>

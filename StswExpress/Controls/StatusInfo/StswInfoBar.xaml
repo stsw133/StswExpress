@@ -9,7 +9,7 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerClipping" Value="False"/>
-        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
         
         <Setter Property="Focusable" Value="True"/>
@@ -148,6 +148,9 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="OPT_Header"/>
                             <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="OPT_Header"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="BorderBrush" Value="{Binding Background, ElementName=OPT_Header}" TargetName="OPT_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

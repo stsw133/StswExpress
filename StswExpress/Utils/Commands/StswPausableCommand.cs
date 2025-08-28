@@ -35,7 +35,7 @@ namespace StswExpress;
 /// // Calling it again resumes from where it left off.
 /// </code>
 /// </example>
-[StswInfo("0.9.2", "0.20.0", IsTested = false)]
+[StswInfo("0.9.2", "0.20.0", IsTested = false, Changes = StswPlannedChanges.Remove)]
 public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem, Func<bool>? canExecute = null) : StswCancellableCommand<T>((_, _) => Task.CompletedTask, canExecute)
 {
     private readonly Func<T, CancellationToken, Task> _executeItem = executeItem ?? throw new ArgumentNullException(nameof(executeItem));

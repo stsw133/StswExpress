@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 
 namespace StswExpress;
 
@@ -27,6 +29,8 @@ namespace StswExpress;
 [StswInfo("0.1.0")]
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
+    private ScrollViewer? _scrollViewer;
+
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
@@ -38,6 +42,9 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (GetTemplateChild("OPT_ScrollView") is ScrollViewer scrollViewer)
+            _scrollViewer = scrollViewer;
+
         /// Button: copy all to clipboard
         if (GetTemplateChild("PART_ButtonCopyAllToClipboard") is ButtonBase btnCopyAllToClipboard)
             btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
@@ -46,6 +53,16 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
             btnCloseAll.Click += PART_ButtonCloseAll_Click;
     }
 
+    /// <inheritdoc/>
+    [StswInfo("0.20.0")]
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (_scrollViewer != null)
+            if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+                Dispatcher.InvokeAsync(_scrollViewer.ScrollToEnd, DispatcherPriority.Background);
+    }
 
     /// <summary>
     /// Copies the content of all displayed information bars (titles and texts) to the clipboard.
@@ -141,6 +158,22 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsExpanded),
             typeof(bool),
+            typeof(StswInfoPanel)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
+    /// </summary>
+    [StswInfo("0.20.0")]
+    public StswScrollToItemBehavior ScrollToItemBehavior
+    {
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
             typeof(StswInfoPanel)
         );
 
