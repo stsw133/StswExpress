@@ -33,10 +33,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.12.1" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
-	<PackageReference Include="StswExpress.Analyzers" Version="*" />
+    <PackageReference Include="MailKit" Version="4.13.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+    <PackageReference Include="StswExpress.Analyzers" Version="*" />
   </ItemGroup>
 
 </Project>

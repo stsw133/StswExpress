@@ -46,7 +46,7 @@
 
 <h1 id="0-20-0">0.20.0</h1>
 
-**Release Date**: 2025-XX-XX
+**Release Date**: 2025-09-01
 
 ## StswExpress.Analyzers
 
