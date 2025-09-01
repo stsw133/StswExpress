@@ -172,7 +172,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     /// <summary>
     /// Evaluates a condition string against the input value.
     /// </summary>
-    /// <param name="condition">The condition string, which may contain '||' (OR) and '&amp;&amp;' (AND) operators.</param>
+    /// <param name="condition">The condition string, which may contain '||' (OR).</param>
     /// <param name="input">The input value to evaluate against the condition.</param>
     /// <returns><see langword="true"/> if the condition matches the input; otherwise, <see langword="false"/>.</returns>
     private static bool EvaluateCondition(string condition, string input)

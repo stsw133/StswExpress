@@ -68,6 +68,7 @@
 - Optimized numerous `StswExtensions` and `StswFn` methods; renamed `TryGetValue` to `GetValueOrDefault` and `Remove` to `RemoveRange`.
 - Removed `StswValueChangedEventArgs` and related types.
 - Renamed and simplified `StswCancellableAsyncCommand` and `StswPausableAsyncCommand`.
+- Simplified and reorganized `StswCommands`: introduced a dedicated `Deselect` command, renamed `CheckAllSelected` to `SetPropertyForSelected`, and improved `Clear` to handle `ItemsControl` more consistently.
 - `StswDatabaseHelper`'s `PrepareCommand` skips unused parameters.
 - `StswDatabaseModel` no longer accepts `SqlConnection` in its constructor.
 - `StswObservableCollection` renamed counter members, introduced `DeleteItems`, and improved `AddRange`.
@@ -75,7 +76,7 @@
 
 ### Fixes
 - Fixed `StswObservableCollection`'s `AcceptChanges` behaviour.
-- Fixed unregister handling in `StswMessager`.
+- Fixed unregister handling in `StswMessanger`.
 - Optimized regular expression usage across multiple classes.
 - `StswLog` synchronous `Write` and `ImportList` work correctly with `StswMessageDialog`.
 
@@ -84,7 +85,7 @@
 ### Additions
 - Data grid columns expose more properties from related input controls.
 - Introduced `StswCollectionViewWrapper`.
-- `StswDragBox`, `StswListBox`, `StswListView` and `StswSegment` now have a `ScrollToItemBehavior` property.
+- `StswDragBox`, `StswListBox`, `StswListView`, `StswSegment` and `StswInfoPanel` now have a `ScrollToItemBehavior` property.
 - `StswFilterBox` detects whether its list is numeric or textual.
 - `StswIfElseConverter` supports multiple delimiters, `?` and `:` syntax, and `||` conditions.
 - `StswRatingControl` supports fractional values via a new `Step` property.

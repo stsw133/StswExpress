@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,7 +42,7 @@ public class StswRatingControl : Control, IStswIconControl
         if (e.Key == Key.Tab)
             return;
 
-        if (!IsReadOnly)
+        if (IsReadOnly)
             return;
 
         switch (e.Key)
@@ -76,29 +77,30 @@ public class StswRatingControl : Control, IStswIconControl
                 break;
             case Key.Down:
                 if (Direction == ExpandDirection.Down)
-                    Increment(-1);
+                    Increment(-Step);
                 else if (Direction == ExpandDirection.Up)
-                    Increment(1);
+                    Increment(Step);
                 break;
             case Key.Up:
                 if (Direction == ExpandDirection.Up)
-                    Increment(-1);
+                    Increment(-Step);
                 else if (Direction == ExpandDirection.Down)
-                    Increment(1);
+                    Increment(Step);
                 break;
             case Key.Left:
-                if (Direction == ExpandDirection.Left)
-                    Increment(-1);
-                else if (Direction == ExpandDirection.Right)
-                    Increment(1);
+                if (Direction == ExpandDirection.Right)
+                    Increment(-Step);
+                else if (Direction == ExpandDirection.Left)
+                    Increment(Step);
                 break;
             case Key.Right:
-                if (Direction == ExpandDirection.Right)
-                    Increment(-1);
-                else if (Direction == ExpandDirection.Left)
-                    Increment(1);
+                if (Direction == ExpandDirection.Left)
+                    Increment(-Step);
+                else if (Direction == ExpandDirection.Right)
+                    Increment(Step);
                 break;
         }
+
         e.Handled = true;
     }
 
@@ -108,7 +110,11 @@ public class StswRatingControl : Control, IStswIconControl
         base.OnMouseDown(e);
         if (e.LeftButton == MouseButtonState.Pressed && !IsReadOnly)
             Value = Placeholder;
+
         Focus();
+        Keyboard.Focus(this);
+
+        e.Handled = true;
     }
 
     /// <inheritdoc/>
@@ -150,13 +156,13 @@ public class StswRatingControl : Control, IStswIconControl
     /// </summary>
     /// <param name="direction">The direction to increment: -1 for decrement, 1 for increment.</param>
     [StswInfo("0.20.0")]
-    private void Increment(int direction)
+    private void Increment(double direction)
     {
         if (!Value.HasValue)
             Value = 0;
 
         double current = Value.Value;
-        double newVal = current + direction * Step;
+        double newVal = current + direction;
 
         if (newVal < 0 && IsResetEnabled)
             newVal = 0;
@@ -528,4 +534,77 @@ public class StswRatingControl : Control, IStswIconControl
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Thickness? BorderThickness { get; private set; }
     #endregion
+}
+
+/// <summary>
+/// Converts a rating value and item index to a brush mask for partial fills.
+/// </summary>
+[StswInfo("0.20.0")]
+internal sealed class StswRatingMaskConverter : IMultiValueConverter
+{
+    /// <summary>
+    /// Converts the rating value and item index to a LinearGradientBrush mask.
+    /// </summary>
+    /// <param name="values">An array containing the rating value, item index, and expand direction.</param>
+    /// <param name="targetType">The target type of the conversion (expected to be Brush).</param>
+    /// <param name="parameter">An optional parameter (not used).</param>
+    /// <param name="culture">The culture info (not used).</param>
+    /// <returns>A LinearGradientBrush representing the fill mask for the rating item.</returns>
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (values is not [object rawVal, object idxObj, object dirObj])
+            return Brushes.Transparent;
+
+        var v = rawVal is double d ? d : (rawVal as double?) ?? 0.0;
+        var idx = idxObj is int i ? i : 0;
+        var dir = dirObj is ExpandDirection ed ? ed : ExpandDirection.Right;
+
+        var lower = idx - 1.0;
+        var upper = idx;
+        var frac = v >= upper ? 1.0 : (v <= lower ? 0.0 : v - lower);
+
+        frac = Math.Round(frac * 256.0) / 256.0;
+        return MakeMask(frac, dir);
+    }
+
+    /// <summary>
+    /// Not implemented. Converts back is not supported.
+    /// </summary>
+    /// <param name="value">The value produced by the binding target (not used).</param>
+    /// <param name="targetTypes">The array of target types (not used).</param>
+    /// <param name="parameter">An optional parameter (not used).</param>
+    /// <param name="culture">The culture info (not used).</param>
+    /// <returns>Throws NotSupportedException.</returns>
+    /// <exception cref="NotSupportedException">Always thrown since ConvertBack is not supported.</exception>
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+    /// <summary>
+    /// Creates a LinearGradientBrush mask based on the fill fraction and expand direction.
+    /// </summary>
+    /// <param name="fraction">The fill fraction (0 to 1) indicating how much of the item should be filled.</param>
+    /// <param name="dir">The direction in which the rating items expand.</param>
+    /// <returns>A LinearGradientBrush representing the fill mask.</returns>
+    private static LinearGradientBrush MakeMask(double fraction, ExpandDirection dir)
+    {
+        if (fraction < 0) fraction = 0;
+        if (fraction > 1) fraction = 1;
+
+        var b = new LinearGradientBrush { MappingMode = BrushMappingMode.RelativeToBoundingBox };
+
+        switch (dir)
+        {
+            case ExpandDirection.Right: b.StartPoint = new Point(0, 0); b.EndPoint = new Point(1, 0); break;
+            case ExpandDirection.Left: b.StartPoint = new Point(1, 0); b.EndPoint = new Point(0, 0); break;
+            case ExpandDirection.Down: b.StartPoint = new Point(0, 0); b.EndPoint = new Point(0, 1); break;
+            case ExpandDirection.Up: b.StartPoint = new Point(0, 1); b.EndPoint = new Point(0, 0); break;
+        }
+
+        b.GradientStops.Add(new GradientStop(Colors.White, 0));
+        b.GradientStops.Add(new GradientStop(Colors.White, fraction));
+        b.GradientStops.Add(new GradientStop(Colors.Transparent, fraction));
+        b.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
+
+        if (b.CanFreeze) b.Freeze();
+        return b;
+    }
 }
