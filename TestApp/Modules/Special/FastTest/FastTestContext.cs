@@ -23,6 +23,8 @@ public partial class FastTestContext : StswObservableObject
                     return;
                 }
 
+                ;
+
                 Logs.Add(new(StswInfoType.Information, (i + 1).ToString()));
                 TestCommand.Value = i;
                 await Task.Delay(50, token);

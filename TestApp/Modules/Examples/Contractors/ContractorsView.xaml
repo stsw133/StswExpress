@@ -155,7 +155,7 @@
                         </se:StswDataGridCheckColumn>
 
                         <!-- CreateDT -->
-                        <se:StswDataGridDateColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
+                        <se:StswDataGridDateColumn Binding="{Binding CreateDT, StringFormat='yyyy-MM-dd HH:mm'}" Format="yyyy-MM-dd HH:mm">
                             <se:StswDataGridDateColumn.Header>
                                 <se:StswFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="CreateDT"
                                                   Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='M-2'}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>

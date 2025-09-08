@@ -67,16 +67,20 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         var editingElement = new StswCheckBox()
         {
             Style = StswEditingElementStyle,
-            IconScale = IconScale,
-            IconChecked = IconChecked,
-            IconIndeterminate = IconIndeterminate,
-            IconUnchecked = IconUnchecked,
             Padding = Padding,
             HorizontalAlignment = HorizontalContentAlignment,
             HorizontalContentAlignment = HorizontalContentAlignment,
             VerticalAlignment = VerticalContentAlignment,
             VerticalContentAlignment = VerticalContentAlignment
         };
+        if (IconChecked is not null)
+            editingElement.IconChecked = IconChecked;
+        if (IconUnchecked is not null)
+            editingElement.IconUnchecked = IconUnchecked;
+        if (IconIndeterminate is not null)
+            editingElement.IconIndeterminate = IconIndeterminate;
+        if (IconScale is not null)
+            editingElement.IconScale = IconScale.Value;
 
         /// bindings
         if (Binding != null)
@@ -90,15 +94,15 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// Gets or sets the scale of the icon inside the checkbox.
     /// </summary>
     [StswInfo("0.20.0")]
-    public GridLength IconScale
+    public GridLength? IconScale
     {
-        get => (GridLength)GetValue(IconScaleProperty);
+        get => (GridLength?)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswDataGridCheckColumn)
         );
     #endregion
@@ -118,7 +122,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconChecked),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -135,7 +139,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconIndeterminate),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -152,7 +156,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconUnchecked),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

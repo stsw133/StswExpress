@@ -223,10 +223,10 @@ public static partial class StswDatabaseHelper
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     [StswInfo("0.9.3")]
-    public static TResult? ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
+    public static TResult ExecuteScalar<TResult>(this SqlConnection sqlConn, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
-            return default;
+            return default!;
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, false, disposeConnection);
         using var sqlCmd = new SqlCommand(PrepareQuery(query), factory.Connection, factory.Transaction);
@@ -234,7 +234,7 @@ public static partial class StswDatabaseHelper
         var result = sqlCmd.PrepareCommand(parameters).ExecuteScalar().ConvertTo<TResult?>();
 
         factory.Commit();
-        return result;
+        return result!;
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     [StswInfo("0.9.3")]
-    public static TResult? ExecuteScalar<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
+    public static TResult ExecuteScalar<TResult>(this SqlTransaction sqlTran, string query, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.ExecuteScalar<TResult>(query, parameters, timeout, sqlTran);
 
     /// <summary>
@@ -260,7 +260,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>The scalar value, or null if the query conditions are not met.</returns>
     [StswInfo("0.9.2")]
-    public static TResult? ExecuteScalar<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
+    public static TResult ExecuteScalar<TResult>(this StswDatabaseModel model, string query, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().ExecuteScalar<TResult>(query, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
