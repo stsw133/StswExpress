@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AllowUncheck -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AllowUncheck, Type={x:Type se:StswRadioBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AllowUncheck}"/>
             <!-- HasContent -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HasContent, Type={x:Type se:StswRadioBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HasContent}"/>
@@ -32,9 +35,10 @@
             <se:StswRadioBox Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}" Tag="Option 5"/>
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswRadioBox}">
-                    <Setter Property="Margin" Value="0 0 0 5"/>
+                    <Setter Property="AllowUncheck" Value="{Binding AllowUncheck}"/>
                     <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/>
                     <Setter Property="IsThreeState" Value="{Binding IsThreeState}"/>
+                    <Setter Property="Margin" Value="0 0 0 5"/>
                     <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>
                     <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}"/>
                     <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>

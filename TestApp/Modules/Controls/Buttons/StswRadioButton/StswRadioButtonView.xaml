@@ -12,7 +12,11 @@
             Represents a control that allows the user to select a single option from a group of mutually exclusive options.
         </local:ControlsBase.Description>
         <!-- properties -->
-        
+        <local:ControlsBase.Properties>
+            <!-- AllowUncheck -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AllowUncheck, Type={x:Type se:StswRadioButton}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AllowUncheck}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
         <UniformGrid DockPanel.Dock="Top" Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}">
@@ -32,6 +36,7 @@
             </se:StswRadioButton>
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswRadioButton}">
+                    <Setter Property="AllowUncheck" Value="{Binding AllowUncheck}"/>
                     <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                     <Setter Property="Margin" Value="0 0 0 5"/>
                     <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>

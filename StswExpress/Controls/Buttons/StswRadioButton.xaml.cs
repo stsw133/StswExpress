@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -49,6 +50,53 @@ public class StswRadioButton : RadioButton, IStswCornerControl
         base.OnUnchecked(e);
         StswSharedAnimations.AnimateClick(this, _mainBorder, false);
     }
+
+    /// <inheritdoc/>
+    [StswInfo("0.20.1")]
+    protected override void OnClick()
+    {
+        if (AllowUncheck && IsChecked == true)
+        {
+            SetCurrentValue(IsCheckedProperty, false);
+            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+            return;
+        }
+
+        base.OnClick();
+    }
+
+    /// <inheritdoc/>
+    [StswInfo("0.20.1")]
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (AllowUncheck && IsChecked == true && (e.Key == Key.Space || e.Key == Key.Enter))
+        {
+            SetCurrentValue(IsCheckedProperty, false);
+            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+            e.Handled = true;
+            return;
+        }
+
+        base.OnKeyDown(e);
+    }
+    #endregion
+
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
+    /// </summary>
+    [StswInfo("0.20.1")]
+    public bool AllowUncheck
+    {
+        get => (bool)GetValue(AllowUncheckProperty);
+        set => SetValue(AllowUncheckProperty, value);
+    }
+    public static readonly DependencyProperty AllowUncheckProperty
+        = DependencyProperty.Register(
+            nameof(AllowUncheck),
+            typeof(bool),
+            typeof(StswRadioButton)
+        );
     #endregion
 
     #region Style properties
