@@ -58,6 +58,7 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+    <PackageReference Include="StswExpress.Analyzers" Version="*" />
   </ItemGroup>
 
 	<ItemGroup>
