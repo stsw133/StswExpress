@@ -33,17 +33,7 @@ public class StswPercentageConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts a numeric value to a percentage-based string.
-    /// </summary>
-    /// <param name="value">The numeric value to convert.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">
-    /// (Optional) The numeric format to use (e.g., `"N2"`, `"F1"`, `"0.0"`).
-    /// <br/>If omitted, the default format `"0"` is used.
-    /// </param>
-    /// <param name="culture">The culture to use for numeric formatting.</param>
-    /// <returns>A percentage string representation of the input value.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not double && value is not float && value is not int)
@@ -56,14 +46,7 @@ public class StswPercentageConverter : MarkupExtension, IValueConverter
         return string.Format(culture, "{0:" + format + "}%", percentage);
     }
 
-    /// <summary>
-    /// Converts a percentage-based string back to a numeric value.
-    /// </summary>
-    /// <param name="value">The percentage string to convert (e.g., `"75%"` → `0.75`).</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">Not used in ConvertBack.</param>
-    /// <param name="culture">The culture to use for parsing.</param>
-    /// <returns>A numeric value corresponding to the percentage string.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string strValue)

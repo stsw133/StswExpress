@@ -547,11 +547,6 @@ public static class StswFnUI
     }
     #endregion
 
-    #region Logical functions
-    public static readonly bool True = true;
-    public static readonly bool False = false;
-    #endregion
-
     #region UI functions
     /// <summary>
     /// Determines the current Windows theme (Light or Dark) by reading system registry settings.
@@ -752,6 +747,13 @@ public static class StswFnUI
                 break;
         }
     }
+    #endregion
+
+    #region Binding static helpers
+    public static readonly bool True = true;
+    public static readonly bool False = false;
+    public static DateTime CurrentDate => DateTime.Today;
+    public static DateTime CurrentDateTime => DateTime.Now;
     #endregion
 
     private struct SHFILEINFO

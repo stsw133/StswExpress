@@ -38,17 +38,7 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Checks if the value parameter contains the converter parameter.
-    /// </summary>
-    /// <param name="value">The source value to check.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The expected value(s) to check against.</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
-    /// - A <see cref="bool"/> value indicating whether the value contains the parameter.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var val = ConvertToStringList(value);
@@ -64,6 +54,9 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
             : result.ConvertTo(targetType);
     }
 
+    /// <inheritdoc/>
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+
     /// <summary>
     /// Converts an object into a collection of strings.
     /// </summary>
@@ -76,14 +69,4 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
         IEnumerable e => e.Cast<object>().Select(x => x?.ToString() ?? string.Empty),
         _ => [input.ToString() ?? string.Empty],
     };
-
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }

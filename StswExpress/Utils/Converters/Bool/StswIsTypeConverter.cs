@@ -35,17 +35,7 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Compares the type of the provided value with the specified type.
-    /// </summary>
-    /// <param name="value">The source value whose type is checked.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The expected type (as a `Type` or `string`).</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
-    /// - A <see cref="bool"/> value indicating whether the value's type matches the specified type.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null)
@@ -68,13 +58,6 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
             : isSameType.ConvertTo(targetType);
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }

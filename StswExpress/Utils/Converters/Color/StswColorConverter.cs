@@ -51,14 +51,7 @@ public partial class StswColorConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts an input color based on specified parameters.
-    /// </summary>
-    /// <param name="value">The input value, which can be a color, a brush, a string, or a custom object.</param>
-    /// <param name="targetType">The target type for conversion (e.g., <see cref="Color"/>, <see cref="Brush"/>).</param>
-    /// <param name="parameter">A space-separated string defining operations to apply on the color.</param>
-    /// <param name="culture">The culture for parsing numeric values.</param>
-    /// <returns>The transformed color in the target type.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var color = Colors.Transparent;
@@ -90,14 +83,7 @@ public partial class StswColorConverter : MarkupExtension, IValueConverter
         return GetResultFromColor(color, targetType);
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>

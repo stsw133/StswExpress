@@ -28,6 +28,7 @@ public class StswContentDialog : ContentControl
     private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
     private ContentControl? _popupContentElement;
     private IInputElement? _restoreFocusDialogClose;
+    private bool _isClosingFromSession;
     public StswDialogSession? CurrentSession { get; private set; }
 
     public StswContentDialog()
@@ -78,6 +79,66 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
+    /// Ensures that the dialog content can be modified without interfering with existing bindings.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown if the content is already bound and cannot be changed dynamically.</exception>
+    internal void AssertTargetableContent()
+    {
+        if (BindingOperations.GetBindingExpression(this, DialogContentProperty) != null)
+            throw new InvalidOperationException("Content cannot be passed to a dialog via the OpenDialog if DialogContent already has a binding.");
+    }
+
+    /// <summary>
+    /// Clears the dialog content along with any bindings assigned to it.
+    /// </summary>
+    private void ClearDialogContentBindings()
+    {
+        BindingOperations.ClearBinding(this, DialogContentProperty);
+        ClearValue(DialogContentProperty);
+    }
+
+    /// <summary>
+    /// Handles closing logic for modal dialog sessions initiated via <see cref="InternalClose(object?)"/>.
+    /// </summary>
+    /// <returns>The parameter associated with the session close operation.</returns>
+    private object? CloseModalSession()
+    {
+        if (CurrentSession is not { } session)
+            return null;
+
+        if (!session.IsEnded)
+            session.IsEnded = true;
+
+        var closeParameter = session.CloseParameter;
+        CurrentSession = null;
+
+        return closeParameter;
+    }
+
+    /// <summary>
+    /// Handles closing logic when the dialog is dismissed by manipulating the <see cref="IsOpen"/> property directly.
+    /// Clears any dialog content and bindings to release resources for subsequent openings.
+    /// </summary>
+    /// <returns>The close parameter if one was previously provided.</returns>
+    private object? CloseViaIsOpen()
+    {
+        object? closeParameter = null;
+
+        if (CurrentSession is { } session)
+        {
+            if (!session.IsEnded)
+                session.IsEnded = true;
+
+            closeParameter = session.CloseParameter;
+            CurrentSession = null;
+        }
+
+        ClearDialogContentBindings();
+
+        return closeParameter;
+    }
+
+    /// <summary>
     /// Retrieves the current visual state of the dialog.
     /// </summary>
     /// <returns>The string representing the current state ("Open" or "Closed").</returns>
@@ -105,16 +166,6 @@ public class StswContentDialog : ContentControl
     }
 
     /// <summary>
-    /// Ensures that the dialog content can be modified without interfering with existing bindings.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if the content is already bound and cannot be changed dynamically.</exception>
-    internal void AssertTargetableContent()
-    {
-        if (BindingOperations.GetBindingExpression(this, DialogContentProperty) != null)
-            throw new InvalidOperationException("Content cannot be passed to a dialog via the OpenDialog if DialogContent already has a binding.");
-    }
-
-    /// <summary>
     /// Closes the dialog and sets the provided close parameter.
     /// </summary>
     /// <param name="parameter">The parameter to pass when closing the dialog.</param>
@@ -125,10 +176,15 @@ public class StswContentDialog : ContentControl
 
         currentSession.CloseParameter = parameter;
         currentSession.IsEnded = true;
-        // TODO - stworzenie osobnych funkcji do trybu IsOpen
-        //DialogContent = null;
-
-        SetCurrentValue(IsOpenProperty, false);
+        try
+        {
+            _isClosingFromSession = true;
+            SetCurrentValue(IsOpenProperty, false);
+        }
+        finally
+        {
+            _isClosingFromSession = false;
+        }
     }
 
     /// <summary>
@@ -346,19 +402,12 @@ public class StswContentDialog : ContentControl
 
         if (!stsw.IsOpen)
         {
-            object? closeParameter = null;
-            if (stsw.CurrentSession is { } session)
-            {
-                if (!session.IsEnded)
-                    session.Close(session.CloseParameter);
+            object? closeParameter = stsw._isClosingFromSession
+                ? stsw.CloseModalSession()
+                : stsw.CloseViaIsOpen();
 
-                if (!session.IsEnded)
-                    throw new InvalidOperationException($"Cannot cancel dialog closing after {nameof(IsOpen)} property has been set to {bool.FalseString}");
-
-                closeParameter = session.CloseParameter;
-                stsw.CurrentSession = null;
-            }
             stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
+            stsw._dialogTaskCompletionSource = null;
             stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
 
             return;

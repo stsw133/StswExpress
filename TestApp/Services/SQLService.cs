@@ -38,16 +38,16 @@ internal static class SQLService
     /// GetContractors
     internal static IEnumerable<ContractorModel> GetContractors(StswDataGridFiltersDataModel? filter) => DbCurrent.Get<ContractorModel>($@"
         select a.ID [{nameof(ContractorModel.Id)}]
-            , a.Type [{nameof(ContractorModel.Type)}]
-            , a.Icon [{nameof(ContractorModel.Icon)}]
-            , a.Name [{nameof(ContractorModel.Name)}]
-            , a.Country [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Country)}]
-            , a.PostCode [{nameof(ContractorModel.Address)}/{nameof(AddressModel.PostCode)}]
-            , a.City [{nameof(ContractorModel.Address)}/{nameof(AddressModel.City)}]
-            , a.Street [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Street)}]
-            , a.DefaultDiscount [{nameof(ContractorModel.DefaultDiscount)}]
-            , a.IsArchival [{nameof(ContractorModel.IsArchival)}]
-            , a.CreateDT [{nameof(ContractorModel.CreateDT)}]
+             , a.Type [{nameof(ContractorModel.Type)}]
+             , a.Icon [{nameof(ContractorModel.Icon)}]
+             , a.Name [{nameof(ContractorModel.Name)}]
+             , a.Country [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Country)}]
+             , a.PostCode [{nameof(ContractorModel.Address)}/{nameof(AddressModel.PostCode)}]
+             , a.City [{nameof(ContractorModel.Address)}/{nameof(AddressModel.City)}]
+             , a.Street [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Street)}]
+             , a.DefaultDiscount [{nameof(ContractorModel.DefaultDiscount)}]
+             , a.IsArchival [{nameof(ContractorModel.IsArchival)}]
+             , a.CreateDT [{nameof(ContractorModel.CreateDT)}]
         from dbo.StswExpressTEST_Contractors a with(nolock)
         where {filter?.SqlFilter ?? "1=1"}
         order by a.Name", filter?.SqlParameters ?? [])!;
@@ -76,13 +76,4 @@ internal static class SQLService
         select Pdf
         from dbo.StswExpressTEST_Contractors with(nolock)
         where ID=@ID", new { ID = id });
-
-    /// GetContractorAddress
-    internal static AddressModel? GetContractorAddress(int contractorID) => DbCurrent.Get<AddressModel>($@"
-        select a.Country [{nameof(AddressModel.Country)}]
-            , a.PostCode [{nameof(AddressModel.PostCode)}]
-            , a.City [{nameof(AddressModel.City)}]
-            , a.Street [{nameof(AddressModel.Street)}]
-        from dbo.StswExpressTEST_Contractors a with(nolock)
-        where a.ID=@contractorID", new { contractorID }).FirstOrDefault();
 }

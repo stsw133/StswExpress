@@ -34,26 +34,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Processes a collection based on the command in `ConverterParameter`.
-    /// </summary>
-    /// <param name="value">The collection to process.</param>
-    /// <param name="targetType">The target type of the binding.</param>
-    /// <param name="parameter">
-    /// A query string defining the operation (e.g., `"count IsEnabled == true"`).
-    /// The format is: `<operation> <property> <operator> <value>`.
-    /// Supported operations: `any`, `average`, `count`, `sum`, `where`.
-    /// Supported operators: `==`, `!=`, `>`, `<`, `>=`, `<=`.
-    /// </param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// The result of the specified operation:
-    /// - `any` → `true`/`false`
-    /// - `average` → `double`
-    /// - `count` → `int`
-    /// - `sum` → `double`
-    /// - `where` → `List<object>`
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is ICollectionView collectionView)
@@ -79,14 +60,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
         };
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>

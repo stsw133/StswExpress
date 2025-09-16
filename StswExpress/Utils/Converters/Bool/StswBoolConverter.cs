@@ -34,17 +34,7 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts a <see cref="bool"/> value to a specified target type.
-    /// </summary>
-    /// <param name="value">The source value to convert.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">Optional parameter; if prefixed with '!', inverts the boolean value.</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
-    /// - A <see cref="bool"/> or its equivalent for other types.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not bool val && !bool.TryParse(value?.ToString(), out val))
@@ -58,13 +48,6 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
             : val.ConvertTo(targetType);
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }

@@ -32,23 +32,9 @@ public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts a <see langword="null"/> value to <see cref="DependencyProperty.UnsetValue"/>.
-    /// </summary>
-    /// <param name="value">The value from the binding source.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter (not used).</param>
-    /// <param name="culture">The culture used in the conversion.</param>
-    /// <returns><see cref="DependencyProperty.UnsetValue"/> if <paramref name="value"/> is <see langword="null"/>; otherwise, the value itself.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
 
-    /// <summary>
-    /// Converts back <see cref="DependencyProperty.UnsetValue"/> to <see langword="null"/> when needed.
-    /// </summary>
-    /// <param name="value">The value from the binding target.</param>
-    /// <param name="targetType">The type to convert back to.</param>
-    /// <param name="parameter">The converter parameter (not used).</param>
-    /// <param name="culture">The culture used in the conversion.</param>
-    /// <returns><see langword="null"/> if <paramref name="value"/> is <see cref="DependencyProperty.UnsetValue"/>; otherwise, <see cref="Binding.DoNothing"/>.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => value == DependencyProperty.UnsetValue ? null : Binding.DoNothing;
 }

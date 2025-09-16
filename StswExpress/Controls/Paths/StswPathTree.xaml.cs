@@ -95,6 +95,114 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
+    /// Recursively removes selection from all <see cref="TreeViewItem"/> instances within the provided container.
+    /// </summary>
+    /// <param name="container">The container whose descendants should be deselected.</param>
+    private static void ClearTreeSelection(ItemsControl container)
+    {
+        foreach (var item in container.Items)
+        {
+            if (container.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem treeViewItem)
+            {
+                if (treeViewItem.IsSelected)
+                    treeViewItem.IsSelected = false;
+
+                ClearTreeSelection(treeViewItem);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Finds a <see cref="TreeViewItem"/> in the tree based on the specified full path.
+    /// This method searches the tree recursively and returns the TreeViewItem corresponding to the provided path.
+    /// </summary>
+    /// <param name="container">The parent container to search within.</param>
+    /// <param name="fullPath">The full path of the file or folder to find.</param>
+    /// <returns>The <see cref="TreeViewItem"/> corresponding to the path, or <see langword="null"/> if not found.</returns>
+    private TreeViewItem? FindTreeViewItemByPath(ItemsControl container, string fullPath)
+    {
+        foreach (var item in container.Items)
+        {
+            if (container.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem treeViewItem)
+            {
+                if (item is StswPathTreeItem fileItem && fileItem.FullPath.Equals(fullPath, StringComparison.OrdinalIgnoreCase))
+                    return treeViewItem;
+
+                var foundItem = FindTreeViewItemByPath(treeViewItem, fullPath);
+                if (foundItem != null)
+                    return foundItem;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Safely retrieves directories from the specified path, skipping those that cannot be accessed.
+    /// </summary>
+    /// <param name="path">The path to enumerate.</param>
+    /// <returns>An array of accessible directory paths.</returns>
+    [StswInfo("0.20.1")]
+    private static string[] GetDirectoriesSafe(string path)
+    {
+        try
+        {
+            return Directory.GetDirectories(path);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return [];
+        }
+        catch (IOException)
+        {
+            return [];
+        }
+    }
+
+    /// <summary>
+    /// Safely retrieves files from the specified path, skipping those that cannot be accessed.
+    /// </summary>
+    /// <param name="path">The path to enumerate.</param>
+    /// <returns>An array of accessible file paths.</returns>
+    [StswInfo("0.20.1")]
+    private static string[] GetFilesSafe(string path)
+    {
+        try
+        {
+            return Directory.GetFiles(path);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return [];
+        }
+        catch (IOException)
+        {
+            return [];
+        }
+    }
+
+    /// <summary>
+    /// Loads folder contents asynchronously.
+    /// This method retrieves the directories and files from a specified path and adds them to the parent item.
+    /// </summary>
+    /// <param name="parentItem">The parent folder item to load children for.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    [StswInfo("0.13.0", "0.20.1")]
+    private async Task LoadFolderItemsAsync(StswPathTreeItem parentItem)
+    {
+        if (parentItem.Children.Count == 1 && parentItem.Children[0] == null)
+            parentItem.Children.Clear();
+
+        var directories = await Task.Run(() => GetDirectoriesSafe(parentItem.FullPath));
+        var files = ShowFiles ? await Task.Run(() => GetFilesSafe(parentItem.FullPath)) : [];
+
+        foreach (var directory in directories)
+            parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
+
+        foreach (var file in files)
+            parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
+    }
+
+    /// <summary>
     /// Handles the expansion of a <see cref="TreeViewItem"/> and asynchronously loads its child items if not already loaded.
     /// This method is triggered when a tree item is expanded and loads the directory contents if necessary.
     /// </summary>
@@ -110,31 +218,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Loads folder contents asynchronously.
-    /// This method retrieves the directories and files from a specified path and adds them to the parent item.
-    /// </summary>
-    /// <param name="parentItem">The parent folder item to load children for.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task LoadFolderItemsAsync(StswPathTreeItem parentItem)
-    {
-        if (parentItem.Children.Count == 1 && parentItem.Children[0] == null)
-            parentItem.Children.Clear();
-
-        // TODO - UnauthorizedAccessException
-        var directories = await Task.Run(() => Directory.GetDirectories(parentItem.FullPath));
-        var files = ShowFiles ? await Task.Run(() => Directory.GetFiles(parentItem.FullPath)) : [];
-
-        foreach (var directory in directories)
-            parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
-
-        foreach (var file in files)
-            parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
-    }
-
-    /// <summary>
     /// Reloads the initial path into the file tree, populating the root items based on the initial path or logical drives.
     /// This method is invoked when the initial path is set or when files/folders should be reloaded.
     /// </summary>
+    [StswInfo("0.13.0", "0.20.1")]
     private void ReloadInitialPath()
     {
         var rootItems = new ObservableCollection<StswPathTreeItem>();
@@ -146,15 +233,37 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         }
         else
         {
-            foreach (var directory in Directory.GetDirectories(InitialPath))
+            foreach (var directory in GetDirectoriesSafe(InitialPath))
                 rootItems.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
 
             if (ShowFiles)
-                foreach (var file in Directory.GetFiles(InitialPath))
+                foreach (var file in GetFilesSafe(InitialPath))
                     rootItems.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
         }
 
         ItemsSource = rootItems;
+    }
+
+    /// <summary>
+    /// Clears the selection within the tree to keep it synchronized with <see cref="SelectedPath"/>.
+    /// </summary>
+    private void ResetTreeSelection()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.Invoke(() => ResetTreeSelection());
+            return;
+        }
+
+        try
+        {
+            _isSelectingPath = true;
+            ClearTreeSelection(this);
+        }
+        finally
+        {
+            _isSelectingPath = false;
+        }
     }
 
     /// <summary>
@@ -206,30 +315,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             _isSelectingPath = false;
         }
     }
-
-    /// <summary>
-    /// Finds a <see cref="TreeViewItem"/> in the tree based on the specified full path.
-    /// This method searches the tree recursively and returns the TreeViewItem corresponding to the provided path.
-    /// </summary>
-    /// <param name="container">The parent container to search within.</param>
-    /// <param name="fullPath">The full path of the file or folder to find.</param>
-    /// <returns>The <see cref="TreeViewItem"/> corresponding to the path, or <see langword="null"/> if not found.</returns>
-    private TreeViewItem? FindTreeViewItemByPath(ItemsControl container, string fullPath)
-    {
-        foreach (var item in container.Items)
-        {
-            if (container.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem treeViewItem)
-            {
-                if (item is StswPathTreeItem fileItem && fileItem.FullPath.Equals(fullPath, StringComparison.OrdinalIgnoreCase))
-                    return treeViewItem;
-
-                var foundItem = FindTreeViewItemByPath(treeViewItem, fullPath);
-                if (foundItem != null)
-                    return foundItem;
-            }
-        }
-        return null;
-    }
     #endregion
 
     #region Logic properties
@@ -258,7 +343,7 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             return;
 
         stsw.ReloadInitialPath();
-        // TODO - SelectedPath resets
+        stsw.SetCurrentValue(SelectedPathProperty, null);
     }
 
     /// <inheritdoc/>
@@ -297,8 +382,10 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
         if (obj is not StswPathTree stsw)
             return;
 
-        if (e.NewValue is string newPath)
+        if (e.NewValue is string newPath && !string.IsNullOrWhiteSpace(newPath))
             await stsw.SelectPathAsync(newPath);
+        else
+            stsw.ResetTreeSelection();
     }
 
     /// <summary>

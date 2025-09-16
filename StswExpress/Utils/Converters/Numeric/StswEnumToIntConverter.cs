@@ -28,37 +28,13 @@ public class StswEnumToIntConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts an <see cref="Enum"/> value to an <see cref="int"/> or an <see cref="int"/> back to an <see cref="Enum"/>.
-    /// </summary>
-    /// <param name="value">The value to convert, which can be an <see cref="Enum"/> or an <see cref="int"/>.</param>
-    /// <param name="targetType">The target type of the conversion (should be <see cref="int"/> or an <see cref="Enum"/>).</param>
-    /// <param name="parameter">The expected enum type (required when converting from <see cref="int"/> to <see cref="Enum"/>).</param>
-    /// <param name="culture">The culture used for the conversion (not used in this implementation).</param>
-    /// <returns>
-    /// - If `value` is an `Enum`, returns its integer value.
-    /// - If `value` is an `int` and `parameter` is an enum type, returns the corresponding enum value.
-    /// - If `value` is a `string` representing an enum name, returns the corresponding enum value.
-    /// - Otherwise, returns <see cref="Binding.DoNothing"/>.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return ConvertEnum(value, targetType, parameter);
     }
 
-    /// <summary>
-    /// Converts an <see cref="Enum"/> value back to an integer or converts an integer back to an <see cref="Enum"/>.
-    /// </summary>
-    /// <param name="value">The value to convert back, which can be an <see cref="Enum"/> or an <see cref="int"/>.</param>
-    /// <param name="targetType">The target type of the conversion.</param>
-    /// <param name="parameter">The expected enum type (required when converting from <see cref="int"/> to <see cref="Enum"/>).</param>
-    /// <param name="culture">The culture used for the conversion (not used in this implementation).</param>
-    /// <returns>
-    /// - If `value` is an `Enum`, returns its integer value.
-    /// - If `value` is an `int` and `parameter` is an enum type, returns the corresponding enum value.
-    /// - If `value` is a `string` representing an enum name, returns the corresponding enum value.
-    /// - Otherwise, returns <see cref="Binding.DoNothing"/>.
-    /// </returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return ConvertEnum(value, targetType, parameter);

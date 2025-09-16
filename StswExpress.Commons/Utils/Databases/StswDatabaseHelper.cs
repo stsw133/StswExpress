@@ -867,6 +867,58 @@ public static partial class StswDatabaseHelper
     };
 
     /// <summary>
+    /// Collects property names suitable for insert/update (scalar-like, public get/set),
+    /// skipping ItemState, indexers, collections (except byte[]), and attributes like NotMapped/ExcludeProperty.
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    private static List<string> GetWritableScalarPropertyNames(Type t)
+    {
+        static bool HasAttribute(MemberInfo mi, string attrName)
+            => mi.GetCustomAttributes(inherit: true).Any(a => string.Equals(a.GetType().Name, attrName, StringComparison.OrdinalIgnoreCase));
+
+        var props = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+        var result = new List<string>();
+        foreach (var p in props)
+        {
+            if (p.GetIndexParameters().Length > 0)
+                continue;
+
+            if (!(p.CanRead && p.CanWrite))
+                continue;
+
+            if (string.Equals(p.Name, nameof(IStswCollectionItem.ItemState), StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            if (HasAttribute(p, "NotMappedAttribute"))
+                continue;
+
+            if (HasAttribute(p, "ExcludePropertyAttribute"))
+                continue;
+
+            var pt = p.PropertyType;
+            var u = Nullable.GetUnderlyingType(pt) ?? pt;
+
+            var isByteArray = pt == typeof(byte[]);
+            var acceptable =
+                u.IsPrimitive
+                || u == typeof(string)
+                || u == typeof(decimal)
+                || u == typeof(DateTime)
+                || u == typeof(Guid)
+                || isByteArray;
+
+            var isEnumerableButNotByteArray = typeof(IEnumerable).IsAssignableFrom(pt) && !isByteArray && pt != typeof(string);
+
+            if (acceptable && !isEnumerableButNotByteArray)
+                result.Add(p.Name);
+        }
+
+        return result;
+    }
+
+    /// <summary>
     /// Checks if the current process is running inside a designer.
     /// </summary>
     /// <returns><see langword="true"/> if running inside a designer, otherwise <see langword="false"/>.</returns>
@@ -1041,6 +1093,59 @@ public static partial class StswDatabaseHelper
         }
 
         return sqlCommand;
+    }
+
+    /// <summary>
+    /// Prepares an INSERT SQL query for the specified model type and table name, optionally including a SCOPE_IDENTITY() retrieval.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the model to insert.</typeparam>
+    /// <param name="items">The collection of items to be inserted.</param>
+    /// <param name="tableName">The name of the table into which the items will be inserted.</param>
+    /// <param name="withScopeIdentity">If <see langword="true"/>, the query will include a statement to retrieve the SCOPE_IDENTITY() after the insert.</param>
+    /// <returns>The prepared INSERT SQL query string.</returns>
+    [StswInfo("0.20.1", IsTested = false)]
+    public static string PrepareInsertQuery<TModel>(IEnumerable<TModel> items, string tableName, bool withScopeIdentity)
+    {
+        var cols = GetWritableScalarPropertyNames(typeof(TModel));
+        if (cols.Count == 0)
+            throw new InvalidOperationException($"Type {typeof(TModel).Name} has no insertable properties.");
+
+        var colList = string.Join(",", cols.Select(c => $"[{c}]"));
+        var valList = string.Join(",", cols.Select(c => $"@{c}"));
+
+        var scope = withScopeIdentity ? " ; SELECT CAST(SCOPE_IDENTITY() AS INT);" : ";";
+        return $"INSERT INTO {tableName} ({colList}) VALUES ({valList}){scope}";
+    }
+
+    /// <summary>
+    /// Prepares an UPDATE SQL query for the specified model type, table name, and WHERE clause.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the model to update.</typeparam>
+    /// <param name="items">The collection of items to be updated.</param>
+    /// <param name="tableName">The name of the table to update.</param>
+    /// <param name="whereClause">The WHERE clause to specify which records to update. It should include parameter placeholders (e.g., @ParamName).</param>
+    /// <returns>The prepared UPDATE SQL query string.</returns>
+    [StswInfo("0.20.1", IsTested = false)]
+    public static string PrepareUpdateQuery<TModel>(IEnumerable<TModel> items, string tableName, string whereClause)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(whereClause);
+
+        var allCols = GetWritableScalarPropertyNames(typeof(TModel));
+        var usedInWhere = new HashSet<string>(
+            ParameterRegex().Matches(whereClause).Cast<Match>().Select(m => m.Groups[1].Value),
+            StringComparer.OrdinalIgnoreCase
+        );
+
+        var setCols = allCols.Where(c => !usedInWhere.Contains(c)).ToList();
+        if (setCols.Count == 0)
+            throw new InvalidOperationException("No updatable columns remain after excluding WHERE parameters.");
+
+        var setClause = string.Join(",", setCols.Select(c => $"[{c}]=@{c}"));
+        var where = whereClause.TrimStart().StartsWith("WHERE", StringComparison.OrdinalIgnoreCase)
+            ? whereClause
+            : "WHERE " + whereClause;
+
+        return $"UPDATE {tableName} SET {setClause} {where};";
     }
 
     /// <summary>

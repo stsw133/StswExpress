@@ -30,18 +30,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Checks if the provided enumeration field or property has the specified attribute.
-    /// </summary>
-    /// <param name="value">The enumeration value or object property to check.</param>
-    /// <param name="targetType">The target type for conversion (Visibility or bool).</param>
-    /// <param name="parameter">The name of the attribute type to check for.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>
-    /// Returns <see cref="Visibility.Visible"/> if the attribute is found and <see cref="Visibility.Collapsed"/> otherwise when targetType is Visibility.
-    /// Returns <see langword="true"/> if the attribute is found and <see langword="false"/> otherwise when targetType is bool.
-    /// Returns <see langword="null"/> for other target types.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null || parameter == null)
@@ -73,14 +62,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
         }
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>
@@ -88,7 +70,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     /// </summary>
     /// <param name="targetType">The target type to determine the default value.</param>
     /// <returns><see cref="Visibility.Collapsed"/> for Visibility, <see langword="false"/> for boolean, and <see langword="null"/> otherwise.</returns>
-    private object? GetDefaultValue(Type targetType)
+    private static object? GetDefaultValue(Type targetType)
     {
         if (targetType == typeof(Visibility))
             return Visibility.Collapsed;
@@ -106,7 +88,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     /// <see cref="Visibility.Visible"/> if the attribute is found and <see cref="Visibility.Collapsed"/> otherwise when targetType is Visibility.
     /// <see langword="true"/> if the attribute is found and <see langword="false"/> otherwise when targetType is bool.
     /// </returns>
-    private object? GetReturnValue(Type targetType, bool hasAttribute)
+    private static object? GetReturnValue(Type targetType, bool hasAttribute)
     {
         return targetType == typeof(Visibility)
             ? (hasAttribute ? Visibility.Visible : Visibility.Collapsed)

@@ -30,15 +30,7 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts a numeric value into a string formatted according to the culture, 
-    /// ensuring the decimal separator is correctly applied.
-    /// </summary>
-    /// <param name="value">The numeric value to convert.</param>
-    /// <param name="targetType">The type of the target property.</param>
-    /// <param name="parameter">An optional parameter (not used).</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>A string representation of the number with a culture-specific decimal separator.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null || !decimal.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var val))
@@ -50,15 +42,7 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
         return val.ToString("G", ci);
     }
 
-    /// <summary>
-    /// Converts a string with a flexible decimal separator (dot or comma) into a numeric value.
-    /// This allows users to enter numbers using either `.` or `,` as the decimal separator.
-    /// </summary>
-    /// <param name="value">The string representation of the number.</param>
-    /// <param name="targetType">The type to convert to (e.g., `decimal`, `double`, `float`).</param>
-    /// <param name="parameter">An optional parameter (not used).</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>The converted numeric value or <see cref="Binding.DoNothing"/> if conversion fails.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string input || string.IsNullOrWhiteSpace(input))

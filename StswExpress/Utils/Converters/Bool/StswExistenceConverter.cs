@@ -47,14 +47,7 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Determines if the input value meets the specified existence conditions.
-    /// </summary>
-    /// <param name="value">The input value to check.</param>
-    /// <param name="targetType">The target type of the conversion (unused).</param>
-    /// <param name="parameter">A space- or comma-separated list of conditions (`null`, `empty`, `default`).</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see langword="true"/> if any of the specified conditions match, otherwise <see langword="false"/>.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (parameter == null)
@@ -72,14 +65,7 @@ public class StswExistenceConverter : MarkupExtension, IValueConverter
             : result;
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>

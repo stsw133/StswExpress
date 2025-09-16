@@ -40,18 +40,7 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Compares the input value with the converter parameter.
-    /// </summary>
-    /// <param name="value">The source value to compare.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The expected value.</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// - <see cref="Visibility.Visible"/> if the value matches the parameter (when targetType is <see cref="Visibility"/>).  
-    /// - <see langword="true"/> if the value matches the parameter (when targetType is a boolean type).  
-    /// - The boolean result converted to the specified <paramref name="targetType"/>.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var val = value?.ToString() ?? string.Empty;
@@ -68,13 +57,6 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
             : result.ConvertTo(targetType);
     }
 
-    /// <summary>
-    /// Converts the value back to the converter parameter.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>The converter parameter.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => parameter;
 }

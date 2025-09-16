@@ -49,7 +49,7 @@ public enum StswMergePriority
 }
 
 /// <summary>
-/// Flags to indicate planned changes for a feature in the StswExpress library.
+/// Flags representing planned changes to a feature or element.
 /// </summary>
 /// <remarks>
 /// This enum is copied from the StswExpress.Analyzers project and needs to be kept in sync.

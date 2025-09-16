@@ -6,13 +6,11 @@ using System.Runtime.CompilerServices;
 namespace StswExpress.Commons;
 
 /// <summary>
-/// A custom <see cref="ObservableCollection{T}"/> that tracks changes on items and
-/// maintains separate lists for added, removed, and modified items.
-/// Also allows ignoring certain property names to prevent marking
-/// items as modified when those properties change.
+/// A custom <see cref="ObservableCollection{T}"/> that tracks changes on items and maintains separate lists for added, removed, and modified items.
+/// Also allows ignoring certain property names to prevent marking items as modified when those properties change.
 /// </summary>
 /// <typeparam name="T">Item type implementing <see cref="IStswCollectionItem"/></typeparam>
-[StswInfo("0.15.0", "0.20.0")] //TODO - handle changes in nested classes
+[StswInfo("0.15.0", "0.20.1")] //TODO - handle changes in nested classes
 public class StswObservableCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     private bool _isBulkLoading;
@@ -20,14 +18,23 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Initializes a new instance of <see cref="StswObservableCollection{T}"/>.
     /// </summary>
-    public StswObservableCollection() : base() { }
+    /// <param name="trackItems">If set to <see langword="true"/>, the collection will track changes to the items.</param>
+    [StswInfo("0.15.0", "0.20.1")]
+    public StswObservableCollection(bool trackItems = true) : this([])
+    {
+        TrackItems = trackItems;
+    }
 
     /// <summary>
     /// Initializes a new instance of <see cref="StswObservableCollection{T}"/> with an initial collection of items.
     /// </summary>
-    /// <param name="collection">Initial collection of items.</param>
-    public StswObservableCollection(IEnumerable<T> collection) : base()
+    /// <param name="collection">The initial items to populate the collection.</param>
+    /// <param name="trackItems">If set to <see langword="true"/>, the collection will track changes to the items.</param>
+    [StswInfo("0.15.0", "0.20.1")]
+    public StswObservableCollection(IEnumerable<T> collection, bool trackItems = true) : base()
     {
+        TrackItems = trackItems;
+
         if (collection != null)
         {
             _isBulkLoading = true;
@@ -35,14 +42,17 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             foreach (var item in collection)
             {
                 Items.Add(item);
-                item.PropertyChanged += OnItemPropertyChanged;
+                if (TrackItems)
+                    item.PropertyChanged += OnItemPropertyChanged;
             }
 
             _isBulkLoading = false;
         }
 
-        UpdateCountersIfEnabled();
+        if (TrackItems)
+            RebuildTrackingListsFromStates();
 
+        UpdateCountersIfEnabled();
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
@@ -50,16 +60,20 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Accepts all changes made to the items in the collection.
     /// </summary>
+    [StswInfo("0.15.0", "0.20.1")]
     public void AcceptChanges()
     {
-        foreach (var item in _addedItems.ToList())
-            item.ItemState = StswItemState.Unchanged;
+        if (TrackItems)
+        {
+            foreach (var item in _addedItems.ToList())
+                item.ItemState = StswItemState.Unchanged;
 
-        foreach (var item in _deletedItems.ToList())
-            item.ItemState = StswItemState.Unchanged;
+            foreach (var item in _deletedItems.ToList())
+                item.ItemState = StswItemState.Unchanged;
 
-        foreach (var item in _modifiedItems.ToList())
-            item.ItemState = StswItemState.Unchanged;
+            foreach (var item in _modifiedItems.ToList())
+                item.ItemState = StswItemState.Unchanged;
+        }
 
         _addedItems.Clear();
         _deletedItems.Clear();
@@ -72,7 +86,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Adds a range of items to the collection. Each item is marked with the specified state.
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
-    [StswInfo("0.15.0", "0.20.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     public void AddRange(IEnumerable<T> items)
     {
         if (items.IsNullOrEmpty())
@@ -86,7 +100,8 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
                 continue;
 
             Add(item);
-            HandleItemStateChange(item);
+            if (TrackItems)
+                HandleItemStateChange(item);
         }
 
         UpdateCountersIfEnabled();
@@ -96,8 +111,8 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Adds a range of items to the collection without triggering change notifications.
     /// </summary>
     /// <param name="items">The items to add to the collection.</param>
-    /// <param name="itemsState">The state to assign to each item. Default is Added.</param>
-    [StswInfo("0.19.1", "0.20.0")]
+    /// <param name="itemState">The state to assign to each item. Default is Added.</param>
+    [StswInfo("0.19.1", "0.20.1")]
     public void AddRangeFast(IEnumerable<T> items, StswItemState? itemState = null)
     {
         if (items.IsNullOrEmpty())
@@ -113,13 +128,17 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
                 continue;
 
             Items.Add(item);
-            item.PropertyChanged += OnItemPropertyChanged;
 
-            var targetState = itemState ?? item.ItemState;
-            if (!EqualityComparer<StswItemState>.Default.Equals(item.ItemState, targetState))
-                item.ItemState = targetState;
-            else
-                HandleItemStateChange(item);
+            if (TrackItems)
+            {
+                item.PropertyChanged += OnItemPropertyChanged;
+
+                var targetState = itemState ?? item.ItemState;
+                if (!EqualityComparer<StswItemState>.Default.Equals(item.ItemState, targetState))
+                    item.ItemState = targetState;
+                else
+                    HandleItemStateChange(item);
+            }
 
             addedAny = true;
         }
@@ -153,11 +172,21 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Deletes all items in the collection by marking them as deleted.
     /// </summary>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.20.0", "0.20.1")]
     public void DeleteItems()
     {
         if (Count == 0)
             return;
+
+        if (!TrackItems)
+        {
+            base.ClearItems();
+            _addedItems.Clear();
+            _modifiedItems.Clear();
+            _deletedItems.Clear();
+            UpdateCountersIfEnabled();
+            return;
+        }
 
         foreach (var item in this)
         {
@@ -182,23 +211,35 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.19.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     protected override void InsertItem(int index, T item)
     {
         base.InsertItem(index, item);
-        item.PropertyChanged += OnItemPropertyChanged;
 
-        if (!_isBulkLoading)
-            item.ItemState = StswItemState.Added;
+        if (TrackItems)
+        {
+            item.PropertyChanged += OnItemPropertyChanged;
 
-        UpdateCountersIfEnabled();
+            if (!_isBulkLoading)
+                item.ItemState = StswItemState.Added;
+
+            UpdateCountersIfEnabled();
+        }
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.19.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     protected override void RemoveItem(int index)
     {
         var item = this[index];
+
+        if (!TrackItems)
+        {
+            base.RemoveItem(index);
+            item.PropertyChanged -= OnItemPropertyChanged;
+            UpdateCountersIfEnabled();
+            return;
+        }
 
         if (ShowRemovedItems)
         {
@@ -239,10 +280,18 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.19.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     protected override void SetItem(int index, T item)
     {
         var oldItem = this[index];
+
+        if (!TrackItems)
+        {
+            base.SetItem(index, item);
+            UpdateCountersIfEnabled();
+            return;
+        }
+
         RemoveItem(index);
 
         base.SetItem(index, item);
@@ -260,9 +309,12 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// Handles the state change of an item in the collection.
     /// </summary>
     /// <param name="item">The item whose state has changed.</param>
-    [StswInfo("0.19.0", "0.20.0")]
+    [StswInfo("0.19.0", "0.20.1")]
     private void HandleItemStateChange(T item)
     {
+        if (!TrackItems)
+            return;
+
         _addedItems.Remove(item);
         _modifiedItems.Remove(item);
         _deletedItems.Remove(item);
@@ -288,9 +340,12 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// </summary>
     /// <param name="sender">The item that raised the event.</param>
     /// <param name="e">PropertyChangedEventArgs details.</param>
-    [StswInfo("0.15.0", "0.19.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (!TrackItems)
+            return;
+
         if (sender is not T trackableItem)
             return;
 
@@ -306,9 +361,78 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
         if (trackableItem.ItemState == StswItemState.Unchanged)
             trackableItem.ItemState = StswItemState.Modified;
     }
+
+    /// <summary>
+    /// Rebuilds the tracking lists (_addedItems, _modifiedItems, _deletedItems) based on the current states of the items in the collection.
+    /// </summary>
+    [StswInfo("0.20.1")]
+    private void RebuildTrackingListsFromStates()
+    {
+        _addedItems.Clear();
+        _modifiedItems.Clear();
+        _deletedItems.Clear();
+
+        if (!TrackItems)
+            return;
+
+        foreach (var item in this)
+        {
+            switch (item.ItemState)
+            {
+                case StswItemState.Added:
+                    _addedItems.Add(item);
+                    break;
+                case StswItemState.Modified:
+                    _modifiedItems.Add(item);
+                    break;
+                case StswItemState.Deleted:
+                    _deletedItems.Add(item);
+                    break;
+            }
+        }
+    }
     #endregion
 
     #region Properties
+    /// <summary>
+    /// Controls whether the collection tracks item state changes and mutates <see cref="IStswCollectionItem.ItemState"/>.
+    /// When set to false, the collection behaves like a plain <see cref="ObservableCollection{T}"/> with no item-state updates and no tracking lists.
+    /// Toggling this property re-wires subscriptions and rebuilds tracking lists/counters accordingly.
+    /// </summary>
+    [StswInfo("0.20.1")]
+    public bool TrackItems
+    {
+        get => _trackItems;
+        set
+        {
+            if (_trackItems == value)
+                return;
+
+            _trackItems = value;
+
+            if (_trackItems)
+            {
+                foreach (var item in this)
+                    item.PropertyChanged += OnItemPropertyChanged;
+
+                RebuildTrackingListsFromStates();
+            }
+            else
+            {
+                foreach (var item in this)
+                    item.PropertyChanged -= OnItemPropertyChanged;
+
+                _addedItems.Clear();
+                _modifiedItems.Clear();
+                _deletedItems.Clear();
+            }
+
+            UpdateCountersIfEnabled();
+            OnPropertyChanged();
+        }
+    }
+    private bool _trackItems = true;
+
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Unchanged"/> state."/>
     /// </summary>
@@ -456,11 +580,20 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
     /// <summary>
     /// Recounts the states of the items in the collection and updates the counters accordingly.
     /// </summary>
-    [StswInfo("0.15.0", "0.20.0")]
+    [StswInfo("0.15.0", "0.20.1")]
     private void UpdateCountersIfEnabled()
     {
         if (!_countersEnabled)
             return;
+
+        if (!TrackItems)
+        {
+            CountUnchanged = Items.Count;
+            CountAdded = 0;
+            CountModified = 0;
+            CountDeleted = 0;
+            return;
+        }
 
         if (ShowRemovedItems)
             CountUnchanged = Items.Count - _addedItems.Count - _modifiedItems.Count - _deletedItems.Count;

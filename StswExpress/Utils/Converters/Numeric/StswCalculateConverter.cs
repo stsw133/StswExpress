@@ -31,14 +31,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Performs a mathematical operation on the input value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding source.</param>
-    /// <param name="targetType">The type of the target property.</param>
-    /// <param name="parameter">A string defining the operation (e.g., "*2" or "+10,10,10,10").</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>The result of the mathematical operation.</returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null || parameter is not string pmr || pmr.Length < 2)
@@ -68,14 +61,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
         };
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>

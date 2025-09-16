@@ -21,17 +21,7 @@ public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConvert
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts a <see cref="Geometry"/> object into its corresponding <see cref="PathFigureCollection"/>.
-    /// </summary>
-    /// <param name="value">The <see cref="Geometry"/> object to convert.</param>
-    /// <param name="targetType">The expected type of the binding target (ignored).</param>
-    /// <param name="parameter">An optional converter parameter (ignored).</param>
-    /// <param name="culture">The culture to use in the converter (ignored).</param>
-    /// <returns>
-    /// A <see cref="PathFigureCollection"/> extracted from the provided <see cref="Geometry"/>, 
-    /// or <see cref="Binding.DoNothing"/> if conversion is not possible.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value is Geometry geometry
@@ -39,13 +29,6 @@ public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConvert
             : Binding.DoNothing;
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }

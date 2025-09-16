@@ -31,16 +31,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Converts an input value to a specified output value based on the provided parameters.
-    /// </summary>
-    /// <param name="value">The input value.</param>
-    /// <param name="targetType">The type of the target property.</param>
-    /// <param name="parameter">A string containing the condition and values separated by a tilde (`~`).</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// The value to return if the condition is <see langword="true"/>, or the value to return if the condition is <see langword="false"/>.
-    /// </returns>
+    /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (parameter == null)
@@ -61,14 +52,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
         }
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>

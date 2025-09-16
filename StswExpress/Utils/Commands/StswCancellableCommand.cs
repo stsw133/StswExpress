@@ -76,7 +76,7 @@ public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute,
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null"/>.</param>
     [StswInfo("0.9.2", "0.20.0")]
-    public async override void Execute(object? parameter = null)
+    public override async void Execute(object? parameter = null)
     {
         if (IsBusy && CancellationTokenSource is not null)
         {

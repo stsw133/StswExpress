@@ -300,7 +300,8 @@ public static partial class StswExtensions
         try
         {
             OpenProcessToken(process.Handle, 8, out processHandle);
-            var user = new WindowsIdentity(processHandle).Name;
+            using var identity = new WindowsIdentity(processHandle);
+            var user = identity.Name;
             return user.Contains('\\') ? user[(user.IndexOf('\\') + 1)..] : user;
         }
         catch

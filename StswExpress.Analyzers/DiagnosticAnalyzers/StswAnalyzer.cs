@@ -173,7 +173,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
 }
 
 /// <summary>
-/// Flags to indicate planned changes for a feature in the StswExpress library.
+/// Flags representing planned changes to a feature or element.
 /// </summary>
 [Flags]
 public enum StswPlannedChanges

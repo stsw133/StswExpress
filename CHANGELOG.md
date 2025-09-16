@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.20.1](#0-20-1)
 - [Version 0.20.0](#0-20-0)
 - [Version 0.19.1](#0-19-1)
 - [Version 0.19.0](#0-19-0)
@@ -41,6 +42,42 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-20-1">0.20.1</h1>
+
+**Release Date**: 2025-09-XX
+
+## StswExpress.Commons
+
+### Additions
+- `StswDatabaseHelper` gained two new methods: `PrepareInsertQuery` and `PrepareUpdateQuery`.
+- `StswObservableCollection` and `StswCollectionViewWrapper` have a new constructor parameter `trackItems` (default: `true`).  
+  When disabled, the collection will not notify about changes and will not modify `ItemState`.
+
+### Changes
+- `StswInfoAttribute` now also works on constructors.
+
+### Fixes
+- `StswDatabaseHelper`: `ExecuteScalar` no longer warns about possible null result for non-nullable types.
+- `StswExtensions`: wrapped `WindowsIdentity` in a `using` statement inside `GetUser` method.
+
+## StswExpress (WPF)
+
+### Additions
+- `StswFnUI` now exposes two new properties for fast binding: `DateTime.Today` and `DateTime.Now`.
+- `StswRadioButton` and `StswRadioBox` gained new property: `AllowUncheck`.
+
+### Changes
+- `StswCompareConverter` improved:
+  - If no operator prefix is given, it defaults to `=`.
+  - Double `=` can be used to compare literal strings starting with `=`.
+
+### Fixes
+- `StswContentDialog`: refactored `InternalClose` method to prevent potential errors.
+- `StswDataGridCheckColumn` will no longer pass `Icon` data or size if those values are not provided.
+- `StswPathTree`: reset `SelectedPath` on initial path change and added error handling for file enumeration.
 
 ---
 

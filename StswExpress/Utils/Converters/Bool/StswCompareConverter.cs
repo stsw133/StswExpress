@@ -6,22 +6,11 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
-/// A value converter that compares a numeric, string, or enum value against a specified threshold or condition.
-/// <br/>
-/// The converter parameter must start with one of the following symbols:
-/// <list type="bullet">
-/// <item>'&gt;' (greater than)</item>
-/// <item>'&gt;=' (greater than or equal to)</item>
-/// <item>'&lt;' (less than)</item>
-/// <item>'&lt;=' (less than or equal to)</item>
-/// <item>'=' (equal to)</item>
-/// <item>'!' (not equal to)</item>
-/// <item>'&amp;' (bitwise AND, for integer values)</item>
-/// <item>'@' (case-insensitive string comparison)</item>
-/// </list>
-/// <br/>
-/// When the target type is <see cref="Visibility"/>, the result is <see cref="Visibility.Visible"/> when the comparison is <see langword="true"/>; otherwise, <see cref="Visibility.Collapsed"/>.
-/// Otherwise, the result is a <see cref="bool"/> indicating whether the comparison condition was met.
+/// Compares a numeric, string, or enum value against a condition specified via parameter.
+/// Supported operator prefixes: ">", ">=", "<", "<=", "=", "!", "&" (bitwise AND), "@" (case-insensitive equals).
+/// If no operator is provided, "=" is assumed (e.g., "Admin" ≡ "=Admin").
+/// To compare a literal that starts with an operator, prefix it with "=" (e.g., "==test" compares to "=test").
+/// When target type is <see cref="Visibility"/>, true -> Visible, false -> Collapsed; otherwise returns bool (converted to targetType if possible).
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -32,7 +21,7 @@ namespace StswExpress;
 /// &lt;Button Content="Advanced options" Visibility="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&amp;2'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null, "0.19.0")]
+[StswInfo(null, "0.20.1")]
 public class StswCompareConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -44,89 +33,196 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// <summary>
-    /// Compares a numeric, string, or enum value with a specified threshold and returns a boolean result or a visibility state.
-    /// </summary>
-    /// <param name="value">The source value to compare.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">A string defining the comparison operator and threshold.</param>
-    /// <param name="culture">The culture to use in the conversion.</param>
-    /// <returns>
-    /// - A <see cref="Visibility"/> value if the target type is <see cref="Visibility"/>.
-    /// - A <see cref="bool"/> value indicating the result of the comparison.
-    /// </returns>
-    [StswInfo(null, "0.19.0")]
+    /// <inheritdoc/>
+    [StswInfo(null, "0.20.1")]
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        /// handle Enum comparison separately
-        if (value is Enum && parameter is Enum enumParam)
-            return Equals(value, enumParam)
-                ? (targetType == typeof(Visibility) ? Visibility.Visible : true)
-                : (targetType == typeof(Visibility) ? Visibility.Collapsed : false);
-
-        /// ...
-        if (parameter is not string pmr || pmr.Length < 2)
+        if (parameter is not string rawParam || rawParam.Length == 0)
             return Binding.DoNothing;
 
+        var (op, rhs) = ParseOperatorAndRhs(rawParam);
         var result = false;
-        var input = value?.ToString() ?? string.Empty;
-        var spanParam = pmr.AsSpan();
 
-        /// flag enum comparison (e.g. '&2' for bitwise AND)
-        if (spanParam[0] == '&' && value is Enum inputEnum && int.TryParse(spanParam[1..], out var flag))
+        // --- ENUMS ---
+        if (value is Enum enumVal)
         {
-            result = (System.Convert.ToInt32(inputEnum) & flag) > 0;
-        }
-        /// numeric comparison
-        else if (double.TryParse(input, NumberStyles.Number, culture, out var val))
-        {
-            if (spanParam[0] is '>' or '<' or '=' or '!')
+            if (op == "&")
             {
-                if (double.TryParse(spanParam[1..], NumberStyles.Number, culture, out var num))
+                if (TryParseEnum(enumVal.GetType(), rhs, out var rhsEnumObj))
                 {
-                    result = spanParam[0] switch
-                    {
-                        '>' when spanParam.Length > 1 && spanParam[1] == '=' => val >= num,
-                        '>' => val > num,
-                        '<' when spanParam.Length > 1 && spanParam[1] == '=' => val <= num,
-                        '<' => val < num,
-                        '=' => val == num,
-                        '!' => val != num,
-                        _ => result
-                    };
+                    var lhsInt = System.Convert.ToInt64(enumVal, culture);
+                    var rhsInt = System.Convert.ToInt64(rhsEnumObj!, culture);
+                    result = (lhsInt & rhsInt) != 0;
+                }
+                else if (long.TryParse(rhs, NumberStyles.Integer, culture, out var rhsNum))
+                {
+                    var lhsInt = System.Convert.ToInt64(enumVal, culture);
+                    result = (lhsInt & rhsNum) != 0;
                 }
             }
-            else if (spanParam[0] == '&' && double.TryParse(spanParam[1..], out var num))
+            else
             {
-                result = ((int)val & (int)num) > 0;
+                // '=' by default when op == ""
+                var isNot = op == "!";
+                if (TryParseEnum(enumVal.GetType(), rhs, out var rhsEnum))
+                {
+                    result = isNot ? !Equals(enumVal, rhsEnum) : Equals(enumVal, rhsEnum);
+                }
+                else
+                {
+                    var name = enumVal.ToString() ?? string.Empty;
+                    result = isNot
+                        ? !string.Equals(name, rhs, StringComparison.Ordinal)
+                        : string.Equals(name, rhs, StringComparison.Ordinal);
+                }
             }
         }
-        /// string comparison
+        // --- NUMERICS ---
+        else if (TryToDouble(value, culture, out var valNum))
+        {
+            switch (op)
+            {
+                case "":
+                case "=":
+                case "!":
+                case ">":
+                case "<":
+                case ">=":
+                case "<=":
+                    {
+                        if (!double.TryParse(rhs, NumberStyles.Number, culture, out var rhsNum))
+                            return Binding.DoNothing;
+
+                        result = op switch
+                        {
+                            ">" => valNum > rhsNum,
+                            ">=" => valNum >= rhsNum,
+                            "<" => valNum < rhsNum,
+                            "<=" => valNum <= rhsNum,
+                            "!" => Math.Abs(valNum - rhsNum) > double.Epsilon,
+                            _ => Math.Abs(valNum - rhsNum) <= double.Epsilon // default '='
+                        };
+                        break;
+                    }
+
+                case "&":
+                    {
+                        if (double.TryParse(rhs, NumberStyles.Number, culture, out var rhsNum))
+                            result = (((int)valNum) & ((int)rhsNum)) != 0;
+                        break;
+                    }
+
+                default:
+                    // '@' (case-insensitive) has no numeric meaning, etc.
+                    return Binding.DoNothing;
+            }
+        }
+        // --- STRINGS ---
         else
         {
-            var compareTo = pmr.Length > 1 ? pmr[1..] : string.Empty;
+            var input = value?.ToString() ?? string.Empty;
 
-            result = spanParam[0] switch
+            if (op == "")
             {
-                '=' => input.Equals(compareTo, StringComparison.Ordinal),
-                '!' => !input.Equals(compareTo, StringComparison.Ordinal),
-                '@' => input.Equals(compareTo, StringComparison.OrdinalIgnoreCase),
-                _ => value?.ToString() == parameter?.ToString()
-            };
+                // no operator -> treat as '=' against the full parameter text
+                result = string.Equals(input, rawParam, StringComparison.Ordinal);
+            }
+            else
+            {
+                result = op switch
+                {
+                    "=" => string.Equals(input, rhs, StringComparison.Ordinal),
+                    "!" => !string.Equals(input, rhs, StringComparison.Ordinal),
+                    "@" => string.Equals(input, rhs, StringComparison.OrdinalIgnoreCase),
+                    "&" => false, // no string meaning
+                    ">" or "<" or ">=" or "<=" => false, // no string meaning
+                    _ => string.Equals(input, parameter?.ToString() ?? string.Empty, StringComparison.Ordinal)
+                };
+            }
         }
 
         return targetType == typeof(Visibility)
-            ? result ? Visibility.Visible : Visibility.Collapsed
+            ? (result ? Visibility.Visible : Visibility.Collapsed)
             : result.ConvertTo(targetType);
     }
 
-    /// <summary>
-    /// This converter does not support converting back from target value to source value.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target.</param>
-    /// <param name="targetType">The type to convert to.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+
+    /// <summary>
+    /// Parses operator and RHS. Recognizes: ">=", "<=", ">", "<", "=", "!", "&", "@".
+    /// If no operator is found, returns ("", raw).
+    /// For example:
+    ///   "==test" -> ("=", "=test")
+    ///   "Admin"  -> ("", "Admin")
+    /// </summary>
+    [StswInfo("0.20.1")]
+    private static (string op, string rhs) ParseOperatorAndRhs(string s)
+    {
+        if (s.Length >= 2 && ((s[0] == '>' && s[1] == '=') || (s[0] == '<' && s[1] == '=')))
+            return (s[..2], s[2..]);
+
+        if (s.Length >= 1 && (s[0] is '>' or '<' or '=' or '!' or '&' or '@'))
+            return (s[..1], s[1..]);
+
+        return ("", s); // default '='
+    }
+
+    /// <summary>
+    /// Tries to convert the given value to double, using the specified culture.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="culture">The culture to use for conversion.</param>
+    /// <param name="number">When this method returns, contains the double value equivalent of the input value, if the conversion succeeded, or zero if the conversion failed.</param>
+    /// <returns><see langword="true"/> if conversion succeeded; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.20.1")]
+    private static bool TryToDouble(object? value, CultureInfo culture, out double number)
+    {
+        if (value is null)
+        {
+            number = default;
+            return false;
+        }
+
+        if (value is IConvertible)
+        {
+            try
+            {
+                number = System.Convert.ToDouble(value, culture);
+                return true;
+            }
+            catch { /* fall through */ }
+        }
+
+        return double.TryParse(value.ToString(), NumberStyles.Number, culture, out number);
+    }
+
+    /// <summary>
+    /// Tries to parse the given text as an enum of the specified type.
+    /// </summary>
+    /// <param name="enumType">The type of the enum.</param>
+    /// <param name="text">The text to parse.</param>
+    /// <param name="enumObj">When this method returns, contains the enum value equivalent of the input text, if the parsing succeeded, or <see langword="null"/> if the parsing failed.</param>
+    /// <returns><see langword="true"/> if parsing succeeded; otherwise, <see langword="false"/>.</returns>
+    [StswInfo("0.20.1")]
+    private static bool TryParseEnum(Type enumType, string text, out object? enumObj)
+    {
+        // numeric underlying value
+        if (long.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var asNumber))
+        {
+            enumObj = Enum.ToObject(enumType, asNumber);
+            return true;
+        }
+
+        try
+        {
+            enumObj = Enum.Parse(enumType, text, ignoreCase: true);
+            return true;
+        }
+        catch
+        {
+            enumObj = null;
+            return false;
+        }
+    }
 }
