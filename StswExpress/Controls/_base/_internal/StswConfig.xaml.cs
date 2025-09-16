@@ -120,7 +120,7 @@ internal class StswConfig : Control, IStswCornerControl
     /// <summary>
     /// Gets the application version from the calling assembly in "Major.Minor.Revision" format.
     /// </summary>
-    public string Version { get; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Revision}" : string.Empty;
+    public string Version { get; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Build}" : string.Empty;
     #endregion
 
     #region Style properties
