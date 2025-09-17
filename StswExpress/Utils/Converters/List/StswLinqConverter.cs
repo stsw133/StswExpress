@@ -19,7 +19,8 @@ namespace StswExpress;
 /// <example>
 /// Example XAML usage:
 /// ```xml
-/// <TextBlock Text="{Binding Items, Converter={StaticResource StswLinqConverter}, ConverterParameter='count IsVisible == true'}"/>
+/// <TextBlock Text="{Binding Items, Converter={StaticResource StswLinqConverter}, ConverterParameter='any IsEnabled == true'}"/>
+/// <TextBlock Text="{Binding Items, Converter={StaticResource StswLinqConverter}, ConverterParameter='count Visibility == Collapsed'}"/>
 /// ```
 /// </example>
 [StswInfo("0.15.0")]
@@ -224,11 +225,3 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
         }
     }
 }
-
-/*
-
-<TextBlock Text="{Binding Items, Converter={x:Static se:StswLinqConverter.Instance}, ConverterParameter='any IsEnabled == true'}"/>
-
-<TextBlock Text="{Binding Items, Converter={x:Static se:StswLinqConverter.Instance}, ConverterParameter='count Visibility == Collapsed'}"/>
-
-*/

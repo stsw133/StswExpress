@@ -7,8 +7,8 @@ namespace StswExpress;
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 [StswInfo("0.19.0")]
-public class StswCommandAttribute : Attribute
+public class StswCommandAttribute(string? conditionMethodName = null, bool isReusable = false) : Attribute
 {
-    public string? ConditionMethodName { get; set; }
-    public bool IsReusable { get; set; }
+    public string? ConditionMethodName { get; set; } = conditionMethodName;
+    public bool IsReusable { get; set; } = isReusable;
 }

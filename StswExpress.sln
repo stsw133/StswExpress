@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Commons", "Stsw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Analyzers", "StswExpress.Analyzers\StswExpress.Analyzers.csproj", "{76E964E3-23FD-EA76-7F55-FA9D127356EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Tests", "StswExpress.Tests\StswExpress.Tests.csproj", "{F6A88532-C6DF-4F60-9683-FDF1D7B9884B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{76E964E3-23FD-EA76-7F55-FA9D127356EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76E964E3-23FD-EA76-7F55-FA9D127356EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76E964E3-23FD-EA76-7F55-FA9D127356EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A88532-C6DF-4F60-9683-FDF1D7B9884B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A88532-C6DF-4F60-9683-FDF1D7B9884B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A88532-C6DF-4F60-9683-FDF1D7B9884B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A88532-C6DF-4F60-9683-FDF1D7B9884B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
