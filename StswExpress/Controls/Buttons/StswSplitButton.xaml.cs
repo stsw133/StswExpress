@@ -61,12 +61,15 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
             if (oldValue != null)
                 foreach (var item in oldValue)
                     if (item is ButtonBase btn)
-                        btn.Click -= (_, _) => IsDropDownOpen = false;
+                        btn.Click -= OnDropItemClick;
 
             if (newValue != null)
                 foreach (var item in newValue)
                     if (item is ButtonBase btn)
-                        btn.Click += (_, _) => IsDropDownOpen = false;
+                    {
+                        btn.Click -= OnDropItemClick;
+                        btn.Click += OnDropItemClick;
+                    }
         }
     }
     #endregion
@@ -99,13 +102,13 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
         {
             foreach (var btn in stsw.Items.OfType<ButtonBase>())
             {
+                btn.Click -= stsw.OnDropItemClick;
                 if (stsw.AutoClose)
-                    btn.Click += (_, _) => stsw.IsDropDownOpen = false;
-                else
-                    btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
+                    btn.Click += stsw.OnDropItemClick;
             }
         }
     }
+    private void OnDropItemClick(object sender, RoutedEventArgs e) => IsDropDownOpen = false;
 
     /// <inheritdoc/>
     public bool IsDropDownOpen

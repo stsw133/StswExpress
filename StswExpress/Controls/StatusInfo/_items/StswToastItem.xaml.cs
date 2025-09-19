@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -29,9 +31,43 @@ public class StswToastItem : ContentControl, IStswCornerControl
         if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
             btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
     }
+
+    /// <inheritdoc/>
+    protected override void OnMouseUp(MouseButtonEventArgs e)
+    {
+        base.OnMouseUp(e);
+
+        if (e.Handled)
+            return;
+
+        if (e.OriginalSource is DependencyObject originalSource && StswFnUI.FindVisualAncestor<ButtonBase>(originalSource) is not null)
+            return;
+
+        ClickAction?.Invoke();
+
+        StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
+
+        e.Handled = true;
+    }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets the action executed when the toast is clicked.
+    /// If the action is not provided, clicking the toast only dismisses it.
+    /// </summary>
+    public Action? ClickAction
+    {
+        get => (Action?)GetValue(ClickActionProperty);
+        set => SetValue(ClickActionProperty, value);
+    }
+    public static readonly DependencyProperty ClickActionProperty
+        = DependencyProperty.Register(
+            nameof(ClickAction),
+            typeof(Action),
+            typeof(StswToastItem)
+        );
+
     /// <summary>
     /// Gets or sets a value indicating whether the info bar can be closed by the user.
     /// When enabled, a close button is displayed.

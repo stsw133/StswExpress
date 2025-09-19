@@ -47,7 +47,7 @@ public class StswToaster : ItemsControl
     /// <param name="content">The content of the toast.</param>
     /// <param name="onClick">The action to perform when the toast is clicked.</param>
     /// <param name="window">The target window where the toast should be displayed (optional).</param>
-    public static void Show(StswDialogImage type, object content, Action? onClick, StswWindow? window = null)
+    public static void Show(StswDialogImage type, object content, Action? onClick = null, StswWindow? window = null)
     {
         window ??= StswApp.StswWindow;
 
@@ -56,12 +56,8 @@ public class StswToaster : ItemsControl
             var toastItem = new StswToastItem
             {
                 Type = type,
-                Content = content
-            };
-            toastItem.MouseUp += (s, e) =>
-            {
-                onClick?.Invoke();
-                RemoveItemFromItemsControl(toaster, toastItem);
+                Content = content,
+                ClickAction = onClick
             };
 
             if (toaster.ItemsSource is IList itemsSource)
