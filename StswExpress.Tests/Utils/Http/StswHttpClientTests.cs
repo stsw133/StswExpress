@@ -5,7 +5,7 @@ using System.Text.Json;
 using Moq;
 using Moq.Protected;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Http;
 public class StswHttpClientTests
 {
     private static HttpClient CreateMockHttpClient(HttpStatusCode statusCode, object? responseContent, string? mediaType = "application/json")

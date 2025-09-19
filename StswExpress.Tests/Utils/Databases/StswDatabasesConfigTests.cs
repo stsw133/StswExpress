@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabasesConfigTests
 {
     [Fact]

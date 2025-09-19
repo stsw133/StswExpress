@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Data;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils;
 public class StswExtensionsTests
 {
     #region Convert extensions
@@ -186,7 +186,7 @@ public class StswExtensionsTests
     public void AddRange_AddsMultipleItems()
     {
         var list = new List<int> { 1 };
-        list.AddRange(new[] { 2, 3 });
+        list.AddRange([2, 3]);
         Assert.Equal(new[] { 1, 2, 3 }, list);
     }
 
@@ -196,9 +196,9 @@ public class StswExtensionsTests
         var items = new[] { 1, 2, 3, 4, 5 };
         var batches = items.Batch(2);
         Assert.Collection(batches,
-            b => Assert.Equal(new[] { 1, 2 }, b),
-            b => Assert.Equal(new[] { 3, 4 }, b),
-            b => Assert.Equal(new[] { 5 }, b));
+            b => Assert.Equal([1, 2], b),
+            b => Assert.Equal([3, 4], b),
+            b => Assert.Equal([5], b));
     }
 
     [Fact]

@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public class StswNameOfExtensionTests
 {
     private class TestClass

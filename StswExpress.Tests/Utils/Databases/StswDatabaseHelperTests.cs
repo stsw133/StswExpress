@@ -1,7 +1,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabaseHelperTests
 {
     [Fact]

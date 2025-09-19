@@ -1,9 +1,6 @@
-using StswExpress.Commons;
-using System;
 using System.IO;
-using System.Linq;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Commons.Tests.Utils.Logging;
 public class StswLogConfigTests
 {
     [Fact]

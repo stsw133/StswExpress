@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public static class TestStaticMethods
 {
     public static string ConcatStrings(string a, string b) => a + b;

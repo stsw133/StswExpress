@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswIfElseConverterTests
 {
     private readonly StswIfElseConverter _converter = StswIfElseConverter.Instance;

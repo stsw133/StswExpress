@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public class StswBindableParameterExtensionTests
 {
     private class DummyConverter : IValueConverter

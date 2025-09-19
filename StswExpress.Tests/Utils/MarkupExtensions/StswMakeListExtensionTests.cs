@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public class StswMakeListExtensionTests
 {
     private class DummyTargetProvider : IProvideValueTarget

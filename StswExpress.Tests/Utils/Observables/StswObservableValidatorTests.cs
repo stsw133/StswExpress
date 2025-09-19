@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Observables;
 public class StswObservableValidatorTests
 {
     public class TestViewModel : StswExpress.Commons.StswObservableValidator

@@ -1,12 +1,7 @@
-using StswExpress.Commons;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Commons.Tests.Utils.Logging;
 public class StswLogTests
 {
     private readonly string _logDir;

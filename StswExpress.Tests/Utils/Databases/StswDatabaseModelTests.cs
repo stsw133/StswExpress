@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabaseModelTests
 {
     [Fact]

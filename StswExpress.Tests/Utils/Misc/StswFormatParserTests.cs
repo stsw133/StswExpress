@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Misc;
 public class StswFormatParserTests
 {
     private class TestClass

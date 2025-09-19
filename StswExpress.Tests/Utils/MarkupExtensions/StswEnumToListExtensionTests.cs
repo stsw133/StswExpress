@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public class StswEnumToListExtensionTests
 {
     private enum TestEnum

@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Windows;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Helpers;
 public class StswDispatcherTests
 {
     [Fact]

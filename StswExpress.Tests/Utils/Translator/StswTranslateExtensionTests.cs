@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Translator;
 public class StswTranslateExtensionTests
 {
     private class MockTranslator : INotifyPropertyChanged

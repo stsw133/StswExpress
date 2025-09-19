@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows.Data;
 using Xunit;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswMultiCultureNumberConverterTests
 {
     private readonly StswMultiCultureNumberConverter _converter = StswMultiCultureNumberConverter.Instance;

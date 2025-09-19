@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Tasks;
 public class StswTaskManagerTests
 {
     [Fact]

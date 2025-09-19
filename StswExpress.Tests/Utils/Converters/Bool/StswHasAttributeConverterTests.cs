@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswHasAttributeConverterTests
 {
     private readonly StswHasAttributeConverter _converter = StswHasAttributeConverter.Instance;

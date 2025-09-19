@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswExistenceConverterTests
 {
     private readonly StswExistenceConverter _converter = StswExistenceConverter.Instance;

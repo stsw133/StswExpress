@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Observables;
 public class StswObservableDialogTests
 {
     private class TestDialog : StswExpress.Commons.StswObservableDialog

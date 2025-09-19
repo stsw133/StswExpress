@@ -294,6 +294,39 @@ public static partial class StswFn
 
     #region DateTime functions
     /// <summary>
+    /// Checks if any date range from the first collection overlaps with any date range from the second collection.
+    /// </summary>
+    /// <param name="ranges">The first collection of date ranges.</param>
+    /// <returns><see langword="true"/> if any date ranges overlap; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="ranges"/> is <see langword="null"/>.</exception>
+    [StswInfo("0.21.0")]
+    public static bool AnyDateTimeOverlap(IEnumerable<(DateTime Start, DateTime End)> ranges, bool inclusive = true)
+    {
+        ArgumentNullException.ThrowIfNull(ranges);
+
+        var list = ranges.ToList();
+
+        for (var i = 0; i < list.Count; i++)
+        {
+            for (var j = i + 1; j < list.Count; j++)
+            {
+                if (inclusive)
+                {
+                    if (list[i].Start <= list[j].End && list[j].Start <= list[i].End)
+                        return true;
+                }
+                else
+                {
+                    if (list[i].Start < list[j].End && list[j].Start < list[i].End)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Generates a list of unique year and month tuples within a specified date range.
     /// </summary>
     /// <param name="startDate">The start date of the range.</param>

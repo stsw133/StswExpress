@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswPathToIconConverterTests
 {
     private readonly StswPathToIconConverter _converter = StswPathToIconConverter.Instance;

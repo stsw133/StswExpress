@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswCompareConverterTests
 {
     private readonly StswCompareConverter _converter = StswCompareConverter.Instance;

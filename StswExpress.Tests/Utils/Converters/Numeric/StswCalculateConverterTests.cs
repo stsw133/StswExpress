@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswCalculateConverterTests
 {
     private readonly StswCalculateConverter _converter = StswCalculateConverter.Instance;

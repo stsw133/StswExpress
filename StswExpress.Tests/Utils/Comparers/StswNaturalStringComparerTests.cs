@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Comparers;
 public class StswNaturalStringComparerTests
 {
     private readonly StswNaturalStringComparer _comparer = new();

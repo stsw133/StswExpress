@@ -74,6 +74,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> where T : ISt
             foreach (var item in _modifiedItems.ToList())
                 item.ItemState = StswItemState.Unchanged;
         }
+        Items.ForEach(item => item.ItemState = StswItemState.Unchanged);
 
         _addedItems.Clear();
         _deletedItems.Clear();

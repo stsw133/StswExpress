@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils;
 public class StswExtensionsTests
 {
     #region Clone extensions

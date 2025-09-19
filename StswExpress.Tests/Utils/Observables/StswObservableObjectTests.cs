@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Observables;
 public class StswObservableObjectTests
 {
     private class TestObservableObject : StswObservableObject

@@ -1,7 +1,7 @@
 using StswExpress.Commons;
 using System.ComponentModel;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Helpers;
 public class StswCollectionViewWrapperTests
 {
     private class TestItem : StswObservableObject, IStswCollectionItem

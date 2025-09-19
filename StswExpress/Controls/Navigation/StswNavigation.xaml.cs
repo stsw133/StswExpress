@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace StswExpress;
@@ -64,7 +65,11 @@ public class StswNavigation : ContentControl, IStswCornerControl
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
             return null;
 
-        if (context is Type type)
+        if (Command is not null)
+        {
+            Command.Execute(context);
+        }
+        else if (context is Type type)
         {
             if (createNewInstance || !Contexts.TryGetValue(type.FullName!, out var value))
             {
@@ -125,6 +130,21 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the command to execute when changing contexts.
+    /// </summary>
+    public ICommand? Command
+    {
+        get => (ICommand?)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+    public static readonly DependencyProperty CommandProperty
+        = DependencyProperty.Register(
+            nameof(Command),
+            typeof(ICommand),
             typeof(StswNavigation)
         );
 

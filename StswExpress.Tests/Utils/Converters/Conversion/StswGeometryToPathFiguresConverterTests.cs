@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswGeometryToPathFiguresConverterTests
 {
     private readonly StswGeometryToPathFiguresConverter _converter = StswGeometryToPathFiguresConverter.Instance;

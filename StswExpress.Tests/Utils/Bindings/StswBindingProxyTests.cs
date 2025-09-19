@@ -1,24 +1,6 @@
-using System.Windows;
-
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Bindings;
 public class StswBindingProxyTests
 {
-    /*
-    [Fact]
-    public void CreateInstanceCore_ReturnsNewInstance()
-    {
-        // Arrange
-        var proxy = new StswBindingProxy();
-
-        // Act
-        var instance = proxy.CreateInstanceCore();
-
-        // Assert
-        Assert.NotNull(instance);
-        Assert.IsType<StswBindingProxy>(instance);
-        Assert.NotSame(proxy, instance);
-    }
-    */
     [Fact]
     public void ProxyProperty_SetAndGet_ReturnsExpectedValue()
     {

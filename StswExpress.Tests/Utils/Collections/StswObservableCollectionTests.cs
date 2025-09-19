@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Collections;
 public class StswObservableCollectionTests
 {
     private class TestItem : IStswCollectionItem
@@ -121,9 +121,10 @@ public class StswObservableCollectionTests
     {
         var item1 = new TestItem();
         var item2 = new TestItem();
-        var collection = new StswObservableCollection<TestItem>(new[] { item1 });
-
-        collection[0] = item2;
+        var collection = new StswObservableCollection<TestItem>([item1])
+        {
+            [0] = item2
+        };
 
         Assert.Equal(item2, collection[0]);
         Assert.Equal(StswItemState.Added, item2.ItemState);

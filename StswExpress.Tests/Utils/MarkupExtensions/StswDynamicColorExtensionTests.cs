@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.MarkupExtensions;
 public class StswDynamicColorExtensionTests
 {
     [Fact]

@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Messangers;
 public class ExampleMessage : IStswMessage
 {
     public string Content { get; set; } = string.Empty;

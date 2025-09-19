@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabasesTests
 {
     private class FakeSecurity

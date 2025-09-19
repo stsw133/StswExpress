@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils;
 public class StswFnTests
 {
     [Fact]

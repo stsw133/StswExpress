@@ -1,6 +1,6 @@
 using System.Collections.Specialized;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Collections;
 public class StswObservableDictionaryTests
 {
     [Fact]

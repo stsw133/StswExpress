@@ -1,4 +1,4 @@
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Stores;
 public class StswRefreshBlockerTests
 {
     [Fact]

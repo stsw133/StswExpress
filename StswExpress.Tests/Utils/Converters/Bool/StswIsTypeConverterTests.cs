@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Converters;
 public class StswIsTypeConverterTests
 {
     private readonly StswIsTypeConverter _converter = StswIsTypeConverter.Instance;

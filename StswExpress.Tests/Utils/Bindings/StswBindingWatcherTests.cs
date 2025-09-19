@@ -1,24 +1,23 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Bindings;
 public class StswBindingWatcherTests
 {
     private class TestFrameworkElement : FrameworkElement
     {
-        public static readonly DependencyProperty TestProperty =
-            DependencyProperty.Register(
-                nameof(TestValue),
-                typeof(object),
-                typeof(TestFrameworkElement),
-                new PropertyMetadata(null)
-            );
-
         public object TestValue
         {
             get => GetValue(TestProperty);
             set => SetValue(TestProperty, value);
         }
+        public static readonly DependencyProperty TestProperty
+            = DependencyProperty.Register(
+                nameof(TestValue),
+                typeof(object),
+                typeof(TestFrameworkElement),
+                new PropertyMetadata(null)
+            );
     }
 
     [Fact]

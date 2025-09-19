@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Moq;
 using StswExpress.Commons;
 
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Commands;
 public class StswCommandsTests
 {
     private class SelectionItem : IStswSelectionItem

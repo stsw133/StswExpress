@@ -2,7 +2,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
-namespace StswExpress.Commons.Tests;
+namespace StswExpress.Commons.Tests.Utils.Mailboxes;
 public class StswMailboxModelTests
 {
     private class TestStswMailboxesConfig
@@ -64,7 +64,7 @@ public class StswMailboxModelTests
         mailbox.Username = "user";
         mailbox.Password = "pass";
         mailbox.Domain = "domain";
-        mailbox.ReplyTo = new[] { "reply@test.com" };
+        mailbox.ReplyTo = ["reply@test.com"];
         mailbox.IgnoreCertificateErrors = true;
         mailbox.SecurityOption = SecureSocketOptions.SslOnConnect;
 
@@ -84,12 +84,12 @@ public class StswMailboxModelTests
     public void Send_ThrowsArgumentException_WhenHostOrFromIsNull()
     {
         var mailbox = new StswMailboxModel();
-        Assert.Throws<ArgumentException>(() => mailbox.Send(new[] { "to@test.com" }, "subject", "body"));
+        Assert.Throws<ArgumentException>(() => mailbox.Send(["to@test.com"], "subject", "body"));
         mailbox.Host = "smtp.test.com";
-        Assert.Throws<ArgumentException>(() => mailbox.Send(new[] { "to@test.com" }, "subject", "body"));
+        Assert.Throws<ArgumentException>(() => mailbox.Send(["to@test.com"], "subject", "body"));
         mailbox.From = "from@test.com";
         mailbox.Port = null;
-        Assert.Throws<ArgumentNullException>(() => mailbox.Send(new[] { "to@test.com" }, "subject", "body"));
+        Assert.Throws<ArgumentNullException>(() => mailbox.Send(["to@test.com"], "subject", "body"));
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class StswMailboxModelTests
 
         var message = typeof(StswMailboxModel)
             .GetMethod("BuildMessage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-            .Invoke(mailbox, new object[] { to, subject, body, true, attachments, cc, bcc }) as MimeMessage;
+            .Invoke(mailbox, [to, subject, body, true, attachments, cc, bcc]) as MimeMessage;
 
         Assert.NotNull(message);
         Assert.Equal(subject, message!.Subject);
@@ -125,7 +125,7 @@ public class StswMailboxModelTests
         var mailbox = CreateMailbox();
         var client = typeof(StswMailboxModel)
             .GetMethod("CreateConfiguredClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-            .Invoke(mailbox, Array.Empty<object>()) as SmtpClient;
+            .Invoke(mailbox, []) as SmtpClient;
 
         Assert.NotNull(client);
         Assert.NotNull(client!.ServerCertificateValidationCallback);
@@ -135,11 +135,11 @@ public class StswMailboxModelTests
     public async Task SendAsync_ThrowsArgumentException_WhenHostOrFromIsNull()
     {
         var mailbox = new StswMailboxModel();
-        await Assert.ThrowsAsync<ArgumentException>(() => mailbox.SendAsync(new[] { "to@test.com" }, "subject", "body"));
+        await Assert.ThrowsAsync<ArgumentException>(() => mailbox.SendAsync(["to@test.com"], "subject", "body"));
         mailbox.Host = "smtp.test.com";
-        await Assert.ThrowsAsync<ArgumentException>(() => mailbox.SendAsync(new[] { "to@test.com" }, "subject", "body"));
+        await Assert.ThrowsAsync<ArgumentException>(() => mailbox.SendAsync(["to@test.com"], "subject", "body"));
         mailbox.From = "from@test.com";
         mailbox.Port = null;
-        await Assert.ThrowsAsync<ArgumentNullException>(() => mailbox.SendAsync(new[] { "to@test.com" }, "subject", "body"));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => mailbox.SendAsync(["to@test.com"], "subject", "body"));
     }
 }

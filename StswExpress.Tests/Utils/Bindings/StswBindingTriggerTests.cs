@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using System.Windows.Data;
-
-namespace StswExpress.Tests;
+namespace StswExpress.Tests.Utils.Bindings;
 public class StswBindingTriggerTests
 {
     [Fact]
