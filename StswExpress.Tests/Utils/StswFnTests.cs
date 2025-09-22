@@ -122,16 +122,6 @@ public class StswFnTests
     }
 
     [Fact]
-    public void GetUniqueMonthsFromRange_ReturnsCorrectMonths()
-    {
-        var months = StswFn.GetUniqueMonthsFromRange(new DateTime(2023, 1, 1), new DateTime(2023, 3, 1));
-        Assert.Equal(3, months.Count);
-        Assert.Contains((2023, 1), months);
-        Assert.Contains((2023, 2), months);
-        Assert.Contains((2023, 3), months);
-    }
-
-    [Fact]
     public void IsFileInUse_ReturnsFalseForNonexistentFile()
     {
         Assert.False(StswFn.IsFileInUse("nonexistent.file"));

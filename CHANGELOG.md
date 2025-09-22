@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.21.0](#0-21-0)
 - [Version 0.20.1](#0-20-1)
 - [Version 0.20.0](#0-20-0)
 - [Version 0.19.1](#0-19-1)
@@ -42,6 +43,41 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-21-0">0.21.0</h1>
+
+**Release Date**: 2025-10-XX
+
+## StswExpress.Commons
+
+### Additions
+- Added `StswDateRange`, a utility class for representing and manipulating date ranges (`Start` / `End`):
+  - supports checks for containment (`Contains`), overlap (`Overlaps`), adjacency and normalization,
+  - provides intersection helpers (`TryIntersect`, `Intersect`),
+  - static `AnyOverlap` detects collisions in collections of ranges,
+  - helper methods to enumerate unique years, months, or days within the range.
+
+### Changes
+- `StswCommandAttribute` accepts a more convenient way to pass the name of its condition method.
+- `StswNaturalStringComparer` now distinguishes numbers also by length, ensuring deterministic sorting results.
+
+### Fixes
+- `StswCompareConverter` correctly handles cases when the parameter is an enum.
+
+## StswExpress (WPF)
+
+### Additions
+- `StswNavigation` and `StswNavigationView` gained small DependencyInjection support by adding a `Command` property when changing frame content.
+
+### Changes
+
+
+### Fixes
+- `StswConfig` version display now shows revision instead of build number.
+- `StswDropButton` and `StswSplitButton`: ensured that click events are properly detached to prevent leaks.
+- `StswToaster`: `Show` method no longer requires an `Action` parameter.
 
 ---
 

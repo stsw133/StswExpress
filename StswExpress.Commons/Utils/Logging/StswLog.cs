@@ -46,8 +46,8 @@ public static class StswLog
         var dateNow = DateTime.Now.Date;
 
         if (Config.Archive.ArchiveFullMonth && !oldestFileDT.IsSameYearAndMonth(dateNow))
-            foreach (var (year, month) in StswFn.GetUniqueMonthsFromRange(oldestFileDT, dateNow.AddMonths(-1)))
-                Archive(new DateTime(year, month, 1), new DateTime(year, month, DateTime.DaysInMonth(year, month)));
+            foreach (var month in new StswDateRange(oldestFileDT, dateNow.AddMonths(-1)).GetUniqueMonths())
+                Archive(month, month.ToLastDayOfMonth());
         else if ((dateNow - oldestFileDT).TotalDays > Config.Archive.ArchiveWhenDaysOver)
             Archive(oldestFileDT, dateNow.AddDays(-Config.Archive.ArchiveUpToLastDays));
 
