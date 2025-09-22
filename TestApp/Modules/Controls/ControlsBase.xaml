@@ -7,12 +7,7 @@
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="750">
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
-            <Grid d:Background="White">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <Grid d:Background="White" se:StswGrid.ColumnDefinitions="200,5,*">
                 <!-- name and description -->
                 <se:StswScrollView Grid.Column="0" DynamicMode="Partial">
                     <StackPanel Margin="5">
@@ -71,12 +66,7 @@
                 <se:StswGridSplitter Grid.Column="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!-- control -->
                 <se:StswScrollView Grid.Column="2">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
+                    <Grid se:StswGrid.RowDefinitions="auto,5,auto">
                         <!-- content -->
                         <ContentPresenter Grid.Row="0" Margin="5"/>
                         <!-- splitter -->

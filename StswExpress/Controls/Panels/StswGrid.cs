@@ -160,6 +160,70 @@ public class StswGrid : Grid
     }
     #endregion
 
+    #region Attached properties
+    /// <summary>
+    /// Gets or sets the column definitions as a comma-separated string (e.g., "Auto,*,2*").
+    /// </summary>
+    public static readonly DependencyProperty ColumnDefinitionsProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(ColumnDefinitionsProperty)[..^8],
+            typeof(string),
+            typeof(StswGrid),
+            new PropertyMetadata(null, OnColumnDefinitionsChanged));
+    public static string GetColumnDefinitions(DependencyObject obj) => (string)obj.GetValue(ColumnDefinitionsProperty);
+    public static void SetColumnDefinitions(DependencyObject obj, string value) => obj.SetValue(ColumnDefinitionsProperty, value);
+    private static void OnColumnDefinitionsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Grid grid && e.NewValue is string definitions)
+        {
+            grid.ColumnDefinitions.Clear();
+            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
+            {
+                var columnDef = new ColumnDefinition();
+                var width = def.Trim();
+                if (!string.IsNullOrEmpty(width))
+                {
+                    var gridLength = new GridLengthConverter().ConvertFromString(width) as GridLength?;
+                    if (gridLength.HasValue)
+                        columnDef.Width = gridLength.Value;
+                }
+                grid.ColumnDefinitions.Add(columnDef);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the row definitions as a comma-separated string (e.g., "Auto,*,2*").
+    /// </summary>
+    public static readonly DependencyProperty RowDefinitionsProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(RowDefinitionsProperty)[..^8],
+            typeof(string),
+            typeof(StswGrid),
+            new PropertyMetadata(null, OnRowDefinitionsChanged));
+    public static string GetRowDefinitions(DependencyObject obj) => (string)obj.GetValue(RowDefinitionsProperty);
+    public static void SetRowDefinitions(DependencyObject obj, string value) => obj.SetValue(RowDefinitionsProperty, value);
+    private static void OnRowDefinitionsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Grid grid && e.NewValue is string definitions)
+        {
+            grid.RowDefinitions.Clear();
+            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
+            {
+                var rowDef = new RowDefinition();
+                var height = def.Trim();
+                if (!string.IsNullOrEmpty(height))
+                {
+                    var gridLength = new GridLengthConverter().ConvertFromString(height) as GridLength?;
+                    if (gridLength.HasValue)
+                        rowDef.Height = gridLength.Value;
+                }
+                grid.RowDefinitions.Add(rowDef);
+            }
+        }
+    }
+    #endregion
+
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.

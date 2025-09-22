@@ -69,14 +69,16 @@
 ## StswExpress (WPF)
 
 ### Additions
+- `StswGrid` introduces two new attached properties to simplify declaring row and column definitions.
 - `StswNavigation` and `StswNavigationView` gained small DependencyInjection support by adding a `Command` property when changing frame content.
 
 ### Changes
-
+(none)
 
 ### Fixes
 - `StswConfig` version display now shows revision instead of build number.
 - `StswDropButton` and `StswSplitButton`: ensured that click events are properly detached to prevent leaks.
+- `StswGridSplitter`: location revert on double-click now also works with `Auto` and `*` (star) sized definitions.
 - `StswToaster`: `Show` method no longer requires an `Action` parameter.
 
 ---
@@ -352,7 +354,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 ### Controls
 - `FocusVisualStyle` has been reworked for all Stsw controls.
-- `StswControl` class has new `EnableSystemDropShadowProperty` attached property to enable or disable system drop shadow for windowing controls.
+- New `StswControl.EnableSystemDropShadowProperty` attached property to enable or disable system drop shadow for windowing controls.
 
 ### Utils
 - Improved `StswExtensions` method: `ShiftBy`.
@@ -593,8 +595,8 @@ In this version, library has been split into two separate libraries: `StswExpres
 ## Additions
 
 ### Utils
-- Added `CloseDialog` global command in `StswCommands` class to simplify closing content dialogs.
 - Added `CC` and `IsBodyHtml` parameters to send methods in `StswMailboxModel` class.
+- Added `StswCommands.CloseDialog` global command to simplify closing content dialogs.
 
 ## Fixes
 
@@ -657,7 +659,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Updated the default `CornerRadius` values across Stsw controls from 10 to 6 and 5 to 4 for improved appearance. For toggle controls, `CornerRadius` was changed from 10 to 30 to create a round shape.
 
 ### Utils
-- Changed the return type of `ExtractAssociatedIcon` method in `StswFn` from `ImageSource` to `System.Drawing.Icon` to support asynchronous actions.
+- Changed the return type of `StswFn.ExtractAssociatedIcon` method from `ImageSource` to `System.Drawing.Icon` to support asynchronous actions.
 - Changes to the `StswClone` class, with the `DeepClone` extension replaced by `DeepCopy` and `DeepCopyWithJson`.
 - Minor improvements and optimizations to helper methods in `StswExtensions` and `StswFn` classes.
 - Renamed `NotifyPropertyChanged` method in `StswObservableObject` to `OnPropertyChanged`.
@@ -687,7 +689,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - Default behaviour changed for `StswSubDrop` control with `AutoClose` property set to `true` by default.
 
 ### Utils
-- `Get` method in `StswDatabaseHelper` class will work with `string` as generic type.
+- `StswDatabaseHelper.Get` method will work with `string` as generic type.
 
 ---
 
@@ -749,7 +751,7 @@ In this version, library has been split into two separate libraries: `StswExpres
 - `StswNotifyIcon` control now provides more specific exceptions if `Icon` property or `IconPath` property are not set.
 
 ### Utils
-- `ExecuteReader` method in `StswDatabaseHelper` class no longer disposes of the connection automatically.
+- `StswDatabaseHelper.ExecuteReader` method no longer disposes of the connection automatically.
 
 ---
 
@@ -757,27 +759,39 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 **Release Date**: 2024-09-19
 
-## New Functionality
-* New extension method: **ToImageSource** (from Geometry).
-* New dynamic function in **StswFn** named **MergeObjects** (for more comfortable **StswDatabaseHelper** methods using).
-* **StswDatabaseHelper**'s methods will exclude all properties from parameter model that have no equivalent parameters in query.
-* Prototype "Spring" theme.
+## Additions
 
-## Changed Functionality
-* StswDataGrid's special column moved to separated class named **StswDataGridStatusColumn**. **StswDataGrid** no longer has "SpecialColumnVisibility" property and column needs to be added manually.
-* Global command **ClearText** renamed to **Clear** and now supports reseting selected items.
-* **StswHeader** removed.
-* Added "FrameworkPropertyMetadataOptions" (to handle affecting render, measure, arrange) to properties in Stsw controls.
-* Small changes in **StswConfig**.
-* A few optimisations.
+### Controls
+- Introduced a prototype of the `Spring` theme.
+
+### Utils
+- Added the `ToImageSource` extension for converting `Geometry` instances to `ImageSource`.
+- Added the `StswFn.MergeObjects` helper for combining objects when working with `StswDatabaseHelper`.
+
+## Changes
+
+### Controls
+- Applied `FrameworkPropertyMetadataOptions` flags to dependency properties across Stsw controls to ensure layout updates occur correctly.
+- Extracted the special column from `StswDataGrid` into the dedicated `StswDataGridStatusColumn`; the column is no longer added automatically.
+- Removed `StswHeader` control.
+- Updated `StswConfig` with minor refinements.
+
+### Utils
+- Optimized various internal routines.
+- Renamed the `ClearText` global command to `Clear` and enabled it to reset selected items.
+- `StswDatabaseHelper` now skips parameters that do not exist in the target query.
 
 ## Fixes
-* **StswMailboxex** renamed to **StswMailboxes**.
-* **StswAdaptiveBox** has been remade to fix bug with binding "SubControls" property.
-* Bugfix for **StswNumberBox**'s "TryParse" method by changing invariant culture to current culture.
-* Bugfix for **StswFn**'s "AppVersion" method because it was cutting out all parts with only 0.
-* Bugfix for **StswTabControl** placement style.
-* Bugfix for creating directories when **StswLog** is used.
+
+### Controls
+- Corrected `StswNumberBox.TryParse` to respect the current culture instead of the invariant culture.
+- Fixed `StswTabControl` placement styling.
+- Reworked `StswAdaptiveBox` to restore binding support for the `SubControls` property.
+
+### Utils
+- Ensured `StswLog` creates missing directories before writing logs.
+- Fixed `StswFn.AppVersion` so version segments made solely of zeros are preserved
+- Renamed the mis-typed `StswMailboxex` to `StswMailboxes`.
 
 ---
 
@@ -785,33 +799,50 @@ In this version, library has been split into two separate libraries: `StswExpres
 
 **Release Date**: 2024-09-03
 
-## New Functionality
-* New controls: **StswTimerControl**, **StswLabelPanel**.
-* New adorner: **StswRippleAdorner**. It is used to enable a new click effect to most Stsw controls, especially the buttons (they already have it enabled by default) and can be set through **StswControl**'s "EnableRippleEffect" attached property.
-* New classes: **StswNaturalStringComparer** (to provide a natural string comparison that sorts string in a "human-expected" order), **StswStoreBase** (base model for stores), **StswStoreChangedArgs** (for stores).
-* **StswDatabases** has new config property where all configuration has been moved (**StswDatabaseConfig** supports auto disposing connections, setting delimiters for mappings, changing file path for importing and exporting lists, enabling less space queries, returning if designer mode).
-* **StswMailboxes** has new config property where all configuration has been moved (**StswMailboxesConfig** supports global email address for debug mode, disabling mail sending, changing file path for importing and exporting lists).
-* **StswExport** has new method for exporting IXLWorksheet to html code string named "ExportToHtml".
-* New extensions and functions: **ToDictionarySafely** (converts a collection to a dictionary, safely handling duplicate keys by ignoring subsequent duplicates), **Next** (finds the next occurrence of a specified day of the week after a given date), **GetDescription** (retrieves the description attribute from an enum value, if present), **Batch** (splits a collection into smaller batches of the specified size), **Shuffle** (randomizes the order of elements in a list), **sSimilarTo** (simple comparing the string representations of property values), **FindLogicalChild** (finds the first logical child of a specific type for the given control).
+## Additions
 
-## Changed Functionality
-* **StswHeader** renamed into **StswLabel**. For backward compatibility, it exists with two different names in this version, but older one is marked as obsolete.
-* **StswSubHeader** renamed into **StswSubLabel**.
-* **StswMessageDialog** has a little changed template (to make details button look better).
-* **StswCancellableAsyncCommand** no longer have action on cancel as parameter.
-* **StswShiftButton** remade into **StswShiftSelector**.
-* **StswDropArrow**'s icon can be changed now. Additionaly its visibility in other controls from now on is controled only by **StswControl**'s "IsArrowless" attached property and no longer controled by dynamic resource named "StswDropArrow.Visibility".
-* **StswComboBox** implements **IStswSelectionControl** interface.
-* **StswDatabaseHelper**'s "Set" method has been reworked.
-* Importing and exporting lists in **StswDatabases**, **StswMailboxes** has been reworked. It works with encrypted json now and can work asynchronously. **StswLog** also has async methods now and can auto disable logging if there was enough failed attempts.
-* Removed extensions and functions: **Remove** (for IEnumerable), **SerializeToJson**, **DeserializeFromJson**.
-* Changed extensions and functions: **ToHex** (it always returns color in hex - before it could return name of color), **Between** (reversed order can be allowed), **ShiftIndexBy** renamed into **ShiftBy**, **GetProcessUser** renamed into **GetUser** (and made into extension).
-* **ParametersAddList** method is limited to max. 20 elements.
+### Controls
+- Added `StswTimerControl` and `StswLabelPanel` controls.
+- Introduced `StswRippleAdorner`, enabling ripple effects on most Stsw controls through the `StswControl.EnableRippleEffect` attached property.
+
+### Utils
+- Added configuration models `StswDatabaseConfig` and `StswMailboxesConfig` to centralize settings for `StswDatabases` and `StswMailboxes`.
+- Added helper APIs such as `ToDictionarySafely`, `Next`, `GetDescription`, `Batch`, `Shuffle`, `SimilarTo`, and `FindLogicalChild`.
+- Added `StswNaturalStringComparer` class to provide a natural string comparison.
+- Added `StswStoreBase`, and `StswStoreChangedArgs` classes to support store scenarios.
+- Added `StswExport.ExportToHtml` for exporting `IXLWorksheet` content to HTML.
+
+## Changes
+
+### Controls
+- Allowed custom icons for `StswDropArrow` and routed arrow visibility through the `StswControl.IsArrowless` attached property instead of dynamic resource.
+- Made `StswComboBox` implement `IStswSelectionControl`.
+- Refined the `StswMessageDialog` template to improve the details button.
+- Renamed `StswHeader` to `StswLabel` (the old name remains as an obsolete alias for this release).
+- Renamed `StswSubHeader` to `StswSubLabel`.
+- Reworked `StswShiftButton` into `StswShiftSelector`.
+
+### Utils
+- Extended `StswLog` with async methods plus automatic disabling after repeated failures.
+- Limited `ParametersAddList` to 20 elements.
+- Removed extensions `Remove` (for `IEnumerable`), `SerializeToJson`, and `DeserializeFromJson`.
+- Removed the cancel-action parameter from `StswCancellableAsyncCommand`.
+- Reworked list import and export for `StswDatabases` and `StswMailboxes` to use encrypted JSON with optional async operations.
+- Reworked `StswDatabaseHelper.Set` method.
+- Updated helpers:
+  - `ToHex` always returns hex color strings.
+  - `Between` accepts reversed ranges.
+  - `ShiftIndexBy` became `ShiftBy`.
+  - `GetProcessUser` became the `GetUser` extension.
 
 ## Fixes
-* **IsInDebug** method should better determine if entry assembly was built in debug mode.
-* Stsw sub controls also have nullable "IsBusy" property to allow them to automatically bind to command's "IsBusy" property (similar to what **StswLabel** has).
-* Bugfix for archiving logs.
+
+### Controls
+- Ensured Stsw sub-controls expose a nullable `IsBusy` property so they can bind to command busy states.
+
+### Utils
+- Fixed log archiving failures in `StswLog`.
+- Improved `StswFn.IsInDebug` to detect debug builds more reliably.
 
 ---
 
