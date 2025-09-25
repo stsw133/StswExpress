@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress.Tests.Utils;
 public class StswFnUITests
@@ -64,7 +59,7 @@ public class StswFnUITests
         Assert.Null(StswFnUI.BytesToBitmapImage(Array.Empty<byte>()));
     }
 
-    [Fact]
+    [StaFact]
     public void FindDependencyProperty_ReturnsNullForNonexistent()
     {
         var obj = new DummyModel();
@@ -72,7 +67,7 @@ public class StswFnUITests
         Assert.Null(result);
     }
 
-    [Fact]
+    [StaFact]
     public void FindLogicalAncestor_ReturnsNullIfNoAncestor()
     {
         var btn = new Button();
@@ -80,7 +75,7 @@ public class StswFnUITests
         Assert.Null(ancestor);
     }
 
-    [Fact]
+    [StaFact]
     public void FindLogicalChild_ReturnsNullIfNoChild()
     {
         var grid = new Grid();
@@ -88,7 +83,7 @@ public class StswFnUITests
         Assert.Null(child);
     }
 
-    [Fact]
+    [StaFact]
     public void FindVisualAncestor_ReturnsNullIfNoAncestor()
     {
         var btn = new Button();
@@ -96,7 +91,7 @@ public class StswFnUITests
         Assert.Null(ancestor);
     }
 
-    [Fact]
+    [StaFact]
     public void FindVisualChild_ReturnsNullIfNoChild()
     {
         var grid = new Grid();
@@ -104,13 +99,13 @@ public class StswFnUITests
         Assert.Null(child);
     }
 
-    [Fact]
+    [StaFact]
     public void GetParent_ReturnsNullForNullInput()
     {
         Assert.Null(StswFnUI.GetParent(null));
     }
 
-    [Fact]
+    [StaFact]
     public void RemoveFromParent_RemovesElementFromPanel()
     {
         var panel = new StackPanel();
@@ -127,7 +122,7 @@ public class StswFnUITests
         Assert.Contains(theme, new[] { "Light", "Dark" });
     }
 
-    [Fact]
+    [StaFact]
     public void IsChildOfPopup_ReturnsFalseForNonChild()
     {
         var popup = new Popup();

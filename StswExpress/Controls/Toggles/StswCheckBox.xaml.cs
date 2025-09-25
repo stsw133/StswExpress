@@ -39,7 +39,8 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
-        IsReadOnly.Do(null, base.OnToggle);
+        if (!IsReadOnly)
+            base.OnToggle();
     }
 
     /// <inheritdoc/>

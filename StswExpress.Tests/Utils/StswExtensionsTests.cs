@@ -306,16 +306,6 @@ public class StswExtensionsTests
     //}
     #endregion
 
-    #region Numeric extensions
-    [Fact]
-    public void ShiftBy_LoopsOrClamps()
-    {
-        Assert.Equal(2, 1.ShiftBy(1, 3));
-        Assert.Equal(0, 2.ShiftBy(1, 3));
-        Assert.Equal(2, 1.ShiftBy(10, 3, false));
-    }
-    #endregion
-
     #region Object extensions
     private class SourceObj { public int Id { get; set; } public string? Name { get; set; } }
     private class TargetObj { public int Id { get; set; } public string? Name { get; set; } }

@@ -98,24 +98,50 @@ public class StswTimePicker : StswBoxBase
     }
 
     /// <inheritdoc/>
+    [StswInfo(null, "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
+        var isPlain = false;
+        var isInvalid = false;
+
         var result = SelectedTime;
 
-        if (string.IsNullOrEmpty(Text))
+        if (string.IsNullOrWhiteSpace(Text))
+        {
             result = null;
-        else if (Format != null && TimeSpan.TryParseExact(Text, Format, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var res))
-            result = res;
-        else if (TimeSpan.TryParse(Text, out res))
-            result = res;
+        }
+        else if (Format != null && TimeSpan.TryParseExact(Text, Format, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var tsExact))
+        {
+            isPlain = true;
+            result = tsExact;
+        }
+        else if (TimeSpan.TryParse(Text, CultureInfo.CurrentCulture, out var ts))
+        {
+            isPlain = true;
+            result = ts;
+        }
+        else
+        {
+            isInvalid = true;
+        }
 
         if (result != SelectedTime || alwaysUpdate)
         {
             SelectedTime = result;
 
-            var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-                bindingExpression.UpdateSource();
+            var textBE = GetBindingExpression(TextProperty);
+            var valueBE = GetBindingExpression(SelectedTimeProperty);
+
+            if (!isInvalid && valueBE?.Status == BindingStatus.Active)
+                valueBE.UpdateSource();
+
+            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
+            {
+                if (string.IsNullOrWhiteSpace(Text) || isPlain)
+                    textBE.UpdateSource();
+                else if (isInvalid && alwaysUpdate)
+                    textBE.UpdateSource();
+            }
         }
     }
 

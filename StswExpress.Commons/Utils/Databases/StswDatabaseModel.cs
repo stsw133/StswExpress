@@ -140,7 +140,7 @@ public partial class StswDatabaseModel : StswObservableObject
         if (!UseIntegratedSecurity && (string.IsNullOrEmpty(Login) || Password == null))
             throw new InvalidOperationException("Login and Password must be specified when not using integrated security.");
 
-        var appName = $"Application Name={StswFn.AppName()};";
+        var appName = $"Application Name={StswFn.AppName};";
 
         return Type switch
         {

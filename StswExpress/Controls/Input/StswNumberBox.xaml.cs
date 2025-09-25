@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Windows;
@@ -117,24 +116,53 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.9.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
-        var result = Value;
+        var isComputed = false;
+        var isInvalid = false;
+        var isPlainNumber = false;
+
+        T? result = Value;
 
         if (string.IsNullOrEmpty(Text))
+        {
             result = null;
-        else if (TryParse(Text, out var res))
-            result = res;
-        else if (StswCalculator.TryCompute(Text, out var computedValue))
+        }
+        else if (TryParse(Text, out var parsed))
+        {
+            isPlainNumber = true;
+            result = parsed;
+        }
+        else if (StswMath.TryCompute(Text, out var computedValue))
+        {
+            isComputed = true;
             result = T.CreateChecked(computedValue);
+        }
+        else
+        {
+            isInvalid = true;
+        }
 
         if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)
         {
             Value = result;
 
-            var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-                bindingExpression.UpdateSource();
+            var textBE = GetBindingExpression(TextProperty);
+            var valueBE = GetBindingExpression(ValueProperty);
+
+            if (!isInvalid && valueBE != null && valueBE.Status == BindingStatus.Active)
+                valueBE.UpdateSource();
+
+            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
+            {
+                if (string.IsNullOrEmpty(Text) || isPlainNumber)
+                    textBE.UpdateSource();
+                else if (isComputed)
+                    textBE.UpdateTarget();
+                else if (isInvalid && alwaysUpdate)
+                    textBE.UpdateSource();
+            }
         }
     }
     #endregion

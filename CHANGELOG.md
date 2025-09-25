@@ -53,39 +53,53 @@
 ## StswExpress.Commons
 
 ### Additions
-- Added `StswDateRange`, a utility class for representing and manipulating date ranges (`Start` / `End`):
-  - supports checks for containment (`Contains`), overlap (`Overlaps`), adjacency and normalization,
-  - provides intersection helpers (`TryIntersect`, `Intersect`),
-  - static `AnyOverlap` detects collisions in collections of ranges,
-  - helper methods to enumerate unique years, months, or days within the range.
+- Introduced `StswMath`, containing:
+  - `AdvanceIndex` (formerly `ShiftBy` from `StswExtensions`),
+  - `AdvanceInRange`,
+  - `Div0` (with and without `defaultValue`),
+  - `Compute` and `TryCompute` (moved from `StswCalculator`).  
+  `StswCalculator` is now integrated into `StswMath`.
+- New `StswDateRange` utility for representing and manipulating date ranges (`Start`/`End`), supporting containment, overlap, adjacency, intersections, and unique date enumerations.
+- `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
 
 ### Changes
-- `StswCommandAttribute` accepts a more convenient way to pass the name of its condition method.
-- `StswNaturalStringComparer` now distinguishes numbers also by length, ensuring deterministic sorting results.
+- Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, and `IsUiThreadAvailable`.
+- `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
+- `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
+- `StswFn`:
+  - `AppName`, `AppVersion`, and `AppCopyright` now cache their values.
+  - `CreateRandomItems` removed (now exposed in `StswRandomGenerator`).
+- `StswNaturalStringComparer` now distinguishes numbers also by length for deterministic results.
 
 ### Fixes
-- `StswCompareConverter` correctly handles cases when the parameter is an enum.
+- `StswCompareConverter` correctly handles enum parameters.
 
 ## StswExpress (WPF)
 
 ### Additions
-- `StswGrid` introduces two new attached properties to simplify declaring row and column definitions.
-- `StswNavigation` and `StswNavigationView` gained small DependencyInjection support by adding a `Command` property when changing frame content.
+- `StswGrid` provides two new attached properties to simplify row and column definition declarations.
+- `StswNavigation` and `StswNavigationView` gained DI support by exposing a `Command` property when changing frame content.
+- `StswPathPicker` includes a `ValidationRule` to check whether the selected path exists or is valid.
 
 ### Changes
-(none)
+- Stsw box controls (`StswColorBox`, `StswDatePicker`, `StswNumberBox`, etc.) improved main property update logic, fixing issues with repeated string calculations in `StswNumberBox`.
+- `StswEventToCommand` optimized and refactored:
+  - `CommandParameter` replaces `CommandParameterBinding`.
+  - `PassEventArgs` replaces `PassEventArgsAsParameter`.
+  - Now properly suggested by IntelliSense in XAML.
+- `StswPathPicker` shifting behavior now respects applied filters.
 
 ### Fixes
-- `StswConfig` version display now shows revision instead of build number.
-- `StswDropButton` and `StswSplitButton`: ensured that click events are properly detached to prevent leaks.
-- `StswGridSplitter`: location revert on double-click now also works with `Auto` and `*` (star) sized definitions.
-- `StswToaster`: `Show` method no longer requires an `Action` parameter.
+- `StswConfig` now displays the revision number instead of the build number.
+- `StswDropButton` and `StswSplitButton` properly detach click events.
+- `StswGridSplitter` correctly restores location on double-click with `Auto` and `*` (star) sized definitions.
+- `StswToaster.Show` no longer requires an `Action` parameter.
 
 ---
 
 <h1 id="0-20-1">0.20.1</h1>
 
-**Release Date**: 2025-09-XX
+**Release Date**: 2025-09-16
 
 ## StswExpress.Commons
 

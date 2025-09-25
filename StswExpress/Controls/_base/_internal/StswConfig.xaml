@@ -76,7 +76,7 @@
                                                      SelectedValue="{Binding Language, Source={x:Static se:StswSettings.Default}}"
                                                      SelectedValuePath="Key">
                                         <se:StswComboBox.SubControls>
-                                            <se:StswSubButton Command="{x:Static se:StswCommands.Clear}" IconData="{x:Static se:StswIcons.Close}"/>
+                                            <se:StswSubButton Command="{x:Static se:StswCommands.ClearSelection}" IconData="{x:Static se:StswIcons.Close}"/>
                                         </se:StswComboBox.SubControls>
                                     </se:StswComboBox>
                                     <!-- theme -->
@@ -86,7 +86,7 @@
                                                      Placeholder="{se:StswTranslate StswConfig.Theme.Auto}"
                                                      SelectedValue="{Binding Theme, Source={x:Static se:StswSettings.Default}}">
                                         <se:StswComboBox.SubControls>
-                                            <se:StswSubButton Command="{x:Static se:StswCommands.Clear}" IconData="{x:Static se:StswIcons.Close}"/>
+                                            <se:StswSubButton Command="{x:Static se:StswCommands.ClearSelection}" IconData="{x:Static se:StswIcons.Close}"/>
                                         </se:StswComboBox.SubControls>
                                     </se:StswComboBox>
                                     <!-- animations -->

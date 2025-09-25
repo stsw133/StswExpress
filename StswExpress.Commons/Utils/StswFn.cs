@@ -21,15 +21,6 @@ public static partial class StswFn
 
     #region Action functions
     /// <summary>
-    /// Executes one of the two specified actions based on the condition.
-    /// </summary>
-    /// <param name="condition">The condition to evaluate.</param>
-    /// <param name="ifTrue">The action to execute if the condition is <see langword="true"/>.</param>
-    /// <param name="ifFalse">The action to execute if the condition is <see langword="false"/>.</param>
-    [StswInfo("0.19.0")]
-    public static void Do(this bool condition, Action? ifTrue, Action? ifFalse) => (condition ? ifTrue : ifFalse)?.Invoke();
-
-    /// <summary>
     /// Attempts to execute the specified action multiple times until it succeeds or reaches the maximum number of attempts.
     /// </summary>
     /// <param name="action">The action to execute.</param>
@@ -104,25 +95,26 @@ public static partial class StswFn
     /// Gets the name of the currently executing application.
     /// </summary>
     /// <returns>The name of the currently executing application, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo(null)]
-    public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
+    [StswInfo(null, "0.21.0")]
+    public static string? AppName { get; } = Assembly.GetEntryAssembly()?.GetName().Name;
 
     /// <summary>
     /// Gets the version number of the currently executing application.
     /// </summary>
     /// <returns>The version number of the currently executing application as a string, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo(null, "0.20.0")]
-    public static string? AppVersion()
+    [StswInfo(null, "0.21.0")]
+    public static string? AppVersion { get; } = ComputeAppVersion();
+    private static string? ComputeAppVersion()
     {
         var ver = Assembly.GetEntryAssembly()?.GetName().Version;
         if (ver is null)
             return null;
-
+        
         var fields = ver.Revision != 0 ? 4
                    : ver.Build != 0 ? 3
                    : ver.Minor != 0 ? 2
                    : 1;
-
+        
         return ver.ToString(fields);
     }
 
@@ -130,8 +122,8 @@ public static partial class StswFn
     /// Gets the copyright information for the currently executing application.
     /// </summary>
     /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo(null)]
-    public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
+    [StswInfo(null, "0.21.0")]
+    public static string? AppCopyright { get; } = Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
     /// Determines whether the currently executing assembly was built in debug mode.
@@ -150,13 +142,6 @@ public static partial class StswFn
         var da = asm.GetCustomAttribute<DebuggableAttribute>();
         return da is not null && (da.IsJITTrackingEnabled || da.IsJITOptimizerDisabled);
     }
-
-    /// <summary>
-    /// Checks if a UI thread is available using SynchronizationContext.
-    /// </summary>
-    /// <returns><see langword="true"/> if a UI thread (e.g., WPF, WinForms) is available, <see langword="false"/> otherwise.</returns>
-    [StswInfo("0.17.0")]
-    public static bool IsUiThreadAvailable() => SynchronizationContext.Current is not null;
     #endregion
 
     #region Convert functions
@@ -397,17 +382,6 @@ public static partial class StswFn
 
         Process.Start("explorer.exe", $"/select,\"{path}\"");
     }
-    #endregion
-
-    #region List functions
-    /// <summary>
-    /// Generates a collection of random items of type <typeparamref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of items to generate.</typeparam>
-    /// <param name="count">The number of random items to generate.</param>
-    /// <returns>An enumerable collection of randomly generated items.</returns>
-    [StswInfo("0.16.0")]
-    public static IEnumerable<T> CreateRandomItems<T>(int count) => StswRandomGenerator.CreateRandomItems<T>(count);
     #endregion
 
     #region Text functions

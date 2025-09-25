@@ -41,13 +41,13 @@
                 <!-- ID -->
                 <se:StswDataGridDecimalColumn Binding="{Binding Id}" Width="100">
                     <se:StswDataGridDecimalColumn.Header>
-                        <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal"/>
+                        <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="Id"/>
                     </se:StswDataGridDecimalColumn.Header>
                 </se:StswDataGridDecimalColumn>
                 <!-- Name -->
                 <se:StswDataGridTextColumn Binding="{Binding Name}" TextAlignment="Justify" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Width="*">
                     <se:StswDataGridTextColumn.Header>
-                        <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains"/>
+                        <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
                     </se:StswDataGridTextColumn.Header>
                 </se:StswDataGridTextColumn>
             </se:StswDataGrid.Columns>

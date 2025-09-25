@@ -54,7 +54,7 @@ public static class StswSecurity
             if (_manualKey is not null)
                 return _manualKey;
 
-            var appName = StswFn.AppName() ?? "DefaultAppName";
+            var appName = StswFn.AppName ?? "DefaultAppName";
             return SHA256.HashData(Encoding.UTF8.GetBytes(appName));
         }
     }
@@ -70,7 +70,7 @@ public static class StswSecurity
             if (_manualSalt is not null)
                 return _manualSalt;
 
-            var appName = StswFn.AppName() ?? "DefaultAppName";
+            var appName = StswFn.AppName ?? "DefaultAppName";
             return SHA256.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
         }
     }

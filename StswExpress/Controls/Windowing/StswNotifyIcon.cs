@@ -324,7 +324,7 @@ public class StswNotifyIcon : FrameworkElement
             System.Windows.Application.Current.Exit += (_, _) => _staticTray?.Dispose();
         }
         _staticTray.Icon = icon ?? Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()!.ManifestModule.Name);
-        _staticTray.Text = text ?? StswFn.AppName();
+        _staticTray.Text = text ?? StswFn.AppName;
     }
 
     /// <summary>

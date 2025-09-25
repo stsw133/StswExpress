@@ -1,28 +1,8 @@
-using StswExpress.Commons;
-using System;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace StswExpress.Commons.Tests.Utils;
 public class StswFnTests
 {
-    [Fact]
-    public void Do_ExecutesIfTrueOrIfFalse()
-    {
-        bool trueCalled = false, falseCalled = false;
-        true.Do(() => trueCalled = true, () => falseCalled = true);
-        Assert.True(trueCalled);
-        Assert.False(falseCalled);
-
-        trueCalled = false; falseCalled = false;
-        false.Do(() => trueCalled = true, () => falseCalled = true);
-        Assert.False(trueCalled);
-        Assert.True(falseCalled);
-    }
-
     [Fact]
     public void TryMultipleTimes_SucceedsOnFirstTry()
     {
@@ -67,14 +47,14 @@ public class StswFnTests
     [Fact]
     public void AppName_ReturnsNonNull()
     {
-        var name = StswFn.AppName();
+        var name = StswFn.AppName;
         Assert.False(string.IsNullOrWhiteSpace(name));
     }
 
     [Fact]
     public void AppVersion_ReturnsNonNull()
     {
-        var version = StswFn.AppVersion();
+        var version = StswFn.AppVersion;
         Assert.False(string.IsNullOrWhiteSpace(version));
     }
 
@@ -89,12 +69,6 @@ public class StswFnTests
     public void IsInDebug_ReturnsBool()
     {
         Assert.IsType<bool>(StswFn.IsInDebug);
-    }
-
-    [Fact]
-    public void IsUiThreadAvailable_ReturnsBool()
-    {
-        Assert.IsType<bool>(StswFn.IsUiThreadAvailable());
     }
 
     [Fact]

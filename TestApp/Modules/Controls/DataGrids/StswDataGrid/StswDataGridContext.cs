@@ -37,7 +37,7 @@ public partial class StswDataGridContext : ControlsContext
         Id = i,
         Name = "Row " + i,
         ShowDetails = i % 3 == 0 ? null : false
-    }), false);
+    }));
     [StswObservableProperty] StswScrollToItemBehavior _scrollToItemBehavior;
     [StswObservableProperty] DataGridSelectionUnit _selectionUnit;
 }

@@ -7,7 +7,7 @@ namespace StswExpress.Commons;
 /// Utility class for generating random instances of a specified type.
 /// </summary>
 [StswInfo("0.16.0")]
-internal static class StswRandomGenerator
+public static class StswRandomGenerator
 {
     private static readonly Random _random = new();
 
@@ -17,7 +17,7 @@ internal static class StswRandomGenerator
     /// <typeparam name="T">The type of the model to generate.</typeparam>
     /// <param name="count">The number of items to generate.</param>
     /// <returns>IEnumerable of T with randomly populated properties.</returns>
-    internal static IEnumerable<T> CreateRandomItems<T>(int count)
+    public static IEnumerable<T> CreateRandomItems<T>(int count)
     {
         var visited = new HashSet<Type>();
 

@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AllowUncheck -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AllowUncheck, Type={x:Type se:StswSubRadio}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AllowUncheck}"/>
             <!-- IconScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswSubRadio}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
@@ -30,7 +33,8 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
-            <se:StswSubRadio Command="{Binding OnClickCommand}"
+            <se:StswSubRadio AllowUncheck="{Binding AllowUncheck}"
+                             Command="{Binding OnClickCommand}"
                              CommandParameter="1"
                              Content="Option 1"
                              FontSize="11"
@@ -44,7 +48,8 @@
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswSubRadio Command="{Binding OnClickCommand}"
+            <se:StswSubRadio AllowUncheck="{Binding AllowUncheck}"
+                             Command="{Binding OnClickCommand}"
                              CommandParameter="2"
                              Content="Option 2"
                              FontSize="11"
@@ -58,7 +63,8 @@
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswSubRadio Command="{Binding OnClickCommand}"
+            <se:StswSubRadio AllowUncheck="{Binding AllowUncheck}"
+                             Command="{Binding OnClickCommand}"
                              CommandParameter="3"
                              Content="Option 3"
                              FontSize="11"

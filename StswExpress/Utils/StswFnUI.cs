@@ -24,20 +24,11 @@ public static class StswFnUI
 {
     #region Assembly functions
     /// <summary>
-    /// Gets the name and version number of the currently executing application.
+    /// Gets the name and version number of the currently executing application for XAML bindings.
     /// </summary>
     /// <returns>A string containing the name and version number of the currently executing application.</returns>
     [StswInfo(null)]
-    public static string? AppNameAndVersion
-    {
-        get
-        {
-            var appName = StswFn.AppName();
-            var appVersion = StswFn.AppVersion();
-
-            return appVersion != "1" ? $"{appName} {appVersion}" : appName;
-        }
-    }
+    public static string? AppNameAndVersion => StswFn.AppVersion != "1" ? $"{StswFn.AppName} {StswFn.AppVersion}" : StswFn.AppName;
 
     /// <summary>
     /// Retrieves the name of the currently executing assembly.
@@ -77,6 +68,28 @@ public static class StswFnUI
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }
+    #endregion
+
+    #region Binding helpers
+    /// <summary>
+    /// Boolean value representing true for XAML bindings.
+    /// </summary>
+    public static readonly bool True = true;
+
+    /// <summary>
+    /// Boolean value representing false for XAML bindings.
+    /// </summary>
+    public static readonly bool False = false;
+
+    /// <summary>
+    /// Gets the current date with the time component set to 00:00:00.
+    /// </summary>
+    public static DateTime CurrentDate => DateTime.Today;
+
+    /// <summary>
+    /// Gets the current date and time.
+    /// </summary>
+    public static DateTime CurrentDateTime => DateTime.Now;
     #endregion
 
     #region Color functions
@@ -747,13 +760,6 @@ public static class StswFnUI
                 break;
         }
     }
-    #endregion
-
-    #region Binding static helpers
-    public static readonly bool True = true;
-    public static readonly bool False = false;
-    public static DateTime CurrentDate => DateTime.Today;
-    public static DateTime CurrentDateTime => DateTime.Now;
     #endregion
 
     private struct SHFILEINFO

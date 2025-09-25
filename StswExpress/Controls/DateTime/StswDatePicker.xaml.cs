@@ -106,24 +106,54 @@ public class StswDatePicker : StswBoxBase
     }
 
     /// <inheritdoc/>
+    [StswInfo(null, "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
+        var isInvalid = false;
+        var isPlain = false;
+
         var result = SelectedDate;
 
-        if (string.IsNullOrEmpty(Text))
+        if (string.IsNullOrWhiteSpace(Text))
+        {
             result = null;
-        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var res))
-            result = res;
-        else if (DateTime.TryParse(Text, out res))
-            result = res;
+        }
+        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var dtExact))
+        {
+            isPlain = true;
+            result = dtExact;
+        }
+        else if (DateTime.TryParse(Text, CultureInfo.CurrentCulture, DateTimeStyles.None, out var dt))
+        {
+            isPlain = true;
+            result = dt;
+        }
+        else
+        {
+            isInvalid = true;
+        }
 
         if (result != SelectedDate || alwaysUpdate)
         {
             SelectedDate = result;
 
-            var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-                bindingExpression.UpdateSource();
+            var textBE = GetBindingExpression(TextProperty);
+            var valueBE = GetBindingExpression(SelectedDateProperty);
+
+            if (!isInvalid && valueBE?.Status == BindingStatus.Active)
+                valueBE.UpdateSource();
+
+            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
+            {
+                if (string.IsNullOrWhiteSpace(Text) || isPlain)
+                {
+                    textBE.UpdateSource();
+                }
+                else if (isInvalid && alwaysUpdate)
+                {
+                    textBE.UpdateSource();
+                }
+            }
         }
     }
     #endregion

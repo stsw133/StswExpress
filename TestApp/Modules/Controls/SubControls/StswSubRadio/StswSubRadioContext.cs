@@ -10,6 +10,7 @@ public partial class StswSubRadioContext : ControlsContext
     {
         base.SetDefaults();
 
+        AllowUncheck = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AllowUncheck)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
@@ -21,6 +22,7 @@ public partial class StswSubRadioContext : ControlsContext
 
     [StswObservableProperty] int _clickOption;
     [StswObservableProperty] ObservableCollection<bool?> _selectedOption = [null, false, false, true, false];
+    [StswObservableProperty] bool _allowUncheck;
     [StswObservableProperty] GridLength _iconScale;
     [StswObservableProperty] bool _isBusy;
     [StswObservableProperty] bool _isContentVisible;

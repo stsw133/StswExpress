@@ -841,39 +841,6 @@ public static partial class StswExtensions
     }
     #endregion
 
-    #region Numeric extensions
-    /// <summary>
-    /// Shifts the value by the specified step, with optional looping and boundary conditions.
-    /// </summary>
-    /// <param name="value">The current value.</param>
-    /// <param name="step">The step value for shifting.</param>
-    /// <param name="max">The maximum possible value (exclusive upper bound).</param>
-    /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting past boundaries.</param>
-    /// <returns>The new shifted value, respecting looping and boundary conditions.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when max is less than or equal to 0.</exception>
-    [StswInfo("0.6.0")]
-    public static int ShiftBy(this int value, int step, int max, bool isLoopingAllowed = true)
-    {
-        if (max <= 0)
-            throw new ArgumentOutOfRangeException(nameof(max), "Max must be greater than zero.");
-
-        var newValue = value + step;
-
-        if (isLoopingAllowed)
-        {
-            newValue %= max;
-            if (newValue < 0)
-                newValue += max;
-        }
-        else
-        {
-            newValue = Math.Clamp(newValue, 0, max - 1);
-        }
-
-        return newValue;
-    }
-    #endregion
-
     #region Object extensions
     /// <summary>
     /// Copies readable public properties from a source object to writable public properties 

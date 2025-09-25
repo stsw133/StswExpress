@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -39,6 +40,7 @@ public class StswPathPicker : StswBoxBase
         if (GetTemplateChild("PART_DialogButton") is ButtonBase btnDialog)
             btnDialog.Click += PART_DialogButton_Click;
 
+        AttachTextValidationRule();
         ListAdjacentPaths();
     }
 
@@ -56,19 +58,58 @@ public class StswPathPicker : StswBoxBase
     }
 
     /// <summary>
+    /// Attaches a validation rule to the Text property to ensure the path exists based on the selection unit.
+    /// </summary>
+    [StswInfo("0.21.0")]
+    private void AttachTextValidationRule()
+    {
+        var current = BindingOperations.GetBinding(this, TextProperty);
+
+        var b = new Binding
+        {
+            Path = current?.Path ?? new PropertyPath(nameof(SelectedPath)),
+            Mode = current?.Mode ?? BindingMode.TwoWay,
+            RelativeSource = current?.RelativeSource ?? new RelativeSource(RelativeSourceMode.Self),
+            TargetNullValue = current?.TargetNullValue ?? string.Empty,
+            StringFormat = current?.StringFormat,
+            UpdateSourceTrigger = UpdateSourceTrigger.Explicit
+        };
+        b.ValidationRules.Add(new StswPathExistsValidationRule { Host = this });
+
+        BindingOperations.SetBinding(this, TextProperty, b);
+    }
+
+    /// <summary>
     /// Lists adjacent paths based on the current selected path and path type.
     /// The paths listed depend on whether the selection unit is a directory or a file.
     /// </summary>
+    [StswInfo("0.5.0", "0.21.0")]
     private void ListAdjacentPaths()
     {
-        if (IsShiftingEnabled && parentPath != null)
+        if (!IsShiftingEnabled || parentPath is null)
+        {
+            adjacentPaths = null;
+            return;
+        }
+
+        try
         {
             if (SelectionUnit == StswPathType.OpenDirectory)
+            {
                 adjacentPaths = [.. Directory.GetDirectories(parentPath)];
+            }
             else
-                adjacentPaths = [.. Directory.GetFiles(parentPath)];
+            {
+                var all = Directory.GetFiles(parentPath);
+                var allowedExts = ParseFilterExtensions(Filter);
+                adjacentPaths = [.. all.Where(p => IsFileAllowedByFilter(p, allowedExts))];
+            }
         }
-        else adjacentPaths = null;
+        catch
+        {
+            // e.g. UnauthorizedAccessException, PathTooLongException
+            adjacentPaths = null;
+        }
     }
     private IList<string>? adjacentPaths;
 
@@ -93,13 +134,92 @@ public class StswPathPicker : StswBoxBase
     }
 
     /// <inheritdoc/>
+    [StswInfo("0.5.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
-        if (alwaysUpdate)
+        var isInvalid = false;
+        var isPlain = false;
+
+        var nextSelectedPath = SelectedPath;
+
+        if (string.IsNullOrWhiteSpace(Text))
         {
-            var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-                bindingExpression.UpdateSource();
+            nextSelectedPath = null;
+        }
+        else
+        {
+            var raw = Environment.ExpandEnvironmentVariables(Text).Trim().Trim('"');
+
+            try
+            {
+                var normalized = Path.GetFullPath(raw);
+                switch (SelectionUnit)
+                {
+                    case StswPathType.OpenDirectory:
+                        if (Directory.Exists(normalized))
+                        {
+                            isPlain = true;
+                            nextSelectedPath = normalized;
+                        }
+                        else isInvalid = true;
+                        break;
+
+                    case StswPathType.OpenFile:
+                        if (File.Exists(normalized))
+                        {
+                            isPlain = true;
+                            nextSelectedPath = normalized;
+                        }
+                        else isInvalid = true;
+                        break;
+
+                    case StswPathType.SaveFile:
+                        var dir = Path.GetDirectoryName(normalized);
+                        var fileName = Path.GetFileName(normalized);
+
+                        var dirOk = !string.IsNullOrEmpty(dir) && Directory.Exists(dir);
+                        var fileNameOk = !string.IsNullOrWhiteSpace(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+
+                        if (dirOk && fileNameOk)
+                        {
+                            isPlain = true;
+                            nextSelectedPath = normalized;
+                        }
+                        else isInvalid = true;
+                        break;
+
+                    default:
+                        isInvalid = true;
+                        break;
+                }
+            }
+            catch
+            {
+                isInvalid = true;
+            }
+        }
+
+        if (!Equals(nextSelectedPath, SelectedPath) || alwaysUpdate)
+        {
+            SelectedPath = nextSelectedPath;
+
+            var valueBE = GetBindingExpression(SelectedPathProperty);
+            if (!isInvalid && valueBE?.Status == BindingStatus.Active)
+                valueBE.UpdateSource();
+
+            if (nextSelectedPath is null)
+                SelectedPaths = [];
+            else if (SelectionUnit != StswPathType.OpenDirectory)
+                SelectedPaths = [nextSelectedPath];
+
+            var textBE = GetBindingExpression(TextProperty);
+            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
+            {
+                if (string.IsNullOrWhiteSpace(Text) || isPlain)
+                    textBE.UpdateSource();
+                else if (isInvalid && alwaysUpdate)
+                    textBE.UpdateSource();
+            }
         }
     }
 
@@ -170,6 +290,57 @@ public class StswPathPicker : StswBoxBase
             _ => $"{length / 1_073_741_824} GB"
         };
     }
+
+    /// <summary>
+    /// Parses a file filter string and extracts the allowed file extensions.
+    /// </summary>
+    /// <param name="filter">The filter string in the format used by file dialogs (e.g., "Text Files|*.txt;*.md|All Files|*.*").</param>
+    /// <returns>A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</returns>
+    [StswInfo("0.21.0")]
+    private static HashSet<string>? ParseFilterExtensions(string filter)
+    {
+        if (string.IsNullOrWhiteSpace(filter))
+            return null;
+
+        var parts = filter.Split('|');
+        var exts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        for (var i = 1; i < parts.Length; i += 2)
+        {
+            var pat = parts[i].Trim();
+            if (string.IsNullOrEmpty(pat))
+                continue;
+
+            foreach (var p in pat.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                if (p == "*.*")
+                    return null;
+
+                if (p.StartsWith("*.", StringComparison.Ordinal))
+                {
+                    var ext = p[1..];
+                    if (ext.Length > 1) exts.Add(ext);
+                }
+            }
+        }
+
+        return exts.Count == 0 ? null : exts;
+    }
+
+    /// <summary>
+    /// Checks if a file path is allowed based on the provided set of allowed extensions.
+    /// </summary>
+    /// <param name="path">The file path to check.</param>
+    /// <param name="allowedExts">A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</param>
+    /// <returns><see langword="true"/> if the file is allowed, otherwise <see langword="false"/>.</returns>
+    [StswInfo("0.21.0")]
+    private static bool IsFileAllowedByFilter(string path, HashSet<string>? allowedExts)
+    {
+        if (allowedExts is null)
+            return true;
+
+        return allowedExts.Contains(Path.GetExtension(path));
+    }
     #endregion
 
     #region Logic properties
@@ -209,6 +380,7 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the file filter used in the file selection dialog.
     /// Example: "Image Files (*.png;*.jpg)|*.png;*.jpg".
     /// </summary>
+    [StswInfo("0.5.0", "0.21.0")]
     public string Filter
     {
         get => (string)GetValue(FilterProperty);
@@ -218,8 +390,17 @@ public class StswPathPicker : StswBoxBase
         = DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
-            typeof(StswPathPicker)
+            typeof(StswPathPicker),
+            new FrameworkPropertyMetadata(default(string), OnFilterChanged)
         );
+    private static void OnFilterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is not StswPathPicker stsw)
+            return;
+
+        if (stsw.SelectionUnit != StswPathType.OpenDirectory)
+            stsw.ListAdjacentPaths();
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.

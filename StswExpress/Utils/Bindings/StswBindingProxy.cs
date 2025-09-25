@@ -15,7 +15,7 @@ namespace StswExpress;
 ///         &lt;DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"&gt;
 ///             &lt;DataGridComboBoxColumn.Header&gt;
 ///                 &lt;se:StswFilterSql Header="Type" FilterType="List" FilterMode="In" FilterValuePath="a.Type"
-///                                   ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"/&gt;
+///                                      ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"/&gt;
 ///             &lt;/DataGridComboBoxColumn.Header&gt;
 ///         &lt;/DataGridComboBoxColumn&gt;
 ///     &lt;/DataGrid.Columns&gt;

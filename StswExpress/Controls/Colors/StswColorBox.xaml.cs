@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StswExpress;
 /// <summary>
@@ -28,20 +29,55 @@ public class StswColorBox : StswBoxBase
 
     #region Events & methods
     /// <inheritdoc/>
+    [StswInfo("0.1.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
+        var isInvalid = false;
+        var isPlain = false;
+
         var result = SelectedColor ?? default;
 
-        if (string.IsNullOrEmpty(Text))
+        if (string.IsNullOrWhiteSpace(Text))
+        {
             result = default;
-        else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] argb && argb.Length == 4
-              && byte.TryParse(argb[0], out var a) && byte.TryParse(argb[1], out var r) && byte.TryParse(argb[2], out var g) && byte.TryParse(argb[3], out var b))
-            result = Color.FromArgb(a, r, g, b);
-        else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] rgb && rgb.Length == 3
-              && byte.TryParse(rgb[0], out r) && byte.TryParse(rgb[1], out g) && byte.TryParse(rgb[2], out b))
-            result = Color.FromRgb(r, g, b);
-        else if (new ColorConverter().IsValid(Text))
-            result = (Color)ColorConverter.ConvertFromString(Text);
+        }
+        else
+        {
+            var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+            var parts = Text.Split([sep], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            byte a, r, g, b;
+            if (parts.Length == 4 &&
+                byte.TryParse(parts[0], out a) &&
+                byte.TryParse(parts[1], out r) &&
+                byte.TryParse(parts[2], out g) &&
+                byte.TryParse(parts[3], out b))
+            {
+                isPlain = true;
+                result = Color.FromArgb(a, r, g, b);
+            }
+            else if (parts.Length == 3 &&
+                     byte.TryParse(parts[0], out r) &&
+                     byte.TryParse(parts[1], out g) &&
+                     byte.TryParse(parts[2], out b))
+            {
+                isPlain = true;
+                result = Color.FromRgb(r, g, b);
+            }
+            else
+            {
+                var conv = new ColorConverter();
+                if (conv.IsValid(Text))
+                {
+                    isPlain = true;
+                    result = (Color)ColorConverter.ConvertFromString(Text)!;
+                }
+                else
+                {
+                    isInvalid = true;
+                }
+            }
+        }
 
         if (!IsAlphaEnabled)
             result = Color.FromRgb(result.R, result.G, result.B);
@@ -50,9 +86,19 @@ public class StswColorBox : StswBoxBase
         {
             SelectedColor = result;
 
-            var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-                bindingExpression.UpdateSource();
+            var textBE = GetBindingExpression(TextProperty);
+            var valueBE = GetBindingExpression(SelectedColorProperty);
+
+            if (!isInvalid && valueBE?.Status == BindingStatus.Active)
+                valueBE.UpdateSource();
+
+            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
+            {
+                if (string.IsNullOrWhiteSpace(Text) || isPlain)
+                    textBE.UpdateSource();
+                else if (isInvalid && alwaysUpdate)
+                    textBE.UpdateSource();
+            }
         }
     }
     #endregion

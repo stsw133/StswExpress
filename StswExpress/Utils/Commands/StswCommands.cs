@@ -17,20 +17,26 @@ public static class StswCommands
     /// <summary>
     /// A command to clear the content of various controls, such as text boxes or item lists.
     /// </summary>
-    [StswInfo("0.9.0", "0.20.0")]
-    public static readonly RoutedUICommand Clear = new(nameof(Clear), nameof(Clear), typeof(StswCommands));
+    [StswInfo("0.21.0")]
+    public static readonly RoutedUICommand ClearItems = new(nameof(ClearItems), nameof(ClearItems), typeof(StswCommands));
+
+    /// <summary>
+    /// A command to deselect all selected items in a selection-based control.
+    /// </summary>
+    [StswInfo("0.20.0", "0.21.0")]
+    public static readonly RoutedUICommand ClearSelection = new(nameof(ClearSelection), nameof(ClearSelection), typeof(StswCommands));
+
+    /// <summary>
+    /// A command to clear the content of various controls, such as text boxes or item lists.
+    /// </summary>
+    [StswInfo("0.9.0", "0.21.0")]
+    public static readonly RoutedUICommand ClearText = new(nameof(ClearText), nameof(ClearText), typeof(StswCommands));
 
     /// <summary>
     /// A command to close a dialog by triggering the closing mechanism.
     /// </summary>
     [StswInfo("0.13.1")]
     public static readonly RoutedUICommand CloseDialog = new(nameof(CloseDialog), nameof(CloseDialog), typeof(StswCommands));
-
-    /// <summary>
-    /// A command to deselect all selected items in a selection-based control.
-    /// </summary>
-    [StswInfo("0.20.0")]
-    public static readonly RoutedUICommand Deselect = new(nameof(Deselect), nameof(Deselect), typeof(StswCommands));
 
     /// <summary>
     /// A command to deselect all selected items in a selection-based control.
@@ -55,20 +61,21 @@ public static class StswCommands
     /// </summary>
     static StswCommands()
     {
-        /// clear command
-        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(ItemsControl), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(Clear, Clear_Execute, Clear_CanExecute));
+        /// clear [items|selection|text] command
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(ClearItems, ClearText_Execute, ClearText_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(ItemsControl), new CommandBinding(ClearItems, ClearText_Execute, ClearText_CanExecute));
+
+        CommandManager.RegisterClassCommandBinding(typeof(Selector), new CommandBinding(ClearSelection, ClearSelection_Execute, ClearSelection_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(StswSelectionBox), new CommandBinding(ClearSelection, ClearSelection_Execute, ClearSelection_CanExecute));
+
+        CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
 
         /// close dialog command
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(CloseDialog, CloseDialog_Execute, CloseDialog_CanExecute));
 
-        /// deselect command
-        CommandManager.RegisterClassCommandBinding(typeof(Selector), new CommandBinding(Deselect, Deselect_Execute, Deselect_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(StswSelectionBox), new CommandBinding(Deselect, Deselect_Execute, Deselect_CanExecute));
-
-        /// select/deselect all commands
+        /// [select|deselect] all commands
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(SelectAll, SelectAll_Execute, SelectAll_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(DeselectAll, DeselectAll_Execute, DeselectAll_CanExecute));
 
@@ -77,12 +84,12 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Determines whether the <see cref="Clear"/> command can execute on the target control.
+    /// Executes the <see cref="ClearItems"/> command by closing the associated dialog window.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.9.0", "0.20.0")]
-    private static void Clear_Execute(object sender, ExecutedRoutedEventArgs e)
+    [StswInfo("0.21.0")]
+    private static void ClearItems_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         switch (e.Parameter ?? sender)
         {
@@ -95,6 +102,74 @@ public static class StswCommands
             case ItemsControl ic when ic.ItemsSource is IList srcList:
                 srcList.Clear();
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the <see cref="ClearItems"/> command can execute on the target control.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data.</param>
+    [StswInfo("0.21.0")]
+    private static void ClearItems_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = (e.Parameter ?? sender) switch
+        {
+            IList list => list.Count > 0,
+            ItemsControl ic when ic.ItemsSource is null => ic.Items.Count > 0,
+            ItemsControl ic when ic.ItemsSource is IList srcList => srcList.Count > 0,
+            _ => false,
+        };
+    }
+
+    /// <summary>
+    /// Executes the <see cref="ClearSelection"/> command by closing the associated dialog window.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data.</param>
+    [StswInfo("0.20.0")]
+    private static void ClearSelection_Execute(object sender, ExecutedRoutedEventArgs e)
+    {
+        switch (e.Parameter ?? sender)
+        {
+            case Selector selector:
+                selector.SelectedIndex = -1;
+                break;
+            case StswSelectionBox box when box.ItemsSource is IEnumerable src:
+                foreach (var item in src.Cast<object>().OfType<IStswSelectionItem>())
+                    item.IsSelected = false;
+                box.UpdateTextCommand?.Execute(null);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the <see cref="ClearSelection"/> command can execute on the target control.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
+    [StswInfo("0.20.0")]
+    private static void ClearSelection_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = (e.Parameter ?? sender) switch
+        {
+            Selector selector => selector.SelectedIndex >= 0,
+            StswSelectionBox stswSelectionBox when stswSelectionBox.ItemsSource is IEnumerable src
+                => src.Cast<object>().OfType<IStswSelectionItem>().Any(i => i.IsSelected),
+            _ => false,
+        };
+    }
+
+    /// <summary>
+    /// Executes the <see cref="ClearText"/> command by closing the associated dialog window.
+    /// </summary>
+    /// <param name="sender">The control that invoked the command.</param>
+    /// <param name="e">The event data.</param>
+    [StswInfo("0.9.0", "0.21.0")]
+    private static void ClearText_Execute(object sender, ExecutedRoutedEventArgs e)
+    {
+        switch (e.Parameter ?? sender)
+        {
             case StswPasswordBox pwd:
                 pwd.Password = default;
                 break;
@@ -105,18 +180,15 @@ public static class StswCommands
     }
 
     /// <summary>
-    /// Executes the <see cref="Clear"/> command by closing the associated dialog window.
+    /// Determines whether the <see cref="ClearText"/> command can execute on the target control.
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
     [StswInfo("0.9.0", "0.20.0")]
-    private static void Clear_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private static void ClearText_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = (e.Parameter ?? sender) switch
         {
-            IList list => list.Count > 0,
-            ItemsControl ic when ic.ItemsSource is null => ic.Items.Count > 0,
-            ItemsControl ic when ic.ItemsSource is IList srcList => srcList.Count > 0,
             StswPasswordBox pwd => !string.IsNullOrEmpty(pwd.Password),
             TextBox tb => !string.IsNullOrEmpty(tb.Text),
             _ => false,
@@ -142,44 +214,6 @@ public static class StswCommands
     /// <param name="e">The event data.</param>
     [StswInfo("0.13.1")]
     private static void CloseDialog_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = sender is ButtonBase;
-
-    /// <summary>
-    /// Determines whether the <see cref="Deselect"/> command can execute on the target control.
-    /// </summary>
-    /// <param name="sender">The control that invoked the command.</param>
-    /// <param name="e">The event data.</param>
-    [StswInfo("0.20.0")]
-    private static void Deselect_Execute(object sender, ExecutedRoutedEventArgs e)
-    {
-        switch (e.Parameter ?? sender)
-        {
-            case Selector selector:
-                selector.SelectedIndex = -1;
-                break;
-            case StswSelectionBox box when box.ItemsSource is IEnumerable src:
-                foreach (var item in src.Cast<object>().OfType<IStswSelectionItem>())
-                    item.IsSelected = false;
-                box.UpdateTextCommand?.Execute(null);
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Executes the <see cref="Deselect"/> command by closing the associated dialog window.
-    /// </summary>
-    /// <param name="sender">The control that invoked the command.</param>
-    /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
-    [StswInfo("0.20.0")]
-    private static void Deselect_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = (e.Parameter ?? sender) switch
-        {
-            Selector selector => selector.SelectedIndex >= 0,
-            StswSelectionBox stswSelectionBox when stswSelectionBox.ItemsSource is IEnumerable src
-                => src.Cast<object>().OfType<IStswSelectionItem>().Any(i => i.IsSelected),
-            _ => false,
-        };
-    }
 
     /// <summary>
     /// Executes the <see cref="DeselectAll"/> command by deselecting all selected items in a selection-based control.

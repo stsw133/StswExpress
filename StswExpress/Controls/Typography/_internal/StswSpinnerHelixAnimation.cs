@@ -59,7 +59,7 @@ internal class StswSpinnerHelixAnimation : Control
         if (!stsw.IsLoaded)
             return;
 
-        stsw.IsActive.Do(stsw.InitAnimation, stsw.EndAnimation);
+        (stsw.IsActive ? (Action)stsw.InitAnimation : stsw.EndAnimation)?.Invoke();
     }
     #endregion
 

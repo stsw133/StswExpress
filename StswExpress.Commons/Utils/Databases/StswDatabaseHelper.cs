@@ -943,7 +943,7 @@ public static partial class StswDatabaseHelper
             return true;
         }
 
-        if (StswFn.IsUiThreadAvailable())
+        if (SynchronizationContext.Current is not null)
         {
             var isInDesignMode = false;
             SynchronizationContext.Current?.Send(_ => isInDesignMode = Process.GetCurrentProcess().ProcessName.Contains("xdesproc", StringComparison.CurrentCultureIgnoreCase), null);

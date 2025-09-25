@@ -30,7 +30,7 @@
                         </se:StswLabel.Style>
                     </se:StswLabel>
                 </se:StswButton>
-                <se:StswButton Command="{x:Static se:StswCommands.Clear}" CommandParameter="{Binding Logs}" Margin="3">
+                <se:StswButton Command="{x:Static se:StswCommands.ClearItems}" CommandParameter="{Binding Logs}" Margin="3">
                     <se:StswLabel Content="Clear logs" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}"/>
                 </se:StswButton>
             </UniformGrid>
