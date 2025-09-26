@@ -66,8 +66,8 @@ public class StswAnalyzer : DiagnosticAnalyzer
     /// <summary>
     /// Gets the collection of diagnostic descriptors supported by this analyzer.
     /// </summary>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(SinceVersionInfoRule, IsNotTestedRule, MarkedForRemovalRule, PlannedChangesRule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+        => ImmutableArray.Create(SinceVersionInfoRule, IsNotTestedRule, MarkedForRemovalRule, PlannedChangesRule);
 
     /// <summary>
     /// Initializes the analyzer and registers the symbol action to analyze symbols with StswAttribute.
@@ -121,7 +121,7 @@ public class StswAnalyzer : DiagnosticAnalyzer
         }
 
         /// Changes > 0
-        var changesArg = attr.NamedArguments.FirstOrDefault(x => x.Key == "Changes");
+        var changesArg = attr.NamedArguments.FirstOrDefault(x => x.Key == "PlannedChanges");
         if (changesArg.Value.Value is int changesValue)
         {
             var enumValue = (StswPlannedChanges)changesValue;
@@ -189,5 +189,6 @@ public enum StswPlannedChanges
     VisualChanges = 128,
     ChangeAccessibility = 256,
     ChangeName = 512,
-    Remove = 1024,
+    Move = 1024,
+    Remove = 2048,
 }

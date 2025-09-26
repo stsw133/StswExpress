@@ -23,7 +23,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedDate))]
-[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswCalendar : Control, IStswCornerControl
 {
     private ContentControl? _buttonClear, _buttonToday;

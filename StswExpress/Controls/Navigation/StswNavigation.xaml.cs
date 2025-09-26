@@ -24,7 +24,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo(null, Changes = StswPlannedChanges.Rework)]
+[StswInfo(null, PlannedChanges = StswPlannedChanges.Rework)]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
     internal StswNavigationElement? CompactedExpander;

@@ -36,7 +36,7 @@ public class StswDatabasesConfig
     public bool MakeLessSpaceQuery { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to always return if the application is running in designer mode.
+    /// Gets or sets a value indicating whether to always return if the application is running in design mode.
     /// </summary>
-    public bool ReturnIfInDesignerMode { get; set; } = true;
+    public bool ReturnIfInDesignMode { get; set; } = false;
 }

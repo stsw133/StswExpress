@@ -18,7 +18,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Value))]
-[StswInfo("0.3.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.3.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     private ContentPresenter? _contentPresenter;

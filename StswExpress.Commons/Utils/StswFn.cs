@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System.Collections;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
@@ -94,14 +95,12 @@ public static partial class StswFn
     /// <summary>
     /// Gets the name of the currently executing application.
     /// </summary>
-    /// <returns>The name of the currently executing application, or <see langword="null"/> if it cannot be determined.</returns>
     [StswInfo(null, "0.21.0")]
     public static string? AppName { get; } = Assembly.GetEntryAssembly()?.GetName().Name;
 
     /// <summary>
-    /// Gets the version number of the currently executing application.
+    /// Gets the version of the currently executing application.
     /// </summary>
-    /// <returns>The version number of the currently executing application as a string, or <see langword="null"/> if it cannot be determined.</returns>
     [StswInfo(null, "0.21.0")]
     public static string? AppVersion { get; } = ComputeAppVersion();
     private static string? ComputeAppVersion()
@@ -119,21 +118,17 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Gets the copyright information for the currently executing application.
+    /// Gets the copyright information of the currently executing application.
     /// </summary>
-    /// <returns>The copyright information, or <see langword="null"/> if it cannot be determined.</returns>
     [StswInfo(null, "0.21.0")]
     public static string? AppCopyright { get; } = Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// <summary>
-    /// Determines whether the currently executing assembly was built in debug mode.
-    /// This method checks for the presence of the <see cref="DebuggableAttribute"/> 
-    /// with JIT tracking enabled.
+    /// Determines whether the application is running in debug mode.
     /// </summary>
-    /// <returns><see langword="true"/> if the assembly was compiled in debug mode, <see langword="false"/> otherwise.</returns>
     [StswInfo("0.9.0", "0.20.0")]
-    public static bool IsInDebug { get; } = ComputeIsInDebug();
-    private static bool ComputeIsInDebug()
+    public static bool IsInDebugMode { get; } = ComputeIsInDebugMode();
+    private static bool ComputeIsInDebugMode()
     {
         var asm = Assembly.GetEntryAssembly();
         if (asm is null)
@@ -141,6 +136,30 @@ public static partial class StswFn
 
         var da = asm.GetCustomAttribute<DebuggableAttribute>();
         return da is not null && (da.IsJITTrackingEnabled || da.IsJITOptimizerDisabled);
+    }
+
+    /// <summary>
+    /// Determines whether the application is running in design mode (e.g., within Visual Studio or Blend).
+    /// </summary>
+    [StswInfo("0.9.2", "0.21.0")]
+    public static bool IsInDesignMode { get; } = ComputeIsInDesignMode();
+    private static bool ComputeIsInDesignMode()
+    {
+        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            return true;
+
+        var processName = Process.GetCurrentProcess().ProcessName;
+        if (processName.Contains("devenv") || processName.Contains("Blend"))
+            return true;
+
+        if (SynchronizationContext.Current is not null)
+        {
+            var isInDesignMode = false;
+            SynchronizationContext.Current?.Send(_ => isInDesignMode = processName.Contains("xdesproc", StringComparison.CurrentCultureIgnoreCase), null);
+            return isInDesignMode;
+        }
+
+        return false;
     }
     #endregion
 
@@ -472,7 +491,7 @@ public static partial class StswFn
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
     /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0", "0.20.0")]
+    [StswInfo("0.3.0", "0.20.0", PlannedChanges = StswPlannedChanges.Move | StswPlannedChanges.Rework)]
     public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
@@ -487,8 +506,60 @@ public static partial class StswFn
     /// </summary>
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0", "0.19.0")]
+    [StswInfo("0.3.0", "0.19.0", PlannedChanges = StswPlannedChanges.Move | StswPlannedChanges.Rework)]
     public static bool IsValidEmail(string email) => EmailRegex().IsMatch(email);
+
+    /*
+    /// <summary>
+    /// Validates whether the specified email address is in a valid format using MimeKit library.
+    /// </summary>
+    /// <param name="email">The email address to validate.</param>
+    /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
+    public static bool IsValidEmail(string? email)
+        => !string.IsNullOrWhiteSpace(email) && MailboxAddress.TryParse(email, out _);
+
+    /// <summary>
+    /// Validates whether the specified string contains only valid email addresses using MimeKit library.
+    /// </summary>
+    /// <param name="emails">A string containing one or more email addresses to validate.</param>
+    /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
+    public static bool AreValidEmails(string? emails)
+        => !string.IsNullOrWhiteSpace(emails)
+           && InternetAddressList.TryParse(emails, out var list)
+           && list.All(a => a is MailboxAddress);
+
+    /// <summary>
+    /// Tries to parse a string containing one or more email addresses into valid and invalid lists using MimeKit library.
+    /// </summary>
+    /// <param name="input">A string containing one or more email addresses to parse.</param>
+    /// <param name="valid">A list to receive valid email addresses as <see cref="MailboxAddress"/> objects.</param>
+    /// <param name="invalid">A list to receive invalid email address strings.</param>
+    /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
+    public static bool TryParseEmails(string? input, out List<MailboxAddress> valid, out List<string> invalid)
+    {
+        valid = [];
+        invalid = [];
+
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        if (!InternetAddressList.TryParse(input, out var list))
+        {
+            invalid.Add(input);
+            return false;
+        }
+
+        foreach (var addr in list)
+        {
+            if (addr is MailboxAddress mbox)
+                valid.Add(mbox);
+            else
+                invalid.Add(addr.ToString());
+        }
+
+        return invalid.Count == 0 && valid.Count > 0;
+    }
+    */
 
     /// <summary>
     /// Validates whether a phone number matches the expected format for a specified country.
@@ -499,7 +570,7 @@ public static partial class StswFn
     /// <remarks>
     /// Supports: Poland (PL), United Kingdom (UK), United States (US), Germany (DE), France (FR).
     /// </remarks>
-    [StswInfo("0.3.0", "0.20.0", Changes = StswPlannedChanges.Rework)]
+    [StswInfo("0.3.0", "0.20.0", PlannedChanges = StswPlannedChanges.Remove)]
     public static bool IsValidPhoneNumber(string number, string? countryCode = null)
     {
         if (string.IsNullOrWhiteSpace(number))
@@ -533,7 +604,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="url">The URL to validate.</param>
     /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.3.0", "0.20.0", IsTested = false)]
+    [StswInfo("0.3.0", "0.20.0", IsTested = false, PlannedChanges = StswPlannedChanges.Remove)]
     public static bool IsValidUrl(string url)
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out var u)) return false;

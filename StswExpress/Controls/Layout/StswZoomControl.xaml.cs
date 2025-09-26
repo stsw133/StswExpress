@@ -17,7 +17,7 @@ namespace StswExpress;
 /// &lt;/se:StswZoomControl&gt;
 /// </code>
 /// </example>
-[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
     private UIElement? _child;

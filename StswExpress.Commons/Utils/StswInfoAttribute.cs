@@ -3,7 +3,7 @@
 namespace StswExpress.Commons;
 
 /// <summary>
-/// Flags to indicate planned changes for a feature.
+/// Indicates metadata about the versioning and status of a feature or element.
 /// </summary>
 /// <param name="sinceVersion">The version since this feature is available. Can be <see langword="null"/> if not applicable.</param>
 /// <param name="lastUpdateVersion">The version when the feature was last updated or changed. Can be <see langword="null"/> if not applicable.</param>
@@ -18,7 +18,7 @@ namespace StswExpress.Commons;
     | AttributeTargets.Method
     | AttributeTargets.Property
     | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-[StswInfo("0.19.0", "0.20.0")]
+[StswInfo("0.19.0", "0.21.0")]
 public sealed class StswInfoAttribute(string? sinceVersion, string? lastUpdateVersion = null) : Attribute
 {
     /// <summary>
@@ -32,6 +32,11 @@ public sealed class StswInfoAttribute(string? sinceVersion, string? lastUpdateVe
     public string? LastUpdateVersion { get; init; } = lastUpdateVersion;
 
     /// <summary>
+    /// Indicates the author who last updated or changed the feature. Can be <see langword="null"/> if not applicable.
+    /// </summary>
+    public string? LastUpdateAuthor { get; init; } = null;
+
+    /// <summary>
     /// Indicates if the feature has been tested, meaning it was used and verified for most common scenarios.
     /// </summary>
     public bool IsTested { get; init; } = true;
@@ -39,5 +44,5 @@ public sealed class StswInfoAttribute(string? sinceVersion, string? lastUpdateVe
     /// <summary>
     /// Indicates if there are any planned changes for this feature in the future.
     /// </summary>
-    public StswPlannedChanges Changes { get; init; } = StswPlannedChanges.None;
+    public StswPlannedChanges PlannedChanges { get; init; } = StswPlannedChanges.None;
 }

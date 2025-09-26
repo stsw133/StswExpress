@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Inherits from <see cref="StswCancellableAsyncCommand{T}"/> and reuses its cancellation logic.
 /// </summary>
 /// <typeparam name="T">Type of the item to process.</typeparam>
-/// <param name="execute">Asynchronous action to execute for each item.</param>
+/// <param name="executeItem">Asynchronous action to execute for each item.</param>
 /// <param name="canExecute">Optional function to determine whether the command can execute. Default is <see langword="null"/>.</param>
 /// <example>
 /// The following example demonstrates how to use the command:
@@ -35,7 +35,7 @@ namespace StswExpress;
 /// // Calling it again resumes from where it left off.
 /// </code>
 /// </example>
-[StswInfo("0.9.2", "0.20.0", IsTested = false, Changes = StswPlannedChanges.Remove)]
+[StswInfo("0.9.2", "0.20.0", IsTested = false, PlannedChanges = StswPlannedChanges.Remove)]
 public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem, Func<bool>? canExecute = null) : StswCancellableCommand<T>((_, _) => Task.CompletedTask, canExecute)
 {
     private readonly Func<T, CancellationToken, Task> _executeItem = executeItem ?? throw new ArgumentNullException(nameof(executeItem));

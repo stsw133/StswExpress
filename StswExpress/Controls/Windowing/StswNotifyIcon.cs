@@ -22,7 +22,7 @@ namespace StswExpress;
 /// &lt;se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0", Changes = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
+[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures)]
 public class StswNotifyIcon : FrameworkElement
 {
     private NotifyIcon? _tray;

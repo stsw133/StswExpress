@@ -450,7 +450,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswInfo("0.13.0")]
+    [StswInfo("0.13.0", PlannedChanges = StswPlannedChanges.Remove)]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlConnection sqlConn, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (string.IsNullOrWhiteSpace(joinKeys.Key)
@@ -596,7 +596,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswInfo("0.13.0")]
+    [StswInfo("0.13.0", PlannedChanges = StswPlannedChanges.Remove)]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlTransaction sqlTran, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
 
@@ -614,7 +614,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswInfo("0.13.0")]
+    [StswInfo("0.13.0", PlannedChanges = StswPlannedChanges.Remove)]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this StswDatabaseModel model, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
@@ -698,7 +698,7 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    [StswInfo("0.9.3")]
+    [StswInfo("0.9.3", PlannedChanges = StswPlannedChanges.Remove)]
     public static void Set<TModel>(this SqlConnection sqlConn, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
     {
         if (!CheckQueryConditions())
@@ -750,7 +750,7 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{T}{TModel}"/>.
     /// </remarks>
-    [StswInfo("0.9.3")]
+    [StswInfo("0.9.3", PlannedChanges = StswPlannedChanges.Remove)]
     public static void Set<TModel>(this SqlTransaction sqlTran, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
         => sqlTran.Connection.Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
@@ -767,7 +767,7 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    [StswInfo("0.9.2")]
+    [StswInfo("0.9.2", PlannedChanges = StswPlannedChanges.Remove)]
     public static void Set<TModel>(this StswDatabaseModel model, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
         => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, model.DefaultTimeout ?? timeout, sqlTran);
 
@@ -776,7 +776,7 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="prop"> The property for which to build the getter.</param>
     /// <returns>A function that takes an object and returns the value of the specified property.</returns>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", PlannedChanges = StswPlannedChanges.Remove)]
     private static Func<object, object?> BuildGetter(PropertyInfo prop)
     {
         var param = Expression.Parameter(typeof(object), "obj");
@@ -798,7 +798,7 @@ public static partial class StswDatabaseHelper
         if (!StswDatabases.Config.IsEnabled)
             return false;
 
-        if (StswDatabases.Config.ReturnIfInDesignerMode && IsInDesignMode())
+        if (StswDatabases.Config.ReturnIfInDesignMode && StswFn.IsInDesignMode)
             return false;
 
         return true;
@@ -832,7 +832,7 @@ public static partial class StswDatabaseHelper
     /// <param name="fullTable"> The string from which to trim trailing digits.</param>
     /// <param name="itemType"> The type of the item to which the column names belong.</param>
     /// <returns>A normalized string with trailing digits removed.</returns>
-    [StswInfo("0.18.0")]
+    [StswInfo("0.18.0", PlannedChanges = StswPlannedChanges.Remove)]
     private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
     {
         var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -870,8 +870,8 @@ public static partial class StswDatabaseHelper
     /// Collects property names suitable for insert/update (scalar-like, public get/set),
     /// skipping ItemState, indexers, collections (except byte[]), and attributes like NotMapped/ExcludeProperty.
     /// </summary>
-    /// <param name="t"></param>
-    /// <returns></returns>
+    /// <param name="t">The type to inspect for writable scalar-like properties.</param>
+    /// <returns>A list of property names that are writable and scalar-like.</returns>
     private static List<string> GetWritableScalarPropertyNames(Type t)
     {
         static bool HasAttribute(MemberInfo mi, string attrName)
@@ -919,42 +919,22 @@ public static partial class StswDatabaseHelper
     }
 
     /// <summary>
-    /// Checks if the current process is running inside a designer.
+    /// Adds a parameter to the <see cref="SqlParameterCollection"/> with the specified name, value, type, and optional size.
     /// </summary>
-    /// <returns><see langword="true"/> if running inside a designer, otherwise <see langword="false"/>.</returns>
-    private static bool IsDesignerProcess()
+    /// <param name="col">The <see cref="SqlParameterCollection"/> to which the parameter will be added.</param>
+    /// <param name="name">The name of the parameter, including the '@' prefix.</param>
+    /// <param name="value">The value of the parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
+    /// <param name="type">The SQL data type of the parameter.</param>
+    /// <param name="size">The size of the parameter. Default is 0, which means no size is set.</param>
+    /// <returns>The added <see cref="SqlParameter"/>.</returns>
+    [StswInfo("0.21.0")]
+    public static SqlParameter AddParam(this SqlParameterCollection col, string name, object? value, SqlDbType type, int size = 0)
     {
-        var processName = Process.GetCurrentProcess().ProcessName;
-        return processName.Contains("devenv") || processName.Contains("Blend");
+        var p = col.Add(name, type);
+        if (size > 0) p.Size = size;
+        p.Value = value ?? DBNull.Value;
+        return p;
     }
-
-    /// <summary>
-    /// Determines if the application is in design mode.
-    /// </summary>
-    /// <returns><see langword="true"/> if in design mode, otherwise <see langword="false"/>.</returns>
-    private static bool IsInDesignMode()
-    {
-        if (_isInDesignMode.HasValue)
-            return _isInDesignMode.Value;
-
-        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesignerProcess())
-        {
-            _isInDesignMode = true;
-            return true;
-        }
-
-        if (SynchronizationContext.Current is not null)
-        {
-            var isInDesignMode = false;
-            SynchronizationContext.Current?.Send(_ => isInDesignMode = Process.GetCurrentProcess().ProcessName.Contains("xdesproc", StringComparison.CurrentCultureIgnoreCase), null);
-            _isInDesignMode = isInDesignMode;
-            return isInDesignMode;
-        }
-
-        _isInDesignMode = false;
-        return false;
-    }
-    private static bool? _isInDesignMode;
 
     /// <summary>
     /// Reduces the amount of space in the given SQL query string by removing unnecessary whitespace 
@@ -994,7 +974,6 @@ public static partial class StswDatabaseHelper
             throw new ArgumentException($"The list contains more than {maxListSize} elements, which exceeds the allowed limit.", nameof(list));
 
         string replacementValue;
-
         if (list == null || list.Count == 0 || !list.GetType().IsListType(out var innerType) || innerType == null)
         {
             replacementValue = "NULL";

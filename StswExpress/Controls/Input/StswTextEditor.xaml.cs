@@ -23,7 +23,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [Obsolete]
-[StswInfo("0.1.0", Changes = StswPlannedChanges.Rework)]
+[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.Rework)]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;

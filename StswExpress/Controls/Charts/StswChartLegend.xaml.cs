@@ -17,7 +17,7 @@ namespace StswExpress;
 /// &lt;se:StswChartLegend ItemsSource="{Binding ChartData}" Columns="3" Rows="2" ShowDetails="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.4.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswChartLegend : HeaderedItemsControl
 {
     static StswChartLegend()

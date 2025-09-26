@@ -19,7 +19,7 @@ namespace StswExpress;
 /// &lt;se:StswChartPie ItemsSource="{Binding SalesData}" StrokeThickness="10" MinPercentageRender="5"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.4.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswChartPie : ItemsControl
 {
     static StswChartPie()

@@ -690,7 +690,7 @@ public static class StswLog
         if (type == null)
             return true;
 
-        return StswFn.IsInDebug
+        return StswFn.IsInDebugMode
             ? type.Value.In(Config.LogTypes_DEBUG)
             : type.Value.In(Config.LogTypes_RELEASE);
     }

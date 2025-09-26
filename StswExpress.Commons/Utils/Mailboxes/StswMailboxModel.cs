@@ -6,7 +6,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Represents an email account and provides methods for sending emails using the account's SMTP settings.
 /// </summary>
-[StswInfo(null, Changes = StswPlannedChanges.ChangeName)]
+[StswInfo(null, PlannedChanges = StswPlannedChanges.ChangeName)]
 public partial class StswMailboxModel : StswObservableObject
 {
     /*
@@ -261,7 +261,7 @@ public partial class StswMailboxModel : StswObservableObject
         var message = new MimeMessage();
         message.From.Add(MailboxAddress.Parse(From));
 
-        if (StswFn.IsInDebug && !StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty())
+        if (StswFn.IsInDebugMode && !StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty())
         {
             foreach (var email in StswMailboxes.Config.DebugEmailRecipients!)
                 if (!string.IsNullOrEmpty(email))

@@ -68,7 +68,7 @@ public class StswFnTests
     [Fact]
     public void IsInDebug_ReturnsBool()
     {
-        Assert.IsType<bool>(StswFn.IsInDebug);
+        Assert.IsType<bool>(StswFn.IsInDebugMode);
     }
 
     [Fact]

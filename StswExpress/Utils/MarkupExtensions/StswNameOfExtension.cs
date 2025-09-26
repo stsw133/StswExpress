@@ -21,7 +21,7 @@ namespace StswExpress;
 /// &lt;TextBlock Text="{Binding Path={se:StswNameOf Type={x:Type local:UserModel}, Member=UserName}}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.6.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.6.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswNameOfExtension(string? member) : MarkupExtension
 {
     /// <summary>

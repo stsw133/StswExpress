@@ -2,7 +2,7 @@
 /// <summary>
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
-[StswInfo(null, Changes = StswPlannedChanges.ChangeName)]
+[StswInfo(null, PlannedChanges = StswPlannedChanges.ChangeName)]
 public partial class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }

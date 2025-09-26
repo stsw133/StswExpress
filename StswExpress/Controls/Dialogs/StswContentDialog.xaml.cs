@@ -21,7 +21,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
-[StswInfo("0.2.0", Changes = StswPlannedChanges.Refactor)]
+[StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
     private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];

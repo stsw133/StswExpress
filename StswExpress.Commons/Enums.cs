@@ -57,7 +57,7 @@ public enum StswMergePriority
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 [Flags]
-[StswInfo("0.19.0")]
+[StswInfo("0.19.0", "0.21.0")]
 public enum StswPlannedChanges
 {
     /// <summary>
@@ -116,9 +116,14 @@ public enum StswPlannedChanges
     ChangeName = 512,
 
     /// <summary>
+    /// Indicates that the feature will be relocated to a different namespace, class, or module, which may affect how it is accessed or organized.
+    /// </summary>
+    Move = 1024,
+
+    /// <summary>
     /// Indicates that the feature is planned to be removed entirely in a future version. It is recommended to avoid using this feature in new code.
     /// </summary>
-    Remove = 1024,
+    Remove = 2048,
 }
 
 /// <summary>

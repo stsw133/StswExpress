@@ -16,7 +16,7 @@ public class StswDatabasesConfigTests
         );
         Assert.True(config.IsEnabled);
         Assert.True(config.MakeLessSpaceQuery);
-        Assert.True(config.ReturnIfInDesignerMode);
+        Assert.True(config.ReturnIfInDesignMode);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class StswDatabasesConfigTests
             FilePath = "custom/path/file.stsw",
             IsEnabled = false,
             MakeLessSpaceQuery = false,
-            ReturnIfInDesignerMode = false
+            ReturnIfInDesignMode = false
         };
 
         Assert.False(config.AutoDisposeConnection);
@@ -37,6 +37,6 @@ public class StswDatabasesConfigTests
         Assert.Equal("custom/path/file.stsw", config.FilePath);
         Assert.False(config.IsEnabled);
         Assert.False(config.MakeLessSpaceQuery);
-        Assert.False(config.ReturnIfInDesignerMode);
+        Assert.False(config.ReturnIfInDesignMode);
     }
 }

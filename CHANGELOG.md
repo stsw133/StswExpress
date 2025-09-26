@@ -63,12 +63,20 @@
 - `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
 
 ### Changes
-- Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, and `IsUiThreadAvailable`.
+- Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, `IsUiThreadAvailable`, `Try(Task)`, `Try(Task<T>)`.
 - `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
 - `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
+- `StswDatabaseHelper`: introduced new `AddParam` extension for `SqlParameterCollection`.
+- `StswDatabasesConfig`: `ReturnIfInDesignerMode` renamed to `ReturnIfInDesignMode`.
 - `StswFn`:
   - `AppName`, `AppVersion`, and `AppCopyright` now cache their values.
   - `CreateRandomItems` removed (now exposed in `StswRandomGenerator`).
+  - `IsInDebug` renamed to `IsInDebugMode`.
+  - `IsInDesignMode` method moved from `StswDatabaseHelper`.
+- `StswInfoAttribute`:
+  - Enhanced with a new `LastUpdateAuthor` property.
+  - Renamed the `Changes` argument to `PlannedChanges`.
+  - `StswPlannedChanges` enum updated: added new `Move` value and reassigned `Remove` to `2048`.
 - `StswNaturalStringComparer` now distinguishes numbers also by length for deterministic results.
 
 ### Fixes

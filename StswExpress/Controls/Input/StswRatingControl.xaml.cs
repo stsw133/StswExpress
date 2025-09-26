@@ -20,7 +20,7 @@ namespace StswExpress;
 /// &lt;se:StswRatingControl Value="{Binding ProductRating}" ItemsNumber="10" IconData="{StaticResource StarIcon}" Direction="Right"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0", Changes = StswPlannedChanges.NewFeatures)]
+[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.NewFeatures)]
 public class StswRatingControl : Control, IStswIconControl
 {
     public StswRatingControl()

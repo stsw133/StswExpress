@@ -65,7 +65,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to convert.</param>
     /// <returns>The corresponding <see cref="SqlDbType"/>, or <see langword="null"/> if no matching type is found.</returns>
-    [StswInfo("0.9.0")]
+    [StswInfo("0.9.0", PlannedChanges = StswPlannedChanges.Move)]
     public static SqlDbType InferSqlDbType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -362,7 +362,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
     /// </remarks>
-    [StswInfo("0.10.0")]
+    [StswInfo("0.10.0", PlannedChanges = StswPlannedChanges.Revision)]
     public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector) where TKey : notnull
     {
         var dictionary = new Dictionary<TKey, TValue>();
@@ -638,7 +638,8 @@ public static partial class StswExtensions
     /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
     [StswInfo(null)]
-    public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
+    public static bool In<T>(this T value, IEnumerable<T> collection)
+        => collection == null
             ? throw new ArgumentNullException(nameof(collection))
             : collection.Contains(value);
 
@@ -651,7 +652,8 @@ public static partial class StswExtensions
     /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value"/> is <see langword="null"/>.</exception>
     [StswInfo(null)]
-    public static bool In<T>(this T value, params T[] parameters) => parameters == null
+    public static bool In<T>(this T value, params T[] parameters)
+        => parameters == null
             ? throw new ArgumentNullException(nameof(parameters))
             : parameters.Contains(value);
 
@@ -970,45 +972,6 @@ public static partial class StswExtensions
         }
 
         return true;
-    }
-    #endregion
-
-    #region Task extensions
-    /// <summary>
-    /// Executes the task and suppresses any exception.
-    /// </summary>
-    /// <param name="task">The task to execute.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    [StswInfo("0.19.0")]
-    public static async Task Try(this Task task)
-    {
-        try
-        {
-            await task;
-        }
-        catch
-        {
-            // Ignored
-        }
-    }
-
-    /// <summary>
-    /// Executes the task and suppresses any exception, returning default value.
-    /// </summary>
-    /// <typeparam name="T">The type of the result of the task.</typeparam>
-    /// <param name="task">The task to execute.</param>
-    /// <returns>A task that represents the asynchronous operation, returning the result of the task or <see langword="default"/> if an exception occurs.</returns>
-    [StswInfo("0.19.0")]
-    public static async Task<T?> Try<T>(this Task<T> task)
-    {
-        try
-        {
-            return await task;
-        }
-        catch
-        {
-            return default;
-        }
     }
     #endregion
 
