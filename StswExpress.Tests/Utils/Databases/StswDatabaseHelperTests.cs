@@ -1,5 +1,8 @@
 using Microsoft.Data.SqlClient;
+using System.Collections;
 using System.Data;
+using System.Linq;
+using StswExpress.Commons;
 
 namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabaseHelperTests
@@ -120,6 +123,36 @@ public class StswDatabaseHelperTests
         Assert.Contains("Id", names!);
         Assert.Contains("Name", names!);
         Assert.DoesNotContain("Items", names!);
+    }
+
+    [Fact]
+    public void ToDataTable_HandlesMergedObjects()
+    {
+        var list1 = new[]
+        {
+            new { Id = 1, Name = "A" },
+            new { Id = 2, Name = "B" }
+        };
+        var list2 = new[]
+        {
+            new { Extra = "X" },
+            new { Extra = "Y" }
+        };
+
+        dynamic merged = StswFn.MergeObjects(list1, list2);
+        var enumerable = (IEnumerable)merged;
+
+        var method = typeof(StswDatabaseHelper)
+            .GetMethod("ToDataTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null, new[] { typeof(IEnumerable) }, null)!;
+
+        var dt = (DataTable)method.Invoke(null, new object[] { enumerable })!;
+
+        Assert.Equal(2, dt.Rows.Count);
+        Assert.Contains("Id", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
+        Assert.Contains("Name", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
+        Assert.Contains("Extra", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
+        Assert.Equal(1, dt.Rows[0]["Id"]);
+        Assert.Equal("X", dt.Rows[0]["Extra"]);
     }
 
     private class TestModel : StswObservableObject, IStswCollectionItem
