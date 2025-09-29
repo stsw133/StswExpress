@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AreButtonsVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreButtonsVisible, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreButtonsVisible}"/>
             <!-- Filter -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Filter, Type={x:Type se:StswPathPicker}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Filter}"/>
@@ -42,7 +45,8 @@
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding SuggestedFilename}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswPathPicker Filter="{Binding Filter}"
+        <se:StswPathPicker AreButtonsVisible="{Binding AreButtonsVisible}"
+                           Filter="{Binding Filter}"
                            IsEnabled="{Binding IsEnabled}"
                            IsFileSizeVisible="{Binding IsFileSizeVisible}"
                            IsReadOnly="{Binding IsReadOnly}"

@@ -7,13 +7,17 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswContentDialogContext}">
 
-    <se:StswContentDialog Identifier="StswContentDialogView">
+    <se:StswContentDialog Identifier="StswContentDialogView" CloseOnBackdropClick="{Binding CloseOnBackdropClick}">
         <local:ControlsBase ContentAlignmentVisibility="Collapsed">
             <local:ControlsBase.Description>
                 Represents a customizable content dialog control for displaying various types of content.
             </local:ControlsBase.Description>
             <!-- properties -->
-
+            <local:ControlsBase.Properties>
+                <!-- CloseOnBackdropClick -->
+                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CloseOnBackdropClick, Type={x:Type se:StswContentDialog}}"/>
+                <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
+            </local:ControlsBase.Properties>
             <!-- content -->
             <se:StswButton Command="{Binding OpenContentDialogCommand}" Content="Open content dialog"/>
             <!-- status panel -->

@@ -16,8 +16,9 @@ public partial class StswComboBoxContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-
+        
         SelectedItem = Items[new Random().Next(Items.Count)];
+        AreButtonsVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AreButtonsVisible)))?.Value ?? default;
         IsEditable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEditable)))?.Value ?? default;
         IsFilterEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterEnabled)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
@@ -25,6 +26,7 @@ public partial class StswComboBoxContext : ControlsContext
 
     [StswCommand] void Randomize() => SelectedItem = Items[new Random().Next(Items.Count)];
 
+    [StswObservableProperty] bool _areButtonsVisible;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isEditable;
     [StswObservableProperty] bool _isFilterEnabled;

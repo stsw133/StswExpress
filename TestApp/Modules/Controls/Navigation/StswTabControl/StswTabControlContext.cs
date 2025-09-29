@@ -10,12 +10,14 @@ public partial class StswTabControlContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-
+        
+        CanReorder = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(CanReorder)))?.Value ?? default;
         NewItemButtonVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(NewItemButtonVisibility)))?.Value ?? default;
         TabStripPlacement = (Dock?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TabStripPlacement)))?.Value ?? default;
     }
 
     [StswObservableProperty] bool _areTabsVisible = true;
+    [StswObservableProperty] bool _canReorder;
     [StswObservableProperty] ObservableCollection<StswTabItemModel> _items =
     [
         new(nameof(StswButton), StswIcons.Dice1, new StswButtonContext(), false),

@@ -8,6 +8,7 @@ public partial class StswMessageDialogContext : ControlsContext
     {
         base.SetDefaults();
 
+        CloseOnBackdropClick = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(CloseOnBackdropClick)))?.Value ?? default;
         MessageDialogButtons = (StswDialogButtons?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(MessageDialogButtons)))?.Value ?? default;
         MessageDialogImage = (StswDialogImage?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(MessageDialogImage)))?.Value ?? default;
     }
@@ -26,6 +27,7 @@ public partial class StswMessageDialogContext : ControlsContext
         MessageDialogResult = result?.ToString();
     }
 
+    [StswObservableProperty] bool _closeOnBackdropClick;
     [StswObservableProperty] StswDialogButtons _messageDialogButtons;
     [StswObservableProperty] StswDialogImage _messageDialogImage;
     [StswObservableProperty] string? _messageDialogResult;

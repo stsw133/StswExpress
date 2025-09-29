@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance local:StswMessageDialogContext}">
 
-    <se:StswContentDialog Identifier="StswMessageDialogView">
+    <se:StswContentDialog Identifier="StswMessageDialogView" CloseOnBackdropClick="{Binding CloseOnBackdropClick}">
         <local:ControlsBase ContentAlignmentVisibility="Collapsed">
             <local:ControlsBase.Description>
                 Represents a control behaving like content dialog with various properties for customization.
@@ -17,6 +17,9 @@
                 <!-- Buttons -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Buttons, Type={x:Type se:StswMessageDialog}}"/>
                 <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogButtons}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogButtons}"/>
+                <!-- CloseOnBackdropClick -->
+                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CloseOnBackdropClick, Type={x:Type se:StswContentDialog}}"/>
+                <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
                 <!-- Image -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Image, Type={x:Type se:StswMessageDialog}}"/>
                 <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogImage}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogImage}"/>

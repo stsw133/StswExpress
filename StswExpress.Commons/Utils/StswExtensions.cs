@@ -196,14 +196,115 @@ public static partial class StswExtensions
     /// <summary>
     /// Converts a collection of items to a <see cref="DataTable"/>.
     /// </summary>
+    /// <param name="items">The collection of items to convert.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="items"/> is <see langword="null"/>.</exception>
+    /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
+    [StswInfo("0.21.0")]
+    public static DataTable ToDataTable(this IEnumerable items)
+    {
+        ArgumentNullException.ThrowIfNull(items);
+
+        var objectItems = items.Cast<object?>().ToList();
+        if (objectItems.Count == 0)
+            throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
+
+        var dictionaryItems = objectItems
+            .Select(x => x as IDictionary<string, object?>)
+            .Where(x => x != null)
+            .Cast<IDictionary<string, object?>>()
+            .ToList();
+
+        if (dictionaryItems.Count == 0)
+        {
+            var firstNonNull = objectItems.FirstOrDefault(x => x != null)
+                ?? throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
+
+            var itemType = firstNonNull.GetType();
+            var castMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.Cast), BindingFlags.Public | BindingFlags.Static)!
+                .MakeGenericMethod(itemType);
+            var typedEnumerable = castMethod.Invoke(null, new object[] { objectItems })!;
+
+            var toDataTableMethod = typeof(StswExtensions).GetMethod(nameof(StswExtensions.ToDataTable), BindingFlags.Public | BindingFlags.Static)!
+                .MakeGenericMethod(itemType);
+
+            return (DataTable)toDataTableMethod.Invoke(null, new[] { typedEnumerable })!;
+        }
+
+        var columnTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+        var columnsWithValue = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var columnOrder = new List<string>();
+
+        foreach (var dict in dictionaryItems)
+        {
+            foreach (var kvp in dict)
+            {
+                if (!columnTypes.ContainsKey(kvp.Key))
+                {
+                    columnTypes[kvp.Key] = typeof(string);
+                    columnOrder.Add(kvp.Key);
+                }
+
+                if (kvp.Value == null)
+                    continue;
+
+                var valueType = Nullable.GetUnderlyingType(kvp.Value.GetType()) ?? kvp.Value.GetType();
+                if (!columnsWithValue.Contains(kvp.Key))
+                {
+                    columnTypes[kvp.Key] = valueType;
+                    columnsWithValue.Add(kvp.Key);
+                }
+                else if (columnTypes[kvp.Key] != valueType)
+                {
+                    throw new InvalidOperationException($"Column '{kvp.Key}' contains values of different types.");
+                }
+            }
+        }
+
+        var dt = new DataTable();
+        foreach (var columnName in columnOrder)
+            dt.Columns.Add(columnName, columnTypes[columnName]);
+
+        foreach (var item in objectItems)
+        {
+            var row = dt.NewRow();
+
+            if (item is IDictionary<string, object?> dict)
+            {
+                foreach (DataColumn column in dt.Columns)
+                    row[column.ColumnName] = dict.TryGetValue(column.ColumnName, out var value) && value != null ? value : DBNull.Value;
+            }
+            else if (item != null)
+            {
+                var itemType = item.GetType();
+                foreach (DataColumn column in dt.Columns)
+                {
+                    var prop = itemType.GetProperty(column.ColumnName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                    row[column.ColumnName] = prop?.GetValue(item) ?? DBNull.Value;
+                }
+            }
+            else
+            {
+                foreach (DataColumn column in dt.Columns)
+                    row[column.ColumnName] = DBNull.Value;
+            }
+
+            dt.Rows.Add(row);
+        }
+
+        return dt;
+    }
+
+    /// <summary>
+    /// Converts a collection of items to a <see cref="DataTable"/>.
+    /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
-    /// <param name="data">The collection of items to convert.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="data"/> is <see langword="null"/>.</exception>
+    /// <param name="items">The collection of items to convert.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="items"/> is <see langword="null"/>.</exception>
     /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
     [StswInfo("0.9.0", "0.20.0")]
-    public static DataTable ToDataTable<T>(this IEnumerable<T> data)
+    public static DataTable ToDataTable<T>(this IEnumerable<T> items)
     {
-        ArgumentNullException.ThrowIfNull(data);
+        ArgumentNullException.ThrowIfNull(items);
 
         var type = typeof(T);
         var properties = typeof(T)
@@ -216,7 +317,7 @@ public static partial class StswExtensions
         foreach (var property in properties)
             dt.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
 
-        foreach (var item in data)
+        foreach (var item in items)
         {
             var row = new object[properties.Length];
             for (var i = 0; i < properties.Length; i++)

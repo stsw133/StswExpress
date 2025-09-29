@@ -1,10 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -103,13 +99,25 @@ public static partial class StswDatabaseHelper
     /// <summary>
     /// Performs a bulk insert operation to improve performance when inserting large datasets.
     /// </summary>
+    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
+    /// <param name="items">The collection of items to insert.</param>
+    /// <param name="tableName">The name of the database table.</param>
+    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    [StswInfo("0.9.2", "0.19.0")]
+    public static void BulkInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().BulkInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
+
+    /// <summary>
+    /// Performs a bulk insert operation to improve performance when inserting large datasets.
+    /// </summary>
     /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void BulkInsert(this SqlConnection sqlConn, IEnumerable items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (!CheckQueryConditions())
@@ -121,7 +129,7 @@ public static partial class StswDatabaseHelper
         sqlBulkCopy.BulkCopyTimeout = timeout ?? sqlBulkCopy.BulkCopyTimeout;
         sqlBulkCopy.DestinationTableName = tableName;
 
-        var dt = ToDataTable(items);
+        var dt = items.ToDataTable();
         if (dt.Columns.Count == 0)
             throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
         foreach (DataColumn column in dt.Columns)
@@ -139,7 +147,7 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void BulkInsert(this SqlTransaction sqlTran, IEnumerable items, string tableName, int? timeout = null)
         => sqlTran.Connection.BulkInsert(items, tableName, timeout, sqlTran);
 
@@ -150,20 +158,8 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the database table.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void BulkInsert(this StswDatabaseModel model, IEnumerable items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().BulkInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
-
-    /// <summary>
-    /// Performs a bulk insert operation to improve performance when inserting large datasets.
-    /// </summary>
-    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
-    /// <param name="items">The collection of items to insert.</param>
-    /// <param name="tableName">The name of the database table.</param>
-    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
-    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.9.2", "0.19.0")]
-    public static void BulkInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().BulkInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
@@ -742,18 +738,31 @@ public static partial class StswDatabaseHelper
     /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
     /// based on the structure of the data model and uses <see cref="SqlBulkCopy"/> to efficiently insert the data.
     /// </summary>
+    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
+    /// <param name="items">The collection of items to insert.</param>
+    /// <param name="tableName">The name of the temporary table to be created and populated.</param>
+    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
+    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
+    [StswInfo("0.9.2", "0.20.0")]
+    public static void TempTableInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
+        => model.OpenedConnection().TempTableInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
+
+    /// <summary>
+    /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
+    /// based on the structure of the data model and uses <see cref="SqlBulkCopy"/> to efficiently insert the data.
+    /// </summary>
     /// <param name="sqlConn">The SQL connection to use.</param>
     /// <param name="items">The collection of items to insert.</param>
     /// <param name="tableName">The name of the temporary table to be created and populated.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void TempTableInsert(this SqlConnection sqlConn, IEnumerable items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
     {
         if (!CheckQueryConditions())
             return;
 
-        var dt = ToDataTable(items);
+        var dt = items.ToDataTable();
         if (dt.Columns.Count == 0)
             throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
 
@@ -787,7 +796,7 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the temporary table to be created and populated.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void TempTableInsert(this SqlTransaction sqlTran, IEnumerable items, string tableName, int? timeout = null)
         => sqlTran.Connection.TempTableInsert(items, tableName, timeout, sqlTran);
 
@@ -799,21 +808,8 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the temporary table to be created and populated.</param>
     /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.20.0")]
+    [StswInfo("0.21.0")]
     public static void TempTableInsert(this StswDatabaseModel model, IEnumerable items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
-        => model.OpenedConnection().TempTableInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
-
-    /// <summary>
-    /// Inserts a collection of items into a temporary SQL table. The method dynamically creates the temporary table
-    /// based on the structure of the data model and uses <see cref="SqlBulkCopy"/> to efficiently insert the data.
-    /// </summary>
-    /// <typeparam name="TModel">The type of the items to insert.</typeparam>
-    /// <param name="items">The collection of items to insert.</param>
-    /// <param name="tableName">The name of the temporary table to be created and populated.</param>
-    /// <param name="timeout">Optional. The command timeout value in seconds. If <see langword="null"/>, the default timeout is used.</param>
-    /// <param name="sqlTran">Optional. The SQL transaction to use for this operation. If <see langword="null"/>, no transaction is used.</param>
-    [StswInfo("0.9.2", "0.20.0")]
-    public static void TempTableInsert<TModel>(this StswDatabaseModel model, IEnumerable<TModel> items, string tableName, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().TempTableInsert(items, tableName, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
@@ -966,100 +962,6 @@ public static partial class StswDatabaseHelper
     /// <param name="itemType"> The type of the item to which the column names belong.</param>
     /// <returns>A normalized string with trailing digits removed.</returns>
     [StswInfo("0.18.0", PlannedChanges = StswPlannedChanges.Remove)]
-    private static DataTable ToDataTable(IEnumerable items)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        var objectItems = items.Cast<object?>().ToList();
-        if (objectItems.Count == 0)
-            throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
-
-        var dictionaryItems = objectItems
-            .Select(x => x as IDictionary<string, object?>)
-            .Where(x => x != null)
-            .Cast<IDictionary<string, object?>>()
-            .ToList();
-
-        if (dictionaryItems.Count == 0)
-        {
-            var firstNonNull = objectItems.FirstOrDefault(x => x != null)
-                ?? throw new InvalidOperationException("Cannot infer column definitions from the provided items.");
-
-            var itemType = firstNonNull.GetType();
-            var castMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.Cast), BindingFlags.Public | BindingFlags.Static)!
-                .MakeGenericMethod(itemType);
-            var typedEnumerable = castMethod.Invoke(null, new object[] { objectItems })!;
-
-            var toDataTableMethod = typeof(StswExtensions).GetMethod(nameof(StswExtensions.ToDataTable), BindingFlags.Public | BindingFlags.Static)!
-                .MakeGenericMethod(itemType);
-
-            return (DataTable)toDataTableMethod.Invoke(null, new[] { typedEnumerable })!;
-        }
-
-        var columnTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
-        var columnsWithValue = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var columnOrder = new List<string>();
-
-        foreach (var dict in dictionaryItems)
-        {
-            foreach (var kvp in dict)
-            {
-                if (!columnTypes.ContainsKey(kvp.Key))
-                {
-                    columnTypes[kvp.Key] = typeof(string);
-                    columnOrder.Add(kvp.Key);
-                }
-
-                if (kvp.Value == null)
-                    continue;
-
-                var valueType = Nullable.GetUnderlyingType(kvp.Value.GetType()) ?? kvp.Value.GetType();
-                if (!columnsWithValue.Contains(kvp.Key))
-                {
-                    columnTypes[kvp.Key] = valueType;
-                    columnsWithValue.Add(kvp.Key);
-                }
-                else if (columnTypes[kvp.Key] != valueType)
-                {
-                    throw new InvalidOperationException($"Column '{kvp.Key}' contains values of different types.");
-                }
-            }
-        }
-
-        var dt = new DataTable();
-        foreach (var columnName in columnOrder)
-            dt.Columns.Add(columnName, columnTypes[columnName]);
-
-        foreach (var item in objectItems)
-        {
-            var row = dt.NewRow();
-
-            if (item is IDictionary<string, object?> dict)
-            {
-                foreach (DataColumn column in dt.Columns)
-                    row[column.ColumnName] = dict.TryGetValue(column.ColumnName, out var value) && value != null ? value : DBNull.Value;
-            }
-            else if (item != null)
-            {
-                var itemType = item.GetType();
-                foreach (DataColumn column in dt.Columns)
-                {
-                    var prop = itemType.GetProperty(column.ColumnName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                    row[column.ColumnName] = prop?.GetValue(item) ?? DBNull.Value;
-                }
-            }
-            else
-            {
-                foreach (DataColumn column in dt.Columns)
-                    row[column.ColumnName] = DBNull.Value;
-            }
-
-            dt.Rows.Add(row);
-        }
-
-        return dt;
-    }
-
     private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
     {
         var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);

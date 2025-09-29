@@ -60,13 +60,13 @@
   - `Compute` and `TryCompute` (moved from `StswCalculator`).  
   `StswCalculator` is now integrated into `StswMath`.
 - New `StswDateRange` utility for representing and manipulating date ranges (`Start`/`End`), supporting containment, overlap, adjacency, intersections, and unique date enumerations.
+- `StswDatabaseHelper`: introduced new `AddParam` extension for `SqlParameterCollection`, and added bulk insert support for `IEnumerable`.
 - `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
 
 ### Changes
 - Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, `IsUiThreadAvailable`, `Try(Task)`, `Try(Task<T>)`.
 - `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
 - `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
-- `StswDatabaseHelper`: introduced new `AddParam` extension for `SqlParameterCollection`.
 - `StswDatabasesConfig`: `ReturnIfInDesignerMode` renamed to `ReturnIfInDesignMode`.
 - `StswFn`:
   - `AppName`, `AppVersion`, and `AppCopyright` now cache their values.
@@ -85,9 +85,12 @@
 ## StswExpress (WPF)
 
 ### Additions
+- Added `AreButtonsVisible` property for Stsw box controls to toggle button visibility.
+- `StswContentDialog` introduces `CloseOnBackdropClick` property for optional backdrop click close.
 - `StswGrid` provides two new attached properties to simplify row and column definition declarations.
 - `StswNavigation` and `StswNavigationView` gained DI support by exposing a `Command` property when changing frame content.
 - `StswPathPicker` includes a `ValidationRule` to check whether the selected path exists or is valid.
+- `StswTabControl` introduces `CanReorder` property for item reordering via drag and drop.
 
 ### Changes
 - Stsw box controls (`StswColorBox`, `StswDatePicker`, `StswNumberBox`, etc.) improved main property update logic, fixing issues with repeated string calculations in `StswNumberBox`.

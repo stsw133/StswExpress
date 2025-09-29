@@ -9,43 +9,26 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-[TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
-[TemplatePart(Name = "OPT_ContentCoverGrid", Type = typeof(UIElement))]
-[StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
-public class StswContentDialog : ContentControl
-    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
-    private ContentControl? _popupContentElement;
-    private UIElement? _backdropElement;
-    public override void OnApplyTemplate()
-    {
-        if (_backdropElement is not null)
-            _backdropElement.MouseLeftButtonUp -= OnBackdropMouseLeftButtonUp;
-
-        base.OnApplyTemplate();
-
-        _popupContentElement = GetTemplateChild("PART_PopupContentElement") as ContentControl;
-        _backdropElement = GetTemplateChild("OPT_ContentCoverGrid") as UIElement;
-
-        if (_backdropElement is not null)
-            _backdropElement.MouseLeftButtonUp += OnBackdropMouseLeftButtonUp;
-    }
-
-    private void OnBackdropMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        if (!CloseOnBackdropClick || !IsOpen)
-            return;
-
-        e.Handled = true;
-        SetCurrentValue(IsOpenProperty, false);
-    }
+namespace StswExpress;
+/// <summary>
+/// Represents a customizable content dialog control for displaying various types of content.
+/// Can be used as a modal popup with asynchronous handling of dialog results.
+/// </summary>
+/// <example>
+/// The following example demonstrates how to use the class:
+/// <code>
+/// &lt;se:StswContentDialog x:Name="DialogWithTemplate" DialogContentTemplate="{StaticResource CustomDialogTemplate}" IsOpen="True"/&gt;
+/// </code>
 /// </example>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
+[TemplatePart(Name = "OPT_ContentCoverGrid", Type = typeof(UIElement))]
 [StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
     private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
     private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
     private ContentControl? _popupContentElement;
+    private UIElement? _backdropElement;
     private IInputElement? _restoreFocusDialogClose;
     private bool _isClosingFromSession;
     public StswDialogSession? CurrentSession { get; private set; }
@@ -64,9 +47,16 @@ public class StswContentDialog : ContentControl
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
+        if (_backdropElement is not null)
+            _backdropElement.MouseLeftButtonUp -= OnBackdropMouseLeftButtonUp;
+
         base.OnApplyTemplate();
 
         _popupContentElement = GetTemplateChild("PART_PopupContentElement") as ContentControl;
+        _backdropElement = GetTemplateChild("OPT_ContentCoverGrid") as UIElement;
+
+        if (_backdropElement is not null)
+            _backdropElement.MouseLeftButtonUp += OnBackdropMouseLeftButtonUp;
     }
 
     /// <summary>
@@ -95,6 +85,21 @@ public class StswContentDialog : ContentControl
                 _loadedInstances.Remove(weakRef);
                 break;
             }
+    }
+
+    /// <summary>
+    /// Handles mouse click events on the backdrop to close the dialog if configured to do so.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The mouse button event arguments.</param>
+    [StswInfo("0.21.0")]
+    private void OnBackdropMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!CloseOnBackdropClick || !IsOpen)
+            return;
+
+        e.Handled = true;
+        SetCurrentValue(IsOpenProperty, false);
     }
 
     /// <summary>
@@ -305,6 +310,22 @@ public class StswContentDialog : ContentControl
 
     #region Logic properties
     /// <summary>
+    /// Gets or sets a value indicating whether clicking the dialog backdrop closes the dialog.
+    /// </summary>
+    [StswInfo("0.21.0")]
+    public bool CloseOnBackdropClick
+    {
+        get => (bool)GetValue(CloseOnBackdropClickProperty);
+        set => SetValue(CloseOnBackdropClickProperty, value);
+    }
+    public static readonly DependencyProperty CloseOnBackdropClickProperty
+        = DependencyProperty.Register(
+            nameof(CloseOnBackdropClick),
+            typeof(bool),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
     /// Gets or sets the content displayed within the dialog.
     /// </summary>
     public object? DialogContent
@@ -432,27 +453,12 @@ public class StswContentDialog : ContentControl
             return;
         }
 
-    public static readonly DependencyProperty IsRestoreFocusDisabledProperty
-        = DependencyProperty.Register(
-            nameof(IsRestoreFocusDisabled),
-            typeof(bool),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether clicking the dialog backdrop closes the dialog.
-    /// </summary>
-    public bool CloseOnBackdropClick
-    {
-        get => (bool)GetValue(CloseOnBackdropClickProperty);
-        set => SetValue(CloseOnBackdropClickProperty, value);
-    }
-    public static readonly DependencyProperty CloseOnBackdropClickProperty
-        = DependencyProperty.Register(
-            nameof(CloseOnBackdropClick),
-            typeof(bool),
-            typeof(StswContentDialog)
-        );
+        stsw.CurrentSession = new StswDialogSession(stsw);
+        var window = Window.GetWindow(stsw);
+        if (!stsw.IsRestoreFocusDisabled)
+        {
+            stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
+            if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
                 stsw._restoreFocusDialogClose = focusOverride;
         }
 

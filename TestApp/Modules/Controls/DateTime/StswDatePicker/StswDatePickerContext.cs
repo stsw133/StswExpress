@@ -8,6 +8,7 @@ public partial class StswDatePickerContext : ControlsContext
     {
         base.SetDefaults();
 
+        AreButtonsVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AreButtonsVisible)))?.Value ?? default;
         Format = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Format)))?.Value ?? default;
         IncrementType = (StswDateTimeIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
@@ -17,6 +18,7 @@ public partial class StswDatePickerContext : ControlsContext
     [StswCommand] void Clear() => SelectedDate = default;
     [StswCommand] void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days));
 
+    [StswObservableProperty] bool _areButtonsVisible;
     [StswObservableProperty] string? _format;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] StswDateTimeIncrementType _incrementType;

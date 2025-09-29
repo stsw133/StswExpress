@@ -8,7 +8,8 @@ public partial class StswColorBoxContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-        
+
+        AreButtonsVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AreButtonsVisible)))?.Value ?? default;
         IsAlphaEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlphaEnabled)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
@@ -16,6 +17,7 @@ public partial class StswColorBoxContext : ControlsContext
     [StswCommand] void Clear() => SelectedColor = default;
     [StswCommand] void Randomize() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255));
 
+    [StswObservableProperty] bool _areButtonsVisible;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isAlphaEnabled;
     [StswObservableProperty] bool _isReadOnly;

@@ -16,6 +16,9 @@
             <!-- AreTabsVisible -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreTabsVisible, Type={x:Type se:StswTabControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreTabsVisible}"/>
+            <!-- CanReorder -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CanReorder, Type={x:Type se:StswTabControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CanReorder}"/>
             <!-- NewItemButtonVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NewItemButtonVisibility, Type={x:Type se:StswTabControl}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding NewItemButtonVisibility}"/>
@@ -25,6 +28,7 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswTabControl AreTabsVisible="{Binding AreTabsVisible}"
+                           CanReorder="{Binding CanReorder}"
                            IsEnabled="{Binding IsEnabled}"
                            ItemsSource="{Binding Items}"
                            NewItem="{Binding NewItem}"

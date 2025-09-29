@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AreButtonsVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreButtonsVisible, Type={x:Type se:StswTimePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreButtonsVisible}"/>
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswTimePicker}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
@@ -36,7 +39,8 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswTimePicker Format="{Binding Format}"
+        <se:StswTimePicker AreButtonsVisible="{Binding AreButtonsVisible}"
+                           Format="{Binding Format}"
                            IncrementType="{Binding IncrementType}"
                            IsEnabled="{Binding IsEnabled}"
                            IsReadOnly="{Binding IsReadOnly}"

@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- AreButtonsVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreButtonsVisible, Type={x:Type se:StswComboBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreButtonsVisible}"/>
             <!-- Icon -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
@@ -30,7 +33,8 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswComboBox IsEditable="{Binding IsEditable}"
+        <se:StswComboBox AreButtonsVisible="{Binding AreButtonsVisible}"
+                         IsEditable="{Binding IsEditable}"
                          IsEnabled="{Binding IsEnabled}"
                          IsFilterEnabled="{Binding IsFilterEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"

@@ -4,6 +4,7 @@
 
     <Style TargetType="{x:Type se:StswTabControl}">
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!1}"/>
+        <Setter Property="CanReorder" Value="False"/>
         <Setter Property="NewItemButtonVisibility" Value="Collapsed"/>
         <Setter Property="SelectedIndex" Value="0"/>
         <Setter Property="TabStripPlacement" Value="Top"/>
