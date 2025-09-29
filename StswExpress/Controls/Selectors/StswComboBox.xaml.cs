@@ -316,12 +316,28 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.1.0")]
-    public string? Placeholder
+    #region Style properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down button area should be visible.
+    /// </summary>
+    public bool AreButtonsVisible
     {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
+        get => (bool)GetValue(AreButtonsVisibleProperty);
+        set => SetValue(AreButtonsVisibleProperty, value);
     }
+    public static readonly DependencyProperty AreButtonsVisibleProperty
+        = DependencyProperty.Register(
+            nameof(AreButtonsVisible),
+            typeof(bool),
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),

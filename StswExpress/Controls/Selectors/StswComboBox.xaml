@@ -188,10 +188,20 @@
                     </Grid>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="AreButtonsVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DropArrow"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Separator"/>
+                        </Trigger>
                         <Trigger Property="IsEditable" Value="False">
-                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Content"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEditable" Value="False"/>
+                                <Condition Property="AreButtonsVisible" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="OPT_Separator"/>
+                        </MultiTrigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="IsTabStop" Value="False"/>
                             <Setter Property="Padding" Value="0" TargetName="OPT_MainButton"/>

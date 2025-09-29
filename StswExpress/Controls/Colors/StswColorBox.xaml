@@ -68,7 +68,8 @@
                                 </se:StswTabControl>
                             </se:StswDropButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="Right"
+                            <se:StswSeparator x:Name="OPT_ButtonSeparator"
+                                              DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
@@ -113,6 +114,10 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="AreButtonsVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DropButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonSeparator"/>
+                        </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>
