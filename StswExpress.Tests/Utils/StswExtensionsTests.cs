@@ -339,21 +339,6 @@ public class StswExtensionsTests
     }
     #endregion
 
-    #region Task extensions
-    [Fact]
-    public async Task Try_TaskSuppressesException()
-    {
-        await Task.Run(() => throw new InvalidOperationException()).Try();
-    }
-
-    [Fact]
-    public async Task Try_GenericTaskSuppressesException()
-    {
-        var result = await Task.Run(() => Task.FromResult(0)).Try();
-        Assert.Equal(0, result);
-    }
-    #endregion
-
     #region Text extensions
     [Fact]
     public void Capitalize_CapitalizesString()

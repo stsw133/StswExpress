@@ -4,7 +4,7 @@
 /// Represents a managed task with status tracking and exception handling.
 /// </summary>
 /// <typeparam name="T">The type of the result produced by the task.</typeparam>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.NewFeatures, IsTested = false)]
+[StswPlannedChanges(StswPlannedChanges.NewFeatures)]
 public class StswTask<T> : StswObservableObject
 {
     public StswTask(Func<Task<T>> taskFactory)

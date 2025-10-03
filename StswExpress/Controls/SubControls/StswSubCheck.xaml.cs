@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswSubCheck IsBusy="True" IconFill="Red"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//, IStswIconControl
 {
     static StswSubCheck()

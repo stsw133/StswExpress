@@ -24,7 +24,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo(null, PlannedChanges = StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework)]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
     internal StswNavigationElement? CompactedExpander;
@@ -59,7 +59,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
     /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
     /// <returns>The newly assigned content.</returns>
-    [StswInfo(null, "0.19.0")]
     public object? ChangeContext(object context, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
@@ -362,7 +361,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// Gets or sets the width of the navigation items list.
     /// Adjusts the size of the tab strip for a custom layout.
     /// </summary>
-    [StswInfo("0.1.0")]
     public double TabStripWidth
     {
         get => (double)GetValue(TabStripWidthProperty);

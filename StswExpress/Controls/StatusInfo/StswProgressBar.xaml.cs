@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;se:StswProgressBar Value="50" Minimum="0" Maximum="100" TextMode="Percentage"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
@@ -79,7 +78,6 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     /// Gets or sets the text displayed on the progress bar.
     /// Updates dynamically based on the selected <see cref="TextMode"/>.
     /// </summary>
-    [StswInfo("0.2.0")]
     public string? Text
     {
         get => (string?)GetValue(TextProperty);

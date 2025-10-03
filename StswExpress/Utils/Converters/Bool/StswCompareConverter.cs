@@ -21,7 +21,6 @@ namespace StswExpress;
 /// &lt;Button Content="Advanced options" Visibility="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&amp;2'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null, "0.20.1")]
 public class StswCompareConverter : MarkupExtension, IValueConverter
 {
     /// <summary>
@@ -34,7 +33,6 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <inheritdoc/>
-    [StswInfo(null, "0.20.1")]
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         /// Fast path: enum parameter passed via {x:Static ...}
@@ -191,7 +189,6 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// <param name="text">The text to parse.</param>
     /// <param name="enumObj">When this method returns, contains the enum value equivalent of the input text, if the parsing succeeded, or <see langword="null"/> if the parsing failed.</param>
     /// <returns><see langword="true"/> if parsing succeeded; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.20.1")]
     private static bool TryParseEnum(Type enumType, string text, out object? enumObj)
     {
         if (long.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var n))

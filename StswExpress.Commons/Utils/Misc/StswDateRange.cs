@@ -1,12 +1,12 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace StswExpress.Commons;
 
 /// <summary>
 /// Represents a range between two <see cref="DateTime"/> values and exposes helper operations for working with ranges.
 /// </summary>
-[StswInfo("0.21.0", IsTested = false)]
-public class StswDateRange : StswObservableObject
+public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, IEquatable<StswDateRange>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StswDateRange"/> class.
@@ -74,94 +74,104 @@ public class StswDateRange : StswObservableObject
     }
 
     /// <summary>
-    /// Attempts to compute the intersection of the current range with the specified <paramref name="other"/> range.
+    /// Orders the provided start and end values chronologically.
     /// </summary>
-    /// <param name="other">The range to intersect with.</param>
-    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
-    /// <param name="intersection">When this method returns, contains the intersection range if the ranges intersect; otherwise, <see langword="null"/>.</param>
-    /// <returns><see langword="true"/> if the ranges intersect; otherwise, <see langword="false"/>.</returns>
-    public bool TryIntersect(StswDateRange other, bool inclusive, out StswDateRange? intersection)
-    {
-        ArgumentNullException.ThrowIfNull(other);
-
-        var (firstStart, firstEnd) = OrderRange(Start, End);
-        var (secondStart, secondEnd) = OrderRange(other.Start, other.End);
-
-        var start = firstStart > secondStart ? firstStart : secondStart;
-        var end = firstEnd < secondEnd ? firstEnd : secondEnd;
-
-        var hasNonEmpty = inclusive ? start <= end : start < end;
-        if (!hasNonEmpty)
-        {
-            intersection = null;
-            return false;
-        }
-
-        intersection = new StswDateRange(start, end);
-        return true;
-    }
-
-    /// <summary>
-    /// Convenience: returns the intersection or null if ranges do not intersect.
-    /// </summary>
-    /// <param name="other">The range to intersect with.</param>
-    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
-    /// <returns>The intersection range if the ranges intersect; otherwise, <see langword="null"/>.</returns>
-    public StswDateRange? IntersectOrNull(StswDateRange other, bool inclusive = true)
-        => TryIntersect(other, inclusive, out var result)
-            ? result
-            : null;
-
-    /// <summary>
-    /// Convenience: returns the intersection or throws if ranges do not intersect.
-    /// </summary>
-    /// <param name="other">The range to intersect with.</param>
-    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
-    /// <returns>The intersection range.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the ranges do not intersect.</exception>
-    public StswDateRange Intersect(StswDateRange other, bool inclusive = true)
-        => TryIntersect(other, inclusive, out var result)
-            ? result!
-            : throw new InvalidOperationException("Ranges do not intersect.");
-
-    /// <summary>
-    /// Returns a normalized copy of the range in chronological order.
-    /// </summary>
-    /// <returns>A <see cref="StswDateRange"/> whose start is earlier than or equal to its end.</returns>
-    public StswDateRange GetNormalized()
-    {
-        var (start, end) = OrderRange(Start, End);
-        return new StswDateRange(start, end);
-    }
-
-    /// <summary>
-    /// Normalizes the range in place, ensuring that the start is earlier than or equal to the end.
-    /// </summary>
-    public void Normalize()
-    {
-        if (End < Start)
-            (Start, End) = (End, Start);
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static (DateTime Start, DateTime End) OrderRange(DateTime start, DateTime end) => start <= end ? (start, end) : (end, start);
 
     /// <summary>
     /// Converts the range to a tuple representation.
     /// </summary>
     public (DateTime Start, DateTime End) ToTuple() => (Start, End);
 
+    #region Add operations
     /// <summary>
-    /// Deconstructs the range into start and end values.
+    /// Adds the specified <paramref name="offset"/> to both the start and end of the range.
     /// </summary>
-    public void Deconstruct(out DateTime start, out DateTime end)
+    /// <param name="offset">The offset to add.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by <paramref name="offset"/>.</returns>
+    public StswDateRange Add(TimeSpan offset)
     {
-        start = Start;
-        end = End;
+        var (s, e) = OrderRange(Start, End);
+        return new StswDateRange(s + offset, e + offset);
     }
 
     /// <summary>
-    /// Orders the provided start and end values chronologically.
+    /// Adds the specified number of years to both the start and end of the range.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static (DateTime Start, DateTime End) OrderRange(DateTime start, DateTime end) => start <= end ? (start, end) : (end, start);
+    /// <param name="years">The number of years to add. Can be negative to subtract years.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of years.</returns>
+    public StswDateRange AddYears(int years)
+    {
+        var (s, e) = OrderRange(Start, End);
+        return new StswDateRange(s.AddYears(years), e.AddYears(years)).GetNormalized();
+    }
+
+    /// <summary>
+    /// Adds the specified number of months to both the start and end of the range.
+    /// </summary>
+    /// <param name="months">The number of months to add. Can be negative to subtract months.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of months.</returns>
+    public StswDateRange AddMonths(int months)
+    {
+        var (s, e) = OrderRange(Start, End);
+        return new StswDateRange(s.AddMonths(months), e.AddMonths(months)).GetNormalized();
+    }
+
+    /// <summary>
+    /// Adds the specified number of days to both the start and end of the range.
+    /// </summary>
+    /// <param name="days">The number of days to add. Can be negative to subtract days.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of days.</returns>
+    public StswDateRange AddDays(double days) => Add(TimeSpan.FromDays(days));
+
+    /// <summary>
+    /// Adds the specified number of hours to both the start and end of the range.
+    /// </summary>
+    /// <param name="hours">The number of hours to add. Can be negative to subtract hours.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of hours.</returns>
+    public StswDateRange AddHours(double hours) => Add(TimeSpan.FromHours(hours));
+
+    /// <summary>
+    /// Adds the specified number of minutes to both the start and end of the range.
+    /// </summary>
+    /// <param name="minutes">The number of minutes to add. Can be negative to subtract minutes.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of minutes.</returns>
+    public StswDateRange AddMinutes(double minutes) => Add(TimeSpan.FromMinutes(minutes));
+
+    /// <summary>
+    /// Adds the specified number of seconds to both the start and end of the range.
+    /// </summary>
+    /// <param name="seconds">The number of seconds to add. Can be negative to subtract seconds.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of seconds.</returns>
+    public StswDateRange AddSeconds(double seconds) => Add(TimeSpan.FromSeconds(seconds));
+
+    /// <summary>
+    /// Adds the specified number of milliseconds to both the start and end of the range.
+    /// </summary>
+    /// <param name="ms">The number of milliseconds to add. Can be negative to subtract milliseconds.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of milliseconds.</returns>
+    public StswDateRange AddMilliseconds(double ms) => Add(TimeSpan.FromMilliseconds(ms));
+
+    /// <summary>
+    /// Adds the specified number of ticks to both the start and end of the range.
+    /// </summary>
+    /// <param name="ticks">The number of ticks to add. Can be negative to subtract ticks.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with both bounds adjusted by the specified number of ticks.</returns>
+    public StswDateRange AddTicks(long ticks) => Add(new TimeSpan(ticks));
+
+    /// <summary>
+    /// Adds different offsets to the start and end of the range.
+    /// </summary>
+    /// <param name="startDelta">The offset to add to the start of the range. Can be negative to subtract time.</param>
+    /// <param name="endDelta">The offset to add to the end of the range. Can be negative to subtract time.</param>
+    /// <returns>A new <see cref="StswDateRange"/> with the start adjusted by <paramref name="startDelta"/> and the end adjusted by <paramref name="endDelta"/>.</returns>
+    public StswDateRange AddOffsets(TimeSpan startDelta, TimeSpan endDelta)
+    {
+        var (s, e) = OrderRange(Start, End);
+        return new StswDateRange(s + startDelta, e + endDelta).GetNormalized();
+    }
+    #endregion
 
     #region Logical operations
     /// <summary>
@@ -204,26 +214,7 @@ public class StswDateRange : StswObservableObject
     public bool Contains(StswDateRange other, bool inclusive = true)
     {
         ArgumentNullException.ThrowIfNull(other);
-
-        var (outerStart, outerEnd) = OrderRange(Start, End);
-        var (innerStart, innerEnd) = OrderRange(other.Start, other.End);
-
-        return inclusive
-            ? outerStart <= innerStart && innerEnd <= outerEnd
-            : outerStart < innerStart && innerEnd < outerEnd;
-    }
-
-    /// <summary>
-    /// Determines whether the current range is adjacent to the specified <paramref name="other"/> range.
-    /// </summary>
-    /// <param name="other">The range to compare.</param>
-    /// <returns><see langword="true"/> if the ranges are adjacent; otherwise, <see langword="false"/>.</returns>
-    public bool IsAdjacentTo(StswDateRange other)
-    {
-        ArgumentNullException.ThrowIfNull(other);
-        var (A0, A1) = OrderRange(Start, End);
-        var (B0, B1) = OrderRange(other.Start, other.End);
-        return A1 == B0 || B1 == A0;
+        return Contains(other.Start, other.End, inclusive);
     }
 
     /// <summary>
@@ -381,92 +372,336 @@ public class StswDateRange : StswObservableObject
     }
     #endregion
 
+    #region Transformations
+    /// <summary>
+    /// Returns a new range whose bounds are clamped to lie within the specified limits.
+    /// </summary>
+    /// <param name="min">The inclusive (or exclusive) lower bound.</param>
+    /// <param name="max">The inclusive (or exclusive) upper bound.</param>
+    /// <param name="inclusive">Determines whether <paramref name="min"/> and <paramref name="max"/> are treated as inclusive (<see langword="true"/>) or exclusive (<see langword="false"/>).
+    /// When exclusive, one tick is trimmed from each side to keep the bounds outside of the clamp limits.</param>
+    /// <returns>A <see cref="StswDateRange"/> limited to the provided bounds.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="inclusive"/> is <see langword="false"/> and the exclusive interval does not contain any representable <see cref="DateTime"/> values.</exception>
+    public StswDateRange Clamp(DateTime min, DateTime max, bool inclusive = true)
+    {
+        var (rangeStart, rangeEnd) = OrderRange(Start, End);
+        var (orderedMin, orderedMax) = OrderRange(min, max);
+
+        DateTime effectiveMin;
+        DateTime effectiveMax;
+
+        if (inclusive)
+        {
+            effectiveMin = orderedMin;
+            effectiveMax = orderedMax;
+        }
+        else
+        {
+            if (orderedMax.Ticks - orderedMin.Ticks <= 1)
+                throw new ArgumentException("Exclusive clamp requires at least two ticks between bounds.", nameof(max));
+
+            effectiveMin = orderedMin.AddTicks(1);
+            effectiveMax = orderedMax.AddTicks(-1);
+        }
+
+        var clampedStart = rangeStart < effectiveMin ? effectiveMin : rangeStart;
+        clampedStart = clampedStart > effectiveMax ? effectiveMax : clampedStart;
+
+        var clampedEnd = rangeEnd > effectiveMax ? effectiveMax : rangeEnd;
+        clampedEnd = clampedEnd < effectiveMin ? effectiveMin : clampedEnd;
+
+        if (clampedEnd < clampedStart)
+            clampedEnd = clampedStart;
+
+        return new StswDateRange(clampedStart, clampedEnd);
+    }
+
+    /// <summary>
+    /// Returns a normalized copy of the range in chronological order.
+    /// </summary>
+    /// <returns>A <see cref="StswDateRange"/> whose start is earlier than or equal to its end.</returns>
+    public StswDateRange GetNormalized()
+    {
+        var (start, end) = OrderRange(Start, End);
+        return new StswDateRange(start, end);
+    }
+
+    /// <summary>
+    /// Normalizes the range in place, ensuring that the start is earlier than or equal to the end.
+    /// </summary>
+    public void Normalize()
+    {
+        if (End < Start)
+            (Start, End) = (End, Start);
+    }
+
+    /// <summary>
+    /// Attempts to compute the intersection of the current range with the specified <paramref name="other"/> range.
+    /// </summary>
+    /// <param name="other">The range to intersect with.</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <param name="intersection">When this method returns, contains the intersection range if the ranges intersect; otherwise, <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if the ranges intersect; otherwise, <see langword="false"/>.</returns>
+    public bool TryIntersect(StswDateRange other, bool inclusive, out StswDateRange? intersection)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+
+        var (firstStart, firstEnd) = OrderRange(Start, End);
+        var (secondStart, secondEnd) = OrderRange(other.Start, other.End);
+
+        var start = firstStart > secondStart ? firstStart : secondStart;
+        var end = firstEnd < secondEnd ? firstEnd : secondEnd;
+
+        var hasNonEmpty = inclusive ? start <= end : start < end;
+        if (!hasNonEmpty)
+        {
+            intersection = null;
+            return false;
+        }
+
+        intersection = new StswDateRange(start, end);
+        return true;
+    }
+
+    /// <summary>
+    /// Convenience: returns the intersection or null if ranges do not intersect.
+    /// </summary>
+    /// <param name="other">The range to intersect with.</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>The intersection range if the ranges intersect; otherwise, <see langword="null"/>.</returns>
+    public StswDateRange? IntersectOrNull(StswDateRange other, bool inclusive = true)
+        => TryIntersect(other, inclusive, out var result)
+            ? result
+            : null;
+
+    /// <summary>
+    /// Convenience: returns the intersection or throws if ranges do not intersect.
+    /// </summary>
+    /// <param name="other">The range to intersect with.</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>The intersection range.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the ranges do not intersect.</exception>
+    public StswDateRange Intersect(StswDateRange other, bool inclusive = true)
+        => TryIntersect(other, inclusive, out var result)
+            ? result!
+            : throw new InvalidOperationException("Ranges do not intersect.");
+
+    /// <summary>
+    /// Splits the current range into consecutive subranges of the specified <paramref name="step"/>.
+    /// </summary>
+    /// <param name="step">The duration of each segment. Must be a positive, finite <see cref="TimeSpan"/>.</param>
+    /// <param name="inclusive">Determines whether the original range boundaries are treated as inclusive (<see langword="true"/>) or exclusive (<see langword="false"/>). When exclusive, the method trims one tick from each side before generating segments. If no values remain, the resulting enumeration is empty.</param>
+    /// <returns>An enumerable of <see cref="StswDateRange"/> segments that cover the current range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="step"/> is not a positive, finite duration.</exception>
+    public IEnumerable<StswDateRange> SplitBy(TimeSpan step, bool inclusive = true)
+    {
+        if (step.Ticks <= 0)
+            throw new ArgumentOutOfRangeException(nameof(step), "Step must be positive.");
+
+        var (rangeStart, rangeEnd) = OrderRange(Start, End);
+        if (inclusive ? rangeStart > rangeEnd : rangeStart >= rangeEnd)
+            yield break;
+
+        var effectiveStart = inclusive ? rangeStart : rangeStart.AddTicks(1);
+        var effectiveEnd = inclusive ? rangeEnd : rangeEnd.AddTicks(-1);
+
+        if (effectiveStart > effectiveEnd)
+            yield break;
+
+        for (var segStart = effectiveStart; ;)
+        {
+            var segEnd = segStart + step;
+            if (segEnd >= effectiveEnd)
+            {
+                yield return new StswDateRange(segStart, inclusive ? rangeEnd : effectiveEnd);
+                yield break;
+            }
+
+            yield return new StswDateRange(segStart, segEnd);
+            segStart = segEnd;
+        }
+    }
+
+    /// <summary>
+    /// Attempts to compute the union of the current range with the specified <paramref name="other"/> range.
+    /// </summary>
+    /// <param name="other">The other range to merge with.</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <param name="allowTouching">If <see langword="true"/>, touching ranges (where the end of one range equals the start of the other) are considered mergeable.</param>
+    /// <param name="union">When this method returns, contains the union range if a single-range union is possible; otherwise, <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if a single-range union is possible; otherwise, <see langword="false"/>.</returns>
+    public bool TryUnion(StswDateRange other, bool inclusive, bool allowTouching, out StswDateRange? union)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+
+        var (a0, a1) = OrderRange(Start, End);
+        var (b0, b1) = OrderRange(other.Start, other.End);
+
+        var overlaps = inclusive
+            ? a0 <= b1 && b0 <= a1
+            : a0 < b1 && b0 < a1;
+
+        var touches = (a1 == b0) || (b1 == a0);
+
+        if (!overlaps && !(allowTouching && touches))
+        {
+            union = null;
+            return false;
+        }
+
+        var start = a0 <= b0 ? a0 : b0;
+        var end = a1 >= b1 ? a1 : b1;
+        union = new StswDateRange(start, end);
+        return true;
+    }
+
+    /// <summary>
+    /// Convenience: returns the union or null if a single-range union is not possible.
+    /// </summary>
+    /// <param name="other">The other range to merge with.</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <param name="allowTouching">If <see langword="true"/>, touching ranges (where the end of one range equals the start of the other) are considered mergeable.</param>
+    /// <returns>The union range if a single-range union is possible; otherwise, <see langword="null"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the ranges are disjoint and cannot be merged into a single range.</exception>
+    public StswDateRange Union(StswDateRange other, bool inclusive = true, bool allowTouching = false)
+        => TryUnion(other, inclusive, allowTouching, out var u)
+            ? u!
+            : throw new InvalidOperationException("Ranges are disjoint; a single-range union does not exist.");
+    #endregion
+
     #region Unique components extraction
     /// <summary>
-    /// Returns unique years within this range as DateTime values at the start of each year (YYYY-01-01 00:00:00).
+    /// Enumerates unique units (years, quarters, months) within the specified range.
+    /// </summary>
+    /// <param name="start">The start of the range.</param>
+    /// <param name="end">The end of the range.</param>
+    /// <param name="snapToUnitStart">A function that snaps a <see cref="DateTime"/> to the start of the desired unit (e.g., start of month).</param>
+    /// <param name="nextUnitStart">A function that computes the start of the next unit given the start of the current unit (e.g., add one month).</param>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of <see cref="DateTime"/> values representing the start of each unique unit in the range.</returns>
+    private static IEnumerable<DateTime> EnumerateUnits(
+        DateTime start,
+        DateTime end,
+        Func<DateTime, DateTime> snapToUnitStart,
+        Func<DateTime, DateTime> nextUnitStart,
+        bool inclusive)
+    {
+        var (rangeStart, rangeEnd) = OrderRange(start, end);
+        if (inclusive ? rangeStart > rangeEnd : rangeStart >= rangeEnd)
+            yield break;
+
+        var firstUnit = snapToUnitStart(rangeStart);
+        var lastUnit = snapToUnitStart(rangeEnd);
+
+        for (var unitStart = firstUnit; unitStart <= lastUnit; unitStart = nextUnitStart(unitStart))
+        {
+            var unitEndExclusive = nextUnitStart(unitStart);
+            var overlaps = inclusive
+                ? rangeStart <= unitEndExclusive && unitStart <= rangeEnd
+                : rangeStart < unitEndExclusive && unitStart < rangeEnd;
+
+            if (overlaps)
+                yield return unitStart;
+        }
+    }
+
+    /// <summary>
+    /// Returns unique years within this range as <see cref="DateTime"/> values at the start of each year (YYYY-01-01 00:00:00).
     /// </summary>
     /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
     /// <returns>An enumerable of <see cref="DateTime"/> values representing the start of each unique year in the range.</returns>
-    public IEnumerable<DateTime> GetUniqueYears(bool inclusive = true)
+    public IEnumerable<DateTime> GetUniqueYearDates(bool inclusive = true)
+        => EnumerateUnits(Start, End, d => new DateTime(d.Year, 1, 1), d => d.AddYears(1), inclusive);
+
+    /// <summary>
+    /// Returns unique years within this range as numeric values (YYYY).
+    /// </summary>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of <see cref="int"/> values representing each unique year in the range.</returns>
+    public IEnumerable<int> GetUniqueYearValues(bool inclusive = true)
     {
-        var (rangeStart, rangeEnd) = OrderRange(Start, End);
-        if (inclusive ? rangeStart > rangeEnd : rangeStart >= rangeEnd)
-            yield break;
-
-        var currentYearStart = new DateTime(rangeStart.Year, 1, 1);
-        var lastYearStart = new DateTime(rangeEnd.Year, 1, 1);
-
-        for (var yearStart = currentYearStart; yearStart <= lastYearStart; yearStart = yearStart.AddYears(1))
-        {
-            var yearEndExclusive = yearStart.AddYears(1);
-            var overlaps = inclusive
-                ? rangeStart <= yearEndExclusive && yearStart <= rangeEnd
-                : rangeStart < yearEndExclusive && yearStart < rangeEnd;
-
-            if (overlaps)
-                yield return yearStart;
-        }
+        foreach (var y in EnumerateUnits(Start, End, d => new DateTime(d.Year, 1, 1), d => d.AddYears(1), inclusive))
+            yield return y.Year;
     }
 
     /// <summary>
-    /// Returns unique months within this range as DateTime values at the start of each month (YYYY-MM-01 00:00:00).
+    /// Returns unique quarters within this range as <see cref="DateTime"/> values at the start of each quarter (YYYY-MM-01 00:00:00).
+    /// </summary>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of <see cref="DateTime"/> values representing the start of each unique quarter in the range.</returns>
+    public IEnumerable<DateTime> GetUniqueQuarterDates(bool inclusive = true)
+    {
+        static int QuarterStartMonth(int m) => (m - 1) / 3 * 3 + 1;
+        return EnumerateUnits(Start, End, d => new DateTime(d.Year, QuarterStartMonth(d.Month), 1), d => d.AddMonths(3),
+            inclusive);
+    }
+
+    /// <summary>
+    /// Returns unique quarters within this range.
+    /// </summary>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of tuples describing the year and quarter (1–4).</returns>
+    public IEnumerable<(int Year, int Quarter)> GetUniqueQuarterValues(bool inclusive = true)
+    {
+        static int QuarterStartMonth(int month) => (month - 1) / 3 * 3 + 1;
+        foreach (var q in EnumerateUnits(Start, End, d => new DateTime(d.Year, QuarterStartMonth(d.Month), 1), d => d.AddMonths(3), inclusive))
+            yield return (q.Year, q.GetQuarter());
+    }
+
+    /// <summary>
+    /// Returns unique months within this range as <see cref="DateTime"/> values at the start of each month (YYYY-MM-01 00:00:00).
     /// </summary>
     /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
     /// <returns>An enumerable of <see cref="DateTime"/> values representing the start of each unique month in the range.</returns>
-    public IEnumerable<DateTime> GetUniqueMonths(bool inclusive = true)
+    public IEnumerable<DateTime> GetUniqueMonthDates(bool inclusive = true)
+        => EnumerateUnits(Start, End, d => new DateTime(d.Year, d.Month, 1), d => d.AddMonths(1), inclusive);
+
+    /// <summary>
+    /// Returns unique year-month combinations within this range.
+    /// </summary>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of tuples describing the year and month (1–12).</returns>
+    public IEnumerable<(int Year, int Month)> GetUniqueYearMonthValues(bool inclusive = true)
     {
-        var (rangeStart, rangeEnd) = OrderRange(Start, End);
-        if (inclusive ? rangeStart > rangeEnd : rangeStart >= rangeEnd)
-            yield break;
-
-        var currentMonthStart = new DateTime(rangeStart.Year, rangeStart.Month, 1);
-        var lastMonthStart = new DateTime(rangeEnd.Year, rangeEnd.Month, 1);
-
-        for (var monthStart = currentMonthStart; monthStart <= lastMonthStart; monthStart = monthStart.AddMonths(1))
-        {
-            var monthEndExclusive = monthStart.AddMonths(1);
-            var overlaps = inclusive
-                ? rangeStart <= monthEndExclusive && monthStart <= rangeEnd
-                : rangeStart < monthEndExclusive && monthStart < rangeEnd;
-
-            if (overlaps)
-                yield return monthStart;
-        }
+        foreach (var m in EnumerateUnits(Start, End, d => new DateTime(d.Year, d.Month, 1), d => d.AddMonths(1), inclusive))
+            yield return (m.Year, m.Month);
     }
 
     /// <summary>
-    /// Returns unique days within this range as DateTime values at the start of each day (YYYY-MM-DD 00:00:00).
+    /// Returns unique days within this range as <see cref="DateTime"/> values at the start of each day (YYYY-MM-DD 00:00:00).
     /// </summary>
     /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
     /// <returns>An enumerable of <see cref="DateTime"/> values representing the start of each unique day in the range.</returns>
-    public IEnumerable<DateTime> GetUniqueDays(bool inclusive = true)
+    public IEnumerable<DateTime> GetUniqueDayDates(bool inclusive = true)
+        => EnumerateUnits(Start, End, d => new DateTime(d.Year, d.Month, d.Day), d => d.AddDays(1), inclusive);
+
+    /// <summary>
+    /// Returns unique year-month-day combinations within this range.
+    /// </summary>
+    /// <param name="inclusive">Determines whether the range boundaries should be treated as inclusive.</param>
+    /// <returns>An enumerable of tuples describing the year, month (1–12), and day (1–31).</returns>
+    public IEnumerable<(int Year, int Month, int Day)> GetUniqueDayValues(bool inclusive = true)
     {
-        var (rangeStart, rangeEnd) = OrderRange(Start, End);
-        if (inclusive ? rangeStart > rangeEnd : rangeStart >= rangeEnd)
-            yield break;
-
-        var currentDayStart = rangeStart.Date;
-        var lastDayStart = rangeEnd.Date;
-
-        for (var dayStart = currentDayStart; dayStart <= lastDayStart; dayStart = dayStart.AddDays(1))
-        {
-            var dayEndExclusive = dayStart.AddDays(1);
-            var overlaps = inclusive
-                ? rangeStart <= dayEndExclusive && dayStart <= rangeEnd
-                : rangeStart < dayEndExclusive && dayStart < rangeEnd;
-
-            if (overlaps)
-                yield return dayStart;
-        }
+        foreach (var d in EnumerateUnits(Start, End, d => new DateTime(d.Year, d.Month, d.Day), d => d.AddDays(1), inclusive))
+            yield return (d.Year, d.Month, d.Day);
     }
     #endregion
 
-    #region Overloaded factory methods
     /// <summary>
-    /// Returns a string representation of the range in ISO 8601 format.
+    /// Creates a new <see cref="StswDateRange"/> from the specified start and end values.
     /// </summary>
-    /// <returns></returns>
-    public override string ToString() => $"[{Start:o} – {End:o}]";
+    /// <param name="other">The range to copy.</param>
+    /// <returns>A new <see cref="StswDateRange"/> instance.</returns>
+    public int CompareTo(StswDateRange? other)
+    {
+        if (other is null) return 1;
+        var (aStart, aEnd) = OrderRange(Start, End);
+        var (bStart, bEnd) = OrderRange(other.Start, other.End);
+
+        int cmp = aStart.CompareTo(bStart);
+        if (cmp != 0) return cmp;
+        return aEnd.CompareTo(bEnd);
+    }
 
     /// <summary>
     /// Determines whether the current range is equal to another range.
@@ -481,6 +716,8 @@ public class StswDateRange : StswObservableObject
         return s1 == s2 && e1 == e2;
     }
     public override bool Equals(object? obj) => obj is StswDateRange r && Equals(r);
+    public static bool operator ==(StswDateRange? a, StswDateRange? b) => a is null ? b is null : a.Equals(b);
+    public static bool operator !=(StswDateRange? a, StswDateRange? b) => !(a == b);
 
     /// <summary>
     /// Returns a hash code for the range.
@@ -491,7 +728,29 @@ public class StswDateRange : StswObservableObject
         var (s, e) = OrderRange(Start, End);
         return HashCode.Combine(s, e);
     }
-    public static bool operator ==(StswDateRange? a, StswDateRange? b) => a is null ? b is null : a.Equals(b);
-    public static bool operator !=(StswDateRange? a, StswDateRange? b) => !(a == b);
-    #endregion
+
+    /// <summary>
+    /// Returns a string representation of the range in ISO 8601 format.
+    /// </summary>
+    /// <returns>A string representation of the range.</returns>
+    public override string ToString() => ToString("o", CultureInfo.CurrentCulture);
+
+    /// <summary>
+    /// Returns a string representation of the range using the specified format for the start and end values.
+    /// </summary>
+    /// <param name="format">The format string to use for the start and end values. If <see langword="null"/>, the default format is used.</param>
+    /// <returns>A string representation of the range.</returns>
+    public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
+
+    /// <summary>
+    /// Returns a string representation of the range using the specified format and culture for the start and end values.
+    /// </summary>
+    /// <param name="format">The format string to use for the start and end values. If <see langword="null"/>, the default format is used.</param>
+    /// <param name="provider">The format string to use for the start and end values. If <see langword="null"/>, the default format is used.</param>
+    /// <returns>A string representation of the range.</returns>
+    public string ToString(string? format, IFormatProvider? provider)
+    {
+        var (s, e) = OrderRange(Start, End);
+        return $"[{s.ToString(format, provider)} - {e.ToString(format, provider)}]";
+    }
 }

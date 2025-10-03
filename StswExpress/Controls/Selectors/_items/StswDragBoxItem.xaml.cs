@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;/se:StswDragBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.15.0")]
 public class StswDragBoxItem : ListBoxItem, IStswCornerControl
 {
     static StswDragBoxItem()

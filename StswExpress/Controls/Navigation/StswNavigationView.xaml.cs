@@ -24,7 +24,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswNavigationView : ContentControl, IStswCornerControl
 {
     private StswNavigationTree? _mainTree, _pinnedTree;

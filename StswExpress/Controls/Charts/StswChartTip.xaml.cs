@@ -15,7 +15,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [EditorBrowsable(EditorBrowsableState.Never)]
-[StswInfo("0.4.0")]
 public class StswChartTip : StswToolTip
 {
     static StswChartTip()

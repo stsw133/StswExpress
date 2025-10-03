@@ -20,7 +20,6 @@ namespace StswExpress;/// <summary>
 /// &lt;/se:StswTreeView&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswTreeViewItem : TreeViewItem
 {
     static StswTreeViewItem()

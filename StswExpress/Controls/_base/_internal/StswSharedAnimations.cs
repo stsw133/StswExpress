@@ -14,7 +14,6 @@ namespace StswExpress;
 /// This class defines shared animations for UI elements, particularly for controls that visually respond to selection changes.
 /// The animations smoothly transition between colors when an element is selected or deselected.
 /// </remarks>
-[StswInfo("0.12.0")]
 internal static class StswSharedAnimations
 {
     /// <summary>

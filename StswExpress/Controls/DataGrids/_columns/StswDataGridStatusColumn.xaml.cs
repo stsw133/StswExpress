@@ -16,7 +16,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridStatusColumn/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.11.0")]
 public class StswDataGridStatusColumn : DataGridTemplateColumn
 {
     public StswDataGridStatusColumn()

@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;se:StswRatingControl Value="{Binding ProductRating}" ItemsNumber="10" IconData="{StaticResource StarIcon}" Direction="Right"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.NewFeatures)]
 public class StswRatingControl : Control, IStswIconControl
 {
     public StswRatingControl()
@@ -34,7 +33,6 @@ public class StswRatingControl : Control, IStswIconControl
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo("0.1.0", "0.20.0")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -118,7 +116,6 @@ public class StswRatingControl : Control, IStswIconControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.1.0", "0.20.0")]
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
@@ -155,7 +152,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Increments the current rating value by the specified direction.
     /// </summary>
     /// <param name="direction">The direction to increment: -1 for decrement, 1 for increment.</param>
-    [StswInfo("0.20.0")]
     private void Increment(double direction)
     {
         if (!Value.HasValue)
@@ -180,7 +176,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// </summary>
     /// <param name="tempValue">Optional temporary value to use instead of the current Value.</param>
     /// <param name="isPlaceholder">Indicates if the update is for a placeholder (mouse hover) state.</param>
-    [StswInfo("0.20.0")]
     private void UpdateFillFractions(double? tempValue = null, bool isPlaceholder = false)
     {
         double actualValue = tempValue ?? Value ?? 0.0;
@@ -278,7 +273,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets a value indicating whether the rating control is read-only.
     /// When set to <see langword="true"/>, user input (mouse and keyboard) is disabled.
     /// </summary>
-    [StswInfo("0.16.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -295,7 +289,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets whether the rating control allows resetting to zero.
     /// If enabled, users can clear the rating by pressing the Backspace key.
     /// </summary>
-    [StswInfo("0.2.0")]
     public bool IsResetEnabled
     {
         get => (bool)GetValue(IsResetEnabledProperty);
@@ -383,7 +376,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets the visibility of the rating item count.
     /// This property controls whether the number of rating levels is displayed.
     /// </summary>
-    [StswInfo("0.6.0")]
     public Visibility ItemsNumberVisibility
     {
         get => (Visibility)GetValue(ItemsNumberVisibilityProperty);
@@ -400,7 +392,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets a temporary rating value based on mouse hover.
     /// Provides a visual preview of the rating before selection.
     /// </summary>
-    [StswInfo("0.1.0", "0.20.0")]
     public double? Placeholder
     {
         get => (double?)GetValue(PlaceholderProperty);
@@ -429,7 +420,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// <summary>
     /// Gets or sets the step value for the rating control.
     /// </summary>
-    [StswInfo("0.20.0")]
     public double Step
     {
         get => (double)GetValue(StepProperty);
@@ -446,7 +436,6 @@ public class StswRatingControl : Control, IStswIconControl
     /// Gets or sets the currently selected rating value.
     /// Represents the user's chosen rating level within the control.
     /// </summary>
-    [StswInfo("0.1.0", "0.20.0")]
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);
@@ -539,7 +528,6 @@ public class StswRatingControl : Control, IStswIconControl
 /// <summary>
 /// Converts a rating value and item index to a brush mask for partial fills.
 /// </summary>
-[StswInfo("0.20.0")]
 internal sealed class StswRatingMaskConverter : IMultiValueConverter
 {
     /// <summary>

@@ -18,7 +18,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridComboColumn Header="Category" SelectedItemBinding="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0", "0.20.0")]
 public class StswDataGridComboColumn : DataGridComboBoxColumn
 {
     private static readonly Style StswEditingElementStyle = new(typeof(StswComboBox), (Style)Application.Current.FindResource(typeof(StswComboBox)))
@@ -39,7 +38,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     };
 
     /// <inheritdoc/>
-    [StswInfo("0.13.0", "0.20.0")]
     protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
     {
         cell.PreviewKeyDown += OnPreviewKeyDown;
@@ -206,7 +204,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -222,7 +219,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -238,7 +234,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);
@@ -288,7 +283,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     /// <summary>
     /// Converter that retrieves the display value for a selected item in a combo box.
     /// </summary>
-    [StswInfo("0.19.0", "0.20.0")]
     private class SelectedValueToDisplayConverter(string? selectedValuePath, string? displayMemberPath) : IMultiValueConverter
     {
         private readonly string? selectedValuePath = selectedValuePath;

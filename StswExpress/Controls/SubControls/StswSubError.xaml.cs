@@ -21,7 +21,6 @@ namespace StswExpress;
 /// </example>
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
-[StswInfo("0.6.1")]
 public class StswSubError : StswSubLabel
 {
     static StswSubError()

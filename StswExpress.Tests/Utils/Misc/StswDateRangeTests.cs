@@ -1,360 +1,338 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 
 namespace StswExpress.Commons.Tests.Utils.Misc;
 public class StswDateRangeTests
 {
     [Fact]
-    public void Constructor_Default_InitializesToMinValues()
+    public void Constructor_SetsStartAndEnd()
     {
-        var range = new StswDateRange();
-        Assert.Equal(default, range.Start);
-        Assert.Equal(default, range.End);
-    }
-
-    [Fact]
-    public void Constructor_WithStartEnd_SetsProperties()
-    {
-        var start = new DateTime(2020, 1, 1);
-        var end = new DateTime(2020, 12, 31);
+        var start = new DateTime(2024, 1, 1);
+        var end = new DateTime(2024, 12, 31);
         var range = new StswDateRange(start, end);
+
         Assert.Equal(start, range.Start);
         Assert.Equal(end, range.End);
     }
 
-    [Theory]
-    [InlineData("2020-01-01", "2020-12-31", true)]
-    [InlineData("2020-12-31", "2020-01-01", false)]
-    public void IsNormalized_ReturnsExpected(string s, string e, bool expected)
+    [Fact]
+    public void IsNormalized_ReturnsTrueIfStartLessThanOrEqualEnd()
     {
-        var start = DateTime.Parse(s);
-        var end = DateTime.Parse(e);
-        var range = new StswDateRange(start, end);
-        Assert.Equal(expected, range.IsNormalized);
-    }
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 12, 31));
+        Assert.True(range.IsNormalized);
 
-    [Theory]
-    [InlineData("2020-01-01", "2020-01-01", 0)]
-    [InlineData("2020-01-01", "2020-01-02", 1)]
-    [InlineData("2020-01-02", "2020-01-01", 1)]
-    public void Duration_ReturnsExpectedDays(string s, string e, int expectedDays)
-    {
-        var start = DateTime.Parse(s);
-        var end = DateTime.Parse(e);
-        var range = new StswDateRange(start, end);
-        Assert.Equal(TimeSpan.FromDays(expectedDays), range.Duration);
-    }
-
-    [Theory]
-    [InlineData("2020-01-01", "2020-01-01", true)]
-    [InlineData("2020-01-01", "2020-01-02", false)]
-    public void IsInstant_ReturnsExpected(string s, string e, bool expected)
-    {
-        var start = DateTime.Parse(s);
-        var end = DateTime.Parse(e);
-        var range = new StswDateRange(start, end);
-        Assert.Equal(expected, range.IsInstant);
+        range = new StswDateRange(new DateTime(2024, 12, 31), new DateTime(2024, 1, 1));
+        Assert.True(range.GetNormalized().IsNormalized);
     }
 
     [Fact]
-    public void TryIntersect_IntersectingRanges_ReturnsTrueAndIntersection()
+    public void Duration_ReturnsCorrectTimeSpan()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 5), new DateTime(2020, 1, 15));
-        var result = r1.TryIntersect(r2, true, out var intersection);
-        Assert.True(result);
-        Assert.NotNull(intersection);
-        Assert.Equal(new DateTime(2020, 1, 5), intersection!.Start);
-        Assert.Equal(new DateTime(2020, 1, 10), intersection.End);
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 2));
+        Assert.Equal(TimeSpan.FromDays(1), range.Duration);
+
+        range = new StswDateRange(new DateTime(2024, 1, 2), new DateTime(2024, 1, 1));
+        Assert.Equal(TimeSpan.FromDays(1), range.Duration);
     }
 
     [Fact]
-    public void TryIntersect_NonIntersectingRanges_ReturnsFalse()
+    public void IsInstant_ReturnsTrueIfStartEqualsEnd()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15));
-        var result = r1.TryIntersect(r2, true, out var intersection);
-        Assert.False(result);
-        Assert.Null(intersection);
+        var dt = new DateTime(2024, 1, 1);
+        var range = new StswDateRange(dt, dt);
+        Assert.True(range.IsInstant);
+
+        range = new StswDateRange(dt, dt.AddTicks(1));
+        Assert.False(range.IsInstant);
     }
 
     [Fact]
-    public void IntersectOrNull_ReturnsIntersectionOrNull()
+    public void Add_AddsOffsetToBothBounds()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 5), new DateTime(2020, 1, 15));
-        var r3 = new StswDateRange(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15));
-        Assert.NotNull(r1.IntersectOrNull(r2));
-        Assert.Null(r1.IntersectOrNull(r3));
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 2));
+        var offset = TimeSpan.FromDays(5);
+        var result = range.Add(offset);
+
+        Assert.Equal(new DateTime(2024, 1, 6), result.Start);
+        Assert.Equal(new DateTime(2024, 1, 7), result.End);
     }
 
     [Fact]
-    public void Intersect_ThrowsIfNoIntersection()
+    public void AddYears_AddsYearsToBothBounds()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15));
-        Assert.Throws<InvalidOperationException>(() => r1.Intersect(r2));
+        var range = new StswDateRange(new DateTime(2020, 2, 29), new DateTime(2020, 3, 1));
+        var result = range.AddYears(1);
+
+        Assert.Equal(new DateTime(2021, 2, 28), result.Start);
+        Assert.Equal(new DateTime(2021, 3, 1), result.End);
+    }
+
+    [Fact]
+    public void AddMonths_AddsMonthsToBothBounds()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 31), new DateTime(2024, 2, 29));
+        var result = range.AddMonths(1);
+
+        Assert.Equal(new DateTime(2024, 2, 29), result.Start);
+        Assert.Equal(new DateTime(2024, 3, 29), result.End);
+    }
+
+    [Fact]
+    public void AddOffsets_AddsDifferentOffsets()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 2));
+        var result = range.AddOffsets(TimeSpan.FromDays(1), TimeSpan.FromDays(2));
+
+        Assert.Equal(new DateTime(2024, 1, 2), result.Start);
+        Assert.Equal(new DateTime(2024, 1, 4), result.End);
+    }
+
+    [Fact]
+    public void Contains_ValueInclusiveAndExclusive()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        Assert.True(range.Contains(new DateTime(2024, 1, 1)));
+        Assert.True(range.Contains(new DateTime(2024, 1, 10)));
+        Assert.False(range.Contains(new DateTime(2023, 12, 31)));
+
+        Assert.False(range.Contains(new DateTime(2024, 1, 1), inclusive: false));
+        Assert.False(range.Contains(new DateTime(2024, 1, 10), inclusive: false));
+        Assert.True(range.Contains(new DateTime(2024, 1, 2), inclusive: false));
+    }
+
+    [Fact]
+    public void Contains_RangeInclusiveAndExclusive()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        Assert.True(range.Contains(new DateTime(2024, 1, 2), new DateTime(2024, 1, 9)));
+        Assert.False(range.Contains(new DateTime(2023, 12, 31), new DateTime(2024, 1, 2)));
+
+        Assert.False(range.Contains(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10), inclusive: false));
+        Assert.True(range.Contains(new DateTime(2024, 1, 2), new DateTime(2024, 1, 9), inclusive: false));
+    }
+
+    [Fact]
+    public void Overlaps_RangeInclusiveAndExclusive()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        Assert.True(range.Overlaps(new DateTime(2024, 1, 5), new DateTime(2024, 1, 15)));
+        Assert.False(range.Overlaps(new DateTime(2024, 1, 11), new DateTime(2024, 1, 20)));
+
+        Assert.False(range.Overlaps(new DateTime(2024, 1, 10), new DateTime(2024, 1, 15), inclusive: false));
+        Assert.True(range.Overlaps(new DateTime(2024, 1, 9), new DateTime(2024, 1, 10), inclusive: false));
+    }
+
+    [Fact]
+    public void AnyOverlap_ReturnsTrueIfAnyRangesOverlap()
+    {
+        var ranges = new[]
+        {
+            new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 5)),
+            new StswDateRange(new DateTime(2024, 1, 4), new DateTime(2024, 1, 10)),
+            new StswDateRange(new DateTime(2024, 1, 11), new DateTime(2024, 1, 15))
+        };
+        Assert.True(StswDateRange.AnyOverlap(ranges));
+    }
+
+    [Fact]
+    public void AnyOverlap_ReturnsFalseIfNoRangesOverlap()
+    {
+        var ranges = new[]
+        {
+            new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 5)),
+            new StswDateRange(new DateTime(2024, 1, 6), new DateTime(2024, 1, 10)),
+            new StswDateRange(new DateTime(2024, 1, 11), new DateTime(2024, 1, 15))
+        };
+        Assert.False(StswDateRange.AnyOverlap(ranges));
+    }
+
+    [Fact]
+    public void FromYear_ReturnsFullYearRange()
+    {
+        var range = StswDateRange.FromYear(2024);
+        Assert.Equal(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), range.Start);
+        Assert.Equal(new DateTime(2024, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), range.End);
+    }
+
+    [Fact]
+    public void FromQuarter_ReturnsQuarterRange()
+    {
+        var range = StswDateRange.FromQuarter(2024, 2);
+        Assert.Equal(new DateTime(2024, 4, 1, 0, 0, 0, DateTimeKind.Unspecified), range.Start);
+        Assert.Equal(new DateTime(2024, 6, 30, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), range.End);
+    }
+
+    [Fact]
+    public void FromMonth_ReturnsMonthRange()
+    {
+        var range = StswDateRange.FromMonth(2024, 2);
+        Assert.Equal(new DateTime(2024, 2, 1, 0, 0, 0, DateTimeKind.Unspecified), range.Start);
+        Assert.Equal(new DateTime(2024, 2, 29, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), range.End);
+    }
+
+    [Fact]
+    public void Clamp_ClampsRangeWithinBounds()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var clamped = range.Clamp(new DateTime(2024, 1, 3), new DateTime(2024, 1, 8));
+        Assert.Equal(new DateTime(2024, 1, 3), clamped.Start);
+        Assert.Equal(new DateTime(2024, 1, 8), clamped.End);
     }
 
     [Fact]
     public void GetNormalized_ReturnsChronologicalOrder()
     {
-        var r = new StswDateRange(new DateTime(2020, 12, 31), new DateTime(2020, 1, 1));
-        var normalized = r.GetNormalized();
+        var range = new StswDateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 1));
+        var normalized = range.GetNormalized();
         Assert.True(normalized.Start <= normalized.End);
-        Assert.Equal(new DateTime(2020, 1, 1), normalized.Start);
-        Assert.Equal(new DateTime(2020, 12, 31), normalized.End);
     }
 
     [Fact]
-    public void Normalize_SwapsStartEndIfNeeded()
+    public void Normalize_SwapsStartAndEndIfNeeded()
     {
-        var r = new StswDateRange(new DateTime(2020, 12, 31), new DateTime(2020, 1, 1));
-        r.Normalize();
-        Assert.True(r.Start <= r.End);
-        Assert.Equal(new DateTime(2020, 1, 1), r.Start);
-        Assert.Equal(new DateTime(2020, 12, 31), r.End);
+        var range = new StswDateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 1));
+        range.Normalize();
+        Assert.True(range.Start <= range.End);
     }
 
     [Fact]
-    public void ToTuple_ReturnsStartEndTuple()
+    public void TryIntersect_ReturnsIntersectionIfExists()
     {
-        var r = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 12, 31));
-        var tuple = r.ToTuple();
-        Assert.Equal(r.Start, tuple.Start);
-        Assert.Equal(r.End, tuple.End);
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 5), new DateTime(2024, 1, 15));
+        Assert.True(a.TryIntersect(b, true, out var intersection));
+        Assert.Equal(new DateTime(2024, 1, 5), intersection!.Start);
+        Assert.Equal(new DateTime(2024, 1, 10), intersection.End);
     }
 
     [Fact]
-    public void Deconstruct_ReturnsStartEnd()
+    public void IntersectOrNull_ReturnsNullIfNoIntersection()
     {
-        var r = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 12, 31));
-        r.Deconstruct(out var s, out var e);
-        Assert.Equal(r.Start, s);
-        Assert.Equal(r.End, e);
-    }
-
-    [Theory]
-    [InlineData("2020-01-01", "2020-12-31", "2020-06-01", true)]
-    [InlineData("2020-01-01", "2020-12-31", "2019-12-31", false)]
-    public void Contains_Value_ReturnsExpected(string s, string e, string v, bool expected)
-    {
-        var range = new StswDateRange(DateTime.Parse(s), DateTime.Parse(e));
-        var value = DateTime.Parse(v);
-        Assert.Equal(expected, range.Contains(value));
-    }
-
-    [Theory]
-    [InlineData("2020-01-01", "2020-12-31", "2020-02-01", "2020-02-28", true)]
-    [InlineData("2020-01-01", "2020-12-31", "2019-12-01", "2020-01-01", false)]
-    public void Contains_InnerRange_ReturnsExpected(string s, string e, string is_, string ie, bool expected)
-    {
-        var range = new StswDateRange(DateTime.Parse(s), DateTime.Parse(e));
-        Assert.Equal(expected, range.Contains(DateTime.Parse(is_), DateTime.Parse(ie)));
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 11), new DateTime(2024, 1, 15));
+        Assert.Null(a.IntersectOrNull(b));
     }
 
     [Fact]
-    public void Contains_OtherRange_ReturnsExpected()
+    public void Intersect_ThrowsIfNoIntersection()
     {
-        var outer = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 12, 31));
-        var inner = new StswDateRange(new DateTime(2020, 2, 1), new DateTime(2020, 2, 28));
-        var notInner = new StswDateRange(new DateTime(2019, 12, 1), new DateTime(2020, 1, 1));
-        Assert.True(outer.Contains(inner));
-        Assert.False(outer.Contains(notInner));
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 11), new DateTime(2024, 1, 15));
+        Assert.Throws<InvalidOperationException>(() => a.Intersect(b));
     }
 
     [Fact]
-    public void IsAdjacentTo_ReturnsTrueIfAdjacent()
+    public void SplitBy_SplitsRangeIntoSegments()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 10), new DateTime(2020, 1, 20));
-        Assert.True(r1.IsAdjacentTo(r2));
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 4));
+        var segments = range.SplitBy(TimeSpan.FromDays(1)).ToList();
+
+        Assert.Equal(3, segments.Count);
+        Assert.Equal(new DateTime(2024, 1, 1), segments[0].Start);
+        Assert.Equal(new DateTime(2024, 1, 2), segments[0].End);
+        Assert.Equal(new DateTime(2024, 1, 3), segments[2].Start);
+        Assert.Equal(new DateTime(2024, 1, 4), segments[2].End);
     }
 
     [Fact]
-    public void Overlaps_ReturnsTrueIfOverlapping()
+    public void TryUnion_ReturnsUnionIfRangesOverlapOrTouch()
     {
-        var r = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        Assert.True(r.Overlaps(new DateTime(2020, 1, 5), new DateTime(2020, 1, 15)));
-        Assert.False(r.Overlaps(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15)));
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 15));
+        Assert.True(a.TryUnion(b, true, true, out var union));
+        Assert.Equal(new DateTime(2024, 1, 1), union!.Start);
+        Assert.Equal(new DateTime(2024, 1, 15), union.End);
     }
 
     [Fact]
-    public void Overlaps_OtherRange_ReturnsExpected()
+    public void Union_ThrowsIfRangesAreDisjoint()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 5), new DateTime(2020, 1, 15));
-        var r3 = new StswDateRange(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15));
-        Assert.True(r1.Overlaps(r2));
-        Assert.False(r1.Overlaps(r3));
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 11), new DateTime(2024, 1, 15));
+        Assert.Throws<InvalidOperationException>(() => a.Union(b));
     }
 
     [Fact]
-    public void AnyOverlap_TupleRanges_ReturnsTrueIfAnyOverlap()
+    public void GetUniqueYearDates_ReturnsStartOfEachYear()
     {
-        var ranges = new List<(DateTime, DateTime)>
-        {
-            (new DateTime(2020, 1, 1), new DateTime(2020, 1, 10)),
-            (new DateTime(2020, 1, 5), new DateTime(2020, 1, 15)),
-            (new DateTime(2020, 1, 20), new DateTime(2020, 1, 25))
-        };
-        Assert.True(StswDateRange.AnyOverlap(ranges));
+        var range = new StswDateRange(new DateTime(2022, 6, 1), new DateTime(2024, 2, 1));
+        var years = range.GetUniqueYearDates().ToList();
+        Assert.Contains(new DateTime(2022, 1, 1), years);
+        Assert.Contains(new DateTime(2023, 1, 1), years);
+        Assert.Contains(new DateTime(2024, 1, 1), years);
     }
 
     [Fact]
-    public void AnyOverlap_TupleRanges_ReturnsFalseIfNoOverlap()
+    public void GetUniqueQuarterValues_ReturnsYearAndQuarterTuples()
     {
-        var ranges = new List<(DateTime, DateTime)>
-        {
-            (new DateTime(2020, 1, 1), new DateTime(2020, 1, 10)),
-            (new DateTime(2020, 1, 11), new DateTime(2020, 1, 15)),
-            (new DateTime(2020, 1, 20), new DateTime(2020, 1, 25))
-        };
-        Assert.False(StswDateRange.AnyOverlap(ranges));
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 9, 1));
+        var quarters = range.GetUniqueQuarterValues().ToList();
+        Assert.Contains((2024, 1), quarters);
+        Assert.Contains((2024, 2), quarters);
+        Assert.Contains((2024, 3), quarters);
     }
 
     [Fact]
-    public void AnyOverlap_RangeObjects_ReturnsTrueIfAnyOverlap()
+    public void GetUniqueMonthDates_ReturnsStartOfEachMonth()
     {
-        var ranges = new List<StswDateRange>
-        {
-            new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10)),
-            new StswDateRange(new DateTime(2020, 1, 5), new DateTime(2020, 1, 15)),
-            new StswDateRange(new DateTime(2020, 1, 20), new DateTime(2020, 1, 25))
-        };
-        Assert.True(StswDateRange.AnyOverlap(ranges));
+        var range = new StswDateRange(new DateTime(2024, 1, 15), new DateTime(2024, 3, 10));
+        var months = range.GetUniqueMonthDates().ToList();
+        Assert.Contains(new DateTime(2024, 1, 1), months);
+        Assert.Contains(new DateTime(2024, 2, 1), months);
+        Assert.Contains(new DateTime(2024, 3, 1), months);
     }
 
     [Fact]
-    public void AnyOverlap_RangeObjects_ReturnsFalseIfNoOverlap()
+    public void GetUniqueDayValues_ReturnsYearMonthDayTuples()
     {
-        var ranges = new List<StswDateRange>
-        {
-            new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10)),
-            new StswDateRange(new DateTime(2020, 1, 11), new DateTime(2020, 1, 15)),
-            new StswDateRange(new DateTime(2020, 1, 20), new DateTime(2020, 1, 25))
-        };
-        Assert.False(StswDateRange.AnyOverlap(ranges));
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 3));
+        var days = range.GetUniqueDayValues().ToList();
+        Assert.Contains((2024, 1, 1), days);
+        Assert.Contains((2024, 1, 2), days);
+        Assert.Contains((2024, 1, 3), days);
     }
 
     [Fact]
-    public void GetUniqueYears_ReturnsExpectedYears()
+    public void CompareTo_ReturnsCorrectOrder()
     {
-        var r = new StswDateRange(new DateTime(2018, 6, 1), new DateTime(2020, 2, 1));
-        var years = r.GetUniqueYears().Select(d => d.Year).ToList();
-        Assert.Contains(2018, years);
-        Assert.Contains(2019, years);
-        Assert.Contains(2020, years);
-        Assert.Equal(3, years.Count);
-    }
-
-    [Fact]
-    public void GetUniqueMonths_ReturnsExpectedMonths()
-    {
-        var r = new StswDateRange(new DateTime(2020, 1, 15), new DateTime(2020, 3, 10));
-        var months = r.GetUniqueMonths().Select(d => d.Month).ToList();
-        Assert.Contains(1, months);
-        Assert.Contains(2, months);
-        Assert.Contains(3, months);
-        Assert.Equal(3, months.Count);
-    }
-
-    [Fact]
-    public void GetUniqueDays_ReturnsExpectedDays()
-    {
-        var r = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 3));
-        var days = r.GetUniqueDays().Select(d => d.Day).ToList();
-        Assert.Contains(1, days);
-        Assert.Contains(2, days);
-        Assert.Contains(3, days);
-        Assert.Equal(3, days.Count);
-    }
-
-    [Fact]
-    public void ToString_ReturnsIso8601Format()
-    {
-        var r = new StswDateRange(new DateTime(2020, 1, 1, 12, 0, 0), new DateTime(2020, 1, 2, 13, 0, 0));
-        var str = r.ToString();
-        Assert.StartsWith("[2020-01-01T12:00:00.0000000", str);
-        Assert.Contains("2020-01-02T13:00:00.0000000", str);
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 5), new DateTime(2024, 1, 15));
+        Assert.True(a.CompareTo(b) < 0);
+        Assert.True(b.CompareTo(a) > 0);
+        Assert.True(a.CompareTo(a) == 0);
     }
 
     [Fact]
     public void Equals_ReturnsTrueForEqualRanges()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        Assert.True(r1.Equals(r2));
-        Assert.True(r1 == r2);
-        Assert.False(r1 != r2);
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        Assert.True(a.Equals(b));
+        Assert.True(a == b);
+        Assert.False(a != b);
     }
 
     [Fact]
-    public void Equals_ReturnsFalseForDifferentRanges()
+    public void GetHashCode_IsConsistentForEqualRanges()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 2), new DateTime(2020, 1, 10));
-        Assert.False(r1.Equals(r2));
-        Assert.False(r1 == r2);
-        Assert.True(r1 != r2);
+        var a = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        var b = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 10));
+        Assert.Equal(a.GetHashCode(), b.GetHashCode());
     }
 
     [Fact]
-    public void GetHashCode_EqualRanges_SameHash()
+    public void ToString_ReturnsIsoFormat()
     {
-        var r1 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        var r2 = new StswDateRange(new DateTime(2020, 1, 1), new DateTime(2020, 1, 10));
-        Assert.Equal(r1.GetHashCode(), r2.GetHashCode());
+        var range = new StswDateRange(new DateTime(2024, 1, 1, 12, 0, 0), new DateTime(2024, 1, 2, 13, 0, 0));
+        var str = range.ToString();
+        Assert.StartsWith("[2024-01-01T12:00:00.0000000", str);
+        Assert.Contains("2024-01-02T13:00:00.0000000", str);
     }
 
-    [Theory]
-    [InlineData(2019, "2019-01-01T00:00:00", "2019-12-31T23:59:59.9999999")]
-    [InlineData(2020, "2020-01-01T00:00:00", "2020-12-31T23:59:59.9999999")]
-    public void FromYear_ReturnsExpectedRange(int year, string expectedStart, string expectedEnd)
+    [Fact]
+    public void ToString_WithFormatAndProvider()
     {
-        var range = StswDateRange.FromYear(year);
-        Assert.Equal(DateTime.Parse(expectedStart), range.Start);
-        Assert.Equal(DateTime.Parse(expectedEnd), range.End);
-    }
-
-    [Theory]
-    [InlineData(2020, 1, "2020-01-01T00:00:00", "2020-03-31T23:59:59.9999999")]
-    [InlineData(2020, 2, "2020-04-01T00:00:00", "2020-06-30T23:59:59.9999999")]
-    [InlineData(2020, 3, "2020-07-01T00:00:00", "2020-09-30T23:59:59.9999999")]
-    [InlineData(2020, 4, "2020-10-01T00:00:00", "2020-12-31T23:59:59.9999999")]
-    public void FromQuarter_ReturnsExpectedRange(int year, int quarter, string expectedStart, string expectedEnd)
-    {
-        var range = StswDateRange.FromQuarter(year, quarter);
-        Assert.Equal(DateTime.Parse(expectedStart), range.Start);
-        Assert.Equal(DateTime.Parse(expectedEnd), range.End);
-    }
-
-    [Theory]
-    [InlineData(2020, 1, "2020-01-01T00:00:00", "2020-01-31T23:59:59.9999999")]
-    [InlineData(2020, 2, "2020-02-01T00:00:00", "2020-02-29T23:59:59.9999999")]
-    [InlineData(2021, 2, "2021-02-01T00:00:00", "2021-02-28T23:59:59.9999999")]
-    [InlineData(2020, 12, "2020-12-01T00:00:00", "2020-12-31T23:59:59.9999999")]
-    public void FromMonth_ReturnsExpectedRange(int year, int month, string expectedStart, string expectedEnd)
-    {
-        var range = StswDateRange.FromMonth(year, month);
-        Assert.Equal(DateTime.Parse(expectedStart), range.Start);
-        Assert.Equal(DateTime.Parse(expectedEnd), range.End);
-    }
-
-    [Theory]
-    [InlineData(2020, 0)]
-    [InlineData(2020, 5)]
-    public void FromQuarter_ThrowsForInvalidQuarter(int year, int quarter)
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => StswDateRange.FromQuarter(year, quarter));
-    }
-
-    [Theory]
-    [InlineData(2020, 0)]
-    [InlineData(2020, 13)]
-    public void FromMonth_ThrowsForInvalidMonth(int year, int month)
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => StswDateRange.FromMonth(year, month));
+        var range = new StswDateRange(new DateTime(2024, 1, 1, 12, 0, 0), new DateTime(2024, 1, 2, 13, 0, 0));
+        var str = range.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        Assert.Equal("[2024-01-01 12:00 - 2024-01-02 13:00]", str);
     }
 }

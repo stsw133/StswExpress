@@ -16,7 +16,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Text))]
-[StswInfo(null)]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswTextBox()
@@ -40,7 +39,6 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -54,7 +52,6 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -68,7 +65,6 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);

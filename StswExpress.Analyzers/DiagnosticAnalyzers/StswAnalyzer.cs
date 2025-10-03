@@ -6,49 +6,18 @@ using System.Collections.Immutable;
 namespace StswExpress.Analyzers;
 
 /// <summary>
-/// Analyzer to check the status of elements marked with StswInfoAttribute.
+/// Analyzer to check the status of elements marked with StswChangelogAttribute.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class StswAnalyzer : DiagnosticAnalyzer
 {
-    private const string InvokingAttribute = "StswExpress.Commons.StswInfoAttribute";
+    private const string InvokingAttribute = "StswExpress.Commons.StswPlannedChangesAttribute";
 
-    public const string SinceVersionInfoId = "STSW000";
-    public const string IsNotTestedId = "STSW001";
-    public const string MarkedForRemovalId = "STSW002";
-    public const string PlannedChangesId = "STSW003";
-
-    private static readonly DiagnosticDescriptor SinceVersionInfoRule = new(
-        id: SinceVersionInfoId,
-        title: "Feature version info",
-        messageFormat: "Element '{0}' was added in version {1}",
-        category: "StswExpress",
-        defaultSeverity: DiagnosticSeverity.Info,
-        isEnabledByDefault: true,
-        description: "This element was introduced in a specific version of the project to help track feature history.");
-
-    private static readonly DiagnosticDescriptor IsNotTestedRule = new(
-        id: IsNotTestedId,
-        title: "Not tested functionality",
-        messageFormat: "Element '{0}' is marked as untested (IsTested = false)",
-        category: "StswExpress",
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true,
-        description: "This element is marked as untested."
-                   + "It may not work correctly in all scenarios and is not guaranteed to be stable."
-                   + "Consider testing it before using in production code."
-                   + "If you need a stable version, consider using an alternative solution or implementing it yourself.");
-
-    private static readonly DiagnosticDescriptor MarkedForRemovalRule = new(
-        id: MarkedForRemovalId,
-        title: "Functionality marked for removal",
-        messageFormat: "Element '{0}' is marked with 'Remove' flag and may be removed in the future",
-        category: "StswExpress",
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true,
-        description: "This element is marked for removal and may be removed in future versions."
-                   + "Consider removing it from your code to avoid issues with future updates."
-                   + "If you need this functionality, consider implementing it yourself or using an alternative solution.");
+    public const string PlannedChangesId = "STSW000";
+    public const string MarkedForChangeAccessibilityId = "STSW001";
+    public const string MarkedForFinishId = "STSW002";
+    public const string MarkedForRemovalId = "STSW003";
+    public const string MarkedForReworkId = "STSW004";
 
     private static readonly DiagnosticDescriptor PlannedChangesRule = new(
         id: PlannedChangesId,
@@ -63,11 +32,57 @@ public class StswAnalyzer : DiagnosticAnalyzer
                    + "Planned changes can include logic changes, visual changes, rework, or other modifications."
                    + "For more details, refer to the documentation or release notes for this element.");
 
+    private static readonly DiagnosticDescriptor MarkedForChangeAccessibilityRule = new(
+        id: MarkedForChangeAccessibilityId,
+        title: "Functionality marked for accessibility change",
+        messageFormat: "Element '{0}' is marked with 'ChangeAccessibility' flag and its accessibility may change in the future",
+        category: "StswExpress",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "This element is marked for accessibility change and its accessibility may be changed in future versions."
+                   + "Consider reviewing its usage to avoid issues with future updates.");
+
+    private static readonly DiagnosticDescriptor MarkedForFinishRule = new(
+        id: MarkedForFinishId,
+        title: "Functionality marked for finish",
+        messageFormat: "Element '{0}' is marked with 'Finish' flag and may be finalized in the future",
+        category: "StswExpress",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "This element is marked for finish and may be finalized in future versions."
+                   + "Consider reviewing its usage to avoid issues with future updates.");
+
+    private static readonly DiagnosticDescriptor MarkedForRemovalRule = new(
+        id: MarkedForRemovalId,
+        title: "Functionality marked for removal",
+        messageFormat: "Element '{0}' is marked with 'Remove' flag and may be removed in the future",
+        category: "StswExpress",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "This element is marked for removal and may be removed in future versions."
+                   + "Consider removing it from your code to avoid issues with future updates."
+                   + "If you need this functionality, consider implementing it yourself or using an alternative solution.");
+
+    private static readonly DiagnosticDescriptor MarkedForReworkRule = new(
+        id: MarkedForReworkId,
+        title: "Functionality marked for rework",
+        messageFormat: "Element '{0}' is marked with 'Rework' flag and may be reworked in the future",
+        category: "StswExpress",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "This element is marked for rework and may be significantly changed in future versions."
+                   + "Consider reviewing its usage to avoid issues with future updates.");
+
     /// <summary>
     /// Gets the collection of diagnostic descriptors supported by this analyzer.
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-        => ImmutableArray.Create(SinceVersionInfoRule, IsNotTestedRule, MarkedForRemovalRule, PlannedChangesRule);
+        => ImmutableArray.Create(
+            PlannedChangesRule,
+            MarkedForChangeAccessibilityRule,
+            MarkedForFinishRule,
+            MarkedForRemovalRule,
+            MarkedForReworkRule);
 
     /// <summary>
     /// Initializes the analyzer and registers the symbol action to analyze symbols with StswAttribute.
@@ -98,41 +113,37 @@ public class StswAnalyzer : DiagnosticAnalyzer
         if (attr is null || attr.ConstructorArguments.Length == 0)
             return;
 
-        /// SinceVersion
-        //var sinceVersion = attr.ConstructorArguments[0].Value?.ToString();
-        //if (!string.IsNullOrWhiteSpace(sinceVersion) && ShouldReportVersion(sinceVersion))
-        //{
-        //    var diagnostic = Diagnostic.Create(SinceVersionInfoRule, symbol.Locations[0], symbol.Name, sinceVersion);
-        //    context.ReportDiagnostic(diagnostic);
-        //}
-
-        /// IsTested = false
-        var isTested = true;
-        foreach (var arg in attr.NamedArguments)
-        {
-            if (arg.Key == "IsTested" && arg.Value.Value is bool val)
-                isTested = val;
-        }
-
-        if (!isTested)
-        {
-            var diagnostic = Diagnostic.Create(IsNotTestedRule, symbol.Locations[0], symbol.Name);
-            context.ReportDiagnostic(diagnostic);
-        }
-
-        /// Changes > 0
         var changesArg = attr.NamedArguments.FirstOrDefault(x => x.Key == "PlannedChanges");
         if (changesArg.Value.Value is int changesValue)
         {
             var enumValue = (StswPlannedChanges)changesValue;
 
+            if (enumValue.HasFlag(StswPlannedChanges.ChangeAccessibility))
+            {
+                var diagnostic = Diagnostic.Create(MarkedForChangeAccessibilityRule, symbol.Locations[0], symbol.Name);
+                context.ReportDiagnostic(diagnostic);
+            }
+            if (enumValue.HasFlag(StswPlannedChanges.Finish))
+            {
+                var diagnostic = Diagnostic.Create(MarkedForFinishRule, symbol.Locations[0], symbol.Name);
+                context.ReportDiagnostic(diagnostic);
+            }
             if (enumValue.HasFlag(StswPlannedChanges.Remove))
             {
                 var diagnostic = Diagnostic.Create(MarkedForRemovalRule, symbol.Locations[0], symbol.Name);
                 context.ReportDiagnostic(diagnostic);
             }
+            if (enumValue.HasFlag(StswPlannedChanges.Rework))
+            {
+                var diagnostic = Diagnostic.Create(MarkedForReworkRule, symbol.Locations[0], symbol.Name);
+                context.ReportDiagnostic(diagnostic);
+            }
 
-            var relevantFlags = enumValue & ~StswPlannedChanges.None & ~StswPlannedChanges.Remove;
+            var relevantFlags = enumValue & ~StswPlannedChanges.None
+                                          & ~StswPlannedChanges.Finish
+                                          & ~StswPlannedChanges.Rework
+                                          & ~StswPlannedChanges.ChangeAccessibility
+                                          & ~StswPlannedChanges.Remove;
             if (relevantFlags != 0)
             {
                 var diagnostic = Diagnostic.Create(PlannedChangesRule, symbol.Locations[0], symbol.Name, relevantFlags.ToString());
@@ -140,36 +151,6 @@ public class StswAnalyzer : DiagnosticAnalyzer
             }
         }
     }
-    /*
-    /// <summary>
-    /// The version of the analyzer assembly.
-    /// </summary>
-    private static readonly Version AnalyzerVersion = typeof(StswAnalyzer).Assembly.GetName().Version ?? new Version(0, 0);
-
-    /// <summary>
-    /// Determines if the version should be reported based on the sinceVersion parameter.
-    /// </summary>
-    /// <param name="sinceVersion">The version string to check.</param>
-    /// <returns><see langword="true"> if the version should be reported, otherwise <see langword="false"/>.</returns>
-    private static bool ShouldReportVersion(string? sinceVersion)
-    {
-        (var major1, var minor1) = ParseVersion(sinceVersion ?? "0.0.0");
-        return (AnalyzerVersion.Major == major1) && (AnalyzerVersion.Minor - minor1 <= 3);
-    }
-
-    /// <summary>
-    /// Parses the version string into major and minor components.
-    /// </summary>
-    /// <param name="version">The version string to parse.</param>
-    /// <returns>A tuple containing the major and minor version numbers.</returns>
-    private static (int major, int minor) ParseVersion(string version)
-    {
-        var parts = version.Split('.');
-        var major = parts.Length > 0 && int.TryParse(parts[0], out var m) ? m : 0;
-        var minor = parts.Length > 1 && int.TryParse(parts[1], out var n) ? n : 0;
-        return (major, minor);
-    }
-    */
 }
 
 /// <summary>

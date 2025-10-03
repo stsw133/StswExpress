@@ -16,7 +16,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="{Binding MyEnumString, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type local:MyEnum}}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.9.0")]
 public class StswEnumToIntConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -14,7 +14,6 @@ namespace StswExpress;/// <summary>
 /// &lt;/se:StswComboBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
 {
     static StswComboBoxItem()

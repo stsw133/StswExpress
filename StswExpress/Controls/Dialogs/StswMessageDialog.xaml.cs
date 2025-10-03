@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswMessageDialog Title="Warning" Message="Are you sure?" Buttons="YesNoCancel" IsOpen="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.2.0")]
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
     private ButtonBase? _buttonCopyToClipboard;
@@ -52,7 +51,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The button triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.8.0")]
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
@@ -76,7 +74,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <param name="saveLog">Indicates whether the message should be logged.</param>
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
-    [StswInfo("0.13.0")]
     public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = true, object? identifier = null)
         => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
 
@@ -131,7 +128,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the additional details displayed in the dialog.
     /// </summary>
-    [StswInfo("0.8.0")]
     public string? Details
     {
         get => (string?)GetValue(DetailsProperty);
@@ -210,7 +206,6 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the details section of the dialog is visible.
     /// </summary>
-    [StswInfo("0.8.0")]
     public bool ShowDetails
     {
         get => (bool)GetValue(ShowDetailsProperty);

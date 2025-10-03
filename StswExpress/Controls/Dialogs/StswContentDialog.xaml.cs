@@ -22,7 +22,7 @@ namespace StswExpress;
 /// </example>
 [TemplatePart(Name = "PART_PopupContentElement", Type = typeof(ContentControl))]
 [TemplatePart(Name = "OPT_ContentCoverGrid", Type = typeof(UIElement))]
-[StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
     private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
@@ -92,7 +92,6 @@ public class StswContentDialog : ContentControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The mouse button event arguments.</param>
-    [StswInfo("0.21.0")]
     private void OnBackdropMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (!CloseOnBackdropClick || !IsOpen)
@@ -312,7 +311,6 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// Gets or sets a value indicating whether clicking the dialog backdrop closes the dialog.
     /// </summary>
-    [StswInfo("0.21.0")]
     public bool CloseOnBackdropClick
     {
         get => (bool)GetValue(CloseOnBackdropClickProperty);

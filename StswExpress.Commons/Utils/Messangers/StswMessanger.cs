@@ -29,7 +29,6 @@
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.9.2")]
 public class StswMessanger
 {
     private readonly Dictionary<Type, List<Action<IStswMessage>>> _subscribers = [];
@@ -46,7 +45,6 @@ public class StswMessanger
     /// </summary>
     /// <typeparam name="TMessage">The type of the message.</typeparam>
     /// <param name="callback">The callback to invoke.</param>
-    [StswInfo("0.9.2", "0.20.0")]
     public void Register<TMessage>(Action<TMessage> callback) where TMessage : IStswMessage
     {
         var messageType = typeof(TMessage);
@@ -63,7 +61,6 @@ public class StswMessanger
     /// </summary>
     /// <typeparam name="TMessage">The type of the message.</typeparam>
     /// <param name="callback">The callback to remove.</param>
-    [StswInfo("0.9.2", "0.20.0")]
     public void Unregister<TMessage>(Action<TMessage> callback) where TMessage : IStswMessage
     {
         var messageType = typeof(TMessage);

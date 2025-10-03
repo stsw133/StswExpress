@@ -17,7 +17,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(EndTime))]
-[StswInfo("0.10.0")]
 public class StswTimerControl : Control
 {
     private readonly DispatcherTimer _timer = new();

@@ -22,7 +22,6 @@ namespace StswExpress;/// <summary>
 /// &lt;/se:StswSegment&gt;
 /// </code>
 /// </example>
-[StswInfo("0.8.0")]
 public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 {
     static StswSegment()
@@ -35,7 +34,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo("0.20.0")]
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -45,7 +43,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.0")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -55,7 +52,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -63,7 +59,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -71,7 +66,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -79,7 +73,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0", "0.20.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -90,7 +83,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -108,7 +100,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
-    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -141,7 +132,6 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [StswInfo("0.20.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);

@@ -22,7 +22,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedPath))]
-[StswInfo("0.5.0")]
 public class StswPathPicker : StswBoxBase
 {
     static StswPathPicker()
@@ -60,7 +59,6 @@ public class StswPathPicker : StswBoxBase
     /// <summary>
     /// Attaches a validation rule to the Text property to ensure the path exists based on the selection unit.
     /// </summary>
-    [StswInfo("0.21.0")]
     private void AttachTextValidationRule()
     {
         var current = BindingOperations.GetBinding(this, TextProperty);
@@ -83,7 +81,6 @@ public class StswPathPicker : StswBoxBase
     /// Lists adjacent paths based on the current selected path and path type.
     /// The paths listed depend on whether the selection unit is a directory or a file.
     /// </summary>
-    [StswInfo("0.5.0", "0.21.0")]
     private void ListAdjacentPaths()
     {
         if (!IsShiftingEnabled || parentPath is null)
@@ -134,7 +131,6 @@ public class StswPathPicker : StswBoxBase
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.5.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var isInvalid = false;
@@ -296,7 +292,6 @@ public class StswPathPicker : StswBoxBase
     /// </summary>
     /// <param name="filter">The filter string in the format used by file dialogs (e.g., "Text Files|*.txt;*.md|All Files|*.*").</param>
     /// <returns>A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</returns>
-    [StswInfo("0.21.0")]
     private static HashSet<string>? ParseFilterExtensions(string filter)
     {
         if (string.IsNullOrWhiteSpace(filter))
@@ -333,7 +328,6 @@ public class StswPathPicker : StswBoxBase
     /// <param name="path">The file path to check.</param>
     /// <param name="allowedExts">A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</param>
     /// <returns><see langword="true"/> if the file is allowed, otherwise <see langword="false"/>.</returns>
-    [StswInfo("0.21.0")]
     private static bool IsFileAllowedByFilter(string path, HashSet<string>? allowedExts)
     {
         if (allowedExts is null)
@@ -380,7 +374,6 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the file filter used in the file selection dialog.
     /// Example: "Image Files (*.png;*.jpg)|*.png;*.jpg".
     /// </summary>
-    [StswInfo("0.5.0", "0.21.0")]
     public string Filter
     {
         get => (string)GetValue(FilterProperty);
@@ -432,7 +425,6 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the multiselect behavior for open file dialog.
     /// If <see langword="true"/>, multiple files can be selected at once in the file dialog.
     /// </summary>
-    [StswInfo("0.15.0")]
     public bool Multiselect
     {
         get => (bool)GetValue(MultiselectProperty);
@@ -484,7 +476,6 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the currently selected path in the control.
     /// Represents the file or directory currently selected by the user.
     /// </summary>
-    [StswInfo("0.15.0")]
     public string[] SelectedPaths
     {
         get => (string[])GetValue(SelectedPathsProperty);
@@ -519,7 +510,6 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets the suggested file name for file dialog default file name.
     /// Provides a default name for files when the save dialog is shown.
     /// </summary>
-    [StswInfo("0.15.0")]
     public string? SuggestedFilename
     {
         get => (string?)GetValue(SuggestedFilenameProperty);
@@ -538,7 +528,6 @@ public class StswPathPicker : StswBoxBase
     /// Gets or sets whether to show or not the file size.
     /// If true, the size of the selected file is displayed next to the selected path.
     /// </summary>
-    [StswInfo("0.7.0")]
     public bool IsFileSizeVisible
     {
         get => (bool)GetValue(IsFileSizeVisibleProperty);

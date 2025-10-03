@@ -22,7 +22,6 @@ namespace StswExpress;
 /// &lt;/LinearGradientBrush&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswDynamicColorExtension : MarkupExtension
 {
     /// <summary>

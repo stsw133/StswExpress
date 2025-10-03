@@ -22,7 +22,6 @@ namespace StswExpress;
 /// &lt;Border CornerRadius="{Binding CornerSize, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1.2,1.2,1.2,1.2'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.9.0")]
 public class StswCalculateConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -13,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridColorColumn Header="Theme Color" Binding="{Binding ThemeColor}" Placeholder="Select color"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0", IsTested = false)]
 public class StswDataGridColorColumn : DataGridTextColumn
 {
     static StswDataGridColorColumn()
@@ -83,7 +83,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
     /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
     /// When disabled, the selected color will always have full opacity.
     /// </summary>
-    [StswInfo("0.20.0")]
     public bool IsAlphaEnabled
     {
         get => (bool)GetValue(IsAlphaEnabledProperty);
@@ -131,7 +130,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -147,7 +145,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -163,7 +160,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

@@ -9,7 +9,6 @@ namespace StswExpress;
 /// <summary>
 /// Represents a file or folder item in the <see cref="StswPathTree"/> control.
 /// </summary>
-[StswInfo("0.13.0")]
 internal class StswPathTreeItem : StswObservableObject
 {
     public StswPathTreeItem(string fullPath, StswPathType type)

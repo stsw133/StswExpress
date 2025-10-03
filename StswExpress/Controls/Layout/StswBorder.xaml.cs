@@ -19,7 +19,6 @@ namespace StswExpress;
 /// &lt;/se:StswBorder&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswBorder : Border, IStswCornerControl
 {
     private readonly RectangleGeometry _clipRect = new();

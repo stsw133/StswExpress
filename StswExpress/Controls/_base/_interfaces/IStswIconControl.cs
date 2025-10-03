@@ -6,7 +6,6 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for controls with an icon.
 /// </summary>
-[StswInfo("0.4.0")]
 public interface IStswIconControl
 {
     /// <summary>
@@ -45,7 +44,6 @@ public interface IStswIconControl
     /// </summary>
     /// <param name="elem">The element whose scale has changed.</param>
     /// <param name="scale">The new scale value.</param>
-    [StswInfo("0.20.0")]
     public static void ScaleChanged(FrameworkElement elem, GridLength scale)
     {
         elem.Height = scale.IsStar ? double.NaN : scale!.Value * 12;

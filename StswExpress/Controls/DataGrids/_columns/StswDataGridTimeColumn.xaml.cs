@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridTimeColumn Header="Time" Binding="{Binding StartTime}" Format="HH:mm" Placeholder="Select time"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswDataGridTimeColumn : DataGridTextColumn
 {
     static StswDataGridTimeColumn()
@@ -103,7 +102,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the increment type that determines how the time changes when scrolling with the mouse wheel.
     /// </summary>
-    [StswInfo("0.20.0")]
     public StswTimeSpanIncrementType IncrementType
     {
         get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
@@ -119,7 +117,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the maximum allowable time in the control.
     /// </summary>
-    [StswInfo("0.20.0")]
     public TimeSpan? Maximum
     {
         get => (TimeSpan?)GetValue(MaximumProperty);
@@ -135,7 +132,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the minimum allowable time in the control.
     /// </summary>
-    [StswInfo("0.20.0")]
     public TimeSpan? Minimum
     {
         get => (TimeSpan?)GetValue(MinimumProperty);
@@ -183,7 +179,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -199,7 +194,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -215,7 +209,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

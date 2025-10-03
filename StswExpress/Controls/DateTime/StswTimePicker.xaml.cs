@@ -17,7 +17,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedTime))]
-[StswInfo("0.5.0")]
 public class StswTimePicker : StswBoxBase
 {
     static StswTimePicker()
@@ -98,7 +97,6 @@ public class StswTimePicker : StswBoxBase
     }
 
     /// <inheritdoc/>
-    [StswInfo(null, "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var isPlain = false;

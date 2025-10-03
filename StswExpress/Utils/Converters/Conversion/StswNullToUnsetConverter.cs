@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;/Style&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

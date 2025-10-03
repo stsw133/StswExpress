@@ -17,7 +17,7 @@ namespace StswExpress;
 /// &lt;se:StswChartColumns ItemsSource="{Binding RevenueData}" Width="400" Height="300"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.7.0", PlannedChanges = StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswChartColumns : ItemsControl
 {
     static StswChartColumns()

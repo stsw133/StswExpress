@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswSubRadio Content="Option 2" GroupName="Settings" IconData="{StaticResource SelectIcon}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0")]
 public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRadio()

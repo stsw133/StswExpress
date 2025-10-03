@@ -13,7 +13,6 @@ namespace StswExpress;
 /// &lt;se:StswButton Command="{Binding MyCommand}" Content="Click Me" CornerClipping="True" CornerRadius="10"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswButton : Button, IStswCornerControl
 {
     static StswButton()

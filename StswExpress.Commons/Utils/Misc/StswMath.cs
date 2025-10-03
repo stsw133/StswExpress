@@ -6,7 +6,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides mathematical utility methods, including safe division and expression evaluation.
 /// </summary>
-[StswInfo("0.21.0")]
 public static class StswMath
 {
     /// <summary>
@@ -18,7 +17,6 @@ public static class StswMath
     /// <param name="loop">Specifies whether looping is allowed when shifting past boundaries.</param>
     /// <returns>The new shifted index, respecting looping and boundary conditions.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when count is less than or equal to 0.</exception>
-    [StswInfo("0.6.0", "0.21.0")]
     public static int AdvanceIndex(int index, int step, int count, bool loop = true)
     {
         if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count), "Count must be > 0.");
@@ -45,7 +43,6 @@ public static class StswMath
     /// <param name="loop">Specifies whether looping is allowed when shifting past boundaries.</param>
     /// <returns>The new shifted value, respecting looping and boundary conditions.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when maxExclusive is less than or equal to min.</exception>
-    [StswInfo("0.21.0")]
     public static int AdvanceInRange(int value, int step, int min, int maxExclusive, bool loop = true)
     {
         if (maxExclusive <= min) throw new ArgumentOutOfRangeException(nameof(maxExclusive), "maxExclusive must be > min.");
@@ -64,17 +61,29 @@ public static class StswMath
     }
 
     /// <summary>
-    /// Computes the Euclidean modulo of a by n, ensuring a non-negative result.
+    /// Computes the Euclidean modulo of a given long integer value with respect to a specified modulus.
     /// </summary>
-    /// <param name="a">The dividend.</param>
-    /// <param name="n">The modulus.</param>
-    /// <returns>The Euclidean modulo result.</returns>
-    [StswInfo("0.21.0")]
-    private static long EuclidMod(long a, long n)
+    /// <param name="value">The dividend that will be wrapped.</param>
+    /// <param name="modulus">The modulus determining the wrapping range. Must be greater than zero.</param>
+    /// <returns>The Euclidean modulo of <paramref name="value"/> in the range <c>[0, modulus)</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="modulus"/> is less than or equal to zero.</exception>
+    public static long EuclidMod(long value, long modulus)
     {
-        var r = a % n;
-        return r < 0 ? r + n : r;
+        if (modulus <= 0)
+            throw new ArgumentOutOfRangeException(nameof(modulus), "Modulus must be greater than zero.");
+
+        var remainder = value % modulus;
+        return remainder < 0 ? remainder + modulus : remainder;
     }
+
+    /// <summary>
+    /// Computes the Euclidean modulo of a given integer value with respect to a specified modulus.
+    /// </summary>
+    /// <param name="value">The dividend that will be wrapped.</param>
+    /// <param name="modulus">The modulus determining the wrapping range. Must be greater than zero.</param>
+    /// <returns>The Euclidean modulo of <paramref name="value"/> in the range <c>[0, modulus)</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="modulus"/> is less than or equal to zero.</exception>
+    public static int EuclidMod(int value, int modulus) => (int)EuclidMod((long)value, modulus);
 
     /// <summary>
     /// Performs a division and returns zero if the denominator is zero.
@@ -83,7 +92,6 @@ public static class StswMath
     /// <param name="num">The numerator.</param>
     /// <param name="den">The denominator.</param>
     /// <returns>The result of the division, or zero if the denominator is zero.</returns>
-    [StswInfo("0.21.0")]
     public static T Div0<T>(T num, T den) where T : INumber<T> => den == T.Zero ? T.Zero : num / den;
 
     /// <summary>
@@ -93,24 +101,24 @@ public static class StswMath
     /// <param name="num">The numerator.</param>
     /// <param name="den">The denominator.</param>
     /// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
-    [StswInfo("0.21.0")]
     public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
 
     /// <summary>
     /// Evaluates a mathematical expression provided as a string and returns the result as a <see cref="double"/>.
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="numberFormatInfo">The number format information for culture-specific parsing.</param>
     /// <returns>The result of the evaluated expression as a <see cref="double"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if the expression is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">Thrown if the expression or numberFormatInfo is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">Thrown if the expression is invalid.</exception>
-    [StswInfo("0.9.0")]
-    public static double Compute(string expression)
+    public static double Compute(string expression, NumberFormatInfo numberFormatInfo)
     {
         ArgumentNullException.ThrowIfNull(expression);
+        ArgumentNullException.ThrowIfNull(numberFormatInfo);
 
         try
         {
-            return Calculator.EvaluateInfix(expression.AsSpan());
+            return Calculator.EvaluateInfix(expression.AsSpan(), numberFormatInfo);
         }
         catch (Exception ex) when (ex is not ArgumentNullException)
         {
@@ -119,21 +127,40 @@ public static class StswMath
     }
 
     /// <summary>
+    /// Evaluates a mathematical expression provided as a string and returns the result as a <see cref="double"/>.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <returns>The result of the evaluated expression as a <see cref="double"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the expression is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if the expression is invalid.</exception>
+    public static double Compute(string expression) => Compute(expression, NumberFormatInfo.InvariantInfo);
+
+    /// <summary>
+    /// Evaluates a mathematical expression provided as a string using the specified <see cref="IFormatProvider"/> and returns the result as a <see cref="double"/>.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="formatProvider">The format provider that supplies culture-specific parsing information.</param>
+    /// <returns>The result of the evaluated expression as a <see cref="double"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the expression is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if the expression is invalid.</exception>
+    public static double Compute(string expression, IFormatProvider formatProvider) => Compute(expression, NumberFormatInfo.GetInstance(formatProvider ?? CultureInfo.CurrentCulture));
+
+    /// <summary>
     /// Attempts to evaluate a mathematical expression provided as a string and returns the result as a <see cref="double"/>.
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="numberFormatInfo">The number format information for culture-specific parsing.</param>
     /// <param name="result">The result of the evaluated expression.</param>
     /// <returns><see langword="true"/> if the expression was successfully evaluated; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.9.0")]
-    public static bool TryCompute(string expression, out double result)
+    public static bool TryCompute(string expression, NumberFormatInfo numberFormatInfo, out double result)
     {
         result = default;
-        if (expression is null)
+        if (expression is null || numberFormatInfo is null)
             return false;
 
         try
         {
-            result = Calculator.EvaluateInfix(expression.AsSpan());
+            result = Calculator.EvaluateInfix(expression.AsSpan(), numberFormatInfo);
             return true;
         }
         catch
@@ -143,15 +170,30 @@ public static class StswMath
     }
 
     /// <summary>
+    /// Attempts to evaluate a mathematical expression provided as a string and returns the result as a <see cref="double"/>.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="result">The result of the evaluated expression.</param>
+    /// <returns><see langword="true"/> if the expression was successfully evaluated; otherwise, <see langword="false"/>.</returns>
+    public static bool TryCompute(string expression, out double result) => TryCompute(expression, NumberFormatInfo.InvariantInfo, out result);
+
+    /// <summary>
+    /// Attempts to evaluate a mathematical expression provided as a string using the specified <see cref="IFormatProvider"/> and returns the result as a <see cref="double"/>.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="formatProvider">The format provider that supplies culture-specific parsing information.</param>
+    /// <param name="result">The result of the evaluated expression.</param>
+    /// <returns><see langword="true"/> if the expression was successfully evaluated; otherwise, <see langword="false"/>.</returns>
+    public static bool TryCompute(string expression, IFormatProvider formatProvider, out double result) => TryCompute(expression, NumberFormatInfo.GetInstance(formatProvider ?? CultureInfo.CurrentCulture), out result);
+
+    /// <summary>
     /// A simple calculator for evaluating mathematical expressions in infix notation.
     /// </summary>
-    [StswInfo("0.21.0")]
     private static class Calculator
     {
         /// <summary>
         /// Defines supported operators.
         /// </summary>
-        [StswInfo("0.21.0")]
         private enum Op : byte
         {
             Add, Sub, Mul, Div, Mod, Pow, // binary
@@ -164,7 +206,6 @@ public static class StswMath
         /// </summary>
         /// <param name="op">The operator.</param>
         /// <returns>The precedence level as an integer.</returns>
-        [StswInfo("0.21.0")]
         private static int Precedence(Op op) => op switch
         {
             Op.UnaryPlus or Op.UnaryMinus => 4,
@@ -179,7 +220,6 @@ public static class StswMath
         /// </summary>
         /// <param name="op">The operator.</param>
         /// <returns><see langword="true"/> if the operator is right associative; otherwise, <see langword="false"/>.</returns>
-        [StswInfo("0.21.0")]
         private static bool IsRightAssociative(Op op) => op is Op.Pow || op is Op.UnaryPlus || op is Op.UnaryMinus;
 
         /// <summary>
@@ -190,7 +230,6 @@ public static class StswMath
         /// <param name="a">The first operand.</param>
         /// <returns>The result of applying the operator.</returns>
         /// <exception cref="InvalidOperationException">Thrown if the operator is unsupported.</exception>
-        [StswInfo("0.21.0")]
         private static double Apply(Op op, double b, double a) => op switch
         {
             Op.Add => a + b,
@@ -208,11 +247,14 @@ public static class StswMath
         /// Evaluates a mathematical expression in infix notation.
         /// </summary>
         /// <param name="s">The expression to evaluate.</param>
+        /// <param name="numberFormatInfo">The number format information for culture-specific parsing.</param>
         /// <returns>The result of the evaluated expression as a <see cref="double"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if numberFormatInfo is <see langword="null"/>.</exception>
         /// <exception cref="FormatException">Thrown if the expression is invalid.</exception>
-        [StswInfo("0.21.0")]
-        internal static double EvaluateInfix(ReadOnlySpan<char> s)
+        internal static double EvaluateInfix(ReadOnlySpan<char> s, NumberFormatInfo numberFormatInfo)
         {
+            ArgumentNullException.ThrowIfNull(numberFormatInfo);
+
             var values = new Stack<double>(16);
             var ops = new Stack<Op>(16);
 
@@ -228,9 +270,9 @@ public static class StswMath
                     continue;
                 }
 
-                if (IsNumberStart(c))
+                if (IsNumberStart(s, i, numberFormatInfo))
                 {
-                    if (TryReadNumber(s, ref i, out double number))
+                    if (TryReadNumber(s, ref i, numberFormatInfo, out double number))
                     {
                         values.Push(number);
                         expectUnary = false;
@@ -295,7 +337,6 @@ public static class StswMath
         /// <param name="values">The stack of values.</param>
         /// <param name="op">The operator to apply.</param>
         /// <exception cref="FormatException">Thrown if there are insufficient operands for the operator.</exception>
-        [StswInfo("0.21.0")]
         private static void PopAndApply(Stack<double> values, Op op)
         {
             if (op is Op.UnaryPlus or Op.UnaryMinus)
@@ -323,7 +364,6 @@ public static class StswMath
         /// <param name="expectUnary">Indicates if a unary operator is expected.</param>
         /// <param name="op">The mapped operator if successful; otherwise, undefined.</param>
         /// <returns><see langword="true"/> if the character was successfully mapped to an operator; otherwise, <see langword="false"/>.</returns>
-        [StswInfo("0.21.0")]
         private static bool TryMapOperator(char c, bool expectUnary, out Op op)
         {
             op = c switch
@@ -342,12 +382,20 @@ public static class StswMath
         /// <summary>
         /// Determines if the character can start a number, considering if a unary operator is expected.
         /// </summary>
-        /// <param name="c">The character to check.</param>
+        /// <param name="s">The span to check.</param>
+        /// <param name="index">The current index.</param>
+        /// <param name="numberFormatInfo">The number format information for culture-specific parsing.</param>
         /// <returns><see langword="true"/> if the character can start a number; otherwise, <see langword="false"/>.</returns>
-        [StswInfo("0.21.0")]
-        private static bool IsNumberStart(char c)
+        private static bool IsNumberStart(ReadOnlySpan<char> s, int index, NumberFormatInfo numberFormatInfo)
         {
-            if (char.IsDigit(c) || c == '.')
+            if (index >= s.Length)
+                return false;
+
+            if (char.IsDigit(s[index]))
+                return true;
+
+            var decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
+            if (!string.IsNullOrEmpty(decimalSeparator) && s[index..].StartsWith(decimalSeparator.AsSpan(), StringComparison.Ordinal))
                 return true;
 
             return false;
@@ -358,57 +406,68 @@ public static class StswMath
         /// </summary>
         /// <param name="s">The span to read from.</param>
         /// <param name="i">The current index, which will be updated to the position after the number if successful.</param>
+        /// <param name="numberFormatInfo">The number format information for culture-specific parsing.</param>
         /// <param name="value">The parsed number if successful; otherwise, undefined.</param>
         /// <returns><see langword="true"/> if a number was successfully read; otherwise, <see langword="false"/>.</returns>
-        [StswInfo("0.21.0")]
-        private static bool TryReadNumber(ReadOnlySpan<char> s, ref int i, out double value)
+        private static bool TryReadNumber(ReadOnlySpan<char> s, ref int i, NumberFormatInfo numberFormatInfo, out double value)
         {
             var start = i;
-            var hasDot = false;
-            var hasExp = false;
+            var length = 0;
+            var bestLength = 0;
+            double bestValue = default;
 
-            while (i < s.Length)
+            while (start + length < s.Length)
             {
-                var ch = s[i];
-                if (char.IsDigit(ch))
+                var currentIndex = start + length;
+                var ch = s[currentIndex];
+
+                if (IsNumberTerminator(ch))
+                    break;
+
+                if ((ch == '+' || ch == '-') && length > 0)
                 {
-                    i++;
-                    continue;
+                    var prev = s[start + length - 1];
+                    if (!IsExponentIndicator(prev))
+                        break;
                 }
 
-                if (ch == '.' && !hasDot && !hasExp)
+                length++;
+
+                var candidate = s.Slice(start, length);
+                if (double.TryParse(candidate, NumberStyles.Float | NumberStyles.AllowThousands, numberFormatInfo, out var parsed))
                 {
-                    hasDot = true; i++; continue;
+                    bestLength = length;
+                    bestValue = parsed;
                 }
-
-                if ((ch == 'e' || ch == 'E') && !hasExp)
-                {
-                    hasExp = true;
-                    i++;
-
-                    if (i < s.Length && (s[i] == '+' || s[i] == '-'))
-                        i++;
-
-                    if (i >= s.Length || !char.IsDigit(s[i]))
-                    {
-                        value = default;
-                        return false;
-                    }
-
-                    continue;
-                }
-
-                break;
             }
 
-            var span = s[start..i];
-            if (span.Length == 1 && span[0] == '.')
+            if (bestLength > 0)
             {
-                value = default;
-                return false;
+                i = start + bestLength;
+                value = bestValue;
+                return true;
             }
 
-            return double.TryParse(span, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+            value = default;
+            return false;
         }
+
+        /// <summary>
+        /// Determines if the character is a terminator for a number.
+        /// </summary>
+        /// <param name="c">The character to check.</param>
+        /// <returns><see langword="true"/> if the character is a number terminator; otherwise, <see langword="false"/>.</returns>
+        private static bool IsNumberTerminator(char c) => c switch
+        {
+            '(' or ')' or '*' or '/' or '%' or '^' => true,
+            _ => false
+        };
+
+        /// <summary>
+        /// Determines if the character is an exponent indicator ('e' or 'E').
+        /// </summary>
+        /// <param name="c">The character to check.</param>
+        /// <returns><see langword="true"/> if the character is an exponent indicator; otherwise, <see langword="false"/>.</returns>
+        private static bool IsExponentIndicator(char c) => c is 'e' or 'E';
     }
 }

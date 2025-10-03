@@ -19,7 +19,6 @@ namespace StswExpress;
 /// &lt;se:StswRadioBox Content="Option B" GroupName="Settings" IsChecked="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -38,7 +37,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
@@ -46,7 +44,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -54,7 +51,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -62,7 +58,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.1")]
     protected override void OnClick()
     {
         if (AllowUncheck && IsChecked == true)
@@ -76,7 +71,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.1")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (AllowUncheck && IsChecked == true && (e.Key == Key.Space || e.Key == Key.Enter))
@@ -95,7 +89,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
     /// </summary>
-    [StswInfo("0.20.1")]
     public bool AllowUncheck
     {
         get => (bool)GetValue(AllowUncheckProperty);
@@ -127,7 +120,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
     /// Gets or sets a value indicating whether the radio button is in read-only mode.
     /// When set to <see langword="true"/>, the button cannot be toggled.
     /// </summary>
-    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

@@ -18,7 +18,6 @@ namespace StswExpress;
 /// &lt;DataGridTextColumn Binding="{Binding Price, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

@@ -18,7 +18,6 @@ namespace StswExpress;
 /// If <see cref="AllowMultipleInstances"/> is set to <see langword="false"/>, only one instance of the application
 /// is allowed per user session. If a second instance is launched, it will attempt to bring the existing instance to the foreground.
 /// </remarks>
-[StswInfo("0.1.0")]
 public class StswApp : Application
 {
     //public static IConfiguration Configuration { get; private set; } = null!;

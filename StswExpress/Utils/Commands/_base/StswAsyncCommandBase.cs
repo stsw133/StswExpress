@@ -7,7 +7,6 @@ namespace StswExpress;
 /// <summary>
 /// An abstract base class for asynchronous commands that can be used to bind to UI controls asynchronously.
 /// </summary>
-[StswInfo("0.20.0")]
 public abstract class StswAsyncCommandBase : StswObservableObject, ICommand
 {
     /// <summary>

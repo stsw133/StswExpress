@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswSpinner Type="Dots" Scale="2" Fill="Red"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.7.0")]
 public class StswSpinner : Control
 {
     static StswSpinner()

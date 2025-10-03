@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;/StackPanel&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswRadioButton : RadioButton, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -36,7 +35,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -44,7 +42,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -52,7 +49,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.1")]
     protected override void OnClick()
     {
         if (AllowUncheck && IsChecked == true)
@@ -66,7 +62,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.1")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (AllowUncheck && IsChecked == true && (e.Key == Key.Space || e.Key == Key.Enter))
@@ -85,7 +80,6 @@ public class StswRadioButton : RadioButton, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
     /// </summary>
-    [StswInfo("0.20.1")]
     public bool AllowUncheck
     {
         get => (bool)GetValue(AllowUncheckProperty);

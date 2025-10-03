@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswDataPager ItemsSource="{Binding LargeDataset}" ItemsPerPage="10" CurrentPage="1"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0")]
 public class StswDataPager : ContentControl, IStswCornerControl
 {
     public StswDataPager()

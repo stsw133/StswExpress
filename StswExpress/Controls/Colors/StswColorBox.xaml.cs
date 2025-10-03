@@ -19,7 +19,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedColor))]
-[StswInfo("0.1.0")]
 public class StswColorBox : StswBoxBase
 {
     static StswColorBox()
@@ -29,7 +28,6 @@ public class StswColorBox : StswBoxBase
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo("0.1.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var isInvalid = false;

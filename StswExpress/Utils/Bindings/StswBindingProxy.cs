@@ -22,7 +22,6 @@ namespace StswExpress;
 /// &lt;/DataGrid&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswBindingProxy : Freezable
 {
     /// <inheritdoc/>

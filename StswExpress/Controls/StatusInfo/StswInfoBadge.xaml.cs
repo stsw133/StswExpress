@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswInfoBadge Value="1500" Limit="999" Format="Number"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0")]
 public class StswInfoBadge : Control, IStswCornerControl
 {
     static StswInfoBadge()

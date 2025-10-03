@@ -18,7 +18,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Value))]
-[StswInfo("0.3.0", PlannedChanges = StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     private ContentPresenter? _contentPresenter;
@@ -47,7 +47,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// Dynamically creates and assigns the appropriate input control based on the specified <see cref="Type"/>.
     /// Ensures correct bindings and properties are applied.
     /// </summary>
-    [StswInfo("0.11.0")]
     protected void CreateControlBasedOnType()
     {
         if (_contentPresenter == null || Type == StswAdaptiveType.Auto)
@@ -244,7 +243,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -276,7 +274,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -290,7 +287,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);
@@ -379,7 +375,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the selection unit for the date picker input.
     /// </summary>
-    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

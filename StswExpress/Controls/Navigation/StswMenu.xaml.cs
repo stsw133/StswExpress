@@ -21,7 +21,6 @@ namespace StswExpress;
 /// &lt;/se:StswMenu&gt;
 /// </code>
 /// </example>
-[StswInfo("0.8.0")]
 public class StswMenu : Menu, IStswCornerControl
 {
     static StswMenu()

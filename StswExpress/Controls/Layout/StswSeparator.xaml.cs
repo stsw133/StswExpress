@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;/StackPanel&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswSeparator : Separator
 {
     static StswSeparator()

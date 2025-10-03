@@ -18,7 +18,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="Warning: Deprecated" Visibility="{Binding MyObject.DeprecatedProperty, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswHasAttributeConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

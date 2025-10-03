@@ -13,7 +13,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridPathColumn Header="File Path" Binding="{Binding FilePath}" SelectionUnit="OpenFile"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0", IsTested = false)]
 public class StswDataGridPathColumn : DataGridTextColumn
 {
     static StswDataGridPathColumn()
@@ -104,7 +103,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.
     /// If enabled, users can navigate between directories or files in the current folder using mouse wheel or keyboard keys.
     /// </summary>
-    [StswInfo("0.20.0")]
     public bool IsShiftingEnabled
     {
         get => (bool)GetValue(IsShiftingEnabledProperty);
@@ -168,7 +166,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// Gets or sets the suggested file name for file dialog default file name.
     /// Provides a default name for files when the save dialog is shown.
     /// </summary>
-    [StswInfo("0.20.0")]
     public string? SuggestedFilename
     {
         get => (string?)GetValue(SuggestedFilenameProperty);
@@ -187,7 +184,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// Gets or sets whether to show or not the file size.
     /// If true, the size of the selected file is displayed next to the selected path.
     /// </summary>
-    [StswInfo("0.20.0")]
     public bool IsFileSizeVisible
     {
         get => (bool)GetValue(IsFileSizeVisibleProperty);
@@ -218,7 +214,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -234,7 +229,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -250,7 +244,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

@@ -8,7 +8,6 @@ namespace StswExpress;
 /// <summary>
 /// Represents a numeric column for <see cref="StswDataGrid"/> that allows entering and displaying numbers.
 /// </summary>
-[StswInfo("0.13.0")]
 public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextColumn where T : struct, INumber<T> where TControl : StswNumberBoxBase<T>, new()
 {
     static StswDataGridNumberColumnBase()
@@ -109,7 +108,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets the step value used when adjusting the number using the up/down buttons or mouse wheel.
     /// </summary>
-    [StswInfo("0.20.0")]
     public T Increment
     {
         get => (T)GetValue(IncrementProperty);
@@ -126,7 +124,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// Gets or sets the maximum allowable value in the control. 
     /// The input value will be clamped to this maximum if exceeded.
     /// </summary>
-    [StswInfo("0.20.0")]
     public T? Maximum
     {
         get => (T?)GetValue(MaximumProperty);
@@ -143,7 +140,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// Gets or sets the minimum allowable value in the control. 
     /// The input value will be clamped to this minimum if lower.
     /// </summary>
-    [StswInfo("0.20.0")]
     public T? Minimum
     {
         get => (T?)GetValue(MinimumProperty);
@@ -191,7 +187,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -207,7 +202,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -223,7 +217,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);
@@ -281,7 +274,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
 /// &lt;se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, StswDecimalBox> { }
 
 /// <summary>
@@ -294,7 +286,6 @@ public class StswDataGridDecimalColumn : StswDataGridNumberColumnBase<decimal, S
 /// &lt;se:StswDataGridDoubleColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, StswDoubleBox> { }
 
 /// <summary>
@@ -307,5 +298,4 @@ public class StswDataGridDoubleColumn : StswDataGridNumberColumnBase<double, Sts
 /// &lt;se:StswDataGridIntegerColumn Header="Price" Binding="{Binding Price}" Format="C2"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswDataGridIntegerColumn : StswDataGridNumberColumnBase<int, StswIntegerBox> { }

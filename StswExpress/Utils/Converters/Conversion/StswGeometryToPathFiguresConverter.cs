@@ -9,7 +9,6 @@ namespace StswExpress;
 /// Converts a <see cref="Geometry"/> object into a collection of <see cref="PathFigure"/> elements.
 /// This allows extracting path data from a geometry for use in path-based UI elements.
 /// </summary>
-[StswInfo("0.15.0")]
 public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

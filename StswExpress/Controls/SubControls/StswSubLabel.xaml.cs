@@ -15,7 +15,6 @@ namespace StswExpress;
 /// &lt;se:StswSubLabel Content="Info" IconData="{StaticResource InfoIcon}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0")]
 public class StswSubLabel : StswLabel, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubLabel()

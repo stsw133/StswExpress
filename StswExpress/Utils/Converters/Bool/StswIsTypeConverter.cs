@@ -23,7 +23,6 @@ namespace StswExpress;
 /// &lt;CheckBox IsChecked="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Int32}}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.6.0")]
 public class StswIsTypeConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

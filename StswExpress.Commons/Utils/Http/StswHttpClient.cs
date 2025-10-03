@@ -25,7 +25,6 @@ namespace StswExpress.Commons;
 /// var user = await stswClient.GetAsync&lt;UserDto&gt;("users/1", ct: cts.Token);
 /// </code>
 /// </example>
-[StswInfo("0.19.0", IsTested = false)]
 public class StswHttpClient
 {
     private readonly HttpClient _httpClient;

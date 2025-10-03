@@ -21,7 +21,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Text))]
-[StswInfo(null)]
 public class StswOutlinedText : FrameworkElement
 {
     private FormattedText? _formattedText;

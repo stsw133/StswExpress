@@ -13,7 +13,6 @@ namespace StswExpress;
 /// &lt;se:StswRepeatButton Command="{Binding MyCommand}" Content="Hold Me"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswRepeatButton : RepeatButton, IStswCornerControl
 {
     static StswRepeatButton()

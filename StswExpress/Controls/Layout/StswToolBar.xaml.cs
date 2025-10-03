@@ -15,7 +15,6 @@ namespace StswExpress;
 /// &lt;/se:StswToolBar&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswToolBar : ToolBar, IStswCornerControl
 {
     static StswToolBar()
@@ -70,7 +69,6 @@ public class StswToolBar : ToolBar, IStswCornerControl
 /// &lt;/se:StswToolBarTray&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswToolBarTray : ToolBarTray
 {
     static StswToolBarTray()

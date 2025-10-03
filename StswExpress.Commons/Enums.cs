@@ -57,7 +57,6 @@ public enum StswMergePriority
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 [Flags]
-[StswInfo("0.19.0", "0.21.0")]
 public enum StswPlannedChanges
 {
     /// <summary>
@@ -129,7 +128,6 @@ public enum StswPlannedChanges
 /// <summary>
 /// Enumeration for <see cref="StswTask.Status"/>.
 /// </summary>
-[StswInfo("0.19.0")]
 public enum StswTaskStatus
 {
     Pending,

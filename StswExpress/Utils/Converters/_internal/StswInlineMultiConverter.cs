@@ -8,7 +8,6 @@ namespace StswExpress;
 /// </summary>
 /// <param name="convert">The convert delegate.</param>
 /// <param name="convertBack">The convert back delegate.</param>
-[StswInfo("0.3.0")]
 internal class StswInlineMultiConverter(StswInlineMultiConverter.ConvertDelegate convert, StswInlineMultiConverter.ConvertBackDelegate? convertBack = null) : IMultiValueConverter
 {
     /// <summary>

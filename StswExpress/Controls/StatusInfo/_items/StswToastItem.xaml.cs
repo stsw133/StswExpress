@@ -13,7 +13,6 @@ namespace StswExpress;
 /// <remarks>
 /// This control is designed to display temporary notifications that can be dismissed individually.
 /// </remarks>
-[StswInfo("0.14.0")]
 public class StswToastItem : ContentControl, IStswCornerControl
 {
     static StswToastItem()
@@ -72,7 +71,6 @@ public class StswToastItem : ContentControl, IStswCornerControl
     /// Gets or sets a value indicating whether the info bar can be closed by the user.
     /// When enabled, a close button is displayed.
     /// </summary>
-    [StswInfo("0.19.0")]
     public bool IsClosable
     {
         get => (bool)GetValue(IsClosableProperty);

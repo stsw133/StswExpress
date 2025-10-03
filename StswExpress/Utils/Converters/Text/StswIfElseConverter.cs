@@ -19,7 +19,6 @@ namespace StswExpress;
 /// &lt;TextBlock Visibility="{Binding Role, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Admin||Owner ? Visible : Collapsed'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null, "0.20.0")]
 public class StswIfElseConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

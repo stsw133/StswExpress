@@ -28,7 +28,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [MarkupExtensionReturnType(typeof(object))]
-[StswInfo("0.17.0", IsTested = false)]
 public class StswInvokeMethodExtension : MarkupExtension
 {
     /// <summary>

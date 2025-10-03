@@ -19,7 +19,7 @@ namespace StswExpress;
 /// &lt;se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0", PlannedChanges = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
+[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
 public class StswMediaPlayer : ItemsControl
 {
     private readonly Timer _timer = new() { AutoReset = true };

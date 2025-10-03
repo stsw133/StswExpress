@@ -18,7 +18,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedColor))]
-[StswInfo("0.1.0")]
 public class StswColorPicker : Control, IStswCornerControl
 {
     private FrameworkElement? _colorEllipse, _colorGrid;

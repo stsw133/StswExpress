@@ -20,7 +20,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [MarkupExtensionReturnType(typeof(string))]
-[StswInfo("0.15.0")]
 public class StswTranslateExtension : MarkupExtension, INotifyPropertyChanged
 {
     public StswTranslateExtension(string key)

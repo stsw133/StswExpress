@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -18,7 +17,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(ColorPaletteStandard))]
-[StswInfo("0.1.0")]
 public class StswColorSelector : Control, IStswCornerControl
 {
     public ICommand SelectColorCommand { get; }

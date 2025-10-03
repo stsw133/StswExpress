@@ -29,7 +29,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Binding))]
-[StswInfo("0.9.0")]
 public class StswBindableParameterExtension : MarkupExtension
 {
     /// <summary>

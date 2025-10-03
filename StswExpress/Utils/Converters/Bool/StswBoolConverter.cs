@@ -22,7 +22,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="{Binding IsAdmin, Converter={x:Static se:StswBoolConverter.Instance}, TargetType={x:Type sys:Int32}}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswBoolConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

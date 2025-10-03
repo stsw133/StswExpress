@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswCheckBox Content="Advanced settings" IsIndeterminate="True" IsReadOnly="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -36,7 +35,6 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.6.0")]
     protected override void OnToggle()
     {
         if (!IsReadOnly)
@@ -44,7 +42,6 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -52,7 +49,6 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -80,7 +76,6 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     /// Gets or sets a value indicating whether the checkbox is in read-only mode.
     /// When set to <see langword="true"/>, the checkbox cannot be toggled.
     /// </summary>
-    [StswInfo("0.6.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

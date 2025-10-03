@@ -5,7 +5,6 @@ namespace StswExpress;
 /// <summary>
 /// Data model for <see cref="StswCalendar"/>'s items.
 /// </summary>
-[StswInfo("0.14.0")]
 internal class StswCalendarItem : StswObservableObject, IStswSelectionItem
 {
     /// <summary>

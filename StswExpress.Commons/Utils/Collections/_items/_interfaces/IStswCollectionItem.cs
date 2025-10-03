@@ -4,7 +4,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides properties for tracking the state and error message of collection items.
 /// </summary>
-[StswInfo("0.3.0")]
 public interface IStswCollectionItem : INotifyPropertyChanged
 {
     /// <summary>

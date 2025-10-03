@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridDateColumn Header="Birth Date" Binding="{Binding BirthDate}" Format="dd/MM/yyyy"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswDataGridDateColumn : DataGridTextColumn
 {
     static StswDataGridDateColumn()
@@ -104,7 +103,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the increment type that determines how the date changes when scrolling with the mouse wheel.
     /// </summary>
-    [StswInfo("0.20.0")]
     public StswDateTimeIncrementType IncrementType
     {
         get => (StswDateTimeIncrementType)GetValue(IncrementTypeProperty);
@@ -120,7 +118,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the maximum allowable date in the control.
     /// </summary>
-    [StswInfo("0.20.0")]
     public DateTime? Maximum
     {
         get => (DateTime?)GetValue(MaximumProperty);
@@ -136,7 +133,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the minimum allowable date in the control.
     /// </summary>
-    [StswInfo("0.20.0")]
     public DateTime? Minimum
     {
         get => (DateTime?)GetValue(MinimumProperty);
@@ -201,7 +197,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets the horizontal text alignment for both display and editing elements in the column.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);
@@ -217,7 +212,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets how the text is trimmed when it overflows the available width in the display element.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);
@@ -233,7 +227,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
     /// <summary>
     /// Gets or sets whether the text wraps within the column's cells when it exceeds the available space.
     /// </summary>
-    [StswInfo("0.16.1")]
     public TextWrapping TextWrapping
     {
         get => (TextWrapping)GetValue(TextWrappingProperty);

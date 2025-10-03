@@ -2,7 +2,7 @@
 /// <summary>
 /// Represents a model for database connection, including methods for building connection strings and opening database connections.
 /// </summary>
-[StswInfo(null, PlannedChanges = StswPlannedChanges.ChangeName)]
+[StswPlannedChanges(StswPlannedChanges.ChangeName)]
 public partial class StswDatabaseModel : StswObservableObject
 {
     public StswDatabaseModel() { }
@@ -119,7 +119,6 @@ public partial class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Gets or sets whether Windows Authentication should be used (Integrated Security).
     /// </summary>
-    [StswInfo("0.20.0")]
     public bool UseIntegratedSecurity
     {
         get => _useIntegratedSecurity;
@@ -131,7 +130,6 @@ public partial class StswDatabaseModel : StswObservableObject
     /// Constructs the connection string based on the model's properties.
     /// </summary>
     /// <returns>The database connection string.</returns>
-    [StswInfo(null, "0.20.0")]
     public string GetConnString()
     {
         if (string.IsNullOrEmpty(Server) || string.IsNullOrEmpty(Database))

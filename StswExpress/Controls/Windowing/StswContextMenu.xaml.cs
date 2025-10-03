@@ -24,7 +24,6 @@ namespace StswExpress;
 /// &lt;/Button&gt;
 /// </code>
 /// </example>
-[StswInfo("0.12.0")]
 public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerControl
 {
     static StswContextMenu()

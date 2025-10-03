@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswSubButton IconData="{StaticResource DeleteIcon}" IsContentVisible="False"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubButton()

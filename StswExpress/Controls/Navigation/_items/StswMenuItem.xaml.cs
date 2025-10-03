@@ -13,7 +13,6 @@ namespace StswExpress;
 /// &lt;se:StswMenuItem Header="Settings" IconData="{StaticResource SettingsIcon}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0")]
 public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
 {
     static StswMenuItem()

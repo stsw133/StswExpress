@@ -21,7 +21,6 @@ namespace StswExpress;
 /// &lt;se:StswFlipView ItemsSource="{Binding NewsArticles}" IsLoopingEnabled="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
     private ButtonBase? _buttonPrevious, _buttonNext;
@@ -193,7 +192,6 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

@@ -4,7 +4,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides functionality for managing email configurations, including methods for importing and exporting these configurations with encryption.
 /// </summary>
-[StswInfo(null)]
 public static class StswMailboxes
 {
     /// <summary>

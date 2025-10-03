@@ -28,7 +28,6 @@ namespace StswExpress;
 /// &lt;/se:StswDataGrid&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     private static Type? SqlParameterType { get; set; }
@@ -57,7 +56,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo(null, "0.19.1")]
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -88,7 +86,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.13.0")]
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
         /// if a column with this same binding already exists, skip
@@ -132,7 +129,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.18.0", "0.19.1")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -144,7 +140,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -152,7 +147,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.17.0")]
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (e.Key == Key.V && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
@@ -165,7 +159,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.18.0", "0.20.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -178,7 +171,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
     /// </summary>
-    [StswInfo("0.19.0")]
     private static void DetectSqlClient()
     {
         try
@@ -310,7 +302,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     /// <param name="key">The key representing the external filter.</param>
     /// <param name="filter">The filtering predicate to apply.</param>
-    [StswInfo("0.15.0")]
     public void RegisterExternalFilter(object key, Predicate<object>? filter)
     {
         _filterAggregator.RegisterFilter(key, filter);
@@ -398,7 +389,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// Gets or sets the filtering mode for the data grid.
     /// Supports either collection-based filtering or SQL-based filtering.
     /// </summary>
-    [StswInfo("0.15.0")]
     public StswDataGridFiltersType FiltersType
     {
         get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
@@ -416,7 +406,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [StswInfo("0.19.1")]
     public bool HasVisibleBackgroundGrid
     {
         get => (bool)GetValue(HasVisibleBackgroundGridProperty);
@@ -464,7 +453,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [StswInfo("0.18.0", "0.19.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);

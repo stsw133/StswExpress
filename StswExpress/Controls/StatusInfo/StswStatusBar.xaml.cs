@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;/se:StswStatusBar&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswStatusBar : StatusBar
 {
     static StswStatusBar()

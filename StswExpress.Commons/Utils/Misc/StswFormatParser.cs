@@ -8,7 +8,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides utility methods for parsing and formatting data in various formats.
 /// </summary>
-[StswInfo("0.20.0")]
 public static class StswFormatParser
 {
     /// <summary>
@@ -22,7 +21,6 @@ public static class StswFormatParser
     /// <param name="culture">The culture to use for formatting values. Default is the current culture.</param>
     /// <returns>A CSV string representing the collection of objects.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="source"/> is <see langword="null"/>.</exception>
-    [StswInfo("0.20.0", IsTested = false)]
     public static string ToCsv<T>(IEnumerable<T> source, char separator = ';', bool includeHeaders = true, bool useDescriptionAttribute = true, CultureInfo? culture = null)
     {
         ArgumentNullException.ThrowIfNull(source);

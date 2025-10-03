@@ -6,7 +6,6 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for sub controls.
 /// </summary>
-[StswInfo("0.5.0")]
 public interface IStswSubControl
 {
     /// <summary>

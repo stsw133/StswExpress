@@ -23,7 +23,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="{se:StswDynamicResource NonExistingResource, TargetNullValue='Default Text'}" /&gt;
 /// </code>
 /// </example>
-[StswInfo("0.2.0")]
 public class StswDynamicResourceExtension(object resourceKey) : MarkupExtension
 {
     private StswBindingProxy? _bindingProxy;

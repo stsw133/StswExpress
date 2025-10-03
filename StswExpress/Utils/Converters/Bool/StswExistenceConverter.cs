@@ -35,7 +35,6 @@ namespace StswExpress;
 /// &lt;TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='default !empty'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswExistenceConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

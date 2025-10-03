@@ -16,7 +16,6 @@ namespace StswExpress;
 /// This control extends <see cref="TextBox"/> and adds support for validation errors, dynamic sub-controls, 
 /// and customizable appearance. It is designed to be inherited by specialized text-based input components.
 /// </remarks>
-[StswInfo("0.6.1")]
 public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswBoxBase()
@@ -44,7 +43,6 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles changes to the format of the text displayed in the control.
     /// </summary>
     /// <param name="newFormat">The new string format to apply to the text.</param>
-    [StswInfo("0.20.0")]
     protected virtual void FormatChanged(string? newFormat)
     {
         if (GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
@@ -150,7 +148,6 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     /// Gets or sets a value indicating whether action buttons inside the box should be visible.
     /// This controls elements such as drop-down buttons or increment arrows displayed next to the text input.
     /// </summary>
-    [StswInfo("0.21.0")]
     public bool AreButtonsVisible
     {
         get => (bool)GetValue(AreButtonsVisibleProperty);

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswStepBar : Control
 {
     #region PARTS
@@ -204,7 +204,7 @@ public class StswStepBar : Control
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswStepBarItem : Control
 {
     #region PARTS
@@ -337,7 +337,7 @@ public class StswStepBarItem : Control
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswStepBarLine : Control
 {
     private Color _completedColor;
@@ -447,7 +447,7 @@ public class StswStepBarLine : Control
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public enum StepBarItemStatus
 {
     Normal,

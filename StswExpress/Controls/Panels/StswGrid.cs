@@ -18,7 +18,6 @@ namespace StswExpress;
 /// &lt;/se:StswGrid&gt;
 /// </code>
 /// </example>
-[StswInfo("0.7.0")]
 public class StswGrid : Grid
 {
     public StswGrid()

@@ -21,7 +21,6 @@ namespace StswExpress;
 /// &lt;ListBox ItemsSource="{se:StswListFromRange 5}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswListFromRangeExtension : MarkupExtension
 {
     /// <summary>

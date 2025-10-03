@@ -27,7 +27,6 @@ namespace StswExpress;
 /// &lt;/StackPanel&gt;
 /// </code>
 /// </example>
-[StswInfo("0.8.0")]
 public class StswEnumToListExtension : MarkupExtension
 {
     private readonly Type _enumType;

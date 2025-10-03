@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswTabItem Header="Documents" IsClosable="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswTabItem : TabItem
 {
     static StswTabItem()

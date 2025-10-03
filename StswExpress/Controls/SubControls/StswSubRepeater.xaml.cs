@@ -17,7 +17,6 @@ namespace StswExpress;
 /// &lt;se:StswSubRepeater IconData="{StaticResource PlusIcon}" Command="{Binding MyCommand}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRepeater()

@@ -22,7 +22,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo("0.4.0")]
 public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     static StswSubDrop()

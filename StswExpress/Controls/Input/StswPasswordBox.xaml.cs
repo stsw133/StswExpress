@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
     private bool _isPasswordChanging;
@@ -62,7 +60,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Logic properties
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
@@ -76,7 +73,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.6.1")]
     public bool HasError
     {
         get => (bool)GetValue(HasErrorProperty);
@@ -90,7 +86,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     public object? Icon
     {
         get => (object?)GetValue(IconProperty);

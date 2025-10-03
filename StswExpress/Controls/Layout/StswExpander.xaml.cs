@@ -13,7 +13,7 @@ namespace StswExpress;
 /// &lt;/se:StswExpander&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0", PlannedChanges = StswPlannedChanges.VisualChanges)]
+[StswPlannedChanges(StswPlannedChanges.VisualChanges)]
 public class StswExpander : Expander, IStswCornerControl
 {
     static StswExpander()

@@ -59,6 +59,7 @@
   - `Div0` (with and without `defaultValue`),
   - `Compute` and `TryCompute` (moved from `StswCalculator`).  
   `StswCalculator` is now integrated into `StswMath`.
+- Introduced `StswPlannedChangesAttribute` to annotate types and members with planned changes.  `StswPlannedChanges` enum updated: added new `Move` value and reassigned `Remove` to `2048`.
 - New `StswDateRange` utility for representing and manipulating date ranges (`Start`/`End`), supporting containment, overlap, adjacency, intersections, and unique date enumerations.
 - `StswDatabaseHelper`: introduced new `AddParam` extension for `SqlParameterCollection`, and added bulk insert support for `IEnumerable`.
 - `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
@@ -73,10 +74,7 @@
   - `CreateRandomItems` removed (now exposed in `StswRandomGenerator`).
   - `IsInDebug` renamed to `IsInDebugMode`.
   - `IsInDesignMode` method moved from `StswDatabaseHelper`.
-- `StswInfoAttribute`:
-  - Enhanced with a new `LastUpdateAuthor` property.
-  - Renamed the `Changes` argument to `PlannedChanges`.
-  - `StswPlannedChanges` enum updated: added new `Move` value and reassigned `Remove` to `2048`.
+- `StswInfoAttribute` has been removed.
 - `StswNaturalStringComparer` now distinguishes numbers also by length for deterministic results.
 
 ### Fixes

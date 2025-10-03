@@ -20,13 +20,13 @@ namespace StswExpress;
 /// &lt;/se:StswTabControl&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0", "0.21.0")]
 public class StswTabControl : TabControl
 {
     public StswTabControl()
     {
         _previewMouseLeftButtonDownHandler = OnTabPreviewMouseLeftButtonDown;
         _mouseMoveHandler = OnTabMouseMove;
+        _mouseLeftButtonUpHandler = OnTabMouseLeftButtonUp;
         _dropHandler = OnTabDrop;
         _dragOverHandler = OnTabDragOver;
     }
@@ -109,7 +109,6 @@ public class StswTabControl : TabControl
     /// <summary>
     /// Gets or sets a value indicating whether tab items can be reordered via drag and drop.
     /// </summary>
-    [StswInfo("0.21.0")]
     public bool CanReorder
     {
         get => (bool)GetValue(CanReorderProperty);
@@ -173,11 +172,13 @@ public class StswTabControl : TabControl
     #region Drag & drop logic
     private readonly MouseButtonEventHandler _previewMouseLeftButtonDownHandler;
     private readonly MouseEventHandler _mouseMoveHandler;
+    private readonly MouseButtonEventHandler _mouseLeftButtonUpHandler;
     private readonly DragEventHandler _dropHandler;
     private readonly DragEventHandler _dragOverHandler;
 
     private Point _dragStartPoint;
-    private TabItem? _draggedItem;
+    private StswTabItem? _draggedItem;
+    private bool _isDragging;
     private bool _reorderHandlersAttached;
 
     /// <summary>
@@ -185,7 +186,6 @@ public class StswTabControl : TabControl
     /// </summary>
     /// <param name="obj">The dependency object where the property changed.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.21.0")]
     private static void OnCanReorderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswTabControl control)
@@ -199,13 +199,13 @@ public class StswTabControl : TabControl
     /// Attaches or detaches drag-and-drop event handlers based on the CanReorder property.
     /// </summary>
     /// <param name="enable">If set to <see langword="true"/>, attaches the event handlers; otherwise, detaches them.</param>
-    [StswInfo("0.21.0")]
     private void UpdateReorderHandlers(bool enable)
     {
         if (enable && !_reorderHandlersAttached)
         {
             AddHandler(PreviewMouseLeftButtonDownEvent, _previewMouseLeftButtonDownHandler, true);
             AddHandler(MouseMoveEvent, _mouseMoveHandler, true);
+            AddHandler(MouseLeftButtonUpEvent, _mouseLeftButtonUpHandler, true);
             AddHandler(DropEvent, _dropHandler, true);
             AddHandler(DragOverEvent, _dragOverHandler, true);
             _reorderHandlersAttached = true;
@@ -214,6 +214,7 @@ public class StswTabControl : TabControl
         {
             RemoveHandler(PreviewMouseLeftButtonDownEvent, _previewMouseLeftButtonDownHandler);
             RemoveHandler(MouseMoveEvent, _mouseMoveHandler);
+            RemoveHandler(MouseLeftButtonUpEvent, _mouseLeftButtonUpHandler);
             RemoveHandler(DropEvent, _dropHandler);
             RemoveHandler(DragOverEvent, _dragOverHandler);
             _reorderHandlersAttached = false;
@@ -223,7 +224,6 @@ public class StswTabControl : TabControl
     /// <summary>
     /// Updates the AllowDrop property of each tab item based on the CanReorder property.
     /// </summary>
-    [StswInfo("0.21.0")]
     private void UpdateTabItemsAllowDrop()
     {
         foreach (var item in Items)
@@ -236,7 +236,6 @@ public class StswTabControl : TabControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.21.0")]
     private void OnTabPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!CanReorder)
@@ -245,8 +244,9 @@ public class StswTabControl : TabControl
         if (e.OriginalSource is not DependencyObject originalSource)
             return;
 
-        _dragStartPoint = e.GetPosition(null);
+        _dragStartPoint = e.GetPosition(this);
         _draggedItem = StswFnUI.FindVisualAncestor<StswTabItem>(originalSource);
+        _isDragging = false;
     }
 
     /// <summary>
@@ -254,25 +254,59 @@ public class StswTabControl : TabControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.21.0")]
     private void OnTabMouseMove(object sender, MouseEventArgs e)
     {
-        if (!CanReorder || e.LeftButton != MouseButtonState.Pressed)
+        if (!CanReorder)
         {
             _draggedItem = null;
+            return;
+        }
+
+        if (e.LeftButton != MouseButtonState.Pressed)
+        {
+            ResetDrag();
             return;
         }
 
         if (_draggedItem == null)
             return;
 
-        var currentPosition = e.GetPosition(null);
-        if (Math.Abs(currentPosition.X - _dragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance
-         || Math.Abs(currentPosition.Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+        var currentPosition = e.GetPosition(this);
+
+        if (!_isDragging)
         {
-            DragDrop.DoDragDrop(_draggedItem, _draggedItem, DragDropEffects.Move);
-            _draggedItem = null;
+            if (Math.Abs(currentPosition.X - _dragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance
+             || Math.Abs(currentPosition.Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                _isDragging = true;
+                CaptureMouse();
+            }
+            else return;
         }
+
+        if (InputHitTest(currentPosition) is not DependencyObject hitElement)
+            return;
+
+        var targetItem = StswFnUI.FindVisualAncestor<StswTabItem>(hitElement);
+        if (targetItem == null || targetItem == _draggedItem)
+            return;
+
+        ReorderTabItems(_draggedItem, targetItem);
+        e.Handled = true;
+    }
+
+    /// <summary>
+    /// Handles the MouseLeftButtonUp event to finalize drag operations and release mouse capture.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnTabMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!CanReorder)
+            return;
+
+        if (_draggedItem != null || _isDragging)
+            ResetDrag();
     }
 
     /// <summary>
@@ -280,7 +314,6 @@ public class StswTabControl : TabControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.21.0")]
     private void OnTabDragOver(object sender, DragEventArgs e)
     {
         if (CanReorder && e.Data.GetDataPresent(typeof(StswTabItem)))
@@ -295,49 +328,110 @@ public class StswTabControl : TabControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.21.0")]
     private void OnTabDrop(object sender, DragEventArgs e)
     {
-        if (!CanReorder || !e.Data.GetDataPresent(typeof(StswTabItem)))
+        if (!CanReorder)
             return;
 
-        if (e.OriginalSource is not DependencyObject originalSource)
+        var sourceTabItem = e.Data.GetDataPresent(typeof(StswTabItem))
+            ? e.Data.GetData(typeof(StswTabItem)) as StswTabItem
+            : _draggedItem;
+
+        if (sourceTabItem == null || e.OriginalSource is not DependencyObject originalSource)
+        {
+            ResetDrag();
             return;
+        }
 
         var targetContainer = StswFnUI.FindVisualAncestor<StswTabItem>(originalSource);
+        var sourceIndex = ItemContainerGenerator.IndexFromContainer(sourceTabItem);
         var targetIndex = targetContainer != null
             ? ItemContainerGenerator.IndexFromContainer(targetContainer)
-            : Items.Count;
+            : Items.Count - 1;
 
-        if (targetIndex < 0)
+        if (sourceIndex < 0 || targetIndex < 0)
+        {
+            ResetDrag();
             return;
+        }
 
-        if (e.Data.GetData(typeof(StswTabItem)) is not StswTabItem sourceTabItem || sourceTabItem == targetContainer)
-            return;
+        MoveItem(sourceIndex, targetIndex);
 
+        e.Handled = true;
+        ResetDrag();
+    }
+
+    /// <summary>
+    /// Resets the drag state and releases mouse capture if necessary.
+    /// </summary>
+    private void ResetDrag()
+    {
+        if (_isDragging)
+            ReleaseMouseCapture();
+
+        _isDragging = false;
+        _draggedItem = null;
+    }
+
+    /// <summary>
+    /// Reorders the tab items by moving the source tab item to the position of the target tab item.
+    /// </summary>
+    /// <param name="sourceTabItem">The tab item being dragged.</param>
+    /// <param name="targetTabItem">The tab item where the source item is dropped.</param>
+    private void ReorderTabItems(StswTabItem sourceTabItem, StswTabItem targetTabItem)
+    {
         var sourceIndex = ItemContainerGenerator.IndexFromContainer(sourceTabItem);
+        var targetIndex = ItemContainerGenerator.IndexFromContainer(targetTabItem);
+
+        if (sourceIndex < 0 || targetIndex < 0)
+            return;
+
+        MoveItem(sourceIndex, targetIndex);
+    }
+
+    /// <summary>
+    /// Moves an item within the tab control's items or bound item source from the source index to the target index.
+    /// </summary>
+    /// <param name="sourceIndex">The index of the item to move.</param>
+    /// <param name="targetIndex">The index where the item should be moved to.</param>
+    private void MoveItem(int sourceIndex, int targetIndex)
+    {
         if (sourceIndex < 0 || targetIndex < 0 || sourceIndex == targetIndex)
             return;
 
-        if (ItemsSource is IList list)
-        {
-            var item = list[sourceIndex];
-            list.RemoveAt(sourceIndex);
-            if (sourceIndex < targetIndex)
-                targetIndex--;
-            list.Insert(targetIndex, item);
-        }
-        else
-        {
-            var item = Items[sourceIndex];
-            Items.RemoveAt(sourceIndex);
-            if (sourceIndex < targetIndex)
-                targetIndex--;
-            Items.Insert(targetIndex, item);
-        }
+        var movedItem = MoveWithinList(ItemsSource is IList boundList ? boundList : Items, sourceIndex, targetIndex);
+        if (movedItem == null)
+            return;
 
-        SelectedIndex = targetIndex;
-        e.Handled = true;
+        var newIndex = Items.IndexOf(movedItem);
+        if (newIndex < 0)
+            newIndex = Math.Max(0, Math.Min(targetIndex, Items.Count - 1));
+
+        SelectedIndex = newIndex;
+
+        if (ItemContainerGenerator.ContainerFromItem(movedItem) is StswTabItem newContainer)
+            _draggedItem = newContainer;
+    }
+
+    /// <summary>
+    /// Moves an item within a given list from the source index to the target index.
+    /// </summary>
+    /// <param name="list">The list containing the item to move.</param>
+    /// <param name="sourceIndex">The index of the item to move.</param>
+    /// <param name="targetIndex">The index where the item should be moved to.</param>
+    /// <returns>The moved item, or <see langword="null"/> if the move was unsuccessful.</returns>
+    private static object? MoveWithinList(IList list, int sourceIndex, int targetIndex)
+    {
+        if (sourceIndex < 0 || sourceIndex >= list.Count)
+            return null;
+
+        var movedItem = list[sourceIndex];
+        list.RemoveAt(sourceIndex);
+
+        targetIndex = Math.Max(0, Math.Min(targetIndex, list.Count));
+        list.Insert(targetIndex, movedItem);
+
+        return movedItem;
     }
     #endregion
 }

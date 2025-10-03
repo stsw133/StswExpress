@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswHyperlinkButton Content="Open Website" NavigateUri="https://example.com"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0")]
 public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
     static StswHyperlinkButton()

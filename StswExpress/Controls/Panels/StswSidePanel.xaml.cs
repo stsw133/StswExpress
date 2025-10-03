@@ -18,7 +18,6 @@ namespace StswExpress;
 /// &lt;/se:StswSidePanel&gt;
 /// </code>
 /// </example>
-[StswInfo("0.2.0")]
 public class StswSidePanel : ContentControl
 {
     static StswSidePanel()
@@ -54,7 +53,6 @@ public class StswSidePanel : ContentControl
     /// Gets or sets a value indicating whether the side panel is always visible.
     /// If true, the panel remains expanded and doesn't collapse, overriding mouse hover behavior.
     /// </summary>
-    [StswInfo("0.7.0")]
     public bool IsAlwaysVisible
     {
         get => (bool)GetValue(IsAlwaysVisibleProperty);
@@ -81,7 +79,6 @@ public class StswSidePanel : ContentControl
     /// Gets or sets a value indicating whether the control is collapsed.
     /// When collapsed, the side panel is hidden until the mouse hovers over it, unless it is in always-visible mode.
     /// </summary>
-    [StswInfo("0.7.0")]
     internal bool IsCollapsed
     {
         get => (bool)GetValue(IsCollapsedProperty);

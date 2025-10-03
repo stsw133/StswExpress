@@ -11,49 +11,41 @@ namespace StswExpress;
 /// <summary>
 /// Provides custom commands for common UI interactions.
 /// </summary>
-[StswInfo("0.9.0", "0.20.0")]
 public static class StswCommands
 {
     /// <summary>
     /// A command to clear the content of various controls, such as text boxes or item lists.
     /// </summary>
-    [StswInfo("0.21.0")]
     public static readonly RoutedUICommand ClearItems = new(nameof(ClearItems), nameof(ClearItems), typeof(StswCommands));
 
     /// <summary>
     /// A command to deselect all selected items in a selection-based control.
     /// </summary>
-    [StswInfo("0.20.0", "0.21.0")]
     public static readonly RoutedUICommand ClearSelection = new(nameof(ClearSelection), nameof(ClearSelection), typeof(StswCommands));
 
     /// <summary>
     /// A command to clear the content of various controls, such as text boxes or item lists.
     /// </summary>
-    [StswInfo("0.9.0", "0.21.0")]
     public static readonly RoutedUICommand ClearText = new(nameof(ClearText), nameof(ClearText), typeof(StswCommands));
 
     /// <summary>
     /// A command to close a dialog by triggering the closing mechanism.
     /// </summary>
-    [StswInfo("0.13.1")]
     public static readonly RoutedUICommand CloseDialog = new(nameof(CloseDialog), nameof(CloseDialog), typeof(StswCommands));
 
     /// <summary>
     /// A command to deselect all selected items in a selection-based control.
     /// </summary>
-    [StswInfo("0.17.0")]
     public static readonly RoutedUICommand DeselectAll = new(nameof(DeselectAll), nameof(DeselectAll), typeof(StswCommands));
 
     /// <summary>
     /// A command to select all available items in a selection-based control.
     /// </summary>
-    [StswInfo("0.17.0")]
     public static readonly RoutedUICommand SelectAll = new(nameof(SelectAll), nameof(SelectAll), typeof(StswCommands));
 
     /// <summary>
     /// A command to set a specified property for all selected items in a selection-based control.
     /// </summary>
-    [StswInfo("0.9.3", "0.20.0")]
     public static readonly RoutedUICommand SetPropertyForSelected = new(nameof(SetPropertyForSelected), nameof(SetPropertyForSelected), typeof(StswCommands));
 
     /// <summary>
@@ -88,7 +80,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.21.0")]
     private static void ClearItems_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         switch (e.Parameter ?? sender)
@@ -110,7 +101,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.21.0")]
     private static void ClearItems_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = (e.Parameter ?? sender) switch
@@ -127,7 +117,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.20.0")]
     private static void ClearSelection_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         switch (e.Parameter ?? sender)
@@ -148,7 +137,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
-    [StswInfo("0.20.0")]
     private static void ClearSelection_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = (e.Parameter ?? sender) switch
@@ -165,7 +153,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.9.0", "0.21.0")]
     private static void ClearText_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         switch (e.Parameter ?? sender)
@@ -184,7 +171,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.9.0", "0.20.0")]
     private static void ClearText_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = (e.Parameter ?? sender) switch
@@ -200,7 +186,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data, which may contain a parameter for the dialog result.</param>
-    [StswInfo("0.13.1")]
     private static void CloseDialog_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (sender is ButtonBase)
@@ -212,7 +197,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.13.1")]
     private static void CloseDialog_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = sender is ButtonBase;
 
     /// <summary>
@@ -220,7 +204,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.17.0")]
     private static void DeselectAll_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (TryGetSelectionItems(sender, e.Parameter, out var items))
@@ -233,7 +216,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.17.0")]
     private static void DeselectAll_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = TryGetSelectionItems(sender, e.Parameter, out var items) && items.Any(i => i.IsSelected);
@@ -244,7 +226,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.17.0")]
     private static void SelectAll_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (TryGetSelectionItems(sender, e.Parameter, out var items))
@@ -257,7 +238,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.17.0")]
     private static void SelectAll_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = TryGetSelectionItems(sender, e.Parameter, out var items) && items.Any(i => !i.IsSelected);
@@ -268,7 +248,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data, where the parameter is the name of the property to set.</param>
-    [StswInfo("0.9.3", "0.20.0")]
     private static void SetPropertyForSelected_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         if (sender is not ToggleButton toggle)
@@ -295,7 +274,6 @@ public static class StswCommands
     /// </summary>
     /// <param name="sender">The control that invoked the command.</param>
     /// <param name="e">The event data.</param>
-    [StswInfo("0.9.3", "0.20.0")]
     private static void SetPropertyForSelected_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = sender is ToggleButton;
 
     #region Helpers

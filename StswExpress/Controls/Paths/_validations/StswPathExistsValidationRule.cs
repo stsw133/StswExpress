@@ -9,7 +9,6 @@ namespace StswExpress;
 /// <summary>
 /// A validation rule that checks if a specified path exists based on the selection unit of the associated <see cref="StswPathPicker"/> control.
 /// </summary>
-[StswInfo("0.21.0")]
 internal class StswPathExistsValidationRule : ValidationRule
 {
     /// <summary>

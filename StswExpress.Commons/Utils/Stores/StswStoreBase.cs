@@ -35,7 +35,6 @@
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.10.0")]
 public class StswStoreBase<TModel>
 {
     /// <summary>

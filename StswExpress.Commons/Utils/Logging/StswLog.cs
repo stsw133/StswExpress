@@ -7,7 +7,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides a simple way to write and manage log messages, including support for automatic archiving and error handling.
 /// </summary>
-[StswInfo(null)]
 public static class StswLog
 {
     private static readonly Dictionary<Guid, Dictionary<StswInfoType, int>> _logCounters = [];
@@ -34,7 +33,6 @@ public static class StswLog
     /// <summary>
     /// Automatically archives log files based on the configuration settings.
     /// </summary>
-    [StswInfo("0.9.0")]
     private static void AutoArchive()
     {
         var dir = new DirectoryInfo(Config.LogDirectoryPath);
@@ -46,7 +44,7 @@ public static class StswLog
         var dateNow = DateTime.Now.Date;
 
         if (Config.Archive.ArchiveFullMonth && !oldestFileDT.IsSameYearAndMonth(dateNow))
-            foreach (var month in new StswDateRange(oldestFileDT, dateNow.AddMonths(-1)).GetUniqueMonths())
+            foreach (var month in new StswDateRange(oldestFileDT, dateNow.AddMonths(-1)).GetUniqueMonthDates())
                 Archive(month, month.ToLastDayOfMonth());
         else if ((dateNow - oldestFileDT).TotalDays > Config.Archive.ArchiveWhenDaysOver)
             Archive(oldestFileDT, dateNow.AddDays(-Config.Archive.ArchiveUpToLastDays));
@@ -59,7 +57,6 @@ public static class StswLog
     /// </summary>
     /// <param name="dateFrom">The start date of the range.</param>
     /// <param name="dateTo">The end date of the range.</param>
-    [StswInfo("0.9.0")]
     public static void Archive(DateTime dateFrom, DateTime dateTo)
     {
         _logSemaphore.Wait();
@@ -100,13 +97,11 @@ public static class StswLog
     /// Archives log files for a single specified date.
     /// </summary>
     /// <param name="date">The date to archive.</param>
-    [StswInfo("0.9.0")]
     public static void Archive(DateTime date) => Archive(date, date);
 
     /// <summary>
     /// Deletes log archives that are older than the specified number of days.
     /// </summary>
-    [StswInfo("0.9.0")]
     private static void DeleteOldArchives()
     {
         _logSemaphore.Wait();
@@ -147,9 +142,8 @@ public static class StswLog
     /// <summary>
     /// Adds a file to a zip archive, renaming it if a file with the same name already exists in the archive.
     /// </summary>
-    /// <param name="zip"></param>
-    /// <param name="sourceFilePath"></param>
-    [StswInfo("0.9.0")]
+    /// <param name="zip">The zip archive to add the file to.</param>
+    /// <param name="sourceFilePath">The path of the file to add to the archive.</param>
     private static void AddFileToZipWithPossibleRename(ZipArchive zip, string sourceFilePath)
     {
         var baseFileName = Path.GetFileName(sourceFilePath); // log_2025-05-30.log
@@ -181,8 +175,7 @@ public static class StswLog
     /// <summary>
     /// Archives a single log file based on its size.
     /// </summary>
-    /// <param name="logFile"></param>
-    [StswInfo("0.9.0")]
+    /// <param name="logFile">The log file to archive.</param>
     private static void ArchiveSingleLogBySize(FileInfo logFile)
     {
         string datePart = logFile.Name.Substring(4, 10);
@@ -199,7 +192,6 @@ public static class StswLog
     /// <summary>
     /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="Config.ArchiveWhenSizeOver"/>.
     /// </summary>
-    [StswInfo("0.9.0")]
     private static void ForceSizeArchiveIfNeeded()
     {
         if (Config.Archive.ArchiveWhenSizeOver == null)
@@ -217,10 +209,9 @@ public static class StswLog
     /// <summary>
     /// Renames a <see cref="ZipArchiveEntry"/> in a <see cref="ZipArchive"/> to a new name.
     /// </summary>
-    /// <param name="zip"></param>
-    /// <param name="entry"></param>
-    /// <param name="newName"></param>
-    [StswInfo("0.9.0")]
+    /// <param name="zip">The zip archive containing the entry.</param>
+    /// <param name="entry">The entry to rename.</param>
+    /// <param name="newName">The new name for the entry.</param>
     private static void RenameZipArchiveEntry(ZipArchive zip, ZipArchiveEntry entry, string newName)
     {
         if (zip.Entries.Any(e => e.FullName.Equals(newName, StringComparison.OrdinalIgnoreCase)))
@@ -240,11 +231,10 @@ public static class StswLog
     /// <summary>
     /// Tries to extract a date range from an archive name.
     /// </summary>
-    /// <param name="archiveName"></param>
-    /// <param name="dateFrom"></param>
-    /// <param name="dateTo"></param>
-    /// <returns></returns>
-    [StswInfo("0.9.0")]
+    /// <param name="archiveName">The name of the archive file (without path or extension).</param>
+    /// <param name="dateFrom">The extracted start date if successful.</param>
+    /// <param name="dateTo">The extracted end date if successful.</param>
+    /// <returns><see langword="true"/> if the date range was successfully extracted; otherwise, <see langword="false"/>.</returns>
     private static bool TryGetArchiveDateRange(string archiveName, out DateTime dateFrom, out DateTime dateTo)
     {
         dateFrom = default;
@@ -350,7 +340,6 @@ public static class StswLog
     /// This method blocks the calling thread while the log files are being read. 
     /// For non-blocking operations, consider using the asynchronous version <see cref="ImportListAsync"/>.
     /// </remarks>
-    [StswInfo(null, "0.20.0")]
     public static IEnumerable<StswLogItem> ImportList(DateTime dateFrom, DateTime dateTo)
     {
         var logItems = new List<StswLogItem>();
@@ -390,7 +379,6 @@ public static class StswLog
     /// <param name="dateFrom">The start date of the range.</param>
     /// <param name="dateTo">The end date of the range.</param>
     /// <returns>A task representing the asynchronous operation, with a result of a collection of log entries.</returns>
-    [StswInfo(null, "0.20.0")]
     public static async Task<IEnumerable<StswLogItem>> ImportListAsync(DateTime dateFrom, DateTime dateTo)
     {
         var logItems = new List<StswLogItem>();
@@ -430,7 +418,6 @@ public static class StswLog
     /// <param name="from">The start date of the range.</param>
     /// <param name="to">The end date of the range.</param>
     /// <returns>The list of file paths that match the date range.</returns>
-    [StswInfo("0.20.0")]
     private static IEnumerable<string> GetFilesInRange(DateTime from, DateTime to)
         => Directory
             .GetFiles(Config.LogDirectoryPath, "log_*.log")
@@ -444,7 +431,6 @@ public static class StswLog
     /// <param name="line">The line to check.</param>
     /// <param name="date">The parsed date from the line if it is a new log entry.</param>
     /// <returns><see langword="true"/> if the line is a new log entry; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.20.0")]
     private static bool IsNewLogEntryLine(string line, out DateTime date)
     {
         date = default;
@@ -488,7 +474,6 @@ public static class StswLog
     /// </summary>
     /// <param name="currentBlock">The current block of log lines to parse.</param>
     /// <param name="output">The output list to which the parsed log item will be added.</param>
-    [StswInfo("0.20.0")]
     private static void TryAddLogBlock(List<string> currentBlock, List<StswLogItem> output)
     {
         if (currentBlock.Count == 0)
@@ -506,7 +491,6 @@ public static class StswLog
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
-    [StswInfo(null, "0.20.0")]
     public static void Write(StswInfoType? type, string text)
     {
         if (Config.IsLoggingDisabled)
@@ -522,7 +506,6 @@ public static class StswLog
     /// Writes a log entry to a file synchronously without specifying a log type.
     /// </summary>
     /// <param name="text">The text to log.</param>
-    [StswInfo(null, "0.20.0")]
     public static void Write(string text) => Write(null, text);
 
     /// <summary>
@@ -530,7 +513,6 @@ public static class StswLog
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
-    [StswInfo("0.9.3")]
     public static Task WriteAsync(StswInfoType? type, string text)
     {
         if (Config.IsLoggingDisabled)
@@ -547,7 +529,6 @@ public static class StswLog
     /// Writes a log entry to a file asynchronously without specifying a log type.
     /// </summary>
     /// <param name="text">The text to log.</param>
-    [StswInfo("0.9.3")]
     public static Task WriteAsync(string text) => WriteAsync(null, text);
 
     /// <summary>
@@ -556,7 +537,6 @@ public static class StswLog
     /// <param name="ex">Exception to log</param>
     /// <param name="type">Optional type of the log entry. If not specified, defaults to <see cref="StswInfoType.Error"/>.</param>
     /// <param name="context">Optional context for the log entry, which can provide additional information about where the exception occurred.</param>
-    [StswInfo("0.18.0")]
     public static void WriteException(Exception ex, StswInfoType? type = StswInfoType.Error, string? context = null)
     {
         if (Config.IsLoggingDisabled)
@@ -598,7 +578,6 @@ public static class StswLog
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    [StswInfo("0.18.0")]
     private static async Task WriteInternal(StswInfoType? type, string text)
     {
         await _logSemaphore.WaitAsync();
@@ -637,7 +616,6 @@ public static class StswLog
     /// <param name="memberName"></param>
     /// <param name="filePath"></param>
     /// <param name="lineNumber"></param>
-    [StswInfo("0.18.0")]
     public static void WriteWithCaller(StswInfoType? type, string text, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         var fileName = Path.GetFileName(filePath);

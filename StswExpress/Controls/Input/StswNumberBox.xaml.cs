@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Windows;
@@ -13,7 +14,6 @@ namespace StswExpress;
 /// Supports custom formats, increment steps, and min/max value validation.
 /// </summary>
 [ContentProperty(nameof(Value))]
-[StswInfo("0.9.0")]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
     static StswNumberBoxBase()
@@ -116,7 +116,6 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.9.0", "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var isComputed = false;
@@ -134,10 +133,17 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             isPlainNumber = true;
             result = parsed;
         }
-        else if (StswMath.TryCompute(Text, out var computedValue))
+        else if (StswMath.TryCompute(Text, CultureInfo.CurrentCulture, out var computedValue))
         {
-            isComputed = true;
-            result = T.CreateChecked(computedValue);
+            try
+            {
+                result = T.CreateChecked(computedValue);
+                isComputed = true;
+            }
+            catch (OverflowException)
+            {
+                isInvalid = true;
+            }
         }
         else
         {
@@ -287,7 +293,6 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 /// &lt;se:StswDecimalBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.9.0")]
 public class StswDecimalBox : StswNumberBoxBase<decimal>
 {
     static StswDecimalBox()
@@ -305,7 +310,6 @@ public class StswDecimalBox : StswNumberBoxBase<decimal>
 /// &lt;se:StswDoubleBox Value="{Binding Price}" Format="C2" Increment="0.01" Minimum="0"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswDoubleBox : StswNumberBoxBase<double>
 {
     static StswDoubleBox()
@@ -323,7 +327,6 @@ public class StswDoubleBox : StswNumberBoxBase<double>
 /// &lt;se:StswIntegerBox Value="{Binding Quantity}" Increment="1" Minimum="0"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswIntegerBox : StswNumberBoxBase<int>
 {
     static StswIntegerBox()

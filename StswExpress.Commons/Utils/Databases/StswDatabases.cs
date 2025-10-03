@@ -5,7 +5,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Provides configuration settings for managing database connections, including methods for importing and exporting these connections with encryption.
 /// </summary>
-[StswInfo(null)]
 public static class StswDatabases
 {
     /// <summary>
@@ -44,7 +43,6 @@ public static class StswDatabases
     /// Imports and decrypts database connections from a file, returning a collection of <see cref="StswDatabaseModel"/> objects.
     /// </summary>
     /// <returns>An enumerable collection of <see cref="StswDatabaseModel"/> objects representing the imported connections.</returns>
-    [StswInfo(null, "0.20.0")]
     public static IEnumerable<StswDatabaseModel> ImportList()
     {
         if (!File.Exists(Config.FilePath))
@@ -73,7 +71,6 @@ public static class StswDatabases
     /// Asynchronously imports and decrypts database connections from a file, returning a collection of <see cref="StswDatabaseModel"/> objects.
     /// </summary>
     /// <returns>A task representing the asynchronous operation, with a result of an enumerable collection of <see cref="StswDatabaseModel"/> objects.</returns>
-    [StswInfo(null, "0.20.0")]
     public static async Task<IEnumerable<StswDatabaseModel>> ImportListAsync()
     {
         if (!File.Exists(Config.FilePath))

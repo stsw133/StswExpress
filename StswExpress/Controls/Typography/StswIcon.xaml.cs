@@ -21,7 +21,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Data))]
-[StswInfo(null)]
 public class StswIcon : Control
 {
     static StswIcon()
@@ -143,7 +142,6 @@ public class StswIcon : Control
     /// Gets or sets the stroke brush of the icon.
     /// This brush is used to paint the outline of the icon's geometry.
     /// </summary>
-    [StswInfo("0.1.0")]
     public Brush Stroke
     {
         get => (Brush)GetValue(StrokeProperty);
@@ -162,7 +160,6 @@ public class StswIcon : Control
     /// Gets or sets the thickness of the icon's stroke.
     /// Determines the width of the outline drawn around the icon.
     /// </summary>
-    [StswInfo("0.1.0")]
     public double StrokeThickness
     {
         get => (double)GetValue(StrokeThicknessProperty);

@@ -24,7 +24,6 @@ namespace StswExpress;
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.3.0", "0.20.0")]
 public class StswAsyncCommand<T>(Func<T, Task> execute, Func<bool>? canExecute = null) : StswAsyncCommandBase
 {
     private readonly Func<T, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -78,5 +77,4 @@ public class StswAsyncCommand<T>(Func<T, Task> execute, Func<bool>? canExecute =
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-[StswInfo("0.3.0", "0.20.0")]
 public class StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null) : StswAsyncCommand<object>(_ => execute(), canExecute);

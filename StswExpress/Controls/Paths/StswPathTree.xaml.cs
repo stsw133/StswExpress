@@ -23,7 +23,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedPath))]
-[StswInfo("0.13.0", PlannedChanges = StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
     public StswPathTree()
@@ -141,7 +141,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     /// <param name="path">The path to enumerate.</param>
     /// <returns>An array of accessible directory paths.</returns>
-    [StswInfo("0.20.1")]
     private static string[] GetDirectoriesSafe(string path)
     {
         try
@@ -163,7 +162,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     /// <param name="path">The path to enumerate.</param>
     /// <returns>An array of accessible file paths.</returns>
-    [StswInfo("0.20.1")]
     private static string[] GetFilesSafe(string path)
     {
         try
@@ -186,7 +184,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// </summary>
     /// <param name="parentItem">The parent folder item to load children for.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    [StswInfo("0.13.0", "0.20.1")]
     private async Task LoadFolderItemsAsync(StswPathTreeItem parentItem)
     {
         if (parentItem.Children.Count == 1 && parentItem.Children[0] == null)
@@ -221,7 +218,6 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     /// Reloads the initial path into the file tree, populating the root items based on the initial path or logical drives.
     /// This method is invoked when the initial path is set or when files/folders should be reloaded.
     /// </summary>
-    [StswInfo("0.13.0", "0.20.1")]
     private void ReloadInitialPath()
     {
         var rootItems = new ObservableCollection<StswPathTreeItem>();

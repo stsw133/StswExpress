@@ -21,7 +21,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="{Binding Accuracy, Mode=TwoWay, Converter={x:Static se:StswPercentageConverter.Instance}, ConverterParameter='0.000'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswPercentageConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

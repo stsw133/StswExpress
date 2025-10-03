@@ -28,7 +28,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="Limited access" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.6.1")]
 public class StswRadioConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

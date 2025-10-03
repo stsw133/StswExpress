@@ -26,7 +26,6 @@ namespace StswExpress;
 /// &lt;TextBlock Text="Acceptable" Visibility="{Binding SelectedItems, Converter={x:Static se:StswContainsConverter.Instance}, ConverterParameter='Item1,!Item5'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswContainsConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

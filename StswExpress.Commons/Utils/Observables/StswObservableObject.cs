@@ -19,7 +19,6 @@ namespace StswExpress.Commons;
 /// }
 /// </code>
 /// </example>
-[StswInfo(null)]
 public abstract class StswObservableObject : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;

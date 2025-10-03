@@ -22,7 +22,6 @@ namespace StswExpress;
 /// &lt;/Button&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0")]
 public class StswToolTip : ToolTip, IStswCornerControl
 {
     private UIElement? _parent;
@@ -46,7 +45,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.7.0")]
     private void OnParentMouseMove(object sender, MouseEventArgs e) => SetOffset();
 
     /// <summary>
@@ -55,14 +53,12 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.7.0")]
     private void OnTooltipOpened(object sender, RoutedEventArgs e) => SetOffset();
 
     /// <summary>
     /// Resets the tooltip's positioning behavior when movement is disabled.
     /// Restores default placement and offset values.
     /// </summary>
-    [StswInfo("0.7.0")]
     private void ResetMoveableState()
     {
         if (_parent != null)
@@ -81,7 +77,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// Sets the offset of the tooltip based on the current mouse position.
     /// Ensures the tooltip appears at the correct location when displayed.
     /// </summary>
-    [StswInfo("0.7.0")]
     private void SetOffset()
     {
         if (Window.GetWindow(this) is Window window)
@@ -96,7 +91,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// Updates the state of the tooltip movement based on the <see cref="IsMoveable"/> property.
     /// Enables dynamic positioning when movement is allowed.
     /// </summary>
-    [StswInfo("0.7.0")]
     private void UpdateMoveableState()
     {
         if (IsMoveable)
@@ -121,7 +115,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// <summary>
     /// Attached property that sets the tooltip text for a <see cref="FrameworkElement"/>.
     /// </summary>
-    [StswInfo("0.19.0")]
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.RegisterAttached(
             nameof(TextProperty)[..^8],
@@ -146,7 +139,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
     /// Gets or sets a value indicating whether the tooltip is moveable.
     /// When enabled, the tooltip dynamically follows the cursor's movement.
     /// </summary>
-    [StswInfo("0.7.0")]
     public bool IsMoveable
     {
         get => (bool)GetValue(IsMoveableProperty);

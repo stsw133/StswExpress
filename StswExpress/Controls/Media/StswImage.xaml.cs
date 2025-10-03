@@ -18,7 +18,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Source))]
-[StswInfo(null)]
 public class StswImage : Control, IStswCornerControl
 {
     static StswImage()
@@ -208,7 +207,6 @@ public class StswImage : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the stretch direction, specifying whether the image can scale up, down, or both.
     /// </summary>
-    [StswInfo("0.12.0")]
     public StretchDirection StretchDirection
     {
         get => (StretchDirection)GetValue(StretchDirectionProperty);

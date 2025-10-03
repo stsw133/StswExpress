@@ -19,7 +19,6 @@ namespace StswExpress;
 /// &lt;se:StswLabel Content="Download" IconData="{StaticResource DownloadIcon}" IsBusy="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswLabel : Label, IStswCornerControl, IStswIconControl
 {
     static StswLabel()
@@ -59,7 +58,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     /// <summary>
     /// Gets or sets the asynchronous command associated with the label.
     /// </summary>
-    [StswInfo("0.14.0")]
     public StswAsyncCommandBase Command
     {
         get => (StswAsyncCommandBase)GetValue(CommandProperty);
@@ -221,7 +219,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.1.0")]
     public Brush IconStroke
     {
         get => (Brush)GetValue(IconStrokeProperty);
@@ -237,7 +234,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.1.0")]
     public double IconStrokeThickness
     {
         get => (double)GetValue(IconStrokeThicknessProperty);
@@ -256,7 +252,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     /// Gets or sets the text trimming behavior for the label.
     /// Defines how the text is trimmed when it overflows the available space.
     /// </summary>
-    [StswInfo("0.16.0")]
     public TextTrimming TextTrimming
     {
         get => (TextTrimming)GetValue(TextTrimmingProperty);

@@ -8,7 +8,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Helper class for mapping <see cref="DataTable"/> rows to objects, including nested properties.
 /// </summary>
-[StswInfo("0.9.0")]
 internal static class StswMapping
 {
     /// <summary>
@@ -49,7 +48,6 @@ internal static class StswMapping
     /// <param name="PropPath">The path to the property in the object, represented as an array of strings.</param>
     /// <param name="FullPath">The full path to the property, including any nested properties, represented as a string.</param>
     /// <param name="PropInfo">The <see cref="PropertyInfo"/> of the property in the object.</param>
-    [StswInfo("0.19.0")]
     internal record PropColumnMapping(int ColumnIndex, string[] PropPath, string FullPath, PropertyInfo PropInfo);
 
     /// <summary>
@@ -60,8 +58,7 @@ internal static class StswMapping
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties, used for recursive calls.</param>
     /// <param name="visitedTypes">A set of visited types to avoid infinite recursion in case of circular references.</param>
-    /// <returns></returns>
-    [StswInfo("0.9.0", "0.19.0")]
+    /// <returns>A dictionary mapping property paths to their corresponding <see cref="PropertyInfo"/>.</returns>
     private static Dictionary<string, PropertyInfo> CacheProperties(Type type, HashSet<string> columnNames, char delimiter, string parentPath = "", HashSet<Type>? visitedTypes = null)
     {
         visitedTypes ??= [];
@@ -101,7 +98,7 @@ internal static class StswMapping
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties, used for recursive calls.</param>
     /// <param name="visitedTypes">A set of visited types to avoid infinite recursion in case of circular references.</param>
-    /// <returns></returns>
+    /// <returns><see langword="true""/> if the type has nested properties that match any of the column names; otherwise, <see langword="false"/>.</returns>
     private static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath, HashSet<Type>? visitedTypes = null)
     {
         if (!type.IsClass || type == typeof(string))
@@ -152,8 +149,7 @@ internal static class StswMapping
     /// <param name="dt">The <see cref="DataTable"/> containing the data to map.</param>
     /// <param name="propCache">A cache of property information for the object, used to optimize property access.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
-    /// <returns></returns>
-    [StswInfo("0.9.0", "0.19.0")]
+    /// <returns>A list of <see cref="PropColumnMapping"/> that define how to map the columns to the object's properties.</returns>
     private static List<PropColumnMapping> PrepareColumnMappings(string[] normalizedNames, DataTable dt, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
         var mappings = new List<PropColumnMapping>();
@@ -179,7 +175,6 @@ internal static class StswMapping
     /// <param name="value">The value to set for the property.</param>
     /// <param name="propCache">A cache of property information for the object, used to optimize property access.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the property path.</param>
-    [StswInfo("0.9.0", "0.19.0")]
     private static void SetNestedPropertyValue(object? obj, string[] propPath, int level, object? value, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
         if (obj == null)
@@ -216,7 +211,6 @@ internal static class StswMapping
     /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
     /// <param name="type"> The type of objects to map to.</param>
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-    [StswInfo("0.18.0")]
     internal static IEnumerable<object> MapToClass(DataTable dt, Type type)
     {
         var objProps = type.GetProperties();
@@ -262,7 +256,6 @@ internal static class StswMapping
     /// <param name="type"> The type of objects to map to.</param>
     /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
     /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-    [StswInfo("0.18.0", "0.19.0")]
     internal static IEnumerable<object> MapToNestedClass(DataTable dt, Type type, char delimiter)
     {
         var normalizedColumnNames = dt.Columns.Cast<DataColumn>()

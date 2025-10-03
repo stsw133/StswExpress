@@ -28,7 +28,6 @@ namespace StswExpress;
 /// &lt;/se:StswWindow&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswWindow : Window, IStswCornerControl
 {
     private double _defaultHeight, _defaultWidth;

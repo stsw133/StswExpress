@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswTimedSwitch Content="Activate" TimedContent="Activated" SwitchTime="00:00:05"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.5.0")]
 public class StswTimedSwitch : CheckBox
 {
     private readonly Timer timer = new() { AutoReset = false };

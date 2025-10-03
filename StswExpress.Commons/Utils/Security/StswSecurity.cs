@@ -23,7 +23,6 @@ namespace StswExpress.Commons;
 /// var token = StswSecurity.GenerateRandomToken(32);
 /// </code>
 /// </example>
-[StswInfo(null, "0.20.0")]
 public static class StswSecurity
 {
     private static byte[]? _manualKey;
@@ -46,7 +45,6 @@ public static class StswSecurity
     /// <summary>
     /// Returns the encryption key, derived from AppName or manually set.
     /// </summary>
-    [StswInfo("0.20.0")]
     private static byte[] AesKey
     {
         get
@@ -62,7 +60,6 @@ public static class StswSecurity
     /// <summary>
     /// Returns a static salt derived from the application name.
     /// </summary>
-    [StswInfo("0.20.0")]
     public static byte[] Salt
     {
         get
@@ -80,7 +77,6 @@ public static class StswSecurity
     /// </summary>
     /// <param name="salt">The salt to set, must be at least 16 bytes long.</param>
     /// <exception cref="ArgumentException">Thrown when the salt is less than 16 bytes.</exception>
-    [StswInfo("0.20.0")]
     public static void SetSalt(ReadOnlySpan<byte> salt)
     {
         if (salt.Length < 16)
@@ -95,7 +91,6 @@ public static class StswSecurity
     /// <param name="source">The data to hash.</param>
     /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>The hash of the data.</returns>
-    [StswInfo("0.14.0")]
     public static byte[] ComputeHash(byte[] source, Func<HashAlgorithm> algorithmFactory)
     {
         ArgumentNullException.ThrowIfNull(algorithmFactory);
@@ -118,7 +113,6 @@ public static class StswSecurity
     /// <param name="text">The text to hash.</param>
     /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>A byte array containing the hashed text.</returns>
-    [StswInfo("0.14.0")]
     public static byte[] GetHash(string text, Func<HashAlgorithm> algorithmFactory)
     {
         ArgumentNullException.ThrowIfNull(text);
@@ -138,7 +132,6 @@ public static class StswSecurity
     /// <param name="text">The text to hash.</param>
     /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>A string containing the hashed text.</returns>
-    [StswInfo("0.14.0", "0.20.0")]
     public static string GetHashString(string text, Func<HashAlgorithm> algorithmFactory) => Convert.ToHexString(GetHash(text, algorithmFactory));
 
     /// <summary>
@@ -146,7 +139,6 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">The text to hash.</param>
     /// <returns>A byte array containing the hashed text.</returns>
-    [StswInfo(null, "0.20.0")]
     public static string GetHashString(string text) => Convert.ToHexString(GetHash(text));
 
     /// <summary>
@@ -170,7 +162,6 @@ public static class StswSecurity
     /// <returns>A string containing the hashed password in the format "pbkdf2-sha256$iterations$salt$hash".</returns>
     /// <exception cref="ArgumentNullException">Thrown when the password is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the salt size is less than 16 bytes.</exception>
-    [StswInfo("0.20.0")]
     public static string HashPassword(string password, int iterations = 310_000, int saltSize = 16, int keySize = 32)
     {
         ArgumentNullException.ThrowIfNull(password);
@@ -190,7 +181,6 @@ public static class StswSecurity
     /// <param name="stored">The stored hash to verify against.</param>
     /// <returns><see langword="true"/> if the password matches the stored hash; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the password or stored hash is <see langword="null"/>.</exception>
-    [StswInfo("0.20.0")]
     public static bool VerifyPassword(string password, string stored)
     {
         ArgumentNullException.ThrowIfNull(password);
@@ -222,7 +212,6 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">The text to encrypt.</param>
     /// <returns>The encrypted text as a Base64 string.</returns>
-    [StswInfo(null, "0.20.0")]
     public static string Encrypt(string text)
     {
         using var aesAlg = Aes.Create();
@@ -248,7 +237,6 @@ public static class StswSecurity
     /// <param name="text">The text to decrypt.</param>
     /// <returns>The decrypted text.</returns>
     /// <exception cref="CryptographicException">Thrown if the ciphertext is too short or decryption fails.</exception>
-    [StswInfo(null, "0.20.0")]
     public static string Decrypt(string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -280,8 +268,7 @@ public static class StswSecurity
     /// </summary>
     /// <param name="plaintext">The plaintext to encrypt.</param>
     /// <returns>The encrypted text as a Base64 string in the format nonce|cipher|tag.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the plaintext is null.</exception>"
-    [StswInfo("0.20.0")]
+    /// <exception cref="ArgumentNullException">Thrown when the plaintext is null.</exception>
     public static string EncryptGcm(string plaintext)
     {
         ArgumentNullException.ThrowIfNull(plaintext);
@@ -311,7 +298,6 @@ public static class StswSecurity
     /// <param name="b64">The Base64-encoded string to decrypt, in the format nonce|cipher|tag.</param>
     /// <returns>The decrypted plaintext.</returns>
     /// <exception cref="CryptographicException">Thrown if the ciphertext is too short or decryption fails.</exception>
-    [StswInfo("0.20.0")]
     public static string DecryptGcm(string b64)
     {
         if (string.IsNullOrEmpty(b64))
@@ -341,7 +327,6 @@ public static class StswSecurity
     /// <param name="length">The length of the token to generate.</param>
     /// <returns>A randomly generated token.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the length is less than or equal to zero.</exception>
-    [StswInfo("0.9.0", "0.20.0")]
     public static string GenerateRandomToken(int length)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);
@@ -377,7 +362,6 @@ public static class StswSecurity
     /// <param name="requireDigit">Whether the password must contain digits.</param>
     /// <param name="requireSpecialChar">Whether the password must contain special characters.</param>
     /// <returns><see langword="true"/> if the password meets all criteria; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.9.0")]
     public static bool ValidatePasswordStrength(string password, int minLength = 8, bool requireUppercase = true, bool requireLowercase = true, bool requireDigit = true, bool requireSpecialChar = true)
     {
         if (string.IsNullOrEmpty(password) || password.Length < minLength)

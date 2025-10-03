@@ -26,7 +26,6 @@ namespace StswExpress;
 /// &lt;/se:StswInfoPanel&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
     private ScrollViewer? _scrollViewer;
@@ -54,7 +53,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.0")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -69,7 +67,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.9.0")]
     private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
     {
         var sb = new StringBuilder();
@@ -115,7 +112,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// Gets or sets a value indicating whether each information bar can be copied to the clipboard individually.
     /// When enabled, each item will have a copy button.
     /// </summary>
-    [StswInfo("0.13.0")]
     public bool IsCopyable
     {
         get => (bool)GetValue(IsCopyableProperty);
@@ -132,7 +128,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// Gets or sets a value indicating whether each information bar can be expanded for more details.
     /// When enabled, an expand button will be displayed for each item.
     /// </summary>
-    [StswInfo("0.13.0")]
     public bool IsExpandable
     {
         get => (bool)GetValue(IsExpandableProperty);
@@ -148,7 +143,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the information bars are currently expanded.
     /// </summary>
-    [StswInfo("0.13.0")]
     public bool IsExpanded
     {
         get => (bool)GetValue(IsExpandedProperty);
@@ -164,7 +158,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [StswInfo("0.20.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
@@ -180,7 +173,6 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the control panel (containing batch operations) is visible.
     /// </summary>
-    [StswInfo("0.9.0")]
     public bool ShowControlPanel
     {
         get => (bool)GetValue(ShowControlPanelProperty);

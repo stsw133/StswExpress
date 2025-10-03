@@ -6,7 +6,6 @@ namespace StswExpress;
 /// Attribute to mark methods as either sync or async commands.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-[StswInfo("0.19.0")]
 public class StswCommandAttribute(string? conditionMethodName = null, bool isReusable = false) : Attribute
 {
     public string? ConditionMethodName { get; set; } = conditionMethodName;

@@ -36,7 +36,6 @@ namespace StswExpress;
 /// &lt;TextBlock Foreground="{Binding MyText, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='G'}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0", "0.20.0")]
 public partial class StswColorConverter : MarkupExtension, IValueConverter
 {
     [GeneratedRegex(@"([A-Za-z])([^A-Za-z]*)")]

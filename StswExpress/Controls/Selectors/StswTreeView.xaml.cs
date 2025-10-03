@@ -21,7 +21,6 @@ namespace StswExpress;/// <summary>
 /// &lt;/se:StswTreeView&gt;
 /// </code>
 /// </example>
-[StswInfo("0.3.0")]
 public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 {
     static StswTreeView()
@@ -34,7 +33,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -50,7 +48,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
     {
         IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
@@ -58,7 +55,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -66,7 +62,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.10.0")]
     protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
     {
         base.OnSelectedItemChanged(e);
@@ -74,7 +69,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.14.0")]
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -92,7 +86,6 @@ public class StswTreeView : TreeView, IStswCornerControl, IStswSelectionControl
 
     #region Logic properties
     /// <inheritdoc/>
-    [StswInfo("0.15.0")]
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);

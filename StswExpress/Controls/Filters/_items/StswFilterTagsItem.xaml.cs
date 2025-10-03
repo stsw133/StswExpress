@@ -15,7 +15,6 @@ namespace StswExpress;
 /// &lt;/se:StswListBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.17.0")]
 public class StswFilterTagsItem : ContentControl, IStswCornerControl
 {
     static StswFilterTagsItem()

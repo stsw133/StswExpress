@@ -27,7 +27,6 @@ namespace StswExpress;
 /// &lt;/se:StswDragBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.15.0")]
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
     private object? _dragDropItem;
@@ -43,7 +42,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Events & methods
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.19.1")]
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -61,7 +59,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.20.0")]
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -89,7 +86,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.17.0")]
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
@@ -97,7 +93,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0", "0.20.0")]
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -283,7 +278,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// <summary>
     /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
     /// </summary>
-    [StswInfo("0.20.0")]
     public StswScrollToItemBehavior ScrollToItemBehavior
     {
         get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);

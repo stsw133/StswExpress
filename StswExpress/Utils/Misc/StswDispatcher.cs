@@ -9,14 +9,12 @@ namespace StswExpress;
 /// <summary>
 /// Provides methods to run actions on the UI thread.
 /// </summary>
-[StswInfo("0.17.0", "0.21.0")]
 public static class StswDispatcher
 {
     /// <summary>
     /// Run an action on the UI thread.
     /// </summary>
     /// <param name="action">The action to run.</param>
-    [StswInfo("0.17.0")]
     public static void Run(Action action)
     {
         ArgumentNullException.ThrowIfNull(action);
@@ -33,7 +31,6 @@ public static class StswDispatcher
     /// </summary>
     /// <param name="action">The action to run.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [StswInfo("0.17.0")]
     public static async Task RunAsync(Action action)
     {
         ArgumentNullException.ThrowIfNull(action);
@@ -51,7 +48,6 @@ public static class StswDispatcher
     /// <param name="action">The action to run.</param>
     /// <param name="ct">Cancellation token to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [StswInfo("0.21.0")]
     public static Task RunWhenUiIsReadyAsync(Action action, CancellationToken ct = default)
         => RunWhenUiIsReadyAsync(() => { action(); return Task.CompletedTask; }, ct);
 
@@ -61,7 +57,6 @@ public static class StswDispatcher
     /// <param name="actionAsync">The async action to run.</param>
     /// <param name="ct">Cancellation token to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [StswInfo("0.21.0")]
     public static async Task RunWhenUiIsReadyAsync(Func<Task> actionAsync, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(actionAsync);

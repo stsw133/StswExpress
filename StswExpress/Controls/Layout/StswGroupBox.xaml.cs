@@ -13,7 +13,6 @@ namespace StswExpress;
 /// &lt;/se:StswGroupBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.1.0")]
 public class StswGroupBox : GroupBox, IStswCornerControl
 {
     static StswGroupBox()

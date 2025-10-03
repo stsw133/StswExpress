@@ -41,13 +41,11 @@ namespace StswExpress;
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.9.2", "0.20.0")]
 public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute, Func<bool>? canExecute = null) : StswAsyncCommandBase
 {
     private readonly Func<T, CancellationToken, Task> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
     private readonly Func<bool>? _canExecute = canExecute;
 
-    [StswInfo("0.20.0")]
     protected CancellationTokenSource? CancellationTokenSource
     {
         get => _cancellationTokenSource;
@@ -55,7 +53,6 @@ public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute,
     }
     private CancellationTokenSource? _cancellationTokenSource;
 
-    [StswInfo("0.20.0")]
     protected Task? ExecutionTask
     {
         get => _executionTask;
@@ -68,14 +65,12 @@ public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute,
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null"/>.</param>
     /// <returns><see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.9.2", "0.20.0")]
     public override bool CanExecute(object? parameter = null) => IsBusy || (_canExecute?.Invoke() ?? true);
 
     /// <summary>
     /// Defines the method to be called when the command is invoked.
     /// </summary>
     /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null"/>.</param>
-    [StswInfo("0.9.2", "0.20.0")]
     public override async void Execute(object? parameter = null)
     {
         if (IsBusy && CancellationTokenSource is not null)
@@ -135,6 +130,5 @@ public class StswCancellableCommand<T>(Func<T, CancellationToken, Task> execute,
 /// </summary>
 /// <param name="execute">The asynchronous action to execute when the command is triggered.</param>
 /// <param name="canExecute">The function to determine whether the command can execute. Default is <see langword="null"/>.</param>
-[StswInfo("0.9.2", "0.20.0")]
 public class StswCancellableCommand(Func<CancellationToken, Task> execute, Func<bool>? canExecute = null)
     : StswCancellableCommand<object>((_, token) => execute(token), canExecute);

@@ -5,14 +5,12 @@ namespace StswExpress.Commons;
 /// Provides configuration settings for managing email configurations in the application.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-[StswInfo("0.10.0")]
 public class StswMailboxesConfig
 {
     /// <summary>
     /// Gets or sets the email addresses to use for all recipients when the application is in DEBUG mode.
     /// If this value is set, all outgoing emails will be sent to these addresses instead of the actual recipients.
     /// </summary>
-    [StswInfo("0.10.0", "0.20.0")]
     public string[]? DebugEmailRecipients { get; set; }
 
     /// <summary>

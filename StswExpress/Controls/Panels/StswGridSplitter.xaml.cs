@@ -23,7 +23,6 @@ namespace StswExpress;
 /// &lt;/Grid&gt;
 /// </code>
 /// </example>
-[StswInfo("0.16.0")]
 public class StswGridSplitter : GridSplitter
 {
     private Grid? _parentGrid;
@@ -46,7 +45,6 @@ public class StswGridSplitter : GridSplitter
     /// </summary>
     /// <param name="sender">The sender of the event, typically the splitter itself.</param>
     /// <param name="e">The event arguments containing the routed event data.</param>
-    [StswInfo("0.18.0")]
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         Dispatcher.BeginInvoke(() =>
@@ -58,7 +56,6 @@ public class StswGridSplitter : GridSplitter
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.18.0", "0.21.0")]
     protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
     {
         base.OnMouseDoubleClick(e);
@@ -84,7 +81,6 @@ public class StswGridSplitter : GridSplitter
     /// Handles the MouseMove event for the splitter. It resizes the adjacent column or row based on the mouse position.
     /// </summary>
     /// <returns>Returns <see langword="true"/> if the resizing was successful, otherwise <see langword="false"/>.</returns>
-    [StswInfo("0.18.0")]
     private bool DetermineIsVertical()
     {
         if (_parentGrid == null)
@@ -113,7 +109,6 @@ public class StswGridSplitter : GridSplitter
     /// <summary>
     /// Initializes the original length of the adjacent column or row based on the splitter's position in the grid.
     /// </summary>
-    [StswInfo("0.18.0", "0.21.0")]
     private void InitOriginalLength()
     {
         if (_parentGrid == null)
@@ -173,7 +168,6 @@ public class StswGridSplitter : GridSplitter
     /// Captures the original length of the specified column in the parent grid.
     /// </summary>
     /// <param name="index">The index of the column to capture.</param>
-    [StswInfo("0.21.0")]
     private void CaptureColumnLength(int index)
     {
         if (_parentGrid == null || index < 0 || index >= _parentGrid.ColumnDefinitions.Count)
@@ -186,7 +180,6 @@ public class StswGridSplitter : GridSplitter
     /// Captures the original length of the specified row in the parent grid.
     /// </summary>
     /// <param name="index">The index of the row to capture.</param>
-    [StswInfo("0.21.0")]
     private void CaptureRowLength(int index)
     {
         if (_parentGrid == null || index < 0 || index >= _parentGrid.RowDefinitions.Count)
@@ -199,7 +192,6 @@ public class StswGridSplitter : GridSplitter
     /// Determines the effective resize behavior based on the current settings and alignment.
     /// </summary>
     /// <returns>The effective <see cref="GridResizeBehavior"/>.</returns>
-    [StswInfo("0.21.0")]
     private GridResizeBehavior GetEffectiveResizeBehavior()
     {
         if (ResizeBehavior != GridResizeBehavior.BasedOnAlignment)

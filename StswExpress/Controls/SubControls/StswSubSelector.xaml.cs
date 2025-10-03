@@ -24,7 +24,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo("0.1.0")]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     bool IStswDropControl.SuppressNextOpen { get; set; }
@@ -239,7 +238,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <inheritdoc/>
-    [StswInfo("0.15.0")]
     public double MaxDropDownWidth
     {
         get => (double)GetValue(MaxDropDownWidthProperty);

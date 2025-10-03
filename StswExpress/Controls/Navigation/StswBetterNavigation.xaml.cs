@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswBetterNavigation : ItemsControl
 {
     static StswBetterNavigation()
@@ -32,7 +32,7 @@ public class StswBetterNavigation : ItemsControl
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswBetterNavigationGroup : ItemsControl, IStswBetterNavigationItem
 {
     public bool IsGroupElement => true;
@@ -53,7 +53,7 @@ public class StswBetterNavigationGroup : ItemsControl, IStswBetterNavigationItem
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswBetterNavigationElement : ContentControl ,IStswBetterNavigationItem
 {
     public bool IsGroupElement => false;
@@ -62,7 +62,7 @@ public class StswBetterNavigationElement : ContentControl ,IStswBetterNavigation
 /// <summary>
 /// 
 /// </summary>
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public interface IStswBetterNavigationItem
 {
     public bool IsGroupElement { get; }

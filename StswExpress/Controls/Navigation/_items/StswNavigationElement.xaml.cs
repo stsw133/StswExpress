@@ -22,7 +22,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswInfo(null, PlannedChanges = StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework)]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;

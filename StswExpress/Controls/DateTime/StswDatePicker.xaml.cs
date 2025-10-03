@@ -18,7 +18,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedDate))]
-[StswInfo(null)]
 public class StswDatePicker : StswBoxBase
 {
     static StswDatePicker()
@@ -106,7 +105,6 @@ public class StswDatePicker : StswBoxBase
     }
 
     /// <inheritdoc/>
-    [StswInfo(null, "0.21.0")]
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var isInvalid = false;
@@ -284,7 +282,6 @@ public class StswDatePicker : StswBoxBase
     /// Gets or sets the selection unit of the control.
     /// Determines whether the user selects an individual day or an entire month.
     /// </summary>
-    [StswInfo("0.12.0")]
     public StswCalendarUnit SelectionUnit
     {
         get => (StswCalendarUnit)GetValue(SelectionUnitProperty);

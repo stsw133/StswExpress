@@ -14,7 +14,6 @@ namespace StswExpress;
 /// &lt;se:StswDataGridCheckColumn Header="Active" Binding="{Binding IsActive}"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.13.0")]
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
     private static readonly Style StswDisplayElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))
@@ -93,7 +92,6 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <summary>
     /// Gets or sets the scale of the icon inside the checkbox.
     /// </summary>
-    [StswInfo("0.20.0")]
     public GridLength? IconScale
     {
         get => (GridLength?)GetValue(IconScaleProperty);
@@ -111,7 +109,6 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <summary>
     /// Gets or sets the geometry used for the icon when the checkbox is in the checked state.
     /// </summary>
-    [StswInfo("0.20.0")]
     public Geometry? IconChecked
     {
         get => (Geometry?)GetValue(IconCheckedProperty);
@@ -128,7 +125,6 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <summary>
     /// Gets or sets the geometry used for the icon when the checkbox is in the indeterminate state.
     /// </summary>
-    [StswInfo("0.20.0")]
     public Geometry? IconIndeterminate
     {
         get => (Geometry?)GetValue(IconIndeterminateProperty);
@@ -145,7 +141,6 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <summary>
     /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
     /// </summary>
-    [StswInfo("0.20.0")]
     public Geometry? IconUnchecked
     {
         get => (Geometry?)GetValue(IconUncheckedProperty);

@@ -17,7 +17,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Inlines))]
-[StswInfo("0.1.0")]
 public class StswText : TextBlock
 {
     static StswText()

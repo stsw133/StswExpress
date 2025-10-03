@@ -29,7 +29,6 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [MarkupExtensionReturnType(typeof(object))]
-[StswInfo("0.14.0", "0.21.0")]
 public class StswEventToCommandExtension : MarkupExtension
 {
     private readonly BindingBase _command;
@@ -53,7 +52,6 @@ public class StswEventToCommandExtension : MarkupExtension
     public StswEventToCommandExtension(ICommand command) => _command = new Binding { Source = command };
 
     /// <inheritdoc/>
-    [StswInfo("0.14.0", "0.21.0")]
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider?.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget pvt)
@@ -77,7 +75,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="eventHandlerType">The event handler type.</param>
     /// <param name="targetObject">The target dependency object.</param>
     /// <returns>A delegate to handle the event.</returns>
-    [StswInfo("0.14.0", "0.21.0")]
     private Delegate? CreateHandler(Type? eventHandlerType, DependencyObject? targetObject)
     {
         if (targetObject == null || eventHandlerType == null)
@@ -117,7 +114,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="methodInfo">The method info representing the event adder.</param>
     /// <param name="targetObject">The target dependency object.</param>
     /// <returns>A delegate to handle the event, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo("0.21.0")]
     private Delegate? CreateHandlerFromMethodInfo(MethodInfo methodInfo, DependencyObject targetObject)
     {
         if (methodInfo.IsSpecialName && methodInfo.Name.StartsWith("add_", StringComparison.Ordinal))
@@ -139,7 +135,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// </summary>
     /// <param name="targetObject">The dependency object where the event occurred.</param>
     /// <param name="e">The event arguments.</param>
-    [StswInfo("0.14.0", "0.21.0")]
     private void ExecuteCommand(DependencyObject targetObject, EventArgs e)
     {
         var cmd = EvaluateBinding<ICommand>(targetObject, _command);
@@ -158,7 +153,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="e">The event arguments.</param>
     /// <param name="cmd">The command to evaluate.</param>
     /// <returns>The preferred parameter type, or <see langword="null"/> if it cannot be determined.</returns>
-    [StswInfo("0.21.0")]
     private object? ResolveParameter(DependencyObject target, EventArgs e)
     {
         if (CommandParameter is BindingBase bb)
@@ -177,7 +171,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="target">The dependency object.</param>
     /// <param name="bindingBase">The binding to evaluate.</param>
     /// <returns>The resolved binding value.</returns>
-    [StswInfo("0.14.0", "0.21.0")]
     private static T? EvaluateBinding<T>(DependencyObject target, BindingBase bindingBase)
     {
         if (bindingBase == null)
@@ -198,7 +191,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="targetObj">The dependency object where the event occurs.</param>
     /// <param name="ext">The extension instance.</param>
     /// <returns>An event delegate for handling the event.</returns>
-    [StswInfo("0.14.0", "0.21.0")]
     private static object CreateDefaultHandlerViaExpression(Type delegateType, DependencyObject targetObj, StswEventToCommandExtension ext)
     {
         var invoke = delegateType.GetMethod("Invoke")!;
@@ -228,7 +220,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <summary>
     /// A temporary attached property used for evaluating bindings.
     /// </summary>
-    [StswInfo("0.21.0")]
     private static readonly DependencyProperty TempValueProperty
         = DependencyProperty.RegisterAttached(
             nameof(TempValueProperty)[..^8],

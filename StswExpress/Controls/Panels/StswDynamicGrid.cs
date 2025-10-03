@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;/se:StswGrid&gt;
 /// </code>
 /// </example>
-[StswInfo("0.17.0")]
 public class StswDynamicGrid : Panel
 {
     #region Events & methods

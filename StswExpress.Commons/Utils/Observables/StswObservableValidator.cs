@@ -31,7 +31,6 @@ namespace StswExpress.Commons;
 /// }
 /// </code>
 /// </example>
-[StswInfo("0.19.0", IsTested = false)]
 public abstract class StswObservableValidator : StswObservableObject, INotifyDataErrorInfo
 {
     private readonly Dictionary<string, List<string>> _errors = [];

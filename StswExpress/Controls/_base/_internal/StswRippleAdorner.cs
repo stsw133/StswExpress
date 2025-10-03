@@ -17,7 +17,6 @@ namespace StswExpress;
 /// It is clipped to the provided <see cref="Border"/> to ensure it does not exceed its bounds.
 /// The animation scales the ripple from 0 to full size while gradually reducing its opacity.
 /// </remarks>
-[StswInfo("0.10.0")]
 internal class StswRippleAdorner : Adorner
 {
     private readonly Border _border;

@@ -29,7 +29,6 @@ namespace StswExpress;
 /// &lt;/ComboBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.8.0")]
 public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
 {
     /// <summary>

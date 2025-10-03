@@ -20,7 +20,6 @@ namespace StswExpress;
 /// &lt;se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/&gt;
 /// </code>
 /// </example>
-[StswInfo("0.4.0")]
 public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()
@@ -76,7 +75,6 @@ public class StswProgressRing : ProgressBar
     /// Gets or sets the scale of the progress ring.
     /// Determines the size of the ring in proportion to its default dimensions.
     /// </summary>
-    [StswInfo("0.14.0")]
     public GridLength Scale
     {
         get => (GridLength)GetValue(ScaleProperty);

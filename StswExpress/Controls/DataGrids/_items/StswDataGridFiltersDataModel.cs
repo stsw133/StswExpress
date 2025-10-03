@@ -8,7 +8,6 @@ namespace StswExpress;
 /// <summary>
 /// Data model for <see cref="StswDataGrid"/>'s filters.
 /// </summary>
-[StswInfo(null)]
 public class StswDataGridFiltersDataModel
 {
     /// <summary>

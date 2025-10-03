@@ -10,7 +10,6 @@ namespace StswExpress;
 /// Represents a secondary busy animation with dynamic movement.
 /// Used as part of the <see cref="StswSpinner"/> control.
 /// </summary>
-[StswInfo("0.15.0")]
 internal class StswSpinnerHelixAnimation : Control
 {
     private readonly Ellipse?[] _ellipses = new Ellipse[15];
@@ -117,7 +116,6 @@ internal class StswSpinnerHelixAnimation : Control
     /// <summary>
     /// Ends the animation sequence when the control is deactivated.
     /// </summary>
-    [StswInfo("0.15.0", "0.19.0")]
     private void EndAnimation()
     {
         var sb = new Storyboard();
@@ -169,7 +167,6 @@ internal class StswSpinnerHelixAnimation : Control
     /// </summary>
     /// <param name="ellipse">The ellipse to animate.</param>
     /// <param name="sb">The storyboard managing the animation.</param>
-    [StswInfo("0.15.0", "0.19.0")]
     private static void AddEllipseSlideInAnimation(Ellipse ellipse, Storyboard sb)
     {
         var ellipseLeftAnim = new DoubleAnimation(

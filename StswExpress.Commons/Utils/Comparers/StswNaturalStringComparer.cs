@@ -16,7 +16,6 @@ namespace StswExpress.Commons;
 /// items.Sort(new StswNaturalStringComparer());
 /// </code>
 /// </example>
-[StswInfo("0.10.0", "0.21.0")]
 public partial class StswNaturalStringComparer : IComparer<string>
 {
     [GeneratedRegex(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
@@ -30,7 +29,6 @@ public partial class StswNaturalStringComparer : IComparer<string>
     /// <param name="x">The first string to compare.</param>
     /// <param name="y">The second string to compare.</param>
     /// <returns>A signed integer that indicates the relative order of the strings.</returns>
-    [StswInfo("0.10.0", "0.21.0")]
     public int Compare(string? x, string? y)
     {
         if (x == null || y == null)
@@ -68,7 +66,6 @@ public partial class StswNaturalStringComparer : IComparer<string>
     /// </summary>
     /// <param name="s">The string to check.</param>
     /// <returns><see langword="true"/> if the string contains only digits; otherwise, <see langword="false"/>.</returns>
-    [StswInfo("0.21.0")]
     private static bool IsAllDigits(string s)
     {
         for (var i = 0; i < s.Length; i++)
@@ -85,7 +82,6 @@ public partial class StswNaturalStringComparer : IComparer<string>
     /// <param name="a">The first numeric string to compare.</param>
     /// <param name="b">The second numeric string to compare.</param>
     /// <returns>A signed integer that indicates the relative order of the numeric strings.</returns>
-    [StswInfo("0.21.0")]
     private static int CompareNumericStrings(string a, string b)
     {
         var ia = 0; while (ia < a.Length && a[ia] == '0') ia++;

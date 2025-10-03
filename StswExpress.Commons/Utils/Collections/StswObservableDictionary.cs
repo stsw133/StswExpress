@@ -9,7 +9,6 @@ namespace StswExpress.Commons;
 /// </summary>
 /// <typeparam name="TKey">Type of dictionary keys.</typeparam>
 /// <typeparam name="TValue">Type of dictionary values.</typeparam>
-[StswInfo("0.16.0")]
 public class StswObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged where TKey : notnull
 {
     private readonly Dictionary<TKey, TValue> _dictionary = [];

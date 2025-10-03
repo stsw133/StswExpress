@@ -6,7 +6,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Utility class for generating random instances of a specified type.
 /// </summary>
-[StswInfo("0.16.0")]
 public static class StswRandomGenerator
 {
     private static readonly Random _random = new();
@@ -20,8 +19,7 @@ public static class StswRandomGenerator
     public static IEnumerable<T> CreateRandomItems<T>(int count)
     {
         var visited = new HashSet<Type>();
-
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
             yield return (T)GenerateRandom(typeof(T), visited)!;
     }
 

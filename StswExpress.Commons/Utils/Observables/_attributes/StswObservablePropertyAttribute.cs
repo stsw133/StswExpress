@@ -4,7 +4,7 @@
 /// Attribute to mark a field as an observable property.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.LogicChanges)]
+[StswPlannedChanges(StswPlannedChanges.LogicChanges)]
 public class StswObservablePropertyAttribute : Attribute
 {
     public string[]? NotifyProperties { get; set; }

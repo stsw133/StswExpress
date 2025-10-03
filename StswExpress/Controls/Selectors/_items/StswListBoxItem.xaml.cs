@@ -16,7 +16,6 @@ namespace StswExpress;
 /// &lt;/se:StswListBox&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswListBoxItem : ListBoxItem, IStswCornerControl
 {
     static StswListBoxItem()

@@ -15,7 +15,6 @@ namespace StswExpress;/// <summary>
 /// &lt;/se:StswSegment&gt;
 /// </code>
 /// </example>
-[StswInfo("0.14.0")]
 public class StswSegmentItem : ListBoxItem, IStswCornerControl
 {
     static StswSegmentItem()

@@ -15,7 +15,6 @@ namespace StswExpress;
 /// &lt;se:StswToggleButton Content="Enable Feature" IsChecked="True"/&gt;
 /// </code>
 /// </example>
-[StswInfo(null)]
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
     private Border? _mainBorder;
@@ -34,7 +33,6 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -42,7 +40,6 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    [StswInfo("0.12.0")]
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);

@@ -18,7 +18,7 @@ namespace StswExpress;
 /// </example>
 [Browsable(false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
-[StswInfo("0.19.0", PlannedChanges = StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswNavigationTree : TreeView, IStswCornerControl
 {
     static StswNavigationTree()

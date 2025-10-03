@@ -17,7 +17,7 @@ namespace StswExpress;
 /// &lt;/se:StswZoomControl&gt;
 /// </code>
 /// </example>
-[StswInfo("0.2.0", PlannedChanges = StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswZoomControl : Border
 {
     private UIElement? _child;
@@ -204,7 +204,6 @@ public class StswZoomControl : Border
     /// Gets or sets the maximum zoom scale.
     /// This prevents the content from being scaled above the specified value.
     /// </summary>
-    [StswInfo("0.16.1")]
     public double? MaxScale
     {
         get => (double?)GetValue(MaxScaleProperty);
@@ -236,7 +235,6 @@ public class StswZoomControl : Border
     /// <summary>
     /// Gets or sets the zoom step factor.
     /// </summary>
-    [StswInfo("0.16.1")]
     public double ZoomStep
     {
         get => (double)GetValue(ZoomStepProperty);
