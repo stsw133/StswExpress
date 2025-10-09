@@ -28,6 +28,9 @@
             <!-- SelectionEnd -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionEnd, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionEnd}"/>
+            <!-- SliderMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SliderMode, Type={x:Type se:StswSlider}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswSliderMode}" Margin="0 0 0 3" SelectedValue="{Binding SliderMode}"/>
             <!-- TickFrequency -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TickFrequency, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding TickFrequency}"/>
@@ -41,6 +44,7 @@
                        Orientation="{Binding Orientation}"
                        SelectionEnd="{Binding SelectionEnd}"
                        SelectionStart="{Binding SelectionStart}"
+                       SliderMode="{Binding SliderMode}"
                        TickFrequency="{Binding TickFrequency}"
                        TickPlacement="Both"
                        Value="{Binding SelectedValue}"

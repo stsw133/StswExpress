@@ -50,6 +50,11 @@
 
 **Release Date**: 2025-10-XX
 
+## StswExpress.Analyzers
+
+### Changes
+- Updated `StswObservablePropertyGenerator` to improve attribute handling and rendering.
+
 ## StswExpress.Commons
 
 ### Additions
@@ -65,6 +70,7 @@
 - `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
 
 ### Changes
+- Refactored `StswTaskManager` to remove generic type and streamline task management.
 - Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, `IsUiThreadAvailable`, `Try(Task)`, `Try(Task<T>)`.
 - `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
 - `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
@@ -84,6 +90,8 @@
 
 ### Additions
 - Added `AreButtonsVisible` property for Stsw box controls to toggle button visibility.
+- Added `DynamicMode` to `StswDirectionView` for dynamic visibility adjustments.
+- Introduced `SliderMode` in `StswSlider` for single and range selection.
 - `StswContentDialog` introduces `CloseOnBackdropClick` property for optional backdrop click close.
 - `StswGrid` provides two new attached properties to simplify row and column definition declarations.
 - `StswNavigation` and `StswNavigationView` gained DI support by exposing a `Command` property when changing frame content.
@@ -91,6 +99,7 @@
 - `StswTabControl` introduces `CanReorder` property for item reordering via drag and drop.
 
 ### Changes
+- Replaced `StswScrollDynamicMode` enum with `StswDynamicVisibilityMode` and added `Collapsed` option.
 - Stsw box controls (`StswColorBox`, `StswDatePicker`, `StswNumberBox`, etc.) improved main property update logic, fixing issues with repeated string calculations in `StswNumberBox`.
 - `StswEventToCommand` optimized and refactored:
   - `CommandParameter` replaces `CommandParameterBinding`.

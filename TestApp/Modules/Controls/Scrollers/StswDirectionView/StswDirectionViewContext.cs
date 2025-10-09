@@ -7,9 +7,11 @@ public partial class StswDirectionViewContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-        
+
+        DynamicMode = (StswDynamicVisibilityMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(DynamicMode)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
+    [StswObservableProperty] StswDynamicVisibilityMode _dynamicMode;
     [StswObservableProperty] Orientation _orientation;
 }

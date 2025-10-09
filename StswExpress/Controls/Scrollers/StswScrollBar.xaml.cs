@@ -53,7 +53,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-        if (DynamicMode != StswScrollDynamicMode.Off)
+        if (!DynamicMode.In(StswDynamicVisibilityMode.Collapsed, StswDynamicVisibilityMode.Off))
             MouseEnterAnimation();
     }
 
@@ -61,7 +61,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        if (DynamicMode != StswScrollDynamicMode.Off)
+        if (!DynamicMode.In(StswDynamicVisibilityMode.Collapsed, StswDynamicVisibilityMode.Off))
             MouseLeaveAnimation();
     }
 
@@ -69,7 +69,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);
-        if (DynamicMode == StswScrollDynamicMode.Full)
+        if (DynamicMode == StswDynamicVisibilityMode.Full)
             ValueChangedAnimation();
     }
     #endregion
@@ -77,19 +77,19 @@ public class StswScrollBar : ScrollBar
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
-    /// When set to true, the scroll bar will dynamically change its visibility and width based on user interaction.
+    /// When set to <see langword="true"/>, the scroll bar will dynamically change its visibility and width based on user interaction.
     /// </summary>
-    public StswScrollDynamicMode DynamicMode
+    public StswDynamicVisibilityMode DynamicMode
     {
-        get => (StswScrollDynamicMode)GetValue(DynamicModeProperty);
+        get => (StswDynamicVisibilityMode)GetValue(DynamicModeProperty);
         set => SetValue(DynamicModeProperty, value);
     }
     public static readonly DependencyProperty DynamicModeProperty
         = DependencyProperty.Register(
             nameof(DynamicMode),
-            typeof(StswScrollDynamicMode),
+            typeof(StswDynamicVisibilityMode),
             typeof(StswScrollBar),
-            new PropertyMetadata(default(StswScrollDynamicMode), OnDynamicModeChanged)
+            new PropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
         );
     public static void OnDynamicModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -98,22 +98,40 @@ public class StswScrollBar : ScrollBar
 
         stsw.StopAllAnimations();
 
-        if (stsw.DynamicMode == StswScrollDynamicMode.Off)
+        switch (stsw.DynamicMode)
         {
-            stsw.SetSize(stsw.ExpandedSize);
-            stsw.Opacity = 1;
-            stsw._border?.SetCurrentValue(OpacityProperty, 1d);
-            stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 1d);
-            stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 1d);
-        }
-        else
-        {
-            stsw.SetSize(stsw.CollapsedSize);
-            stsw.Opacity = stsw.DynamicMode == StswScrollDynamicMode.Full ? 0 : 1;
-            var showDecor = stsw.DynamicMode == StswScrollDynamicMode.Off;
-            stsw._border?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
-            stsw._arrowButton1?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
-            stsw._arrowButton2?.SetCurrentValue(OpacityProperty, showDecor ? 1d : 0d);
+            case StswDynamicVisibilityMode.Collapsed:
+                stsw.SetSize(0);
+                stsw.SetOpacity(stsw, 0);
+                stsw.IsHitTestVisible = false;
+                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
+                break;
+            case StswDynamicVisibilityMode.Off:
+                stsw.SetSize(stsw.ExpandedSize);
+                stsw.SetOpacity(stsw, 1);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 1d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 1d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 1d);
+                break;
+            case StswDynamicVisibilityMode.Partial:
+                stsw.SetSize(stsw.CollapsedSize);
+                stsw.SetOpacity(stsw, 1);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
+                break;
+            case StswDynamicVisibilityMode.Full:
+                stsw.SetSize(stsw.CollapsedSize);
+                stsw.SetOpacity(stsw, 0);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
+                break;
         }
     }
     #endregion
@@ -160,9 +178,9 @@ public class StswScrollBar : ScrollBar
     /// </summary>
     private void AnimateOpacityWithDelayedFadeOut()
     {
-        if (!StswSettings.Default.EnableAnimations || DynamicMode != StswScrollDynamicMode.Full)
+        if (!StswSettings.Default.EnableAnimations || DynamicMode != StswDynamicVisibilityMode.Full)
         {
-            SetOpacity(this, DynamicMode == StswScrollDynamicMode.Full ? 0 : 1);
+            SetOpacity(this, DynamicMode == StswDynamicVisibilityMode.Full ? 0 : 1);
             return;
         }
 

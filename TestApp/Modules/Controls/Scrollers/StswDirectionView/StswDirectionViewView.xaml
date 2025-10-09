@@ -13,12 +13,16 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- DynamicMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf DynamicMode, Type={x:Type se:StswDirectionView}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDynamicVisibilityMode}" Margin="0 0 0 3" SelectedValue="{Binding DynamicMode}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswDirectionView}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswDirectionView IsEnabled="{Binding IsEnabled}"
+        <se:StswDirectionView DynamicMode="{Binding DynamicMode}"
+                              IsEnabled="{Binding IsEnabled}"
                               Orientation="{Binding Orientation}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               VerticalAlignment="{Binding VerticalAlignment}">

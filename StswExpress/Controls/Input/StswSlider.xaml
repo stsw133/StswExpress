@@ -10,6 +10,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="1"/>
 
+        <Setter Property="SliderMode" Value="Value"/>
         <Setter Property="ThumbBorderThickness" Value="1"/>
         <Setter Property="ThumbIcon" Value="{DynamicResource StswSlider.Thumb.Icon}"/>
         <Setter Property="ThumbSize" Value="15"/>
@@ -67,6 +68,25 @@
                                         </Style>
                                     </Rectangle.Style>
                                 </Rectangle>
+                                <!-- range thumbs -->
+                                <Thumb x:Name="PART_StartThumb"
+                                       Cursor="Hand"
+                                       Focusable="False"
+                                       OverridesDefaultStyle="True"
+                                       Panel.ZIndex="1"
+                                       Template="{DynamicResource StswSliderThumbTemplate}"
+                                       Height="{TemplateBinding ThumbSize}"
+                                       Width="{TemplateBinding ThumbSize}"
+                                       Visibility="Collapsed"/>
+                                <Thumb x:Name="PART_EndThumb"
+                                       Cursor="Hand"
+                                       Focusable="False"
+                                       OverridesDefaultStyle="True"
+                                       Panel.ZIndex="1"
+                                       Template="{DynamicResource StswSliderThumbTemplate}"
+                                       Height="{TemplateBinding ThumbSize}"
+                                       Width="{TemplateBinding ThumbSize}"
+                                       Visibility="Collapsed"/>
                             </Canvas>
                         </Border>
                         <!-- track -->
@@ -82,9 +102,9 @@
                                        Cursor="Hand"
                                        Focusable="False"
                                        OverridesDefaultStyle="True"
+                                       Template="{DynamicResource StswSliderThumbTemplate}"
                                        Height="{TemplateBinding ThumbSize}"
-                                       Width="{TemplateBinding ThumbSize}"
-                                       Template="{DynamicResource StswSliderThumbTemplate}"/>
+                                       Width="{TemplateBinding ThumbSize}"/>
                             </Track.Thumb>
                         </Track>
                     </Grid>
@@ -185,6 +205,11 @@
                         <Trigger Property="TickPlacement" Value="Both">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_BottomTick"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_TopTick"/>
+                        </Trigger>
+                        <Trigger Property="SliderMode" Value="Range">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Thumb"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_StartThumb"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_EndThumb"/>
                         </Trigger>
                         <Trigger Property="IsSelectionRangeEnabled" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange"/>

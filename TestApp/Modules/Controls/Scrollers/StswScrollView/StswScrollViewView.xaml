@@ -15,7 +15,7 @@
         <local:ControlsBase.Properties>
             <!-- DynamicMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf DynamicMode, Type={x:Type se:StswScrollView}}"/>
-            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollDynamicMode}" Margin="0 0 0 3" SelectedValue="{Binding DynamicMode}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDynamicVisibilityMode}" Margin="0 0 0 3" SelectedValue="{Binding DynamicMode}"/>
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswScrollView}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>

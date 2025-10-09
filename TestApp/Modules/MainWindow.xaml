@@ -130,6 +130,7 @@
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="{x:Type local:StswProgressBarContext}"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="{x:Type local:StswProgressRingContext}"/>
                 <se:StswNavigationElement Header="StswStatusBar" ContextNamespace="{x:Type local:StswStatusBarContext}"/>
+                <se:StswNavigationElement Header="StswStepBar" ContextNamespace="{x:Type local:StswStepBarContext}"/>
                 <se:StswNavigationElement Header="StswToaster" ContextNamespace="{x:Type local:StswToasterContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Sub-controls" IconData="{x:Static se:StswIcons.WidgetsOutline}">
@@ -152,7 +153,6 @@
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="{x:Type local:StswLabelContext}"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="{x:Type local:StswOutlinedTextContext}"/>
                 <se:StswNavigationElement Header="StswSpinner" ContextNamespace="{x:Type local:StswSpinnerContext}"/>
-                <se:StswNavigationElement Header="StswStepBar" ContextNamespace="{x:Type local:StswStepBarContext}"/>
                 <se:StswNavigationElement Header="StswText" ContextNamespace="{x:Type local:StswTextContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Windowing" IconData="{x:Static se:StswIcons.WindowRestore}">

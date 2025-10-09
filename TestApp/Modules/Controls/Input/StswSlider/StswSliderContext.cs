@@ -14,6 +14,7 @@ public partial class StswSliderContext : ControlsContext
         SelectedValue = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectedValue)))?.Value ?? default;
         //SelectionEnd = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionEnd)))?.Value ?? default;
         //SelectionStart = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionStart)))?.Value ?? default;
+        SliderMode = (StswSliderMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SliderMode)))?.Value ?? default;
         //TickFrequency = (double?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TickFrequency)))?.Value ?? default;
     }
 
@@ -23,5 +24,6 @@ public partial class StswSliderContext : ControlsContext
     [StswObservableProperty] double? _selectedValue;
     [StswObservableProperty] double? _selectionEnd = 40;
     [StswObservableProperty] double? _selectionStart = 20;
+    [StswObservableProperty] StswSliderMode _sliderMode;
     [StswObservableProperty] double _tickFrequency = 5;
 }

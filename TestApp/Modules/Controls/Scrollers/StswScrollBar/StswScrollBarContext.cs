@@ -8,10 +8,10 @@ public partial class StswScrollBarContext : ControlsContext
     {
         base.SetDefaults();
 
-        DynamicMode = (StswScrollDynamicMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(DynamicMode)))?.Value ?? default;
+        DynamicMode = (StswDynamicVisibilityMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(DynamicMode)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
-    [StswObservableProperty] StswScrollDynamicMode _dynamicMode;
+    [StswObservableProperty] StswDynamicVisibilityMode _dynamicMode;
     [StswObservableProperty] Orientation _orientation;
 }

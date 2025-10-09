@@ -96,6 +96,17 @@ public enum StswDialogImage
 }
 
 /// <summary>
+/// Enumerator for <see cref="StswScrollBar.DynamicMode"/>.
+/// </summary>
+public enum StswDynamicVisibilityMode
+{
+    Collapsed = -1,
+    Off,
+    Partial,
+    Full
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswFilterBox.FilterMode"/>.
 /// </summary>
 public enum StswFilterMode
@@ -184,16 +195,6 @@ public enum StswProgressTextMode
 }
 
 /// <summary>
-/// Enumerator for <see cref="StswScrollBar.DynamicMode"/>.
-/// </summary>
-public enum StswScrollDynamicMode
-{
-    Off,
-    Partial,
-    Full
-}
-
-/// <summary>
 /// Enumerator for <see cref="StswDataGrid.ScrollToItemBehavior"/>.
 /// </summary>
 public enum StswScrollToItemBehavior
@@ -210,6 +211,15 @@ public enum StswScrollType
 {
     DirectionView,
     ScrollView
+}
+
+/// <summary>
+/// Enumerator for <see cref="StswSlider.SliderMode"/>.
+/// </summary>
+public enum StswSliderMode
+{
+    Value,
+    Range
 }
 
 /// <summary>

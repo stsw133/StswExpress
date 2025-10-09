@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type se:StswDirectionView}">
         <Setter Property="BBtnThickness" Value="2"/>
         <Setter Property="FBtnThickness" Value="2"/>
+        <Setter Property="DynamicMode" Value="Off"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -68,6 +69,24 @@
                     </Grid>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="DynamicMode" Value="Collapsed">
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                        </Trigger>
+                        <Trigger Property="DynamicMode" Value="Partial">
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                        </Trigger>
+                        <Trigger Property="DynamicMode" Value="Full">
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.ColumnSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ScrollContentPresenter"/>
+                            <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_ScrollContentPresenter"/>
+                        </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
                             <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>

@@ -3,37 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress">
-    
-    <Grid VerticalAlignment="Center">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswStepBarContext}">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> 
-            <RowDefinition Height="Auto"/> 
-        </Grid.RowDefinitions>
-
-        <StackPanel HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-            <se:StswSubButton IconData="{x:Static se:StswIcons.ArrowLeftBold}"
-                              Command="{Binding PreviousStepCommand}" />
-            <se:StswTextBox Text="{Binding StepNumber}"
-                            IsReadOnly="True"/>
-            <se:StswSubButton IconData="{x:Static se:StswIcons.ArrowRightBold}"
-                              Command="{Binding NextStepCommand}" />
-        </StackPanel>
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            Represents a control that displays a sequence of steps to indicate progress through a process.
+        </local:ControlsBase.Description>
+        <!-- properties
+        <local:ControlsBase.Properties>
         
-        <se:StswStepBar Grid.Row="1"
-                        StepNumber="{Binding StepNumber}">
+        </local:ControlsBase.Properties> -->
+        <!-- content -->
+        <se:StswStepBar IsEnabled="{Binding IsEnabled}"
+                        StepNumber="{Binding StepNumber}"
+                        HorizontalAlignment="{Binding HorizontalAlignment}"
+                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                        VerticalAlignment="{Binding VerticalAlignment}"
+                        VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswStepBar.Steps>
-                <se:StswStepBarItem />
-                <se:StswStepBarItem />
-                <se:StswStepBarItem />
-                <se:StswStepBarItem />
-                <se:StswStepBarItem />
-                <se:StswStepBarItem />
+                <se:StswStepBarItem/>
+                <se:StswStepBarItem/>
+                <se:StswStepBarItem/>
+                <se:StswStepBarItem/>
+                <se:StswStepBarItem/>
+                <se:StswStepBarItem/>
             </se:StswStepBar.Steps>
         </se:StswStepBar>
-        
-    </Grid>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <se:StswSubButton Command="{Binding PreviousStepCommand}" IconData="{x:Static se:StswIcons.ArrowLeftBold}"/>
+                <se:StswTextBox IsReadOnly="True" Text="{Binding StepNumber}"/>
+                <se:StswSubButton Command="{Binding NextStepCommand}" IconData="{x:Static se:StswIcons.ArrowRightBold}"/>
+            </StackPanel>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
 </UserControl>
