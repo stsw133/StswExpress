@@ -62,37 +62,26 @@
                                          HorizontalAlignment="Center"
                                          Margin="{TemplateBinding Padding}"
                                          Rows="1">
-                                <se:StswButton x:Name="OPT_ButtonOK"
+                                <se:StswButton x:Name="OPT_Button1"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               CommandParameter="True"
                                                Margin="{TemplateBinding Padding}"
                                                MinWidth="100"
                                                Visibility="Collapsed">
-                                    <se:StswLabel Content="{se:StswTranslate StswMessageDialog.OK}"/>
+                                    <se:StswLabel x:Name="OPT_Button1Label"/>
                                 </se:StswButton>
-                                <se:StswButton x:Name="OPT_ButtonYes"
+                                <se:StswButton x:Name="OPT_Button2"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               CommandParameter="True"
                                                Margin="{TemplateBinding Padding}"
                                                MinWidth="100"
                                                Visibility="Collapsed">
-                                    <se:StswLabel Content="{se:StswTranslate StswMessageDialog.Yes}" IconData="{x:Static se:StswIcons.Check}" IconFill="{DynamicResource StswColor.Positive}"/>
+                                    <se:StswLabel x:Name="OPT_Button2Label"/>
                                 </se:StswButton>
-                                <se:StswButton x:Name="OPT_ButtonNo"
+                                <se:StswButton x:Name="OPT_Button3"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               CommandParameter="False"
                                                Margin="{TemplateBinding Padding}"
                                                MinWidth="100"
                                                Visibility="Collapsed">
-                                    <se:StswLabel Content="{se:StswTranslate StswMessageDialog.No}" IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
-                                </se:StswButton>
-                                <se:StswButton x:Name="OPT_ButtonCancel"
-                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               CommandParameter="{x:Null}"
-                                               Margin="{TemplateBinding Padding}"
-                                               MinWidth="100"
-                                               Visibility="Collapsed">
-                                    <se:StswLabel Content="{se:StswTranslate StswMessageDialog.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
+                                    <se:StswLabel x:Name="OPT_Button3Label"/>
                                 </se:StswButton>
                             </UniformGrid>
                             <!-- separator -->
@@ -171,20 +160,94 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_DetailsText"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="OK">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonOK"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button1"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.OK}" TargetName="OPT_Button1Label"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="OKCancel">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonOK"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonCancel"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button3"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Null}" TargetName="OPT_Button3"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.OK}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button3Label"/>
                         </Trigger>
-                        <Trigger Property="Buttons" Value="YesNo">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonYes"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonNo"/>
+                        <Trigger Property="Buttons" Value="AbortRetryIgnore">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button2"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button3"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.False}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button2"/>
+                            <Setter Property="CommandParameter" Value="{x:Null}" TargetName="OPT_Button3"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Abort}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Retry}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Ignore}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Autorenew}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Neutral}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button3Label"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="YesNoCancel">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonYes"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonNo"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_ButtonCancel"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button2"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button3"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.False}" TargetName="OPT_Button2"/>
+                            <Setter Property="CommandParameter" Value="{x:Null}" TargetName="OPT_Button3"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Yes}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.No}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Check}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Close}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Positive}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button3Label"/>
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="YesNo">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button2"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.False}" TargetName="OPT_Button2"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Yes}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.No}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Check}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Close}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Positive}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button2Label"/>
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="RetryCancel">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button3"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Null}" TargetName="OPT_Button3"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Retry}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Autorenew}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Neutral}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button3Label"/>
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="CancelTryContinue">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button1"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button2"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Button3"/>
+                            <Setter Property="CommandParameter" Value="{x:Null}" TargetName="OPT_Button1"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.True}" TargetName="OPT_Button2"/>
+                            <Setter Property="CommandParameter" Value="{x:Static se:StswFnUI.False}" TargetName="OPT_Button3"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Cancel}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Try}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="Content" Value="{se:StswTranslate StswMessageDialog.Continue}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Autorenew}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ArrowRightThin}" TargetName="OPT_Button3Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="OPT_Button1Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Neutral}" TargetName="OPT_Button2Label"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Neutral}" TargetName="OPT_Button3Label"/>
                         </Trigger>
                         <Trigger Property="Image" Value="None">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="OPT_MainBorder"/>

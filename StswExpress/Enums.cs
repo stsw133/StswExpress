@@ -75,8 +75,11 @@ public enum StswDialogButtons
 {
     OK,
     OKCancel,
+    AbortRetryIgnore,
     YesNoCancel,
-    YesNo
+    YesNo,
+    RetryCancel,
+    CancelTryContinue
 }
 
 /// <summary>

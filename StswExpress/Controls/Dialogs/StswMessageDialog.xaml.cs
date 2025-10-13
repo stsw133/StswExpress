@@ -24,7 +24,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
 
     public StswMessageDialog()
     {
-        CloseCommand = new StswCommand<string?>(Close);
+        CloseCommand = new StswCommand<bool?>(Close);
     }
     static StswMessageDialog()
     {
@@ -64,7 +64,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// Closes the message dialog and sets the result.
     /// </summary>
     /// <param name="result">The result value as a string, which is parsed into a boolean if not null.</param>
-    private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
+    private void Close(bool? result) => StswContentDialog.Close(Identifier, result);
 
     /// <summary>
     /// Shows the message dialog asynchronously with an exception message and details.
