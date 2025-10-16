@@ -38,7 +38,7 @@
                          IsEnabled="{Binding IsEnabled}"
                          IsFilterEnabled="{Binding IsFilterEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
-                         ItemsSource="{Binding ItemsCollectionView}"
+                         ItemsSource="{Binding Items}"
                          Placeholder="Select item..."
                          SelectedItem="{Binding SelectedItem}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"

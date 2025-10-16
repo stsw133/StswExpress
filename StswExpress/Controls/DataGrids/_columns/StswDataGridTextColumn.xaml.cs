@@ -41,17 +41,17 @@ public class StswDataGridTextColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            Margin = new Thickness(2, 0, 2, 0),
-            Padding = Padding,
-            TextAlignment = TextAlignment,
-            TextTrimming = TextTrimming,
-            TextWrapping = TextWrapping
+            Margin = new Thickness(2, 0, 2, 0)
         };
+        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
         BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, Binding);
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
         return displayElement;
     }
@@ -61,14 +61,14 @@ public class StswDataGridTextColumn : DataGridTextColumn
     {
         var editingElement = new StswTextBox()
         {
-            Style = StswEditingElementStyle,
-            AcceptsReturn = AcceptsReturn,
-            MaxLength = MaxLength,
-            Padding = Padding,
-            Placeholder = Placeholder,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            Style = StswEditingElementStyle
         };
+        editingElement.SetBinding(StswTextBox.AcceptsReturnProperty, CreateColumnBinding(nameof(AcceptsReturn)));
+        editingElement.SetBinding(StswTextBox.MaxLengthProperty, CreateColumnBinding(nameof(MaxLength)));
+        editingElement.SetBinding(StswTextBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswTextBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswTextBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswTextBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -77,7 +77,6 @@ public class StswDataGridTextColumn : DataGridTextColumn
         return editingElement;
     }
 
-    #region Events & methods
     /// <summary>
     /// Binds font-related properties from the column to the specified <see cref="StswText"/> display element.
     /// </summary>
@@ -114,7 +113,17 @@ public class StswDataGridTextColumn : DataGridTextColumn
                 Mode = BindingMode.OneWay
             });
     }
-    #endregion
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

@@ -45,13 +45,14 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     {
         var displayElement = new StswCheckBox()
         {
-            Style = StswDisplayElementStyle,
-            Padding = Padding,
-            HorizontalAlignment = HorizontalContentAlignment,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalAlignment = VerticalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            Style = StswDisplayElementStyle
         };
+        displayElement.SetBinding(StswCheckBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        ApplyIconBindings(displayElement);
 
         /// bindings
         if (Binding != null)
@@ -65,21 +66,14 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     {
         var editingElement = new StswCheckBox()
         {
-            Style = StswEditingElementStyle,
-            Padding = Padding,
-            HorizontalAlignment = HorizontalContentAlignment,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalAlignment = VerticalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            Style = StswEditingElementStyle
         };
-        if (IconChecked is not null)
-            editingElement.IconChecked = IconChecked;
-        if (IconUnchecked is not null)
-            editingElement.IconUnchecked = IconUnchecked;
-        if (IconIndeterminate is not null)
-            editingElement.IconIndeterminate = IconIndeterminate;
-        if (IconScale is not null)
-            editingElement.IconScale = IconScale.Value;
+        editingElement.SetBinding(StswCheckBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        ApplyIconBindings(editingElement);
 
         /// bindings
         if (Binding != null)
@@ -87,6 +81,33 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 
         return editingElement;
     }
+
+    /// <summary>
+    /// Applies the icon-related bindings from this column to the specified checkbox element.
+    /// </summary>
+    /// <param name="element">The checkbox element to apply the bindings to.</param>
+    private void ApplyIconBindings(StswCheckBox element)
+    {
+        element.SetBinding(StswCheckBox.IconCheckedProperty, CreateColumnBinding(nameof(IconChecked)));
+        element.SetBinding(StswCheckBox.IconUncheckedProperty, CreateColumnBinding(nameof(IconUnchecked)));
+        element.SetBinding(StswCheckBox.IconIndeterminateProperty, CreateColumnBinding(nameof(IconIndeterminate)));
+
+        var iconScaleBinding = CreateColumnBinding(nameof(IconScale));
+        iconScaleBinding.TargetNullValue = element.GetValue(StswCheckBox.IconScaleProperty);
+        iconScaleBinding.FallbackValue = element.GetValue(StswCheckBox.IconScaleProperty);
+        element.SetBinding(StswCheckBox.IconScaleProperty, iconScaleBinding);
+    }
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

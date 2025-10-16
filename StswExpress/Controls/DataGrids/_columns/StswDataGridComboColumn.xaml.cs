@@ -44,12 +44,12 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
 
         var displayElement = new StswText()
         {
-            Margin = new Thickness(2, 0, 2, 0),
-            Padding = Padding,
-            TextAlignment = TextAlignment,
-            TextTrimming = TextTrimming,
-            TextWrapping = TextWrapping
+            Margin = new Thickness(2, 0, 2, 0)
         };
+        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
 
         if (dataItem == CollectionView.NewItemPlaceholder || dataItem == null)
         {
@@ -60,7 +60,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         /// bindings
         if (SelectedItemBinding is Binding selectedItemBinding && selectedItemBinding.Path?.Path is string selectedItemPath && !string.IsNullOrEmpty(DisplayMemberPath))
         {
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, new Binding
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, new Binding
             {
                 Path = new PropertyPath($"{selectedItemPath}.{DisplayMemberPath}"),
                 Mode = BindingMode.OneWay
@@ -68,7 +68,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         }
         else if (SelectedValueBinding != null && ItemsSource != null && !string.IsNullOrEmpty(DisplayMemberPath))
         {
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, new MultiBinding
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, new MultiBinding
             {
                 Converter = new SelectedValueToDisplayConverter(SelectedValuePath, DisplayMemberPath),
                 Bindings =
@@ -80,7 +80,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         }
         else if (SelectedValueBinding != null)
         {
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, SelectedValueBinding);
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, SelectedValueBinding);
         }
 
         return displayElement;
@@ -92,12 +92,12 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         var editingElement = new StswComboBox()
         {
             Style = StswEditingElementStyle,
-            ItemsSource = ItemsSource,
-            Padding = Padding,
-            Placeholder = Placeholder,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            ItemsSource = ItemsSource
         };
+        editingElement.SetBinding(StswComboBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswComboBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswComboBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswComboBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (SelectedItemBinding != null)
@@ -122,6 +122,17 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         if (sender is DataGridCell cell && !cell.IsEditing)
             cell.IsEditing = true;
     }
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

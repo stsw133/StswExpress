@@ -45,7 +45,7 @@
                     </se:StswDataGridDecimalColumn.Header>
                 </se:StswDataGridDecimalColumn>
                 <!-- Name -->
-                <se:StswDataGridTextColumn Binding="{Binding Name}" TextAlignment="Justify" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Width="*">
+                <se:StswDataGridTextColumn Binding="{Binding Name}" TextAlignment="Justify" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Width="200">
                     <se:StswDataGridTextColumn.Header>
                         <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
                     </se:StswDataGridTextColumn.Header>

@@ -44,17 +44,17 @@ public class StswDataGridDateColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            Margin = new Thickness(2, 0, 2, 0),
-            Padding = Padding,
-            TextAlignment = TextAlignment,
-            TextTrimming = TextTrimming,
-            TextWrapping = TextWrapping
+            Margin = new Thickness(2, 0, 2, 0)
         };
+        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, Binding);
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
         return displayElement;
     }
@@ -64,17 +64,17 @@ public class StswDataGridDateColumn : DataGridTextColumn
     {
         var editingElement = new StswDatePicker()
         {
-            Style = StswEditingElementStyle,
-            Format = Format,
-            IncrementType = IncrementType,
-            Maximum = Maximum,
-            Minimum = Minimum,
-            Padding = Padding,
-            Placeholder = Placeholder,
-            SelectionUnit = SelectionUnit,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            Style = StswEditingElementStyle
         };
+        editingElement.SetBinding(StswDatePicker.FormatProperty, CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswDatePicker.IncrementTypeProperty, CreateColumnBinding(nameof(IncrementType)));
+        editingElement.SetBinding(StswDatePicker.MaximumProperty, CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswDatePicker.MinimumProperty, CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswDatePicker.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswDatePicker.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswDatePicker.SelectionUnitProperty, CreateColumnBinding(nameof(SelectionUnit)));
+        editingElement.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -82,6 +82,17 @@ public class StswDataGridDateColumn : DataGridTextColumn
 
         return editingElement;
     }
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

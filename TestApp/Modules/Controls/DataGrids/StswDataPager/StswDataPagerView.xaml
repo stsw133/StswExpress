@@ -38,7 +38,7 @@
                             <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="Id"/>
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn Binding="{Binding Name}" Width="200">
                         <DataGridTextColumn.Header>
                             <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
                         </DataGridTextColumn.Header>

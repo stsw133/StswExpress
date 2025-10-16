@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -43,17 +42,17 @@ public class StswDataGridColorColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            Margin = new Thickness(2, 0, 2, 0),
-            Padding = Padding,
-            TextAlignment = TextAlignment,
-            TextTrimming = TextTrimming,
-            TextWrapping = TextWrapping
+            Margin = new Thickness(2, 0, 2, 0)
         };
+        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, Binding);
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
         return displayElement;
     }
@@ -63,13 +62,13 @@ public class StswDataGridColorColumn : DataGridTextColumn
     {
         var editingElement = new StswColorBox()
         {
-            Style = StswEditingElementStyle,
-            IsAlphaEnabled = IsAlphaEnabled,
-            Padding = Padding,
-            Placeholder = Placeholder,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment
+            Style = StswEditingElementStyle
         };
+        editingElement.SetBinding(StswColorBox.IsAlphaEnabledProperty, CreateColumnBinding(nameof(IsAlphaEnabled)));
+        editingElement.SetBinding(StswColorBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswColorBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswColorBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswColorBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -77,6 +76,17 @@ public class StswDataGridColorColumn : DataGridTextColumn
 
         return editingElement;
     }
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

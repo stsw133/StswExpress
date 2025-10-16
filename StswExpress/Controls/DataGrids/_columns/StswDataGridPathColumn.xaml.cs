@@ -42,17 +42,17 @@ public class StswDataGridPathColumn : DataGridTextColumn
     {
         var displayElement = new StswText()
         {
-            Margin = new Thickness(2, 0, 2, 0),
-            Padding = Padding,
-            TextAlignment = TextAlignment,
-            TextTrimming = TextTrimming,
-            TextWrapping = TextWrapping
+            Margin = new Thickness(2, 0, 2, 0)
         };
+        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
         if (Binding != null)
-            BindingOperations.SetBinding(displayElement, StswText.TextProperty, Binding);
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
         return displayElement;
     }
@@ -62,18 +62,18 @@ public class StswDataGridPathColumn : DataGridTextColumn
     {
         var editingElement = new StswPathPicker()
         {
-            Style = StswEditingElementStyle,
-            Filter = Filter,
-            IsFileSizeVisible = IsFileSizeVisible,
-            IsShiftingEnabled = IsShiftingEnabled,
-            Multiselect = Multiselect,
-            Padding = Padding,
-            Placeholder = Placeholder,
-            SelectionUnit = SelectionUnit,
-            SuggestedFilename = SuggestedFilename,
-            HorizontalContentAlignment = HorizontalContentAlignment,
-            VerticalContentAlignment = VerticalContentAlignment,
+            Style = StswEditingElementStyle
         };
+        editingElement.SetBinding(StswPathPicker.FilterProperty, CreateColumnBinding(nameof(Filter)));
+        editingElement.SetBinding(StswPathPicker.IsFileSizeVisibleProperty, CreateColumnBinding(nameof(IsFileSizeVisible)));
+        editingElement.SetBinding(StswPathPicker.IsShiftingEnabledProperty, CreateColumnBinding(nameof(IsShiftingEnabled)));
+        editingElement.SetBinding(StswPathPicker.MultiselectProperty, CreateColumnBinding(nameof(Multiselect)));
+        editingElement.SetBinding(StswPathPicker.PaddingProperty, CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswPathPicker.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswPathPicker.SelectionUnitProperty, CreateColumnBinding(nameof(SelectionUnit)));
+        editingElement.SetBinding(StswPathPicker.SuggestedFilenameProperty, CreateColumnBinding(nameof(SuggestedFilename)));
+        editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -81,6 +81,17 @@ public class StswDataGridPathColumn : DataGridTextColumn
 
         return editingElement;
     }
+
+    /// <summary>
+    /// Creates a one-way binding to a property of this column.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to bind to.</param>
+    /// <returns>A one-way binding to the specified property.</returns>
+    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
+    {
+        Source = this,
+        Mode = BindingMode.OneWay
+    };
 
     #region Logic properties
     /// <summary>

@@ -23,6 +23,7 @@ namespace StswExpress;/// <summary>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     private TextBoxBase? _filter;
+    private ICollectionView? _itemsView;
     bool IStswDropControl.SuppressNextOpen { get; set; }
 
     public StswComboBox()
@@ -104,13 +105,13 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
 
-        if (IsFilterEnabled && newValue != null && newValue is not ICollectionView)
-            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+        DetachFilter();
+        _itemsView = newValue != null ? CollectionViewSource.GetDefaultView(newValue) : null;
 
-        if (oldValue is ICollectionView oldCollectionView)
-            oldCollectionView.Filter -= CollectionViewFilter;
-        if (newValue is ICollectionView newCollectionView && IsFilterEnabled)
-            newCollectionView.Filter += CollectionViewFilter;
+        if (IsFilterEnabled)
+            AttachFilter();
+        else
+            _itemsView?.Refresh();
 
         base.OnItemsSourceChanged(oldValue, newValue);
     }
@@ -173,6 +174,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <returns><see langword="true"/> if the object should be included, otherwise <see langword="false"/></returns>
     private bool CollectionViewFilter(object obj)
     {
+        if (ReferenceEquals(obj, SelectedItem))
+            return true;
+
         if (string.IsNullOrEmpty(FilterText))
             return true;
 
@@ -182,6 +186,36 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             return displayMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
         else
             return obj?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+    }
+
+    /// <summary>
+    /// Attaches the filter to the collection view if filtering is enabled.
+    /// </summary>
+    private void AttachFilter()
+    {
+        if (_itemsView is null)
+            return;
+
+        if (!_itemsView.CanFilter)
+        {
+            _itemsView.Refresh();
+            return;
+        }
+
+        _itemsView.Filter -= CollectionViewFilter;
+        _itemsView.Filter += CollectionViewFilter;
+        _itemsView.Refresh();
+    }
+
+    /// <summary>
+    /// Detaches the filter from the collection view.
+    /// </summary>
+    private void DetachFilter()
+    {
+        if (_itemsView is null || !_itemsView.CanFilter)
+            return;
+
+        _itemsView.Filter -= CollectionViewFilter;
     }
     #endregion
 
@@ -236,8 +270,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (obj is not StswComboBox stsw)
             return;
 
-        if (stsw.ItemsSource is ICollectionView collectionView && stsw.IsFilterEnabled)
-            collectionView.Refresh();
+        if (stsw.IsFilterEnabled)
+            stsw._itemsView?.Refresh();
     }
 
     /// <inheritdoc/>
@@ -268,7 +302,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
     /// <summary>
     /// Gets or sets whether filtering is enabled.
-    /// Requires <see cref="ICollectionView"/> as <see cref="ItemsSource"/>.
+    /// When enabled, the control will filter items based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
     /// </summary>
     public bool IsFilterEnabled
     {
@@ -289,16 +323,12 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (obj is not StswComboBox stsw)
             return;
 
-        if (stsw.IsFilterEnabled && stsw.ItemsSource != null && stsw.ItemsSource is not ICollectionView)
-            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+        stsw.DetachFilter();
 
-        if (stsw.ItemsSource is ICollectionView collectionView)
-        {
-            if (stsw.IsFilterEnabled)
-                collectionView.Filter += stsw.CollectionViewFilter;
-            else
-                collectionView.Filter -= stsw.CollectionViewFilter;
-        }
+        if (stsw.IsFilterEnabled)
+            stsw.AttachFilter();
+        else
+            stsw._itemsView?.Refresh();
     }
 
     /// <inheritdoc/>
