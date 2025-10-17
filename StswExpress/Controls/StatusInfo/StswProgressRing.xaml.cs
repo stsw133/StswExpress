@@ -89,9 +89,9 @@ public class StswProgressRing : ProgressBar
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnScaleChanged)
         );
-    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswProgressRing stsw)
+        if (d is not StswProgressRing stsw)
             return;
 
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);
@@ -162,9 +162,9 @@ public class StswProgressRing : ProgressBar
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTextModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTextModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswProgressRing stsw)
+        if (d is not StswProgressRing stsw)
             return;
 
         if (stsw.TextMode == StswProgressTextMode.Custom)

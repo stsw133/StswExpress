@@ -199,9 +199,9 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(Icon), OnIconChanged)
         );
-    private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNotifyIcon stsw)
+        if (d is not StswNotifyIcon stsw)
             return;
 
         if (stsw._tray != null)
@@ -223,9 +223,9 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(string), OnIconPathChanged)
         );
-    private static void OnIconPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnIconPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNotifyIcon stsw)
+        if (d is not StswNotifyIcon stsw)
             return;
 
         if (stsw._tray != null)
@@ -247,9 +247,9 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(bool), OnIsAlwaysVisibleChanged)
         );
-    private static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnIsAlwaysVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNotifyIcon stsw)
+        if (d is not StswNotifyIcon stsw)
             return;
 
         if (stsw._tray != null)
@@ -271,9 +271,9 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(string), OnTextChanged)
         );
-    private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNotifyIcon stsw)
+        if (d is not StswNotifyIcon stsw)
             return;
 
         if (stsw._tray != null)
@@ -295,9 +295,9 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(StswNotifyIconTip), OnTipChanged)
         );
-    private static void OnTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNotifyIcon stsw)
+        if (d is not StswNotifyIcon stsw)
             return;
 
         stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);

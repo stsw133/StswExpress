@@ -184,11 +184,11 @@ public class StswTabControl : TabControl
     /// <summary>
     /// Called when the CanReorder property changes to attach or detach drag-and-drop event handlers.
     /// </summary>
-    /// <param name="obj">The dependency object where the property changed.</param>
+    /// <param name="d">The dependency object where the property changed.</param>
     /// <param name="e">The event data.</param>
-    private static void OnCanReorderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnCanReorderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswTabControl control)
+        if (d is StswTabControl control)
         {
             control.UpdateReorderHandlers((bool)e.NewValue);
             control.UpdateTabItemsAllowDrop();

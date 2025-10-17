@@ -100,9 +100,10 @@
 
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Identifier.ConfigPresentationMode, RelativeSource={RelativeSource Self}}" Value="Window">
-                            <Setter Property="se:StswControl.IsBorderless" Value="True" TargetName="PART_MainBorder"/>
                             <Setter Property="Header" Value="{x:Null}" TargetName="PART_MainBorder"/>
-                            <Setter Property="SeparatorThickness" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="CornerClipping" Value="False" TargetName="PART_MainBorder"/>
+                            <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -176,9 +176,9 @@ public class StswMediaPlayer : ItemsControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsMutedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsMutedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsMutedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswMediaPlayer stsw)
+        if (d is not StswMediaPlayer stsw)
             return;
 
         if (stsw._mediaElement != null)
@@ -203,9 +203,9 @@ public class StswMediaPlayer : ItemsControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsPlayingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsPlayingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswMediaPlayer stsw)
+        if (d is not StswMediaPlayer stsw)
             return;
 
         if (stsw._mediaElement != null)

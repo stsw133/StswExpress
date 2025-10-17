@@ -287,7 +287,7 @@ public class StswOutlinedText : FrameworkElement
                 FrameworkPropertyMetadataOptions.AffectsRender,
                 StrokePropertyChangedCallback)
         );
-    private static void StrokePropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e) => (obj as StswOutlinedText)?.UpdatePen();
+    private static void StrokePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => (d as StswOutlinedText)?.UpdatePen();
 
     /// <summary>
     /// Gets or sets the thickness of the text outline.

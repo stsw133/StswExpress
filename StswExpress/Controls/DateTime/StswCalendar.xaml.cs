@@ -519,9 +519,9 @@ public class StswCalendar : Control, IStswCornerControl
             typeof(StswCalendar),
             new PropertyMetadata(default(StswCalendarUnit), OnCurrentUnitChanged)
         );
-    public static void OnCurrentUnitChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnCurrentUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswCalendar stsw)
+        if (d is not StswCalendar stsw)
             return;
 
         stsw.UpdateCalendarViewName();
@@ -574,9 +574,9 @@ public class StswCalendar : Control, IStswCornerControl
             typeof(StswCalendar),
             new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
-    private static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswCalendar stsw)
+        if (d is not StswCalendar stsw)
             return;
 
         var min = stsw.Minimum ?? DateTime.MinValue;
@@ -623,9 +623,9 @@ public class StswCalendar : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswCalendar stsw)
+        if (d is not StswCalendar stsw)
             return;
 
         stsw.SyncSelectedMonthToDate(stsw.SelectedDate);
@@ -649,9 +649,9 @@ public class StswCalendar : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedMonthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedMonthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswCalendar stsw)
+        if (d is not StswCalendar stsw)
             return;
 
         var oldValue = (DateTime)e.OldValue;
@@ -696,9 +696,9 @@ public class StswCalendar : Control, IStswCornerControl
             typeof(StswCalendar),
             new PropertyMetadata(StswCalendarUnit.Days, OnSelectionUnitChanged)
         );
-    private static void OnSelectionUnitChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnSelectionUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswCalendar stsw)
+        if (d is not StswCalendar stsw)
             return;
 
         /// for Months selection unit, only Months view is available

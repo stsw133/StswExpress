@@ -386,9 +386,9 @@ public class StswPathPicker : StswBoxBase
             typeof(StswPathPicker),
             new FrameworkPropertyMetadata(default(string), OnFilterChanged)
         );
-    private static void OnFilterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathPicker stsw)
+        if (d is not StswPathPicker stsw)
             return;
 
         if (stsw.SelectionUnit != StswPathType.OpenDirectory)
@@ -413,9 +413,9 @@ public class StswPathPicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsShiftingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsShiftingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsShiftingEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathPicker stsw)
+        if (d is not StswPathPicker stsw)
             return;
 
         stsw.ListAdjacentPaths();
@@ -455,9 +455,9 @@ public class StswPathPicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathPicker stsw)
+        if (d is not StswPathPicker stsw)
             return;
 
         stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;

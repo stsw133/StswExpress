@@ -169,11 +169,11 @@ public class StswGrid : Grid
             typeof(string),
             typeof(StswGrid),
             new PropertyMetadata(null, OnColumnDefinitionsChanged));
-    public static string GetColumnDefinitions(DependencyObject obj) => (string)obj.GetValue(ColumnDefinitionsProperty);
-    public static void SetColumnDefinitions(DependencyObject obj, string value) => obj.SetValue(ColumnDefinitionsProperty, value);
-    private static void OnColumnDefinitionsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static string GetColumnDefinitions(DependencyObject d) => (string)d.GetValue(ColumnDefinitionsProperty);
+    public static void SetColumnDefinitions(DependencyObject d, string value) => d.SetValue(ColumnDefinitionsProperty, value);
+    private static void OnColumnDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Grid grid && e.NewValue is string definitions)
+        if (d is Grid grid && e.NewValue is string definitions)
         {
             grid.ColumnDefinitions.Clear();
             foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
@@ -200,11 +200,11 @@ public class StswGrid : Grid
             typeof(string),
             typeof(StswGrid),
             new PropertyMetadata(null, OnRowDefinitionsChanged));
-    public static string GetRowDefinitions(DependencyObject obj) => (string)obj.GetValue(RowDefinitionsProperty);
-    public static void SetRowDefinitions(DependencyObject obj, string value) => obj.SetValue(RowDefinitionsProperty, value);
-    private static void OnRowDefinitionsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static string GetRowDefinitions(DependencyObject d) => (string)d.GetValue(RowDefinitionsProperty);
+    public static void SetRowDefinitions(DependencyObject d, string value) => d.SetValue(RowDefinitionsProperty, value);
+    private static void OnRowDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Grid grid && e.NewValue is string definitions)
+        if (d is Grid grid && e.NewValue is string definitions)
         {
             grid.RowDefinitions.Clear();
             foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
@@ -240,9 +240,9 @@ public class StswGrid : Grid
             typeof(StswGrid),
             new PropertyMetadata(default(StswAutoLayoutMode), OnAutoLayoutModeChanged)
         );
-    public static void OnAutoLayoutModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnAutoLayoutModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswGrid stsw)
+        if (d is not StswGrid stsw)
             return;
 
         stsw.InvalidateMeasure();

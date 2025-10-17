@@ -373,9 +373,9 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFiltersDataChanged)
         );
-    private static void OnFiltersDataChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnFiltersDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDataGrid stsw)
+        if (d is not StswDataGrid stsw)
             return;
 
         if (e.NewValue is StswDataGridFiltersDataModel filtersData)

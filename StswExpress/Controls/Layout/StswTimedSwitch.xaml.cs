@@ -84,9 +84,9 @@ public class StswTimedSwitch : CheckBox
             typeof(StswTimedSwitch),
             new PropertyMetadata(default(TimeSpan), OnSwitchTimeChanged)
         );
-    public static void OnSwitchTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSwitchTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimedSwitch stsw)
+        if (d is not StswTimedSwitch stsw)
             return;
 
         if (stsw.SwitchTime.TotalMilliseconds > 0)

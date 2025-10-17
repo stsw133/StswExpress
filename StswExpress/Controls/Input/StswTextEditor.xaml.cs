@@ -353,9 +353,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilePathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnFilePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFilePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTextEditor stsw)
+        if (d is not StswTextEditor stsw)
             return;
 
         if (stsw.FilePath != null)
@@ -397,9 +397,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedColorTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTextEditor stsw)
+        if (d is not StswTextEditor stsw)
             return;
 
         stsw.FontColorText();
@@ -423,9 +423,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorHighlightChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedColorHighlightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorHighlightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTextEditor stsw)
+        if (d is not StswTextEditor stsw)
             return;
 
         stsw.FontColorHighlight();

@@ -204,9 +204,9 @@ public class StswWindow : Window, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswWindow stsw)
+        if (d is not StswWindow stsw)
             return;
 
         if (stsw._windowBar != null)
@@ -247,9 +247,9 @@ public class StswWindow : Window, IStswCornerControl
             typeof(StswWindow),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender, OnCornerRadiusChanged)
         );
-    public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnCornerRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswWindow stsw)
+        if (d is not StswWindow stsw)
             return;
 
         if (!stsw.IsLoaded)

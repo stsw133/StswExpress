@@ -89,9 +89,9 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedTagsChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnSelectedTagsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnSelectedTagsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFilterTags stsw)
+        if (d is not StswFilterTags stsw)
             return;
 
         if (e.NewValue is not string str)

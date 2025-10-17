@@ -200,9 +200,9 @@ public class StswTimePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFormatChanged)
         );
-    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         stsw.UpdateVisibilityBasedOnFormat();
@@ -302,9 +302,9 @@ public class StswTimePicker : StswBoxBase
             typeof(StswTimePicker),
             new PropertyMetadata(default(TimeSpan?), OnMinMaxChanged)
         );
-    public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
@@ -344,9 +344,9 @@ public class StswTimePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedTimeChanged, OnSelectedTimeChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         if (!stsw._isTimeChanging)
@@ -361,9 +361,9 @@ public class StswTimePicker : StswBoxBase
             stsw._isTimeChanging = false;
         }
     }
-    private static object? OnSelectedTimeChanging(DependencyObject obj, object? baseValue)
+    private static object? OnSelectedTimeChanging(DependencyObject d, object? baseValue)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return baseValue;
 
         return stsw.MinMaxValidate((TimeSpan?)baseValue);
@@ -387,9 +387,9 @@ public class StswTimePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedTimeHChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedTimeHChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedTimeHChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         if (stsw.SelectedTime.HasValue)
@@ -417,9 +417,9 @@ public class StswTimePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedTimeMChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedTimeMChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedTimeMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         if (stsw.SelectedTime.HasValue)
@@ -447,9 +447,9 @@ public class StswTimePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedTimeSChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedTimeSChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedTimeSChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimePicker stsw)
+        if (d is not StswTimePicker stsw)
             return;
 
         if (stsw.SelectedTime.HasValue)

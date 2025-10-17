@@ -396,9 +396,9 @@ public class StswSlider : Slider
             typeof(StswSlider),
             new FrameworkPropertyMetadata(StswSliderMode.Value, OnSliderModeChanged)
         );
-    private static void OnSliderModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnSliderModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswSlider stsw)
+        if (d is not StswSlider stsw)
             return;
 
         stsw.UpdateMode((StswSliderMode)e.NewValue);

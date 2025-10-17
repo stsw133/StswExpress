@@ -337,9 +337,9 @@ public class StswDirectionView : ScrollViewer
             typeof(StswDirectionView),
             new FrameworkPropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
         );
-    private static void OnDynamicModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDirectionView stsw)
+        if (d is not StswDirectionView stsw)
             return;
 
         stsw.ApplyDynamicMode();

@@ -28,7 +28,10 @@ public class StswTaskManagerTests
             async () => await Task.FromResult(1),
             async () => await Task.FromResult(2)
         };
-        manager.AddRange(factories);
+
+        foreach (var factory in factories)
+            manager.Add(factory);
+
         Assert.Equal(2, manager.Tasks.Count);
     }
 
@@ -41,7 +44,10 @@ public class StswTaskManagerTests
             async ct => await Task.FromResult(3),
             async ct => await Task.FromResult(4)
         };
-        manager.AddRange(factories);
+
+        foreach (var factory in factories)
+            manager.Add(factory);
+
         Assert.Equal(2, manager.Tasks.Count);
     }
 

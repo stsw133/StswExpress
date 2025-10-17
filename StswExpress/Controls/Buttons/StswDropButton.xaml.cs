@@ -86,9 +86,9 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnAutoCloseChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnAutoCloseChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnAutoCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDropButton stsw)
+        if (d is not StswDropButton stsw)
             return;
 
         if (stsw.Items != null)
@@ -118,7 +118,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
+    private static void OnIsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(d, e);
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is in read-only mode.

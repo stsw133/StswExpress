@@ -10,7 +10,6 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -30,7 +29,7 @@
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
@@ -56,7 +55,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Horizontal"/>
                             <!-- content -->
                             <ContentPresenter Focusable="False"

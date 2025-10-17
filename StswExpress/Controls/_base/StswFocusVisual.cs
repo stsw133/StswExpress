@@ -26,9 +26,9 @@ public static class StswFocusVisual
         );
     public static void SetAssign(DependencyObject element, bool value) => element.SetValue(AssignProperty, value);
     public static bool GetAssign(DependencyObject element) => (bool)element.GetValue(AssignProperty);
-    private static void OnAssignChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnAssignChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not Control control)
+        if (d is not Control control)
             return;
 
         if ((bool)e.NewValue)

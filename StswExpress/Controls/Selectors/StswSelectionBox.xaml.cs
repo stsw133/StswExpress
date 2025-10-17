@@ -193,7 +193,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(obj, e);
+    private static void OnIsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => IStswDropControl.IsDropDownOpenChanged(d, e);
 
     /// <inheritdoc/>
     public bool IsReadOnly

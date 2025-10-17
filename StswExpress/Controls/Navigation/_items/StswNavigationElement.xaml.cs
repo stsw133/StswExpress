@@ -179,9 +179,9 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsCheckedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNavigationElement stsw)
+        if (d is not StswNavigationElement stsw)
             return;
 
         if (stsw._stswNavigation != null)
@@ -260,9 +260,9 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTabStripModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNavigationElement stsw)
+        if (d is not StswNavigationElement stsw)
             return;
 
         if (stsw.HasItems && stsw.TabStripMode == StswCompactibility.Compact)
@@ -359,9 +359,9 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsIndentationChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnItemsIndentationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnItemsIndentationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNavigationElement stsw)
+        if (d is not StswNavigationElement stsw)
             return;
 
         var padding = stsw.Padding;

@@ -100,8 +100,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(false)
         );
-    public static bool GetAutoScroll(DependencyObject obj) => (bool)obj.GetValue(AutoScrollProperty);
-    public static void SetAutoScroll(DependencyObject obj, bool value) => obj.SetValue(AutoScrollProperty, value);
+    public static bool GetAutoScroll(DependencyObject d) => (bool)d.GetValue(AutoScrollProperty);
+    public static void SetAutoScroll(DependencyObject d, bool value) => d.SetValue(AutoScrollProperty, value);
 
     /// <summary>
     /// Gets or sets the command associated with the control.
@@ -119,8 +119,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(default)
         );
-    public static ICommand? GetCommand(DependencyObject obj) => (ICommand?)obj.GetValue(CommandProperty);
-    public static void SetCommand(DependencyObject obj, ICommand? value) => obj.SetValue(CommandProperty, value);
+    public static ICommand? GetCommand(DependencyObject d) => (ICommand?)d.GetValue(CommandProperty);
+    public static void SetCommand(DependencyObject d, ICommand? value) => d.SetValue(CommandProperty, value);
 
     /// <summary>
     /// Gets or sets the parameter to pass to the command associated with the control.
@@ -138,8 +138,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(default)
         );
-    public static object? GetCommandParameter(DependencyObject obj) => (object?)obj.GetValue(CommandParameterProperty);
-    public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
+    public static object? GetCommandParameter(DependencyObject d) => (object?)d.GetValue(CommandParameterProperty);
+    public static void SetCommandParameter(DependencyObject d, object? value) => d.SetValue(CommandParameterProperty, value);
 
     /// <summary>
     /// Gets or sets the target element on which to execute the command associated with the control.
@@ -157,8 +157,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(default)
         );
-    public static IInputElement? GetCommandTarget(DependencyObject obj) => (IInputElement?)obj.GetValue(CommandTargetProperty);
-    public static void SetCommandTarget(DependencyObject obj, IInputElement? value) => obj.SetValue(CommandTargetProperty, value);
+    public static IInputElement? GetCommandTarget(DependencyObject d) => (IInputElement?)d.GetValue(CommandTargetProperty);
+    public static void SetCommandTarget(DependencyObject d, IInputElement? value) => d.SetValue(CommandTargetProperty, value);
 
     /// <summary>
     /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when not in use).
@@ -176,8 +176,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(StswDynamicVisibilityMode.Off)
         );
-    public static StswDynamicVisibilityMode GetDynamicMode(DependencyObject obj) => (StswDynamicVisibilityMode)obj.GetValue(DynamicModeProperty);
-    public static void SetDynamicMode(DependencyObject obj, StswDynamicVisibilityMode value) => obj.SetValue(DynamicModeProperty, value);
+    public static StswDynamicVisibilityMode GetDynamicMode(DependencyObject d) => (StswDynamicVisibilityMode)d.GetValue(DynamicModeProperty);
+    public static void SetDynamicMode(DependencyObject d, StswDynamicVisibilityMode value) => d.SetValue(DynamicModeProperty, value);
 
     /// <summary>
     /// Gets or sets a value indicating whether the scroll viewer is in a busy state.
@@ -195,8 +195,8 @@ public class StswScrollView : ScrollViewer
             typeof(StswScrollView),
             new PropertyMetadata(false)
         );
-    public static bool GetIsBusy(DependencyObject obj) => (bool)obj.GetValue(IsBusyProperty);
-    public static void SetIsBusy(DependencyObject obj, bool value) => obj.SetValue(IsBusyProperty, value);
+    public static bool GetIsBusy(DependencyObject d) => (bool)d.GetValue(IsBusyProperty);
+    public static void SetIsBusy(DependencyObject d, bool value) => d.SetValue(IsBusyProperty, value);
     #endregion
 
     #region Excluded properties

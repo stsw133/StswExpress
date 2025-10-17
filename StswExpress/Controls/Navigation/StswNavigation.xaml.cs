@@ -228,9 +228,9 @@ public class StswNavigation : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnLastSelectedItemChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnLastSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnLastSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNavigation stsw)
+        if (d is not StswNavigation stsw)
             return;
 
         var oldItem = e.OldValue as StswNavigationElement;
@@ -271,9 +271,9 @@ public class StswNavigation : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTabStripModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNavigation stsw)
+        if (d is not StswNavigation stsw)
             return;
 
         /// get back all items from compact panel into original expander

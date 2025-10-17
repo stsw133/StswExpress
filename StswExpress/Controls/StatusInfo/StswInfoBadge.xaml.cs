@@ -156,9 +156,9 @@ public class StswInfoBadge : Control, IStswCornerControl
             typeof(StswInfoBadge),
             new FrameworkPropertyMetadata(default(int), OnValueChanged)
         );
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswInfoBadge stsw)
+        if (d is not StswInfoBadge stsw)
             return;
 
         stsw.UpdateValue();

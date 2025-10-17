@@ -122,11 +122,11 @@ public class StswToolTip : ToolTip, IStswCornerControl
             typeof(StswToolTip),
             new PropertyMetadata(null, OnTextChanged)
         );
-    public static string? GetText(DependencyObject obj) => (string?)obj.GetValue(TextProperty);
-    public static void SetText(DependencyObject obj, string? value) => obj.SetValue(TextProperty, value);
-    private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static string? GetText(DependencyObject d) => (string?)d.GetValue(TextProperty);
+    public static void SetText(DependencyObject d, string? value) => d.SetValue(TextProperty, value);
+    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not FrameworkElement stsw)
+        if (d is not FrameworkElement stsw)
             return;
 
         if (e.NewValue is string text)
@@ -153,9 +153,9 @@ public class StswToolTip : ToolTip, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsMoveableChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsMoveableChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsMoveableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswToolTip stsw)
+        if (d is not StswToolTip stsw)
             return;
 
         stsw.UpdateMoveableState();

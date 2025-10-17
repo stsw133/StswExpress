@@ -91,9 +91,9 @@ public class StswScrollBar : ScrollBar
             typeof(StswScrollBar),
             new PropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
         );
-    public static void OnDynamicModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswScrollBar stsw)
+        if (d is not StswScrollBar stsw)
             return;
 
         stsw.StopAllAnimations();

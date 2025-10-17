@@ -183,9 +183,9 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsLoopingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsLoopingEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsLoopingEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFlipView stsw)
+        if (d is not StswFlipView stsw)
             return;
 
         stsw.CheckButtonAccessibility(null, EventArgs.Empty);

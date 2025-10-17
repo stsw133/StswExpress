@@ -103,9 +103,9 @@ public class StswChartPie : ItemsControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnMinPercentageRenderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswChartPie stsw)
+        if (d is not StswChartPie stsw)
             return;
 
         var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
@@ -133,9 +133,9 @@ public class StswChartPie : ItemsControl
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswChartPie stsw)
+        if (d is not StswChartPie stsw)
             return;
 
         var items = stsw.ItemsSource?.OfType<StswChartElementModel>();

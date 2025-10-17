@@ -265,9 +265,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilterTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnFilterTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFilterTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswComboBox stsw)
+        if (d is not StswComboBox stsw)
             return;
 
         if (stsw.IsFilterEnabled)
@@ -318,9 +318,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsFilterEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsFilterEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsFilterEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswComboBox stsw)
+        if (d is not StswComboBox stsw)
             return;
 
         stsw.DetachFilter();

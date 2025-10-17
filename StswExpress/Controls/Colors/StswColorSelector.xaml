@@ -48,9 +48,10 @@
                             <!-- theme colors -->
                             <se:StswSeparator x:Name="OPT_ThemeSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
                             <se:StswGroupBox x:Name="OPT_ThemeColors"
-                                             se:StswControl.IsBorderless="True"
-                                             Padding="0"
-                                             SeparatorThickness="1">
+                                             BorderThickness="0 0 1"
+                                             CornerClipping="False"
+                                             CornerRadius="0"
+                                             Padding="0">
                                 <se:StswGroupBox.Header>
                                     <se:StswLabel Content="{se:StswTranslate StswColorSelector.ThemeColors}"/>
                                 </se:StswGroupBox.Header>
@@ -94,9 +95,10 @@
                             <!-- standard colors -->
                             <se:StswSeparator x:Name="OPT_StandardSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
                             <se:StswGroupBox x:Name="OPT_StandardColors"
-                                             se:StswControl.IsBorderless="True"
-                                             Padding="0"
-                                             SeparatorThickness="1">
+                                             BorderThickness="0 0 1"
+                                             CornerClipping="False"
+                                             CornerRadius="0"
+                                             Padding="0">
                                 <se:StswGroupBox.Header>
                                     <se:StswLabel Content="{se:StswTranslate StswColorSelector.StandardColors}"/>
                                 </se:StswGroupBox.Header>

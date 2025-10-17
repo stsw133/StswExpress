@@ -420,9 +420,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswAdaptiveBox stsw)
+        if (d is not StswAdaptiveBox stsw)
             return;
 
         if (stsw.Type == StswAdaptiveType.Auto)

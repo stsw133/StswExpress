@@ -151,9 +151,9 @@ public class StswDataPager : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnCurrentPageChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnCurrentPageChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnCurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDataPager stsw)
+        if (d is not StswDataPager stsw)
             return;
 
         stsw.RefreshCurrentPageItems();
@@ -210,9 +210,9 @@ public class StswDataPager : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDataPager stsw)
+        if (d is not StswDataPager stsw)
             return;
 
         stsw.RecalculatePagination();

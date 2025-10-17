@@ -166,9 +166,9 @@ public class StswImage : Control, IStswCornerControl
             typeof(StswImage),
             new PropertyMetadata(default(GridLength), OnScaleChanged)
         );
-    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswImage stsw)
+        if (d is not StswImage stsw)
             return;
 
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);

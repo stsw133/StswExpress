@@ -333,9 +333,9 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnInitialPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnInitialPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnInitialPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathTree stsw)
+        if (d is not StswPathTree stsw)
             return;
 
         stsw.ReloadInitialPath();
@@ -373,9 +373,9 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static async void OnSelectedPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static async void OnSelectedPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathTree stsw)
+        if (d is not StswPathTree stsw)
             return;
 
         if (e.NewValue is string newPath && !string.IsNullOrWhiteSpace(newPath))
@@ -402,9 +402,9 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnShowFilesChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnShowFilesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnShowFilesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPathTree stsw)
+        if (d is not StswPathTree stsw)
             return;
 
         stsw.ReloadInitialPath();

@@ -21,7 +21,7 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
     public StswDataGridStatusColumn()
     {
         HeaderTemplate = Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
-        CellTemplate = Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
+        SetCurrentValue(StatusCellTemplateProperty, Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate);
 
         var baseCellStyle = Application.Current.TryFindResource("StswDataGridCellStyle") as Style ?? new Style(typeof(DataGridCell));
         CellStyle = new Style(typeof(DataGridCell), baseCellStyle)
@@ -35,6 +35,35 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
 
         Dispatcher.CurrentDispatcher.InvokeAsync(TryExtendRowStyle, DispatcherPriority.Background);
     }
+
+    /// <summary>
+    /// Gets or sets the <see cref="DataTemplate"/> used to render the cell content of the status column.
+    /// When set to <see langword="null"/>, the column falls back to the default template delivered with the library.
+    /// </summary>
+    public DataTemplate? StatusCellTemplate
+    {
+        get => (DataTemplate?)GetValue(StatusCellTemplateProperty);
+        set => SetValue(StatusCellTemplateProperty, value);
+    }
+
+    /// <summary>
+    /// Identifies the <see cref="StatusCellTemplate"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty StatusCellTemplateProperty
+        = DependencyProperty.Register(
+            nameof(StatusCellTemplate),
+            typeof(DataTemplate),
+            typeof(StswDataGridStatusColumn),
+            new PropertyMetadata(null, OnStatusCellTemplateChanged)
+        );
+    private static void OnStatusCellTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswDataGridStatusColumn stsw)
+            return;
+
+        stsw.CellTemplate = e.NewValue as DataTemplate ?? GetDefaultCellTemplate();
+    }
+    private static DataTemplate? GetDefaultCellTemplate() => Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
 
     /// <summary>
     /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.

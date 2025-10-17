@@ -110,9 +110,9 @@ public class StswIcon : Control
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnScaleChanged)
         );
-    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswIcon stsw)
+        if (d is not StswIcon stsw)
             return;
 
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);

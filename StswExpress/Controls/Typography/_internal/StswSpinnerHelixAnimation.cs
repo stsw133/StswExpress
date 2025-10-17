@@ -50,9 +50,9 @@ internal class StswSpinnerHelixAnimation : Control
             typeof(StswSpinnerHelixAnimation),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.None, OnIsActiveChanged)
         );
-    private static void OnIsActiveChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswSpinnerHelixAnimation stsw)
+        if (d is not StswSpinnerHelixAnimation stsw)
             return;
 
         if (!stsw.IsLoaded)

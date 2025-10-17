@@ -369,11 +369,11 @@ public static class StswFnUI
     /// Finds the first logical ancestor of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
-    /// <param name="obj">The control for which to find the logical ancestor.</param>
+    /// <param name="d">The control for which to find the logical ancestor.</param>
     /// <returns>The first logical ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
-    public static T? FindLogicalAncestor<T>(DependencyObject obj) where T : class
+    public static T? FindLogicalAncestor<T>(DependencyObject d) where T : class
     {
-        var parent = LogicalTreeHelper.GetParent(obj);
+        var parent = LogicalTreeHelper.GetParent(d);
 
         while (parent != null)
         {
@@ -390,11 +390,11 @@ public static class StswFnUI
     /// Finds the first logical child of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the child to find.</typeparam>
-    /// <param name="obj">The control for which to find the logical child.</param>
+    /// <param name="d">The control for which to find the logical child.</param>
     /// <returns>The first logical child of the specified type, or <see langword="null"/> if no such child exists.</returns>
-    public static T? FindLogicalChild<T>(DependencyObject obj) where T : class
+    public static T? FindLogicalChild<T>(DependencyObject d) where T : class
     {
-        foreach (var child in LogicalTreeHelper.GetChildren(obj))
+        foreach (var child in LogicalTreeHelper.GetChildren(d))
         {
             if (child is T result)
                 return result;
@@ -414,11 +414,11 @@ public static class StswFnUI
     /// Finds all logical children of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the children to find.</typeparam>
-    /// <param name="obj">The control for which to find the logical children.</param>
+    /// <param name="d">The control for which to find the logical children.</param>
     /// <returns>An enumerable collection of logical children of the specified type.</returns>
-    public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject obj) where T : class
+    public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject d) where T : class
     {
-        foreach (var child in LogicalTreeHelper.GetChildren(obj))
+        foreach (var child in LogicalTreeHelper.GetChildren(d))
         {
             if (child is T match)
                 yield return match;
@@ -435,11 +435,11 @@ public static class StswFnUI
     /// Finds the first visual ancestor of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the ancestor to find.</typeparam>
-    /// <param name="obj">The control for which to find the visual ancestor.</param>
+    /// <param name="d">The control for which to find the visual ancestor.</param>
     /// <returns>The first visual ancestor of the specified type, or <see langword="null"/> if no such ancestor exists.</returns>
-    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : class
+    public static T? FindVisualAncestor<T>(DependencyObject d) where T : class
     {
-        var parent = obj;
+        var parent = d;
 
         while (parent != null)
         {
@@ -455,13 +455,13 @@ public static class StswFnUI
     /// Finds the first visual child of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the child to find.</typeparam>
-    /// <param name="obj">The control for which to find the visual child.</param>
+    /// <param name="d">The control for which to find the visual child.</param>
     /// <returns>The first visual child of the specified type, or <see langword="null"/> if no such child exists.</returns>
-    public static T? FindVisualChild<T>(DependencyObject obj) where T : class
+    public static T? FindVisualChild<T>(DependencyObject d) where T : class
     {
-        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(d); i++)
         {
-            var child = VisualTreeHelper.GetChild(obj, i);
+            var child = VisualTreeHelper.GetChild(d, i);
 
             if (child is T result)
                 return result;
@@ -478,13 +478,13 @@ public static class StswFnUI
     /// Finds all visual children of a specific type for the given control.
     /// </summary>
     /// <typeparam name="T">The type of the children to find.</typeparam>
-    /// <param name="obj">The control for which to find the visual children.</param>
+    /// <param name="d">The control for which to find the visual children.</param>
     /// <returns>An enumerable collection of visual children of the specified type.</returns>
-    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : class
+    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject d) where T : class
     {
-        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(d); i++)
         {
-            var child = VisualTreeHelper.GetChild(obj, i);
+            var child = VisualTreeHelper.GetChild(d, i);
             if (child is T t)
                 yield return t;
 
@@ -496,14 +496,14 @@ public static class StswFnUI
     /// <summary>
     /// Gets the parent of the given control.
     /// </summary>
-    /// <param name="obj">The control for which to find the parent.</param>
+    /// <param name="d">The control for which to find the parent.</param>
     /// <returns>The parent of the control, or <see langword="null"/> if no parent exists.</returns>
-    public static DependencyObject? GetParent(DependencyObject obj)
+    public static DependencyObject? GetParent(DependencyObject d)
     {
-        if (obj == null)
+        if (d == null)
             return null;
 
-        if (obj is ContentElement contentElement)
+        if (d is ContentElement contentElement)
         {
             var parent = ContentOperations.GetParent(contentElement);
             if (parent != null)
@@ -513,17 +513,17 @@ public static class StswFnUI
                 return frameworkContentElement.Parent;
         }
 
-        return VisualTreeHelper.GetParent(obj);
+        return VisualTreeHelper.GetParent(d);
     }
 
     /// <summary>
     /// Gets the parent popup of the given control.
     /// </summary>
-    /// <param name="obj">The control for which to find the parent popup.</param>
+    /// <param name="d">The control for which to find the parent popup.</param>
     /// <returns>The parent <see cref="Popup"/> control, or <see langword="null"/> if no parent popup exists.</returns>
-    public static Popup? GetParentPopup(DependencyObject obj)
+    public static Popup? GetParentPopup(DependencyObject d)
     {
-        var parent = VisualTreeHelper.GetParent(obj);
+        var parent = VisualTreeHelper.GetParent(d);
 
         while (parent != null)
         {

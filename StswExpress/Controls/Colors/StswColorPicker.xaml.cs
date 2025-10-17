@@ -169,9 +169,9 @@ public class StswColorPicker : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
 
         StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
@@ -207,9 +207,9 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorAChanged)
         );
-    public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorAChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
 
         stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
@@ -231,9 +231,9 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorRChanged)
         );
-    public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorRChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
 
         stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
@@ -256,9 +256,9 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorGChanged)
         );
-    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorGChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
 
         stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
@@ -280,9 +280,9 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorBChanged)
         );
-    public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorBChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
         
         stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
@@ -303,9 +303,9 @@ public class StswColorPicker : Control, IStswCornerControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(double), OnSelectedColorVChanged)
         );
-    public static void OnSelectedColorVChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorVChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswColorPicker stsw)
+        if (d is not StswColorPicker stsw)
             return;
 
         StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);

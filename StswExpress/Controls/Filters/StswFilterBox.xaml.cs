@@ -511,9 +511,9 @@ public class StswFilterBox : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnFilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFilterModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFilterBox stsw)
+        if (d is not StswFilterBox stsw)
             return;
 
         /// update visual symbol if found
@@ -560,9 +560,9 @@ public class StswFilterBox : Control, IStswCornerControl
             typeof(StswFilterBox),
             new PropertyMetadata(default(string), OnFilterValuePathChanged)
         );
-    public static void OnFilterValuePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFilterValuePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFilterBox stsw)
+        if (d is not StswFilterBox stsw)
             return;
 
         /// create param name by removing non-alphanumeric characters
@@ -665,9 +665,9 @@ public class StswFilterBox : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFilterBox stsw)
+        if (d is not StswFilterBox stsw)
             return;
 
         if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
@@ -764,9 +764,9 @@ public class StswFilterBox : Control, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswFilterBox stsw)
+        if (d is not StswFilterBox stsw)
             return;
 
         var filtersType = stsw._dataGrid?.FiltersType;

@@ -108,9 +108,9 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTextModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTextModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswProgressBar stsw)
+        if (d is not StswProgressBar stsw)
             return;
 
         if (stsw.TextMode == StswProgressTextMode.Custom)

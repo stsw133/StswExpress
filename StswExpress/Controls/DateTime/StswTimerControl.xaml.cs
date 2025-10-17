@@ -152,9 +152,9 @@ public class StswTimerControl : Control
             typeof(StswTimerControl),
             new FrameworkPropertyMetadata(default(string), OnFormatChanged)
         );
-    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimerControl stsw)
+        if (d is not StswTimerControl stsw)
             return;
 
         stsw._display?.SetBinding(TextBlock.TextProperty, new Binding(nameof(CurrentTime))
@@ -197,9 +197,9 @@ public class StswTimerControl : Control
             typeof(StswTimerControl),
             new FrameworkPropertyMetadata(default(bool), OnIsRunningChanged)
         );
-    public static void OnIsRunningChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnIsRunningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimerControl stsw)
+        if (d is not StswTimerControl stsw)
             return;
 
         if ((bool)e.NewValue)
@@ -228,9 +228,9 @@ public class StswTimerControl : Control
             typeof(StswTimerControl),
             new FrameworkPropertyMetadata(default(bool?), OnStartStopResetChanged)
         );
-    public static void OnStartStopResetChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnStartStopResetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswTimerControl stsw)
+        if (d is not StswTimerControl stsw)
             return;
 
         var newValue = (bool?)e.NewValue;

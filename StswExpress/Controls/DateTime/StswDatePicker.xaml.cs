@@ -175,9 +175,9 @@ public class StswDatePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFormatChanged)
         );
-    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDatePicker stsw)
+        if (d is not StswDatePicker stsw)
             return;
 
         stsw.FormatChanged(stsw.Format ?? "d");
@@ -228,9 +228,9 @@ public class StswDatePicker : StswBoxBase
             typeof(StswDatePicker),
             new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
-    public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswDatePicker stsw)
+        if (d is not StswDatePicker stsw)
             return;
 
         if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
@@ -270,9 +270,9 @@ public class StswDatePicker : StswBoxBase
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static object? OnSelectedDateChanging(DependencyObject obj, object? baseValue)
+    private static object? OnSelectedDateChanging(DependencyObject d, object? baseValue)
     {
-        if (obj is not StswDatePicker stsw)
+        if (d is not StswDatePicker stsw)
             return baseValue;
 
         return stsw.MinMaxValidate((DateTime?)baseValue);

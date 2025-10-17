@@ -152,9 +152,9 @@ public class StswStepBar : Control
             typeof(StswStepBar),
             new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsRender, OnStepNumberChanged)
         );
-    private static void OnStepNumberChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnStepNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswStepBar stsw)
+        if (d is not StswStepBar stsw)
             return;
 
         var index = (int)e.NewValue;
@@ -287,9 +287,9 @@ public class StswStepBarItem : Control
             typeof(StswStepBarItem),
             new FrameworkPropertyMetadata(default(StepBarItemStatus), FrameworkPropertyMetadataOptions.AffectsRender, OnStatusChanged)
         );
-    private static void OnStatusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswStepBarItem stsw)
+        if (d is not StswStepBarItem stsw)
             return;
 
         //stsw.AnimateStatusChange((StepBarItemStatus)e.OldValue, (StepBarItemStatus)e.NewValue);

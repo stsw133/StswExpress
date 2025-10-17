@@ -128,9 +128,9 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnPasswordChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPasswordBox stsw)
+        if (d is not StswPasswordBox stsw)
             return;
 
         if (stsw._passwordBox != null && !stsw._isPasswordChanging)

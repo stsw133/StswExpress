@@ -94,7 +94,6 @@
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="{x:Type local:StswMediaPlayerContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
-                <se:StswNavigationElement Header="StswBetterNavigation" ContextNamespace="{x:Type local:StswBetterNavigationContext}"/>
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="{x:Type local:StswMenuContext}"/>
                 <se:StswNavigationElement Header="StswNavigationView" ContextNamespace="{x:Type local:StswNavigationViewContext}"/>
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="{x:Type local:StswTabControlContext}"/>

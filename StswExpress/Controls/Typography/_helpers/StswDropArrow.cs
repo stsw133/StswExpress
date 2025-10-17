@@ -22,7 +22,7 @@ public static class StswDropArrow
             typeof(StswDropArrow),
             new PropertyMetadata(default(Geometry), OnPropertyChanged)
         );
-    public static void SetData(DependencyObject obj, Geometry value) => obj.SetValue(DataProperty, value);
+    public static void SetData(DependencyObject d, Geometry value) => d.SetValue(DataProperty, value);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop-down arrow is rotated.
@@ -35,7 +35,7 @@ public static class StswDropArrow
             typeof(StswDropArrow),
             new PropertyMetadata(default(bool), OnPropertyChanged)
         );
-    public static void SetIsRotated(DependencyObject obj, bool value) => obj.SetValue(IsRotatedProperty, value);
+    public static void SetIsRotated(DependencyObject d, bool value) => d.SetValue(IsRotatedProperty, value);
 
     /// <summary>
     /// Identifies the <see cref="Visibility"/> attached property.
@@ -48,16 +48,16 @@ public static class StswDropArrow
             typeof(StswDropArrow),
             new PropertyMetadata(default(Visibility), OnPropertyChanged)
         );
-    public static void SetVisibility(DependencyObject obj, Visibility value) => obj.SetValue(VisibilityProperty, value);
+    public static void SetVisibility(DependencyObject d, Visibility value) => d.SetValue(VisibilityProperty, value);
 
     /// <summary>
     /// Applies changes to the drop-down arrow when a property value changes.
     /// </summary>
-    /// <param name="obj">The dependency object.</param>
+    /// <param name="d">The dependency object.</param>
     /// <param name="e">The event arguments containing the changed property.</param>
-    private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is Control control)
+        if (d is Control control)
             EnsureTemplate(control);
     }
 

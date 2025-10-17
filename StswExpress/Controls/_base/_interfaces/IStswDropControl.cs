@@ -35,11 +35,11 @@ public interface IStswDropControl
     /// <summary>
     /// Suppresses the next open action of the drop-down control to prevent it from opening immediately after being closed.
     /// </summary>
-    /// <param name="obj">The drop-down control to suppress the next open action for.</param>
+    /// <param name="d">The drop-down control to suppress the next open action for.</param>
     /// <param name="e"> The event arguments containing the new value for the <see cref="IsDropDownOpen"/> property.</param>
-    public static void IsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void IsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not IStswDropControl dropControl)
+        if (d is not IStswDropControl dropControl)
             return;
 
         if ((bool)e.NewValue)
@@ -47,21 +47,21 @@ public interface IStswDropControl
             if (dropControl.SuppressNextOpen)
             {
                 dropControl.SuppressNextOpen = false;
-                obj.Dispatcher.BeginInvoke(() => dropControl.IsDropDownOpen = false, DispatcherPriority.Input);
+                d.Dispatcher.BeginInvoke(() => dropControl.IsDropDownOpen = false, DispatcherPriority.Input);
                 return;
             }
 
-            Mouse.Capture(obj as IInputElement, CaptureMode.SubTree);
-            Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(obj, PreviewMouseDownOutsideCapturedElement);
+            Mouse.Capture(d as IInputElement, CaptureMode.SubTree);
+            Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(d, PreviewMouseDownOutsideCapturedElement);
         }
         else
         {
-            Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(obj, PreviewMouseDownOutsideCapturedElement);
-            if (Mouse.Captured == obj)
+            Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(d, PreviewMouseDownOutsideCapturedElement);
+            if (Mouse.Captured == d)
                 Mouse.Capture(null);
 
             dropControl.SuppressNextOpen = true;
-            obj.Dispatcher.BeginInvoke(() => dropControl.SuppressNextOpen = false, DispatcherPriority.Input);
+            d.Dispatcher.BeginInvoke(() => dropControl.SuppressNextOpen = false, DispatcherPriority.Input);
         }
     }
 

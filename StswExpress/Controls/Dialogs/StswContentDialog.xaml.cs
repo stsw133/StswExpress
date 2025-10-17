@@ -431,9 +431,9 @@ public class StswContentDialog : ContentControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnIsOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswContentDialog stsw)
+        if (d is not StswContentDialog stsw)
             return;
 
         VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
@@ -489,7 +489,7 @@ public class StswContentDialog : ContentControl
     /// </summary>
     public static readonly DependencyProperty RestoreFocusElementProperty
         = DependencyProperty.RegisterAttached(
-            "RestoreFocusElement",
+            nameof(RestoreFocusElementProperty)[..^8],
             typeof(IInputElement),
             typeof(StswContentDialog)
         );

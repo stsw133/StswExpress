@@ -232,9 +232,9 @@ public class StswRatingControl : Control, IStswIconControl
             typeof(StswRatingControl),
             new FrameworkPropertyMetadata(default(ExpandDirection), OnDirectionChanged)
         );
-    private static void OnDirectionChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswRatingControl stsw)
+        if (d is not StswRatingControl stsw)
             return;
 
         if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
@@ -335,9 +335,9 @@ public class StswRatingControl : Control, IStswIconControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsNumberChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnItemsNumberChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnItemsNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswRatingControl stsw)
+        if (d is not StswRatingControl stsw)
             return;
 
         var val = (int)e.NewValue;
@@ -406,9 +406,9 @@ public class StswRatingControl : Control, IStswIconControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnPlaceholderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnPlaceholderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnPlaceholderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswRatingControl stsw)
+        if (d is not StswRatingControl stsw)
             return;
 
         if (stsw.Placeholder.HasValue)
@@ -450,9 +450,9 @@ public class StswRatingControl : Control, IStswIconControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswRatingControl stsw)
+        if (d is not StswRatingControl stsw)
             return;
 
         if (stsw.Value is < 0 && stsw.IsResetEnabled)

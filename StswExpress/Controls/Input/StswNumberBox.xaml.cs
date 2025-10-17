@@ -191,9 +191,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFormatChanged)
         );
-    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNumberBoxBase<T> stsw)
+        if (d is not StswNumberBoxBase<T> stsw)
             return;
 
         stsw.FormatChanged(stsw.Format);
@@ -230,9 +230,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
             typeof(StswNumberBoxBase<T>),
             new PropertyMetadata(default(T?), OnMinMaxChanged)
         );
-    public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswNumberBoxBase<T> stsw)
+        if (d is not StswNumberBoxBase<T> stsw)
             return;
 
         if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
@@ -274,9 +274,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static object? OnValueChanging(DependencyObject obj, object? baseValue)
+    private static object? OnValueChanging(DependencyObject d, object? baseValue)
     {
-        if (obj is not StswNumberBoxBase<T> stsw)
+        if (d is not StswNumberBoxBase<T> stsw)
             return baseValue;
 
         return stsw.MinMaxValidate((T?)baseValue);
