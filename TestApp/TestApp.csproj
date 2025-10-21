@@ -63,7 +63,7 @@
     <Compile Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Charts\StswChartColumns\StswChartColumnsView.xaml.cs">
+    <Compile Update="Modules\Controls\Charts\StswChartColumn\StswChartColumnView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml.cs">
@@ -318,7 +318,7 @@
     <Page Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Charts\StswChartColumns\StswChartColumnsView.xaml">
+    <Page Update="Modules\Controls\Charts\StswChartColumn\StswChartColumnView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml">

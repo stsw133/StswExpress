@@ -76,58 +76,23 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type se:StswChartLegendItem}">
+                    <Setter Property="Title" Value="{Binding Title}"/>
+                    <Setter Property="Description" Value="{Binding Description}"/>
+                    <Setter Property="Value" Value="{Binding Value}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="{Binding Columns, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                  Rows="{Binding Rows, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"/>
                 </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <DockPanel>
-                        <!-- box -->
-                        <se:StswBorder x:Name="OPT_MainBorder"
-                                       Background="{Binding Brush}"
-                                       BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                       BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                       CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                       Height="18" Width="18">
-                            <Viewbox x:Name="OPT_Percentage" Visibility="Collapsed">
-                                <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}">
-                                    <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
-                                                         FontWeight="Bold"
-                                                         Stroke="{DynamicResource StswBox.Static.Background}"
-                                                         StrokeThickness="4"
-                                                         Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
-                                    <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
-                                                         FontWeight="Bold"
-                                                         Stroke="{DynamicResource StswBox.Static.Background}"
-                                                         StrokeThickness="4"
-                                                         Text="%"/>
-                                </DockPanel>
-                            </Viewbox>
-                        </se:StswBorder>
-                        <!-- name -->
-                        <Label Content="{Binding Name}" VerticalContentAlignment="Center"/>
-                        <!-- tooltip -->
-                        <DockPanel.ToolTip>
-                            <se:StswChartTip ShowDescription="True" ShowName="False"/>
-                        </DockPanel.ToolTip>
-                    </DockPanel>
-                    <!-- triggers -->
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ShowDetails, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}" Value="True">
-                            <Setter Property="Width" Value="36" TargetName="OPT_MainBorder"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Percentage"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>

@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswChartColumnItem}">
+        <Setter Property="Background" Value="{Binding Title, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='G B?20%'}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswChartColumnItem}">
+                    <DockPanel>
+                        <!-- name text -->
+                        <se:StswText DockPanel.Dock="Bottom"
+                                     FontWeight="Medium"
+                                     Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue=—}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Bottom"/>
+                        <se:StswSeparator DockPanel.Dock="Bottom" Margin="0 0 0 5"/>
+                        <!-- column element -->
+                        <Rectangle DockPanel.Dock="Bottom"
+                                   Fill="{TemplateBinding Background}"
+                                   Margin="5 0"
+                                   Height="{TemplateBinding ColumnHeight}"
+                                   Width="{TemplateBinding ColumnWidth}">
+                            <Rectangle.ToolTip>
+                                <se:StswChartTip ShowDescription="True" ShowName="True"/>
+                            </Rectangle.ToolTip>
+                        </Rectangle>
+                        <!-- value text -->
+                        <se:StswText DockPanel.Dock="Top"
+                                     Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=N, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Bottom"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

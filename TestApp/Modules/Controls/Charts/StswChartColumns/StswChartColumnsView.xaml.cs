@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswChartColumnsView.xaml
+/// Interaction logic for StswChartColumnView.xaml
 /// </summary>
-public partial class StswChartColumnsView : UserControl
+public partial class StswChartColumnView : UserControl
 {
-    public StswChartColumnsView()
+    public StswChartColumnView()
     {
         InitializeComponent();
     }

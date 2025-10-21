@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +18,6 @@ namespace StswExpress;
 /// &lt;se:StswChartLegend ItemsSource="{Binding ChartData}" Columns="3" Rows="2" ShowDetails="True"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswChartLegend : HeaderedItemsControl
 {
     static StswChartLegend()
@@ -25,39 +25,71 @@ public class StswChartLegend : HeaderedItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartLegend), new FrameworkPropertyMetadata(typeof(StswChartLegend)));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswChartLegendItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartLegendItem;
+
     #region Events & methods
     /// <inheritdoc/>
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
-        MakeChart(newValue);
-        if (newValue != null)
-            foreach (StswChartElementModel item in newValue)
-                item.OnValueChangedCommand = new StswCommand(() => MakeChart(ItemsSource));
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswChartLegendItem c)
+            c.ValueChanged += OnItemValueChanged;
+    }
 
-        base.OnItemsSourceChanged(oldValue, newValue);
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswChartLegendItem c)
+            c.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+        MakeChart();
     }
 
     /// <summary>
-    /// Generates and updates the legend based on the provided data source.
-    /// Ensures that percentage values are calculated correctly for each legend item.
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
     /// </summary>
-    /// <param name="itemsSource">The collection of data items used to generate the legend.</param>
-    /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
-    public virtual void MakeChart(IEnumerable itemsSource)
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnItemValueChanged(object? sender, EventArgs e) => MakeChart();
+
+    /// <summary>
+    /// Generates and updates the chart legend based on the current items.
+    /// </summary>
+    public virtual void MakeChart()
     {
-        if (itemsSource == null)
+        var items = GetContainers();
+        if (items.Count == 0)
             return;
 
-        if (itemsSource?.GetType()?.IsListType(out var innerType) != true || innerType?.IsAssignableTo(typeof(StswChartElementModel)) != true)
-            throw new Exception($"{nameof(ItemsSource)} of chart control has to derive from {nameof(StswChartElementModel)} class!");
+        var total = items.Sum(i => i.Value);
+        var hasTotal = total != 0;
 
-        var items = itemsSource.OfType<StswChartElementModel>();
-
-        /// calculate values
         foreach (var item in items)
-            item.Percentage = item.Value != 0 ? Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100) : 0;
+            item.Percentage = hasTotal ? Convert.ToDouble(item.Value / total * 100m) : 0d;
+    }
 
-        //itemsSource = items.OrderByDescending(x => x.Value);
+    /// <summary>
+    /// Retrieves the list of legend item containers.
+    /// </summary>
+    /// <returns>A list of <see cref="StswChartLegendItem"/> containers.</returns>
+    private List<StswChartLegendItem> GetContainers()
+    {
+        var list = new List<StswChartLegendItem>(Items.Count);
+        foreach (var it in Items)
+        {
+            var c = ItemContainerGenerator.ContainerFromItem(it) as StswChartLegendItem
+                    ?? it as StswChartLegendItem;
+            if (c != null)
+                list.Add(c);
+        }
+        return list;
     }
     #endregion
 

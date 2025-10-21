@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.StswChartColumnsView"
+﻿<UserControl x:Class="TestApp.StswChartColumnView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswChartColumnsContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswChartColumnContext}">
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
@@ -19,10 +19,10 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <se:StswChartColumns IsEnabled="{Binding IsEnabled}"
-                                 ItemsSource="{Binding Items}"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswChartColumn IsEnabled="{Binding IsEnabled}"
+                                ItemsSource="{Binding Items}"
+                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswChartLegend Grid.Column="1" Columns="1"
                                 Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"

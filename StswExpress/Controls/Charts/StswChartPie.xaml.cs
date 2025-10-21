@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +20,6 @@ namespace StswExpress;
 /// &lt;se:StswChartPie ItemsSource="{Binding SalesData}" StrokeThickness="10" MinPercentageRender="5"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswChartPie : ItemsControl
 {
     static StswChartPie()
@@ -27,17 +27,57 @@ public class StswChartPie : ItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartPie), new FrameworkPropertyMetadata(typeof(StswChartPie)));
     }
 
+    protected override DependencyObject GetContainerForItemOverride() => new StswChartPieItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartPieItem;
+
     #region Events & methods
     /// <inheritdoc/>
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    public override void OnApplyTemplate()
     {
-        MakeChart(newValue);
-        if (newValue != null)
-            foreach (StswChartElementModel item in newValue)
-                item.OnValueChangedCommand = new StswCommand(() => MakeChart(ItemsSource));
-
-        base.OnItemsSourceChanged(oldValue, newValue);
+        base.OnApplyTemplate();
+        MakeChart();
     }
+
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+        MakeChart();
+    }
+
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswChartPieItem c)
+            c.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+
+    /// <summary>
+    /// Retrieves all the pie chart item containers.
+    /// </summary>
+    /// <returns>An enumerable of <see cref="StswChartPieItem"/> containers.</returns>
+    private IEnumerable<StswChartPieItem> GetContainers()
+    {
+        for (var i = 0; i < Items.Count; i++)
+            if (ItemContainerGenerator.ContainerFromIndex(i) is StswChartPieItem c)
+                yield return c;
+    }
+
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswChartPieItem c)
+            c.ValueChanged += OnItemValueChanged;
+    }
+
+    /// <summary>
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnItemValueChanged(object? sender, EventArgs e) => MakeChart();
 
     /// <summary>
     /// Generates and updates the pie chart based on the provided data source.
@@ -45,42 +85,68 @@ public class StswChartPie : ItemsControl
     /// </summary>
     /// <param name="itemsSource">The collection of data items used to generate the chart.</param>
     /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
-    public virtual void MakeChart(IEnumerable itemsSource)
+    public virtual void MakeChart()
     {
-        if (itemsSource == null)
+        var items = GetContainers().ToArray();
+        if (items.Length == 0)
             return;
 
-        if (itemsSource?.GetType()?.IsListType(out var innerType) != true || innerType?.IsAssignableTo(typeof(StswChartElementModel)) != true)
-            throw new Exception($"{nameof(ItemsSource)} of chart control has to derive from {nameof(StswChartElementModel)} class!");
-
-        var items = itemsSource.OfType<StswChartElementModel>();
-
         /// calculate values
-        var totalPercent = 0d;
+        var totalValue = items.Sum(x => x.Value);
+        var total = totalValue == 0 ? 1m : totalValue;
+
+        var totalPercent = 0.0;
+        var count = items.Length;
+
         foreach (var item in items)
         {
-            item.Percentage = Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100);
+            item.Percentage = (double)(item.Value / total) * 100.0;
+            item.Angle = -90 + totalPercent * 3.6;
+            item.TextSize = FontSize + item.Percentage * 2.0;
 
-            item.Internal ??= new StswChartElementPieModel();
-            if (item.Internal is StswChartElementPieModel elem)
-            {
-                elem.Angle = -90 + totalPercent * 3.6;
-                elem.TextSize = FontSize + item.Percentage * 2;
-
-                /// calculate center for percentage text
-                var angleRadians = (elem.Angle + item.Percentage * 3.6 / 2) * Math.PI / 180;
-                var radius = items.Count() == 1 ? 0 : (1000 - StrokeThickness) / 2 * (1.5 - item.Percentage/125);
-                var centerX = Math.Cos(angleRadians) * radius;
-                var centerY = Math.Sin(angleRadians) * radius;
-                elem.Center = new Point(centerX, centerY);
-            }
+            /// calculate center for percentage text
+            var angleMid = (item.Angle + (item.Percentage * 3.6) / 2.0) * Math.PI / 180.0;
+            var radius = (count == 1) ? 0.0 : (1000 - StrokeThickness) / 2.0 * (1.5 - item.Percentage / 125.0);
+            var cx = Math.Cos(angleMid) * radius;
+            var cy = Math.Sin(angleMid) * radius;
+            item.Center = new Point(cx, cy);
 
             totalPercent += item.Percentage;
         }
-        OnMinPercentageRenderChanged(this, new DependencyPropertyChangedEventArgs());
-        OnStrokeThicknessChanged(this, new DependencyPropertyChangedEventArgs());
+        ApplyMinPercentageVisibility(items);
+        ApplyStrokeDashes(items);
+    }
 
-        //itemsSource = items.OrderByDescending(x => x.Value);
+    /// <summary>
+    /// Applies visibility settings for percentage labels based on the minimum percentage threshold.
+    /// </summary>
+    /// <param name="items">The collection of pie chart items.</param>
+    private void ApplyMinPercentageVisibility(IEnumerable<StswChartPieItem> items)
+    {
+        foreach (var item in items)
+            item.IsPercentageVisible = item.Percentage >= MinPercentageRender;
+    }
+
+    /// <summary>
+    /// Applies stroke dash patterns to pie chart segments based on their percentage values and the configured stroke thickness.
+    /// </summary>
+    /// <param name="items">The collection of pie chart items.</param>
+    private void ApplyStrokeDashes(IEnumerable<StswChartPieItem> items)
+    {
+        var t = Math.Max(1.0, StrokeThickness);
+
+        foreach (var item in items)
+        {
+            var diameter = 1000 - t;
+            var r = Math.Max(0.0, diameter / 2.0);
+            var circumference = 2.0 * Math.PI * r;
+
+            var dash = (item.Percentage <= 0) ? 0.0001
+                      : (item.Percentage >= 100) ? (circumference / t)
+                      : (item.Percentage / 100.0) * (circumference / t);
+
+            item.StrokeDashArray = new DoubleCollection([dash, 100.0]);
+        }
     }
     #endregion
 
@@ -103,16 +169,12 @@ public class StswChartPie : ItemsControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnMinPercentageRenderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswChartPie stsw)
+        if (obj is not StswChartPie stsw)
             return;
 
-        var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
-        if (items != null)
-            foreach (var item in items)
-                if (item.Internal is StswChartElementPieModel elem)
-                    elem.IsPercentageVisible = item.Percentage >= stsw.MinPercentageRender;
+        stsw.ApplyMinPercentageVisibility(stsw.GetContainers());
     }
 
     /// <summary>
@@ -133,16 +195,14 @@ public class StswChartPie : ItemsControl
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswChartPie stsw)
+        if (obj is not StswChartPie stsw)
             return;
 
-        var items = stsw.ItemsSource?.OfType<StswChartElementModel>();
-        if (items != null)
-            foreach (var item in items)
-                if (item.Internal is StswChartElementPieModel elem)
-                    elem.StrokeDashArray = new DoubleCollection(new[] { Math.PI * item.Percentage * (1000 - stsw.StrokeThickness) / stsw.StrokeThickness / 100, 100 });
+        var items = stsw.GetContainers().ToArray();
+        stsw.ApplyStrokeDashes(items);
+        stsw.MakeChart();
     }
     #endregion
 }

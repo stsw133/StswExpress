@@ -19,7 +19,7 @@ public class StswExpander : Expander, IStswCornerControl
     static StswExpander()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
-        StswThickness.OverrideBaseBorderThickness<StswExpander>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        StswControl.OverrideBaseBorderThickness<StswExpander>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Style properties
@@ -38,7 +38,7 @@ public class StswExpander : Expander, IStswCornerControl
             typeof(StswExpander),
             new FrameworkPropertyMetadata(default(StswThickness),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswThickness.CreateExtendedChangedCallback<StswExpander>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+                StswControl.CreateExtendedChangedCallback<StswExpander>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
 
     /// <inheritdoc/>

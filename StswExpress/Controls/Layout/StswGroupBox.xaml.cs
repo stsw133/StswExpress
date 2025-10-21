@@ -18,7 +18,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
     static StswGroupBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
-        StswThickness.OverrideBaseBorderThickness<StswGroupBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        StswControl.OverrideBaseBorderThickness<StswGroupBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Style properties
@@ -37,7 +37,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
             typeof(StswGroupBox),
             new FrameworkPropertyMetadata(default(StswThickness),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswThickness.CreateExtendedChangedCallback<StswGroupBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+                StswControl.CreateExtendedChangedCallback<StswGroupBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
 
     /// <inheritdoc/>

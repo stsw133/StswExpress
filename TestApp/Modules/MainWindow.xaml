@@ -44,7 +44,7 @@
                 <se:StswNavigationElement Header="StswToggleButton" ContextNamespace="{x:Type local:StswToggleButtonContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Charts" IconData="{x:Static se:StswIcons.ChartBar}">
-                <se:StswNavigationElement Header="StswChartColumns" ContextNamespace="{x:Type local:StswChartColumnsContext}"/>
+                <se:StswNavigationElement Header="StswChartColumn" ContextNamespace="{x:Type local:StswChartColumnContext}"/>
                 <se:StswNavigationElement Header="StswChartLegend" ContextNamespace="{x:Type local:StswChartLegendContext}"/>
                 <se:StswNavigationElement Header="StswChartPie" ContextNamespace="{x:Type local:StswChartPieContext}"/>
             </se:StswNavigationElement>

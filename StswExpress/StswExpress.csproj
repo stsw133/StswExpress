@@ -94,7 +94,7 @@
     <Page Update="Controls\Charts\StswChartLegend.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Charts\StswChartColumns.xaml">
+    <Page Update="Controls\Charts\StswChartColumn.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Charts\StswChartPie.xaml">

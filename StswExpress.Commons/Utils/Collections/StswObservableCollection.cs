@@ -18,6 +18,13 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     /// <summary>
     /// Initializes a new instance of <see cref="StswObservableCollection{T}"/>.
     /// </summary>
+    public StswObservableCollection() : this([])
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="StswObservableCollection{T}"/>.
+    /// </summary>
     /// <param name="trackItems">If set to <see langword="true"/>, the collection will track changes to the items.</param>
     public StswObservableCollection(bool trackItems = true) : this([])
     {

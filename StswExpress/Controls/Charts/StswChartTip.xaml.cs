@@ -24,8 +24,7 @@ public class StswChartTip : StswToolTip
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswChartElementModel.Description"/> property 
-    /// should be displayed in the tooltip.
+    /// Indicates whether the description of the chart element should be displayed in the tooltip.
     /// </summary>
     public bool ShowDescription
     {
@@ -40,8 +39,7 @@ public class StswChartTip : StswToolTip
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswChartElementModel.Name"/> property 
-    /// should be displayed in the tooltip.
+    /// Indicates whether the name of the chart element should be displayed in the tooltip.
     /// </summary>
     public bool ShowName
     {
