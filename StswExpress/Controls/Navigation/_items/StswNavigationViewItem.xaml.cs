@@ -239,22 +239,5 @@ public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIco
             typeof(double),
             typeof(StswNavigationViewItem)
         );
-
-    /// <summary>
-    /// Gets or sets the thickness of the sub-item border.
-    /// Defines the visual separation between navigation elements.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswNavigationViewItem),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

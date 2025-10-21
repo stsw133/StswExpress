@@ -13,8 +13,7 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
-        
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -33,7 +32,7 @@
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
@@ -72,7 +71,6 @@
                                                        Margin="{TemplateBinding Padding}"
                                                        Maximum="{Binding TotalPages, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Minimum="1"
-                                                       SeparatorThickness="1"
                                                        Value="{Binding CurrentPage, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Width="100"/>
                                 </StackPanel>
@@ -80,7 +78,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Horizontal"/>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Content}"

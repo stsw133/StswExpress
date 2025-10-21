@@ -34,6 +34,7 @@ public class StswFilterBox : Control, IStswCornerControl
     static StswFilterBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(typeof(StswFilterBox)));
+        StswControl.OverrideBaseBorderThickness<StswFilterBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -48,6 +49,15 @@ public class StswFilterBox : Control, IStswCornerControl
 
         /// ToggleButton: filter mode
         _filterModeButton = GetTemplateChild("PART_FilterMode") as ButtonBase;
+
+        /// default FilterType
+        if (FilterType == StswAdaptiveType.Auto)
+        {
+            var inferredType = DetermineFilterTypeFromColumn();
+            if (inferredType == StswAdaptiveType.Auto)
+                inferredType = StswAdaptiveType.Text;
+            FilterType = inferredType;
+        }
 
         /// default FilterMode
         FilterMode ??= FilterType switch
@@ -74,6 +84,30 @@ public class StswFilterBox : Control, IStswCornerControl
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
             _dataGrid?.RefreshCommand?.Execute(null);
+    }
+
+    /// <summary>
+    /// Determines the filter type based on the associated DataGrid column type.
+    /// </summary>
+    /// <returns>The inferred <see cref="StswAdaptiveType"/> for filtering.</returns>
+    private StswAdaptiveType DetermineFilterTypeFromColumn()
+    {
+        var columnHeader = StswFnUI.FindVisualAncestor<DataGridColumnHeader>(this);
+        if (columnHeader?.Column is not DataGridColumn column)
+            return StswAdaptiveType.Auto;
+
+        return column switch
+        {
+            StswDataGridTextColumn => StswAdaptiveType.Text,
+            StswDataGridDecimalColumn => StswAdaptiveType.Number,
+            StswDataGridDoubleColumn => StswAdaptiveType.Number,
+            StswDataGridIntegerColumn => StswAdaptiveType.Number,
+            StswDataGridDateColumn => StswAdaptiveType.Date,
+            StswDataGridCheckColumn => StswAdaptiveType.Check,
+            StswDataGridComboColumn => StswAdaptiveType.List,
+            StswDataGridTimeColumn => StswAdaptiveType.Time,
+            _ => StswAdaptiveType.Auto
+        };
     }
     #endregion
 
@@ -542,7 +576,8 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterType),
             typeof(StswAdaptiveType),
-            typeof(StswFilterBox)
+            typeof(StswFilterBox),
+            new FrameworkPropertyMetadata(StswAdaptiveType.Auto)
         );
 
     /// <summary>
@@ -816,6 +851,24 @@ public class StswFilterBox : Control, IStswCornerControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets the thickness of the border, including the inner separator value.
+    /// </summary>
+    public new StswThickness BorderThickness
+    {
+        get => (StswThickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public new static readonly DependencyProperty BorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BorderThickness),
+            typeof(StswThickness),
+            typeof(StswFilterBox),
+            new FrameworkPropertyMetadata(default(StswThickness),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                StswControl.CreateExtendedChangedCallback<StswFilterBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -842,22 +895,6 @@ public class StswFilterBox : Control, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswFilterBox),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the filter box and dropdown button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswFilterBox),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

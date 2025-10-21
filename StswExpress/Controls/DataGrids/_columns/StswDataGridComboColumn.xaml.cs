@@ -28,7 +28,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             new Setter(StswComboBox.CornerClippingProperty, false),
             new Setter(StswComboBox.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswComboBox.FocusVisualStyleProperty, null),
-            new Setter(StswComboBox.SeparatorThicknessProperty, 0.0),
             new Setter(StswComboBox.IsDropDownOpenProperty, true),
             new Setter(StswComboBox.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswComboBox.VerticalAlignmentProperty, VerticalAlignment.Stretch),

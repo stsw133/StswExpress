@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace StswExpress;
 /// <summary>
@@ -44,12 +43,11 @@ public class StswColorBox : StswBoxBase
             var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var parts = Text.Split([sep], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-            byte a, r, g, b;
             if (parts.Length == 4 &&
-                byte.TryParse(parts[0], out a) &&
-                byte.TryParse(parts[1], out r) &&
-                byte.TryParse(parts[2], out g) &&
-                byte.TryParse(parts[3], out b))
+                byte.TryParse(parts[0], out var a) &&
+                byte.TryParse(parts[1], out var r) &&
+                byte.TryParse(parts[2], out var g) &&
+                byte.TryParse(parts[3], out var b))
             {
                 isPlain = true;
                 result = Color.FromArgb(a, r, g, b);

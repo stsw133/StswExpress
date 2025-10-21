@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace StswExpress;
 
@@ -35,15 +36,22 @@ public class StswChartPie : ItemsControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        MakeChart();
+        RequestChartUpdate();
     }
 
     /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
-        MakeChart();
+        RequestChartUpdate();
     }
+
+    /// <summary>
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
 
     /// <inheritdoc/>
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
@@ -71,13 +79,6 @@ public class StswChartPie : ItemsControl
         if (element is StswChartPieItem c)
             c.ValueChanged += OnItemValueChanged;
     }
-
-    /// <summary>
-    /// Handles the ValueChanged event of an item and triggers chart regeneration.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnItemValueChanged(object? sender, EventArgs e) => MakeChart();
 
     /// <summary>
     /// Generates and updates the pie chart based on the provided data source.
@@ -116,6 +117,23 @@ public class StswChartPie : ItemsControl
         ApplyMinPercentageVisibility(items);
         ApplyStrokeDashes(items);
     }
+
+    /// <summary>
+    /// Requests a chart update and throttles recalculations to a single dispatcher pass.
+    /// </summary>
+    private void RequestChartUpdate()
+    {
+        if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
+            return;
+
+        var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
+        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
+        {
+            _chartUpdateOperation = null;
+            MakeChart();
+        }));
+    }
+    private DispatcherOperation? _chartUpdateOperation;
 
     /// <summary>
     /// Applies visibility settings for percentage labels based on the minimum percentage threshold.
@@ -174,7 +192,7 @@ public class StswChartPie : ItemsControl
         if (obj is not StswChartPie stsw)
             return;
 
-        stsw.ApplyMinPercentageVisibility(stsw.GetContainers());
+        stsw.RequestChartUpdate();
     }
 
     /// <summary>
@@ -200,9 +218,7 @@ public class StswChartPie : ItemsControl
         if (obj is not StswChartPie stsw)
             return;
 
-        var items = stsw.GetContainers().ToArray();
-        stsw.ApplyStrokeDashes(items);
-        stsw.MakeChart();
+        stsw.RequestChartUpdate();
     }
     #endregion
 }

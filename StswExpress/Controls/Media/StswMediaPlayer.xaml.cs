@@ -28,6 +28,7 @@ public class StswMediaPlayer : ItemsControl
     static StswMediaPlayer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
+        StswControl.OverrideBaseBorderThickness<StswMediaPlayer>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -276,6 +277,24 @@ public class StswMediaPlayer : ItemsControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets the thickness of the border, including the inner separator value.
+    /// </summary>
+    public new StswThickness BorderThickness
+    {
+        get => (StswThickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public new static readonly DependencyProperty BorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BorderThickness),
+            typeof(StswThickness),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(StswThickness),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                StswControl.CreateExtendedChangedCallback<StswMediaPlayer>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -302,22 +321,6 @@ public class StswMediaPlayer : ItemsControl
             typeof(CornerRadius),
             typeof(StswMediaPlayer),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the media element and the control panel.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

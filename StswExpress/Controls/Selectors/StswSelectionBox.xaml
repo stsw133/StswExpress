@@ -10,7 +10,6 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
@@ -43,7 +42,7 @@
                     <se:StswToggleButton x:Name="OPT_MainButton"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                          ClickMode="Press"
                                          CornerClipping="{TemplateBinding CornerClipping}"
                                          CornerRadius="{TemplateBinding CornerRadius}"
@@ -115,7 +114,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
                             <!-- content -->

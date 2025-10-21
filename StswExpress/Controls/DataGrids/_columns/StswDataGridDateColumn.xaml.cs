@@ -33,7 +33,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
             new Setter(StswDatePicker.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswDatePicker.FocusVisualStyleProperty, null),
             new Setter(StswDatePicker.PaddingProperty, new Thickness(0)),
-            new Setter(StswDatePicker.SeparatorThicknessProperty, 0d),
             new Setter(StswDatePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswDatePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
         }

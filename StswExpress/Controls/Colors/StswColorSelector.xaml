@@ -10,7 +10,6 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -30,7 +29,7 @@
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswGrid AutoLayoutMode="IncrementRows">
@@ -46,7 +45,7 @@
                                               IconStrokeThickness="1"/>
                             </se:StswButton>
                             <!-- theme colors -->
-                            <se:StswSeparator x:Name="OPT_ThemeSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                            <se:StswSeparator x:Name="OPT_ThemeSeparator" BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <se:StswGroupBox x:Name="OPT_ThemeColors"
                                              BorderThickness="0 0 1"
                                              CornerClipping="False"
@@ -93,7 +92,7 @@
                                 </se:StswDirectionView>
                             </se:StswGroupBox>
                             <!-- standard colors -->
-                            <se:StswSeparator x:Name="OPT_StandardSeparator" BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                            <se:StswSeparator x:Name="OPT_StandardSeparator" BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <se:StswGroupBox x:Name="OPT_StandardColors"
                                              BorderThickness="0 0 1"
                                              CornerClipping="False"

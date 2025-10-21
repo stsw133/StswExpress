@@ -15,9 +15,8 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
-        
-        <Setter Property="SubBorderThickness" Value="1"/>
+
+        <Setter Property="SubBorderThickness" Value="1 1 1 1 0"/>
         <Setter Property="SubCornerRadius" Value="6"/>
         <Setter Property="SubPadding" Value="2"/>
 
@@ -47,7 +46,7 @@
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
@@ -233,7 +232,6 @@
                                                                        Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                        Margin="{TemplateBinding SubPadding}"
                                                                        Minimum="1" Maximum="1638"
-                                                                       SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                        Width="60"/>
                                                     
                                                     <se:StswButton x:Name="OPT_FontIncrease"
@@ -263,8 +261,7 @@
                                                                  Focusable="False"
                                                                  Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                  IsEditable="True"
-                                                                 Margin="{TemplateBinding SubPadding}"
-                                                                 SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                 Margin="{TemplateBinding SubPadding}"/>
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
@@ -334,7 +331,6 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    SeparatorThickness="0"
                                                                     se:StswPopup.Background="Transparent"
                                                                     se:StswPopup.BorderBrush="Transparent"
                                                                     se:StswPopup.BorderThickness="0"
@@ -366,7 +362,6 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    SeparatorThickness="0"
                                                                     se:StswPopup.Background="Transparent"
                                                                     se:StswPopup.BorderBrush="Transparent"
                                                                     se:StswPopup.BorderThickness="0"
@@ -504,7 +499,7 @@
                             <!-- separator -->
                             <se:StswSeparator x:Name="OPT_Separator" DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Horizontal"/>
                             <!-- sub controls -->
                             <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"

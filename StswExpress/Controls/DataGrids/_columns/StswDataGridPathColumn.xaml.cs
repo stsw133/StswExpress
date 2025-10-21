@@ -31,7 +31,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
             new Setter(StswPathPicker.CornerClippingProperty, false),
             new Setter(StswPathPicker.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswPathPicker.FocusVisualStyleProperty, null),
-            new Setter(StswPathPicker.SeparatorThicknessProperty, 0.0),
             new Setter(StswPathPicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswPathPicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
         }

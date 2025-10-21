@@ -26,7 +26,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
             new Setter(StswNumberBoxBase<T>.CornerClippingProperty, false),
             new Setter(StswNumberBoxBase<T>.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswNumberBoxBase<T>.FocusVisualStyleProperty, null),
-            new Setter(StswNumberBoxBase<T>.SeparatorThicknessProperty, 0.0),
             new Setter(StswNumberBoxBase<T>.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswNumberBoxBase<T>.VerticalAlignmentProperty, VerticalAlignment.Stretch)
         }

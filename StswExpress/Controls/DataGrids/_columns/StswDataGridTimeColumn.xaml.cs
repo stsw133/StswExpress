@@ -33,7 +33,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
             new Setter(StswTimePicker.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswTimePicker.FocusVisualStyleProperty, null),
             new Setter(StswTimePicker.PaddingProperty, new Thickness(0)),
-            new Setter(StswTimePicker.SeparatorThicknessProperty, 0d),
             new Setter(StswTimePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswTimePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch),
         }

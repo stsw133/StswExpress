@@ -27,7 +27,7 @@ namespace StswExpress;
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;
-    private StswDecimalBox? _fontSize;
+    private readonly StswDecimalBox? _fontSize;
     public ICommand FileNewCommand { get; }
     public ICommand FileOpenCommand { get; }
     public ICommand FileSaveCommand { get; }
@@ -61,6 +61,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     static StswTextEditor()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
+        StswControl.OverrideBaseBorderThickness<StswTextEditor>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -464,6 +465,24 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets the thickness of the border, including the inner separator value.
+    /// </summary>
+    public new StswThickness BorderThickness
+    {
+        get => (StswThickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public new static readonly DependencyProperty BorderThicknessProperty
+       = DependencyProperty.Register(
+           nameof(BorderThickness),
+           typeof(StswThickness),
+           typeof(StswTextEditor),
+            new FrameworkPropertyMetadata(default(StswThickness),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                StswControl.CreateExtendedChangedCallback<StswTextEditor>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+       );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -493,35 +512,19 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswTextEditor),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
     /// Gets or sets the border thickness of buttons and controls within the editor.
     /// </summary>
-    public Thickness SubBorderThickness
+    public StswThickness SubBorderThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        get => (StswThickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
     }
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
-            typeof(Thickness),
+            typeof(StswThickness),
             typeof(StswTextEditor),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(StswThickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

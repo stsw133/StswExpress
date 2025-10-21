@@ -31,7 +31,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
             new Setter(StswColorBox.CornerClippingProperty, false),
             new Setter(StswColorBox.CornerRadiusProperty, new CornerRadius(0)),
             new Setter(StswColorBox.FocusVisualStyleProperty, null),
-            new Setter(StswColorBox.SeparatorThicknessProperty, 0.0),
             new Setter(StswColorBox.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
             new Setter(StswColorBox.VerticalAlignmentProperty, VerticalAlignment.Stretch)
         }

@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace StswExpress;
 
@@ -30,12 +31,25 @@ public class StswChartLegend : HeaderedItemsControl
 
     #region Events & methods
     /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    public override void OnApplyTemplate()
     {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswChartLegendItem c)
-            c.ValueChanged += OnItemValueChanged;
+        base.OnApplyTemplate();
+        RequestChartUpdate();
     }
+
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+        RequestChartUpdate();
+    }
+
+    /// <summary>
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
 
     /// <inheritdoc/>
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
@@ -45,19 +59,29 @@ public class StswChartLegend : HeaderedItemsControl
         base.ClearContainerForItemOverride(element, item);
     }
 
-    /// <inheritdoc/>
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    /// <summary>
+    /// Retrieves the list of legend item containers.
+    /// </summary>
+    /// <returns>A list of <see cref="StswChartLegendItem"/> containers.</returns>
+    private List<StswChartLegendItem> GetContainers()
     {
-        base.OnItemsChanged(e);
-        MakeChart();
+        var list = new List<StswChartLegendItem>(Items.Count);
+        foreach (var item in Items)
+        {
+            var c = ItemContainerGenerator.ContainerFromItem(item) as StswChartLegendItem ?? item as StswChartLegendItem;
+            if (c != null)
+                list.Add(c);
+        }
+        return list;
     }
 
-    /// <summary>
-    /// Handles the ValueChanged event of an item and triggers chart regeneration.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnItemValueChanged(object? sender, EventArgs e) => MakeChart();
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswChartLegendItem c)
+            c.ValueChanged += OnItemValueChanged;
+    }
 
     /// <summary>
     /// Generates and updates the chart legend based on the current items.
@@ -76,21 +100,21 @@ public class StswChartLegend : HeaderedItemsControl
     }
 
     /// <summary>
-    /// Retrieves the list of legend item containers.
+    /// Requests a chart update and throttles recalculations to a single dispatcher pass.
     /// </summary>
-    /// <returns>A list of <see cref="StswChartLegendItem"/> containers.</returns>
-    private List<StswChartLegendItem> GetContainers()
+    private void RequestChartUpdate()
     {
-        var list = new List<StswChartLegendItem>(Items.Count);
-        foreach (var it in Items)
+        if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
+            return;
+
+        var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
+        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
         {
-            var c = ItemContainerGenerator.ContainerFromItem(it) as StswChartLegendItem
-                    ?? it as StswChartLegendItem;
-            if (c != null)
-                list.Add(c);
-        }
-        return list;
+            _chartUpdateOperation = null;
+            MakeChart();
+        }));
     }
+    private DispatcherOperation? _chartUpdateOperation;
     #endregion
 
     #region Logic properties

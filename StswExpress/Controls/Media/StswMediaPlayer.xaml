@@ -8,11 +8,10 @@
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="2 2 2 2 1"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="1"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -32,7 +31,7 @@
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
@@ -128,7 +127,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
                                               Orientation="Horizontal"/>
                             <!-- media -->
                             <Grid Margin="{TemplateBinding Padding}"

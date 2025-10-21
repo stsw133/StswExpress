@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,8 @@ namespace StswExpress;
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     private ContentPresenter? _contentPresenter;
+    private bool _autoTypeEnabled;
+    private bool _isUpdatingTypeFromAuto;
 
     public StswAdaptiveBox()
     {
@@ -30,6 +33,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
+        StswControl.OverrideBaseBorderThickness<StswAdaptiveBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -81,7 +85,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingPopupPadding = new Binding { Path = new PropertyPath(StswPopup.PaddingProperty), Source = this };
         var bindingSelectedValuePath = new Binding(nameof(SelectedValuePath)) { Source = this };
         var bindingSelectionUnit = new Binding(nameof(SelectionUnit)) { Source = this };
-        var bindingSeparatorThickness = new Binding(nameof(SeparatorThickness)) { Source = this };
         var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
         var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
         var bindingVerticalContentAlignment = new Binding(nameof(VerticalContentAlignment)) { Source = this };
@@ -124,7 +127,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswDatePicker.SelectedDateProperty, bindingValue);
                 newControl.SetBinding(StswDatePicker.SelectionUnitProperty, bindingSelectionUnit);
-                newControl.SetBinding(StswDatePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
@@ -146,7 +148,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswSelectionBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswSelectionBox.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswSelectionBox.SelectedValuePathProperty, bindingSelectedValuePath);
-                newControl.SetBinding(StswSelectionBox.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswSelectionBox.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswSelectionBox.TextProperty, bindingValue);
                 newControl.SetBinding(StswSelectionBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
@@ -173,7 +174,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDecimalBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDecimalBox.PlaceholderProperty, bindingPlaceholder);
-                newControl.SetBinding(StswDecimalBox.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDecimalBox.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDecimalBox.ValueProperty, bindingValue);
                 newControl.SetBinding(StswDecimalBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
@@ -214,7 +214,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswTimePicker.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswTimePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswTimePicker.SelectedTimeProperty, bindingValue);
-                newControl.SetBinding(StswTimePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswTimePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
@@ -223,6 +222,243 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 
         if (newControl != null)
             _contentPresenter.Content = newControl;
+    }
+    #endregion
+
+    #region Auto type logic
+    /// <summary>
+    /// Attempts to update the <see cref="Type"/> property based on the inferred type when auto-detection is enabled.
+    /// </summary>
+    private void TryUpdateTypeFromAuto()
+    {
+        if (!_autoTypeEnabled)
+            return;
+
+        var inferredType = InferAutoType();
+        if (inferredType == StswAdaptiveType.Auto)
+        {
+            if (Type == StswAdaptiveType.Auto)
+                SetTypeFromAuto(StswAdaptiveType.Text);
+            return;
+        }
+
+        if (Type != inferredType)
+            SetTypeFromAuto(inferredType);
+    }
+
+    /// <summary>
+    /// Sets the Type property from an auto-inferred value, avoiding recursive updates.
+    /// </summary>
+    /// <param name="targetType">The target <see cref="StswAdaptiveType"/> to set.</param>
+    private void SetTypeFromAuto(StswAdaptiveType targetType)
+    {
+        if (Type == targetType)
+            return;
+
+        _isUpdatingTypeFromAuto = true;
+        try
+        {
+            Type = targetType;
+        }
+        finally
+        {
+            _isUpdatingTypeFromAuto = false;
+        }
+    }
+
+    /// <summary>
+    /// Infers the appropriate adaptive type based on the current state of the control.
+    /// </summary>
+    /// <returns>The inferred <see cref="StswAdaptiveType"/>.</returns>
+    private StswAdaptiveType InferAutoType()
+    {
+        if (ItemsSource != null)
+            return StswAdaptiveType.List;
+
+        var bindingType = GetBoundValueType();
+        var inferred = ResolveTypeFromType(bindingType);
+        if (inferred != StswAdaptiveType.Auto)
+            return inferred;
+
+        inferred = ResolveTypeFromType(Value?.GetType());
+        if (inferred != StswAdaptiveType.Auto)
+            return inferred;
+
+        return ResolveTypeFromValueContent(Value);
+    }
+
+    /// <summary>
+    /// Gets the type of the property bound to the Value property.
+    /// </summary>
+    /// <returns>The resolved property type if found; otherwise, <see langword="null"/>.</returns>
+    private Type? GetBoundValueType()
+    {
+        if (GetBindingExpression(ValueProperty) is BindingExpression binding)
+            return ResolveBindingPropertyType(binding);
+
+        return null;
+    }
+
+    /// <summary>
+    /// Resolves the type of the property bound to the specified binding expression.
+    /// </summary>
+    /// <param name="binding">The binding expression to analyze.</param>
+    /// <returns>The resolved property type if found; otherwise, <see langword="null"/>.</returns>
+    private static Type? ResolveBindingPropertyType(BindingExpression binding)
+    {
+        if (binding.ResolvedSource != null && binding.ResolvedSourcePropertyName is string propertyName)
+            return ResolvePropertyType(binding.ResolvedSource.GetType(), propertyName);
+
+        if (binding.DataItem != null)
+        {
+            var path = binding.ParentBinding?.Path?.Path;
+            return ResolvePropertyType(binding.DataItem.GetType(), path);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Resolves the type of a property given its path on a specified type.
+    /// </summary>
+    /// <param name="type">The type to analyze.</param>
+    /// <param name="path">The property path, which can include nested properties separated by dots.</param>
+    /// <returns>The resolved property type if found; otherwise, <see langword="null"/>.</returns>
+    private static Type? ResolvePropertyType(Type type, string? path)
+    {
+        if (type == null || string.IsNullOrWhiteSpace(path))
+            return null;
+
+        var currentType = type;
+        var segments = path.Split('.', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var segment in segments)
+        {
+            var propertyName = segment;
+            var indexerIndex = propertyName.IndexOf('[');
+            if (indexerIndex >= 0)
+                propertyName = propertyName[..indexerIndex];
+
+            if (string.IsNullOrWhiteSpace(propertyName))
+                return null;
+
+            var property = currentType.GetProperty(propertyName);
+            if (property == null)
+                return null;
+
+            currentType = property.PropertyType;
+
+            if (indexerIndex >= 0)
+            {
+                var elementType = GetEnumerableElementType(currentType);
+                if (elementType != null)
+                    currentType = elementType;
+            }
+        }
+
+        return currentType;
+    }
+
+    /// <summary>
+    /// Gets the element type of an enumerable type (e.g., array, list).
+    /// </summary>
+    /// <param name="type">The enumerable type to analyze.</param>
+    /// <returns>The element type if found; otherwise, <see langword="null"/>.</returns>
+    private static Type? GetEnumerableElementType(Type type)
+    {
+        if (type.IsArray)
+            return type.GetElementType();
+
+        if (type.IsGenericType)
+        {
+            var args = type.GetGenericArguments();
+            if (args.Length > 0)
+                return args[0];
+        }
+
+        foreach (var iface in type.GetInterfaces())
+        {
+            if (iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                var args = iface.GetGenericArguments();
+                if (args.Length > 0)
+                    return args[0];
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Resolves the adaptive type based on the provided .NET type.
+    /// </summary>
+    /// <param name="type">The .NET type to analyze.</param>
+    /// <returns>The inferred <see cref="StswAdaptiveType"/>.</returns>
+    private static StswAdaptiveType ResolveTypeFromType(Type? type)
+    {
+        if (type == null)
+            return StswAdaptiveType.Auto;
+
+        type = Nullable.GetUnderlyingType(type) ?? type;
+
+        if (type == typeof(string) || type == typeof(char))
+            return StswAdaptiveType.Text;
+        if (type == typeof(bool))
+            return StswAdaptiveType.Check;
+        if (type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly))
+            return StswAdaptiveType.Date;
+        if (type == typeof(TimeSpan) || type == typeof(TimeOnly))
+            return StswAdaptiveType.Time;
+        if (type.IsEnum)
+            return StswAdaptiveType.List;
+        if (type.IsNumericType())
+            return StswAdaptiveType.Number;
+
+        return StswAdaptiveType.Auto;
+    }
+
+    /// <summary>
+    /// Resolves the adaptive type based on the actual content of the provided value.
+    /// </summary>
+    /// <param name="value">The value to analyze.</param>
+    /// <returns>The inferred <see cref="StswAdaptiveType"/>.</returns>
+    private static StswAdaptiveType ResolveTypeFromValueContent(object? value)
+    {
+        if (value == null)
+            return StswAdaptiveType.Auto;
+
+        if (value is Enum)
+            return StswAdaptiveType.List;
+
+        var text = value.ToString();
+
+        if (value is bool || bool.TryParse(text, out _))
+            return StswAdaptiveType.Check;
+
+        if (value is DateTime || DateTime.TryParse(text, out _))
+            return StswAdaptiveType.Date;
+
+        if (value is DateOnly || DateOnly.TryParse(text, out _))
+            return StswAdaptiveType.Date;
+
+        if (value is TimeOnly || TimeOnly.TryParse(text, out _))
+            return StswAdaptiveType.Time;
+
+        if (value is TimeSpan || TimeSpan.TryParse(text, out _))
+            return StswAdaptiveType.Time;
+
+        if (value is decimal || decimal.TryParse(text, out _)
+            || value is double || double.TryParse(text, out _)
+            || value is float || float.TryParse(text, out _)
+            || value is long || long.TryParse(text, out _)
+            || value is int || int.TryParse(text, out _)
+            || value is short || short.TryParse(text, out _)
+            || value is byte || byte.TryParse(text, out _))
+            return StswAdaptiveType.Number;
+
+        if (value is string)
+            return StswAdaptiveType.Text;
+
+        return StswAdaptiveType.Auto;
     }
     #endregion
 
@@ -340,8 +576,16 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswAdaptiveBox)
+            typeof(StswAdaptiveBox),
+            new PropertyMetadata(default(IList), OnItemsSourceChanged)
         );
+    private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswAdaptiveBox stsw)
+            return;
+
+        stsw.TryUpdateTypeFromAuto();
+    }
 
     /// <inheritdoc/>
     public string? Placeholder
@@ -427,6 +671,23 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 
         if (stsw.Type == StswAdaptiveType.Auto)
         {
+            stsw._autoTypeEnabled = true;
+            stsw.TryUpdateTypeFromAuto();
+            return;
+        }
+
+        if (!stsw._isUpdatingTypeFromAuto)
+            stsw._autoTypeEnabled = false;
+
+        stsw.CreateControlBasedOnType();
+
+
+
+
+
+
+        if (stsw.Type == StswAdaptiveType.Auto)
+        {
             if (stsw.ItemsSource != default)
                 stsw.Type = StswAdaptiveType.List;
             else
@@ -486,11 +747,34 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(StswAdaptiveBox),
             new FrameworkPropertyMetadata(default(object?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is StswAdaptiveBox stsw)
+            stsw.TryUpdateTypeFromAuto();
+    }
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets the thickness of the border, including the inner separator value.
+    /// </summary>
+    public new StswThickness BorderThickness
+    {
+        get => (StswThickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public new static readonly DependencyProperty BorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BorderThickness),
+            typeof(StswThickness),
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(StswThickness),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                StswControl.CreateExtendedChangedCallback<StswAdaptiveBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -517,22 +801,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswAdaptiveBox),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the input field and additional elements (if applicable).
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswAdaptiveBox),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

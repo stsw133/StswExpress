@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace StswExpress;
 
@@ -32,28 +33,28 @@ public class StswChartColumn : ItemsControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        MakeChart();
+        RequestChartUpdate();
     }
 
     /// <inheritdoc/>
     protected override void OnInitialized(EventArgs e)
     {
         base.OnInitialized(e);
-        MakeChart();
+        RequestChartUpdate();
     }
 
     /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
-        MakeChart();
+        RequestChartUpdate();
     }
 
     /// <inheritdoc/>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
-        MakeChart();
+        RequestChartUpdate();
     }
 
     /// <inheritdoc/>
@@ -92,7 +93,7 @@ public class StswChartColumn : ItemsControl
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The event data.</param>
-    private void OnItemValueChanged(object? sender, EventArgs e) => MakeChart();
+    private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
 
     /// <summary>
     /// Recalculates the heights and percentages of the chart columns based on their values and the available height.
@@ -150,5 +151,22 @@ public class StswChartColumn : ItemsControl
         }
     }
     private bool _isRecalc;
+
+    /// <summary>
+    /// Requests a chart update and throttles recalculations to a single dispatcher pass.
+    /// </summary>
+    private void RequestChartUpdate()
+    {
+        if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
+            return;
+
+        var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
+        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
+        {
+            _chartUpdateOperation = null;
+            MakeChart();
+        }));
+    }
+    private DispatcherOperation? _chartUpdateOperation;
     #endregion
 }
