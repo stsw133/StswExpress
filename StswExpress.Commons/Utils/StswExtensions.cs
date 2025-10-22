@@ -648,9 +648,18 @@ public static partial class StswExtensions
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
         ArgumentNullException.ThrowIfNull(source);
+
+        if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            return;
+
         for (var i = 0; i < source.Count; i++)
-            if (EqualityComparer<T>.Default.Equals(source[i], oldValue))
-                source[i] = newValue;
+        {
+            if (!EqualityComparer<T>.Default.Equals(source[i], oldValue))
+                continue;
+
+            source.RemoveAt(i);
+            source.Insert(i, newValue);
+        }
     }
 
     /// <summary>
