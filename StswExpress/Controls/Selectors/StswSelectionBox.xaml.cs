@@ -37,7 +37,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     static StswSelectionBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
-        StswControl.OverrideBaseBorderThickness<StswSelectionBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswSelectionBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -286,6 +286,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -303,6 +304,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswSelectionBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -358,6 +360,22 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(double),
             typeof(StswSelectionBox),
             new PropertyMetadata(double.NaN)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the drop-down button and the main input field.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

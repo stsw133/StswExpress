@@ -39,7 +39,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     static StswSplitButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
-        StswControl.OverrideBaseBorderThickness<StswSplitButton>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswSplitButton>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -143,6 +143,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -160,6 +161,7 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswSplitButton>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -215,6 +217,22 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
             typeof(double),
             typeof(StswSplitButton),
             new PropertyMetadata(double.NaN)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the main button and the drop-down arrow.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswSplitButton),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

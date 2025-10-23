@@ -10,10 +10,11 @@
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="2 2 2 2 1"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="1"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -39,7 +40,7 @@
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
@@ -51,7 +52,7 @@
                                     <se:StswToggleButton x:Name="PART_StripModeButton" se:StswControl.IsBorderless="True">
                                         <se:StswIcon Data="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswSeparator BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}" Orientation="Vertical"/>
+                                    <se:StswSeparator BorderThickness="{TemplateBinding SeparatorThickness}" Orientation="Vertical"/>
                                     
                                     <se:StswDirectionView x:Name="OPT_CustomComponents"
                                                           BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
@@ -71,16 +72,16 @@
                                 <!-- items pinned -->
                                 <se:StswNavigationTree x:Name="PART_PinnedTree" DockPanel.Dock="Bottom" ItemsSource="{Binding ItemsPinned, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 <se:StswSeparator x:Name="OPT_PinnedTreeSeparator" DockPanel.Dock="Bottom"
-                                                  BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Horizontal"/>
                                 <!-- items main -->
                                 <se:StswSeparator x:Name="OPT_MainTreeSeparator" DockPanel.Dock="Top"
-                                                  BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Horizontal"/>
                                 <se:StswNavigationTree x:Name="PART_MainTree" DockPanel.Dock="Top" ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </DockPanel>
                             <se:StswSeparator x:Name="OPT_MenuSeparator"
-                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Content}"

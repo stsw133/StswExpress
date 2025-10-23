@@ -217,7 +217,7 @@ public static class StswControl
             stsw.CornerRadius = (CornerRadius?)setters.FirstOrDefault(x => x.Property.Name == nameof(stsw.CornerRadius))?.Value ?? new(0);
         }
     }
-
+    /*
     /// <summary>
     /// Indicates whether the synchronization between the base <see cref="Control.BorderThicknessProperty"/>
     /// </summary>
@@ -287,5 +287,6 @@ public static class StswControl
                 SetIsSyncing(ctrl, false);
             }
         };
+    */
     #endregion
 }

@@ -61,7 +61,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     static StswTextEditor()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
-        StswControl.OverrideBaseBorderThickness<StswTextEditor>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswTextEditor>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -465,6 +465,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -482,6 +483,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswTextEditor>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
        );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -509,6 +511,22 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             typeof(CornerRadius),
             typeof(StswTextEditor),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswTextEditor),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

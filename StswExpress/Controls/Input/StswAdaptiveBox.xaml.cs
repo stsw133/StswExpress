@@ -33,7 +33,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
-        StswControl.OverrideBaseBorderThickness<StswAdaptiveBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswAdaptiveBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -85,6 +85,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         var bindingPopupPadding = new Binding { Path = new PropertyPath(StswPopup.PaddingProperty), Source = this };
         var bindingSelectedValuePath = new Binding(nameof(SelectedValuePath)) { Source = this };
         var bindingSelectionUnit = new Binding(nameof(SelectionUnit)) { Source = this };
+        var bindingSeparatorThickness = new Binding(nameof(SeparatorThickness)) { Source = this };
         var bindingSubControls = new Binding(nameof(SubControls)) { Source = this };
         var bindingHorizontalContentAlignment = new Binding(nameof(HorizontalContentAlignment)) { Source = this };
         var bindingVerticalContentAlignment = new Binding(nameof(VerticalContentAlignment)) { Source = this };
@@ -127,6 +128,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDatePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswDatePicker.SelectedDateProperty, bindingValue);
                 newControl.SetBinding(StswDatePicker.SelectionUnitProperty, bindingSelectionUnit);
+                newControl.SetBinding(StswDatePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDatePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
@@ -148,6 +150,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswSelectionBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswSelectionBox.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswSelectionBox.SelectedValuePathProperty, bindingSelectedValuePath);
+                newControl.SetBinding(StswSelectionBox.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswSelectionBox.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswSelectionBox.TextProperty, bindingValue);
                 newControl.SetBinding(StswSelectionBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
@@ -174,6 +177,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswDecimalBox.IsReadOnlyProperty, bindingIsReadOnly);
                 newControl.SetBinding(StswDecimalBox.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswDecimalBox.PlaceholderProperty, bindingPlaceholder);
+                newControl.SetBinding(StswDecimalBox.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswDecimalBox.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswDecimalBox.ValueProperty, bindingValue);
                 newControl.SetBinding(StswDecimalBox.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
@@ -214,6 +218,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 newControl.SetBinding(StswTimePicker.PaddingProperty, bindingPadding);
                 newControl.SetBinding(StswTimePicker.PlaceholderProperty, bindingPlaceholder);
                 newControl.SetBinding(StswTimePicker.SelectedTimeProperty, bindingValue);
+                newControl.SetBinding(StswTimePicker.SeparatorThicknessProperty, bindingSeparatorThickness);
                 newControl.SetBinding(StswTimePicker.SubControlsProperty, bindingSubControls);
                 newControl.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, bindingHorizontalContentAlignment);
                 newControl.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, bindingVerticalContentAlignment);
@@ -757,6 +762,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -774,6 +780,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswAdaptiveBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -801,6 +808,22 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswAdaptiveBox),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the input field and additional elements (if applicable).
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswAdaptiveBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

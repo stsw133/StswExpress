@@ -11,6 +11,7 @@ namespace StswExpress;
 /// </summary>
 internal static class StswCornerCoordinator
 {
+    /*
 #pragma warning disable CA2255
     [ModuleInitializer]
 #pragma warning restore CA2255
@@ -18,12 +19,13 @@ internal static class StswCornerCoordinator
     {
         EventManager.RegisterClassHandler(typeof(FrameworkElement),
             FrameworkElement.LoadedEvent,
-            new RoutedEventHandler(OnLoaded), /*handledEventsToo*/ true);
+            new RoutedEventHandler(OnLoaded), true);
 
         EventManager.RegisterClassHandler(typeof(FrameworkElement),
             FrameworkElement.UnloadedEvent,
-            new RoutedEventHandler(OnUnloaded), /*handledEventsToo*/ true);
+            new RoutedEventHandler(OnUnloaded), true);
     }
+    */
 
     /// <summary>
     /// Holds subscription details for a control.

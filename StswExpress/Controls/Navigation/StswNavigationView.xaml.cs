@@ -39,7 +39,7 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     static StswNavigationView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationView), new FrameworkPropertyMetadata(typeof(StswNavigationView)));
-        StswControl.OverrideBaseBorderThickness<StswNavigationView>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswNavigationView>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -276,6 +276,7 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -293,6 +294,7 @@ public class StswNavigationView : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswNavigationView>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -320,6 +322,23 @@ public class StswNavigationView : ContentControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswNavigationView),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between items and content.
+    /// Affects the spacing and visual separation in the navigation layout.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswNavigationView),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

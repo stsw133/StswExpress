@@ -33,7 +33,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
-        StswControl.OverrideBaseBorderThickness<StswInfoPanel>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswInfoPanel>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -188,6 +188,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     #endregion
 
     #region Style properties
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -205,6 +206,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswInfoPanel>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
+    */
 
     /// <inheritdoc/>
     public bool CornerClipping
@@ -232,6 +234,22 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswInfoPanel),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the control panel and the information bars.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

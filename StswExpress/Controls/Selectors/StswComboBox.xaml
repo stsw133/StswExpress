@@ -10,6 +10,7 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
@@ -49,7 +50,7 @@
                                              Grid.ColumnSpan="2"
                                              Background="{TemplateBinding Background}"
                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                             BorderThickness="{Binding BorderThickness.Thickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                             BorderThickness="{TemplateBinding BorderThickness}"
                                              ClickMode="Press"
                                              CornerClipping="{TemplateBinding CornerClipping}"
                                              CornerRadius="{TemplateBinding CornerRadius}"
@@ -71,7 +72,7 @@
                                 <!-- separator -->
                                 <se:StswSeparator x:Name="OPT_Separator" DockPanel.Dock="Right"
                                                   BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
-                                                  BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Vertical"
                                                   Visibility="{Binding Visibility, Mode=OneWay, ElementName=OPT_DropArrow}"/>
                                 <!-- sub controls -->
@@ -116,7 +117,7 @@
                                             </se:StswTextBox>
                                             <se:StswSeparator x:Name="OPT_FilterSeparator" DockPanel.Dock="Top"
                                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainButton}"
-                                                              BorderThickness="{Binding BorderThickness.Inside, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              BorderThickness="{TemplateBinding SeparatorThickness}"
                                                               Orientation="Horizontal"
                                                               Visibility="Collapsed"/>
                                             <!-- items -->

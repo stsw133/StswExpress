@@ -34,7 +34,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
-        StswControl.OverrideBaseBorderThickness<StswComboBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswComboBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswComboBoxItem();
@@ -375,7 +375,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(StswComboBox),
             new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange)
         );
-
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -393,7 +393,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswComboBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
-
+    */
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -434,6 +434,22 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             typeof(double),
             typeof(StswComboBox),
             new PropertyMetadata(double.NaN)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

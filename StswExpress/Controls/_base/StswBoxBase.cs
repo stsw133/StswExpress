@@ -24,7 +24,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     }
     static StswBoxBase()
     {
-        StswControl.OverrideBaseBorderThickness<StswBoxBase>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
+        //StswControl.OverrideBaseBorderThickness<StswBoxBase>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -164,7 +164,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
             typeof(StswBoxBase),
             new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange)
         );
-
+    /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.
     /// </summary>
@@ -182,7 +182,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 StswControl.CreateExtendedChangedCallback<StswBoxBase>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
         );
-
+    */
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -209,6 +209,23 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswBoxBase),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the text box and any function buttons.
+    /// This allows for customization of the visual spacing inside the control.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswBoxBase),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }
