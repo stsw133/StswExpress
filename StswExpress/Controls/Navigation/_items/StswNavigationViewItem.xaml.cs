@@ -14,7 +14,7 @@ namespace StswExpress;
 /// &lt;se:StswNavigationViewItem Header="Reports" IconData="{StaticResource UserIcon}" TargetType="{x:Type local:ReportsContext}"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish, "It is possible it will be removed and instead original StswNavigation will be improved")]
 public class StswNavigationViewItem : TreeViewItem, IStswCornerControl, IStswIconControl
 {
     private StswNavigationView? _navigationView;

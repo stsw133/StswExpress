@@ -64,24 +64,24 @@
   - `Div0` (with and without `defaultValue`),
   - `Compute` and `TryCompute` (moved from `StswCalculator`).  
   `StswCalculator` is now integrated into `StswMath`.
-- Introduced `StswPlannedChangesAttribute` to annotate types and members with planned changes.  `StswPlannedChanges` enum updated: added new `Move` value and reassigned `Remove` to `2048`.
+- `MapTo` method extensions support mapping to `KeyValuePair<TKey, TValue>` and `Tuple<T1, T2>`. Methods moved from `StswExtensions` to `StswMapping`.
 - New `StswDateRange` utility for representing and manipulating date ranges (`Start`/`End`), supporting containment, overlap, adjacency, intersections, and unique date enumerations.
 - `StswDatabaseHelper`: introduced new `AddParam` extension for `SqlParameterCollection`, and added bulk insert support for `IEnumerable`.
 - `StswDispatcher` gained two new methods: `RunWhenUiIsReadyAsync(Action)` and `RunWhenUiIsReadyAsync(Func<Task>)`.
 
 ### Changes
-- Refactored `StswTaskManager` to remove generic type and streamline task management.
-- Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, `IsUiThreadAvailable`, `Try(Task)`, `Try(Task<T>)`.
-- `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
-- `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
-- `StswDatabasesConfig`: `ReturnIfInDesignerMode` renamed to `ReturnIfInDesignMode`.
+- Removed obsolete extensions: `ShiftBy` (moved to `StswMath`), `Do`, `IsUiThreadAvailable`, `Try(Task)`, and `Try(Task<T>)`.
+- `StswDatabasesConfig`: `ReturnIfInDesignerMode` property renamed to `ReturnIfInDesignMode`. Default value changed from `true` to `false`.
+- `StswExtensions.Replace` now replaces the element at the specified index (`RemoveAt` + `Insert`) instead of removing and re-adding to the end.
 - `StswFn`:
   - `AppName`, `AppVersion`, and `AppCopyright` now cache their values.
   - `CreateRandomItems` removed (now exposed in `StswRandomGenerator`).
   - `IsInDebug` renamed to `IsInDebugMode`.
   - `IsInDesignMode` method moved from `StswDatabaseHelper`.
-- `StswInfoAttribute` has been removed.
+- `StswInfoAttribute` removed and replaced with the simplified `StswPlannedChangesAttribute`. `StswPlannedChanges` enum updated: added new `Move` value and reassigned `Remove` to `2048`.
 - `StswNaturalStringComparer` now distinguishes numbers also by length for deterministic results.
+- `StswObservableCollection`: no longer requires its items to implement `IStswCollectionItem` (renamed to `IStswTrackableItem`). Added parameterless constructor to support JSON (de)serialization and cloning.
+- `StswTask` and `StswTaskManager` fully refactored for easier and more practical usage.
 
 ### Fixes
 - `StswCompareConverter` correctly handles enum parameters.
@@ -90,24 +90,34 @@
 
 ### Additions
 - Added `AreButtonsVisible` property for Stsw box controls to toggle button visibility.
-- Added `DynamicMode` to `StswDirectionView` for dynamic visibility adjustments.
+- Added `DynamicMode` to `StswDirectionView` for dynamic visibility adjustments. Replaced `StswScrollDynamicMode` enum with `StswDynamicVisibilityMode`.
+- Added two attached properties — `ColumnDefinitions` and `RowDefinitions` — to simplify Grid definition syntax.
 - Introduced `SliderMode` in `StswSlider` for single and range selection.
+- `IStswSelectionControl` gained `KeyValuePair` support when changing `ItemsSource`.
+- New `StswSingleLineConverter` allows displaying multiline text in a single line within DataGrid columns.
 - `StswContentDialog` introduces `CloseOnBackdropClick` property for optional backdrop click close.
-- `StswGrid` provides two new attached properties to simplify row and column definition declarations.
-- `StswNavigation` and `StswNavigationView` gained DI support by exposing a `Command` property when changing frame content.
-- `StswPathPicker` includes a `ValidationRule` to check whether the selected path exists or is valid.
+- `StswNavigation` and `StswNavigationView` now expose `Command` property for easier DependencyInjection integration.
+- `StswPathPicker` includes a `ValidationRule` that validates if the selected path exists or is correct.
 - `StswTabControl` introduces `CanReorder` property for item reordering via drag and drop.
 
 ### Changes
-- Replaced `StswScrollDynamicMode` enum with `StswDynamicVisibilityMode` and added `Collapsed` option.
+- Chart controls (`StswChartColumn`, `StswChartPie`, `StswChartLegend`) refactored to use items and containers instead of direct data models.
 - Stsw box controls (`StswColorBox`, `StswDatePicker`, `StswNumberBox`, etc.) improved main property update logic, fixing issues with repeated string calculations in `StswNumberBox`.
+- `StswAdaptiveBox` improved type-detection logic.
+- `StswComboBox` filter automatically implements `ICollectionView`, no longer requiring manual setup.
+- `StswCommandAttribute` offers a simpler way to specify the name of its condition method.
+- `StswCommands` reorganized: replaced `Clear` and `Deselect` with clearer commands `ClearItems`, `ClearSelection`, and `ClearText`.
+- `StswDataGrid` columns now support dynamic binding refresh from XAML.
+- `StswDataGridStatusColumn` can define a custom cell template.
 - `StswEventToCommand` optimized and refactored:
   - `CommandParameter` replaces `CommandParameterBinding`.
   - `PassEventArgs` replaces `PassEventArgsAsParameter`.
   - Now properly suggested by IntelliSense in XAML.
+- `StswFilterBox` now automatically detects data type based on the associated Stsw column.
 - `StswPathPicker` shifting behavior now respects applied filters.
 
 ### Fixes
+- `StswCalendar` refactored; fixed issue where clicking dates from adjacent months could skip more than one month.
 - `StswConfig` now displays the revision number instead of the build number.
 - `StswDropButton` and `StswSplitButton` properly detach click events.
 - `StswGridSplitter` correctly restores location on double-click with `Auto` and `*` (star) sized definitions.

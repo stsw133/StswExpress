@@ -87,14 +87,14 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
 
         var baseStyle = dataGrid.RowStyle;
         if (baseStyle?.Triggers.OfType<DataTrigger>().Any(t =>
-            t.Binding is Binding b && b.Path?.Path == nameof(IStswCollectionItem.ShowDetails)) == true)
+            t.Binding is Binding b && b.Path?.Path == nameof(IStswTrackableItem.ShowDetails)) == true)
             return;
 
         var newStyle = new Style(typeof(StswDataGridRow), dataGrid.RowStyle);
         newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
         newStyle.Triggers.Add(new DataTrigger
         {
-            Binding = new Binding(nameof(IStswCollectionItem.ShowDetails))
+            Binding = new Binding(nameof(IStswTrackableItem.ShowDetails))
             {
                 Mode = BindingMode.OneWay,
                 FallbackValue = false,

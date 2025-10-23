@@ -6,10 +6,10 @@ using System.Windows.Data;
 namespace StswExpress;
 
 /// <summary>
-/// Wrapper for a collection of items that implements <see cref="IStswCollectionItem"/> and provides a <see cref="CollectionViewSource"/> for data binding.
+/// Wrapper for a collection of items that implements <see cref="IStswTrackableItem"/> and provides a <see cref="CollectionViewSource"/> for data binding.
 /// </summary>
-/// <typeparam name="T">Type of the items in the collection, which must implement <see cref="IStswCollectionItem"/>.</typeparam>
-public class StswCollectionViewWrapper<T> : StswObservableObject where T : IStswCollectionItem
+/// <typeparam name="T">Type of the items in the collection, which must implement <see cref="IStswTrackableItem"/>.</typeparam>
+public class StswCollectionViewWrapper<T> : StswObservableObject where T : IStswTrackableItem
 {
     public StswObservableCollection<T> Items { get; }
     public CollectionViewSource Source { get; }

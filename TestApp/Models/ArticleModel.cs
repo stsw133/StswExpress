@@ -2,7 +2,7 @@
 using System.Windows.Media;
 
 namespace TestApp;
-public partial class ArticleModel : StswObservableObject, IStswCollectionItem
+public partial class ArticleModel : StswObservableObject, IStswTrackableItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] ArticleType _type;

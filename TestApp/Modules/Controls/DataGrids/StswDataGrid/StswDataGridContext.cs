@@ -42,7 +42,7 @@ public partial class StswDataGridContext : ControlsContext
     [StswObservableProperty] DataGridSelectionUnit _selectionUnit;
 }
 
-public partial class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem
+public partial class StswDataGridTestModel : StswObservableObject, IStswTrackableItem, IStswSelectionItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] string? _name;

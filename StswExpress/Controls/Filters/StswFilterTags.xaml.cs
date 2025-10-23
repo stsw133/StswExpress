@@ -15,7 +15,7 @@ namespace StswExpress;
 /// &lt;se:StswFilterTags Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Refactor | StswPlannedChanges.VisualChanges)]
+[StswPlannedChanges(StswPlannedChanges.Refactor | StswPlannedChanges.VisualChanges, "Modernize the visual appearance and refactor the code for better maintainability.")]
 public class StswFilterTags : ItemsControl, IStswCornerControl
 {
     static StswFilterTags()

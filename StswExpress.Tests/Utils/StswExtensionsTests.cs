@@ -38,18 +38,6 @@ public class StswExtensionsTests
     }
 
     [Fact]
-    public void MapTo_SimpleType_ReturnsValues()
-    {
-        var dt = new DataTable();
-        dt.Columns.Add("Value", typeof(int));
-        dt.Rows.Add(1);
-        dt.Rows.Add(2);
-
-        var result = dt.MapTo<int>();
-        Assert.Equal(new[] { 1, 2 }, result);
-    }
-
-    [Fact]
     public void ToDataTable_Collection_ReturnsDataTable()
     {
         var items = new[] { new { Id = 1, Name = "A" }, new { Id = 2, Name = "B" } };

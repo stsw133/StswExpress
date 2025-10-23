@@ -103,7 +103,6 @@ public enum StswDialogImage
 /// </summary>
 public enum StswDynamicVisibilityMode
 {
-    Collapsed = -1,
     Off,
     Partial,
     Full

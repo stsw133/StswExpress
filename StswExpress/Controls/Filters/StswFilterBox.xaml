@@ -229,9 +229,6 @@
                                 <UniformGrid x:Name="OPT_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
                                     <se:StswAdaptiveBox BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                                        BorderThickness="0"
-                                                        CornerClipping="False"
-                                                        CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         Format="{TemplateBinding Format}"
                                                         IsThreeState="True"
@@ -243,7 +240,8 @@
                                                         Type="{TemplateBinding FilterType}"
                                                         Value="{Binding Value1, Mode=TwoWay, TargetNullValue='', RelativeSource={RelativeSource TemplatedParent}}"
                                                         se:StswPopup.CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
-                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswControl.IsBorderless="True">
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">
@@ -258,9 +256,6 @@
                                     <!-- second control -->
                                     <se:StswAdaptiveBox x:Name="OPT_SecondControl"
                                                         BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                                        BorderThickness="0"
-                                                        CornerClipping="False"
-                                                        CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         Format="{TemplateBinding Format}"
                                                         IsThreeState="True"
@@ -273,7 +268,8 @@
                                                         Value="{Binding Value2, Mode=TwoWay, TargetNullValue='', RelativeSource={RelativeSource TemplatedParent}}"
                                                         Visibility="Collapsed"
                                                         se:StswPopup.CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
-                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        se:StswPopup.CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        se:StswControl.IsBorderless="True">
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">

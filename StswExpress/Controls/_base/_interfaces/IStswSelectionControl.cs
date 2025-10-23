@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,8 +60,16 @@ public interface IStswSelectionControl
         /// continue with the logic using actualSource
         if (actualSource?.GetType()?.IsListType(out var innerType) == true)
         {
+            /// KeyValuePair usage
+            if (innerType?.IsGenericType == true && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+            {
+                if (string.IsNullOrEmpty(selectionControl.DisplayMemberPath) && selectionControl.ItemTemplate == null)
+                    selectionControl.DisplayMemberPath = nameof(KeyValuePair<object, object>.Key);
+                if (string.IsNullOrEmpty(selectionControl.SelectedValuePath))
+                    selectionControl.SelectedValuePath = nameof(KeyValuePair<object, object>.Value);
+            }
             /// StswComboItem short usage
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            else if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
                 if (string.IsNullOrEmpty(selectionControl.DisplayMemberPath) && selectionControl.ItemTemplate == null)
                     selectionControl.DisplayMemberPath = nameof(StswComboItem.Display);

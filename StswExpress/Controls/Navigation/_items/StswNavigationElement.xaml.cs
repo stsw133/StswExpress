@@ -22,7 +22,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework, "Revise navigation element logic and structure and derive from TreeViewItem for better hierarchical support.")]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;

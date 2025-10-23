@@ -8,8 +8,324 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Helper class for mapping <see cref="DataTable"/> rows to objects, including nested properties.
 /// </summary>
-internal static class StswMapping
+public static class StswMapping
 {
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
+    public static IEnumerable<T> MapTo<T>(this DataTable dt)
+    {
+        var type = typeof(T);
+
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo<T>()!;
+        }
+        else if (IsKeyValuePairType(type))
+        {
+            foreach (var obj in MapToKeyValuePair(dt, type))
+                yield return (T)obj;
+        }
+        else if (IsTupleType(type))
+        {
+            foreach (var obj in MapToTuple(dt, type))
+                yield return (T)obj;
+        }
+        else
+        {
+            foreach (var obj in MapToClass(dt, type))
+                yield return (T)obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
+    /// </summary>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+    public static IEnumerable<object> MapTo(this DataTable dt, Type type)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type)!;
+        }
+        else if (IsKeyValuePairType(type))
+        {
+            foreach (var obj in MapToKeyValuePair(dt, type))
+                yield return obj;
+        }
+        else if (IsTupleType(type))
+        {
+            foreach (var obj in MapToTuple(dt, type))
+                yield return obj;
+        }
+        else
+        {
+            foreach (var obj in MapToClass(dt, type))
+                yield return obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>, supporting nested classes and custom delimiters.
+    /// </summary>
+    /// <typeparam name="T"> The type of objects to map to.</typeparam>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
+    public static IEnumerable<T> MapTo<T>(this DataTable dt, char delimiter)
+    {
+        var type = typeof(T);
+
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo<T>()!;
+        }
+        else if (IsKeyValuePairType(type))
+        {
+            foreach (var obj in MapToKeyValuePair(dt, type))
+                yield return (T)obj;
+        }
+        else if (IsTupleType(type))
+        {
+            foreach (var obj in MapToTuple(dt, type))
+                yield return (T)obj;
+        }
+        else
+        {
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+                yield return (T)obj;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
+    /// </summary>
+    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
+    /// <param name="type"> The type of objects to map to.</param>
+    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
+    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+    public static IEnumerable<object> MapTo(this DataTable dt, Type type, char delimiter)
+    {
+        if (IsSimpleType(type))
+        {
+            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+                yield return value.ConvertTo(type)!;
+        }
+        else if (IsKeyValuePairType(type))
+        {
+            foreach (var obj in MapToKeyValuePair(dt, type))
+                yield return obj;
+        }
+        else if (IsTupleType(type))
+        {
+            foreach (var obj in MapToTuple(dt, type))
+                yield return obj;
+        }
+        else
+        {
+            foreach (var obj in MapToNestedClass(dt, type, delimiter))
+                yield return obj;
+        }
+    }
+
+    #region MapTo components
+    /// <summary>
+    /// Checks if a type is a simple type, which includes primitive types, strings, decimals, DateTime, DateTimeOffset, TimeSpan, Guids, and byte arrays.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
+    public static bool IsSimpleType(Type type)
+    {
+        if (type.IsEnum) return true;
+        if (Nullable.GetUnderlyingType(type) is Type u) type = u;
+
+        return type.IsPrimitive
+            || type == typeof(string)
+            || type == typeof(decimal)
+            || type == typeof(DateTime)
+            || type == typeof(DateTimeOffset)
+            || type == typeof(TimeSpan)
+            || type == typeof(Guid)
+            || type == typeof(byte[]);
+    }
+
+    /// <summary>
+    /// Checks if a type is a KeyValuePair type.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a KeyValuePair type, <see langword="false"/> otherwise.</returns>
+    private static bool IsKeyValuePairType(Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
+
+    /// <summary>
+    /// Checks if a type is a Tuple or ValueTuple type.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is a Tuple or ValueTuple type, <see langword="false"/> otherwise.</returns>
+    private static bool IsTupleType(Type type)
+        => type.FullName?.StartsWith("System.ValueTuple", StringComparison.Ordinal) == true
+            || type.FullName?.StartsWith("System.Tuple", StringComparison.Ordinal) == true;
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of KeyValuePair objects of a specified type.
+    /// </summary>
+    /// <param name="dt">The <see cref="DataTable"/> to map.</param>
+    /// <param name="keyValuePairType">The type of KeyValuePair to map to.</param>
+    /// <returns>One or more KeyValuePair objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="DataTable"/> does not contain enough columns to map to a KeyValuePair.</exception>
+    private static IEnumerable<object> MapToKeyValuePair(DataTable dt, Type keyValuePairType)
+    {
+        var genericArgs = keyValuePairType.GetGenericArguments();
+        if (genericArgs.Length != 2)
+            yield break;
+
+        var columnLookup = dt.Columns.Cast<DataColumn>()
+            .Select((column, index) => new { column.ColumnName, index })
+            .ToDictionary(x => x.ColumnName, x => x.index, StringComparer.OrdinalIgnoreCase);
+
+        var keyIndex = columnLookup.TryGetValue("Key", out var idx) ? idx : -1;
+        var valueIndex = columnLookup.TryGetValue("Value", out idx) ? idx : -1;
+
+        if (keyIndex < 0 || valueIndex < 0)
+        {
+            if (dt.Columns.Count < 2)
+                throw new InvalidOperationException("Cannot map to KeyValuePair because the result does not contain enough columns.");
+
+            keyIndex = 0;
+            valueIndex = 1;
+        }
+
+        foreach (DataRow row in dt.Rows)
+        {
+            var key = row[keyIndex].ConvertTo(genericArgs[0]);
+            var value = row[valueIndex].ConvertTo(genericArgs[1]);
+            yield return Activator.CreateInstance(keyValuePairType, key, value)!;
+        }
+    }
+
+    /// <summary>
+    /// Maps a <see cref="DataTable"/> to a collection of Tuple objects of a specified type.
+    /// </summary>
+    /// <param name="dt">The <see cref="DataTable"/> to map.</param>
+    /// <param name="tupleType">The type of Tuple to map to.</param>
+    /// <returns>One or more Tuple objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="DataTable"/> does not contain enough columns to map to the Tuple.</exception>
+    private static IEnumerable<object> MapToTuple(DataTable dt, Type tupleType)
+    {
+        var elementTypes = GetTupleElementTypes(tupleType);
+        if (elementTypes.Count == 0)
+            yield break;
+
+        if (dt.Columns.Count < elementTypes.Count)
+            throw new InvalidOperationException($"Cannot map to tuple type '{tupleType.FullName}' because the result does not contain enough columns.");
+
+        var columnIndices = GetTupleColumnIndices(dt, elementTypes.Count);
+
+        foreach (DataRow row in dt.Rows)
+        {
+            var values = new object?[elementTypes.Count];
+            for (var i = 0; i < elementTypes.Count; i++)
+                values[i] = row[columnIndices[i]].ConvertTo(elementTypes[i]);
+
+            var index = 0;
+            yield return BuildTuple(tupleType, values, ref index);
+        }
+    }
+
+    /// <summary>
+    /// Gets the element types of a Tuple or ValueTuple type.
+    /// </summary>
+    /// <param name="tupleType">The tuple type to analyze.</param>
+    /// <returns>A list of element types in the tuple.</returns>
+    private static List<Type> GetTupleElementTypes(Type tupleType)
+    {
+        var result = new List<Type>();
+        CollectTupleElementTypes(tupleType, result);
+        return result;
+    }
+
+    /// <summary>
+    /// Recursively collects the element types of a Tuple or ValueTuple type.
+    /// </summary>
+    /// <param name="tupleType">The tuple type to analyze.</param>
+    /// <param name="result">The list to collect the element types into.</param>
+    private static void CollectTupleElementTypes(Type tupleType, List<Type> result)
+    {
+        if (!IsTupleType(tupleType) || !tupleType.IsGenericType)
+            return;
+
+        var genericArgs = tupleType.GetGenericArguments();
+        for (var i = 0; i < genericArgs.Length; i++)
+        {
+            var arg = genericArgs[i];
+            if (IsTupleType(arg))
+                CollectTupleElementTypes(arg, result);
+            else
+                result.Add(arg);
+        }
+    }
+
+    /// <summary>
+    /// Gets the column indices in a <see cref="DataTable"/> that correspond to the elements of a Tuple type.
+    /// </summary>
+    /// <param name="dt">The <see cref="DataTable"/> to analyze.</param>
+    /// <param name="elementCount">The number of elements in the tuple.</param>
+    /// <returns>An array of integers representing the column indices for each tuple element.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="DataTable"/> does not contain enough columns to map to the tuple.</exception>
+    private static int[] GetTupleColumnIndices(DataTable dt, int elementCount)
+    {
+        var indices = new int[elementCount];
+        var columnLookup = dt.Columns.Cast<DataColumn>()
+            .Select((column, index) => new { column.ColumnName, index })
+            .ToDictionary(x => x.ColumnName, x => x.index, StringComparer.OrdinalIgnoreCase);
+
+        for (var i = 0; i < elementCount; i++)
+        {
+            var itemName = $"Item{i + 1}";
+            if (columnLookup.TryGetValue(itemName, out var index))
+                indices[i] = index;
+            else if (i < dt.Columns.Count)
+                indices[i] = i;
+            else
+                throw new InvalidOperationException($"Cannot map to tuple because the result does not contain enough columns (expected {elementCount}).");
+        }
+
+        return indices;
+    }
+
+    /// <summary>
+    /// Builds a Tuple object of a specified type from an array of values.
+    /// </summary>
+    /// <param name="tupleType">The type of Tuple to build.</param>
+    /// <param name="values">An array of values to populate the Tuple.</param>
+    /// <param name="index">A reference to the current index in the values array.</param>
+    /// <returns>The constructed Tuple object.</returns>
+    private static object BuildTuple(Type tupleType, object?[] values, ref int index)
+    {
+        var genericArgs = tupleType.GetGenericArguments();
+        var ctorArgs = new object?[genericArgs.Length];
+
+        for (var i = 0; i < genericArgs.Length; i++)
+        {
+            var argType = genericArgs[i];
+            if (IsTupleType(argType))
+                ctorArgs[i] = BuildTuple(argType, values, ref index);
+            else
+                ctorArgs[i] = values[index++];
+        }
+
+        return Activator.CreateInstance(tupleType, ctorArgs)!;
+    }
+    #endregion
+
+    #region Nested class mapping components
     /// <summary>
     /// A cache for instance factories to create objects of specific types.
     /// </summary>
@@ -146,11 +462,10 @@ internal static class StswMapping
     /// Prepares a list of column mappings from normalized names and a <see cref="DataTable"/>, mapping each column to its corresponding property in the object.
     /// </summary>
     /// <param name="normalizedNames">An array of normalized column names from the <see cref="DataTable"/>.</param>
-    /// <param name="dt">The <see cref="DataTable"/> containing the data to map.</param>
     /// <param name="propCache">A cache of property information for the object, used to optimize property access.</param>
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <returns>A list of <see cref="PropColumnMapping"/> that define how to map the columns to the object's properties.</returns>
-    private static List<PropColumnMapping> PrepareColumnMappings(string[] normalizedNames, DataTable dt, Dictionary<string, PropertyInfo> propCache, char delimiter)
+    private static List<PropColumnMapping> PrepareColumnMappings(string[] normalizedNames, Dictionary<string, PropertyInfo> propCache, char delimiter)
     {
         var mappings = new List<PropColumnMapping>();
         for (var i = 0; i < normalizedNames.Length; i++)
@@ -264,7 +579,7 @@ internal static class StswMapping
 
         var nameSet = new HashSet<string>(normalizedColumnNames, StringComparer.OrdinalIgnoreCase);
         var propCache = CacheProperties(type, nameSet, delimiter);
-        var columnMappings = PrepareColumnMappings(normalizedColumnNames, dt, propCache, delimiter);
+        var columnMappings = PrepareColumnMappings(normalizedColumnNames, propCache, delimiter);
         var factory = CreateInstanceFactory(type);
 
         foreach (var row in dt.AsEnumerable())
@@ -276,4 +591,5 @@ internal static class StswMapping
             yield return obj;
         }
     }
+    #endregion
 }

@@ -17,7 +17,7 @@ namespace StswExpress;
 /// &lt;/se:StswZoomControl&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Fix, "Prevent moving content out of bounds when zoomed and panned.")]
 public class StswZoomControl : Border
 {
     private UIElement? _child;

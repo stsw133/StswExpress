@@ -72,6 +72,7 @@
                                                        Margin="{TemplateBinding Padding}"
                                                        Maximum="{Binding TotalPages, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Minimum="1"
+                                                       SeparatorThickness="1"
                                                        Value="{Binding CurrentPage, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Width="100"/>
                                 </StackPanel>

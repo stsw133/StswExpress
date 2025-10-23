@@ -6,7 +6,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Represents an email account and provides methods for sending emails using the account's SMTP settings.
 /// </summary>
-[StswPlannedChanges(StswPlannedChanges.ChangeName)]
+[StswPlannedChanges(StswPlannedChanges.ChangeName, "This class may be renamed in future versions to better reflect its purpose.")]
 public partial class StswMailboxModel : StswObservableObject
 {
     /*

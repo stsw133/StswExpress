@@ -19,7 +19,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Value))]
-[StswPlannedChanges(StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor, "Move control creation logic as template selectors for better extensibility.")]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     private ContentPresenter? _contentPresenter;

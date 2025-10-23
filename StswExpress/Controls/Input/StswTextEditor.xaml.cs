@@ -22,8 +22,7 @@ namespace StswExpress;
 /// &lt;se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
 /// </code>
 /// </example>
-[Obsolete]
-[StswPlannedChanges(StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework, "Current implementation is obsolete and will be reworked in future versions.")]
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;
@@ -532,17 +531,17 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// <summary>
     /// Gets or sets the border thickness of buttons and controls within the editor.
     /// </summary>
-    public StswThickness SubBorderThickness
+    public Thickness SubBorderThickness
     {
-        get => (StswThickness)GetValue(SubBorderThicknessProperty);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
     }
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
-            typeof(StswThickness),
+            typeof(Thickness),
             typeof(StswTextEditor),
-            new FrameworkPropertyMetadata(default(StswThickness), FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

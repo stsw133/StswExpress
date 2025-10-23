@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace StswExpress.Tests.Utils.Helpers;
 public class StswCollectionViewWrapperTests
 {
-    private class TestItem : StswObservableObject, IStswCollectionItem
+    private class TestItem : StswObservableObject, IStswTrackableItem
     {
         public StswItemState ItemState { get; set; }
         public bool? ShowDetails { get; set; }

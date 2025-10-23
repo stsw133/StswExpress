@@ -10,8 +10,8 @@ namespace StswExpress.Commons;
 /// Also allows ignoring certain property names to prevent marking items as modified when those properties change.
 /// </summary>
 /// <typeparam name="T">Item type stored in the collection.</typeparam>
-[StswPlannedChanges(StswPlannedChanges.NewFeatures)]
-public class StswObservableCollection<T> : ObservableCollection<T> //TODO - handle changes in nested classes
+[StswPlannedChanges(StswPlannedChanges.NewFeatures, "Handling of nested class changes is not yet implemented.")]
+public class StswObservableCollection<T> : ObservableCollection<T>
 {
     private bool _isBulkLoading;
 
@@ -47,7 +47,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
             foreach (var item in collection)
             {
                 Items.Add(item);
-                if (TrackItems && item is IStswCollectionItem trackableItem)
+                if (TrackItems && item is IStswTrackableItem trackableItem)
                     trackableItem.PropertyChanged += OnItemPropertyChanged;
             }
 
@@ -69,17 +69,17 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     {
         if (TrackItems)
         {
-            foreach (var item in _addedItems.OfType<IStswCollectionItem>().ToList())
+            foreach (var item in _addedItems.OfType<IStswTrackableItem>().ToList())
                 item.ItemState = StswItemState.Unchanged;
 
-            foreach (var item in _deletedItems.OfType<IStswCollectionItem>().ToList())
+            foreach (var item in _deletedItems.OfType<IStswTrackableItem>().ToList())
                 item.ItemState = StswItemState.Unchanged;
 
-            foreach (var item in _modifiedItems.OfType<IStswCollectionItem>().ToList())
+            foreach (var item in _modifiedItems.OfType<IStswTrackableItem>().ToList())
                 item.ItemState = StswItemState.Unchanged;
         }
 
-        foreach (var item in Items.OfType<IStswCollectionItem>())
+        foreach (var item in Items.OfType<IStswTrackableItem>())
             item.ItemState = StswItemState.Unchanged;
 
         _addedItems.Clear();
@@ -106,7 +106,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
                 continue;
 
             Add(item);
-            if (TrackItems && item is IStswCollectionItem trackableItem)
+            if (TrackItems && item is IStswTrackableItem trackableItem)
                 HandleItemStateChange(trackableItem);
         }
 
@@ -134,7 +134,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
 
             Items.Add(item);
 
-            if (TrackItems && item is IStswCollectionItem trackableItem)
+            if (TrackItems && item is IStswTrackableItem trackableItem)
             {
                 trackableItem.PropertyChanged += OnItemPropertyChanged;
 
@@ -161,7 +161,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     /// <inheritdoc/>
     protected override void ClearItems()
     {
-        foreach (var item in this.OfType<IStswCollectionItem>())
+        foreach (var item in this.OfType<IStswTrackableItem>())
             item.PropertyChanged -= OnItemPropertyChanged;
 
         base.ClearItems();
@@ -193,7 +193,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
 
         foreach (var item in this)
         {
-            if (item is not IStswCollectionItem trackableItem)
+            if (item is not IStswTrackableItem trackableItem)
                 continue;
 
             trackableItem.PropertyChanged -= OnItemPropertyChanged;
@@ -221,7 +221,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     {
         base.InsertItem(index, item);
 
-        if (TrackItems && item is IStswCollectionItem trackableItem)
+        if (TrackItems && item is IStswTrackableItem trackableItem)
         {
             trackableItem.PropertyChanged += OnItemPropertyChanged;
 
@@ -237,10 +237,10 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     {
         var item = this[index];
 
-        if (!TrackItems || item is not IStswCollectionItem trackableItem)
+        if (!TrackItems || item is not IStswTrackableItem trackableItem)
         {
             base.RemoveItem(index);
-            if (item is IStswCollectionItem observableItem)
+            if (item is IStswTrackableItem observableItem)
                 observableItem.PropertyChanged -= OnItemPropertyChanged;
             UpdateCountersIfEnabled();
             return;
@@ -299,7 +299,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
         RemoveItem(index);
 
         base.SetItem(index, item);
-        if (item is IStswCollectionItem trackableItem)
+        if (item is IStswTrackableItem trackableItem)
         {
             trackableItem.PropertyChanged += OnItemPropertyChanged;
 
@@ -316,7 +316,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     /// Handles the state change of an item in the collection.
     /// </summary>
     /// <param name="item">The item whose state has changed.</param>
-    private void HandleItemStateChange(IStswCollectionItem item)
+    private void HandleItemStateChange(IStswTrackableItem item)
     {
         if (!TrackItems || item is not T typedItem)
             return;
@@ -351,7 +351,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
         if (!TrackItems)
             return;
 
-        if (sender is not IStswCollectionItem trackableItem)
+        if (sender is not IStswTrackableItem trackableItem)
             return;
 
         if (e.PropertyName == nameof(trackableItem.ItemState))
@@ -379,7 +379,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
         if (!TrackItems)
             return;
 
-        foreach (var item in this.OfType<IStswCollectionItem>())
+        foreach (var item in this.OfType<IStswTrackableItem>())
         {
             if (item is not T typedItem)
                 continue;
@@ -402,7 +402,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
 
     #region Properties
     /// <summary>
-    /// Controls whether the collection tracks item state changes and mutates <see cref="IStswCollectionItem.ItemState"/>.
+    /// Controls whether the collection tracks item state changes and mutates <see cref="IStswTrackableItem.ItemState"/>.
     /// When set to false, the collection behaves like a plain <see cref="ObservableCollection{T}"/> with no item-state updates and no tracking lists.
     /// Toggling this property re-wires subscriptions and rebuilds tracking lists/counters accordingly.
     /// </summary>
@@ -418,14 +418,14 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
 
             if (_trackItems)
             {
-                foreach (var item in this.OfType<IStswCollectionItem>())
+                foreach (var item in this.OfType<IStswTrackableItem>())
                     item.PropertyChanged += OnItemPropertyChanged;
 
                 RebuildTrackingListsFromStates();
             }
             else
             {
-                foreach (var item in this.OfType<IStswCollectionItem>())
+                foreach (var item in this.OfType<IStswTrackableItem>())
                     item.PropertyChanged -= OnItemPropertyChanged;
 
                 _addedItems.Clear();
@@ -442,7 +442,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Unchanged"/> state."/>
     /// </summary>
-    public IEnumerable<T> UnchangedItems => this.OfType<IStswCollectionItem>().Where(x => x.ItemState == StswItemState.Unchanged).OfType<T>();
+    public IEnumerable<T> UnchangedItems => this.OfType<IStswTrackableItem>().Where(x => x.ItemState == StswItemState.Unchanged).OfType<T>();
 
     /// <summary>
     /// Gets a read-only collection of items in the <see cref="StswItemState.Added"/> state."/>
@@ -467,7 +467,7 @@ public class StswObservableCollection<T> : ObservableCollection<T> //TODO - hand
     /// </summary>
     public HashSet<string> IgnoredPropertyNames { get; set; } =
     [
-        nameof(IStswCollectionItem.ShowDetails),
+        nameof(IStswTrackableItem.ShowDetails),
         nameof(IStswSelectionItem.IsSelected),
     ];
 

@@ -24,7 +24,7 @@ namespace StswExpress;
 /// &lt;ListBox ItemsSource="{se:StswCreateInstance local:MyCollection, '\"Item 1\", \"Item 2\", \"Item 3\"'}"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework, "Refactor to improve argument parsing and type conversion.")]
 internal partial class StswCreateInstanceExtension(Type type, string? args) : MarkupExtension
 {
     [GeneratedRegex("\"(.*?)\"|([^,]+)")]

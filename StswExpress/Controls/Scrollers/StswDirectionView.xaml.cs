@@ -461,7 +461,6 @@ public class StswDirectionView : ScrollViewer
                     button.Opacity = 1;
                     break;
                 case StswDynamicVisibilityMode.Full:
-                case StswDynamicVisibilityMode.Collapsed:
                     SetLength(button, 0);
                     button.IsHitTestVisible = false;
                     button.Opacity = 0;

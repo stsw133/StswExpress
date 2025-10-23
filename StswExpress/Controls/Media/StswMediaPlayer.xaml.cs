@@ -19,7 +19,7 @@ namespace StswExpress;
 /// &lt;se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures)]
+[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures, "Fix track changing its position while dragging the timeline slider.")]
 public class StswMediaPlayer : ItemsControl
 {
     private readonly Timer _timer = new() { AutoReset = true };

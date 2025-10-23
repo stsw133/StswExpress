@@ -58,13 +58,12 @@
                         <!-- expander -->
                         <se:StswExpander x:Name="OPT_Expander" Grid.Column="1"
                                          Background="{TemplateBinding Background}"
-                                         BorderThickness="0"
-                                         CornerClipping="False"
-                                         CornerRadius="0"
                                          IsExpanded="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                          Padding="0"
+                                         SeparatorThickness="0"
                                          HorizontalAlignment="Stretch"
-                                         VerticalAlignment="Stretch"/>
+                                         VerticalAlignment="Stretch"
+                                         se:StswControl.IsBorderless="True"/>
                         <!-- items -->
                         <DockPanel x:Name="OPT_Items" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
                             <Rectangle x:Name="OPT_ItemsIndentation" Width="{TemplateBinding ItemsIndentation}"/>

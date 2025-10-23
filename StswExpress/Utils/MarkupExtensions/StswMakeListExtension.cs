@@ -22,7 +22,7 @@ namespace StswExpress;
 /// &lt;ListBox ItemsSource="{se:StswMakeList '1.5, 2.75, 3.14'}"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Refactor, "Refactor to use generic type parameter when C# 12 is available.")]
 public class StswMakeListExtension(string values) : MarkupExtension
 {
     private readonly string _values = values ?? throw new ArgumentNullException(nameof(values));

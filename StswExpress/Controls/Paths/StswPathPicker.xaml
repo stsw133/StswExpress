@@ -55,7 +55,7 @@
                             <se:StswSeparator x:Name="OPT_ButtonSeparator"
                                               DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->

@@ -482,7 +482,7 @@ public static partial class StswDatabaseHelper
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <param name="disposeConnection">Whether to dispose the connection after execution.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This functionality can be achieved more efficiently using combinations of bulk insert and standard Get methods.")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlConnection sqlConn, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null)
     {
         if (string.IsNullOrWhiteSpace(joinKeys.Key)
@@ -628,7 +628,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This functionality can be achieved more efficiently using combinations of bulk insert and standard Get methods.")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this SqlTransaction sqlTran, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null)
         => sqlTran.Connection.GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, timeout, sqlTran);
 
@@ -646,7 +646,7 @@ public static partial class StswDatabaseHelper
     /// <param name="timeout">Optional. The command timeout in seconds. If <see langword="null"/>, the default is used.</param>
     /// <param name="sqlTran">Optional. The SQL transaction to associate with the query. If <see langword="null"/>, no transaction is used.</param>
     /// <returns>A list of <typeparamref name="THeader"/> objects, each with an associated collection of <typeparamref name="TItem"/> objects injected into the specified property.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This functionality can be achieved more efficiently using combinations of bulk insert and standard Get methods.")]
     public static IEnumerable<THeader> GetDivided<THeader, TItem>(this StswDatabaseModel model, string query, KeyValuePair<string, string?> joinKeys, string injectIntoProperty, string divideFromColumn, object? parameters = null, int? timeout = null, SqlTransaction? sqlTran = null)
         => model.OpenedConnection().GetDivided<THeader, TItem>(query, joinKeys, injectIntoProperty, divideFromColumn, parameters, model.DefaultTimeout ?? timeout, sqlTran);
 
@@ -795,15 +795,15 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
-    public static void Set<TModel>(this SqlConnection sqlConn, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswCollectionItem, new()
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This method can be replaced with bulk insert operations combined with standard update/delete methods for better performance.")]
+    public static void Set<TModel>(this SqlConnection sqlConn, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null, bool? disposeConnection = null) where TModel : IStswTrackableItem, new()
     {
         if (!CheckQueryConditions())
             return;
 
         idColumns ??= ["ID"];
         setColumns ??= typeof(TModel).GetProperties().Select(x => x.Name);
-        setColumns = setColumns.Except(items.IgnoredPropertyNames.Append(nameof(IStswCollectionItem.ItemState)));
+        setColumns = setColumns.Except(items.IgnoredPropertyNames.Append(nameof(IStswTrackableItem.ItemState)));
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
@@ -847,8 +847,8 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{T}{TModel}"/>.
     /// </remarks>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
-    public static void Set<TModel>(this SqlTransaction sqlTran, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswCollectionItem, new()
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This method can be replaced with bulk insert operations combined with standard update/delete methods for better performance.")]
+    public static void Set<TModel>(this SqlTransaction sqlTran, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null) where TModel : IStswTrackableItem, new()
         => sqlTran.Connection.Set(items, tableName, setColumns, idColumns, timeout, sqlTran);
 
     /// <summary>
@@ -864,8 +864,8 @@ public static partial class StswDatabaseHelper
     /// <remarks>
     /// This method assumes that the column names in the SQL table match the property names in the <see cref="StswObservableCollection{TModel}"/>.
     /// </remarks>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
-    public static void Set<TModel>(this StswDatabaseModel model, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswCollectionItem, new()
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This method can be replaced with bulk insert operations combined with standard update/delete methods for better performance.")]
+    public static void Set<TModel>(this StswDatabaseModel model, StswObservableCollection<TModel> items, string tableName, IEnumerable<string>? setColumns = null, IEnumerable<string>? idColumns = null, int? timeout = null, SqlTransaction? sqlTran = null) where TModel : IStswTrackableItem, new()
         => model.OpenedConnection().Set(items, tableName, setColumns, idColumns, model.DefaultTimeout ?? timeout, sqlTran);
 
     /// <summary>
@@ -873,7 +873,7 @@ public static partial class StswDatabaseHelper
     /// </summary>
     /// <param name="prop"> The property for which to build the getter.</param>
     /// <returns>A function that takes an object and returns the value of the specified property.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This method is no longer needed with the removal of GetDivided methods.")]
     private static Func<object, object?> BuildGetter(PropertyInfo prop)
     {
         var param = Expression.Parameter(typeof(object), "obj");
@@ -909,7 +909,7 @@ public static partial class StswDatabaseHelper
     /// <param name="idColumns">The set of identifier columns.</param>
     /// <param name="commandType">The state of the item (Added, Modified, Deleted).</param>
     /// <returns>A collection of <see cref="SqlParameter"/> for the specified item.</returns>
-    private static IEnumerable<SqlParameter> GenerateSqlParameters<TModel>(TModel item, IEnumerable<string> setColumns, IEnumerable<string> idColumns, StswItemState commandType) where TModel : IStswCollectionItem, new()
+    private static IEnumerable<SqlParameter> GenerateSqlParameters<TModel>(TModel item, IEnumerable<string> setColumns, IEnumerable<string> idColumns, StswItemState commandType) where TModel : IStswTrackableItem, new()
     {
         var setColumnsSet = new HashSet<string>(setColumns);
         var idColumnsSet = new HashSet<string>(idColumns);
@@ -928,7 +928,7 @@ public static partial class StswDatabaseHelper
     /// <param name="fullTable"> The string from which to trim trailing digits.</param>
     /// <param name="itemType"> The type of the item to which the column names belong.</param>
     /// <returns>A normalized string with trailing digits removed.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "This method is no longer needed with the removal of GetDivided methods.")]
     private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
     {
         var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -984,7 +984,7 @@ public static partial class StswDatabaseHelper
             if (!(p.CanRead && p.CanWrite))
                 continue;
 
-            if (string.Equals(p.Name, nameof(IStswCollectionItem.ItemState), StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(p.Name, nameof(IStswTrackableItem.ItemState), StringComparison.OrdinalIgnoreCase))
                 continue;
 
             if (HasAttribute(p, "NotMappedAttribute"))

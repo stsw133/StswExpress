@@ -2,6 +2,7 @@
 /// <summary>
 /// Provides a way to store and display pairs of display and value objects for use in combo boxes.
 /// </summary>
+[StswPlannedChanges(StswPlannedChanges.Remove, "Will be fully replaced by KeyValuePair<TKey, TValue> in future versions.")]
 public partial class StswComboItem : StswObservableObject
 {
     /// <summary>

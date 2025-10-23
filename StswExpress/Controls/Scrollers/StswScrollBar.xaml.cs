@@ -53,7 +53,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-        if (!DynamicMode.In(StswDynamicVisibilityMode.Collapsed, StswDynamicVisibilityMode.Off))
+        if (DynamicMode != StswDynamicVisibilityMode.Off)
             MouseEnterAnimation();
     }
 
@@ -61,7 +61,7 @@ public class StswScrollBar : ScrollBar
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        if (!DynamicMode.In(StswDynamicVisibilityMode.Collapsed, StswDynamicVisibilityMode.Off))
+        if (DynamicMode != StswDynamicVisibilityMode.Off)
             MouseLeaveAnimation();
     }
 
@@ -100,14 +100,6 @@ public class StswScrollBar : ScrollBar
 
         switch (stsw.DynamicMode)
         {
-            case StswDynamicVisibilityMode.Collapsed:
-                stsw.SetSize(0);
-                stsw.SetOpacity(stsw, 0);
-                stsw.IsHitTestVisible = false;
-                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
-                break;
             case StswDynamicVisibilityMode.Off:
                 stsw.SetSize(stsw.ExpandedSize);
                 stsw.SetOpacity(stsw, 1);

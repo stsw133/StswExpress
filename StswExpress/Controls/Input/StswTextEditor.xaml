@@ -17,7 +17,7 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
-        <Setter Property="SubBorderThickness" Value="1 1 1 1 0"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="SubCornerRadius" Value="6"/>
         <Setter Property="SubPadding" Value="2"/>
 
@@ -233,6 +233,7 @@
                                                                        Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                        Margin="{TemplateBinding SubPadding}"
                                                                        Minimum="1" Maximum="1638"
+                                                                       SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                        Width="60"/>
                                                     
                                                     <se:StswButton x:Name="OPT_FontIncrease"
@@ -262,7 +263,8 @@
                                                                  Focusable="False"
                                                                  Height="{Binding ActualHeight, ElementName=OPT_FileNew}"
                                                                  IsEditable="True"
-                                                                 Margin="{TemplateBinding SubPadding}"/>
+                                                                 Margin="{TemplateBinding SubPadding}"
+                                                                 SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
@@ -332,6 +334,7 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
+                                                                    SeparatorThickness="0"
                                                                     se:StswPopup.Background="Transparent"
                                                                     se:StswPopup.BorderBrush="Transparent"
                                                                     se:StswPopup.BorderThickness="0"
@@ -363,6 +366,7 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
+                                                                    SeparatorThickness="0"
                                                                     se:StswPopup.Background="Transparent"
                                                                     se:StswPopup.BorderBrush="Transparent"
                                                                     se:StswPopup.BorderThickness="0"

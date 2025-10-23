@@ -471,7 +471,7 @@ public static partial class StswFn
     /// <param name="emails">A string containing one or more email addresses to validate.</param>
     /// <param name="separator">The characters used to separate multiple email addresses.</param>
     /// <returns><see langword="true"/> if all email addresses are valid; otherwise, <see langword="false"/>.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Move | StswPlannedChanges.Rework)]
+    [StswPlannedChanges(StswPlannedChanges.Move | StswPlannedChanges.Rework, "Possibly replace with MimeKit implementation.")]
     public static bool AreValidEmails(string emails, char[] separator)
     {
         if (string.IsNullOrWhiteSpace(emails))
@@ -486,7 +486,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="email">The email address to validate.</param>
     /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Move | StswPlannedChanges.Rework)]
+    [StswPlannedChanges(StswPlannedChanges.Move | StswPlannedChanges.Rework, "Possibly replace with MimeKit implementation.")]
     public static bool IsValidEmail(string email) => EmailRegex().IsMatch(email);
 
     /*
@@ -550,7 +550,7 @@ public static partial class StswFn
     /// <remarks>
     /// Supports: Poland (PL), United Kingdom (UK), United States (US), Germany (DE), France (FR).
     /// </remarks>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "Consider using a dedicated library for phone number validation, such as libphonenumber-csharp.")]
     public static bool IsValidPhoneNumber(string number, string? countryCode = null)
     {
         if (string.IsNullOrWhiteSpace(number))
@@ -584,7 +584,7 @@ public static partial class StswFn
     /// </summary>
     /// <param name="url">The URL to validate.</param>
     /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Remove)]
+    [StswPlannedChanges(StswPlannedChanges.Remove, "Consider using a dedicated library for URL validation.")]
     public static bool IsValidUrl(string url)
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out var u)) return false;

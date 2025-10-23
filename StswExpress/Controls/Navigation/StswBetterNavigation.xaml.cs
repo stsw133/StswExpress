@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-[StswPlannedChanges(StswPlannedChanges.Finish)]
+[StswPlannedChanges(StswPlannedChanges.Finish, "It is possible it will be removed and instead original StswNavigation will be improved")]
 public class StswBetterNavigation : ItemsControl
 {
     static StswBetterNavigation()

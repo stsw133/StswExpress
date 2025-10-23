@@ -24,7 +24,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework)]
+[StswPlannedChanges(StswPlannedChanges.Rework, "This control needs to support MVVM pattern better and derive from TreeView for hierarchical navigation.")]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
     internal StswNavigationElement? CompactedExpander;

@@ -27,7 +27,7 @@ public enum StswInfoType
 }
 
 /// <summary>
-/// Enumeration for <see cref="IStswCollectionItem.ItemState"/>.
+/// Enumeration for <see cref="IStswTrackableItem.ItemState"/>.
 /// </summary>
 public enum StswItemState
 {

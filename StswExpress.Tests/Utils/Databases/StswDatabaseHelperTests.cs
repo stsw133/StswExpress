@@ -155,7 +155,7 @@ public class StswDatabaseHelperTests
         Assert.Equal("X", dt.Rows[0]["Extra"]);
     }
 
-    private class TestModel : StswObservableObject, IStswCollectionItem
+    private class TestModel : StswObservableObject, IStswTrackableItem
     {
         public int Id { get; set; }
         public string Name { get; set; } = "";

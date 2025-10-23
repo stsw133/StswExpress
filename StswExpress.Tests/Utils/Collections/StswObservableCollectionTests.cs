@@ -3,7 +3,7 @@ using System.ComponentModel;
 namespace StswExpress.Commons.Tests.Utils.Collections;
 public class StswObservableCollectionTests
 {
-    private class TestItem : IStswCollectionItem
+    private class TestItem : IStswTrackableItem
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private StswItemState _itemState;
@@ -178,7 +178,7 @@ public class StswObservableCollectionTests
         var item = new TestItem();
         var collection = new StswObservableCollection<TestItem>(new[] { item });
 
-        item.SetProperty(nameof(IStswCollectionItem.ShowDetails));
+        item.SetProperty(nameof(IStswTrackableItem.ShowDetails));
         Assert.Equal(StswItemState.Unchanged, item.ItemState);
     }
 

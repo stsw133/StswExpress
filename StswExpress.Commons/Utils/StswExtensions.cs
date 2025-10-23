@@ -63,7 +63,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="type">The type to convert.</param>
     /// <returns>The corresponding <see cref="SqlDbType"/>, or <see langword="null"/> if no matching type is found.</returns>
-    [StswPlannedChanges(StswPlannedChanges.Move)]
+    [StswPlannedChanges(StswPlannedChanges.Move, "It will propably be better to move this method to StswDatabaseHelper class.")]
     public static SqlDbType InferSqlDbType(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -96,92 +96,6 @@ public static partial class StswExtensions
             //{ typeof(object), SqlDbType.Variant }
         }
         .GetValueOrDefault(underlyingType) ?? SqlDbType.NVarChar;
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T"> The type of objects to map to.</typeparam>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T> MapTo<T>(this DataTable dt)
-    {
-        var type = typeof(T);
-
-        if (IsSimpleType(type))
-        {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo<T>()!;
-        }
-        else
-        {
-            foreach (var obj in StswMapping.MapToClass(dt, type))
-                yield return (T)obj;
-        }
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type.
-    /// </summary>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <param name="type"> The type of objects to map to.</param>
-    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<object> MapTo(this DataTable dt, Type type)
-    {
-        if (IsSimpleType(type))
-        {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo(type)!;
-        }
-        else
-        {
-            foreach (var obj in StswMapping.MapToClass(dt, type))
-                yield return obj;
-        }
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of type <typeparamref name="T"/>, supporting nested classes and custom delimiters.
-    /// </summary>
-    /// <typeparam name="T"> The type of objects to map to.</typeparam>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
-    /// <returns>One or more objects of type <typeparamref name="T"/> mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<T> MapTo<T>(this DataTable dt, char delimiter)
-    {
-        var type = typeof(T);
-
-        if (IsSimpleType(type))
-        {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo<T>()!;
-        }
-        else
-        {
-            foreach (var obj in StswMapping.MapToNestedClass(dt, type, delimiter))
-                yield return (T)obj;
-        }
-    }
-
-    /// <summary>
-    /// Maps a <see cref="DataTable"/> to a collection of objects of a specified type, supporting nested classes and custom delimiters.
-    /// </summary>
-    /// <param name="dt"> The <see cref="DataTable"/> to map.</param>
-    /// <param name="type"> The type of objects to map to.</param>
-    /// <param name="delimiter"> The delimiter used to separate nested properties in the column names.</param>
-    /// <returns>One or more objects of the specified type mapped from the <see cref="DataTable"/>.</returns>
-    public static IEnumerable<object> MapTo(this DataTable dt, Type type, char delimiter)
-    {
-        if (IsSimpleType(type))
-        {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
-                yield return value.ConvertTo(type)!;
-        }
-        else
-        {
-            foreach (var obj in StswMapping.MapToNestedClass(dt, type, delimiter))
-                yield return obj;
-        }
     }
 
     /// <summary>
@@ -443,7 +357,7 @@ public static partial class StswExtensions
     /// <remarks>
     /// This method is useful when you want to convert a collection to a dictionary but cannot guarantee that the keys will be unique.
     /// </remarks>
-    [StswPlannedChanges(StswPlannedChanges.Revision)]
+    [StswPlannedChanges(StswPlannedChanges.Revision | StswPlannedChanges.ChangeName, "Consider renaming to ToDictionaryIgnoreDuplicates for clarity.")]
     public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector) where TKey : notnull
     {
         var dictionary = new Dictionary<TKey, TValue>();
@@ -891,26 +805,6 @@ public static partial class StswExtensions
         }
 
         return true;
-    }
-
-    /// <summary>
-    /// Checks if a type is a simple type, which includes primitive types, strings, decimals, DateTime, DateTimeOffset, TimeSpan, Guids, and byte arrays.
-    /// </summary>
-    /// <param name="type">The type to check.</param>
-    /// <returns><see langword="true"/> if the type is a simple type, <see langword="false"/> otherwise.</returns>
-    public static bool IsSimpleType(Type type)
-    {
-        if (type.IsEnum) return true;
-        if (Nullable.GetUnderlyingType(type) is Type u) type = u;
-
-        return type.IsPrimitive
-            || type == typeof(string)
-            || type == typeof(decimal)
-            || type == typeof(DateTime)
-            || type == typeof(DateTimeOffset)
-            || type == typeof(TimeSpan)
-            || type == typeof(Guid)
-            || type == typeof(byte[]);
     }
     #endregion
 

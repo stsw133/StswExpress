@@ -23,7 +23,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedPath))]
-[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor)]
+[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor, "Currently there are many bugs. Needs improvements and fixes.")]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
     public StswPathTree()

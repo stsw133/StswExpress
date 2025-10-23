@@ -35,7 +35,7 @@ namespace StswExpress;
 /// // Calling it again resumes from where it left off.
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Remove)]
+[StswPlannedChanges(StswPlannedChanges.Remove, "This class will propably be removed because its functionality can be achieved using StswCancellableAsyncCommand with external item management.")]
 public class StswPausableCommand<T>(Func<T, CancellationToken, Task> executeItem, Func<bool>? canExecute = null) : StswCancellableCommand<T>((_, _) => Task.CompletedTask, canExecute)
 {
     private readonly Func<T, CancellationToken, Task> _executeItem = executeItem ?? throw new ArgumentNullException(nameof(executeItem));
