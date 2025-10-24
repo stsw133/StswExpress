@@ -148,22 +148,6 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether action buttons inside the box should be visible.
-    /// This controls elements such as drop-down buttons or increment arrows displayed next to the text input.
-    /// </summary>
-    public bool AreButtonsVisible
-    {
-        get => (bool)GetValue(AreButtonsVisibleProperty);
-        set => SetValue(AreButtonsVisibleProperty, value);
-    }
-    public static readonly DependencyProperty AreButtonsVisibleProperty
-        = DependencyProperty.Register(
-            nameof(AreButtonsVisible),
-            typeof(bool),
-            typeof(StswBoxBase),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
     /*
     /// <summary>
     /// Gets or sets the thickness of the border, including the inner separator value.

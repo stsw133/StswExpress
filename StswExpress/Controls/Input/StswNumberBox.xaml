@@ -44,7 +44,7 @@
                             <!-- icon section -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- buttons -->
-                            <UniformGrid x:Name="OPT_ButtonHost" DockPanel.Dock="Right" Columns="1" Width="24">
+                            <UniformGrid DockPanel.Dock="Right" Columns="1" Width="24">
                                 <se:StswRepeatButton x:Name="PART_ButtonUp" Focusable="False" Padding="0" se:StswControl.IsBorderless="True">
                                     <se:StswIcon Data="M2,17L12,7L22,17H2Z" Margin="-3" Scale="1"/>
                                 </se:StswRepeatButton>
@@ -53,7 +53,7 @@
                                 </se:StswRepeatButton>
                             </UniformGrid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="OPT_ButtonSeparator" DockPanel.Dock="Right"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
@@ -91,10 +91,6 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="AreButtonsVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonHost"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_ButtonSeparator"/>
-                        </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
                         </Trigger>

@@ -89,7 +89,6 @@
 ## StswExpress (WPF)
 
 ### Additions
-- Added `AreButtonsVisible` property for Stsw box controls to toggle button visibility.
 - Added `DynamicMode` to `StswDirectionView` for dynamic visibility adjustments. Replaced `StswScrollDynamicMode` enum with `StswDynamicVisibilityMode`.
 - Added two attached properties — `ColumnDefinitions` and `RowDefinitions` — to simplify Grid definition syntax.
 - Introduced `SliderMode` in `StswSlider` for single and range selection.

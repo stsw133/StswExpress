@@ -7,7 +7,6 @@ public partial class StswPathPickerContext : ControlsContext
     {
         base.SetDefaults();
 
-        AreButtonsVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AreButtonsVisible)))?.Value ?? default;
         Filter = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Filter)))?.Value ?? default;
         IsFileSizeVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFileSizeVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
@@ -19,7 +18,6 @@ public partial class StswPathPickerContext : ControlsContext
 
     [StswCommand] void Clear() => SelectedPath = default;
 
-    [StswObservableProperty] bool _areButtonsVisible;
     [StswObservableProperty] string? _filter;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isFileSizeVisible;

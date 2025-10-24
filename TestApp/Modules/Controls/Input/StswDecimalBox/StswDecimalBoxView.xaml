@@ -13,9 +13,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- AreButtonsVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreButtonsVisible, Type={x:Type se:StswDecimalBox}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreButtonsVisible}"/>
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswDecimalBox}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
@@ -39,8 +36,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswDecimalBox AreButtonsVisible="{Binding AreButtonsVisible}"
-                           Format="{Binding Format}"
+        <se:StswDecimalBox Format="{Binding Format}"
                            Increment="{Binding Increment}"
                            IsEnabled="{Binding IsEnabled}"
                            IsReadOnly="{Binding IsReadOnly}"
