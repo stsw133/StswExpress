@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski, Hubert Rogowski</Authors>
-    <Version>0.21.0</Version>
+    <Version>0.21.1</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -35,7 +35,6 @@
     <None Remove="Themes\Resources\spring_background.webp" />
     <None Remove="Themes\Resources\summer_background.webp" />
     <None Remove="Themes\Resources\winter_background.webp" />
-    <None Remove="Utils\StswIcons.cs~RFa51e7cef.TMP" />
     <None Remove="Utils\Translator\Translations\en.json" />
     <None Remove="Utils\Translator\Translations\pl.json" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.21.1](#0-21-1)
 - [Version 0.21.0](#0-21-0)
 - [Version 0.20.1](#0-20-1)
 - [Version 0.20.0](#0-20-0)
@@ -43,6 +44,17 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-21-1">0.21.1</h1>
+
+**Release Date**: 2025-11-XX
+
+## StswExpress.Commons
+
+### Fixes
+- Updated `StswObservableCollection.SetItem` to handle replacements without removing adjacent items while keeping tracking collections in sync.
 
 ---
 

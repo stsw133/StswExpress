@@ -202,8 +202,8 @@ public class StswExtensionsTests
     public void RemoveRange_RemovesItems()
     {
         var list = new List<int> { 1, 2, 3, 4 };
-        list.RemoveRange(new[] { 2, 4 });
-        Assert.Equal(new[] { 1, 3 }, list);
+        list.RemoveRange([2, 4]);
+        Assert.Equal([1, 3], list);
     }
 
     [Fact]
@@ -211,7 +211,17 @@ public class StswExtensionsTests
     {
         var list = new List<int> { 1, 2, 2, 3 };
         list.Replace(2, 9);
-        Assert.Equal(new[] { 1, 9, 9, 3 }, list);
+        Assert.Equal([1, 9, 9, 3], list);
+    }
+
+    [Fact]
+    public void Replace_WithObservableCollection_ReplacesOnlyMatchingItems()
+    {
+        var collection = new StswObservableCollection<int>([1, 2, 3]);
+
+        collection.Replace(2, 9);
+
+        Assert.Equal([1, 9, 3], collection);
     }
 
     [Fact]
@@ -220,7 +230,7 @@ public class StswExtensionsTests
         var list = new List<int> { 1, 2, 3, 4, 5 };
         list.Shuffle();
         Assert.Equal(5, list.Count);
-        Assert.True(list.Contains(1));
+        Assert.Contains(1, list);
     }
     #endregion
 

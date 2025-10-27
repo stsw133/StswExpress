@@ -132,6 +132,17 @@ public class StswObservableCollectionTests
     }
 
     [Fact]
+    public void SetItem_WithValueType_ReplacesWithoutRemovingFollowingItems()
+    {
+        var collection = new StswObservableCollection<int>([1, 2, 3])
+        {
+            [1] = 9
+        };
+
+        Assert.Equal([1, 9, 3], collection);
+    }
+
+    [Fact]
     public void ClearItems_RemovesAllAndClearsTrackingLists()
     {
         var items = new[] { new TestItem(), new TestItem() };

@@ -296,15 +296,48 @@ public class StswObservableCollection<T> : ObservableCollection<T>
             return;
         }
 
-        RemoveItem(index);
+        if (oldItem is IStswTrackableItem oldTrackable)
+        {
+            oldTrackable.PropertyChanged -= OnItemPropertyChanged;
+
+            if (ShowRemovedItems)
+            {
+                if (oldTrackable.ItemState != StswItemState.Added)
+                {
+                    oldTrackable.ItemState = StswItemState.Deleted;
+                    _deletedItems.AddIfNotContains(oldItem);
+                }
+                else
+                {
+                    _addedItems.Remove(oldItem);
+                }
+            }
+            else
+            {
+                if (oldTrackable.ItemState == StswItemState.Added && _addedItems.Contains(oldItem))
+                {
+                    _addedItems.Remove(oldItem);
+                }
+                else
+                {
+                    if (oldTrackable.ItemState != StswItemState.Deleted)
+                    {
+                        oldTrackable.ItemState = StswItemState.Deleted;
+                        _deletedItems.AddIfNotContains(oldItem);
+                    }
+
+                    _modifiedItems.Remove(oldItem);
+                }
+            }
+        }
 
         base.SetItem(index, item);
-        if (item is IStswTrackableItem trackableItem)
+        if (item is IStswTrackableItem newTrackable)
         {
-            trackableItem.PropertyChanged += OnItemPropertyChanged;
+            newTrackable.PropertyChanged += OnItemPropertyChanged;
 
             if (!_isBulkLoading)
-                trackableItem.ItemState = StswItemState.Added;
+                newTrackable.ItemState = StswItemState.Added;
         }
 
         UpdateCountersIfEnabled();
