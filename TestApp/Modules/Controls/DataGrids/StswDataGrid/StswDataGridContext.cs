@@ -24,7 +24,7 @@ public partial class StswDataGridContext : ControlsContext
             Thread.Sleep(1000);
             App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                 () => Items.AddRange(
-                    Enumerable.Range((Items.LastOrDefault()?.Id ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false })
+                    Enumerable.Range((Items.LastOrDefault()?.Id ?? 0) + 1, Items.Count).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false })
                     ));
         });
         IsBusy = false;
@@ -42,7 +42,7 @@ public partial class StswDataGridContext : ControlsContext
     [StswObservableProperty] DataGridSelectionUnit _selectionUnit;
 }
 
-public partial class StswDataGridTestModel : StswObservableObject, IStswTrackableItem, IStswSelectionItem
+public partial class StswDataGridTestModel : StswObservableObject, IStswDetailedItem, IStswTrackableItem, IStswSelectionItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] string? _name;

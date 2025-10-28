@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Threading;
 
 namespace StswExpress;
@@ -21,7 +24,7 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
     public StswDataGridStatusColumn()
     {
         HeaderTemplate = Application.Current.TryFindResource("StswDataGridStatusColumnHeaderTemplate") as DataTemplate;
-        SetCurrentValue(StatusCellTemplateProperty, Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate);
+        CellTemplate = GetDefaultCellTemplate();
 
         var baseCellStyle = Application.Current.TryFindResource("StswDataGridCellStyle") as Style ?? new Style(typeof(DataGridCell));
         CellStyle = new Style(typeof(DataGridCell), baseCellStyle)
@@ -36,34 +39,15 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         Dispatcher.CurrentDispatcher.InvokeAsync(TryExtendRowStyle, DispatcherPriority.Background);
     }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DataTemplate"/> used to render the cell content of the status column.
-    /// When set to <see langword="null"/>, the column falls back to the default template delivered with the library.
-    /// </summary>
-    public DataTemplate? StatusCellTemplate
+    #region Events & methods
+    /// <inheritdoc/>
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
-        get => (DataTemplate?)GetValue(StatusCellTemplateProperty);
-        set => SetValue(StatusCellTemplateProperty, value);
-    }
+        base.OnPropertyChanged(e);
 
-    /// <summary>
-    /// Identifies the <see cref="StatusCellTemplate"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty StatusCellTemplateProperty
-        = DependencyProperty.Register(
-            nameof(StatusCellTemplate),
-            typeof(DataTemplate),
-            typeof(StswDataGridStatusColumn),
-            new PropertyMetadata(null, OnStatusCellTemplateChanged)
-        );
-    private static void OnStatusCellTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGridStatusColumn stsw)
-            return;
-
-        stsw.CellTemplate = e.NewValue as DataTemplate ?? GetDefaultCellTemplate();
+        if (e.Property == CellTemplateProperty && e.NewValue is null)
+            CellTemplate = GetDefaultCellTemplate();
     }
-    private static DataTemplate? GetDefaultCellTemplate() => Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
 
     /// <summary>
     /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.
@@ -77,6 +61,12 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
     }
 
     /// <summary>
+    /// Gets the default cell template for the status column from application resources.
+    /// </summary>
+    /// <returns>The default <see cref="DataTemplate"/> for the cell, or null if not found.</returns>
+    private static DataTemplate? GetDefaultCellTemplate() => Application.Current.TryFindResource("StswDataGridStatusColumnCellTemplate") as DataTemplate;
+
+    /// <summary>
     /// Extends the row style of the <see cref="StswDataGrid"/> to include a trigger for showing details.
     /// </summary>
     private void TryExtendRowStyle()
@@ -86,19 +76,17 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
             return;
 
         var baseStyle = dataGrid.RowStyle;
-        if (baseStyle?.Triggers.OfType<DataTrigger>().Any(t =>
-            t.Binding is Binding b && b.Path?.Path == nameof(IStswTrackableItem.ShowDetails)) == true)
+        if (baseStyle?.Triggers.OfType<DataTrigger>().Any(t => t.Binding is Binding { Converter: StswShowDetailsStateConverter }) == true)
             return;
 
         var newStyle = new Style(typeof(StswDataGridRow), dataGrid.RowStyle);
         newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
         newStyle.Triggers.Add(new DataTrigger
         {
-            Binding = new Binding(nameof(IStswTrackableItem.ShowDetails))
+            Binding = new Binding
             {
                 Mode = BindingMode.OneWay,
-                FallbackValue = false,
-                TargetNullValue = false
+                Converter = StswShowDetailsStateConverter.Instance
             },
             Value = true,
             Setters = { new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible) }
@@ -106,4 +94,34 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
 
         dataGrid.RowStyle = newStyle;
     }
+    #endregion
+}
+
+/// <summary>
+/// Converts an item into its <see cref="IStswDetailedItem.ShowDetails"/> value when available.
+/// Returns <see langword="false"/> for items that do not implement <see cref="IStswDetailedItem"/>.
+/// </summary>
+internal class StswShowDetailsStateConverter : MarkupExtension, IValueConverter
+{
+    /// <summary>
+    /// Gets the singleton instance of the converter.
+    /// </summary>
+    public static StswShowDetailsStateConverter Instance => instance ??= new StswShowDetailsStateConverter();
+    private static StswShowDetailsStateConverter? instance;
+
+    /// <inheritdoc/>
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
+
+    /// <inheritdoc/>
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        var showDetails = value is IStswDetailedItem detailsItem && (detailsItem.ShowDetails ?? false);
+
+        return targetType == typeof(Visibility)
+            ? showDetails ? Visibility.Visible : Visibility.Collapsed
+            : showDetails;
+    }
+
+    /// <inheritdoc/>
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }

@@ -20,6 +20,7 @@ public class StswObservableCollection<T> : ObservableCollection<T>
     /// </summary>
     public StswObservableCollection() : this([])
     {
+        BuildIgnoredPropertyNames();
     }
 
     /// <summary>
@@ -28,6 +29,7 @@ public class StswObservableCollection<T> : ObservableCollection<T>
     /// <param name="trackItems">If set to <see langword="true"/>, the collection will track changes to the items.</param>
     public StswObservableCollection(bool trackItems = true) : this([])
     {
+        BuildIgnoredPropertyNames();
         TrackItems = trackItems;
     }
 
@@ -38,6 +40,7 @@ public class StswObservableCollection<T> : ObservableCollection<T>
     /// <param name="trackItems">If set to <see langword="true"/>, the collection will track changes to the items.</param>
     public StswObservableCollection(IEnumerable<T> collection, bool trackItems = true) : base()
     {
+        BuildIgnoredPropertyNames();
         TrackItems = trackItems;
 
         if (collection != null)
@@ -346,6 +349,17 @@ public class StswObservableCollection<T> : ObservableCollection<T>
 
     #region Helpers
     /// <summary>
+    /// Builds the default ignored property names based on the item types in the collection.
+    /// </summary>
+    private void BuildIgnoredPropertyNames()
+    {
+        if (typeof(IStswDetailedItem).IsAssignableFrom(typeof(T)))
+            IgnoredPropertyNames.Add(nameof(IStswDetailedItem.ShowDetails));
+        if (typeof(IStswSelectionItem).IsAssignableFrom(typeof(T)))
+            IgnoredPropertyNames.Add(nameof(IStswSelectionItem.IsSelected));
+    }
+
+    /// <summary>
     /// Handles the state change of an item in the collection.
     /// </summary>
     /// <param name="item">The item whose state has changed.</param>
@@ -498,11 +512,7 @@ public class StswObservableCollection<T> : ObservableCollection<T>
     /// <summary>
     /// Gets the collection of ignored property names when tracking modifications.
     /// </summary>
-    public HashSet<string> IgnoredPropertyNames { get; set; } =
-    [
-        nameof(IStswTrackableItem.ShowDetails),
-        nameof(IStswSelectionItem.IsSelected),
-    ];
+    public HashSet<string> IgnoredPropertyNames { get; set; } = [];
 
     /// <summary>
     /// Indicates whether removed items should be tracked in the collection.

@@ -3,7 +3,7 @@ using System.ComponentModel;
 namespace StswExpress.Commons.Tests.Utils.Collections;
 public class StswObservableCollectionTests
 {
-    private class TestItem : IStswTrackableItem
+    private class TestItem : IStswDetailedItem, IStswTrackableItem
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private StswItemState _itemState;
@@ -172,7 +172,7 @@ public class StswObservableCollectionTests
     public void TrackItems_Toggle_RewiresSubscriptionsAndTrackingLists()
     {
         var item = new TestItem();
-        var collection = new StswObservableCollection<TestItem>(new[] { item });
+        var collection = new StswObservableCollection<TestItem>([item]);
 
         collection.TrackItems = false;
         Assert.False(collection.TrackItems);
@@ -187,9 +187,9 @@ public class StswObservableCollectionTests
     public void OnItemPropertyChanged_IgnoredProperty_DoesNotMarkModified()
     {
         var item = new TestItem();
-        var collection = new StswObservableCollection<TestItem>(new[] { item });
+        var collection = new StswObservableCollection<TestItem>([item]);
 
-        item.SetProperty(nameof(IStswTrackableItem.ShowDetails));
+        item.SetProperty(nameof(IStswDetailedItem.ShowDetails));
         Assert.Equal(StswItemState.Unchanged, item.ItemState);
     }
 
@@ -197,7 +197,7 @@ public class StswObservableCollectionTests
     public void OnItemPropertyChanged_NonIgnoredProperty_MarksModified()
     {
         var item = new TestItem();
-        var collection = new StswObservableCollection<TestItem>(new[] { item });
+        var collection = new StswObservableCollection<TestItem>([item]);
 
         item.SetProperty("Name");
         Assert.Equal(StswItemState.Modified, item.ItemState);
@@ -209,7 +209,7 @@ public class StswObservableCollectionTests
     {
         var item1 = new TestItem { ItemState = StswItemState.Unchanged };
         var item2 = new TestItem { ItemState = StswItemState.Added };
-        var collection = new StswObservableCollection<TestItem>(new[] { item1, item2 });
+        var collection = new StswObservableCollection<TestItem>([item1, item2]);
 
         var unchanged = collection.UnchangedItems.ToList();
         Assert.Single(unchanged);

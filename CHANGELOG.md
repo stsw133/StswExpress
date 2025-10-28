@@ -53,6 +53,11 @@
 
 ## StswExpress.Commons
 
+### Changes
+- Moved the `ShowDetails` property from the `IStswTrackableItem` interface to a new `IStswDetailedItem` interface to separate concerns between tracking state and displaying details.
+- `StswDataGridStatusColumn` can now detect which part of its default cell template should be used, instead of requiring implementation of the `IStswTrackableItem` and `IStswDetailedItem` interfaces.
+- `StswDataGridStatusColumn` provides a better way to define a custom cell template via the `CellTemplate` property instead of the `StatusCellTemplate` property.
+
 ### Fixes
 - Updated `StswObservableCollection.SetItem` to handle replacements without removing adjacent items while keeping tracking collections in sync.
 

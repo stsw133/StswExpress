@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:se="clr-namespace:StswExpress">
+                    xmlns:se="clr-namespace:StswExpress"
+                    xmlns:sec="clr-namespace:StswExpress.Commons;assembly=StswExpress.Commons">
 
     <!-- StswDataGridStatusColumnHeaderTemplate -->
     <DataTemplate x:Key="StswDataGridStatusColumnHeaderTemplate">
@@ -29,62 +30,118 @@
     <!-- StswDataGridStatusColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridStatusColumnCellTemplate">
         <Grid x:Name="OPT_MainGrid" Margin="-1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type sec:IStswDetailedItem}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type sec:IStswTrackableItem}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
 
-            <se:StswToggleButton IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"
-                                 Padding="0"
-                                 Visibility="{Binding ShowDetails, Converter={x:Static se:StswExistenceConverter.Instance}}"
-                                 se:StswControl.IsBorderless="True"/>
+            <Grid.Resources>
+                <DataTemplate x:Key="StswDataGridStatusColumnToggleTemplate">
+                    <se:StswToggleButton x:Name="OPT_ToggleButton"
+                                         IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"
+                                         Padding="0"
+                                         Visibility="{Binding ShowDetails, Converter={x:Static se:StswExistenceConverter.Instance}}"
+                                         se:StswControl.IsBorderless="True"/>
+                </DataTemplate>
 
-            <se:StswIcon x:Name="OPT_StateIcon"
-                         Data="{x:Static se:StswIcons.Circle}"
-                         IsHitTestVisible="False"
-                         StrokeThickness="1"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Visibility="{Binding ItemState, Converter={x:Static se:StswExistenceConverter.Instance}}">
-                <se:StswIcon.Style>
-                    <Style TargetType="{x:Type se:StswIcon}">
+                <DataTemplate x:Key="StswDataGridStatusColumnStateTemplate">
+                    <se:StswIcon x:Name="OPT_StateIcon"
+                                 Data="{x:Static se:StswIcons.Circle}"
+                                 IsHitTestVisible="False"
+                                 StrokeThickness="1"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Visibility="{Binding ItemState, Converter={x:Static se:StswExistenceConverter.Instance}}">
+                        <se:StswIcon.Style>
+                            <Style TargetType="{x:Type se:StswIcon}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ItemState}" Value="Unchanged">
+                                        <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Fill}"/>
+                                        <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Border}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ItemState}" Value="Added">
+                                        <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                                        <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Border}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ItemState}" Value="Modified">
+                                        <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                                        <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Border}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
+                                        <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                                        <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Border}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </se:StswIcon.Style>
+                    </se:StswIcon>
+                </DataTemplate>
+
+                <DataTemplate x:Key="StswDataGridStatusColumnArrowTemplate">
+                    <se:StswIcon x:Name="OPT_Arrow"
+                                 Data="{x:Static se:StswIcons.ChevronDown}"
+                                 IsHitTestVisible="False"
+                                 IsRotated="{Binding ShowDetails, FallbackValue=False, TargetNullValue=False}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Visibility="{Binding ShowDetails, Converter={x:Static se:StswExistenceConverter.Instance}}"/>
+                </DataTemplate>
+            </Grid.Resources>
+
+            <ContentControl x:Name="OPT_ToggleHost" Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="ContentTemplate" Value="{x:Null}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Unchanged">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Fill}"/>
-                                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Border}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Added">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
-                                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Border}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Modified">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
-                                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Border}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
-                                <Setter Property="Stroke" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Border}"/>
+                            <DataTrigger Binding="{Binding Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type sec:IStswDetailedItem}}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource StswDataGridStatusColumnToggleTemplate}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </se:StswIcon.Style>
-            </se:StswIcon>
+                </ContentControl.Style>
+            </ContentControl>
 
-            <se:StswIcon x:Name="OPT_Arrow"
-                         Data="{x:Static se:StswIcons.ChevronDown}"
-                         IsHitTestVisible="False"
-                         IsRotated="{Binding ShowDetails, FallbackValue=False, TargetNullValue=False}"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Visibility="{Binding ShowDetails, Converter={x:Static se:StswExistenceConverter.Instance}}"/>
+            <ContentControl x:Name="OPT_StateHost" Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type sec:IStswTrackableItem}}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource StswDataGridStatusColumnStateTemplate}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
 
+            <ContentControl x:Name="OPT_ArrowHost" Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type sec:IStswDetailedItem}}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="ContentTemplate" Value="{StaticResource StswDataGridStatusColumnArrowTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
         </Grid>
-
-        <DataTemplate.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ItemState}" Value="{x:Null}"/>
-                    <Condition Binding="{Binding ShowDetails}" Value="{x:Null}"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MainGrid"/>
-            </MultiDataTrigger>
-        </DataTemplate.Triggers>
     </DataTemplate>
 
 </ResourceDictionary>

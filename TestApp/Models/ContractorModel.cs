@@ -2,7 +2,7 @@
 using System.Windows.Media;
 
 namespace TestApp;
-public partial class ContractorModel : StswObservableObject, IStswTrackableItem
+public partial class ContractorModel : StswObservableObject, IStswDetailedItem, IStswTrackableItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] ContractorType _type;

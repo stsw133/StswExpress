@@ -72,7 +72,7 @@ public partial class ControlsContext : StswObservableObject
 
     [StswObservableProperty] HorizontalAlignment _horizontalAlignment;
     [StswObservableProperty] HorizontalAlignment _horizontalContentAlignment;
-    [StswObservableProperty] VerticalAlignment _verticalAlignment;
+    [StswObservableProperty] VerticalAlignment _verticalAlignment = VerticalAlignment.Top;
     [StswObservableProperty] VerticalAlignment _verticalContentAlignment;
     [StswObservableProperty] bool _isEnabled = true;
 }
