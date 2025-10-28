@@ -6,6 +6,7 @@ public partial class StswProgressBarContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
+        VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
         IsIndeterminate = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsIndeterminate)))?.Value ?? default;
         State = (StswProgressState?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(State)))?.Value ?? default;

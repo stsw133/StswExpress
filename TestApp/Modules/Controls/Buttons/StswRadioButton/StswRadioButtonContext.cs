@@ -8,6 +8,7 @@ public partial class StswRadioButtonContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
+        VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
         AllowUncheck = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AllowUncheck)))?.Value ?? default;
     }

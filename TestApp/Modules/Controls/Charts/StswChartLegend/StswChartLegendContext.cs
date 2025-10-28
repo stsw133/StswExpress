@@ -7,6 +7,7 @@ public partial class StswChartLegendContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
+        VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
         Columns = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Columns)))?.Value ?? default;
         Rows = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Rows)))?.Value ?? default;

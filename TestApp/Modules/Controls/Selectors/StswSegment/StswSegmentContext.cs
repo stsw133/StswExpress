@@ -14,6 +14,7 @@ public partial class StswSegmentContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
+        VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;

@@ -7,6 +7,7 @@ public partial class StswSplitButtonContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
+        VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
         AutoClose = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AutoClose)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;

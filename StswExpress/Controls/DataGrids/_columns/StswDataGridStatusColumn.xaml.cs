@@ -1,11 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Threading;
 
 namespace StswExpress;
@@ -76,52 +73,80 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
             return;
 
         var baseStyle = dataGrid.RowStyle;
-        if (baseStyle?.Triggers.OfType<DataTrigger>().Any(t => t.Binding is Binding { Converter: StswShowDetailsStateConverter }) == true)
+        if (baseStyle?.Triggers.OfType<DataTrigger>().Any(IsShowDetailsTrigger) == true)
             return;
 
         var newStyle = new Style(typeof(StswDataGridRow), dataGrid.RowStyle);
         newStyle.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed));
-        newStyle.Triggers.Add(new DataTrigger
+
+        var showDetailsTrigger = new DataTrigger
         {
             Binding = new Binding
             {
                 Mode = BindingMode.OneWay,
-                Converter = StswShowDetailsStateConverter.Instance
+                Path = new PropertyPath(nameof(StswDataGridRow.DataContext)),
+                RelativeSource = new RelativeSource(RelativeSourceMode.Self),
+                Converter = StswIsTypeConverter.Instance,
+                ConverterParameter = typeof(IStswDetailedItem)
             },
-            Value = true,
-            Setters = { new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible) }
-        });
+            Value = true
+        };
+
+        showDetailsTrigger.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, new Binding
+        {
+            Path = new PropertyPath($"{nameof(StswDataGridRow.DataContext)}.{nameof(IStswDetailedItem.ShowDetails)}"),
+            RelativeSource = new RelativeSource(RelativeSourceMode.Self),
+            Converter = StswBoolConverter.Instance,
+            TargetNullValue = Visibility.Collapsed,
+            FallbackValue = Visibility.Collapsed
+        }));
+
+        newStyle.Triggers.Add(showDetailsTrigger);
 
         dataGrid.RowStyle = newStyle;
     }
-    #endregion
-}
 
-/// <summary>
-/// Converts an item into its <see cref="IStswDetailedItem.ShowDetails"/> value when available.
-/// Returns <see langword="false"/> for items that do not implement <see cref="IStswDetailedItem"/>.
-/// </summary>
-internal class StswShowDetailsStateConverter : MarkupExtension, IValueConverter
-{
     /// <summary>
-    /// Gets the singleton instance of the converter.
+    /// Determines whether the given <see cref="DataTrigger"/> is the one used to show details.
     /// </summary>
-    public static StswShowDetailsStateConverter Instance => instance ??= new StswShowDetailsStateConverter();
-    private static StswShowDetailsStateConverter? instance;
-
-    /// <inheritdoc/>
-    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
-
-    /// <inheritdoc/>
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    /// <param name="trigger">The trigger to check.</param>
+    /// <returns><see langword="true"/> if the trigger is for showing details; otherwise, <see langword="false"/>.</returns>
+    private static bool IsShowDetailsTrigger(DataTrigger trigger)
     {
-        var showDetails = value is IStswDetailedItem detailsItem && (detailsItem.ShowDetails ?? false);
+        if (trigger.Binding is not Binding binding)
+            return false;
 
-        return targetType == typeof(Visibility)
-            ? showDetails ? Visibility.Visible : Visibility.Collapsed
-            : showDetails;
+        if (binding.Path?.Path == nameof(IStswDetailedItem.ShowDetails))
+            return true;
+
+        if (binding.Converter == StswIsTypeConverter.Instance
+         && Equals(binding.ConverterParameter, typeof(IStswDetailedItem))
+         && binding.Path?.Path == nameof(StswDataGridRow.DataContext)
+         && trigger.Value is bool boolValue && boolValue
+         && trigger.Setters.OfType<Setter>().Any(IsShowDetailsSetter))
+            return true;
+
+        return false;
     }
 
-    /// <inheritdoc/>
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+    /// <summary>
+    /// Determines whether the given <see cref="Setter"/> is the one used to show details.
+    /// </summary>
+    /// <param name="setter">The setter to check.</param>
+    /// <returns><see langword="true"/> if the setter is for showing details; otherwise, <see langword="false"/>.</returns>
+    private static bool IsShowDetailsSetter(Setter setter)
+    {
+        if (setter.Property != DataGridRow.DetailsVisibilityProperty)
+            return false;
+
+        return setter.Value switch
+        {
+            Binding binding => binding.Path?.Path == $"{nameof(StswDataGridRow.DataContext)}.{nameof(IStswDetailedItem.ShowDetails)}" &&
+                               binding.RelativeSource?.Mode == RelativeSourceMode.Self &&
+                               binding.Converter == StswBoolConverter.Instance,
+            System.Windows.Visibility => true,
+            _ => false
+        };
+    }
+    #endregion
 }

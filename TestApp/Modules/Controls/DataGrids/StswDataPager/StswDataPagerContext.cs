@@ -11,7 +11,7 @@ public partial class StswDataPagerContext : ControlsContext
         ItemsPerPage = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsPerPage)))?.Value ?? default;
     }
 
-    [StswObservableProperty] StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 1000).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
+    [StswObservableProperty] StswObservableCollection<StswDataGridTestModel> _items = new(Enumerable.Range(1, 1000).Select(i => new StswDataGridTestModel { Id = i, Name = "Row " + i }));
     [StswObservableProperty] IList? _itemsOnPage;
     [StswObservableProperty] int _itemsPerPage;
 }

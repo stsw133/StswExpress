@@ -24,7 +24,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid Columns="1" IsEnabled="{Binding IsEnabled}">
+        <UniformGrid Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}" Tag="Option 1"/>
             <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}" Tag="Option 2"/>
             <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}" Tag="Option 3"/>
@@ -32,9 +32,10 @@
             <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}" Tag="Option 5"/>
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswToggleSwitch}">
-                    <Setter Property="Margin" Value="0 0 0 5"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                     <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/>
                     <Setter Property="IsThreeState" Value="{Binding IsThreeState}"/>
+                    <Setter Property="Margin" Value="0 0 0 5"/>
                     <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>
                     <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}"/>
                     <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>

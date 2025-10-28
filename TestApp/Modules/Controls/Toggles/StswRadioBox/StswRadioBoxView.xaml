@@ -27,7 +27,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid Columns="1" IsEnabled="{Binding IsEnabled}">
+        <UniformGrid Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswRadioBox Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}" Tag="Option 1"/>
             <se:StswRadioBox Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}" Tag="Option 2"/>
             <se:StswRadioBox Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}" Tag="Option 3"/>
@@ -36,6 +36,7 @@
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswRadioBox}">
                     <Setter Property="AllowUncheck" Value="{Binding AllowUncheck}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                     <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/>
                     <Setter Property="IsThreeState" Value="{Binding IsThreeState}"/>
                     <Setter Property="Margin" Value="0 0 0 5"/>

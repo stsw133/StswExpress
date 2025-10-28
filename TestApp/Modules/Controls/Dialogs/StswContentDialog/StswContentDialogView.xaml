@@ -19,7 +19,7 @@
                 <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
             </local:ControlsBase.Properties>
             <!-- content -->
-            <se:StswButton Command="{Binding OpenContentDialogCommand}" Content="Open content dialog"/>
+            <se:StswButton Command="{Binding OpenContentDialogCommand}" Content="Open content dialog" VerticalAlignment="Top"/>
             <!-- status panel -->
 
         </local:ControlsBase>

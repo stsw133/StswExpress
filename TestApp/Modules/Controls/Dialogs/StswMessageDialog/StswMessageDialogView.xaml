@@ -28,7 +28,7 @@
                 <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
             </local:ControlsBase.Properties>
             <!-- content -->
-            <se:StswButton Command="{Binding OpenMessageDialogCommand}" Content="Open message dialog"/>
+            <se:StswButton Command="{Binding OpenMessageDialogCommand}" Content="Open message dialog" VerticalAlignment="Top"/>
             <!-- status panel -->
             <local:ControlsBase.StatusPanel>
                 <se:StswText Padding="5">

@@ -18,7 +18,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDefault}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <UniformGrid DockPanel.Dock="Top" Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+        <UniformGrid Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswButton Command="{Binding OnClickCommand}">
                 <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswButton>
