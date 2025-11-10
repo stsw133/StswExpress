@@ -7,7 +7,7 @@
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
@@ -25,11 +25,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswAdaptiveBox}">
@@ -37,6 +37,147 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!--
+        <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.TextTemplate}"/>
+        <Style.Triggers>
+            <Trigger Property="Type" Value="Check">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.CheckTemplate}"/>
+            </Trigger>
+            <Trigger Property="Type" Value="Date">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.DateTemplate}"/>
+            </Trigger>
+            <Trigger Property="Type" Value="List">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.ListTemplate}"/>
+            </Trigger>
+            <Trigger Property="Type" Value="Number">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.NumberTemplate}"/>
+            </Trigger>
+            <Trigger Property="Type" Value="Text">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.TextTemplate}"/>
+            </Trigger>
+            <Trigger Property="Type" Value="Time">
+                <Setter Property="Template" Value="{StaticResource StswAdaptiveBox.TimeTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
+        -->
     </Style>
+    <!--
+    <ControlTemplate x:Key="StswAdaptiveBox.CheckTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswCheckBox BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerClipping="{TemplateBinding CornerClipping}"
+                         CornerRadius="{TemplateBinding CornerRadius}"
+                         IsChecked="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                         IsThreeState="{TemplateBinding IsThreeState}"
+                         Padding="{TemplateBinding Padding}"
+                         HorizontalAlignment="Stretch"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalAlignment="Stretch"
+                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StswAdaptiveBox.DateTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswDatePicker BorderBrush="{TemplateBinding BorderBrush}"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           CornerClipping="{TemplateBinding CornerClipping}"
+                           CornerRadius="{TemplateBinding CornerRadius}"
+                           Format="{TemplateBinding Format}"
+                           Icon="{TemplateBinding Icon}"
+                           IsReadOnly="{TemplateBinding IsReadOnly}"
+                           Padding="{TemplateBinding Padding}"
+                           Placeholder="{TemplateBinding Placeholder}"
+                           SelectedDate="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           SelectionUnit="{TemplateBinding SelectionUnit}"
+                           SeparatorThickness="{TemplateBinding SeparatorThickness}"
+                           SubControls="{TemplateBinding SubControls}"
+                           HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                           VerticalAlignment="Stretch"
+                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StswAdaptiveBox.ListTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswSelectionBox BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerClipping="{TemplateBinding CornerClipping}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
+                             DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                             Icon="{TemplateBinding Icon}"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                             ItemsSource="{TemplateBinding ItemsSource}"
+                             Padding="{TemplateBinding Padding}"
+                             Placeholder="{TemplateBinding Placeholder}"
+                             SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                             SeparatorThickness="{TemplateBinding SeparatorThickness}"
+                             SubControls="{TemplateBinding SubControls}"
+                             Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Stretch"
+                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                             VerticalAlignment="Stretch"
+                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                             se:StswPopup.Background="{Binding Path=(se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                             se:StswPopup.BorderBrush="{Binding Path=(se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                             se:StswPopup.BorderThickness="{Binding Path=(se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                             se:StswPopup.CornerClipping="{Binding Path=(se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                             se:StswPopup.CornerRadius="{Binding Path=(se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                             se:StswPopup.Padding="{Binding Path=(se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StswAdaptiveBox.NumberTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswDecimalBox BorderBrush="{TemplateBinding BorderBrush}"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           CornerClipping="{TemplateBinding CornerClipping}"
+                           CornerRadius="{TemplateBinding CornerRadius}"
+                           Format="{TemplateBinding Format}"
+                           Icon="{TemplateBinding Icon}"
+                           IsReadOnly="{TemplateBinding IsReadOnly}"
+                           Padding="{TemplateBinding Padding}"
+                           Placeholder="{TemplateBinding Placeholder}"
+                           SeparatorThickness="{TemplateBinding SeparatorThickness}"
+                           SubControls="{TemplateBinding SubControls}"
+                           Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                           VerticalAlignment="Stretch"
+                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StswAdaptiveBox.TextTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswTextBox BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerClipping="{TemplateBinding CornerClipping}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Icon="{TemplateBinding Icon}"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"
+                        Padding="{TemplateBinding Padding}"
+                        Placeholder="{TemplateBinding Placeholder}"
+                        SubControls="{TemplateBinding SubControls}"
+                        Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StswAdaptiveBox.TimeTemplate" TargetType="{x:Type se:StswAdaptiveBox}">
+        <se:StswTimePicker BorderBrush="{TemplateBinding BorderBrush}"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           CornerClipping="{TemplateBinding CornerClipping}"
+                           CornerRadius="{TemplateBinding CornerRadius}"
+                           Format="{TemplateBinding Format}"
+                           Icon="{TemplateBinding Icon}"
+                           IsReadOnly="{TemplateBinding IsReadOnly}"
+                           Padding="{TemplateBinding Padding}"
+                           Placeholder="{TemplateBinding Placeholder}"
+                           SelectedTime="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           SeparatorThickness="{TemplateBinding SeparatorThickness}"
+                           SubControls="{TemplateBinding SubControls}"
+                           HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                           VerticalAlignment="Stretch"
+                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    </ControlTemplate>
+    -->
 
 </ResourceDictionary>

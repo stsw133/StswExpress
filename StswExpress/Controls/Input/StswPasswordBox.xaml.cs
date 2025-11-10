@@ -1,9 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A secure password input control that hides the entered text.
 /// Supports placeholder text, show/hide password functionality, and validation.
@@ -14,10 +17,16 @@ namespace StswExpress;
 /// &lt;se:StswPasswordBox Password="{Binding UserPassword}" Placeholder="Enter password" ShowPassword="True"/&gt;
 /// </code>
 /// </example>
+[TemplatePart(Name = PART_PasswordBox, Type = typeof(PasswordBox))]
+[TemplatePart(Name = PART_TextBox, Type = typeof(TextBox))]
 public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 {
+    private const string PART_PasswordBox = "PART_PasswordBox";
+    private const string PART_TextBox = "OPT_TextBox";
+
     private bool _isPasswordChanging;
     private PasswordBox? _passwordBox;
+    private TextBox? _textBox;
 
     public StswPasswordBox()
     {
@@ -32,15 +41,44 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
+        if (_passwordBox != null)
+            _passwordBox.PasswordChanged -= PART_PasswordBox_PasswordChanged;
+
         base.OnApplyTemplate();
 
-        /// PasswordBox: password changed
-        if (GetTemplateChild("PART_PasswordBox") is PasswordBox passwordBox)
+        _passwordBox = GetTemplateChild(PART_PasswordBox) as PasswordBox;
+        _textBox = GetTemplateChild(PART_TextBox) as TextBox;
+
+        if (_passwordBox != null)
+            _passwordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
+
+        _textBox?.SetCurrentValue(TextBoxBase.IsReadOnlyProperty, IsReadOnly);
+
+        UpdatePasswordBoxes();
+        UpdateInputStates();
+
+        if (IsKeyboardFocusWithin || IsFocused)
+            Dispatcher.BeginInvoke(FocusActiveInput);
+    }
+    /// <inheritdoc/>
+    protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+    {
+        base.OnGotKeyboardFocus(e);
+
+        if (e.NewFocus == this)
         {
-            passwordBox.Password = Password;
-            passwordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
-            _passwordBox = passwordBox;
+            FocusActiveInput();
+            e.Handled = true;
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IsEnabledProperty)
+            UpdateInputStates();
     }
 
     /// <summary>
@@ -56,6 +94,52 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             Password = passwordBox.Password;
         _isPasswordChanging = false;
     }
+
+    /// <summary>
+    /// Sets focus to the currently active input control based on the ShowPassword property.
+    /// </summary>
+    private void FocusActiveInput()
+    {
+        if (!IsEnabled)
+            return;
+
+        if (ShowPassword)
+            _textBox?.Focus();
+        else if (_passwordBox?.IsEnabled == true)
+            _passwordBox.Focus();
+    }
+
+    /// <summary>
+    /// Updates the enabled and read-only states of the internal input controls based on the current properties.
+    /// </summary>
+    private void UpdateInputStates()
+    {
+        if (_passwordBox != null)
+        {
+            var isEnabled = IsEnabled && !IsReadOnly;
+            _passwordBox.SetCurrentValue(IsEnabledProperty, isEnabled);
+            _passwordBox.SetCurrentValue(UIElement.IsHitTestVisibleProperty, isEnabled);
+        }
+        _textBox?.SetCurrentValue(TextBoxBase.IsReadOnlyProperty, IsReadOnly);
+    }
+
+    /// <summary>
+    /// Updates the internal password boxes to reflect the current Password property value.
+    /// </summary>
+    private void UpdatePasswordBoxes()
+    {
+        var password = Password ?? string.Empty;
+
+        if (_passwordBox != null && !_isPasswordChanging && _passwordBox.Password != password)
+        {
+            _isPasswordChanging = true;
+            _passwordBox.Password = password;
+            _isPasswordChanging = false;
+        }
+
+        if (_textBox != null && _textBox.Text != password)
+            _textBox.SetCurrentValue(TextBox.TextProperty, password);
+    }
     #endregion
 
     #region Logic properties
@@ -65,12 +149,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
         set => SetValue(ErrorsProperty, value);
     }
-    public static readonly DependencyProperty ErrorsProperty
-        = DependencyProperty.Register(
-            nameof(Errors),
-            typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(StswPasswordBox)
-        );
+    public static readonly DependencyProperty ErrorsProperty = StswBoxBase.ErrorsProperty.AddOwner(typeof(StswPasswordBox));
 
     /// <inheritdoc/>
     public bool HasError
@@ -78,12 +157,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (bool)GetValue(HasErrorProperty);
         set => SetValue(HasErrorProperty, value);
     }
-    public static readonly DependencyProperty HasErrorProperty
-        = DependencyProperty.Register(
-            nameof(HasError),
-            typeof(bool),
-            typeof(StswPasswordBox)
-        );
+    public static readonly DependencyProperty HasErrorProperty = StswBoxBase.HasErrorProperty.AddOwner(typeof(StswPasswordBox));
 
     /// <inheritdoc/>
     public object? Icon
@@ -91,12 +165,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (object?)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
-    public static readonly DependencyProperty IconProperty
-        = DependencyProperty.Register(
-            nameof(Icon),
-            typeof(object),
-            typeof(StswPasswordBox)
-        );
+    public static readonly DependencyProperty IconProperty = StswBoxBase.IconProperty.AddOwner(typeof(StswPasswordBox));
 
     /// <inheritdoc/>
     public bool IsReadOnly
@@ -105,11 +174,17 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         set => SetValue(IsReadOnlyProperty, value);
     }
     public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswPasswordBox)
+        = TextBoxBase.IsReadOnlyProperty.AddOwner(
+            typeof(StswPasswordBox),
+            new FrameworkPropertyMetadata(default(bool), OnIsReadOnlyChanged)
         );
+    private static void OnIsReadOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswPasswordBox stsw)
+            return;
+
+        stsw.UpdateInputStates();
+    }
 
     /// <summary>
     /// Gets or sets the password value in the box.
@@ -133,8 +208,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         if (d is not StswPasswordBox stsw)
             return;
 
-        if (stsw._passwordBox != null && !stsw._isPasswordChanging)
-            stsw._passwordBox.Password = stsw.Password;
+        stsw.UpdatePasswordBoxes();
     }
 
     /// <inheritdoc/>
@@ -143,12 +217,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswPasswordBox)
-        );
+    public static readonly DependencyProperty PlaceholderProperty = StswBoxBase.PlaceholderProperty.AddOwner(typeof(StswPasswordBox));
 
     /// <summary>
     /// Gets or sets a value indicating whether the password is visible in plain text in the box.
@@ -162,8 +231,17 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ShowPassword),
             typeof(bool),
-            typeof(StswPasswordBox)
+            typeof(StswPasswordBox),
+            new FrameworkPropertyMetadata(default(bool), OnShowPasswordChanged)
         );
+    private static void OnShowPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswPasswordBox stsw)
+            return;
+
+        if (stsw.IsKeyboardFocusWithin || stsw.IsFocused)
+            stsw.Dispatcher.BeginInvoke(stsw.FocusActiveInput);
+    }
 
     /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
@@ -171,12 +249,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
         set => SetValue(SubControlsProperty, value);
     }
-    public static readonly DependencyProperty SubControlsProperty
-        = DependencyProperty.Register(
-            nameof(SubControls),
-            typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswPasswordBox)
-        );
+    public static readonly DependencyProperty SubControlsProperty = StswBoxBase.SubControlsProperty.AddOwner(typeof(StswPasswordBox));
     #endregion
 
     #region Style properties
@@ -186,13 +259,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (bool)GetValue(CornerClippingProperty);
         set => SetValue(CornerClippingProperty, value);
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswPasswordBox),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    public static readonly DependencyProperty CornerClippingProperty = StswBoxBase.CornerClippingProperty.AddOwner(typeof(StswPasswordBox));
 
     /// <inheritdoc/>
     public CornerRadius CornerRadius
@@ -200,12 +267,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswPasswordBox),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    public static readonly DependencyProperty CornerRadiusProperty = StswBoxBase.CornerRadiusProperty.AddOwner(typeof(StswPasswordBox));
     #endregion
 }

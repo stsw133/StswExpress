@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,15 +24,9 @@ public class StswProgressRing : ProgressBar
 {
     public StswProgressRing()
     {
-        OnTextChanged(this, EventArgs.Empty);
-        DependencyPropertyDescriptor.FromProperty(MaximumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(MinimumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(TextModeProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        OnValueChanged(this, EventArgs.Empty);
-        DependencyPropertyDescriptor.FromProperty(MaximumProperty, typeof(ProgressBar)).AddValueChanged(this, OnValueChanged);
-        DependencyPropertyDescriptor.FromProperty(MinimumProperty, typeof(ProgressBar)).AddValueChanged(this, OnValueChanged);
-        DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(ProgressBar)).AddValueChanged(this, OnValueChanged);
+        SetCurrentValue(StrokeDashArrayProperty, _strokeDashArray);
+        UpdateProgressText();
+        UpdateStrokeDashArray();
     }
     static StswProgressRing()
     {
@@ -40,34 +34,84 @@ public class StswProgressRing : ProgressBar
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles changes to the progress text based on the current value and display mode.
-    /// Updates the <see cref="Text"/> property dynamically.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnTextChanged(object? sender, EventArgs e)
+    /// <inheritdoc />
+    protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
-        if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
-        {
-            Text = TextMode switch
-            {
-                StswProgressTextMode.None => string.Empty,
-                StswProgressTextMode.Percentage => $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %",
-                StswProgressTextMode.Progress => $"{Value - Minimum} / {Maximum - Minimum}",
-                StswProgressTextMode.Value => $"{(int)Value}",
-                _ => null
-            };
-        }
+        base.OnMaximumChanged(oldMaximum, newMaximum);
+        UpdateProgressText();
+        UpdateStrokeDashArray();
+    }
+
+    /// <inheritdoc />
+    protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
+    {
+        base.OnMinimumChanged(oldMinimum, newMinimum);
+        UpdateProgressText();
+        UpdateStrokeDashArray();
+    }
+
+    /// <inheritdoc />
+    protected override void OnValueChanged(double oldValue, double newValue)
+    {
+        base.OnValueChanged(oldValue, newValue);
+        UpdateProgressText();
+        UpdateStrokeDashArray();
     }
 
     /// <summary>
-    /// Handles changes to the progress value and updates the stroke dash array
-    /// to reflect the correct progress visualization in the ring.
+    /// Updates the progress text based on the current value and selected text mode.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = [(Value - Minimum) / (Maximum - Minimum) * 21.89204, 21.89204];
+    private void UpdateProgressText()
+    {
+        if (TextMode == StswProgressTextMode.Custom)
+            return;
+
+        if (Maximum <= Minimum)
+        {
+            SetCurrentValue(TextProperty, string.Empty);
+            return;
+        }
+
+        var range = Maximum - Minimum;
+        var current = Value - Minimum;
+        var progress = Math.Clamp(current / range, 0d, 1d);
+
+        var text = TextMode switch
+        {
+            StswProgressTextMode.None => string.Empty,
+            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
+            StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
+            StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
+            _ => null
+        };
+
+        SetCurrentValue(TextProperty, text);
+    }
+
+    /// <summary>
+    /// Updates the stroke dash array to reflect the current progress value.
+    /// </summary>
+    private void UpdateStrokeDashArray()
+    {
+        if (Maximum <= Minimum)
+        {
+            _strokeDashArray[0] = 0d;
+            _strokeDashArray[1] = StrokeDashLength;
+        }
+        else
+        {
+            var normalized = Math.Clamp((Value - Minimum) / (Maximum - Minimum), 0d, 1d);
+
+            _strokeDashArray[0] = normalized * StrokeDashLength;
+            _strokeDashArray[1] = StrokeDashLength;
+        }
+
+        SetCurrentValue(StrokeDashArrayProperty, null);
+        SetCurrentValue(StrokeDashArrayProperty, _strokeDashArray);
+    }
+
+    private const double StrokeDashLength = 21.89204;
+    private readonly DoubleCollection _strokeDashArray = [0d, StrokeDashLength];
     #endregion
 
     #region Logic properties
@@ -168,7 +212,9 @@ public class StswProgressRing : ProgressBar
             return;
 
         if (stsw.TextMode == StswProgressTextMode.Custom)
-            stsw.Text = string.Empty;
+            stsw.SetCurrentValue(TextProperty, string.Empty);
+        else
+            stsw.UpdateProgressText();
     }
     #endregion
 

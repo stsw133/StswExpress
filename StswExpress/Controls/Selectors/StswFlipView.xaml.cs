@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -21,15 +21,12 @@ namespace StswExpress;
 /// &lt;se:StswFlipView ItemsSource="{Binding NewsArticles}" IsLoopingEnabled="True"/&gt;
 /// </code>
 /// </example>
+[TemplatePart(Name = "PART_ButtonPrevious", Type = typeof(ButtonBase))]
+[TemplatePart(Name = "PART_ButtonNext", Type = typeof(ButtonBase))]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
     private ButtonBase? _buttonPrevious, _buttonNext;
 
-    public StswFlipView()
-    {
-        DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
-        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(Selector)).AddValueChanged(this, CheckButtonAccessibility);
-    }
     static StswFlipView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(typeof(StswFlipView)));
@@ -39,22 +36,34 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
+        if (_buttonPrevious != null)
+        {
+            _buttonPrevious.Click -= OnButtonPreviousClick;
+            _buttonPrevious = null;
+        }
+
+        if (_buttonNext != null)
+        {
+            _buttonNext.Click -= OnButtonNextClick;
+            _buttonNext = null;
+        }
+
         base.OnApplyTemplate();
 
         /// Button: previous
         if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase buttonPrevious)
         {
-            buttonPrevious.IsEnabled = CanShiftBy(-1) && !IsReadOnly;
-            buttonPrevious.Click += (_, _) => ShiftBy(-1);
+            buttonPrevious.Click += OnButtonPreviousClick;
             _buttonPrevious = buttonPrevious;
         }
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
         {
-            buttonNext.IsEnabled = CanShiftBy(1) && !IsReadOnly;
-            buttonNext.Click += (_, _) => ShiftBy(1);
+            buttonNext.Click += OnButtonNextClick;
             _buttonNext = buttonNext;
         }
+
+        UpdateNavigationButtons();
     }
 
     /// <inheritdoc/>
@@ -62,8 +71,18 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
         base.OnItemsSourceChanged(oldValue, newValue);
+
         if (SelectedIndex < 0 && Items.Count > 0)
             SelectedIndex = 0;
+
+        UpdateNavigationButtons();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+        UpdateNavigationButtons();
     }
 
     /// <inheritdoc/>
@@ -78,10 +97,11 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     {
         base.OnPreviewMouseWheel(e);
 
-        if (IsKeyboardFocusWithin && !IsReadOnly)
+        if (IsKeyboardFocusWithin && !IsReadOnly && Items.Count > 0)
+        {
             ShiftBy(e.Delta > 0 ? -1 : 1);
-
-        e.Handled = true;
+            e.Handled = true;
+        }
     }
 
     /// <inheritdoc/>
@@ -89,38 +109,60 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     {
         base.OnPreviewKeyDown(e);
 
-        if (IsKeyboardFocusWithin && !IsReadOnly)
+        if (!IsKeyboardFocusWithin || IsReadOnly || Items.Count == 0)
+            return;
+
+        var handled = false;
+
+        switch (e.Key)
         {
-            switch (e.Key)
-            {
-                case Key.Left:
-                case Key.Up:
-                    ShiftBy(-1);
-                    break;
-                case Key.Down:
-                case Key.Right:
-                    ShiftBy(1);
-                    break;
-                case Key.PageDown:
-                    ShiftBy(-10);
-                    break;
-                case Key.PageUp:
-                    ShiftBy(10);
-                    break;
-                case Key.Home:
-                    if (Items.Count > 0)
-                        SelectedIndex = 0;
-                    break;
-                case Key.End:
-                    if (Items.Count > 0)
-                        SelectedIndex = Items.Count - 1;
-                    break;
-                case Key.Tab:
-                    (Keyboard.FocusedElement as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-                    break;
-            }
+            case Key.Left:
+            case Key.Up:
+                ShiftBy(-1);
+                handled = true;
+                break;
+            case Key.Down:
+            case Key.Right:
+                ShiftBy(1);
+                handled = true;
+                break;
+            case Key.PageDown:
+                ShiftBy(-10);
+                handled = true;
+                break;
+            case Key.PageUp:
+                ShiftBy(10);
+                handled = true;
+                break;
+            case Key.Home:
+                if (Items.Count > 0)
+                {
+                    SelectedIndex = 0;
+                    handled = true;
+                }
+                break;
+            case Key.End:
+                if (Items.Count > 0)
+                {
+                    SelectedIndex = Items.Count - 1;
+                    handled = true;
+                }
+                break;
+            case Key.Tab:
+                (Keyboard.FocusedElement as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                handled = true;
+                break;
         }
-        e.Handled = true;
+
+        if (handled)
+            e.Handled = true;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+        UpdateNavigationButtons();
     }
 
     /// <summary>
@@ -130,9 +172,11 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     /// <returns><see langword="true"/> if shifting is possible; otherwise, <see langword="false"/>.</returns>
     private bool CanShiftBy(int step)
     {
-        if (SelectedIndex + step >= Items.Count || SelectedIndex + step < 0)
+        if (Items.Count == 0)
             return false;
-        return true;
+
+        var targetIndex = SelectedIndex + step;
+        return targetIndex >= 0 && targetIndex < Items.Count;
     }
 
     /// <summary>
@@ -141,27 +185,63 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     /// <param name="step">The number of positions to shift.</param>
     private void ShiftBy(int step)
     {
+        if (IsReadOnly)
+            return;
+
         if (Items.Count == 0)
-            SelectedIndex = -1;
-        else if (IsLoopingEnabled || CanShiftBy(step))
-            SelectedIndex = (SelectedIndex + step + Items.Count) % Items.Count;
+        {
+            SelectedIndex = -1; return;
+        }
+
+        int targetIndex;
+
+        if (IsLoopingEnabled)
+        {
+            targetIndex = (SelectedIndex + step) % Items.Count;
+            if (targetIndex < 0)
+                targetIndex += Items.Count;
+        }
+        else if (CanShiftBy(step))
+        {
+            targetIndex = SelectedIndex + step;
+        }
         else
-            SelectedIndex = step > 0 ? Items.Count - 1 : 0;
+        {
+            targetIndex = step > 0 ? Items.Count - 1 : 0;
+        }
+
+        if (targetIndex != SelectedIndex)
+            SelectedIndex = targetIndex;
     }
 
     /// <summary>
-    /// Updates the enabled state of the previous and next buttons based on current selection, looping, and read-only state.
+    /// Updates the enabled state of the navigation buttons based on the current selection and control settings.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">Event arguments.</param>
-    private void CheckButtonAccessibility(object? sender, EventArgs e)
+    private void UpdateNavigationButtons()
     {
-        if (_buttonPrevious != null && _buttonNext != null)
-        {
-            _buttonPrevious.IsEnabled = (IsLoopingEnabled || CanShiftBy(-1)) && !IsReadOnly;
-            _buttonNext.IsEnabled = (IsLoopingEnabled || CanShiftBy(1)) && !IsReadOnly;
-        }
+        var hasItems = Items.Count > 0;
+        var canLoop = IsLoopingEnabled && Items.Count > 1;
+
+        if (_buttonPrevious != null)
+            _buttonPrevious.IsEnabled = !IsReadOnly && hasItems && (canLoop || CanShiftBy(-1));
+
+        if (_buttonNext != null)
+            _buttonNext.IsEnabled = !IsReadOnly && hasItems && (canLoop || CanShiftBy(1));
     }
+
+    /// <summary>
+    /// Handles the click event for the previous button, shifting the selection backward by one item.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnButtonPreviousClick(object sender, RoutedEventArgs e) => ShiftBy(-1);
+
+    /// <summary>
+    /// Handles the click event for the next button, shifting the selection forward by one item.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnButtonNextClick(object sender, RoutedEventArgs e) => ShiftBy(1);
     #endregion
 
     #region Logic properties
@@ -188,7 +268,7 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         if (d is not StswFlipView stsw)
             return;
 
-        stsw.CheckButtonAccessibility(null, EventArgs.Empty);
+        stsw.UpdateNavigationButtons();
     }
 
     /// <inheritdoc/>
@@ -201,8 +281,16 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswFlipView)
+            typeof(StswFlipView),
+            new FrameworkPropertyMetadata(default(bool), OnIsReadOnlyChanged)
         );
+    private static void OnIsReadOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswFlipView stsw)
+            return;
+
+        stsw.UpdateNavigationButtons();
+    }
     #endregion
 
     #region Style properties

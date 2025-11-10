@@ -22,7 +22,6 @@ namespace StswExpress;
 [StswPlannedChanges(StswPlannedChanges.Refactor, "Move control creation logic as template selectors for better extensibility.")]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
-    private ContentPresenter? _contentPresenter;
     private bool _autoTypeEnabled;
     private bool _isUpdatingTypeFromAuto;
 
@@ -42,9 +41,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        _contentPresenter = GetTemplateChild("PART_ContentPresenter") as ContentPresenter;
-
-        OnTypeChanged(this, new DependencyPropertyChangedEventArgs());
+        if (Type == StswAdaptiveType.Auto)
+            _autoTypeEnabled = true;
+        TryUpdateTypeFromAuto();
     }
 
     /// <summary>
@@ -53,17 +52,17 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     /// </summary>
     protected void CreateControlBasedOnType()
     {
-        if (_contentPresenter == null || Type == StswAdaptiveType.Auto)
+        if (GetTemplateChild("PART_ContentPresenter") is not ContentPresenter contentPresenter || Type == StswAdaptiveType.Auto)
             return;
 
-        if (_contentPresenter.Content is FrameworkElement oldControl)
+        if (contentPresenter.Content is FrameworkElement oldControl)
         {
             BindingOperations.ClearAllBindings(oldControl);
             if (oldControl.DataContext is DependencyObject dataContext)
                 BindingOperations.ClearAllBindings(dataContext);
         }
 
-        _contentPresenter.Content = null;
+        contentPresenter.Content = null;
 
         var bindingBorderBrush = new Binding(nameof(BorderBrush)) { Source = this };
         var bindingBorderThickness = new Binding(nameof(BorderThickness)) { Source = this };
@@ -226,7 +225,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         }
 
         if (newControl != null)
-            _contentPresenter.Content = newControl;
+            contentPresenter.Content = newControl;
     }
     #endregion
 
@@ -647,8 +646,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
             typeof(StswAdaptiveBox),
-            new FrameworkPropertyMetadata(default(ObservableCollection<IStswSubControl>),
-                FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(default(ObservableCollection<IStswSubControl>))
         );
 
     /// <summary>
@@ -685,55 +683,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             stsw._autoTypeEnabled = false;
 
         stsw.CreateControlBasedOnType();
-
-
-
-
-
-
-        if (stsw.Type == StswAdaptiveType.Auto)
-        {
-            if (stsw.ItemsSource != default)
-                stsw.Type = StswAdaptiveType.List;
-            else
-            {
-                /// find type based on binded property type
-                if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b)
-                {
-                    if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t)
-                    {
-                        if (t.In(typeof(bool), typeof(bool?)))
-                            stsw.Type = StswAdaptiveType.Check;
-                        else if (t.In(typeof(DateTime), typeof(DateTime?)))
-                            stsw.Type = StswAdaptiveType.Date;
-                        else if (t.IsNumericType())
-                            stsw.Type = StswAdaptiveType.Number;
-                        else if (t.In(typeof(string)))
-                            stsw.Type = StswAdaptiveType.Text;
-                        else if (t.In(typeof(TimeSpan), typeof(TimeSpan?)))
-                            stsw.Type = StswAdaptiveType.Time;
-                    }
-                }
-
-                /// if type is still not found then try to determine type based on value
-                if (stsw.Type == StswAdaptiveType.Auto)
-                {
-                    if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Check;
-                    else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Date;
-                    else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
-                          || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
-                          || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Number;
-                    else if (stsw.Value is string)
-                        stsw.Type = StswAdaptiveType.Text;
-                    else if (stsw.Value is TimeSpan? || TimeSpan.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Time;
-                }
-            }
-        }
-        stsw.CreateControlBasedOnType();
     }
 
     /// <summary>
@@ -756,8 +705,10 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
     private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is StswAdaptiveBox stsw)
-            stsw.TryUpdateTypeFromAuto();
+        if (d is not StswAdaptiveBox stsw)
+            return;
+
+        stsw.TryUpdateTypeFromAuto();
     }
     #endregion
 

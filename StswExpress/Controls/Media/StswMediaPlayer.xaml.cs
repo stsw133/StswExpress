@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
@@ -23,8 +24,24 @@ namespace StswExpress;
 public class StswMediaPlayer : ItemsControl
 {
     private readonly Timer _timer = new() { AutoReset = true };
-    private MediaElement? _mediaElement;
+    private readonly DragStartedEventHandler _timelineDragStartedHandler;
+    private readonly DragCompletedEventHandler _timelineDragCompletedHandler;
 
+    private MediaElement? _mediaElement;
+    private Slider? _timelineSlider;
+    private bool _isUserChangingTimeline;
+
+    public StswMediaPlayer()
+    {
+        _timelineDragStartedHandler = TimelineThumbDragStarted;
+        _timelineDragCompletedHandler = TimelineThumbDragCompleted;
+
+        _timer.Interval = 100;
+        _timer.Elapsed += Timer_Elapsed;
+
+        Loaded += (_, _) => OnIsPlayingChanged(this, new DependencyPropertyChangedEventArgs(IsPlayingProperty, null, IsPlaying));
+        Unloaded += (_, _) => _timer.Stop();
+    }
     static StswMediaPlayer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
@@ -58,42 +75,156 @@ public class StswMediaPlayer : ItemsControl
         /// Button: mute
         if (GetTemplateChild("PART_ButtonMute") is CheckBox btnMute)
             btnMute.Click += (_, _) => IsMuted = btnMute.IsChecked == true;
-        /// Slider: timeline
-        if (GetTemplateChild("PART_Timeline") is Slider timeline)
-            timeline.PreviewMouseUp += PART_Timeline_PreviewMouseUp;
 
-        /// MediaElement
-        if (GetTemplateChild("PART_MediaElement") is MediaElement mediaElement)
+        /// Slider: timeline
+        if (_timelineSlider != null)
         {
-            mediaElement.MediaEnded += (_, _) => { if (CanShiftBy(1)) ShiftBy(1); else IsPlaying = null; };
-            mediaElement.MediaOpened += (_, _) => TimeMax = mediaElement.NaturalDuration.HasTimeSpan ? mediaElement.NaturalDuration.TimeSpan : new();
-            mediaElement.SourceUpdated += (_, _) => IsPlaying = true;
-            _mediaElement = mediaElement;
+            _timelineSlider.PreviewMouseDown -= Timeline_PreviewMouseDown;
+            _timelineSlider.PreviewMouseUp -= Timeline_PreviewMouseUp;
+            _timelineSlider.ValueChanged -= Timeline_ValueChanged;
+            _timelineSlider.RemoveHandler(Thumb.DragStartedEvent, _timelineDragStartedHandler);
+            _timelineSlider.RemoveHandler(Thumb.DragCompletedEvent, _timelineDragCompletedHandler);
         }
 
-        _timer.Elapsed += Timer_Elapsed;
+        if (GetTemplateChild("PART_Timeline") is Slider timeline)
+        {
+            _timelineSlider = timeline;
+            timeline.PreviewMouseDown += Timeline_PreviewMouseDown;
+            timeline.PreviewMouseUp += Timeline_PreviewMouseUp;
+            timeline.ValueChanged += Timeline_ValueChanged;
+            timeline.AddHandler(Thumb.DragStartedEvent, _timelineDragStartedHandler, true);
+            timeline.AddHandler(Thumb.DragCompletedEvent, _timelineDragCompletedHandler, true);
+        }
+        else
+        {
+            _timelineSlider = null;
+        }
+
+        /// MediaElement
+        if (_mediaElement != null)
+        {
+            _mediaElement.MediaEnded -= MediaElement_MediaEnded;
+            _mediaElement.MediaOpened -= MediaElement_MediaOpened;
+        }
+
+        if (GetTemplateChild("PART_MediaElement") is MediaElement mediaElement)
+        {
+            _mediaElement = mediaElement;
+            _mediaElement.MediaEnded += MediaElement_MediaEnded;
+            _mediaElement.MediaOpened += MediaElement_MediaOpened;
+            _mediaElement.IsMuted = IsMuted;
+        }
+        else
+        {
+            _mediaElement = null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the mouse down event on the timeline slider.
+    /// </summary>
+    /// <param name="sender">The sender object (slider)</param>
+    /// <param name="e">The event arguments</param>
+    private void Timeline_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            _isUserChangingTimeline = true;
+
+            if (sender is Slider slider)
+                TimeCurrent = TimeSpan.FromMilliseconds(slider.Value);
+        }
     }
 
     /// <summary>
     /// Handles the mouse up event on the timeline slider.
-    /// Updates the media position based on the user's input.
     /// </summary>
     /// <param name="sender">The sender object (slider)</param>
     /// <param name="e">The event arguments</param>
-    private void PART_Timeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+    private void Timeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (_mediaElement != null)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                _isUserChangingTimeline = true;
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                _mediaElement.Position = new TimeSpan((long)((Slider)sender).Value * 10000);
-                _isUserChangingTimeline = false;
-            }
-        }
+        if (sender is Slider slider)
+            CommitTimelineValue(slider.Value);
+
+        _isUserChangingTimeline = false;
     }
-    private bool _isUserChangingTimeline;
+
+    /// <summary>
+    /// Handles the drag started event on the timeline slider thumb.
+    /// </summary>
+    /// <param name="sender">The sender object (thumb)</param>
+    /// <param name="e">The event arguments</param>
+    private void TimelineThumbDragStarted(object sender, DragStartedEventArgs e)
+    {
+        _isUserChangingTimeline = true;
+    }
+
+    /// <summary>
+    /// Handles the drag completed event on the timeline slider thumb.
+    /// </summary>
+    /// <param name="sender">The sender object (thumb)</param>
+    /// <param name="e">The event arguments</param>
+    private void TimelineThumbDragCompleted(object sender, DragCompletedEventArgs e)
+    {
+        if (_timelineSlider != null)
+            CommitTimelineValue(_timelineSlider.Value);
+
+        _isUserChangingTimeline = false;
+    }
+
+    /// <summary>
+    /// Handles the value changed event on the timeline slider.
+    /// </summary>
+    /// <param name="sender">The sender object (slider)</param>
+    /// <param name="e">The event arguments</param>
+    private void Timeline_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (_isUserChangingTimeline)
+            TimeCurrent = TimeSpan.FromMilliseconds(e.NewValue);
+    }
+
+    /// <summary>
+    /// Commits the new timeline value to the media element.
+    /// </summary>
+    /// <param name="value">The new timeline value in milliseconds</param>
+    private void CommitTimelineValue(double value)
+    {
+        var newPosition = TimeSpan.FromMilliseconds(value);
+
+        if (_mediaElement != null)
+            _mediaElement.Position = newPosition;
+
+        TimeCurrent = newPosition;
+    }
+
+    /// <summary>
+    /// Handles the media ended event.
+    /// </summary>
+    /// <param name="sender">The sender object (media element)</param>
+    /// <param name="e">The event arguments</param>
+    private void MediaElement_MediaEnded(object? sender, RoutedEventArgs e)
+    {
+        if (CanShiftBy(1))
+            ShiftBy(1);
+        else
+            IsPlaying = null;
+    }
+
+    /// <summary>
+    /// Handles the media opened event.
+    /// </summary>
+    /// <param name="sender">The sender object (media element)</param>
+    /// <param name="e">The event arguments</param>
+    private void MediaElement_MediaOpened(object? sender, RoutedEventArgs e)
+    {
+        if (_mediaElement != null && _mediaElement.NaturalDuration.HasTimeSpan)
+            TimeMax = _mediaElement.NaturalDuration.TimeSpan;
+        else
+            TimeMax = TimeSpan.Zero;
+
+        TimeCurrent = TimeSpan.Zero;
+        OnIsPlayingChanged(this, new DependencyPropertyChangedEventArgs(IsPlayingProperty, null, IsPlaying));
+    }
 
     /// <summary>
     /// Determines whether the media source can be shifted forward or backward in the playlist.
@@ -110,7 +241,7 @@ public class StswMediaPlayer : ItemsControl
         else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
         {
             var files = Directory.GetFiles(info.FullName).ToList();
-            if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
+            if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, files.Count - 1))
                 return true;
         }
         return false;
@@ -135,7 +266,7 @@ public class StswMediaPlayer : ItemsControl
             else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
             {
                 var files = Directory.GetFiles(info.FullName).ToList();
-                if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
+                if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, files.Count - 1))
                 {
                     Source = new Uri(files[index + step]);
                     _mediaElement.Play();
@@ -151,11 +282,11 @@ public class StswMediaPlayer : ItemsControl
     /// <param name="e">The event arguments</param>
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     {
-        Dispatcher.Invoke(() =>
+        Dispatcher.InvokeAsync(() =>
         {
             if (_mediaElement != null && !_isUserChangingTimeline)
                 TimeCurrent = _mediaElement.Position;
-        });
+        }, DispatcherPriority.Background);
     }
     #endregion
 

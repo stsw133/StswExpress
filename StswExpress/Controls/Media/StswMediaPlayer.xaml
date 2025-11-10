@@ -49,6 +49,7 @@
                                 <se:StswSlider x:Name="PART_Timeline"
                                                LargeChange="3000"
                                                Maximum="{Binding TimeMax.TotalMilliseconds, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               IsMoveToPointEnabled="True"
                                                IsSelectionRangeEnabled="True"
                                                SelectionStart="0"
                                                SelectionEnd="{Binding Value, RelativeSource={RelativeSource Self}}"

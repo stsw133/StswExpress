@@ -1,7 +1,8 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System;
 using System.Timers;
-using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
@@ -16,8 +17,12 @@ namespace StswExpress;
 /// </example>
 public class StswTimedSwitch : CheckBox
 {
-    private readonly Timer timer = new() { AutoReset = false };
+    private readonly DispatcherTimer timer = new();
 
+    public StswTimedSwitch()
+    {
+        timer.Tick += Timer_Tick;
+    }
     static StswTimedSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
@@ -25,21 +30,10 @@ public class StswTimedSwitch : CheckBox
 
     #region Events & methods
     /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        timer.Elapsed += Timer_Elapsed;
-
-        OnSwitchTimeChanged(this, new DependencyPropertyChangedEventArgs());
-    }
-
-    /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-        if (SwitchTime.TotalMilliseconds > 0)
-            timer.Start();
+        StartTimer();
     }
 
     /// <inheritdoc/>
@@ -50,20 +44,49 @@ public class StswTimedSwitch : CheckBox
     }
 
     /// <summary>
-    /// Handles the timer's elapsed event, reverting the switch to its default state after the specified duration.
+    /// Handles the timer tick event, reverting the switch to its default state after the specified duration.
     /// </summary>
     /// <param name="sender">The timer triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+    private void Timer_Tick(object? sender, EventArgs e)
     {
-        Dispatcher.Invoke(() =>
+        timer.Stop();
+
+        if (IsChecked == true)
+            SetCurrentValue(IsCheckedProperty, false);
+    }
+
+    /// <summary>
+    /// Starts the timer to revert the switch after the specified <see cref="SwitchTime"/>.
+    /// </summary>
+    private void StartTimer()
+    {
+        if (SwitchTime <= TimeSpan.Zero)
+            return;
+
+        timer.Stop();
+        timer.Interval = SwitchTime;
+        timer.Start();
+    }
+
+    /// <summary>
+    /// Updates the timer interval when the <see cref="SwitchTime"/> property changes.
+    /// </summary>
+    private void UpdateTimerAfterSwitchTimeChange()
+    {
+        if (SwitchTime <= TimeSpan.Zero)
         {
-            if (IsChecked == true)
-            {
-                SetValue(IsCheckedProperty, false);
-                timer.Stop();
-            }
-        });
+            timer.Stop();
+            return;
+        }
+
+        timer.Interval = SwitchTime;
+
+        if (IsChecked == true)
+        {
+            timer.Stop();
+            timer.Start();
+        }
     }
     #endregion
 
@@ -89,16 +112,7 @@ public class StswTimedSwitch : CheckBox
         if (d is not StswTimedSwitch stsw)
             return;
 
-        if (stsw.SwitchTime.TotalMilliseconds > 0)
-        {
-            var newInterval = stsw.SwitchTime.TotalMilliseconds;
-            if (stsw.timer.Interval != newInterval)
-            {
-                stsw.timer.Interval = newInterval;
-                if (stsw.IsChecked == true)
-                    stsw.timer.Start();
-            }
-        }
+        stsw.UpdateTimerAfterSwitchTimeChange();
     }
 
     /// <summary>

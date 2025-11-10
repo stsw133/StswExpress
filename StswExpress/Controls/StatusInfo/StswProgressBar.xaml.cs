@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,11 +24,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
     {
-        OnTextChanged(this, EventArgs.Empty);
-        DependencyPropertyDescriptor.FromProperty(MaximumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(MinimumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(TextModeProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
+        UpdateProgressText();
     }
     static StswProgressBar()
     {
@@ -36,25 +32,55 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Handles changes to the progress text based on the current value and display mode.
-    /// Updates the <see cref="Text"/> property dynamically.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnTextChanged(object? sender, EventArgs e)
+    /// <inheritdoc />
+    protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
-        if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
+        base.OnMaximumChanged(oldMaximum, newMaximum);
+        UpdateProgressText();
+    }
+
+    /// <inheritdoc />
+    protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
+    {
+        base.OnMinimumChanged(oldMinimum, newMinimum);
+        UpdateProgressText();
+    }
+
+    /// <inheritdoc />
+    protected override void OnValueChanged(double oldValue, double newValue)
+    {
+        base.OnValueChanged(oldValue, newValue);
+        UpdateProgressText();
+    }
+
+    /// <summary>
+    /// Updates the progress text based on the current value, minimum, maximum, and selected text mode.
+    /// </summary>
+    private void UpdateProgressText()
+    {
+        if (TextMode == StswProgressTextMode.Custom)
+            return;
+
+        if (Maximum <= Minimum)
         {
-            Text = TextMode switch
-            {
-                StswProgressTextMode.None => string.Empty,
-                StswProgressTextMode.Percentage => $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %",
-                StswProgressTextMode.Progress => $"{Value - Minimum} / {Maximum - Minimum}",
-                StswProgressTextMode.Value => $"{(int)Value}",
-                _ => null
-            };
+            SetCurrentValue(TextProperty, string.Empty);
+            return;
         }
+
+        var range = Maximum - Minimum;
+        var current = Value - Minimum;
+        var progress = Math.Clamp(current / range, 0d, 1d);
+
+        var text = TextMode switch
+        {
+            StswProgressTextMode.None => string.Empty,
+            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
+            StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
+            StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
+            _ => null
+        };
+
+        SetCurrentValue(TextProperty, text);
     }
     #endregion
 
@@ -114,7 +140,9 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
             return;
 
         if (stsw.TextMode == StswProgressTextMode.Custom)
-            stsw.Text = string.Empty;
+            stsw.SetCurrentValue(TextProperty, string.Empty);
+        else
+            stsw.UpdateProgressText();
     }
     #endregion
 
