@@ -22,6 +22,9 @@
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswSelectionBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
+            <!-- DropArrow.Visibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="DropArrow.Visibility"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding DropArrowVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSelectionBox DisplayMemberPath="Name"
@@ -33,7 +36,8 @@
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                             se:StswDropArrow.Visibility="{Binding DropArrowVisibility}">
             <se:StswSelectionBox.Icon>
                 <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
             </se:StswSelectionBox.Icon>

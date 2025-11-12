@@ -19,6 +19,9 @@
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDropButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- DropArrow.Visibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="DropArrow.Visibility"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding DropArrowVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDropButton AutoClose="{Binding AutoClose}"
@@ -27,7 +30,8 @@
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
-                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                           se:StswDropArrow.Visibility="{Binding DropArrowVisibility}">
             <se:StswDropButton.Header>
                 <se:StswLabel Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswDropButton.Header>

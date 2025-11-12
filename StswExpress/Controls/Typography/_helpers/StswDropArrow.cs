@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
-using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -38,6 +39,17 @@ public static class StswDropArrow
     public static void SetIsRotated(DependencyObject d, bool value) => d.SetValue(IsRotatedProperty, value);
 
     /// <summary>
+    /// Tracks whether change callbacks have already been registered for a given control.
+    /// </summary>
+    private static readonly DependencyProperty IsTrackingProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(IsTrackingProperty)[..^8],
+            typeof(bool),
+            typeof(StswDropArrow),
+            new PropertyMetadata(false)
+        );
+
+    /// <summary>
     /// Identifies the <see cref="Visibility"/> attached property.
     /// When set to <see cref="Visibility.Collapsed"/>, the drop-down arrow is hidden.
     /// </summary>
@@ -70,12 +82,21 @@ public static class StswDropArrow
         if (control.Template == null)
         {
             if (!control.IsLoaded)
+            {
+                control.Loaded -= Control_Loaded;
                 control.Loaded += Control_Loaded;
+            }
             return;
         }
 
+        control.ApplyTemplate();
         ApplyDropArrowProperties(control);
-        TrackPropertyChanges(control);
+
+        if (!(bool)control.GetValue(IsTrackingProperty))
+        {
+            TrackPropertyChanges(control);
+            control.SetValue(IsTrackingProperty, true);
+        }
     }
 
     /// <summary>
@@ -86,10 +107,36 @@ public static class StswDropArrow
     {
         if (control.Template?.FindName("OPT_DropArrow", control) is StswIcon dropArrow)
         {
-            dropArrow.Data = (Geometry)control.GetValue(DataProperty);
-            dropArrow.IsRotated = (bool)control.GetValue(IsRotatedProperty);
-            dropArrow.Visibility = (Visibility)control.GetValue(VisibilityProperty);
+            ApplyBindingOrValue(control, dropArrow, DataProperty, StswIcon.DataProperty);
+            ApplyBindingOrValue(control, dropArrow, IsRotatedProperty, StswIcon.IsRotatedProperty);
+            ApplyBindingOrValue(control, dropArrow, VisibilityProperty, UIElement.VisibilityProperty);
         }
+    }
+
+    /// <summary>
+    /// Applies either a binding or a direct value from the source control to the drop-arrow element.
+    /// </summary>
+    /// <param name="source">The control hosting the attached property.</param>
+    /// <param name="target">The drop-arrow element receiving the value.</param>
+    /// <param name="attachedProperty">The attached property storing the value or binding.</param>
+    /// <param name="targetProperty">The dependency property on the target element to update.</param>
+    private static void ApplyBindingOrValue(DependencyObject source, DependencyObject target, DependencyProperty attachedProperty, DependencyProperty targetProperty)
+    {
+        var valueSource = DependencyPropertyHelper.GetValueSource(source, attachedProperty);
+        if (valueSource.BaseValueSource == BaseValueSource.Default && !valueSource.IsExpression)
+        {
+            target.ClearValue(targetProperty);
+            return;
+        }
+
+        var value = source.GetValue(attachedProperty);
+        if (value == DependencyProperty.UnsetValue)
+        {
+            target.ClearValue(targetProperty);
+            return;
+        }
+
+        target.SetValue(targetProperty, value);
     }
 
     /// <summary>

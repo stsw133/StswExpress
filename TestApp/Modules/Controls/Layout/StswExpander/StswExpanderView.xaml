@@ -16,6 +16,9 @@
             <!-- ExpandDirection -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ExpandDirection, Type={x:Type se:StswExpander}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList ExpandDirection}" Margin="0 0 0 3" SelectedValue="{Binding ExpandDirection}"/>
+            <!-- DropArrow.Visibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="DropArrow.Visibility"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding DropArrowVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswExpander ExpandDirection="{Binding ExpandDirection}"
@@ -23,7 +26,8 @@
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
-                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                         se:StswDropArrow.Visibility="{Binding DropArrowVisibility}">
             <se:StswExpander.Header>
                 <se:StswLabel Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
             </se:StswExpander.Header>

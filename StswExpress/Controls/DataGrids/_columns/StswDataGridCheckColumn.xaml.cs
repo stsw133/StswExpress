@@ -88,14 +88,42 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     /// <param name="element">The checkbox element to apply the bindings to.</param>
     private void ApplyIconBindings(StswCheckBox element)
     {
-        element.SetBinding(StswCheckBox.IconCheckedProperty, CreateColumnBinding(nameof(IconChecked)));
-        element.SetBinding(StswCheckBox.IconUncheckedProperty, CreateColumnBinding(nameof(IconUnchecked)));
-        element.SetBinding(StswCheckBox.IconIndeterminateProperty, CreateColumnBinding(nameof(IconIndeterminate)));
+        ApplyConditionalBinding(element, nameof(IconChecked), IconCheckedProperty, StswCheckBox.IconCheckedProperty);
+        ApplyConditionalBinding(element, nameof(IconUnchecked), IconUncheckedProperty, StswCheckBox.IconUncheckedProperty);
+        ApplyConditionalBinding(element, nameof(IconIndeterminate), IconIndeterminateProperty, StswCheckBox.IconIndeterminateProperty);
 
-        var iconScaleBinding = CreateColumnBinding(nameof(IconScale));
-        iconScaleBinding.TargetNullValue = element.GetValue(StswCheckBox.IconScaleProperty);
-        iconScaleBinding.FallbackValue = element.GetValue(StswCheckBox.IconScaleProperty);
-        element.SetBinding(StswCheckBox.IconScaleProperty, iconScaleBinding);
+        if (IconScale.HasValue)
+            element.SetBinding(StswCheckBox.IconScaleProperty, CreateColumnBinding(nameof(IconScale)));
+        else
+            element.ClearValue(StswCheckBox.IconScaleProperty);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="d"></param>
+    /// <param name="e"></param>
+    private static void OnIconSettingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is StswDataGridCheckColumn column)
+            column.NotifyPropertyChanged(e.Property.Name);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="propertyName"></param>
+    /// <param name="columnProperty"></param>
+    /// <param name="targetProperty"></param>
+    private void ApplyConditionalBinding(DependencyObject element, string propertyName, DependencyProperty columnProperty, DependencyProperty targetProperty)
+    {
+        if (ReadLocalValue(columnProperty) == DependencyProperty.UnsetValue)
+            element.ClearValue(targetProperty);
+        else if (element is FrameworkElement frameworkElement)
+            frameworkElement.SetBinding(targetProperty, CreateColumnBinding(propertyName));
+        else
+            BindingOperations.SetBinding(element, targetProperty, CreateColumnBinding(propertyName));
     }
 
     /// <summary>
@@ -122,7 +150,8 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
-            typeof(StswDataGridCheckColumn)
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
         );
     #endregion
 
@@ -140,7 +169,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconChecked),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
         );
 
     /// <summary>
@@ -156,7 +185,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconIndeterminate),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
         );
 
     /// <summary>
@@ -172,7 +201,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
             nameof(IconUnchecked),
             typeof(Geometry),
             typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
         );
 
     /// <summary>

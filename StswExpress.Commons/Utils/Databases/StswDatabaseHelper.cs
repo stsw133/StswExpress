@@ -974,6 +974,7 @@ public static partial class StswDatabaseHelper
             => mi.GetCustomAttributes(inherit: true).Any(a => string.Equals(a.GetType().Name, attrName, StringComparison.OrdinalIgnoreCase));
 
         var props = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        var allowGetterOnly = IsAnonymousType(t);
 
         var result = new List<string>();
         foreach (var p in props)
@@ -981,7 +982,10 @@ public static partial class StswDatabaseHelper
             if (p.GetIndexParameters().Length > 0)
                 continue;
 
-            if (!(p.CanRead && p.CanWrite))
+            if (!p.CanRead)
+                continue;
+
+            if (!(p.CanWrite || allowGetterOnly))
                 continue;
 
             if (string.Equals(p.Name, nameof(IStswTrackableItem.ItemState), StringComparison.OrdinalIgnoreCase))
@@ -1012,6 +1016,43 @@ public static partial class StswDatabaseHelper
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Resolves the actual model type from a collection of items, handling cases where TModel is object, an interface, or abstract.
+    /// </summary>
+    /// <typeparam name="TModel">The type parameter representing the model type.</typeparam>
+    /// <param name="items">The collection of items from which to resolve the model type.</param>
+    /// <returns>The resolved model type.</returns>
+    private static Type ResolveModelType<TModel>(IEnumerable<TModel> items)
+    {
+        var modelType = typeof(TModel);
+
+        if (modelType == typeof(object) || modelType.IsInterface || modelType.IsAbstract)
+        {
+            var firstItem = items.FirstOrDefault();
+            if (firstItem is not null)
+                modelType = firstItem.GetType();
+        }
+
+        return modelType;
+    }
+
+    /// <summary>
+    /// Determines whether the specified type is an anonymous type.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is an anonymous type; otherwise, <see langword="false"/>.</returns>
+    private static bool IsAnonymousType(Type type)
+    {
+        if (type is null)
+            return false;
+
+        return Attribute.IsDefined(type, typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
+            && type.IsGenericType
+            && type.Name.Contains("AnonymousType", StringComparison.Ordinal)
+            && (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal))
+            && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
     }
 
     /// <summary>
@@ -1176,11 +1217,15 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the table into which the items will be inserted.</param>
     /// <param name="withScopeIdentity">If <see langword="true"/>, the query will include a statement to retrieve the SCOPE_IDENTITY() after the insert.</param>
     /// <returns>The prepared INSERT SQL query string.</returns>
-    public static string PrepareInsertQuery<TModel>(IEnumerable<TModel> items, string tableName, bool withScopeIdentity)
+    public static string PrepareInsertQuery<TModel>(IEnumerable<TModel> items, string tableName, bool withScopeIdentity, params string[] excludedPropertyNames)
     {
-        var cols = GetWritableScalarPropertyNames(typeof(TModel));
+        var modelType = ResolveModelType(items);
+        var excluded = new HashSet<string>(excludedPropertyNames ?? [], StringComparer.OrdinalIgnoreCase);
+        var cols = GetWritableScalarPropertyNames(typeof(TModel))
+            .Where(c => !excluded.Contains(c))
+            .ToList();
         if (cols.Count == 0)
-            throw new InvalidOperationException($"Type {typeof(TModel).Name} has no insertable properties.");
+            throw new InvalidOperationException($"Type {modelType.Name} has no insertable properties.");
 
         var colList = string.Join(",", cols.Select(c => $"[{c}]"));
         var valList = string.Join(",", cols.Select(c => $"@{c}"));
@@ -1197,17 +1242,21 @@ public static partial class StswDatabaseHelper
     /// <param name="tableName">The name of the table to update.</param>
     /// <param name="whereClause">The WHERE clause to specify which records to update. It should include parameter placeholders (e.g., @ParamName).</param>
     /// <returns>The prepared UPDATE SQL query string.</returns>
-    public static string PrepareUpdateQuery<TModel>(IEnumerable<TModel> items, string tableName, string whereClause)
+    public static string PrepareUpdateQuery<TModel>(IEnumerable<TModel> items, string tableName, string whereClause, params string[] excludedPropertyNames)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(whereClause);
 
-        var allCols = GetWritableScalarPropertyNames(typeof(TModel));
+        var modelType = ResolveModelType(items);
+        var allCols = GetWritableScalarPropertyNames(modelType);
+        var excluded = new HashSet<string>(excludedPropertyNames ?? [], StringComparer.OrdinalIgnoreCase);
         var usedInWhere = new HashSet<string>(
             ParameterRegex().Matches(whereClause).Cast<Match>().Select(m => m.Groups[1].Value),
             StringComparer.OrdinalIgnoreCase
         );
 
-        var setCols = allCols.Where(c => !usedInWhere.Contains(c)).ToList();
+        var setCols = allCols
+            .Where(c => !usedInWhere.Contains(c) && !excluded.Contains(c))
+            .ToList();
         if (setCols.Count == 0)
             throw new InvalidOperationException("No updatable columns remain after excluding WHERE parameters.");
 

@@ -44,6 +44,8 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         if (Type == StswAdaptiveType.Auto)
             _autoTypeEnabled = true;
         TryUpdateTypeFromAuto();
+
+        CreateControlBasedOnType();
     }
 
     /// <summary>

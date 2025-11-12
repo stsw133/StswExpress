@@ -252,7 +252,7 @@ public partial class StswMailboxModel : StswObservableObject
 
         if (StswFn.IsInDebugMode && !StswMailboxes.Config.DebugEmailRecipients.IsNullOrEmpty())
         {
-            foreach (var email in StswMailboxes.Config.DebugEmailRecipients!)
+            foreach (var email in StswMailboxes.Config.DebugEmailRecipients)
                 if (!string.IsNullOrEmpty(email))
                     message.To.Add(MailboxAddress.Parse(email));
         }

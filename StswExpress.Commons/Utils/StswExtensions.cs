@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -690,7 +691,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to check.</param>
     /// <returns><see langword="true"/> if the value is null or its default value; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrDefault<T>(this T? value) where T : struct => !value.HasValue || EqualityComparer<T>.Default.Equals(value.Value, default);
+    public static bool IsNullOrDefault<T>([NotNullWhen(false)] this T? value) where T : struct => !value.HasValue || EqualityComparer<T>.Default.Equals(value.Value, default);
 
     /// <summary>
     /// Checks if the given <see cref="IEnumerable{T}"/> is null or empty.
@@ -698,7 +699,7 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the enumerable.</typeparam>
     /// <param name="source">The source <see cref="IEnumerable{T}"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
+    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this IEnumerable<T>? source)
     {
         if (source is null)
             return true;
@@ -720,7 +721,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="source">The source <see cref="IEnumerable"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty(this IEnumerable? source)
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this IEnumerable? source)
     {
         if (source is null)
             return true;

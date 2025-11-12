@@ -34,6 +34,15 @@ public class StswDatabaseHelperTests
     }
 
     [Fact]
+    public void PrepareInsertQuery_ExcludesSpecifiedColumns()
+    {
+        var query = StswDatabaseHelper.PrepareInsertQuery(new List<TestModel>(), "Table", false, nameof(TestModel.Name));
+
+        Assert.DoesNotContain("[Name]", query);
+        Assert.DoesNotContain("@Name", query);
+    }
+
+    [Fact]
     public void PrepareUpdateQuery_ThrowsIfWhereClauseEmpty()
     {
         Assert.Throws<ArgumentException>(() =>
@@ -46,6 +55,15 @@ public class StswDatabaseHelperTests
         var where = "@Id";
         Assert.Throws<InvalidOperationException>(() =>
             StswDatabaseHelper.PrepareUpdateQuery(new List<TestModel>(), "Table", where));
+    }
+
+    [Fact]
+    public void PrepareUpdateQuery_ExcludesSpecifiedColumns()
+    {
+        var where = "WHERE Id = @Id";
+        var query = StswDatabaseHelper.PrepareUpdateQuery(new List<TestModel>(), "Table", where, nameof(TestModel.Name));
+
+        Assert.DoesNotContain("[Name]=@Name", query);
     }
 
     [Fact]
