@@ -60,6 +60,7 @@
             <se:StswNavigationElement Header="Date &amp; time" IconData="{x:Static se:StswIcons.CalendarRange}">
                 <se:StswNavigationElement Header="StswCalendar" ContextNamespace="{x:Type local:StswCalendarContext}"/>
                 <se:StswNavigationElement Header="StswDatePicker" ContextNamespace="{x:Type local:StswDatePickerContext}"/>
+                <se:StswNavigationElement Header="StswRangeCalendar" ContextNamespace="{x:Type local:StswRangeCalendarContext}"/>
                 <se:StswNavigationElement Header="StswTimePicker" ContextNamespace="{x:Type local:StswTimePickerContext}"/>
                 <se:StswNavigationElement Header="StswTimerControl" ContextNamespace="{x:Type local:StswTimerControlContext}"/>
             </se:StswNavigationElement>

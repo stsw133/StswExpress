@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswCalendar}">
+    <Style x:Key="StswCalendarStyle" TargetType="{x:Type se:StswCalendar}">
         <Setter Property="Background" Value="{DynamicResource StswCalendar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.Static.Border}"/>
 
@@ -211,6 +211,14 @@
                         <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
                             <Setter Property="Visibility" Value="Hidden"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsInRange}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRangeEdge}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                        </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsSpecialDay}" Value="True"/>
@@ -226,5 +234,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type se:StswCalendar}" BasedOn="{StaticResource StswCalendarStyle}"/>
+    <Style TargetType="{x:Type se:StswRangeCalendar}" BasedOn="{StaticResource StswCalendarStyle}"/>
 
 </ResourceDictionary>

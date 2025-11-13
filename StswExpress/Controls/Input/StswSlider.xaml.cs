@@ -5,8 +5,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A slider control that allows users to select a numeric value within a range.
 /// Supports custom thumb size, track size, and optional icon inside the thumb.
@@ -149,9 +151,9 @@ public class StswSlider : Slider
             return;
         }
 
-        if (SliderMode == StswSliderMode.Range)
+        if (SliderMode == StswSliderMode.Range && thumb == null)
         {
-            HandleRangeClick(e, thumb);
+            HandleRangeClick(e);
             if (e.Handled)
                 return;
         }
@@ -168,6 +170,12 @@ public class StswSlider : Slider
         {
             UpdateMode((StswSliderMode)e.NewValue);
             UpdateRangeThumbs();
+            return;
+        }
+
+        if (e.Property == OrientationProperty)
+        {
+            Dispatcher.BeginInvoke(new Action(UpdateRangeThumbs), DispatcherPriority.Loaded);
             return;
         }
 
@@ -199,31 +207,8 @@ public class StswSlider : Slider
         if (e.Property == SelectionStartProperty
          || e.Property == SelectionEndProperty
          || e.Property == MinimumProperty
-         || e.Property == MaximumProperty
-         || e.Property == OrientationProperty)
+         || e.Property == MaximumProperty)
             UpdateRangeThumbs();
-    }
-
-    /// <summary>
-    /// Resets the slider's value to its default value.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void Thumb_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.ClickCount == 2)
-        {
-            if (sender == _valueThumb)
-            {
-                ResetToDefaultValue();
-                e.Handled = true;
-            }
-            else if (sender == _rangeStartThumb || sender == _rangeEndThumb)
-            {
-                ResetToDefaultRange();
-                e.Handled = true;
-            }
-        }
     }
 
     /// <summary>
@@ -243,23 +228,17 @@ public class StswSlider : Slider
     {
         var start = SnapToTick(Minimum);
         var end = SnapToTick(Maximum);
-
         SetCurrentValue(SelectionStartProperty, start);
         SetCurrentValue(SelectionEndProperty, end);
-        UpdateRangeThumbs();
     }
 
     /// <summary>
     /// Handles mouse clicks on the slider track to update the SelectionStart and SelectionEnd properties based on the ClickMode.
     /// </summary>
     /// <param name="e">The mouse button event data.</param>
-    /// <param name="thumb">The thumb that was clicked, if any.</param>
-    private void HandleRangeClick(MouseButtonEventArgs e, Thumb? thumb)
+    private void HandleRangeClick(MouseButtonEventArgs e)
     {
         if (_track == null)
-            return;
-
-        if (thumb != null)
             return;
 
         var pos = e.GetPosition(_track);
@@ -429,11 +408,11 @@ public class StswSlider : Slider
     /// <param name="e">The event data.</param>
     private void RangeStartThumb_DragDelta(object sender, DragDeltaEventArgs e)
     {
-        if (_track == null)
+        if (_track == null || _rangeStartThumb == null)
             return;
 
         var deltaPixels = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
-        var deltaValue = PixelsToValue(deltaPixels, _track);
+        var deltaValue = PixelsToValue(deltaPixels, _track, _rangeStartThumb);
         deltaValue = QuantizeDeltaToTick(deltaValue);
 
         var newStart = SelectionStart + deltaValue;
@@ -459,11 +438,11 @@ public class StswSlider : Slider
     /// <param name="e">The event data.</param>
     private void RangeEndThumb_DragDelta(object sender, DragDeltaEventArgs e)
     {
-        if (_track == null)
+        if (_track == null || _rangeEndThumb == null)
             return;
 
         var deltaPixels = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
-        var deltaValue = PixelsToValue(deltaPixels, _track);
+        var deltaValue = PixelsToValue(deltaPixels, _track, _rangeEndThumb);
         deltaValue = QuantizeDeltaToTick(deltaValue);
 
         var newEnd = SelectionEnd + deltaValue;
@@ -487,10 +466,7 @@ public class StswSlider : Slider
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The event data.</param>
-    private void Track_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateRangeThumbs();
-    }
+    private void Track_SizeChanged(object sender, SizeChangedEventArgs e) => UpdateRangeThumbs();
 
     /// <summary>
     /// Determines whether two double values are close to each other within a small tolerance.
@@ -578,18 +554,33 @@ public class StswSlider : Slider
     /// </summary>
     /// <param name="deltaPixels">The pixel delta to convert.</param>
     /// <param name="track">The track control used for calculations.</param>
+    /// <param name="thumb">The thumb control used for size calculations.</param>
     /// <returns>The corresponding value delta.</returns>
-    private double PixelsToValue(double deltaPixels, Track track)
+    private double PixelsToValue(double deltaPixels, Track track, FrameworkElement thumb)
     {
         var range = Maximum - Minimum;
-        if (range <= 0)
+        if (range <= 0 || track == null || thumb == null)
             return 0;
 
-        var trackLength = Orientation == Orientation.Horizontal ? track.ActualWidth : track.ActualHeight;
+        var trackLength = Orientation == Orientation.Horizontal
+            ? track.ActualWidth
+            : track.ActualHeight;
+
         if (trackLength <= 0)
             return 0;
 
-        return deltaPixels / trackLength * range;
+        var thumbSize = Orientation == Orientation.Horizontal
+            ? (thumb.ActualWidth > 0 ? thumb.ActualWidth : thumb.Width)
+            : (thumb.ActualHeight > 0 ? thumb.ActualHeight : thumb.Height);
+
+        if (thumbSize <= 0 || thumbSize > trackLength)
+            thumbSize = Math.Min(trackLength, ThumbSize > 0 ? ThumbSize : trackLength);
+
+        var movable = Math.Max(trackLength - thumbSize, 0);
+        if (movable <= 0)
+            return 0;
+
+        return deltaPixels / movable * range;
     }
 
     /// <summary>
@@ -628,9 +619,6 @@ public class StswSlider : Slider
     /// </summary>
     private void UpdateRangeThumbs()
     {
-        if (SliderMode != StswSliderMode.Range)
-            return;
-
         if (_track == null || _rangeStartThumb == null || _rangeEndThumb == null || _canvas == null)
             return;
 
@@ -638,59 +626,71 @@ public class StswSlider : Slider
         if (trackLength <= 0)
             return;
 
-        var startOffset = ValueToPixels(SelectionStart, trackLength);
-        var endOffset = ValueToPixels(SelectionEnd, trackLength);
+        var startCenter = ValueToPixels(SelectionStart, _track, _rangeStartThumb);
+        var endCenter = ValueToPixels(SelectionEnd, _track, _rangeEndThumb);
 
         if (Orientation == Orientation.Horizontal)
         {
-            var startLeft = startOffset - GetHalfWidth(_rangeStartThumb);
-            var endLeft = endOffset - GetHalfWidth(_rangeEndThumb);
-
-            startLeft = Clamp(startLeft, 0, trackLength - _rangeStartThumb.ActualWidth);
-            endLeft = Clamp(endLeft, 0, trackLength - _rangeEndThumb.ActualWidth);
+            var startLeft = startCenter - GetHalfWidth(_rangeStartThumb);
+            var endLeft = endCenter - GetHalfWidth(_rangeEndThumb);
 
             Canvas.SetLeft(_rangeStartThumb, startLeft);
             Canvas.SetLeft(_rangeEndThumb, endLeft);
 
             var canvasHeight = _canvas.ActualHeight;
-            var startTop = Clamp((canvasHeight - _rangeStartThumb.ActualHeight) / 2, 0, Math.Max(canvasHeight - _rangeStartThumb.ActualHeight, 0));
-            var endTop = Clamp((canvasHeight - _rangeEndThumb.ActualHeight) / 2, 0, Math.Max(canvasHeight - _rangeEndThumb.ActualHeight, 0));
-            Canvas.SetTop(_rangeStartThumb, startTop);
-            Canvas.SetTop(_rangeEndThumb, endTop);
+            var thumbHeight = _rangeStartThumb.ActualHeight > 0
+                ? _rangeStartThumb.ActualHeight
+                : _rangeStartThumb.Height;
+
+            var thumbTop = (canvasHeight - thumbHeight) / 2.0;
+            Canvas.SetTop(_rangeStartThumb, thumbTop);
+            Canvas.SetTop(_rangeEndThumb, thumbTop);
 
             if (_selectionRangeElement != null)
             {
-                var left = Math.Min(startOffset, endOffset);
-                var width = Math.Abs(endOffset - startOffset);
+                var left = Math.Min(startCenter, endCenter);
+                var width = Math.Abs(endCenter - startCenter);
+
                 Canvas.SetLeft(_selectionRangeElement, left);
                 _selectionRangeElement.Width = width;
-                Canvas.SetTop(_selectionRangeElement, startTop);
+
+                var barHeight = TrackSize > 0 ? TrackSize : _selectionRangeElement.Height;
+                var barTop = (canvasHeight - barHeight) / 2.0;
+
+                _selectionRangeElement.Height = barHeight;
+                Canvas.SetTop(_selectionRangeElement, barTop);
             }
         }
         else
         {
-            var startTop = startOffset - GetHalfHeight(_rangeStartThumb);
-            var endTop = endOffset - GetHalfHeight(_rangeEndThumb);
-
-            startTop = Clamp(startTop, 0, trackLength - _rangeStartThumb.ActualHeight);
-            endTop = Clamp(endTop, 0, trackLength - _rangeEndThumb.ActualHeight);
+            var startTop = startCenter - GetHalfHeight(_rangeStartThumb);
+            var endTop = endCenter - GetHalfHeight(_rangeEndThumb);
 
             Canvas.SetTop(_rangeStartThumb, startTop);
             Canvas.SetTop(_rangeEndThumb, endTop);
 
             var canvasWidth = _canvas.ActualWidth;
-            var startLeftCentered = Clamp((canvasWidth - _rangeStartThumb.ActualWidth) / 2, 0, Math.Max(canvasWidth - _rangeStartThumb.ActualWidth, 0));
-            var endLeftCentered = Clamp((canvasWidth - _rangeEndThumb.ActualWidth) / 2, 0, Math.Max(canvasWidth - _rangeEndThumb.ActualWidth, 0));
-            Canvas.SetLeft(_rangeStartThumb, startLeftCentered);
-            Canvas.SetLeft(_rangeEndThumb, endLeftCentered);
+            var thumbWidth = _rangeStartThumb.ActualWidth > 0
+                ? _rangeStartThumb.ActualWidth
+                : _rangeStartThumb.Width;
+
+            var thumbLeft = (canvasWidth - thumbWidth) / 2.0;
+            Canvas.SetLeft(_rangeStartThumb, thumbLeft);
+            Canvas.SetLeft(_rangeEndThumb, thumbLeft);
 
             if (_selectionRangeElement != null)
             {
-                var top = Math.Min(startOffset, endOffset);
-                var height = Math.Abs(endOffset - startOffset);
+                var top = Math.Min(startCenter, endCenter);
+                var height = Math.Abs(endCenter - startCenter);
+
                 Canvas.SetTop(_selectionRangeElement, top);
                 _selectionRangeElement.Height = height;
-                Canvas.SetLeft(_selectionRangeElement, startLeftCentered);
+
+                var barWidth = TrackSize > 0 ? TrackSize : _selectionRangeElement.Width;
+                var barLeft = (canvasWidth - barWidth) / 2.0;
+
+                _selectionRangeElement.Width = barWidth;
+                Canvas.SetLeft(_selectionRangeElement, barLeft);
             }
         }
     }
@@ -699,21 +699,36 @@ public class StswSlider : Slider
     /// Converts a value within the slider's range to a pixel offset along the track.
     /// </summary>
     /// <param name="value">The value to convert.</param>
-    /// <param name="trackLength">The length of the track in pixels.</param>
+    /// <param name="track">The track control used for calculations.</param>
+    /// <param name="thumb">The thumb control used for size calculations.</param>
     /// <returns>The corresponding pixel offset.</returns>
-    private double ValueToPixels(double value, double trackLength)
+    private double ValueToPixels(double value, Track track, FrameworkElement thumb)
     {
         var range = Maximum - Minimum;
-        if (range <= 0)
+        if (range <= 0 || track == null || thumb == null)
             return 0;
+
+        double trackLength = Orientation == Orientation.Horizontal
+            ? track.ActualWidth
+            : track.ActualHeight;
+
+        if (trackLength <= 0)
+            return 0;
+
+        double thumbSize = Orientation == Orientation.Horizontal
+            ? (thumb.ActualWidth > 0 ? thumb.ActualWidth : thumb.Width)
+            : (thumb.ActualHeight > 0 ? thumb.ActualHeight : thumb.Height);
+
+        if (thumbSize <= 0 || thumbSize > trackLength)
+            thumbSize = Math.Min(trackLength, ThumbSize > 0 ? ThumbSize : trackLength);
+
+        var movable = Math.Max(trackLength - thumbSize, 0);
 
         var normalized = (value - Minimum) / range;
         normalized = Clamp(normalized, 0, 1);
 
-        if (Orientation == Orientation.Vertical)
-            normalized = 1 - normalized;
-
-        return normalized * trackLength;
+        var center = (thumbSize / 2.0) + normalized * movable;
+        return center;
     }
 
     /// <summary>

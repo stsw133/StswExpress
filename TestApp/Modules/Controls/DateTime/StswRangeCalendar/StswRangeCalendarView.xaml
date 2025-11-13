@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TestApp.StswRangeCalendarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswRangeCalendarContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a custom calendar control with date selection functionality.
+            The control allows users to navigate between months and years, select individual days or months, and provides
+            support for minimum and maximum date ranges. It also includes functionality for quick selection of the current date
+            and offers support for customization, such as corner radius and item appearance.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswCalendar}}"/>
+            <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswCalendar}}"/>
+            <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
+            <!-- SelectionUnit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswCalendar}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswCalendarUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswRangeCalendar IsEnabled="{Binding IsEnabled}"
+                              Maximum="{Binding Maximum}"
+                              Minimum="{Binding Minimum}"
+                              SelectedRange="{Binding SelectedRange}"
+                              SelectionUnit="{Binding SelectionUnit}"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="{Binding SelectedRange.Start, Mode=OneWay, StringFormat=g, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontWeight="Bold"/>
+                <Run Text=" - "/>
+                <Run Text="{Binding SelectedRange.End, Mode=OneWay, StringFormat=g, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" FontWeight="Bold"/>
+                <Run Text=" is selected"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

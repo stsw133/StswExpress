@@ -58,6 +58,27 @@ internal class StswCalendarEntry : StswObservableObject, IStswSelectionItem
     private bool? _isCurrentDay;
 
     /// <summary>
+    /// Gets or sets a value indicating whether the calendar item belongs to a selected range.
+    /// Used by range-based calendars to highlight the covered area.
+    /// </summary>
+    public bool IsInRange
+    {
+        get => _isInRange;
+        set => SetProperty(ref _isInRange, value);
+    }
+    private bool _isInRange;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the calendar item represents the start or end of a selected range.
+    /// </summary>
+    public bool IsRangeEdge
+    {
+        get => _isRangeEdge;
+        set => SetProperty(ref _isRangeEdge, value);
+    }
+    private bool _isRangeEdge;
+
+    /// <summary>
     /// Gets or sets the selection associated with the item.
     /// </summary>
     public bool IsSelected

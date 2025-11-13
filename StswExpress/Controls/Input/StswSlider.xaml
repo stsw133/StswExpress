@@ -10,6 +10,8 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="1"/>
 
+        <Setter Property="MinHeight" Value="{Binding ThumbSize, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="MinWidth" Value="{Binding ThumbSize, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="SliderMode" Value="Value"/>
         <Setter Property="ThumbBorderThickness" Value="1"/>
         <Setter Property="ThumbIcon" Value="{DynamicResource StswSlider.Thumb.Icon}"/>

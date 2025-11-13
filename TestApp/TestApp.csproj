@@ -51,6 +51,9 @@
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\DateTime\StswRangeCalendar\StswRangeCalendarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Filters\StswFilterTags\StswFilterTagsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

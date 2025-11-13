@@ -37,6 +37,9 @@
             <!-- TickFrequency -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TickFrequency, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding TickFrequency}"/>
+            <!-- TickPlacement -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TickPlacement, Type={x:Type se:StswSlider}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList TickPlacement}" Margin="0 0 0 3" SelectedValue="{Binding TickPlacement}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSlider IsEnabled="{Binding IsEnabled}"
@@ -50,7 +53,7 @@
                        SelectionStart="{Binding SelectionStart}"
                        SliderMode="{Binding SliderMode}"
                        TickFrequency="{Binding TickFrequency}"
-                       TickPlacement="Both"
+                       TickPlacement="{Binding TickPlacement}"
                        Value="{Binding SelectedValue}"
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

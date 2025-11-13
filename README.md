@@ -12,7 +12,7 @@ Here's a breakdown:
 - **Charts**: `StswChartColumn`, `StswChartLegend`, `StswChartPie`
 - **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
-- **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswTimePicker`, `StswTimerControl`
+- **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswRangeCalendar`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
 - **Filters**: `StswFilterBox`, `StswFilterTags`
 - **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`

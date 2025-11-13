@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace TestApp;
 public partial class StswSliderContext : ControlsContext
@@ -17,6 +18,7 @@ public partial class StswSliderContext : ControlsContext
         //SelectionStart = (double?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSlider.SelectionStartProperty)?.Value ?? default;
         SliderMode = (StswSliderMode?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSlider.SliderModeProperty)?.Value ?? default;
         //TickFrequency = (double?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSlider.TickFrequencyProperty)?.Value ?? default;
+        //TickPlacement = (TickPlacement?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSlider.TickPlacementProperty)?.Value ?? default;
     }
 
     [StswObservableProperty] bool _isMoveToPointEnabled;
@@ -28,4 +30,5 @@ public partial class StswSliderContext : ControlsContext
     [StswObservableProperty] double? _selectionStart = 20;
     [StswObservableProperty] StswSliderMode _sliderMode;
     [StswObservableProperty] double _tickFrequency = 5;
+    [StswObservableProperty] TickPlacement _tickPlacement = TickPlacement.Both;
 }
