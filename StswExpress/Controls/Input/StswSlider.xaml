@@ -210,6 +210,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Thumb"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_StartThumb"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_EndThumb"/>
+                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_Track"/>
                         </Trigger>
                         <Trigger Property="IsSelectionRangeEnabled" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange"/>

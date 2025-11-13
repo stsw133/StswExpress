@@ -60,7 +60,6 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     static StswTextEditor()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
-        //StswControl.OverrideBaseBorderThickness<StswTextEditor>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -464,26 +463,6 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #endregion
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-       = DependencyProperty.Register(
-           nameof(BorderThickness),
-           typeof(StswThickness),
-           typeof(StswTextEditor),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswTextEditor>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-       );
-    */
-
     /// <inheritdoc/>
     public bool CornerClipping
     {

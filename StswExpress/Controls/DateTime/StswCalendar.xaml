@@ -79,7 +79,7 @@
                                 <se:StswListBox x:Name="PART_Selector"
                                                 Background="Transparent"
                                                 DisplayMemberPath="Content"
-                                                ItemContainerStyle="{StaticResource StswCalendarItemStyle}"
+                                                ItemContainerStyle="{DynamicResource StswCalendarItemStyle}"
                                                 ItemsSource="{TemplateBinding Items}"
                                                 se:StswControl.IsBorderless="True"/>
                             </Grid>

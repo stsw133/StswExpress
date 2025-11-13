@@ -18,30 +18,9 @@ public class StswGroupBox : GroupBox, IStswCornerControl
     static StswGroupBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
-        //StswControl.OverrideBaseBorderThickness<StswGroupBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(StswThickness),
-            typeof(StswGroupBox),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswGroupBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-        );
-    */
-
     /// <inheritdoc/>
     public bool CornerClipping
     {

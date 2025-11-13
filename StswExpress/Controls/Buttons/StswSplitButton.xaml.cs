@@ -39,7 +39,6 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     static StswSplitButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
-        //StswControl.OverrideBaseBorderThickness<StswSplitButton>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -143,26 +142,6 @@ public class StswSplitButton : HeaderedItemsControl, IStswCornerControl, IStswDr
     #endregion
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(StswThickness),
-            typeof(StswSplitButton),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswSplitButton>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-        );
-    */
-
     /// <inheritdoc/>
     public bool CornerClipping
     {

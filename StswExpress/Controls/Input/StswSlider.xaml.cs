@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -37,10 +38,8 @@ public class StswSlider : Slider
 
         if (_track != null)
             _track.SizeChanged -= Track_SizeChanged;
-
         if (_rangeStartThumb != null)
             _rangeStartThumb.DragDelta -= RangeStartThumb_DragDelta;
-
         if (_rangeEndThumb != null)
             _rangeEndThumb.DragDelta -= RangeEndThumb_DragDelta;
 
@@ -53,15 +52,111 @@ public class StswSlider : Slider
 
         if (_track != null)
             _track.SizeChanged += Track_SizeChanged;
-
         if (_rangeStartThumb != null)
             _rangeStartThumb.DragDelta += RangeStartThumb_DragDelta;
-
         if (_rangeEndThumb != null)
             _rangeEndThumb.DragDelta += RangeEndThumb_DragDelta;
 
         UpdateMode(SliderMode);
         UpdateRangeThumbs();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (SliderMode == StswSliderMode.Range)
+        {
+            var smallStep = GetStep(isLargeChange: false);
+            var largeStep = GetStep(isLargeChange: true);
+
+            switch (e.Key)
+            {
+                case Key.Left:
+                case Key.Down:
+                    MoveRange(-smallStep);
+                    e.Handled = true;
+                    return;
+
+                case Key.Right:
+                case Key.Up:
+                    MoveRange(smallStep);
+                    e.Handled = true;
+                    return;
+
+                case Key.PageDown:
+                    MoveRange(-largeStep);
+                    e.Handled = true;
+                    return;
+
+                case Key.PageUp:
+                    MoveRange(largeStep);
+                    e.Handled = true;
+                    return;
+
+                case Key.Home:
+                    {
+                        var width = SelectionEnd - SelectionStart;
+                        if (width < 0)
+                            width = 0;
+
+                        var newStart = Minimum;
+                        var newEnd = Clamp(Minimum + width, Minimum, Maximum);
+
+                        SetCurrentValue(SelectionStartProperty, newStart);
+                        SetCurrentValue(SelectionEndProperty, newEnd);
+                        e.Handled = true;
+                        return;
+                    }
+
+                case Key.End:
+                    {
+                        var width = SelectionEnd - SelectionStart;
+                        if (width < 0)
+                            width = 0;
+
+                        var newEnd = Maximum;
+                        var newStart = Clamp(Maximum - width, Minimum, Maximum);
+
+                        SetCurrentValue(SelectionStartProperty, newStart);
+                        SetCurrentValue(SelectionEndProperty, newEnd);
+                        e.Handled = true;
+                        return;
+                    }
+            }
+        }
+
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is not DependencyObject d)
+        {
+            base.OnPreviewMouseDown(e);
+            return;
+        }
+
+        var thumb = StswFnUI.FindVisualAncestor<Thumb>(d);
+        if (thumb != null && e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+        {
+            if (SliderMode == StswSliderMode.Range)
+                ResetToDefaultRange();
+            else
+                ResetToDefaultValue();
+
+            e.Handled = true;
+            return;
+        }
+
+        if (SliderMode == StswSliderMode.Range)
+        {
+            HandleRangeClick(e, thumb);
+            if (e.Handled)
+                return;
+        }
+
+        base.OnPreviewMouseDown(e);
     }
 
     /// <inheritdoc/>
@@ -110,6 +205,224 @@ public class StswSlider : Slider
     }
 
     /// <summary>
+    /// Resets the slider's value to its default value.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void Thumb_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ClickCount == 2)
+        {
+            if (sender == _valueThumb)
+            {
+                ResetToDefaultValue();
+                e.Handled = true;
+            }
+            else if (sender == _rangeStartThumb || sender == _rangeEndThumb)
+            {
+                ResetToDefaultRange();
+                e.Handled = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets Value to the default position (middle of the range, snapped to tick).
+    /// </summary>
+    private void ResetToDefaultValue()
+    {
+        var center = Minimum + (Maximum - Minimum) / 2.0;
+        center = SnapToTick(center);
+        SetCurrentValue(ValueProperty, center);
+    }
+
+    /// <summary>
+    /// Resets the range to the full span [Minimum, Maximum], snapped to ticks.
+    /// </summary>
+    private void ResetToDefaultRange()
+    {
+        var start = SnapToTick(Minimum);
+        var end = SnapToTick(Maximum);
+
+        SetCurrentValue(SelectionStartProperty, start);
+        SetCurrentValue(SelectionEndProperty, end);
+        UpdateRangeThumbs();
+    }
+
+    /// <summary>
+    /// Handles mouse clicks on the slider track to update the SelectionStart and SelectionEnd properties based on the ClickMode.
+    /// </summary>
+    /// <param name="e">The mouse button event data.</param>
+    /// <param name="thumb">The thumb that was clicked, if any.</param>
+    private void HandleRangeClick(MouseButtonEventArgs e, Thumb? thumb)
+    {
+        if (_track == null)
+            return;
+
+        if (thumb != null)
+            return;
+
+        var pos = e.GetPosition(_track);
+        var clickedValueNullable = PointToValue(pos);
+        if (clickedValueNullable is not double clickedValue)
+            return;
+
+        var step = GetStep(isLargeChange: true);
+        var target = SnapToTick(clickedValue);
+
+        if (clickedValue < SelectionStart)
+        {
+            if (IsMoveToPointEnabled)
+            {
+                if (target > SelectionEnd)
+                {
+                    var delta = target - SelectionStart;
+                    MoveRange(delta);
+                }
+                else
+                {
+                    var newStart = Clamp(target, Minimum, SelectionEnd);
+                    SetCurrentValue(SelectionStartProperty, newStart);
+                }
+            }
+            else
+            {
+                var newStart = SelectionStart - step;
+                newStart = Math.Max(Minimum, Math.Min(newStart, SelectionEnd));
+                newStart = SnapToTick(newStart);
+                SetCurrentValue(SelectionStartProperty, newStart);
+            }
+
+            UpdateRangeThumbs();
+            e.Handled = true;
+            return;
+        }
+
+        if (clickedValue > SelectionEnd)
+        {
+            if (IsMoveToPointEnabled)
+            {
+                if (target < SelectionStart)
+                {
+                    var delta = target - SelectionEnd;
+                    MoveRange(delta);
+                }
+                else
+                {
+                    var newEnd = Clamp(target, SelectionStart, Maximum);
+                    SetCurrentValue(SelectionEndProperty, newEnd);
+                }
+            }
+            else
+            {
+                var newEnd = SelectionEnd + step;
+                newEnd = Math.Max(SelectionStart, Math.Min(newEnd, Maximum));
+                newEnd = SnapToTick(newEnd);
+                SetCurrentValue(SelectionEndProperty, newEnd);
+            }
+
+            UpdateRangeThumbs();
+            e.Handled = true;
+            return;
+        }
+
+        var center = (SelectionStart + SelectionEnd) / 2.0;
+        var distToStart = Math.Abs(target - SelectionStart);
+        var distToEnd = Math.Abs(target - SelectionEnd);
+        var nearestIsStart = distToStart <= distToEnd;
+
+        if (IsMoveToPointEnabled)
+        {
+            if (nearestIsStart)
+            {
+                var delta = target - SelectionStart;
+
+                if (target > SelectionEnd)
+                {
+                    MoveRange(delta);
+                }
+                else
+                {
+                    var newStart = Clamp(target, Minimum, SelectionEnd);
+                    newStart = SnapToTick(newStart);
+                    SetCurrentValue(SelectionStartProperty, newStart);
+                }
+            }
+            else
+            {
+                var delta = target - SelectionEnd;
+
+                if (target < SelectionStart)
+                {
+                    MoveRange(delta);
+                }
+                else
+                {
+                    var newEnd = Clamp(target, SelectionStart, Maximum);
+                    newEnd = SnapToTick(newEnd);
+                    SetCurrentValue(SelectionEndProperty, newEnd);
+                }
+            }
+        }
+        else
+        {
+            var stepTowardsCenter = step;
+
+            if (nearestIsStart)
+            {
+                var direction = Math.Sign(center - SelectionStart);
+                if (direction == 0)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                var delta = direction * stepTowardsCenter;
+                var newStart = SelectionStart + delta;
+
+                if (newStart > SelectionEnd)
+                {
+                    MoveRange(delta);
+                }
+                else
+                {
+                    newStart = SnapToTick(newStart);
+                    newStart = Math.Max(Minimum, Math.Min(newStart, SelectionEnd));
+                    SetCurrentValue(SelectionStartProperty, newStart);
+                }
+            }
+            else
+            {
+                var direction = Math.Sign(center - SelectionEnd);
+                if (direction == 0)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                var delta = direction * stepTowardsCenter;
+                var newEnd = SelectionEnd + delta;
+
+                if (newEnd < SelectionStart)
+                {
+                    MoveRange(delta);
+                }
+                else
+                {
+                    newEnd = SnapToTick(newEnd);
+                    newEnd = Math.Max(SelectionStart, Math.Min(newEnd, Maximum));
+                    SetCurrentValue(SelectionEndProperty, newEnd);
+                }
+            }
+        }
+
+        UpdateRangeThumbs();
+        e.Handled = true;
+    }
+    #endregion
+
+    #region Range handling methods
+    /// <summary>
     /// Handles the DragDelta event of the range start thumb to update the SelectionStart property.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
@@ -119,10 +432,22 @@ public class StswSlider : Slider
         if (_track == null)
             return;
 
-        var delta = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
-        var newValue = SelectionStart + PixelsToValue(delta, _track);
-        newValue = Math.Max(Minimum, Math.Min(newValue, SelectionEnd));
-        SetCurrentValue(SelectionStartProperty, newValue);
+        var deltaPixels = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
+        var deltaValue = PixelsToValue(deltaPixels, _track);
+        deltaValue = QuantizeDeltaToTick(deltaValue);
+
+        var newStart = SelectionStart + deltaValue;
+        if (newStart > SelectionEnd)
+        {
+            MoveRange(deltaValue);
+        }
+        else
+        {
+            newStart = SnapToTick(newStart);
+            newStart = Math.Max(Minimum, Math.Min(newStart, SelectionEnd));
+            SetCurrentValue(SelectionStartProperty, newStart);
+        }
+
         UpdateRangeThumbs();
         e.Handled = true;
     }
@@ -137,10 +462,22 @@ public class StswSlider : Slider
         if (_track == null)
             return;
 
-        var delta = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
-        var newValue = SelectionEnd + PixelsToValue(delta, _track);
-        newValue = Math.Max(SelectionStart, Math.Min(newValue, Maximum));
-        SetCurrentValue(SelectionEndProperty, newValue);
+        var deltaPixels = Orientation == Orientation.Horizontal ? e.HorizontalChange : -e.VerticalChange;
+        var deltaValue = PixelsToValue(deltaPixels, _track);
+        deltaValue = QuantizeDeltaToTick(deltaValue);
+
+        var newEnd = SelectionEnd + deltaValue;
+        if (newEnd < SelectionStart)
+        {
+            MoveRange(deltaValue);
+        }
+        else
+        {
+            newEnd = SnapToTick(newEnd);
+            newEnd = Math.Max(SelectionStart, Math.Min(newEnd, Maximum));
+            SetCurrentValue(SelectionEndProperty, newEnd);
+        }
+
         UpdateRangeThumbs();
         e.Handled = true;
     }
@@ -377,6 +714,128 @@ public class StswSlider : Slider
             normalized = 1 - normalized;
 
         return normalized * trackLength;
+    }
+
+    /// <summary>
+    /// Gets the step size for value changes based on whether it's a large or small change.
+    /// </summary>
+    /// <param name="isLargeChange">Indicates whether to get the large change step size.</param>
+    /// <returns>The step size for value changes.</returns>
+    private double GetStep(bool isLargeChange)
+    {
+        if (TickFrequency > 0)
+            return TickFrequency;
+
+        var step = isLargeChange ? LargeChange : SmallChange;
+        if (step <= 0)
+            step = 1;
+
+        return step;
+    }
+
+    /// <summary>
+    /// Converts a point on the track to a corresponding value within the slider's range.
+    /// </summary>
+    /// <param name="point">The point to convert.</param>
+    /// <returns>The corresponding value, or <see langword="null"/> if conversion is not possible.</returns>
+    private double? PointToValue(Point point)
+    {
+        if (_track == null)
+            return null;
+
+        var range = Maximum - Minimum;
+        if (range <= 0)
+            return null;
+
+        double trackLength;
+        double ratio;
+
+        if (Orientation == Orientation.Horizontal)
+        {
+            trackLength = _track.ActualWidth;
+            if (trackLength <= 0)
+                return null;
+
+            ratio = point.X / trackLength;
+        }
+        else
+        {
+            trackLength = _track.ActualHeight;
+            if (trackLength <= 0)
+                return null;
+
+            ratio = 1 - (point.Y / trackLength);
+        }
+
+        ratio = Clamp(ratio, 0, 1);
+        return Minimum + ratio * range;
+    }
+
+    /// <summary>
+    /// Moves the selected range by a specified delta, ensuring it stays within the slider's bounds.
+    /// </summary>
+    /// <param name="delta">The amount to move the range by.</param>
+    private void MoveRange(double delta)
+    {
+        var width = SelectionEnd - SelectionStart;
+        if (width < 0)
+            width = 0;
+
+        var newStart = SelectionStart + delta;
+        var newEnd = SelectionEnd + delta;
+
+        if (newStart < Minimum)
+        {
+            newStart = Minimum;
+            newEnd = Minimum + width;
+        }
+        else if (newEnd > Maximum)
+        {
+            newEnd = Maximum;
+            newStart = Maximum - width;
+        }
+
+        newStart = Clamp(newStart, Minimum, Maximum);
+        newEnd = Clamp(newEnd, Minimum, Maximum);
+
+        if (newEnd < newStart)
+            newEnd = newStart;
+
+        SetCurrentValue(SelectionStartProperty, newStart);
+        SetCurrentValue(SelectionEndProperty, newEnd);
+    }
+
+    /// <summary>
+    /// Snaps a value to the nearest tick mark based on TickFrequency.
+    /// </summary>
+    /// <param name="value">The value to snap.</param>
+    /// <returns>The snapped value.</returns>
+    private double SnapToTick(double value)
+    {
+        if (TickFrequency > 0)
+        {
+            var steps = Math.Round((value - Minimum) / TickFrequency);
+            value = Minimum + steps * TickFrequency;
+        }
+
+        return Clamp(value, Minimum, Maximum);
+    }
+
+    /// <summary>
+    /// Quantizes a delta value to the nearest tick increment based on TickFrequency.
+    /// </summary>
+    /// <param name="delta">The delta value to quantize.</param>
+    /// <returns>The quantized delta value.</returns>
+    private double QuantizeDeltaToTick(double delta)
+    {
+        if (TickFrequency <= 0)
+            return delta;
+
+        if (Math.Abs(delta) < double.Epsilon)
+            return 0;
+
+        var steps = Math.Round(delta / TickFrequency);
+        return steps * TickFrequency;
     }
     #endregion
 

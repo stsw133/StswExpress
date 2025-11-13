@@ -36,7 +36,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
-        //StswControl.OverrideBaseBorderThickness<StswComboBox>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new StswComboBoxItem();
@@ -73,39 +72,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (IsDropDownOpen)
             UpdateSelectedItemVisibility();
     }
-    /*
-    /// <inheritdoc/>
-    protected override void OnPreviewKeyDown(KeyEventArgs e)
-    {
-        base.OnPreviewKeyDown(e);
-
-        if (_filter?.IsKeyboardFocused == true)
-        {
-            switch (e.Key)
-            {
-                case Key.Down:
-                case Key.Up:
-                case Key.Tab:
-                    (Keyboard.FocusedElement as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-                    e.Handled = true;
-                    break;
-            }
-        }
-        else if (_filter?.IsKeyboardFocused == false)
-        {
-            if (Items.CurrentPosition == 0 && e.Key == Key.Up)
-            {
-                Keyboard.Focus(_filter);
-                e.Handled = true;
-            }
-            else if (Items.CurrentPosition == Items.Count - 1 && e.Key == Key.Down)
-            {
-                Keyboard.Focus(_filter);
-                e.Handled = true;
-            }
-        }
-    }
-    */
+    
     /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
@@ -481,25 +448,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     #endregion
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(StswThickness),
-            typeof(StswComboBox),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswComboBox>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-        );
-    */
     /// <inheritdoc/>
     public bool CornerClipping
     {

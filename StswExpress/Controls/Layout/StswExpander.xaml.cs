@@ -18,30 +18,9 @@ public class StswExpander : Expander, IStswCornerControl
     static StswExpander()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
-        //StswControl.OverrideBaseBorderThickness<StswExpander>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(StswThickness),
-            typeof(StswExpander),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswExpander>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-        );
-    */
-
     /// <inheritdoc/>
     public bool CornerClipping
     {

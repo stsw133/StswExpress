@@ -13,6 +13,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsMoveToPointEnabled -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMoveToPointEnabled, Type={x:Type se:StswSlider}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMoveToPointEnabled}"/>
             <!-- Minimum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswSlider}}"/>
             <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
@@ -37,6 +40,7 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSlider IsEnabled="{Binding IsEnabled}"
+                       IsMoveToPointEnabled="{Binding IsMoveToPointEnabled}"
                        IsSelectionRangeEnabled="True"
                        IsSnapToTickEnabled="True"
                        Maximum="{Binding Maximum}"

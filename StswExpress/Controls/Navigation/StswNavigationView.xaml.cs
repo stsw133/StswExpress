@@ -39,7 +39,6 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     static StswNavigationView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationView), new FrameworkPropertyMetadata(typeof(StswNavigationView)));
-        //StswControl.OverrideBaseBorderThickness<StswNavigationView>(getExt: c => c.BorderThickness, setExt: (c, st) => c.BorderThickness = st);
     }
 
     #region Events & methods
@@ -276,26 +275,6 @@ public class StswNavigationView : ContentControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /*
-    /// <summary>
-    /// Gets or sets the thickness of the border, including the inner separator value.
-    /// </summary>
-    public new StswThickness BorderThickness
-    {
-        get => (StswThickness)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(StswThickness),
-            typeof(StswNavigationView),
-            new FrameworkPropertyMetadata(default(StswThickness),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                StswControl.CreateExtendedChangedCallback<StswNavigationView>((c, th) => c.SetCurrentValue(Control.BorderThicknessProperty, th)))
-        );
-    */
-
     /// <inheritdoc/>
     public bool CornerClipping
     {
