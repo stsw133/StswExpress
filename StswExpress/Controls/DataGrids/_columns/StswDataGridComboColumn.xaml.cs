@@ -57,6 +57,8 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         }
 
         /// bindings
+        var itemsSourceBinding = GetClonedItemsSourceBinding();
+
         if (SelectedItemBinding is Binding selectedItemBinding && selectedItemBinding.Path?.Path is string selectedItemPath && !string.IsNullOrEmpty(DisplayMemberPath))
         {
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, new Binding
@@ -65,7 +67,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
                 Mode = BindingMode.OneWay
             });
         }
-        else if (SelectedValueBinding != null && ItemsSource != null && !string.IsNullOrEmpty(DisplayMemberPath))
+        else if (SelectedValueBinding != null && (itemsSourceBinding != null || ItemsSource != null) && !string.IsNullOrEmpty(DisplayMemberPath))
         {
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, new MultiBinding
             {
@@ -73,7 +75,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
                 Bindings =
                 {
                     SelectedValueBinding,
-                    new Binding { Source = ItemsSource }
+                    itemsSourceBinding ?? new Binding { Source = ItemsSource }
                 }
             });
         }
@@ -90,9 +92,15 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
     {
         var editingElement = new StswComboBox()
         {
-            Style = StswEditingElementStyle,
-            ItemsSource = ItemsSource
+            Style = StswEditingElementStyle
         };
+
+        var itemsSourceBinding = GetClonedItemsSourceBinding();
+        if (itemsSourceBinding != null)
+            BindingOperations.SetBinding(editingElement, ItemsControl.ItemsSourceProperty, itemsSourceBinding);
+        else
+            editingElement.ItemsSource = ItemsSource;
+
         editingElement.SetBinding(StswComboBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
         editingElement.SetBinding(StswComboBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
         editingElement.SetBinding(StswComboBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
@@ -132,6 +140,26 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         Source = this,
         Mode = BindingMode.OneWay
     };
+
+    /// <summary>
+    /// Returns a clone of the binding associated with the column's <see cref="ItemsSourceProperty"/>, if any.
+    /// </summary>
+    private BindingBase? GetClonedItemsSourceBinding()
+    {
+        var binding = BindingOperations.GetBinding(this, ItemsSourceProperty);
+        if (binding != null)
+            return binding.Clone();
+
+        var multiBinding = BindingOperations.GetMultiBinding(this, ItemsSourceProperty);
+        if (multiBinding != null)
+            return multiBinding.Clone();
+
+        var priorityBinding = BindingOperations.GetPriorityBinding(this, ItemsSourceProperty);
+        if (priorityBinding != null)
+            return priorityBinding.Clone();
+
+        return null;
+    }
 
     #region Logic properties
     /// <summary>

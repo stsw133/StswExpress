@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,9 +20,13 @@ namespace StswExpress;
 /// </example>
 public class StswDataPager : ContentControl, IStswCornerControl
 {
+    private INotifyCollectionChanged? _observableItemsSource;
+
     public StswDataPager()
     {
+        _pageChangeCommand = new StswCommand<int>(OnPageChangeRequested);
         SetValue(PagesProperty, new ObservableCollection<StswDataPagerPage>());
+        Loaded += OnLoaded;
     }
     static StswDataPager()
     {
@@ -31,106 +36,208 @@ public class StswDataPager : ContentControl, IStswCornerControl
 
     #region Events & methods
     /// <summary>
+    /// Handles the Loaded event to initialize pagination when the control is first loaded.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= OnLoaded;
+        RefreshPagination(true);
+    }
+
+    /// <summary>
     /// Gets the command that changes the current page.
     /// The command parameter is the target page number.
     /// </summary>
-    public StswCommand<int> PageChangeCommand => new((x) => CurrentPage = x);
+    public StswCommand<int> PageChangeCommand => _pageChangeCommand;
+    private readonly StswCommand<int> _pageChangeCommand;
 
     /// <summary>
-    /// Recalculates the total number of pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
-    /// Ensures that <see cref="CurrentPage"/> remains within valid bounds and updates displayed items.
+    /// Handles page change requests by updating <see cref="CurrentPage"/> to the specified target page.
     /// </summary>
-    private void RecalculatePagination()
+    /// <param name="targetPage">The target page number to navigate to.</param>
+    private void OnPageChangeRequested(int targetPage)
     {
-        if (ItemsSource == null || ItemsPerPage <= 0)
+        var clampedPage = Math.Clamp(targetPage, 1, TotalPages);
+        if (clampedPage != CurrentPage)
+            SetCurrentValue(CurrentPageProperty, clampedPage);
+    }
+
+    /// <summary>
+    /// Refreshes the pagination state.
+    /// </summary>
+    /// <param name="recalculateTotalPages">Indicates whether to recalculate the total number of pages.</param>
+    private void RefreshPagination(bool recalculateTotalPages)
+    {
+        if (!IsLoaded)
+            return;
+
+        if (recalculateTotalPages)
         {
-            TotalPages = 1;
-            CurrentPage = 1;
+            var itemsPerPage = Math.Max(1, ItemsPerPage);
+            var totalItems = ItemsSource?.Count ?? 0;
+            var totalPages = totalItems > 0
+                ? (int)Math.Ceiling(totalItems / (double)itemsPerPage)
+                : 1;
+
+            SetCurrentValue(TotalPagesProperty, totalPages);
+        }
+
+        var currentPage = Math.Clamp(CurrentPage, 1, TotalPages);
+        if (currentPage != CurrentPage)
+        {
+            SetCurrentValue(CurrentPageProperty, currentPage);
             return;
         }
 
-        TotalPages = (int)Math.Ceiling((double)ItemsSource.Count / ItemsPerPage);
-        CurrentPage = Math.Min(CurrentPage, TotalPages);
-        RefreshCurrentPageItems();
+        UpdateItemsOnPage(currentPage);
+        UpdateNavigation(currentPage, TotalPages);
     }
 
     /// <summary>
-    /// Updates the displayed items for the currently selected page.
-    /// Populates <see cref="ItemsOnPage"/> with the correct subset of data and regenerates navigation buttons.
+    /// Updates the items displayed on the current page based on the specified page number.
     /// </summary>
-    private void RefreshCurrentPageItems()
+    /// <param name="currentPage">The current page number.</param>
+    private void UpdateItemsOnPage(int currentPage)
     {
-        if (ItemsSource == null || !CurrentPage.Between(1, TotalPages))
+        if (ItemsSource == null || ItemsSource.Count == 0)
+        {
+            SetCurrentValue(ItemsOnPageProperty, Array.Empty<object?>());
             return;
+        }
 
-        var min = (CurrentPage - 1) * ItemsPerPage;
-        var max = Math.Min(CurrentPage * ItemsPerPage, ItemsSource.Count);
+        var itemsPerPage = Math.Max(1, ItemsPerPage);
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        if (startIndex >= ItemsSource.Count)
+        {
+            SetCurrentValue(ItemsOnPageProperty, Array.Empty<object?>());
+            return;
+        }
 
-        var temp = new List<object?>();
-        for (var i = min; i < max; i++)
-            temp.Add(ItemsSource[i]);
-        
-        ItemsOnPage = temp;
+        var endIndex = Math.Min(startIndex + itemsPerPage, ItemsSource.Count);
+        var count = endIndex - startIndex;
 
-        GenerateNavigationButtons();
+        var pageItems = new List<object?>(count);
+        for (var i = startIndex; i < endIndex; i++)
+            pageItems.Add(ItemsSource[i]);
+
+        SetCurrentValue(ItemsOnPageProperty, pageItems);
     }
 
     /// <summary>
-    /// Generates navigation buttons dynamically based on the total number of pages.
-    /// Includes "..." buttons for compact pagination when the page count is large.
+    /// Updates the navigation buttons based on the current page and total pages.
     /// </summary>
-    private void GenerateNavigationButtons()
+    /// <param name="currentPage">The current page number.</param>
+    /// <param name="totalPages">The total number of pages.</param>
+    private void UpdateNavigation(int currentPage, int totalPages)
     {
-        var pages = new List<StswDataPagerPage>
+        totalPages = Math.Max(1, totalPages);
+        var pages = BuildNavigationPages(currentPage, totalPages);
+        if (Pages is not ObservableCollection<StswDataPagerPage> collection)
         {
-            new StswDataPagerPage("   🡄   ", CurrentPage - 1, CurrentPage > 1),
-            new StswDataPagerPage("   🡆   ", CurrentPage + 1, CurrentPage < TotalPages)
-        };
-
-        for (var i = Math.Min(TotalPages, 9); i >= 1; i--)
+            collection = [];
+            SetValue(PagesProperty, collection);
+        }
+        else
         {
-            pages.Insert(1, new StswDataPagerPage(i.ToString(), i, true)
-            {
-                IsSelected = i == CurrentPage
-            });
+            collection.Clear();
         }
 
-        if (TotalPages > 9)
-        {
-            if (CurrentPage.Between(6, TotalPages - 5))
-            {
-                for (var i = 3; i <= 7; i++)
-                {
-                    pages[i] = new StswDataPagerPage((CurrentPage - 5 + i).ToString(), CurrentPage - 5 + i, true)
-                    {
-                        IsSelected = CurrentPage == (CurrentPage - 5 + i)
-                    };
-                }
-            }
-            else if (CurrentPage > (TotalPages - 5))
-            {
-                for (var i = 3; i <= 8; i++)
-                {
-                    pages[i] = new StswDataPagerPage((TotalPages - 9 + i).ToString(), TotalPages - 9 + i, true)
-                    {
-                        IsSelected = CurrentPage == (TotalPages - 9 + i)
-                    };
-                }
-            }
-
-            if (CurrentPage >= 6)
-                pages[2] = new StswDataPagerPage("...", default, false);
-            if (CurrentPage <= (TotalPages - 5))
-                pages[8] = new StswDataPagerPage("...", default, false);
-
-            pages[9] = new StswDataPagerPage(TotalPages.ToString(), TotalPages, true)
-            {
-                IsSelected = CurrentPage == TotalPages
-            };
-        }
-
-        Pages = new ObservableCollection<StswDataPagerPage>(pages);
+        foreach (var page in pages)
+            collection.Add(page);
     }
+
+    /// <summary>
+    /// Builds the navigation pages including previous/next buttons and page numbers.
+    /// </summary>
+    /// <param name="currentPage">The current page number.</param>
+    /// <param name="totalPages">The total number of pages.</param>
+    /// <returns>An enumerable of <see cref="StswDataPagerPage"/> representing the navigation buttons.</returns>
+    private static IEnumerable<StswDataPagerPage> BuildNavigationPages(int currentPage, int totalPages)
+    {
+        var previousPage = Math.Max(1, currentPage - 1);
+        yield return new StswDataPagerPage("   🡄   ", previousPage, currentPage > 1);
+
+        foreach (var descriptor in EnumeratePageNumbers(currentPage, totalPages))
+        {
+            if (descriptor.HasValue)
+            {
+                yield return new StswDataPagerPage(descriptor.Value.ToString(), descriptor.Value, true)
+                {
+                    IsSelected = descriptor.Value == currentPage
+                };
+            }
+            else
+            {
+                yield return new StswDataPagerPage("...", 0, false);
+            }
+        }
+
+        var nextPage = Math.Min(totalPages, currentPage + 1);
+        yield return new StswDataPagerPage("   🡆   ", nextPage, currentPage < totalPages);
+    }
+
+    /// <summary>
+    /// Generates a sequence of page numbers for navigation, including "..." placeholders for large datasets.
+    /// </summary>
+    /// <param name="currentPage">The current page number.</param>
+    /// <param name="totalPages">The total number of pages.</param>
+    /// <returns>An enumerable of nullable integers representing page numbers or null for "..." placeholders.</returns>
+    private static IEnumerable<int?> EnumeratePageNumbers(int currentPage, int totalPages)
+    {
+        if (totalPages <= 0)
+            yield break;
+
+        if (totalPages <= 9)
+        {
+            for (var i = 1; i <= totalPages; i++)
+                yield return i;
+            yield break;
+        }
+
+        yield return 1;
+
+        const int windowSize = 5;
+        var start = Math.Max(2, currentPage - windowSize / 2);
+        var end = Math.Min(totalPages - 1, start + windowSize - 1);
+        start = Math.Max(2, end - windowSize + 1);
+
+        if (start > 2)
+            yield return null;
+        else
+            start = 2;
+
+        for (var i = start; i <= end; i++)
+            yield return i;
+
+        if (end < totalPages - 1)
+            yield return null;
+
+        yield return totalPages;
+    }
+
+    /// <summary>
+    /// Updates the subscription to collection change events for the items source.
+    /// </summary>
+    /// <param name="newSource">The new items source collection.</param>
+    private void UpdateItemsSourceSubscription(IList? newSource)
+    {
+        if (_observableItemsSource is not null)
+            CollectionChangedEventManager.RemoveHandler(_observableItemsSource, ItemsSourceCollectionChanged);
+
+        _observableItemsSource = newSource as INotifyCollectionChanged;
+
+        if (_observableItemsSource is not null)
+            CollectionChangedEventManager.AddHandler(_observableItemsSource, ItemsSourceCollectionChanged);
+    }
+
+    /// <summary>
+    /// Handles changes in the items source collection by refreshing the pagination.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RefreshPagination(true);
     #endregion
 
     #region Logic properties
@@ -150,14 +257,23 @@ public class StswDataPager : ContentControl, IStswCornerControl
             typeof(StswDataPager),
             new FrameworkPropertyMetadata(default(int),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnCurrentPageChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnCurrentPageChanged, CoerceCurrentPage, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnCurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not StswDataPager stsw)
             return;
 
-        stsw.RefreshCurrentPageItems();
+        stsw.RefreshPagination(false);
+    }
+    private static object CoerceCurrentPage(DependencyObject d, object baseValue)
+    {
+        if (d is not StswDataPager pager)
+            return baseValue;
+
+        var value = (int)baseValue;
+        var maximum = Math.Max(1, pager.TotalPages);
+        return Math.Clamp(value, 1, maximum);
     }
 
     /// <summary>
@@ -173,7 +289,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsOnPage),
             typeof(IList),
-            typeof(StswDataPager)
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(Array.Empty<object?>())
         );
 
     /// <summary>
@@ -190,8 +307,20 @@ public class StswDataPager : ContentControl, IStswCornerControl
             nameof(ItemsPerPage),
             typeof(int),
             typeof(StswDataPager),
-            new FrameworkPropertyMetadata(default(int), OnItemsSourceChanged)
+            new FrameworkPropertyMetadata(10, OnItemsPerPageChanged, CoerceItemsPerPage)
         );
+    private static void OnItemsPerPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswDataPager stsw)
+            return;
+
+        stsw.RefreshPagination(true);
+    }
+    private static object CoerceItemsPerPage(DependencyObject d, object baseValue)
+    {
+        var value = (int)baseValue;
+        return Math.Max(1, value);
+    }
 
     /// <summary>
     /// Gets or sets the full collection of items to be paginated.
@@ -216,7 +345,8 @@ public class StswDataPager : ContentControl, IStswCornerControl
         if (d is not StswDataPager stsw)
             return;
 
-        stsw.RecalculatePagination();
+        stsw.UpdateItemsSourceSubscription(e.NewValue as IList);
+        stsw.RefreshPagination(true);
     }
 
     /// <summary>
@@ -247,8 +377,14 @@ public class StswDataPager : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(TotalPages),
             typeof(int),
-            typeof(StswDataPager)
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(1, null, CoerceTotalPages)
         );
+    private static object CoerceTotalPages(DependencyObject d, object baseValue)
+    {
+        var value = (int)baseValue;
+        return Math.Max(1, value);
+    }
     #endregion
 
     #region Style properties

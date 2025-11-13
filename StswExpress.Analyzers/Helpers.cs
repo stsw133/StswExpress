@@ -85,19 +85,6 @@ internal static class Helpers
     }
 
     /// <summary>
-    /// Checks if the given symbol is a valid partial class.
-    /// </summary>
-    /// <param name="symbol">The symbol to check.</param>
-    /// <returns><see langword="true"/> if the symbol is a valid partial class; otherwise, <see langword="false"/>.</returns>
-    public static bool IsValidPartialClass(INamedTypeSymbol symbol)
-        => symbol.TypeKind == TypeKind.Class &&
-               !symbol.IsStatic &&
-               symbol.DeclaringSyntaxReferences
-                   .Select(r => r.GetSyntax())
-                   .OfType<ClassDeclarationSyntax>()
-                   .Any(cds => cds.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword)));
-
-    /// <summary>
     /// Converts a string to PascalCase.
     /// </summary>
     /// <param name="name">The string to convert.</param>
@@ -107,53 +94,6 @@ internal static class Helpers
         if (string.IsNullOrEmpty(name)) return name;
         if (name.Length == 1) return name.ToUpper();
         return char.ToUpper(name[0]) + name.Substring(1);
-    }
-
-    /// <summary>
-    /// Tries to get the symbol and attribute data for a specific attribute from the syntax context.
-    /// </summary>
-    /// <typeparam name="TSymbol">The type of the symbol to retrieve (e.g., <see cref="IFieldSymbol"/> or <see cref="IMethodSymbol"/>).</typeparam>
-    /// <param name="context">The generator syntax context.</param>
-    /// <param name="attributeFullName">The full name of the attribute to look for.</param>
-    /// <param name="symbol">The symbol if found; otherwise, <see langword="null"/>.</param>
-    /// <param name="attributeData">The attribute data if found; otherwise, <see langword="null"/>.</param>
-    /// <returns></returns>
-    public static bool TryGetAttributedSymbol<TSymbol>(
-        GeneratorSyntaxContext context,
-        string attributeFullName,
-        out TSymbol? symbol,
-        out AttributeData? attributeData)
-        where TSymbol : class, ISymbol
-    {
-        symbol = null;
-        attributeData = null;
-
-        if (context.Node is not MemberDeclarationSyntax memberSyntax)
-            return false;
-
-        var declaredSymbols = memberSyntax switch
-        {
-            FieldDeclarationSyntax fieldDecl => fieldDecl.Declaration.Variables
-                .Select(v => context.SemanticModel.GetDeclaredSymbol(v)).OfType<TSymbol>(),
-
-            MethodDeclarationSyntax methodDecl => new[] { context.SemanticModel.GetDeclaredSymbol(methodDecl) }
-                .OfType<TSymbol>(),
-
-            _ => []
-        };
-
-        foreach (var s in declaredSymbols)
-        {
-            var attr = GetAttribute(s, attributeFullName);
-            if (attr is not null)
-            {
-                symbol = s;
-                attributeData = attr;
-                return true;
-            }
-        }
-
-        return false;
     }
 }
 

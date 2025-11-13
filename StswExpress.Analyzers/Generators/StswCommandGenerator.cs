@@ -89,7 +89,45 @@ public class StswCommandGenerator : IIncrementalGenerator
                     }
 
                     var fullCommandType = parameterType is not null ? $"{commandType}<{parameterType}>" : commandType;
-                    var conditionMethod = Helpers.GetNamedArgument<string>(attrData, "ConditionMethodName");
+
+                    string? conditionFromCtor = null;
+                    if (attrData.ConstructorArguments.Length >= 1)
+                    {
+                        var arg = attrData.ConstructorArguments[0];
+                        if (!arg.IsNull && arg.Value is string s)
+                            conditionFromCtor = s;
+                    }
+
+                    string? conditionFromProp = null;
+                    foreach (var kv in attrData.NamedArguments)
+                    {
+                        if (kv.Key == "ConditionMethodName" && kv.Value.Value is string s)
+                        {
+                            conditionFromProp = s;
+                            break;
+                        }
+                    }
+
+                    var conditionMethod = conditionFromCtor ?? conditionFromProp;
+
+                    bool? reusableFromCtor = null;
+                    if (attrData.ConstructorArguments.Length >= 2)
+                    {
+                        var arg = attrData.ConstructorArguments[1];
+                        if (!arg.IsNull && arg.Value is bool b)
+                            reusableFromCtor = b;
+                    }
+
+                    bool? reusableFromProp = null;
+                    foreach (var kv in attrData.NamedArguments)
+                    {
+                        if (kv.Key == "IsReusable" && kv.Value.Value is bool b)
+                        {
+                            reusableFromProp = b;
+                            break;
+                        }
+                    }
+
                     var conditionArg = !string.IsNullOrWhiteSpace(conditionMethod) ? conditionMethod : "null";
                     var isReusable = isAsync && Helpers.GetNamedArgument<bool>(attrData, "IsReusable");
 
@@ -110,111 +148,3 @@ public class StswCommandGenerator : IIncrementalGenerator
         });
     }
 }
-/*
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MissingInitializeGeneratedCommandsAnalyzer : DiagnosticAnalyzer
-{
-    public const string DiagnosticId = "STSW004";
-    private static readonly DiagnosticDescriptor Rule = new(
-        id: DiagnosticId,
-        title: "Missing call to InitializeGeneratedCommands()",
-        messageFormat: "Constructor should call InitializeGeneratedCommands()",
-        category: "Usage",
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
-
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
-
-    public override void Initialize(AnalysisContext context)
-    {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.EnableConcurrentExecution();
-
-        context.RegisterSyntaxNodeAction(AnalyzeClass, SyntaxKind.ClassDeclaration);
-    }
-
-    private static void AnalyzeClass(SyntaxNodeAnalysisContext context)
-    {
-        var classDecl = (ClassDeclarationSyntax)context.Node;
-
-        // only partial classes
-        if (!classDecl.Modifiers.Any(SyntaxKind.PartialKeyword))
-            return;
-
-        // must contain methods with [StswCommand] or [StswAsyncCommand]
-        var hasTargetMethod = classDecl.Members
-            .OfType<MethodDeclarationSyntax>()
-            .Any(m => m.AttributeLists
-                .SelectMany(l => l.Attributes)
-                .Any(a =>
-                {
-                    var symbolInfo = context.SemanticModel.GetSymbolInfo(a).Symbol as IMethodSymbol;
-                    return symbolInfo?.ContainingType.ToDisplayString() is
-                        "StswExpress.StswCommandAttribute" or "StswExpress.StswAsyncCommandAttribute";
-                }));
-
-        if (!hasTargetMethod)
-            return;
-
-        var ctors = classDecl.Members
-            .OfType<ConstructorDeclarationSyntax>()
-            .Where(c => c.Body != null);
-
-        foreach (var ctor in ctors)
-        {
-            var hasInitCall = ctor.Body!.Statements
-                .OfType<ExpressionStatementSyntax>()
-                .Any(s =>
-                    s.Expression is InvocationExpressionSyntax invocation &&
-                    invocation.Expression is IdentifierNameSyntax id &&
-                    id.Identifier.Text == "InitializeGeneratedCommands");
-
-            if (!hasInitCall)
-            {
-                var diagnostic = Diagnostic.Create(Rule, ctor.GetLocation());
-                context.ReportDiagnostic(diagnostic);
-            }
-        }
-    }
-}
-
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AddInitializeGeneratedCommandsFixProvider)), Shared]
-public class AddInitializeGeneratedCommandsFixProvider : CodeFixProvider
-{
-    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(MissingInitializeGeneratedCommandsAnalyzer.DiagnosticId);
-
-    public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
-
-    public override async Task RegisterCodeFixesAsync(CodeFixContext context)
-    {
-        var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-            .ConfigureAwait(false);
-        if (root is null) return;
-
-        var diagnostic = context.Diagnostics[0];
-        var ctorNode = root.FindNode(diagnostic.Location.SourceSpan) as ConstructorDeclarationSyntax;
-        if (ctorNode is null) return;
-
-        context.RegisterCodeFix(
-            Microsoft.CodeAnalysis.CodeActions.CodeAction.Create(
-                "Add InitializeGeneratedCommands();",
-                ct => AddInitializeCallAsync(context.Document, ctorNode, ct),
-                equivalenceKey: "AddInitializeGeneratedCommands"),
-            diagnostic);
-    }
-
-    private static async Task<Document> AddInitializeCallAsync(Document document, ConstructorDeclarationSyntax ctor, CancellationToken cancellationToken)
-    {
-        var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-        if (root is null) return document;
-
-        var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
-        var newStatement = SyntaxFactory.ParseStatement("        InitializeGeneratedCommands();\n");
-
-        var newCtor = ctor.WithBody(ctor.Body!.AddStatements(newStatement));
-        var newRoot = root.ReplaceNode(ctor, newCtor);
-
-        return document.WithSyntaxRoot(newRoot);
-    }
-}
-*/

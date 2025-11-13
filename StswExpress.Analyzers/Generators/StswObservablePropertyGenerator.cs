@@ -103,11 +103,9 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     {
         foreach (var attr in field.GetAttributes())
         {
-            // skip the marker attribute itself
             if (SymbolEquals(attr.AttributeClass, AttributeFullName))
                 continue;
 
-            // copy only if AttributeUsage allows Property target (or no AttributeUsage -> treat as All)
             if (!IsValidOnProperty(attr.AttributeClass))
                 continue;
 
@@ -133,20 +131,17 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
         if (attributeType is null)
             return false;
 
-        // find [AttributeUsage(...)]
         var usage = attributeType
             .GetAttributes()
             .FirstOrDefault(a => a.AttributeClass?.ToDisplayString(FullyQualified) == "global::System.AttributeUsageAttribute");
 
         if (usage is null)
-            return true; // default is All
+            return true;
 
         var validOnArg = usage.ConstructorArguments.FirstOrDefault();
         if (validOnArg.Kind == TypedConstantKind.Enum && validOnArg.Value is not null)
         {
-            // Try to resolve named enum constant if possible
             var targetsValue = Convert.ToInt64(validOnArg.Value, CultureInfo.InvariantCulture);
-            // Property flag is 0x0100
             const long PropertyFlag = (long)AttributeTargets.Property;
             return (targetsValue & PropertyFlag) == PropertyFlag;
         }
@@ -161,16 +156,12 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     /// <returns>The C# representation of the attribute.</returns>
     private static string RenderAttribute(AttributeData a)
     {
-        var typeName = a.AttributeClass!.ToDisplayString(FullyQualified); // e.g. global::System.ObsoleteAttribute
-        // Prefer short form without "Attribute" suffix when emitting inside brackets is optional, but
-        // keeping the full name is the safest and unambiguous:
+        var typeName = a.AttributeClass!.ToDisplayString(FullyQualified);
         var args = new List<string>();
 
-        // positional args
         foreach (var ca in a.ConstructorArguments)
             args.Add(RenderTypedConstant(ca));
 
-        // named args
         foreach (var namedArgument in a.NamedArguments)
             args.Add($"{namedArgument.Key} = {RenderTypedConstant(namedArgument.Value)}");
 
@@ -190,24 +181,14 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
         if (c.IsNull)
             return "null";
 
-        switch (c.Kind)
+        return c.Kind switch
         {
-            case TypedConstantKind.Primitive:
-                return RenderPrimitive(c.Type, c.Value);
-
-            case TypedConstantKind.Enum:
-                return RenderEnum(c);
-
-            case TypedConstantKind.Type:
-                return $"typeof({(c.Value is ITypeSymbol ts ? ts.ToDisplayString(FullyQualified) : "object")})";
-
-            case TypedConstantKind.Array:
-                return RenderArray(c);
-
-            default:
-                // Fallback to quoted ToString for safety
-                return $"\"{EscapeString(ToCSharpStringSafe(c))}\"";
-        }
+            TypedConstantKind.Primitive => RenderPrimitive(c.Type, c.Value),
+            TypedConstantKind.Enum => RenderEnum(c),
+            TypedConstantKind.Type => $"typeof({(c.Value is ITypeSymbol ts ? ts.ToDisplayString(FullyQualified) : "object")})",
+            TypedConstantKind.Array => RenderArray(c),
+            _ => $"\"{EscapeString(ToCSharpStringSafe(c))}\"",
+        };
     }
 
     /// <summary>
@@ -251,15 +232,12 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
         var enumType = c.Type!;
         var fqEnum = enumType.ToDisplayString(FullyQualified);
 
-        // Try to find the enum member name for the numeric value (also works for combined flags)
         var underlying = Convert.ToInt64(c.Value!, CultureInfo.InvariantCulture);
-        // Try exact match
         var fields = enumType.GetMembers().OfType<IFieldSymbol>().Where(f => f.HasConstantValue).ToArray();
         var exact = fields.FirstOrDefault(f => Convert.ToInt64(f.ConstantValue!, CultureInfo.InvariantCulture) == underlying);
         if (exact is not null)
             return $"{fqEnum}.{exact.Name}";
 
-        // For flagged combos, compose by names when possible
         var flagged = fields
             .OrderByDescending(f => Convert.ToInt64(f.ConstantValue!, CultureInfo.InvariantCulture))
             .Where(f => (underlying & Convert.ToInt64(f.ConstantValue!, CultureInfo.InvariantCulture)) != 0)
@@ -268,7 +246,6 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
         if (flagged.Count > 0 && flagged.Sum(f => Convert.ToInt64(f.ConstantValue!, CultureInfo.InvariantCulture)) == underlying)
             return string.Join(" | ", flagged.Select(f => $"{fqEnum}.{f.Name}"));
 
-        // Fallback to cast with numeric value
         return $"({fqEnum}){underlying}";
     }
 
@@ -281,7 +258,6 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
     {
         if (c.Values.IsDefaultOrEmpty)
         {
-            // new T[0]
             if (c.Type is IArrayTypeSymbol ats)
                 return $"new {ats.ElementType.ToDisplayString(FullyQualified)}[0]";
             return "new object[0]";
@@ -293,7 +269,6 @@ public class StswObservablePropertyGenerator : IIncrementalGenerator
             return $"new {arrType.ElementType.ToDisplayString(FullyQualified)}[] {{ {elements} }}";
         }
 
-        // generic fallback
         var elems = string.Join(", ", c.Values.Select(RenderTypedConstant));
         return $"new[] {{ {elems} }}";
     }

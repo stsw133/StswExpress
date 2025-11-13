@@ -29,7 +29,7 @@ public class StswCalendar : Control, IStswCornerControl
 
     public StswCalendar()
     {
-        SetValue(ItemsProperty, new ObservableCollection<StswCalendarItem>());
+        SetValue(ItemsProperty, new ObservableCollection<StswCalendarEntry>());
     }
     static StswCalendar()
     {
@@ -154,7 +154,7 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (sender is ItemsControl itemsControl
          && ItemsControl.ContainerFromElement(itemsControl, e.OriginalSource as DependencyObject) is ContentControl container
-         && container.Content is StswCalendarItem calendarItem)
+         && container.Content is StswCalendarEntry calendarItem)
         {
             var date = calendarItem.Date;
             if (date == SelectedDate?.Date && CurrentUnit == SelectionUnit)
@@ -193,7 +193,7 @@ public class StswCalendar : Control, IStswCornerControl
 
         foreach (var item in e.AddedItems)
         {
-            if (item is StswCalendarItem calendarItem)
+            if (item is StswCalendarEntry calendarItem)
             {
                 if (CurrentUnit == StswCalendarUnit.Days && calendarItem.InCurrentMonth != true)
                     continue;
@@ -227,9 +227,9 @@ public class StswCalendar : Control, IStswCornerControl
     /// <summary>
     /// Updates the list of days displayed in the control for the currently selected month.
     /// </summary>
-    private ObservableCollection<StswCalendarItem> GenerateDays()
+    private ObservableCollection<StswCalendarEntry> GenerateDays()
     {
-        var collection = new ObservableCollection<StswCalendarItem>();
+        var collection = new ObservableCollection<StswCalendarEntry>();
         var culture = CultureInfo.CurrentCulture.DateTimeFormat;
         var middleDate = new DateTime(SelectedMonth.Year, SelectedMonth.Month, 15);
         var offset = ((int)culture.FirstDayOfWeek - (int)middleDate.DayOfWeek + 7) % 7;
@@ -244,7 +244,7 @@ public class StswCalendar : Control, IStswCornerControl
             var ticks = startTicks + TimeSpan.TicksPerDay * i;
             DateTime? date = (ticks >= DateTime.MinValue.Ticks && ticks <= DateTime.MaxValue.Ticks) ? new DateTime(ticks) : null;
 
-            collection.Add(new StswCalendarItem
+            collection.Add(new StswCalendarEntry
             {
                 Content = date?.Day.ToString(),
                 Date = date,
@@ -262,9 +262,9 @@ public class StswCalendar : Control, IStswCornerControl
     /// <summary>
     /// Updates the list of months displayed in the control for the currently selected year.
     /// </summary>
-    private ObservableCollection<StswCalendarItem> GenerateMonths()
+    private ObservableCollection<StswCalendarEntry> GenerateMonths()
     {
-        var collection = new ObservableCollection<StswCalendarItem>();
+        var collection = new ObservableCollection<StswCalendarEntry>();
         var min = (Minimum ?? DateTime.MinValue).ToFirstDayOfMonth();
         var max = (Maximum ?? DateTime.MaxValue).ToLastDayOfMonth();
         var today = DateTime.Today;
@@ -274,7 +274,7 @@ public class StswCalendar : Control, IStswCornerControl
         {
             var date = new DateTime(SelectedMonth.Year, i, 1);
 
-            collection.Add(new StswCalendarItem
+            collection.Add(new StswCalendarEntry
             {
                 Content = format.GetAbbreviatedMonthName(i),
                 Date = date,
@@ -531,15 +531,15 @@ public class StswCalendar : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the collection of days or months displayed in the control.
     /// </summary>
-    internal ObservableCollection<StswCalendarItem> Items
+    internal ObservableCollection<StswCalendarEntry> Items
     {
-        get => (ObservableCollection<StswCalendarItem>)GetValue(ItemsProperty);
+        get => (ObservableCollection<StswCalendarEntry>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
-            typeof(ObservableCollection<StswCalendarItem>),
+            typeof(ObservableCollection<StswCalendarEntry>),
             typeof(StswCalendar)
         );
 
