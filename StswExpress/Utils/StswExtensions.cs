@@ -272,6 +272,25 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Converts a <see cref="Color"/> to an integer representation (ARGB).
+    /// </summary>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The integer representation of the color in ARGB format.</returns>
+    public static int ToInt(this Color color) => (color.A << 24) | (color.R << 16) | (color.G << 8) | color.B;
+
+    /// <summary>
+    /// Converts an integer representation of a color (ARGB) to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="argb">The integer representation of the color in ARGB format.</param>
+    /// <returns>The converted <see cref="Color"/>.</returns>
+    public static Color ToMediaColor(this int argb)
+        => Color.FromArgb(
+            (byte)((argb >> 24) & 0xFF),
+            (byte)((argb >> 16) & 0xFF),
+            (byte)((argb >> 8) & 0xFF),
+            (byte)(argb & 0xFF));
+
+    /// <summary>
     /// Converts a <see cref="System.Drawing.Color"/> to a <see cref="Color"/>.
     /// </summary>
     /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>

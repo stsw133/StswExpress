@@ -24,6 +24,12 @@ namespace StswExpress;/// <summary>
 /// </example>
 public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
 {
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
+
+    public StswSegment()
+    {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
+    }
     static StswSegment()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSegment), new FrameworkPropertyMetadata(typeof(StswSegment)));
@@ -39,7 +45,7 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         base.OnApplyTemplate();
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
 
     /// <inheritdoc/>
@@ -48,7 +54,7 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         base.OnItemsChanged(e);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
     }
 
     /// <inheritdoc/>
@@ -79,7 +85,7 @@ public class StswSegment : ListBox, IStswCornerControl, IStswSelectionControl
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
 
     /// <inheritdoc/>

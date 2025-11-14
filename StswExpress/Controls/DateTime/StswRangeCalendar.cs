@@ -3,7 +3,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
@@ -23,6 +26,8 @@ public class StswRangeCalendar : StswCalendar
     private bool _awaitingRangeEnd;
     private bool _suppressDateHandling;
     private bool _isUpdatingRangeFromSelection;
+    private Selector? _selectorHost;
+    private DateTime? _pendingRangeHoverDate;
 
     static StswRangeCalendar()
     {
@@ -40,8 +45,10 @@ public class StswRangeCalendar : StswCalendar
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
+        DetachRangeSelector();
         SyncSelectedDateWithRange();
         base.OnApplyTemplate();
+        AttachRangeSelector();
         UpdateRangeVisuals();
     }
 
@@ -113,15 +120,27 @@ public class StswRangeCalendar : StswCalendar
         {
             _awaitingRangeEnd = false;
             UpdateRangeFromSelection(() => SelectedRange = null);
+            UpdatePreviewRange(null);
             return;
         }
 
         var normalizedSelection = NormalizeForSelectionUnit(date.Value);
+        var extendSelection = !_awaitingRangeEnd
+            && SelectedRange is not null
+            && (Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Shift)) != ModifierKeys.None;
 
         if (SelectedRange is null)
         {
             UpdateRangeFromSelection(() => SelectedRange = new StswDateRange(normalizedSelection, normalizedSelection));
             _awaitingRangeEnd = true;
+            UpdatePreviewRange(null);
+            return;
+        }
+
+        if (extendSelection)
+        {
+            UpdateRangeFromSelection(() => ExtendExistingRange(normalizedSelection));
+            UpdatePreviewRange(null);
             return;
         }
 
@@ -129,15 +148,22 @@ public class StswRangeCalendar : StswCalendar
         {
             UpdateRangeFromSelection(() =>
             {
-                SelectedRange.Start = normalizedSelection;
-                SelectedRange.End = normalizedSelection;
+                ApplyOrderedRange(normalizedSelection, normalizedSelection);
             });
             _awaitingRangeEnd = true;
+            UpdatePreviewRange(null);
         }
         else
         {
-            UpdateRangeFromSelection(() => SelectedRange.End = normalizedSelection);
+            UpdateRangeFromSelection(() =>
+            {
+                if (SelectedRange is null)
+                    return;
+
+                ApplyOrderedRange(SelectedRange.Start, normalizedSelection);
+            });
             _awaitingRangeEnd = false;
+            UpdatePreviewRange(null);
         }
     }
 
@@ -170,9 +196,13 @@ public class StswRangeCalendar : StswCalendar
         if (newRange is not null)
             newRange.PropertyChanged += SelectedRange_PropertyChanged;
 
+        if (newRange is not null)
+            EnsureRangeOrder(newRange);
+
         if (!_isUpdatingRangeFromSelection)
         {
             _awaitingRangeEnd = false;
+            UpdatePreviewRange(null);
             SyncSelectedDateWithRange();
         }
 
@@ -186,6 +216,9 @@ public class StswRangeCalendar : StswCalendar
     /// <param name="e">The event arguments containing the property name.</param>
     private void SelectedRange_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (sender is StswDateRange range)
+            EnsureRangeOrder(range);
+
         if (e.PropertyName is nameof(StswDateRange.Start) && !_isUpdatingRangeFromSelection)
             SyncSelectedDateWithRange();
 
@@ -270,12 +303,25 @@ public class StswRangeCalendar : StswCalendar
             coverageStart = rangeEnd;
         }
 
+        DateTime? previewStart = null;
+        DateTime? previewEnd = null;
+
+        if (_awaitingRangeEnd && rangeStart.HasValue && _pendingRangeHoverDate.HasValue)
+        {
+            previewStart = rangeStart;
+            previewEnd = _pendingRangeHoverDate;
+
+            if (previewStart > previewEnd)
+                (previewStart, previewEnd) = (previewEnd, previewStart);
+        }
+
         foreach (var item in Items)
         {
             if (item.Date is not DateTime itemDate)
             {
                 item.IsInRange = false;
                 item.IsRangeEdge = false;
+                item.IsPreviewRange = false;
                 continue;
             }
 
@@ -287,10 +333,140 @@ public class StswRangeCalendar : StswCalendar
                 ? normalizedItemDate.Between(coverageStart.Value, coverageEnd.Value)
                 : false;
 
+            var isPreview = previewStart.HasValue && previewEnd.HasValue
+                ? normalizedItemDate.Between(previewStart.Value, previewEnd.Value)
+                : false;
+
             item.IsRangeEdge = isEdge;
             item.IsInRange = isInRange;
+            item.IsPreviewRange = isPreview;
         }
     }
+
+    /// <summary>
+    /// Extends the currently selected range to include the specified date.
+    /// </summary>
+    /// <param name="normalizedSelection">The normalized date to include.</param>
+    private void ExtendExistingRange(DateTime normalizedSelection)
+    {
+        if (SelectedRange is null)
+            return;
+
+        var start = SelectedRange.Start;
+        var end = SelectedRange.End;
+
+        if (start > end)
+            (start, end) = (end, start);
+
+        if (normalizedSelection < start)
+            start = normalizedSelection;
+        if (normalizedSelection > end)
+            end = normalizedSelection;
+
+        ApplyOrderedRange(start, end);
+    }
+
+    /// <summary>
+    /// Applies the provided start and end ensuring chronological order.
+    /// </summary>
+    /// <param name="start">The first boundary.</param>
+    /// <param name="end">The second boundary.</param>
+    private void ApplyOrderedRange(DateTime start, DateTime end)
+    {
+        if (start > end)
+            (start, end) = (end, start);
+
+        if (SelectedRange is null)
+        {
+            SelectedRange = new StswDateRange(start, end);
+            return;
+        }
+
+        SelectedRange.Start = start;
+        SelectedRange.End = end;
+    }
+
+    /// <summary>
+    /// Ensures the specified range stores its bounds in chronological order.
+    /// </summary>
+    /// <param name="range">The range to normalize.</param>
+    private static void EnsureRangeOrder(StswDateRange range)
+    {
+        if (range.Start <= range.End)
+            return;
+
+        var start = range.Start;
+        range.Start = range.End;
+        range.End = start;
+    }
+
+    /// <summary>
+    /// Updates the preview range highlight based on the hovered date.
+    /// </summary>
+    /// <param name="hoverDate">The hovered date.</param>
+    private void UpdatePreviewRange(DateTime? hoverDate)
+    {
+        DateTime? normalizedHover = null;
+
+        if (_awaitingRangeEnd && SelectedRange is not null && hoverDate.HasValue)
+            normalizedHover = NormalizeForCurrentUnit(hoverDate.Value);
+
+        if (_pendingRangeHoverDate == normalizedHover)
+            return;
+
+        _pendingRangeHoverDate = normalizedHover;
+        UpdateRangeVisuals();
+    }
+
+    /// <summary>
+    /// Hooks pointer tracking events to the selector hosting calendar entries.
+    /// </summary>
+    private void AttachRangeSelector()
+    {
+        if (GetTemplateChild("PART_Selector") is Selector selector)
+        {
+            _selectorHost = selector;
+            selector.MouseMove += Selector_MouseMove;
+            selector.MouseLeave += Selector_MouseLeave;
+        }
+    }
+
+    /// <summary>
+    /// Removes pointer tracking events to avoid leaks when the template changes.
+    /// </summary>
+    private void DetachRangeSelector()
+    {
+        if (_selectorHost is null)
+            return;
+
+        _selectorHost.MouseMove -= Selector_MouseMove;
+        _selectorHost.MouseLeave -= Selector_MouseLeave;
+        _selectorHost = null;
+    }
+
+    /// <summary>
+    /// Handles mouse movement over calendar entries to update the preview range.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The mouse event arguments.</param>
+    private void Selector_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (sender is not ItemsControl itemsControl)
+            return;
+
+        if (ItemsControl.ContainerFromElement(itemsControl, e.OriginalSource as DependencyObject) is ContentControl container
+         && container.Content is StswCalendarEntry entry)
+            UpdatePreviewRange(entry.Date);
+        else
+            UpdatePreviewRange(null);
+    }
+
+    /// <summary>
+    /// Handles mouse leaving the selector area to clear the preview range.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The mouse event arguments.</param>
+    private void Selector_MouseLeave(object? sender, MouseEventArgs e) => UpdatePreviewRange(null);
     #endregion
 
     #region Logic properties
@@ -313,8 +489,10 @@ public class StswRangeCalendar : StswCalendar
         );
     private static void OnSelectedRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is StswRangeCalendar calendar)
-            calendar.OnSelectedRangeChanged(e.OldValue as StswDateRange, e.NewValue as StswDateRange);
+        if (d is not StswRangeCalendar stsw)
+            return;
+
+        stsw.OnSelectedRangeChanged(e.OldValue as StswDateRange, e.NewValue as StswDateRange);
     }
     #endregion
 }

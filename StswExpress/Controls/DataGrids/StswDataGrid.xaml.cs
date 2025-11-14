@@ -30,11 +30,13 @@ namespace StswExpress;
 /// </example>
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
     private static Type? SqlParameterType { get; set; }
     private static bool SqlClientAvailable { get; set; }
 
     public StswDataGrid()
     {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
         ApplyFiltersCommand = new StswCommand(ApplyFilters);
         ClearFiltersCommand = new StswCommand(ClearFilters);
 
@@ -80,7 +82,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         ApplyFilters();
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
 
         HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
     }
@@ -134,7 +136,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         base.OnItemsChanged(e);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
 
         HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
     }
@@ -165,7 +167,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
 
     /// <summary>

@@ -1003,6 +1003,7 @@ public static partial class StswDatabaseHelper
             var isByteArray = pt == typeof(byte[]);
             var acceptable =
                 u.IsPrimitive
+                || u.IsEnum
                 || u == typeof(string)
                 || u == typeof(decimal)
                 || u == typeof(DateTime)

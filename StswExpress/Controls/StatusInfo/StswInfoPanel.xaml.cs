@@ -28,8 +28,13 @@ namespace StswExpress;
 /// </example>
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
     private ScrollViewer? _scrollViewer;
 
+    public StswInfoPanel()
+    {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
+    }
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
@@ -59,7 +64,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
 
         if (_scrollViewer != null)
             if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-                Dispatcher.InvokeAsync(_scrollViewer.ScrollToEnd, DispatcherPriority.Background);
+                _scrollActionScheduler.Schedule(_scrollViewer.ScrollToEnd, DispatcherPriority.Background);
     }
 
     /// <summary>

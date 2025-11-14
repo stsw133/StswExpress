@@ -29,9 +29,14 @@ namespace StswExpress;
 /// </example>
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
     private object? _dragDropItem;
     private IList? _sourceList;
 
+    public StswDragBox()
+    {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
+    }
     static StswDragBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(typeof(StswDragBox)));
@@ -55,7 +60,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         ItemContainerStyle.Setters.Add(new EventSetter(DragOverEvent, new DragEventHandler(OnItemDragOver)));
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
 
     /// <inheritdoc/>
@@ -64,7 +69,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         base.OnItemsChanged(e);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
     }
 
     /// <inheritdoc/>
@@ -99,7 +104,7 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            Dispatcher.InvokeAsync(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
 
     /// <inheritdoc/>

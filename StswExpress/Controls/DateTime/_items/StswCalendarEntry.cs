@@ -58,6 +58,17 @@ internal class StswCalendarEntry : StswObservableObject, IStswSelectionItem
     private bool? _isCurrentDay;
 
     /// <summary>
+    /// Gets or sets a value indicating whether the calendar item belongs to a previewed range.
+    /// Used to indicate the tentative coverage while the user hovers a potential range end.
+    /// </summary>
+    public bool IsPreviewRange
+    {
+        get => _isPreviewRange;
+        set => SetProperty(ref _isPreviewRange, value);
+    }
+    private bool _isPreviewRange;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the calendar item belongs to a selected range.
     /// Used by range-based calendars to highlight the covered area.
     /// </summary>

@@ -219,6 +219,10 @@
                             <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPreviewRange}" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderThickness" Value="2" TargetName="OPT_Border"/>
+                        </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsSpecialDay}" Value="True"/>

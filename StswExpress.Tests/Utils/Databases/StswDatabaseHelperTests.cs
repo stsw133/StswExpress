@@ -1,8 +1,6 @@
 using Microsoft.Data.SqlClient;
 using System.Collections;
 using System.Data;
-using System.Linq;
-using StswExpress.Commons;
 
 namespace StswExpress.Commons.Tests.Utils.Databases;
 public class StswDatabaseHelperTests
@@ -72,7 +70,7 @@ public class StswDatabaseHelperTests
         var name = "Column123";
         var trimmed = typeof(StswDatabaseHelper)
             .GetMethod("TrimTrailingDigits", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
-            .Invoke(null, new object[] { name }) as string;
+            .Invoke(null, [name]) as string;
         Assert.Equal("Column", trimmed);
     }
 
@@ -81,14 +79,14 @@ public class StswDatabaseHelperTests
     {
         var method = typeof(StswDatabaseHelper)
             .GetMethod("GetSqlType", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
-        Assert.Equal("NVARCHAR(MAX)", method.Invoke(null, new object[] { typeof(string) }));
-        Assert.Equal("INT", method.Invoke(null, new object[] { typeof(int) }));
-        Assert.Equal("BIGINT", method.Invoke(null, new object[] { typeof(long) }));
-        Assert.Equal("DECIMAL(18, 2)", method.Invoke(null, new object[] { typeof(decimal) }));
-        Assert.Equal("FLOAT", method.Invoke(null, new object[] { typeof(double) }));
-        Assert.Equal("BIT", method.Invoke(null, new object[] { typeof(bool) }));
-        Assert.Equal("DATETIME", method.Invoke(null, new object[] { typeof(DateTime) }));
-        Assert.Throws<NotSupportedException>(() => method.Invoke(null, new object[] { typeof(object) }));
+        Assert.Equal("NVARCHAR(MAX)", method.Invoke(null, [typeof(string)]));
+        Assert.Equal("INT", method.Invoke(null, [typeof(int)]));
+        Assert.Equal("BIGINT", method.Invoke(null, [typeof(long)]));
+        Assert.Equal("DECIMAL(18, 2)", method.Invoke(null, [typeof(decimal)]));
+        Assert.Equal("FLOAT", method.Invoke(null, [typeof(double)]));
+        Assert.Equal("BIT", method.Invoke(null, [typeof(bool)]));
+        Assert.Equal("DATETIME", method.Invoke(null, [typeof(DateTime)]));
+        Assert.Throws<NotSupportedException>(() => method.Invoke(null, [typeof(object)]));
     }
 
     [Fact]
@@ -114,7 +112,7 @@ public class StswDatabaseHelperTests
         var dict = new Dictionary<string, object?> { { "Id", 1 }, { "Name", "Test" } };
         var result = typeof(StswDatabaseHelper)
             .GetMethod("PrepareCommand", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
-            .Invoke(null, new object[] { cmd, dict, false }) as SqlCommand;
+            .Invoke(null, [cmd, dict, false]) as SqlCommand;
         Assert.Equal(2, result!.Parameters.Count);
         Assert.Equal(1, result.Parameters["@Id"].Value);
         Assert.Equal("Test", result.Parameters["@Name"].Value);
@@ -127,7 +125,7 @@ public class StswDatabaseHelperTests
         var method = typeof(StswDatabaseHelper)
             .GetMethod("PrepareParameter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         var bytes = new byte[] { 1, 2, 3 };
-        method.Invoke(null, new object[] { cmd, "@Data", bytes });
+        method.Invoke(null, [cmd, "@Data", bytes]);
         Assert.True(cmd.Parameters.Contains("@Data"));
         Assert.Equal(bytes, cmd.Parameters["@Data"].Value);
     }
@@ -137,9 +135,10 @@ public class StswDatabaseHelperTests
     {
         var method = typeof(StswDatabaseHelper)
             .GetMethod("GetWritableScalarPropertyNames", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
-        var names = method.Invoke(null, new object[] { typeof(TestModel) }) as List<string>;
+        var names = method.Invoke(null, [typeof(TestModel)]) as List<string>;
         Assert.Contains("Id", names!);
         Assert.Contains("Name", names!);
+        Assert.Contains("Status", names!);
         Assert.DoesNotContain("Items", names!);
     }
 
@@ -161,9 +160,9 @@ public class StswDatabaseHelperTests
         var enumerable = (IEnumerable)merged;
 
         var method = typeof(StswDatabaseHelper)
-            .GetMethod("ToDataTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null, new[] { typeof(IEnumerable) }, null)!;
+            .GetMethod("ToDataTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null, [typeof(IEnumerable)], null)!;
 
-        var dt = (DataTable)method.Invoke(null, new object[] { enumerable })!;
+        var dt = (DataTable)method.Invoke(null, [enumerable])!;
 
         Assert.Equal(2, dt.Rows.Count);
         Assert.Contains("Id", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
@@ -177,7 +176,7 @@ public class StswDatabaseHelperTests
     {
         public int Id { get; set; }
         public string Name { get; set; } = "";
-        public List<string> Items { get; set; } = new();
+        public List<string> Items { get; set; } = [];
         public StswItemState ItemState { get; set; }
         public bool? ShowDetails { get; set; }
     }
