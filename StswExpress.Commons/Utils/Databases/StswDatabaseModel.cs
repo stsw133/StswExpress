@@ -117,6 +117,16 @@ public partial class StswDatabaseModel : StswObservableObject
     private bool _encrypt;
 
     /// <summary>
+    /// Gets or sets the trust mode for the server certificate.
+    /// </summary>
+    public bool TrustServerCertificate
+    {
+        get => _trustServerCertificate;
+        set => SetProperty(ref _trustServerCertificate, value);
+    }
+    private bool _trustServerCertificate;
+
+    /// <summary>
     /// Gets or sets whether Windows Authentication should be used (Integrated Security).
     /// </summary>
     public bool UseIntegratedSecurity
@@ -143,16 +153,18 @@ public partial class StswDatabaseModel : StswObservableObject
         return Type switch
         {
             StswDatabaseType.MSSQL => UseIntegratedSecurity
-                ? $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};Integrated Security=True;Encrypt={Encrypt};{appName}"
-                : $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};{appName}",
+                ? $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};Integrated Security=True;Encrypt={Encrypt};TrustServerCertificate={TrustServerCertificate};{appName}"
+                : $"Server={Server}{(Port.HasValue ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};TrustServerCertificate={TrustServerCertificate};{appName}",
 
             StswDatabaseType.MySQL => UseIntegratedSecurity
                 ? throw new NotSupportedException("Integrated security is not supported for MySQL.")
+                : TrustServerCertificate
+                ? throw new NotSupportedException("TrustServerCertificate is not supported for MySQL.")
                 : $"Server={Server}{(Port.HasValue ? $";Port={Port}" : "")};Database={Database};Uid={Login};Pwd={Password};Encrypt={Encrypt};{appName}",
 
             StswDatabaseType.PostgreSQL => UseIntegratedSecurity
                 ? throw new NotSupportedException("Integrated security is not supported for PostgreSQL.")
-                : $"Host={Server}{(Port.HasValue ? $";Port={Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};{appName}",
+                : $"Host={Server}{(Port.HasValue ? $";Port={Port}" : "")};Database={Database};User Id={Login};Password={Password};Encrypt={Encrypt};TrustServerCertificate={TrustServerCertificate};{appName}",
 
             _ => throw new NotSupportedException("This type of database management system is not supported!")
         };

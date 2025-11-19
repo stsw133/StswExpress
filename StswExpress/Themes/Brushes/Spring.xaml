@@ -89,7 +89,11 @@
     <SolidColorBrush x:Key="StswCalendar.Static.Border" Color="#9B9"/>
     <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#9B9"/>
     <SolidColorBrush x:Key="StswCalendar.SpecialDay.Foreground" Color="#df2020"/>
-    
+
+    <SolidColorBrush x:Key="StswTimeline.Static.Background" Color="#FAFFF5"/>
+    <SolidColorBrush x:Key="StswTimeline.Static.Border" Color="#9B9"/>
+    <SolidColorBrush x:Key="StswTimeline.Indicator.Fill" Color="#91ee91"/>
+
     <!-- Dialogs -->
     <SolidColorBrush x:Key="StswDialog.None.Background" Color="#808080"/>
     <SolidColorBrush x:Key="StswDialog.None.Border" Color="#a6a6a6"/>

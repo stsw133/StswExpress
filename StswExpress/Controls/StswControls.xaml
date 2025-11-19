@@ -30,6 +30,7 @@
         
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
+        <ResourceDictionary Source="DateTime/StswTimeline.xaml"/>
         <ResourceDictionary Source="DateTime/StswTimePicker.xaml"/>
         <ResourceDictionary Source="DateTime/StswTimerControl.xaml"/>
 

@@ -90,6 +90,10 @@
     <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#616161"/>
     <SolidColorBrush x:Key="StswCalendar.SpecialDay.Foreground" Color="#e64c4c"/>
     
+    <SolidColorBrush x:Key="StswTimeline.Static.Background" Color="#262626"/>
+    <SolidColorBrush x:Key="StswTimeline.Static.Border" Color="#616161"/>
+    <SolidColorBrush x:Key="StswTimeline.Indicator.Fill" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B-5%'}"/>
+    
     <!-- Dialogs -->
     <SolidColorBrush x:Key="StswDialog.None.Background" Color="#666666"/>
     <SolidColorBrush x:Key="StswDialog.None.Border" Color="#4d4d4d"/>

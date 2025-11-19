@@ -770,6 +770,79 @@
                                 </Grid>
                             </Viewbox>
                         </DataTemplate>
+                        <!-- StswSpinnerPulseTemplate -->
+                        <DataTemplate x:Key="StswSpinnerPulseTemplate">
+                            <DataTemplate.Resources>
+                                <Style x:Key="PulseBaseEllipse" TargetType="{x:Type Ellipse}">
+                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="StrokeThickness" Value="2"/>
+                                    <Setter Property="Fill" Value="Transparent"/>
+                                    <Setter Property="Opacity" Value="0.8"/>
+                                    <Setter Property="Height" Value="32"/>
+                                    <Setter Property="Width" Value="32"/>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="0.2" ScaleY="0.2"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                                <Style x:Key="PulsePrimaryEllipse" BasedOn="{StaticResource PulseBaseEllipse}" TargetType="{x:Type Ellipse}">
+                                    <Style.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                    From="0.8"
+                                                                    To="0"
+                                                                    Duration="0:0:1.5"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                    From="0.3"
+                                                                    To="1.5"
+                                                                    Duration="0:0:1.5"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                    From="0.3"
+                                                                    To="1.5"
+                                                                    Duration="0:0:1.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style x:Key="PulseSecondaryEllipse" BasedOn="{StaticResource PulseBaseEllipse}" TargetType="{x:Type Ellipse}">
+                                    <Style.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard RepeatBehavior="Forever" BeginTime="0:0:0.6">
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                    From="0.8"
+                                                                    To="0"
+                                                                    Duration="0:0:1.5"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                    From="0.3"
+                                                                    To="1.5"
+                                                                    Duration="0:0:1.5"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                    From="0.3"
+                                                                    To="1.5"
+                                                                    Duration="0:0:1.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataTemplate.Resources>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                <Grid Width="32" Height="32">
+                                    <Ellipse Style="{StaticResource PulsePrimaryEllipse}"/>
+                                    <Ellipse Style="{StaticResource PulseSecondaryEllipse}"/>
+                                    <Ellipse Width="8" Height="8"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                </Grid>
+                            </Viewbox>
+                        </DataTemplate>
                     </ControlTemplate.Resources>
                     <!-- main -->
                     <ContentControl x:Name="OPT_MainContent" Background="{TemplateBinding Background}" Focusable="False"/>
@@ -789,6 +862,9 @@
                         </Trigger>
                         <Trigger Property="Type" Value="Lines">
                             <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerLinesTemplate}" TargetName="OPT_MainContent"/>
+                        </Trigger>
+                        <Trigger Property="Type" Value="Pulse">
+                            <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerPulseTemplate}" TargetName="OPT_MainContent"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainContent"/>

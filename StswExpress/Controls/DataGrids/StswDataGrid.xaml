@@ -8,7 +8,7 @@
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="FiltersType" Value="CollectionView"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+        <Setter Property="RowDetailsVisibilityMode" Value="Collapsed"/>
 
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>

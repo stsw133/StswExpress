@@ -10,6 +10,8 @@ public class StswDatabaseModelTests
         Assert.Null(model.Database);
         Assert.Null(model.Login);
         Assert.Null(model.Password);
+        Assert.True(model.Encrypt);
+        Assert.False(model.TrustServerCertificate);
     }
 
     [Fact]
@@ -59,11 +61,13 @@ public class StswDatabaseModelTests
         model.Type = StswDatabaseType.MSSQL;
         model.UseIntegratedSecurity = true;
         model.Encrypt = true;
+        model.TrustServerCertificate = true;
         var connStr = model.GetConnString();
         Assert.Contains("Server=srv,1433", connStr);
         Assert.Contains("Database=db", connStr);
         Assert.Contains("Integrated Security=True", connStr);
         Assert.Contains("Encrypt=True", connStr);
+        Assert.Contains("TrustServerCertificate=True", connStr);
         Assert.Contains("Application Name=", connStr);
     }
 
@@ -74,12 +78,14 @@ public class StswDatabaseModelTests
         model.Type = StswDatabaseType.MSSQL;
         model.UseIntegratedSecurity = false;
         model.Encrypt = false;
+        model.TrustServerCertificate = false;
         var connStr = model.GetConnString();
         Assert.Contains("Server=srv,1433", connStr);
         Assert.Contains("Database=db", connStr);
         Assert.Contains("User Id=user", connStr);
         Assert.Contains("Password=pass", connStr);
         Assert.Contains("Encrypt=False", connStr);
+        Assert.Contains("TrustServerCertificate=False", connStr);
         Assert.Contains("Application Name=", connStr);
     }
 
@@ -124,12 +130,14 @@ public class StswDatabaseModelTests
         model.Type = StswDatabaseType.PostgreSQL;
         model.UseIntegratedSecurity = false;
         model.Encrypt = false;
+        model.TrustServerCertificate = false;
         var connStr = model.GetConnString();
         Assert.Contains("Host=srv;Port=5432", connStr);
         Assert.Contains("Database=db", connStr);
         Assert.Contains("User Id=user", connStr);
         Assert.Contains("Password=pass", connStr);
         Assert.Contains("Encrypt=False", connStr);
+        Assert.Contains("TrustServerCertificate=False", connStr);
         Assert.Contains("Application Name=", connStr);
     }
 

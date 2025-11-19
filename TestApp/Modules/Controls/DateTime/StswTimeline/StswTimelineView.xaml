@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="TestApp.StswTimelineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTimelineContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Presents the StswTimeline control which arranges chronological items along a horizontal axis and reveals extra information through hover tooltips.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartDate, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding StartDate}"/>
+
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf EndDate, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding EndDate}"/>
+
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemHeight, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding ItemHeight}"/>
+
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IndicatorSize, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding IndicatorSize}"/>
+
+            <UniformGrid Margin="0 6 0 0" Rows="1">
+                <se:StswButton Content="Auto range" Command="{Binding ApplyNaturalRangeCommand}" Margin="0 0 6 0"/>
+                <se:StswButton Content="Clear range" Command="{Binding ClearRangeCommand}"/>
+            </UniformGrid>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswTimeline DateMemberPath="Date" DescriptionMemberPath="Summary" HeaderMemberPath="Title" ToolTipMemberPath="Details"
+                         IndicatorSize="{Binding IndicatorSize}"
+                         IsEnabled="{Binding IsEnabled}"
+                         ItemHeight="{Binding ItemHeight}"
+                         ItemsSource="{Binding Milestones}"
+                         StartDate="{Binding StartDate}"
+                         EndDate="{Binding EndDate}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

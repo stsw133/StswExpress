@@ -233,7 +233,8 @@ public enum StswSpinnerType
     Crescent,
     Dots,
     Helix,
-    Lines
+    Lines,
+    Pulse
 }
 
 /// <summary>
