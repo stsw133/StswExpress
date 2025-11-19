@@ -727,6 +727,9 @@ public class StswSlider : Slider
         var normalized = (value - Minimum) / range;
         normalized = Clamp(normalized, 0, 1);
 
+        if (Orientation == Orientation.Vertical)
+            normalized = 1 - normalized;
+
         var center = (thumbSize / 2.0) + normalized * movable;
         return center;
     }

@@ -125,7 +125,7 @@ public class StswRangeCalendar : StswCalendar
         }
 
         var normalizedSelection = NormalizeForSelectionUnit(date.Value);
-        var extendSelection = !_awaitingRangeEnd
+        var adjustRangeWithModifier = !_awaitingRangeEnd
             && SelectedRange is not null
             && (Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Shift)) != ModifierKeys.None;
 
@@ -137,9 +137,9 @@ public class StswRangeCalendar : StswCalendar
             return;
         }
 
-        if (extendSelection)
+        if (adjustRangeWithModifier)
         {
-            UpdateRangeFromSelection(() => ExtendExistingRange(normalizedSelection));
+            UpdateRangeFromSelection(() => UpdateRangeByClosestBoundary(normalizedSelection));
             UpdatePreviewRange(null);
             return;
         }
@@ -344,10 +344,10 @@ public class StswRangeCalendar : StswCalendar
     }
 
     /// <summary>
-    /// Extends the currently selected range to include the specified date.
+    /// Adjusts the existing range by updating the closest boundary to the provided date.
     /// </summary>
-    /// <param name="normalizedSelection">The normalized date to include.</param>
-    private void ExtendExistingRange(DateTime normalizedSelection)
+    /// <param name="normalizedSelection">The normalized date to apply.</param>
+    private void UpdateRangeByClosestBoundary(DateTime normalizedSelection)
     {
         if (SelectedRange is null)
             return;
@@ -358,9 +358,12 @@ public class StswRangeCalendar : StswCalendar
         if (start > end)
             (start, end) = (end, start);
 
-        if (normalizedSelection < start)
+        var distanceToStart = Math.Abs((normalizedSelection - start).Ticks);
+        var distanceToEnd = Math.Abs((normalizedSelection - end).Ticks);
+
+        if (distanceToStart <= distanceToEnd)
             start = normalizedSelection;
-        if (normalizedSelection > end)
+        else
             end = normalizedSelection;
 
         ApplyOrderedRange(start, end);
