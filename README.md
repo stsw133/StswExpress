@@ -17,9 +17,9 @@ Here's a breakdown:
 - **Filters**: `StswFilterBox`, `StswFilterTags`
 - **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
-- **Media**: `StswImage`, `StswMediaPlayer`
+- **Media**: `StswGifImage`, `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
-- **Panels**: `StswDynamicGrid`, `StswGrid`, `StswGridSplitter`, `StswLabelPanel`, `StswSidePanel`
+- **Panels**: `StswDynamicGrid`, `StswGrid`, `StswGridSplitter`, `StswSidePanel`
 - **Paths**: `StswPathPicker`, `StswPathTree`
 - **Scrollers**: `StswDirectionView`, `StswScrollBar`, `StswScrollView`
 - **Selectors**: `StswComboBox`, `StswDragBox`, `StswFlipView`, `StswListBox`, `StswListView`, `StswSegment`, `StswSelectionBox`, `StswTreeView`

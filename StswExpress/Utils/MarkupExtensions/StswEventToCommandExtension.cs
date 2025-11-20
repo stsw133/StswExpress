@@ -31,7 +31,23 @@ namespace StswExpress;
 [MarkupExtensionReturnType(typeof(object))]
 public class StswEventToCommandExtension : MarkupExtension
 {
-    private readonly BindingBase _command;
+    private BindingBase? _commandBinding;
+
+    /// <summary>
+    /// Gets or sets the command to execute when the event is triggered.
+    /// </summary>
+    public object? Command
+    {
+        get => _commandBinding;
+        set => _commandBinding = value switch
+        {
+            null => null,
+            BindingBase bindingBase => bindingBase,
+            ICommand cmd => new Binding { Source = cmd },
+            string path => new Binding(path),
+            _ => new Binding { Source = value }
+        };
+    }
 
     /// <summary>
     /// Gets or sets the parameter to pass to the command. If this is a <see cref="BindingBase"/>, it will be evaluated at runtime.
@@ -48,8 +64,9 @@ public class StswEventToCommandExtension : MarkupExtension
     /// </summary>
     public Key? AllowedKey { get; set; }
 
-    public StswEventToCommandExtension(string path) => _command = new Binding(path);
-    public StswEventToCommandExtension(ICommand command) => _command = new Binding { Source = command };
+    public StswEventToCommandExtension() { }
+    public StswEventToCommandExtension(string path) => Command = new Binding(path);
+    public StswEventToCommandExtension(ICommand command) => Command = new Binding { Source = command };
 
     /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
@@ -137,7 +154,7 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="e">The event arguments.</param>
     private void ExecuteCommand(DependencyObject targetObject, EventArgs e)
     {
-        var cmd = EvaluateBinding<ICommand>(targetObject, _command);
+        var cmd = EvaluateBinding<ICommand>(targetObject, _commandBinding);
         if (cmd is null)
             return;
 

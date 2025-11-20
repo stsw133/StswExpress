@@ -131,7 +131,7 @@ public class StswRangeCalendar : StswCalendar
 
         if (SelectedRange is null)
         {
-            UpdateRangeFromSelection(() => SelectedRange = new StswDateRange(normalizedSelection, normalizedSelection));
+            UpdateRangeFromSelection(() => ApplyOrderedRange(normalizedSelection, normalizedSelection));
             _awaitingRangeEnd = true;
             UpdatePreviewRange(null);
             return;
@@ -197,7 +197,7 @@ public class StswRangeCalendar : StswCalendar
             newRange.PropertyChanged += SelectedRange_PropertyChanged;
 
         if (newRange is not null)
-            EnsureRangeOrder(newRange);
+            NormalizeRange(newRange);
 
         if (!_isUpdatingRangeFromSelection)
         {
@@ -217,7 +217,7 @@ public class StswRangeCalendar : StswCalendar
     private void SelectedRange_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (sender is StswDateRange range)
-            EnsureRangeOrder(range);
+            NormalizeRange(range);
 
         if (e.PropertyName is nameof(StswDateRange.Start) && !_isUpdatingRangeFromSelection)
             SyncSelectedDateWithRange();
@@ -376,8 +376,7 @@ public class StswRangeCalendar : StswCalendar
     /// <param name="end">The second boundary.</param>
     private void ApplyOrderedRange(DateTime start, DateTime end)
     {
-        if (start > end)
-            (start, end) = (end, start);
+        (start, end) = NormalizeRangeBounds(start, end);
 
         if (SelectedRange is null)
         {
@@ -388,6 +387,44 @@ public class StswRangeCalendar : StswCalendar
         SelectedRange.Start = start;
         SelectedRange.End = end;
     }
+
+    /// <summary>
+    /// Normalizes the specified range to respect selection boundaries and ordering.
+    /// </summary>
+    /// <param name="range">The range to normalize.</param>
+    private void NormalizeRange(StswDateRange range)
+    {
+        var (start, end) = NormalizeRangeBounds(range.Start, range.End);
+
+        range.Start = start;
+        range.End = end;
+    }
+
+    /// <summary>
+    /// Returns normalized range bounds respecting chronological order and selection unit end alignment.
+    /// </summary>
+    /// <param name="start">Proposed start value.</param>
+    /// <param name="end">Proposed end value.</param>
+    /// <returns>Normalized start and end values.</returns>
+    private (DateTime Start, DateTime End) NormalizeRangeBounds(DateTime start, DateTime end)
+    {
+        if (start > end)
+            (start, end) = (end, start);
+
+        start = NormalizeForSelectionUnit(start);
+        end = NormalizeRangeEnd(end);
+
+        return (start, end);
+    }
+
+    /// <summary>
+    /// Adjusts the end boundary according to the current selection unit.
+    /// </summary>
+    /// <param name="value">The proposed end boundary.</param>
+    /// <returns>The normalized end boundary.</returns>
+    private DateTime NormalizeRangeEnd(DateTime value) => SelectionUnit == StswCalendarUnit.Months
+        ? value.ToLastDayOfMonth().ToEndOfDay()
+        : value.ToEndOfDay();
 
     /// <summary>
     /// Ensures the specified range stores its bounds in chronological order.

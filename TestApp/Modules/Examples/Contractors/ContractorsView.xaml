@@ -6,7 +6,8 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsContext}"
+             Loaded="{se:StswEventToCommand InitCommand}">
 
     <se:StswTabControl AreTabsVisible="True" BorderThickness="0 1 0 0" Margin="1" NewItem="{Binding NewTab}" NewItemCommand="{Binding NewTabCommand, Mode=OneWayToSource}">
         <se:StswTabItem>

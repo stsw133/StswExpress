@@ -11,7 +11,7 @@ public partial class ContractorsContext : StswObservableObject
 {
     public ContractorsContext()
     {
-        Task.Run(Init);
+        //Task.Run(Init);
         SelectedContractor = null;
         ListContractorsView = CollectionViewSource.GetDefaultView(_listContractors);
     }

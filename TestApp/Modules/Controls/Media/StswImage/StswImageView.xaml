@@ -16,6 +16,9 @@
             <!-- MenuMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MenuMode, Type={x:Type se:StswImage}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswMenuMode}" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}"/>
+            <!-- Source -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Source, Type={x:Type se:StswImage}}"/>
+            <se:StswPathPicker Filter="Image files (*.bmp;*.gif;*.ico;*.jpg;*.png;*.webp)|*.bmp;*.gif;*.ico;*.jpg;*.png;*.webp|All files|*.*" Margin="0 0 0 3" SelectedPath="{Binding Source}"/>
             <!-- Stretch -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Stretch, Type={x:Type se:StswImage}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList Stretch}" Margin="0 0 0 3" SelectedValue="{Binding Stretch}"/>
@@ -23,7 +26,7 @@
         <!-- content -->
         <se:StswImage IsEnabled="{Binding IsEnabled}"
                       MenuMode="{Binding MenuMode}"
-                      Source="/Resources/icon.ico"
+                      Source="{Binding Source}"
                       Stretch="{Binding Stretch}"
                       HorizontalAlignment="{Binding HorizontalAlignment}"
                       HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

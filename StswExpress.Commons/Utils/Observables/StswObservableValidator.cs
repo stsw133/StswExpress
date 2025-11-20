@@ -39,7 +39,7 @@ public abstract class StswObservableValidator : StswObservableObject, INotifyDat
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
     /// <inheritdoc/>
-    public bool HasErrors => _errors.Any();
+    public bool HasErrors => _errors.Count != 0;
 
     /// <inheritdoc/>
     public IEnumerable GetErrors(string? propertyName)
@@ -55,22 +55,28 @@ public abstract class StswObservableValidator : StswObservableObject, INotifyDat
     /// <summary>
     /// Validates all properties of the object using data annotations.
     /// </summary>
-    public void ValidateAllProperties()
+    public bool ValidateAllProperties()
     {
         var context = new ValidationContext(this);
         var results = new List<ValidationResult>();
 
+        var previousPropertyNames = _errors.Keys.ToList();
         _errors.Clear();
+
         Validator.TryValidateObject(this, context, results, validateAllProperties: true);
 
         foreach (var result in results)
             foreach (var propertyName in result.MemberNames)
                 AddError(propertyName, result.ErrorMessage!);
 
-        foreach (var propertyName in _errors.Keys)
+        var propertyNamesToNotify = new HashSet<string>(previousPropertyNames);
+        propertyNamesToNotify.UnionWith(_errors.Keys);
+
+        foreach (var propertyName in propertyNamesToNotify)
             OnErrorsChanged(propertyName);
 
         OnPropertyChanged(nameof(HasErrors));
+        return _errors.Count == 0;
     }
 
     /// <summary>
@@ -78,7 +84,7 @@ public abstract class StswObservableValidator : StswObservableObject, INotifyDat
     /// </summary>
     /// <param name="value">The value of the property to validate.</param>
     /// <param name="propertyName">The name of the property to validate. This is optional and can be automatically provided by the compiler.</param>
-    protected virtual void ValidateProperty(object? value, [CallerMemberName] string propertyName = "")
+    protected virtual bool ValidateProperty(object? value, [CallerMemberName] string propertyName = "")
     {
         var context = new ValidationContext(this)
         {
@@ -90,14 +96,15 @@ public abstract class StswObservableValidator : StswObservableObject, INotifyDat
         if (!string.IsNullOrWhiteSpace(propertyName))
             _errors.Remove(propertyName);
 
-        if (!Validator.TryValidateProperty(value, context, results))
-        {
+        var isValid = Validator.TryValidateProperty(value, context, results);
+
+        if (!isValid)
             foreach (var result in results)
                 AddError(propertyName, result.ErrorMessage!);
-        }
 
         OnErrorsChanged(propertyName);
         OnPropertyChanged(nameof(HasErrors));
+        return isValid;
     }
 
     /// <summary>

@@ -1,8 +1,6 @@
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace StswExpress.Tests.Utils.Converters;
 public class StswCalculateConverterTests
@@ -19,6 +17,17 @@ public class StswCalculateConverterTests
     public void Convert_Double_ReturnsExpected(double input, Type targetType, string parameter, double expected)
     {
         var result = _converter.Convert(input, targetType, parameter, CultureInfo.InvariantCulture);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(10, typeof(double), "+-2", 8, "pl-PL")]
+    [InlineData(10, typeof(double), "+-0.5", 9.5, "pl-PL")]
+    [InlineData(10, typeof(double), "+-0,5", 9.5, "en-US")]
+    public void Convert_Double_NegativeParameters_ReturnsExpected(double input, Type targetType, string parameter, double expected, string cultureName)
+    {
+        var culture = CultureInfo.GetCultureInfo(cultureName);
+        var result = _converter.Convert(input, targetType, parameter, culture);
         Assert.Equal(expected, result);
     }
 
@@ -132,6 +141,21 @@ public class StswCalculateConverterTests
     {
         var result = _converter.Convert(null, typeof(double), "*2", CultureInfo.InvariantCulture);
         Assert.Equal(Binding.DoNothing, result);
+    }
+
+    [Fact]
+    public void Convert_ValueNotConvertibleToDouble_ReturnsBindingDoNothing()
+    {
+        var result = _converter.Convert(new object(), typeof(double), "+2", CultureInfo.InvariantCulture);
+        Assert.Equal(Binding.DoNothing, result);
+    }
+
+    [Fact]
+    public void Convert_StringValueWithForeignDecimalSeparator_IsParsed()
+    {
+        var culture = CultureInfo.GetCultureInfo("en-US");
+        var result = _converter.Convert("-10,5", typeof(double), "+0", culture);
+        Assert.Equal(-10.5, result);
     }
 
     [Fact]
