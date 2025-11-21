@@ -69,7 +69,7 @@ public partial class ContractorsContext : StswObservableObject
         {
             await Task.Run(() => SQLService.SetContractors(ListContractors));
             RefreshCommand.Execute(null);
-            await StswMessageDialog.Show("Data saved successfully.", nameof(TestApp), null, null, StswDialogButtons.OK, StswDialogImage.Success);
+            await StswMessageDialog.Show("Data saved successfully.", nameof(TestApp), null, StswDialogButtons.OK, StswDialogImage.Success);
         }
         catch (Exception ex)
         {

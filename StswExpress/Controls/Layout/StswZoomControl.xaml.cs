@@ -262,7 +262,7 @@ public class StswZoomControl : Border
             nameof(ZoomPercentage),
             typeof(double),
             typeof(StswZoomControl),
-            new FrameworkPropertyMetadata(100.0)
+            new PropertyMetadata(100.0)
         );
     public static readonly DependencyProperty ZoomPercentageProperty = ZoomPercentagePropertyKey!.DependencyProperty;
     #endregion

@@ -42,7 +42,7 @@ public class StswChartColumnItem : StswChartItem
             nameof(ColumnWidth),
             typeof(double),
             typeof(StswChartColumnItem),
-            new FrameworkPropertyMetadata(double.NaN)
+            new PropertyMetadata(double.NaN)
         );
     #endregion
 }

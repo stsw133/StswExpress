@@ -129,7 +129,14 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         if (HasChanges())
         {
-            var result = await StswMessageDialog.Show(StswTranslator.GetTranslation("StswTextEditor.File.New.StswMessageDialog"), StswTranslator.GetTranslation("StswTextEditor"), null, null, StswDialogButtons.YesNo, StswDialogImage.Question);
+            var result = await StswMessageDialog.Show(
+                StswTranslator.GetTranslation("StswTextEditor.File.New.StswMessageDialog"),
+                StswTranslator.GetTranslation("StswTextEditor"),
+                null,
+                StswDialogButtons.YesNo,
+                StswDialogImage.Question,
+                options: new StswMessageDialogShowOptions { SaveLog = false });
+
             if (result != true)
                 return;
         }
@@ -154,7 +161,14 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         {
             if (HasChanges())
             {
-                var result = await StswMessageDialog.Show(StswTranslator.GetTranslation("StswTextEditor.File.Open.StswMessageDialog"), StswTranslator.GetTranslation("StswTextEditor"), null, null, StswDialogButtons.YesNo, StswDialogImage.Question);
+                var result = await StswMessageDialog.Show(
+                    StswTranslator.GetTranslation("StswTextEditor.File.Open.StswMessageDialog"),
+                    StswTranslator.GetTranslation("StswTextEditor"),
+                    null,
+                    StswDialogButtons.YesNo,
+                    StswDialogImage.Question,
+                    options: new StswMessageDialogShowOptions { SaveLog = false });
+
                 if (result != true)
                     return;
             }
@@ -207,7 +221,14 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         if (HasChanges())
         {
-            var result = await StswMessageDialog.Show(StswTranslator.GetTranslation("StswTextEditor.File.Reload.StswMessageDialog"), StswTranslator.GetTranslation("StswTextEditor"), null, null, StswDialogButtons.YesNo, StswDialogImage.Question);
+            var result = await StswMessageDialog.Show(
+                StswTranslator.GetTranslation("StswTextEditor.File.Reload.StswMessageDialog"),
+                StswTranslator.GetTranslation("StswTextEditor"),
+                null,
+                StswDialogButtons.YesNo,
+                StswDialogImage.Question,
+                options: new StswMessageDialogShowOptions { SaveLog = false });
+
             if (result != true)
                 return;
         }

@@ -333,7 +333,7 @@ public class StswPathPicker : StswBoxBase
             nameof(Filter),
             typeof(string),
             typeof(StswPathPicker),
-            new FrameworkPropertyMetadata(default(string), OnFilterChanged)
+            new PropertyMetadata(default(string), OnFilterChanged)
         );
     private static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -435,7 +435,7 @@ public class StswPathPicker : StswBoxBase
             nameof(SelectedPaths),
             typeof(string[]),
             typeof(StswPathPicker),
-            new FrameworkPropertyMetadata(Array.Empty<string>())
+            new PropertyMetadata(Array.Empty<string>())
         );
 
     /// <summary>
@@ -452,7 +452,7 @@ public class StswPathPicker : StswBoxBase
             nameof(SelectionUnit),
             typeof(StswPathType),
             typeof(StswPathPicker),
-            new FrameworkPropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
+            new PropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
         );
 
     /// <summary>

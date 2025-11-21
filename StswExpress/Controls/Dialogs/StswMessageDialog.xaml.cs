@@ -98,11 +98,11 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// </summary>
     /// <param name="ex">The exception whose message and details are displayed in the dialog.</param>
     /// <param name="title">The title of the dialog (optional).</param>
-    /// <param name="saveLog">Indicates whether the message should be logged.</param>
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
+    /// <param name="options">Additional options for displaying the dialog (optional).</param>
     /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = true, object? identifier = null)
-        => await Show(ex.Message, title, ex.ToString(), null, StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
+    public static async Task<bool?> Show(Exception ex, string? title = null, object? identifier = null, StswMessageDialogShowOptions? options = null)
+        => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, identifier, options);
 
     /// <summary>
     /// Shows the message dialog asynchronously with customizable content and options.
@@ -112,26 +112,24 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <param name="details">Additional details displayed in the dialog (optional).</param>
     /// <param name="buttons">The button layout of the dialog.</param>
     /// <param name="image">The icon displayed in the dialog.</param>
-    /// <param name="saveLog">Indicates whether the message should be logged.</param>
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
+    /// <param name="options">Additional options for displaying the dialog (optional).</param>
     /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(string message, string? title = null, string? details = null, string? mailAddress = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
+    public static async Task<bool?> Show(string message, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null, StswMessageDialogShowOptions? options = null)
     {
-        StswMessageDialog dialog = new()
+        var showOptions = options ?? new StswMessageDialogShowOptions();
+        var dialog = new StswMessageDialog()
         {
             Title = title,
             Message = message,
             Details = details,
-            MailAddress = mailAddress,
+            MailAddress = showOptions.MailAddress,
             Buttons = buttons,
             Image = image,
             Identifier = identifier ?? StswApp.StswWindow
         };
-        if (saveLog)
-        {
-            if (Enum.TryParse(image.ToString(), out StswInfoType infoType))
-                StswLog.Write(infoType, details ?? message);
-        }
+        if (showOptions.SaveLog && Enum.TryParse(image.ToString(), out StswInfoType infoType))
+            StswLog.Write(infoType, details ?? message);
 
         return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
     }

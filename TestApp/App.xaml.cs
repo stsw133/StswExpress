@@ -33,7 +33,7 @@ public partial class App : StswApp
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        await StswDispatcher.RunWhenUiIsReadyAsync(() => StswMessageDialog.Show(e.Exception, "Unhandled exception"));
+        await StswDispatcher.RunWhenUiIsReadyAsync(() => StswMessageDialog.Show(e.Exception, "Unhandled exception", options: new StswMessageDialogShowOptions { SaveLog = true }));
         e.Handled = true;
     }
 
@@ -44,6 +44,6 @@ public partial class App : StswApp
         else if (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\help_en.pdf") is string helpPathEN && File.Exists(helpPathEN))
             StswFn.OpenPath(helpPathEN);
         else
-            await StswMessageDialog.Show("No help file is available!", "Information", null, null, StswDialogButtons.OK, StswDialogImage.Information, false);
+            await StswMessageDialog.Show("No help file is available!", "Information", null, StswDialogButtons.OK, StswDialogImage.Information, options: new StswMessageDialogShowOptions { SaveLog = false });
     }
 }

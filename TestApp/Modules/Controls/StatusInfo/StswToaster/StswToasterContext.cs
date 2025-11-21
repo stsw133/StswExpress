@@ -16,7 +16,7 @@ public partial class StswToasterContext : ControlsContext
     [StswCommand] void ShowToast()
     {
         var type = StswDialogImage.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswInfoType)).Length));
-        StswToaster.Show(type, "Toast notification at " + DateTime.Now.ToString(), async () => await StswMessageDialog.Show(DateTime.Now.ToString(), "Toast", null, null, image: type));
+        StswToaster.Show(type, "Toast notification at " + DateTime.Now.ToString(), async () => await StswMessageDialog.Show(DateTime.Now.ToString(), "Toast", null, image: type, options: new StswMessageDialogShowOptions { SaveLog = true }));
     }
 
     [StswObservableProperty] bool _isClosable;
