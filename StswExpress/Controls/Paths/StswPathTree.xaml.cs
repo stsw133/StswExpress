@@ -190,13 +190,19 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             parentItem.Children.Clear();
 
         var directories = await Task.Run(() => GetDirectoriesSafe(parentItem.FullPath));
-        var files = ShowFiles ? await Task.Run(() => GetFilesSafe(parentItem.FullPath)) : [];
+        var filter = Filter;
+        var files = ShowFiles
+            ? await Task.Run(() => GetFilesSafe(parentItem.FullPath)
+                .Where(file => StswPathFilterHelper.IsFileAllowed(file, filter))
+                .ToArray())
+            : [];
 
         foreach (var directory in directories)
             parentItem.Children.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
 
         foreach (var file in files)
             parentItem.Children.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
+
     }
 
     /// <summary>
@@ -233,8 +239,11 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
                 rootItems.Add(new StswPathTreeItem(directory, StswPathType.OpenDirectory));
 
             if (ShowFiles)
-                foreach (var file in GetFilesSafe(InitialPath))
+            {
+                var filter = Filter;
+                foreach (var file in GetFilesSafe(InitialPath).Where(path => StswPathFilterHelper.IsFileAllowed(path, filter)))
                     rootItems.Add(new StswPathTreeItem(file, StswPathType.OpenFile));
+            }
         }
 
         ItemsSource = rootItems;
@@ -314,6 +323,33 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets the file filter used to limit visible files in the tree.
+    /// Matches the format used by file dialogs (e.g., "Text Files|*.txt;*.md").
+    /// </summary>
+    public string Filter
+    {
+        get => (string)GetValue(FilterProperty);
+        set => SetValue(FilterProperty, value);
+    }
+    public static readonly DependencyProperty FilterProperty
+        = DependencyProperty.Register(
+            nameof(Filter),
+            typeof(string),
+            typeof(StswPathTree),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilterChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswPathTree stsw)
+            return;
+
+        if (stsw.ShowFiles)
+            stsw.ReloadInitialPath();
+    }
+
     /// <summary>
     /// Gets or sets the initial path to be loaded into the file tree.
     /// If not set, logical drives will be displayed as the root items.

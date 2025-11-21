@@ -125,9 +125,7 @@ public class StswRangeCalendar : StswCalendar
         }
 
         var normalizedSelection = NormalizeForSelectionUnit(date.Value);
-        var adjustRangeWithModifier = !_awaitingRangeEnd
-            && SelectedRange is not null
-            && (Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Shift)) != ModifierKeys.None;
+        var hasModifier = (Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Shift)) != ModifierKeys.None;
 
         if (SelectedRange is null)
         {
@@ -137,23 +135,7 @@ public class StswRangeCalendar : StswCalendar
             return;
         }
 
-        if (adjustRangeWithModifier)
-        {
-            UpdateRangeFromSelection(() => UpdateRangeByClosestBoundary(normalizedSelection));
-            UpdatePreviewRange(null);
-            return;
-        }
-
-        if (!_awaitingRangeEnd)
-        {
-            UpdateRangeFromSelection(() =>
-            {
-                ApplyOrderedRange(normalizedSelection, normalizedSelection);
-            });
-            _awaitingRangeEnd = true;
-            UpdatePreviewRange(null);
-        }
-        else
+        if (_awaitingRangeEnd)
         {
             UpdateRangeFromSelection(() =>
             {
@@ -162,7 +144,24 @@ public class StswRangeCalendar : StswCalendar
 
                 ApplyOrderedRange(SelectedRange.Start, normalizedSelection);
             });
+
             _awaitingRangeEnd = false;
+            UpdatePreviewRange(null);
+            return;
+        }
+
+        if (hasModifier)
+        {
+            UpdateRangeFromSelection(() => UpdateRangeByClosestBoundary(normalizedSelection));
+
+            _awaitingRangeEnd = false;
+            UpdatePreviewRange(null);
+        }
+        else
+        {
+            UpdateRangeFromSelection(() => ApplyOrderedRange(normalizedSelection, normalizedSelection));
+
+            _awaitingRangeEnd = true;
             UpdatePreviewRange(null);
         }
     }
@@ -216,7 +215,7 @@ public class StswRangeCalendar : StswCalendar
     /// <param name="e">The event arguments containing the property name.</param>
     private void SelectedRange_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is StswDateRange range)
+        if (sender is StswDateRange range && !_isUpdatingRangeFromSelection)
             NormalizeRange(range);
 
         if (e.PropertyName is nameof(StswDateRange.Start) && !_isUpdatingRangeFromSelection)
@@ -468,6 +467,7 @@ public class StswRangeCalendar : StswCalendar
             _selectorHost = selector;
             selector.MouseMove += Selector_MouseMove;
             selector.MouseLeave += Selector_MouseLeave;
+            selector.PreviewMouseLeftButtonDown += Selector_PreviewMouseLeftButtonDown;
         }
     }
 
@@ -481,6 +481,7 @@ public class StswRangeCalendar : StswCalendar
 
         _selectorHost.MouseMove -= Selector_MouseMove;
         _selectorHost.MouseLeave -= Selector_MouseLeave;
+        _selectorHost.PreviewMouseLeftButtonDown -= Selector_PreviewMouseLeftButtonDown;
         _selectorHost = null;
     }
 
@@ -507,6 +508,29 @@ public class StswRangeCalendar : StswCalendar
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The mouse event arguments.</param>
     private void Selector_MouseLeave(object? sender, MouseEventArgs e) => UpdatePreviewRange(null);
+
+    /// <summary>
+    /// Handles mouse button presses to allow repeated selection of the same entry.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The mouse event arguments.</param>
+    private void Selector_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (CurrentUnit != SelectionUnit)
+            return;
+
+        if (sender is ItemsControl itemsControl
+         && ItemsControl.ContainerFromElement(itemsControl, e.OriginalSource as DependencyObject) is ContentControl container
+         && container.Content is StswCalendarEntry entry
+         && entry.Date.HasValue)
+        {
+            var normalizedDate = NormalizeForSelectionUnit(entry.Date.Value);
+            var normalizedSelection = SelectedDate.HasValue ? NormalizeForSelectionUnit(SelectedDate.Value) : (DateTime?)null;
+
+            if (normalizedSelection.HasValue && normalizedSelection == normalizedDate)
+                HandleDateSelection(entry.Date);
+        }
+    }
     #endregion
 
     #region Logic properties

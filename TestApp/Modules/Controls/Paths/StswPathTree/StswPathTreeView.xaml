@@ -14,6 +14,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- Filter -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Filter, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Filter}"/>
             <!-- InitialPath -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf InitialPath, Type={x:Type se:StswPathTree}}"/>
             <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionUnit="OpenDirectory"/>
@@ -25,7 +28,8 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowFiles}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswPathTree InitialPath="{Binding InitialPath}"
+        <se:StswPathTree Filter="{Binding Filter}"
+                         InitialPath="{Binding InitialPath}"
                          IsEnabled="{Binding IsEnabled}"
                          IsReadOnly="{Binding IsReadOnly}"
                          SelectedPath="{Binding SelectedPath}"

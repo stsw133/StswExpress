@@ -98,13 +98,11 @@ public class StswPathPicker : StswBoxBase
             else
             {
                 var all = Directory.GetFiles(parentPath);
-                var allowedExts = ParseFilterExtensions(Filter);
-                adjacentPaths = [.. all.Where(p => IsFileAllowedByFilter(p, allowedExts))];
+                adjacentPaths = [.. all.Where(p => StswPathFilterHelper.IsFileAllowed(p, Filter))];
             }
         }
-        catch
+        catch // e.g. UnauthorizedAccessException, PathTooLongException
         {
-            // e.g. UnauthorizedAccessException, PathTooLongException
             adjacentPaths = null;
         }
     }
@@ -285,55 +283,6 @@ public class StswPathPicker : StswBoxBase
             < 1_073_741_824 => $"{length / 1_048_576} MB",
             _ => $"{length / 1_073_741_824} GB"
         };
-    }
-
-    /// <summary>
-    /// Parses a file filter string and extracts the allowed file extensions.
-    /// </summary>
-    /// <param name="filter">The filter string in the format used by file dialogs (e.g., "Text Files|*.txt;*.md|All Files|*.*").</param>
-    /// <returns>A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</returns>
-    private static HashSet<string>? ParseFilterExtensions(string filter)
-    {
-        if (string.IsNullOrWhiteSpace(filter))
-            return null;
-
-        var parts = filter.Split('|');
-        var exts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        for (var i = 1; i < parts.Length; i += 2)
-        {
-            var pat = parts[i].Trim();
-            if (string.IsNullOrEmpty(pat))
-                continue;
-
-            foreach (var p in pat.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
-            {
-                if (p == "*.*")
-                    return null;
-
-                if (p.StartsWith("*.", StringComparison.Ordinal))
-                {
-                    var ext = p[1..];
-                    if (ext.Length > 1) exts.Add(ext);
-                }
-            }
-        }
-
-        return exts.Count == 0 ? null : exts;
-    }
-
-    /// <summary>
-    /// Checks if a file path is allowed based on the provided set of allowed extensions.
-    /// </summary>
-    /// <param name="path">The file path to check.</param>
-    /// <param name="allowedExts">A set of allowed file extensions (including the dot), or <see langword="null"/> if no restrictions apply.</param>
-    /// <returns><see langword="true"/> if the file is allowed, otherwise <see langword="false"/>.</returns>
-    private static bool IsFileAllowedByFilter(string path, HashSet<string>? allowedExts)
-    {
-        if (allowedExts is null)
-            return true;
-
-        return allowedExts.Contains(Path.GetExtension(path));
     }
     #endregion
 

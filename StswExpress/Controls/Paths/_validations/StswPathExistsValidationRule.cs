@@ -47,7 +47,7 @@ internal class StswPathExistsValidationRule : ValidationRule
                     if (!File.Exists(normalized))
                         return new ValidationResult(false, "File does not exist.");
 
-                    if (!MatchesFilter(Path.GetFileName(normalized), Host.Filter))
+                    if (!StswPathFilterHelper.MatchesFilter(Path.GetFileName(normalized), Host.Filter))
                         return new ValidationResult(false, "File does not match the specified filter.");
 
                     return ValidationResult.ValidResult;
@@ -72,34 +72,6 @@ internal class StswPathExistsValidationRule : ValidationRule
         catch (Exception ex)
         {
             return new ValidationResult(false, ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Checks if the given file name matches the specified filter pattern.
-    /// </summary>
-    /// <param name="fileName">The name of the file to check.</param>
-    /// <param name="filter">The filter pattern, which may include wildcards and multiple patterns separated by '|'.</param>
-    /// <returns><see langword="true"/> if the file name matches the filter; otherwise, <see langword="false"/>.</returns>
-    private static bool MatchesFilter(string fileName, string? filter)
-    {
-        if (string.IsNullOrWhiteSpace(filter)) return true;
-        var parts = filter.Split('|');
-        
-        for (var i = 1; i < parts.Length; i += 2)
-        {
-            foreach (var mask in parts[i].Split([';'], StringSplitOptions.RemoveEmptyEntries))
-            {
-                if (mask is "*" or "*.*") return true;
-                if (Like(fileName, mask)) return true;
-            }
-        }
-        return false;
-
-        static bool Like(string input, string pattern)
-        {
-            var re = "^" + Regex.Escape(pattern).Replace("\\*", ".*").Replace("\\?", ".") + "$";
-            return Regex.IsMatch(input, re, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         }
     }
 }
