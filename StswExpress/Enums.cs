@@ -216,6 +216,18 @@ public enum StswScrollType
 }
 
 /// <summary>
+/// Enumerator for <see cref="StswSidePanel"'s slide direction/>.
+/// </summary>
+public enum StswSlideDirection
+{
+    None,
+    Left,
+    Right,
+    Top,
+    Bottom,
+}
+
+/// <summary>
 /// Enumerator for <see cref="StswSlider.SliderMode"/>.
 /// </summary>
 public enum StswSliderMode

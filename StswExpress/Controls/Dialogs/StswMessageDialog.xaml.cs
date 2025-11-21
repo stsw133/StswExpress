@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,8 @@ namespace StswExpress;
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
     private ButtonBase? _buttonCopyToClipboard;
+    private ButtonBase? _buttonSendMail;
+
     public ICommand CloseCommand { get; }
 
     public StswMessageDialog()
@@ -38,11 +42,14 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         base.OnApplyTemplate();
 
         /// Button: copy to clipboard
-        if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase btnCopyToClipboard)
-        {
-            btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
-            _buttonCopyToClipboard = btnCopyToClipboard;
-        }
+        _buttonCopyToClipboard = GetTemplateChild("PART_ButtonCopyToClipboard") as ButtonBase;
+        if (_buttonCopyToClipboard != null)
+            _buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+
+        /// Button: send mail
+        _buttonSendMail = GetTemplateChild("PART_ButtonSendMail") as ButtonBase;
+        if (_buttonSendMail != null)
+            _buttonSendMail.Click += PART_ButtonSendMail_Click;
     }
 
     /// <summary>
@@ -56,6 +63,26 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
         if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
             stsw.IsChecked = true;
+    }
+
+    /// <summary>
+    /// Handles the send mail button click event and opens a new email with the dialog content.
+    /// </summary>
+    /// <param name="sender">The button triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_ButtonSendMail_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(MailAddress))
+            return;
+
+        var mailBody = Details is not null ? $"{Message}{Environment.NewLine}{Environment.NewLine}{Details}" : Message;
+        var mailtoUri = $"mailto:{MailAddress}?subject={Uri.EscapeDataString(Title ?? string.Empty)}&body={Uri.EscapeDataString(mailBody)}";
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = mailtoUri,
+            UseShellExecute = true
+        });
     }
     #endregion
 
@@ -75,7 +102,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
     public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = true, object? identifier = null)
-        => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
+        => await Show(ex.Message, title, ex.ToString(), null, StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
 
     /// <summary>
     /// Shows the message dialog asynchronously with customizable content and options.
@@ -88,13 +115,14 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     /// <param name="saveLog">Indicates whether the message should be logged.</param>
     /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(string message, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
+    public static async Task<bool?> Show(string message, string? title = null, string? details = null, string? mailAddress = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
     {
         StswMessageDialog dialog = new()
         {
             Title = title,
             Message = message,
             Details = details,
+            MailAddress = mailAddress,
             Buttons = buttons,
             Image = image,
             Identifier = identifier ?? StswApp.StswWindow
@@ -187,6 +215,46 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+
+    /// <summary>
+    /// Gets or sets the email address used when sending the dialog content via email.
+    /// </summary>
+    public string? MailAddress
+    {
+        get => (string?)GetValue(MailAddressProperty);
+        set => SetValue(MailAddressProperty, value);
+    }
+    public static readonly DependencyProperty MailAddressProperty
+        = DependencyProperty.Register(
+            nameof(MailAddress),
+            typeof(string),
+            typeof(StswMessageDialog),
+            new PropertyMetadata(null, OnMailAddressChanged)
+        );
+    private static void OnMailAddressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswMessageDialog stsw)
+            return;
+
+        stsw.HasMailAddress = !string.IsNullOrWhiteSpace(e.NewValue as string);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the dialog contains a valid email address.
+    /// </summary>
+    public bool HasMailAddress
+    {
+        get => (bool)GetValue(HasMailAddressProperty);
+        private set => SetValue(HasMailAddressPropertyKey, value);
+    }
+    private static readonly DependencyPropertyKey HasMailAddressPropertyKey
+        = DependencyProperty.RegisterReadOnly(
+            nameof(HasMailAddress),
+            typeof(bool),
+            typeof(StswMessageDialog),
+            new PropertyMetadata(false)
+        );
+    public static readonly DependencyProperty HasMailAddressProperty = HasMailAddressPropertyKey.DependencyProperty;
 
     /// <summary>
     /// Gets or sets the primary message displayed in the dialog.

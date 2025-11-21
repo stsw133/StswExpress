@@ -38,15 +38,26 @@
                                      Padding="0">
                         <se:StswGroupBox.Header>
                             <DockPanel>
-                                <!-- copy button -->
-                                <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" DockPanel.Dock="Right" Margin="3">
-                                    <se:StswTimedSwitch>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.CopyToClipboard}"/>
-                                        <se:StswTimedSwitch.TimedContent>
-                                            <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.Copied}"/>
-                                        </se:StswTimedSwitch.TimedContent>
-                                    </se:StswTimedSwitch>
-                                </se:StswSubButton>
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <!-- mail button -->
+                                    <se:StswSubButton x:Name="PART_ButtonSendMail"
+                                                      Margin="3"
+                                                      Visibility="Collapsed">
+                                        <se:StswIcon Data="{x:Static se:StswIcons.Email}"
+                                                     Fill="{Binding Foreground, ElementName=OPT_Header}"
+                                                     Scale="1.25"
+                                                     se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.SendEmail}"/>
+                                    </se:StswSubButton>
+                                    <!-- copy button -->
+                                    <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" Margin="3">
+                                        <se:StswTimedSwitch>
+                                            <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.CopyToClipboard}"/>
+                                            <se:StswTimedSwitch.TimedContent>
+                                                <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=OPT_Header}" Scale="1.25" se:StswToolTip.Text="{se:StswTranslate StswMessageDialog.Copied}"/>
+                                            </se:StswTimedSwitch.TimedContent>
+                                        </se:StswTimedSwitch>
+                                    </se:StswSubButton>
+                                </StackPanel>
                                 <!-- header -->
                                 <se:StswLabel x:Name="OPT_Header" Content="{TemplateBinding Title}" FontWeight="Medium">
                                     <se:StswLabel.LayoutTransform>
@@ -155,6 +166,9 @@
                         </Trigger>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
+                        </Trigger>
+                        <Trigger Property="HasMailAddress" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonSendMail"/>
                         </Trigger>
                         <Trigger Property="ShowDetails" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_DetailsText"/>

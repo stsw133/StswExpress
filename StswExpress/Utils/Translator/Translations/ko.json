@@ -67,6 +67,7 @@
   "StswMessageDialog.No": "아니오",
   "StswMessageDialog.OK": "확인",
   "StswMessageDialog.Retry": "재시도",
+  "StswMessageDialog.SendEmail": "이메일 보내기",
   "StswMessageDialog.ShowDetails": "세부 정보 표시",
   "StswMessageDialog.Try": "다시 해보기",
   "StswMessageDialog.Yes": "예",

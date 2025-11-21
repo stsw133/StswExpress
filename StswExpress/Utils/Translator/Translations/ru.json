@@ -67,6 +67,7 @@
   "StswMessageDialog.No": "Нет",
   "StswMessageDialog.OK": " OK ",
   "StswMessageDialog.Retry": "Повторить",
+  "StswMessageDialog.SendEmail": "Отправить письмо",
   "StswMessageDialog.ShowDetails": "Показать детали",
   "StswMessageDialog.Try": "Попробовать снова",
   "StswMessageDialog.Yes": "Да",

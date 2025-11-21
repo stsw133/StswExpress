@@ -67,6 +67,7 @@
   "StswMessageDialog.No": "否",
   "StswMessageDialog.OK": "确定",
   "StswMessageDialog.Retry": "重试",
+  "StswMessageDialog.SendEmail": "发送邮件",
   "StswMessageDialog.ShowDetails": "显示详情",
   "StswMessageDialog.Try": "再试一次",
   "StswMessageDialog.Yes": "是",

@@ -36,12 +36,6 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
-                    <!-- triggers -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsCollapsed" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Content"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

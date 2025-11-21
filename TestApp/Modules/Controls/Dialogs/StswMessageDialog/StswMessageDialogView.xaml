@@ -16,13 +16,16 @@
             <local:ControlsBase.Properties>
                 <!-- Buttons -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Buttons, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogButtons}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogButtons}"/>
+                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogButtons}" Margin="0 0 0 3" SelectedValue="{Binding Buttons}"/>
                 <!-- CloseOnBackdropClick -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CloseOnBackdropClick, Type={x:Type se:StswContentDialog}}"/>
                 <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
                 <!-- Image -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Image, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogImage}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogImage}"/>
+                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogImage}" Margin="0 0 0 3" SelectedValue="{Binding Image}"/>
+                <!-- MailAddress -->
+                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MailAddress, Type={x:Type se:StswMessageDialog}}"/>
+                <se:StswTextBox Margin="0 0 0 3" Text="{Binding MailAddress}"/>
                 <!-- ShowDetails -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Show details"/>
                 <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
@@ -33,7 +36,7 @@
             <local:ControlsBase.StatusPanel>
                 <se:StswText Padding="5">
                     <Run Text="Dialog ended with "/>
-                    <Run Text="{Binding MessageDialogResult}" FontWeight="Bold"/>
+                    <Run Text="{Binding DialogResult}" FontWeight="Bold"/>
                     <Run Text=" result"/>
                 </se:StswText>
             </local:ControlsBase.StatusPanel>

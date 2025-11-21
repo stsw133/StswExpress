@@ -67,6 +67,7 @@
   "StswMessageDialog.No": "いいえ",
   "StswMessageDialog.OK": " OK ",
   "StswMessageDialog.Retry": "再試行",
+  "StswMessageDialog.SendEmail": "メールを送信",
   "StswMessageDialog.ShowDetails": "詳細を表示",
   "StswMessageDialog.Try": "再度試す",
   "StswMessageDialog.Yes": "はい",

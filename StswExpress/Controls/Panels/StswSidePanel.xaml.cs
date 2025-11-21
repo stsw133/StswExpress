@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace StswExpress;
 /// <summary>
@@ -20,6 +23,9 @@ namespace StswExpress;
 /// </example>
 public class StswSidePanel : ContentControl
 {
+    private ContentPresenter? _contentPresenter;
+    private TranslateTransform? _contentTransform;
+
     static StswSidePanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSidePanel), new FrameworkPropertyMetadata(typeof(StswSidePanel)));
@@ -29,7 +35,20 @@ public class StswSidePanel : ContentControl
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
-        base.OnApplyTemplate();
+        if (_contentPresenter is not null)
+            _contentPresenter.SizeChanged -= OnContentPresenterSizeChanged;
+
+        _contentPresenter = GetTemplateChild("OPT_Content") as ContentPresenter;
+        if (_contentPresenter is not null)
+        {
+            _contentPresenter.SizeChanged += OnContentPresenterSizeChanged;
+            if (_contentPresenter.RenderTransform is not TranslateTransform transform)
+            {
+                transform = new TranslateTransform();
+                _contentPresenter.RenderTransform = transform;
+            }
+            _contentTransform = transform;
+        }
 
         if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
             expandBorder.MouseEnter += (_, _) =>
@@ -37,6 +56,8 @@ public class StswSidePanel : ContentControl
                 if (!IsAlwaysVisible && IsCollapsed)
                     IsCollapsed = false;
             };
+
+        UpdateCollapsedState(false);
     }
 
     /// <inheritdoc/>
@@ -89,7 +110,161 @@ public class StswSidePanel : ContentControl
             nameof(IsCollapsed),
             typeof(bool),
             typeof(StswSidePanel),
-            new PropertyMetadata(true)
+            new PropertyMetadata(true, OnIsCollapsedChanged)
         );
+    private static void OnIsCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswSidePanel stsw)
+            return;
+
+        stsw.UpdateCollapsedState(true);
+    }
+    #endregion
+
+    #region Animations
+    /// <summary>
+    /// Handles size changes of the content presenter to update the collapsed state accordingly.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnContentPresenterSizeChanged(object sender, SizeChangedEventArgs e) => UpdateCollapsedState(false);
+
+    /// <summary>
+    /// Updates the visual state of the side panel based on its collapsed state, with optional animation.
+    /// </summary>
+    /// <param name="animate">Indicates whether to animate the transition.</param>
+    private void UpdateCollapsedState(bool animate)
+    {
+        if (_contentPresenter is null || _contentTransform is null)
+            return;
+
+        var direction = GetSlideDirection();
+
+        var canAnimate = animate
+            && StswSettings.Default.EnableAnimations
+            && StswControl.GetEnableAnimations(this);
+
+        if (direction == StswSlideDirection.None)
+        {
+            _contentPresenter.Visibility = IsCollapsed ? Visibility.Collapsed : Visibility.Visible;
+            _contentTransform.X = 0;
+            _contentTransform.Y = 0;
+            return;
+        }
+
+        var collapsedOffset = GetCollapsedOffset(direction);
+
+        if (!canAnimate)
+        {
+            ApplyCollapsedStateWithoutAnimation(direction, collapsedOffset);
+            return;
+        }
+
+        AnimateCollapsedState(direction, collapsedOffset);
+    }
+
+    /// <summary>
+    /// Applies the collapsed state instantly without animation.
+    /// </summary>
+    /// <param name="direction">The direction in which the panel collapses.</param>
+    /// <param name="collapsedOffset">The offset value when collapsed.</param>
+    private void ApplyCollapsedStateWithoutAnimation(StswSlideDirection direction, double collapsedOffset)
+    {
+        if (_contentPresenter is null || _contentTransform is null)
+            return;
+
+        _contentPresenter.Visibility = IsCollapsed ? Visibility.Collapsed : Visibility.Visible;
+
+        if (direction is StswSlideDirection.Left or StswSlideDirection.Right)
+        {
+            _contentTransform.X = IsCollapsed ? collapsedOffset : 0;
+            _contentTransform.Y = 0;
+        }
+        else
+        {
+            _contentTransform.X = 0;
+            _contentTransform.Y = IsCollapsed ? collapsedOffset : 0;
+        }
+    }
+
+    /// <summary>
+    /// Animates the transition to the collapsed or expanded state.
+    /// </summary>
+    /// <param name="direction">The direction in which the panel collapses.</param>
+    /// <param name="collapsedOffset">The offset value when collapsed.</param>
+    private void AnimateCollapsedState(StswSlideDirection direction, double collapsedOffset)
+    {
+        if (_contentPresenter is null || _contentTransform is null)
+            return;
+
+        var targetProperty = direction is StswSlideDirection.Left or StswSlideDirection.Right
+            ? TranslateTransform.XProperty
+            : TranslateTransform.YProperty;
+
+        var targetValue = IsCollapsed ? collapsedOffset : 0d;
+
+        if (!IsCollapsed)
+            _contentPresenter.Visibility = Visibility.Visible;
+
+        var animation = new DoubleAnimation
+        {
+            To = targetValue,
+            Duration = TimeSpan.FromMilliseconds(200),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+        };
+
+        if (IsCollapsed)
+        {
+            void OnAnimationCompleted(object? sender, EventArgs args)
+            {
+                animation.Completed -= OnAnimationCompleted;
+                if (_contentPresenter is not null)
+                    _contentPresenter.Visibility = Visibility.Collapsed;
+            }
+
+            animation.Completed += OnAnimationCompleted;
+        }
+
+        _contentTransform.BeginAnimation(targetProperty, animation, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    /// <summary>
+    /// Determines the slide direction based on the control's alignment properties.
+    /// </summary>
+    /// <returns>The slide direction.</returns>
+    private StswSlideDirection GetSlideDirection()
+    {
+        return HorizontalAlignment switch
+        {
+            HorizontalAlignment.Left => StswSlideDirection.Left,
+            HorizontalAlignment.Right => StswSlideDirection.Right,
+            _ => VerticalAlignment switch
+            {
+                VerticalAlignment.Top => StswSlideDirection.Top,
+                VerticalAlignment.Bottom => StswSlideDirection.Bottom,
+                _ => StswSlideDirection.None,
+            },
+        };
+    }
+
+    /// <summary>
+    /// Calculates the offset value for the collapsed state based on the slide direction.
+    /// </summary>
+    /// <param name="direction">The direction in which the panel collapses.</param>
+    /// <returns>The offset value for the collapsed state.</returns>
+    private double GetCollapsedOffset(StswSlideDirection direction)
+    {
+        if (_contentPresenter is null)
+            return 0;
+
+        return direction switch
+        {
+            StswSlideDirection.Left => -_contentPresenter.ActualWidth,
+            StswSlideDirection.Right => _contentPresenter.ActualWidth,
+            StswSlideDirection.Top => -_contentPresenter.ActualHeight,
+            StswSlideDirection.Bottom => _contentPresenter.ActualHeight,
+            _ => 0,
+        };
+    }
     #endregion
 }
