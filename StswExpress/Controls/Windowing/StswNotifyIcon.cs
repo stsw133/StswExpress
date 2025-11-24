@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -25,21 +27,53 @@ namespace StswExpress;
 [StswPlannedChanges(StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures, "Needs code cleanup and additional features like restoring instead when another app instance is started.")]
 public class StswNotifyIcon : FrameworkElement
 {
+    private static readonly HashSet<WeakReference<StswNotifyIcon>> _loadedInstances = [];
     private NotifyIcon? _tray;
     private Window? _window;
 
     public StswNotifyIcon()
     {
+        Loaded += OnLoaded;
         Loaded += Initialize;
+        Unloaded += OnUnloaded;
         Unloaded += Cleanup;
     }
 
     #region Events & methods
     /// <summary>
+    /// Registers the notify icon instance for identifier-based lookups.
+    /// </summary>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (weakRef.TryGetTarget(out StswNotifyIcon? notifyIcon) && ReferenceEquals(notifyIcon, this))
+                return;
+
+        _loadedInstances.Add(new WeakReference<StswNotifyIcon>(this));
+    }
+
+    /// <summary>
+    /// Unregisters the notify icon instance when it is unloaded.
+    /// </summary>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnUnloaded(object? sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (!weakRef.TryGetTarget(out StswNotifyIcon? notifyIcon) || ReferenceEquals(notifyIcon, this))
+            {
+                _loadedInstances.Remove(weakRef);
+                break;
+            }
+    }
+
+    /// <summary>
     /// Initializes the <see cref="NotifyIcon"/> instance and sets up event handlers for tray icon actions and application state changes.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">Event arguments.</param>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
     private void Initialize(object? sender, RoutedEventArgs e)
     {
         _window = ContextControl as Window ?? Window.GetWindow(this);
@@ -73,8 +107,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Cleans up resources related to the <see cref="NotifyIcon"/> instance and detaches event handlers when the control is unloaded.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">Event arguments.</param>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
     private void Cleanup(object? sender, RoutedEventArgs e)
     {
         _tray?.Dispose();
@@ -84,11 +118,54 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     /// <summary>
+    /// Handles application exit, releasing any resources tied to the <see cref="NotifyIcon"/> instance.
+    /// </summary>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnApplicationExit(object? sender, ExitEventArgs e) => _tray?.Dispose();
+
+    /// <summary>
+    /// Retrieves a notify icon instance based on the provided identifier.
+    /// </summary>
+    /// <param name="notifyIconIdentifier">The identifier of the notify icon.</param>
+    /// <returns>A matching <see cref="StswNotifyIcon"/> instance.</returns>
+    internal static StswNotifyIcon GetInstance(object? notifyIconIdentifier)
+    {
+        if (_loadedInstances.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswNotifyIcon)} instances.");
+
+        var targets = new List<StswNotifyIcon>();
+        foreach (var instance in _loadedInstances.ToList())
+        {
+            if (instance.TryGetTarget(out var notifyIcon))
+            {
+                object? identifier = null;
+
+                if (notifyIcon.CheckAccess())
+                    identifier = notifyIcon.Identifier;
+                else
+                    identifier = notifyIcon.Dispatcher.Invoke(() => notifyIcon.Identifier);
+
+                if (Equals(notifyIconIdentifier, identifier))
+                    targets.Add(notifyIcon);
+            }
+            else _loadedInstances.Remove(instance);
+        }
+
+        if (targets.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswNotifyIcon)} have an {nameof(Identifier)} property matching {nameof(notifyIconIdentifier)} ('{notifyIconIdentifier}') argument.");
+        if (targets.Count > 1)
+            throw new InvalidOperationException($"Multiple viable {nameof(StswNotifyIcon)}s. Specify a unique Identifier on each {nameof(StswNotifyIcon)}, especially where multiple Windows are a concern.");
+
+        return targets[0];
+    }
+
+    /// <summary>
     /// Handles window state changes, hiding the window when minimized if <see cref="IsAlwaysVisible"/> is false.
     /// Ensures the tray icon remains visible.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">Event arguments.</param>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
     private void HandleWindowStateChange(object? sender, EventArgs e)
     {
         if (_window == null || _tray == null || !IsEnabled)
@@ -125,11 +202,48 @@ public class StswNotifyIcon : FrameworkElement
     }
 
     /// <summary>
-    /// Handles application exit, releasing any resources tied to the <see cref="NotifyIcon"/> instance.
+    /// Adjusts the system tray icon visibility based on the window state and the value of <see cref="IsAlwaysVisible"/>.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnApplicationExit(object? sender, ExitEventArgs e) => _tray?.Dispose();
+    private void UpdateIconVisibility() => _tray!.Visible = IsAlwaysVisible || _window?.IsVisible != true;
+
+    /// <summary>
+    /// Displays a balloon notification for the <see cref="StswNotifyIcon"/> identified by <paramref name="notifyIconIdentifier"/>.
+    /// </summary>
+    /// <param name="title">Title of the notification.</param>
+    /// <param name="text">Content text of the notification.</param>
+    /// <param name="icon">Notification icon type.</param>
+    /// <param name="identifier">Identifier of the notify icon instance.</param>
+    public static void Show(string? title, string? text, ToolTipIcon? icon, object? identifier) => GetInstance(identifier).Show(title, text, icon);
+
+    /// <summary>
+    /// Displays a notification balloon with a specified title, text, and icon in the system tray.
+    /// </summary>
+    /// <param name="title">The notification title text.</param>
+    /// <param name="text">The notification content text.</param>
+    /// <param name="icon">The icon type for the notification balloon.</param>
+    public void Show(string? title, string? text, ToolTipIcon? icon)
+    {
+        if (!CheckAccess())
+        {
+            Dispatcher.Invoke(() => Show(title, text, icon));
+            return;
+        }
+
+        if (_tray is null)
+            throw new InvalidOperationException($"{nameof(StswNotifyIcon)} is not initialized.");
+
+        var timeout = ((int?)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Accessibility", "MessageDuration", 5) ?? 5) * 1000;
+        if (!string.IsNullOrEmpty(text))
+        {
+            var shouldRestoreVisibility = !_tray.Visible;
+            _tray.Visible = true;
+
+            _tray.ShowBalloonTip(timeout, title ?? string.Empty, text, icon ?? ToolTipIcon.None);
+
+            if (shouldRestoreVisibility)
+                UpdateIconVisibility();
+        }
+    }
 
     /// <summary>
     /// Displays the context menu for the system tray icon, setting its data context from the control’s context, if available.
@@ -161,11 +275,6 @@ public class StswNotifyIcon : FrameworkElement
         if (!IsAlwaysVisible)
             Task.Delay(100).ContinueWith(_ => _tray.Visible = false);
     }
-
-    /// <summary>
-    /// Adjusts the system tray icon visibility based on the window state and the value of <see cref="IsAlwaysVisible"/>.
-    /// </summary>
-    private void UpdateIconVisibility() => _tray!.Visible = IsAlwaysVisible || _window?.IsVisible != true;
     #endregion
 
     #region Logic properties
@@ -231,6 +340,21 @@ public class StswNotifyIcon : FrameworkElement
         if (stsw._tray != null)
             stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
     }
+
+    /// <summary>
+    /// Gets or sets the identifier that allows static access to the notify icon instance.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswNotifyIcon)
+        );
 
     /// <summary>
     /// Gets or sets a value indicating whether the <see cref="NotifyIcon"/> remains visible even when the associated window is minimized.
@@ -301,46 +425,6 @@ public class StswNotifyIcon : FrameworkElement
             return;
 
         stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
-    }
-    #endregion
-
-    #region Static instance
-    private static NotifyIcon? _staticTray;
-
-    /// <summary>
-    /// Initializes a static instance of the <see cref="NotifyIcon"/> with a specified icon and tooltip text, making it available globally.
-    /// </summary>
-    /// <param name="icon">Icon to be displayed in the tray.</param>
-    /// <param name="text">Tooltip text for the tray icon.</param>
-    private static void InitStaticIcon(Icon? icon, string? text)
-    {
-        if (_staticTray == null)
-        {
-            _staticTray = new();
-            _staticTray.Click += (_, _) => _staticTray.Visible = false;
-            _staticTray.MouseClick += (_, _) => _staticTray.Visible = false;
-            System.Windows.Application.Current.Exit += (_, _) => _staticTray?.Dispose();
-        }
-        _staticTray.Icon = icon ?? Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()!.ManifestModule.Name);
-        _staticTray.Text = text ?? StswFn.AppName;
-    }
-
-    /// <summary>
-    /// Displays a static notification balloon with a specified title, text, and icon in the system tray.
-    /// Allows setting a custom icon and tooltip text.
-    /// </summary>
-    /// <param name="tipTitle">Title text for the notification.</param>
-    /// <param name="tipText">Notification content text.</param>
-    /// <param name="tipIcon">Icon type for the notification balloon.</param>
-    /// <param name="icon">Icon displayed in the system tray.</param>
-    /// <param name="text">Tooltip text for the tray icon.</param>
-    public static async Task Notify(string? tipTitle, string? tipText, ToolTipIcon? tipIcon, Icon? icon = null, string? text = null)
-    {
-        InitStaticIcon(icon, text);
-        _staticTray!.Visible = true;
-
-        var timeout = ((int?)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Accessibility", "MessageDuration", 5) ?? 5) * 1000;
-        await Task.Run(() => _staticTray?.ShowBalloonTip(timeout, tipTitle ?? string.Empty, tipText ?? string.Empty, tipIcon ?? ToolTipIcon.None));
     }
     #endregion
 

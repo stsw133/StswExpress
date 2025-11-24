@@ -9,7 +9,27 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ContractorsContext}"
              Loaded="{se:StswEventToCommand InitCommand}">
 
-    <se:StswTabControl AreTabsVisible="True" BorderThickness="0 1 0 0" Margin="1" NewItem="{Binding NewTab}" NewItemCommand="{Binding NewTabCommand, Mode=OneWayToSource}">
+    <se:StswTabControl AreTabsVisible="True"
+                       BorderThickness="0 1 0 0"
+                       Margin="1"
+                       NewItem="{Binding NewTab}"
+                       NewItemCommand="{Binding NewTabCommand, Mode=OneWayToSource}"
+                       NewItemCreatedCommand="{Binding NewTabCreatedCommand}">
+        <se:StswTabControl.NewItemTemplate>
+            <DataTemplate>
+                <se:StswTabItem IsClosable="True">
+                    <se:StswTabItem.Header>
+                        <se:StswLabel Content="New contractor" IconData="{x:Static se:StswIcons.Plus}"/>
+                    </se:StswTabItem.Header>
+                    <local:ContractorsSingleView>
+                        <local:ContractorsSingleView.DataContext>
+                            <local:ContractorsSingleContext/>
+                        </local:ContractorsSingleView.DataContext>
+                    </local:ContractorsSingleView>
+                </se:StswTabItem>
+            </DataTemplate>
+        </se:StswTabControl.NewItemTemplate>
+        
         <se:StswTabItem>
             <se:StswTabItem.Header>
                 <se:StswLabel Content="Contractors list" IconData="{x:Static se:StswIcons.AccountGroup}"/>
@@ -54,15 +74,15 @@
                         </se:StswButton>
                     </UniformGrid>
                     <TextBlock Margin="3" VerticalAlignment="Center">
-                        <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
+                        <Run Text="{Binding ListContractors.Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                         <Run Text=" total rows, "/>
-                        <Run Text="{Binding ListContractors.CountUnchanged, Mode=OneWay}" FontWeight="Bold" Foreground="Gray"/>
+                        <Run Text="{Binding ListContractors.Items.CountUnchanged, Mode=OneWay}" FontWeight="Bold" Foreground="Gray"/>
                         <Run Text=" unchanged rows, "/>
-                        <Run Text="{Binding ListContractors.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                        <Run Text="{Binding ListContractors.Items.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                         <Run Text=" added rows, "/>
-                        <Run Text="{Binding ListContractors.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                        <Run Text="{Binding ListContractors.Items.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                         <Run Text=" modified rows, "/>
-                        <Run Text="{Binding ListContractors.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                        <Run Text="{Binding ListContractors.Items.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                         <Run Text=" deleted rows"/>
                     </TextBlock>
                 </DockPanel>
@@ -70,7 +90,7 @@
                 <se:StswDataGrid FiltersData="{Binding FiltersContractors}"
                                  FiltersType="CollectionView"
                                  FrozenColumnCount="1"
-                                 ItemsSource="{Binding ListContractorsView}"
+                                 ItemsSource="{Binding ListContractors.View}"
                                  Margin="3"
                                  SelectedItem="{Binding SelectedContractor}">
                     <se:StswDataGrid.Resources>

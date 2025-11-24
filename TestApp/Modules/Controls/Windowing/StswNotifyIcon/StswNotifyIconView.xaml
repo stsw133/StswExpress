@@ -21,6 +21,7 @@
         <DockPanel>
             <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                IconPath="/Resources/icon.ico"
+                               Identifier="PrimaryNotifyIcon"
                                IsAlwaysVisible="{Binding IsAlwaysVisible}"
                                IsEnabled="{Binding IsEnabled}"
                                Text="{x:Static se:StswFnUI.AppNameAndVersion}"

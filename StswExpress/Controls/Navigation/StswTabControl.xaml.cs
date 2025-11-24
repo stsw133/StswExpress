@@ -44,31 +44,10 @@ public class StswTabControl : TabControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
-        NewItemCommand = new StswCommand(CreateItem);
+        
+        SetCurrentValue(NewItemCommandProperty, NewItemCommand ?? new StswCommand(CreateItem));
         UpdateReorderHandlers(CanReorder);
         UpdateTabItemsAllowDrop();
-    }
-
-    /// <summary>
-    /// Creates a new tab item and adds it to the tab control. 
-    /// Supports both bound item sources and direct tab item collections.
-    /// </summary>
-    private void CreateItem()
-    {
-        if (ItemsSource is IList list)
-        {
-            var itemType = list.GetType().GenericTypeArguments.FirstOrDefault() ?? typeof(object);
-            NewItem = Activator.CreateInstance(itemType);
-            list.Add(NewItem);
-            SelectedIndex = list.Count - 1;
-        }
-        else if (Items != null)
-        {
-            NewItem = new StswTabItem();
-            Items.Add(NewItem);
-            SelectedIndex = Items.Count - 1;
-        }
     }
 
     /// <inheritdoc/>
@@ -87,6 +66,56 @@ public class StswTabControl : TabControl
 
         if (element is TabItem tabItem)
             tabItem.AllowDrop = CanReorder;
+    }
+
+    /// <summary>
+    /// Creates a new tab item and adds it to the tab control. 
+    /// Supports both bound item sources and direct tab item collections.
+    /// </summary>
+    private void CreateItem()
+    {
+        object? newItem = null;
+
+        if (ItemsSource is IList list)
+        {
+            var itemType = list.GetType().GenericTypeArguments.FirstOrDefault() ?? typeof(object);
+            newItem = CreateNewItemInstance(itemType);
+            if (newItem != null)
+            {
+                list.Add(newItem);
+                SelectedIndex = list.Count - 1;
+            }
+        }
+        else if (Items != null)
+        {
+            newItem = CreateNewItemInstance(typeof(StswTabItem));
+            if (newItem != null)
+            {
+                Items.Add(newItem);
+                SelectedIndex = Items.Count - 1;
+            }
+        }
+
+        if (newItem != null)
+        {
+            NewItem = newItem;
+
+            if (NewItemCreatedCommand?.CanExecute(newItem) == true)
+                NewItemCreatedCommand.Execute(newItem);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the command that is executed after a new tab item is created.
+    /// </summary>
+    /// <param name="targetType">The type of the new tab item to create.</param>
+    /// <returns>The newly created tab item instance.</returns>
+    private object? CreateNewItemInstance(Type targetType)
+    {
+        if (NewItemTemplate?.LoadContent() is { } templateItem && targetType.IsInstanceOfType(templateItem))
+            return templateItem;
+
+        return Activator.CreateInstance(targetType);
     }
     #endregion
 
@@ -136,6 +165,36 @@ public class StswTabControl : TabControl
             typeof(object),
             typeof(StswTabControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
+
+    /// <summary>
+    /// Gets or sets the template used to create a new tab item when the add button is invoked.
+    /// </summary>
+    public DataTemplate? NewItemTemplate
+    {
+        get => (DataTemplate?)GetValue(NewItemTemplateProperty);
+        set => SetValue(NewItemTemplateProperty, value);
+    }
+    public static readonly DependencyProperty NewItemTemplateProperty
+        = DependencyProperty.Register(
+            nameof(NewItemTemplate),
+            typeof(DataTemplate),
+            typeof(StswTabControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the command executed after a new tab item is created.
+    /// </summary>
+    public ICommand? NewItemCreatedCommand
+    {
+        get => (ICommand?)GetValue(NewItemCreatedCommandProperty);
+        set => SetValue(NewItemCreatedCommandProperty, value);
+    }
+    public static readonly DependencyProperty NewItemCreatedCommandProperty
+        = DependencyProperty.Register(
+            nameof(NewItemCreatedCommand),
+            typeof(ICommand),
+            typeof(StswTabControl)
         );
 
     /// <summary>

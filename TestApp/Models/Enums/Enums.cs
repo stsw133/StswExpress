@@ -27,3 +27,10 @@ public enum DiscountType
     [Description("Value")]
     Value
 }
+
+enum EditorAction
+{
+    Add,
+    Clone,
+    Edit
+}
