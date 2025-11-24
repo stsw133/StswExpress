@@ -34,12 +34,19 @@ public class StswColorPicker : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_ColorGrid") is FrameworkElement colorGrid)
+        if (_colorGrid != null)
         {
-            colorGrid.MouseDown += PART_ColorGrid_MouseDown;
-            colorGrid.MouseMove += PART_ColorGrid_MouseMove;
-            colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
-            _colorGrid = colorGrid;
+            _colorGrid.MouseDown -= PART_ColorGrid_MouseDown;
+            _colorGrid.MouseMove -= PART_ColorGrid_MouseMove;
+            _colorGrid.SizeChanged -= PART_ColorGrid_SizeChanged;
+        }
+
+        _colorGrid = GetTemplateChild("PART_ColorGrid") as FrameworkElement;
+        if (_colorGrid != null)
+        {
+            _colorGrid.MouseDown += PART_ColorGrid_MouseDown;
+            _colorGrid.MouseMove += PART_ColorGrid_MouseMove;
+            _colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
         }
         _colorEllipse = GetTemplateChild("PART_ColorEllipse") as FrameworkElement;
     }

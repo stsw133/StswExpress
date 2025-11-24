@@ -24,6 +24,8 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedPath))]
 public class StswPathPicker : StswBoxBase
 {
+    private ButtonBase? _dialogButton;
+
     static StswPathPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(typeof(StswPathPicker)));
@@ -36,8 +38,12 @@ public class StswPathPicker : StswBoxBase
         base.OnApplyTemplate();
 
         /// Button: open dialog window
-        if (GetTemplateChild("PART_DialogButton") is ButtonBase btnDialog)
-            btnDialog.Click += PART_DialogButton_Click;
+        if (_dialogButton != null)
+            _dialogButton.Click -= PART_DialogButton_Click;
+
+        _dialogButton = GetTemplateChild("PART_DialogButton") as ButtonBase;
+        if (_dialogButton != null)
+            _dialogButton.Click += PART_DialogButton_Click;
 
         AttachTextValidationRule();
         ListAdjacentPaths();
@@ -266,24 +272,6 @@ public class StswPathPicker : StswBoxBase
             }
         }
     }
-
-    /// <summary>
-    /// Generates a textual representation of the file size to display it as a string.
-    /// The size is converted to one of the following units: B, KB, MB, or GB based on the file's size.
-    /// </summary>
-    /// <param name="filePath">Path to file</param>
-    /// <returns>A textual representation of the file size in one of the following units: B, KB, MB, GB.</returns>
-    public static string DisplayFileSize(string filePath)
-    {
-        var length = new FileInfo(filePath).Length;
-        return length switch
-        {
-            < 1_024 => $"{length} B",
-            < 1_048_576 => $"{length / 1_024} KB",
-            < 1_073_741_824 => $"{length / 1_048_576} MB",
-            _ => $"{length / 1_073_741_824} GB"
-        };
-    }
     #endregion
 
     #region Logic properties
@@ -409,7 +397,7 @@ public class StswPathPicker : StswBoxBase
         if (d is not StswPathPicker stsw)
             return;
 
-        stsw.FileSize = File.Exists(stsw.SelectedPath) ? DisplayFileSize(stsw.SelectedPath) : null;
+        stsw.FileSize = File.Exists(stsw.SelectedPath) ? StswFn.FormatByteSize(new FileInfo(stsw.SelectedPath).Length) : null;
         stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
 
         /// load adjacent paths

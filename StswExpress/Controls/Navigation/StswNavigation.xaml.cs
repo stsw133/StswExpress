@@ -27,6 +27,7 @@ namespace StswExpress;
 [StswPlannedChanges(StswPlannedChanges.Rework, "This control needs to support MVVM pattern better and derive from TreeView for hierarchical navigation.")]
 public class StswNavigation : ContentControl, IStswCornerControl
 {
+    private ToggleButton? _tabStripModeButton;
     internal StswNavigationElement? CompactedExpander;
 
     public StswNavigation()
@@ -48,8 +49,12 @@ public class StswNavigation : ContentControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_TabStripModeButton") is ToggleButton tabStripModeButton)
-            tabStripModeButton.Click += PART_TabStripModeButton_Click;
+        if (_tabStripModeButton != null)
+            _tabStripModeButton.Click -= PART_TabStripModeButton_Click;
+
+        _tabStripModeButton = GetTemplateChild("PART_TabStripModeButton") as ToggleButton;
+        if (_tabStripModeButton != null)
+            _tabStripModeButton.Click += PART_TabStripModeButton_Click;
     }
 
     /// <summary>

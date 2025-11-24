@@ -26,6 +26,8 @@ namespace StswExpress;
 [ContentProperty(nameof(Items))]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
+    private Popup? _popup;
+
     bool IStswDropControl.SuppressNextOpen { get; set; }
 
     public StswSubSelector()
@@ -43,9 +45,13 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     {
         base.OnApplyTemplate();
 
+        if (_popup?.Child != null)
+            _popup.Child.MouseLeave -= PopupChild_MouseLeave;
+
         /// StswPopup: popup
-        if (GetTemplateChild("PART_Popup") is Popup popup)
-            popup.Child.MouseLeave += (_, _) => IsDropDownOpen = false;
+        _popup = GetTemplateChild("PART_Popup") as Popup;
+        if (_popup?.Child != null)
+            _popup.Child.MouseLeave += PopupChild_MouseLeave;
     }
 
     /// <inheritdoc/>
@@ -54,6 +60,13 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         base.OnMouseEnter(e);
         IsDropDownOpen = true;
     }
+
+    /// <summary>
+    /// Handles the MouseLeave event of the popup child to close the drop-down.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+    private void PopupChild_MouseLeave(object sender, MouseEventArgs e) => IsDropDownOpen = false;
     #endregion
 
     #region Logic properties

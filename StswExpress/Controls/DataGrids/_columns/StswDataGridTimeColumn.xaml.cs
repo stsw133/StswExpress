@@ -45,10 +45,10 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         {
             Margin = new Thickness(2, 0, 2, 0)
         };
-        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
@@ -65,14 +65,14 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle
         };
-        editingElement.SetBinding(StswTimePicker.FormatProperty, CreateColumnBinding(nameof(Format)));
-        editingElement.SetBinding(StswTimePicker.IncrementTypeProperty, CreateColumnBinding(nameof(IncrementType)));
-        editingElement.SetBinding(StswTimePicker.MaximumProperty, CreateColumnBinding(nameof(Maximum)));
-        editingElement.SetBinding(StswTimePicker.MinimumProperty, CreateColumnBinding(nameof(Minimum)));
-        editingElement.SetBinding(StswTimePicker.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswTimePicker.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswTimePicker.FormatProperty, this.CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswTimePicker.IncrementTypeProperty, this.CreateColumnBinding(nameof(IncrementType)));
+        editingElement.SetBinding(StswTimePicker.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswTimePicker.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswTimePicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswTimePicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -80,17 +80,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
 
         return editingElement;
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     #region Logic properties
     /// <summary>

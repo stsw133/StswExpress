@@ -30,7 +30,9 @@ namespace StswExpress;
 /// </example>
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
+    private readonly List<StswFilterBox> _attachedFilterBoxes = [];
     private readonly StswScrollActionScheduler _scrollActionScheduler;
+
     private static Type? SqlParameterType { get; set; }
     private static bool SqlClientAvailable { get; set; }
 
@@ -67,9 +69,14 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         RowHeaderStyle = RowHeaderStyle;
 
         /// attach local event on all discovered FilterBoxes
-        var filterBoxes = StswFnUI.FindVisualChildren<StswFilterBox>(this);
-        foreach (var filterBox in filterBoxes)
-            filterBox.FilterChanged += (_, _) => ApplyFilters();
+        foreach (var filterBox in _attachedFilterBoxes)
+            filterBox.FilterChanged -= FilterBox_FilterChanged;
+
+        _attachedFilterBoxes.Clear();
+        _attachedFilterBoxes.AddRange(StswFnUI.FindVisualChildren<StswFilterBox>(this));
+
+        foreach (var filterBox in _attachedFilterBoxes)
+            filterBox.FilterChanged += FilterBox_FilterChanged;
 
         /// if we are using CollectionView filters, set aggregator now
         if (FiltersType == StswDataGridFiltersType.CollectionView)
@@ -201,6 +208,13 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             SqlParameterType = null;
         }
     }
+
+    /// <summary>
+    /// Handles the FilterChanged event from filter boxes and applies the current filters to the data grid.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
     #endregion
 
     #region Filters

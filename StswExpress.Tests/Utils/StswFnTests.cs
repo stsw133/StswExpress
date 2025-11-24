@@ -161,4 +161,19 @@ public class StswFnTests
         Assert.False(StswFn.IsValidUrl("ftp://example.com"));
         Assert.False(StswFn.IsValidUrl("not-a-url"));
     }
+
+    [Fact]
+    public void FormatByteSize_ProducesHumanReadableString()
+    {
+        Assert.Equal("1.0 KB", StswFn.FormatByteSize(1024));
+        Assert.Equal("512 B", StswFn.FormatByteSize(512, 0));
+    }
+
+    [Fact]
+    public void TruncateWithEllipsis_TruncatesWhenNeeded()
+    {
+        var truncated = StswFn.TruncateWithEllipsis("abcdefghijkl", 8, "...");
+        Assert.Equal("abcde...", truncated);
+        Assert.Equal("short", StswFn.TruncateWithEllipsis("short", 10));
+    }
 }

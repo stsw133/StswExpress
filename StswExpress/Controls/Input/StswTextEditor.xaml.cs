@@ -26,7 +26,8 @@ namespace StswExpress;
 public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;
-    private readonly StswDecimalBox? _fontSize;
+    private StswDecimalBox? _fontSize;
+
     public ICommand FileNewCommand { get; }
     public ICommand FileOpenCommand { get; }
     public ICommand FileSaveCommand { get; }
@@ -68,19 +69,23 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         base.OnApplyTemplate();
 
+        if (_fontFamily != null)
+            _fontFamily.SelectionChanged -= PART_FontFamily_SelectionChanged;
+        //if (_fontSize != null)
+        //    _fontSize.ValueChanged -= PART_FontSize_ValueChanged;
+
         /// Box: font families
-        if (GetTemplateChild("PART_FontFamily") is StswComboBox fontFamily)
+        _fontFamily = GetTemplateChild("PART_FontFamily") as StswComboBox;
+        if (_fontFamily != null)
         {
-            fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
-            fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
-            _fontFamily = fontFamily;
+            _fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
+            _fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
         }
+
         /// Box: font size
-        //if (GetTemplateChild("PART_FontSize") is StswDecimalBox fontSize)
-        //{
-        //    fontSize.ValueChanged += PART_FontSize_ValueChanged;
-        //    _fontSize = fontSize;
-        //}
+        _fontSize = GetTemplateChild("PART_FontSize") as StswDecimalBox;
+        //if (_fontSize != null)
+        //    _fontSize.ValueChanged += PART_FontSize_ValueChanged;
 
         OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;

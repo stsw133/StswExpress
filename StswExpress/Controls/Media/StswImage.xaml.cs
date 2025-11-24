@@ -20,6 +20,13 @@ namespace StswExpress;
 [ContentProperty(nameof(Source))]
 public class StswImage : Control, IStswCornerControl
 {
+    private MenuItem? _mniCopy;
+    private MenuItem? _mniCut;
+    private MenuItem? _mniDelete;
+    private MenuItem? _mniLoad;
+    private MenuItem? _mniPaste;
+    private MenuItem? _mniSave;
+
     static StswImage()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
@@ -31,24 +38,48 @@ public class StswImage : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_mniCut != null)
+            _mniCut.Click -= PART_Cut_Click;
+        if (_mniCopy != null)
+            _mniCopy.Click -= PART_Copy_Click;
+        if (_mniPaste != null)
+            _mniPaste.Click -= PART_Paste_Click;
+        if (_mniDelete != null)
+            _mniDelete.Click -= PART_Delete_Click;
+        if (_mniLoad != null)
+            _mniLoad.Click -= PART_Load_Click;
+        if (_mniSave != null)
+            _mniSave.Click -= PART_Save_Click;
+
         /// Menu: cut
-        if (GetTemplateChild("PART_Cut") is MenuItem mniCut)
-            mniCut.Click += PART_Cut_Click;
+        _mniCut = GetTemplateChild("PART_Cut") as MenuItem;
+        if (_mniCut != null)
+            _mniCut.Click += PART_Cut_Click;
+
         /// Menu: copy
-        if (GetTemplateChild("PART_Copy") is MenuItem mniCopy)
-            mniCopy.Click += PART_Copy_Click;
+        _mniCopy = GetTemplateChild("PART_Copy") as MenuItem;
+        if (_mniCopy != null)
+            _mniCopy.Click += PART_Copy_Click;
+
         /// Menu: paste
-        if (GetTemplateChild("PART_Paste") is MenuItem mniPaste)
-            mniPaste.Click += PART_Paste_Click;
+        _mniPaste = GetTemplateChild("PART_Paste") as MenuItem;
+        if (_mniPaste != null)
+            _mniPaste.Click += PART_Paste_Click;
+
         /// Menu: delete
-        if (GetTemplateChild("PART_Delete") is MenuItem mniDelete)
-            mniDelete.Click += PART_Delete_Click;
+        _mniDelete = GetTemplateChild("PART_Delete") as MenuItem;
+        if (_mniDelete != null)
+            _mniDelete.Click += PART_Delete_Click;
+
         /// Menu: load
-        if (GetTemplateChild("PART_Load") is MenuItem mniLoad)
-            mniLoad.Click += PART_Load_Click;
+        _mniLoad = GetTemplateChild("PART_Load") as MenuItem;
+        if (_mniLoad != null)
+            _mniLoad.Click += PART_Load_Click;
+
         /// Menu: save
-        if (GetTemplateChild("PART_Save") is MenuItem mniSave)
-            mniSave.Click += PART_Save_Click;
+        _mniSave = GetTemplateChild("PART_Save") as MenuItem;
+        if (_mniSave != null)
+            _mniSave.Click += PART_Save_Click;
     }
 
     /// <summary>

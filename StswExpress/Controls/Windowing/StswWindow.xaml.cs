@@ -49,16 +49,32 @@ public class StswWindow : Window, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_windowBar != null)
+            _windowBar.SizeChanged -= WindowBar_SizeChanged;
+
         /// chrome change
-        if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
+        _windowBar = GetTemplateChild("PART_WindowBar") as StswWindowBar;
+        if (_windowBar != null)
         {
-            windowBar.SizeChanged += (_, _) => UpdateChrome();
-            if (windowBar.Parent is StswSidePanel windowBarPanel)
+            _windowBar.SizeChanged += WindowBar_SizeChanged;
+            if (_windowBar.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.IsAlwaysVisible = !Fullscreen;
-            _windowBar = windowBar;
         }
-        StateChanged += (_, _) => UpdateChrome();
     }
+
+    /// <inheritdoc/>
+    protected override void OnStateChanged(EventArgs e)
+    {
+        base.OnStateChanged(e);
+        UpdateChrome();
+    }
+
+    /// <summary>
+    /// Handles size changes of the window bar to update the custom window chrome accordingly.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event data.</param>
+    private void WindowBar_SizeChanged(object sender, SizeChangedEventArgs e) => UpdateChrome();
 
     /// <summary>
     /// Centers the window on the screen based on the monitor's available work area.

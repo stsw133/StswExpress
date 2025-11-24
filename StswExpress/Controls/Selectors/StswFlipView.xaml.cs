@@ -37,31 +37,22 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     public override void OnApplyTemplate()
     {
         if (_buttonPrevious != null)
-        {
             _buttonPrevious.Click -= OnButtonPreviousClick;
-            _buttonPrevious = null;
-        }
 
         if (_buttonNext != null)
-        {
             _buttonNext.Click -= OnButtonNextClick;
-            _buttonNext = null;
-        }
 
         base.OnApplyTemplate();
 
         /// Button: previous
-        if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase buttonPrevious)
-        {
-            buttonPrevious.Click += OnButtonPreviousClick;
-            _buttonPrevious = buttonPrevious;
-        }
+        _buttonPrevious = GetTemplateChild("PART_ButtonPrevious") as ButtonBase;
+        if (_buttonPrevious != null)
+            _buttonPrevious.Click += OnButtonPreviousClick;
+
         /// Button: next
-        if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
-        {
-            buttonNext.Click += OnButtonNextClick;
-            _buttonNext = buttonNext;
-        }
+        _buttonNext = GetTemplateChild("PART_ButtonNext") as ButtonBase;
+        if (_buttonNext != null)
+            _buttonNext.Click += OnButtonNextClick;
 
         UpdateNavigationButtons();
     }

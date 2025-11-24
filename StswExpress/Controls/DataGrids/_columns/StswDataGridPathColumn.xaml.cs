@@ -43,10 +43,10 @@ public class StswDataGridPathColumn : DataGridTextColumn
         {
             Margin = new Thickness(2, 0, 2, 0)
         };
-        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
@@ -63,16 +63,16 @@ public class StswDataGridPathColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle
         };
-        editingElement.SetBinding(StswPathPicker.FilterProperty, CreateColumnBinding(nameof(Filter)));
-        editingElement.SetBinding(StswPathPicker.IsFileSizeVisibleProperty, CreateColumnBinding(nameof(IsFileSizeVisible)));
-        editingElement.SetBinding(StswPathPicker.IsShiftingEnabledProperty, CreateColumnBinding(nameof(IsShiftingEnabled)));
-        editingElement.SetBinding(StswPathPicker.MultiselectProperty, CreateColumnBinding(nameof(Multiselect)));
-        editingElement.SetBinding(StswPathPicker.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswPathPicker.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswPathPicker.SelectionUnitProperty, CreateColumnBinding(nameof(SelectionUnit)));
-        editingElement.SetBinding(StswPathPicker.SuggestedFilenameProperty, CreateColumnBinding(nameof(SuggestedFilename)));
-        editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswPathPicker.FilterProperty, this.CreateColumnBinding(nameof(Filter)));
+        editingElement.SetBinding(StswPathPicker.IsFileSizeVisibleProperty, this.CreateColumnBinding(nameof(IsFileSizeVisible)));
+        editingElement.SetBinding(StswPathPicker.IsShiftingEnabledProperty, this.CreateColumnBinding(nameof(IsShiftingEnabled)));
+        editingElement.SetBinding(StswPathPicker.MultiselectProperty, this.CreateColumnBinding(nameof(Multiselect)));
+        editingElement.SetBinding(StswPathPicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswPathPicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswPathPicker.SelectionUnitProperty, this.CreateColumnBinding(nameof(SelectionUnit)));
+        editingElement.SetBinding(StswPathPicker.SuggestedFilenameProperty, this.CreateColumnBinding(nameof(SuggestedFilename)));
+        editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -80,17 +80,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
 
         return editingElement;
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     #region Logic properties
     /// <summary>

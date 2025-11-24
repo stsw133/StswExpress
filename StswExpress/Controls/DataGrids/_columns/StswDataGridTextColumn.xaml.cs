@@ -43,10 +43,10 @@ public class StswDataGridTextColumn : DataGridTextColumn
         {
             Margin = new Thickness(2, 0, 2, 0)
         };
-        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         BindFontProperties(this, displayElement);
 
         /// bindings
@@ -63,12 +63,12 @@ public class StswDataGridTextColumn : DataGridTextColumn
         {
             Style = StswEditingElementStyle
         };
-        editingElement.SetBinding(StswTextBox.AcceptsReturnProperty, CreateColumnBinding(nameof(AcceptsReturn)));
-        editingElement.SetBinding(StswTextBox.MaxLengthProperty, CreateColumnBinding(nameof(MaxLength)));
-        editingElement.SetBinding(StswTextBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswTextBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswTextBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswTextBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswTextBox.AcceptsReturnProperty, this.CreateColumnBinding(nameof(AcceptsReturn)));
+        editingElement.SetBinding(StswTextBox.MaxLengthProperty, this.CreateColumnBinding(nameof(MaxLength)));
+        editingElement.SetBinding(StswTextBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswTextBox.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswTextBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswTextBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (Binding != null)
@@ -113,17 +113,6 @@ public class StswDataGridTextColumn : DataGridTextColumn
                 Mode = BindingMode.OneWay
             });
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     #region Logic properties
     /// <summary>

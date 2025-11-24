@@ -27,6 +27,11 @@ public class StswMediaPlayer : ItemsControl
     private readonly DragStartedEventHandler _timelineDragStartedHandler;
     private readonly DragCompletedEventHandler _timelineDragCompletedHandler;
 
+    private ButtonBase? _btnNext;
+    private CheckBox? _btnPlay;
+    private ButtonBase? _btnPrevious;
+    private ButtonBase? _btnStop;
+    private CheckBox? _btnMute;
     private MediaElement? _mediaElement;
     private Slider? _timelineSlider;
     private bool _isUserChangingTimeline;
@@ -53,27 +58,40 @@ public class StswMediaPlayer : ItemsControl
     {
         base.OnApplyTemplate();
 
+        DetachButtonEvents();
+
         /// Button: shuffle
         //if (GetTemplateChild("PART_ButtonShuffle") is CheckBox btnShuffle)
         //    btnShuffle.Click += ButtonShuffle_Click;
+
         /// Button: stop
-        if (GetTemplateChild("PART_ButtonStop") is ButtonBase btnStop)
-            btnStop.Click += (_, _) => IsPlaying = null;
+        _btnStop = GetTemplateChild("PART_ButtonStop") as ButtonBase;
+        if (_btnStop != null)
+            _btnStop.Click += BtnStop_Click;
+
         /// Button: previous
-        if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase btnPrevious)
-            btnPrevious.Click += (_, _) => ShiftBy(-1);
+        _btnPrevious = GetTemplateChild("PART_ButtonPrevious") as ButtonBase;
+        if (_btnPrevious != null)
+            _btnPrevious.Click += BtnPrevious_Click;
+
         /// Button: play
-        if (GetTemplateChild("PART_ButtonPlay") is CheckBox btnPlay)
-            btnPlay.Click += (_, _) => IsPlaying = IsPlaying != true;
+        _btnPlay = GetTemplateChild("PART_ButtonPlay") as CheckBox;
+        if (_btnPlay != null)
+            _btnPlay.Click += BtnPlay_Click;
+
         /// Button: next
-        if (GetTemplateChild("PART_ButtonNext") is ButtonBase btnNext)
-            btnNext.Click += (_, _) => ShiftBy(1);
+        _btnNext = GetTemplateChild("PART_ButtonNext") as ButtonBase;
+        if (_btnNext != null)
+            _btnNext.Click += BtnNext_Click;
+
         /// Button: repeat
         //if (GetTemplateChild("PART_ButtonRepeat") is CheckBox btnRepeat)
         //    btnRepeat.Click += BtnRepeat_Click;
+
         /// Button: mute
-        if (GetTemplateChild("PART_ButtonMute") is CheckBox btnMute)
-            btnMute.Click += (_, _) => IsMuted = btnMute.IsChecked == true;
+        _btnMute = GetTemplateChild("PART_ButtonMute") as CheckBox;
+        if (_btnMute != null)
+            _btnMute.Click += BtnMute_Click;
 
         /// Slider: timeline
         if (_timelineSlider != null)
@@ -117,6 +135,58 @@ public class StswMediaPlayer : ItemsControl
         {
             _mediaElement = null;
         }
+    }
+
+    /// <summary>
+    /// Handles the click event of the mute button.
+    /// </summary>
+    /// <param name="sender">The sender object (button)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnMute_Click(object sender, RoutedEventArgs e) => IsMuted = _btnMute?.IsChecked == true;
+
+    /// <summary>
+    /// Handles the click event of the next button.
+    /// </summary>
+    /// <param name="sender">The sender object (button)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnNext_Click(object sender, RoutedEventArgs e) => ShiftBy(1);
+
+    /// <summary>
+    /// Handles the click event of the play button.
+    /// </summary>
+    /// <param name="sender">The sender object (button)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnPlay_Click(object sender, RoutedEventArgs e) => IsPlaying = IsPlaying != true;
+
+    /// <summary>
+    /// Handles the click event of the previous button.
+    /// </summary>
+    /// <param name="sender">The sender object (button)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnPrevious_Click(object sender, RoutedEventArgs e) => ShiftBy(-1);
+
+    /// <summary>
+    /// Handles the click event of the stop button.
+    /// </summary>
+    /// <param name="sender">The sender object (button)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnStop_Click(object sender, RoutedEventArgs e) => IsPlaying = null;
+
+    /// <summary>
+    /// Detaches event handlers from the control buttons.
+    /// </summary>
+    private void DetachButtonEvents()
+    {
+        if (_btnStop != null)
+            _btnStop.Click -= BtnStop_Click;
+        if (_btnPrevious != null)
+            _btnPrevious.Click -= BtnPrevious_Click;
+        if (_btnPlay != null)
+            _btnPlay.Click -= BtnPlay_Click;
+        if (_btnNext != null)
+            _btnNext.Click -= BtnNext_Click;
+        if (_btnMute != null)
+            _btnMute.Click -= BtnMute_Click;
     }
 
     /// <summary>

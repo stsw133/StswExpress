@@ -179,6 +179,52 @@ public class StswDateRangeTests
     }
 
     [Fact]
+    public void Expand_ExtendsRangeRespectingOrientation()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 5), new DateTime(2024, 1, 10));
+        var expanded = range.Expand(TimeSpan.FromDays(2));
+        Assert.Equal(new DateTime(2024, 1, 3), expanded.Start);
+        Assert.Equal(new DateTime(2024, 1, 12), expanded.End);
+
+        range = new StswDateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 5));
+        expanded = range.Expand(TimeSpan.FromDays(1), TimeSpan.FromDays(2));
+        Assert.Equal(new DateTime(2024, 1, 12), expanded.Start);
+        Assert.Equal(new DateTime(2024, 1, 4), expanded.End);
+    }
+
+    [Fact]
+    public void Expand_ThrowsForNegativeOffsets()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => range.Expand(TimeSpan.FromDays(-1), TimeSpan.Zero));
+        Assert.Throws<ArgumentOutOfRangeException>(() => range.Expand(TimeSpan.Zero, TimeSpan.FromDays(-1)));
+    }
+
+    [Fact]
+    public void ShiftTo_MovesRangeKeepingDuration()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 3));
+        var shifted = range.ShiftTo(new DateTime(2024, 2, 1));
+        Assert.Equal(new DateTime(2024, 2, 1), shifted.Start);
+        Assert.Equal(new DateTime(2024, 2, 3), shifted.End);
+
+        range = new StswDateRange(new DateTime(2024, 1, 5), new DateTime(2024, 1, 1));
+        shifted = range.ShiftTo(new DateTime(2024, 2, 10));
+        Assert.Equal(new DateTime(2024, 2, 10), shifted.Start);
+        Assert.Equal(new DateTime(2024, 2, 6), shifted.End);
+    }
+
+    [Fact]
+    public void GetMidpoint_ReturnsCenterOfRange()
+    {
+        var range = new StswDateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 3));
+        Assert.Equal(new DateTime(2024, 1, 2), range.GetMidpoint());
+
+        range = new StswDateRange(new DateTime(2024, 1, 3), new DateTime(2024, 1, 1));
+        Assert.Equal(new DateTime(2024, 1, 2), range.GetMidpoint());
+    }
+
+    [Fact]
     public void GetNormalized_ReturnsChronologicalOrder()
     {
         var range = new StswDateRange(new DateTime(2024, 1, 10), new DateTime(2024, 1, 1));

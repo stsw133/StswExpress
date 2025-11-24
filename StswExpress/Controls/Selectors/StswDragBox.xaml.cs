@@ -52,8 +52,6 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         base.OnApplyTemplate();
 
         AllowDrop = true;
-        DragOver += OnDragOver;
-        Drop += OnDrop;
 
         ItemContainerStyle = new Style(typeof(StswDragBoxItem));
         ItemContainerStyle.Setters.Add(new EventSetter(MouseMoveEvent, new MouseEventHandler(OnItemMouseMove)));
@@ -125,31 +123,14 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
     #region Drag & Drop logic
     /// <summary>
-    /// Handles the drag-over event for individual list items, allowing item reordering within the same list.
-    /// </summary>
-    /// <param name="sender">The item being dragged over.</param>
-    /// <param name="e">Drag event arguments.</param>
-    private void OnItemDragOver(object sender, DragEventArgs e)
-    {
-        if (sender is FrameworkElement targetElement && ItemsSource is IList currentList)
-        {
-            var draggedItem = e.Data.GetData("StswDraggedItem");
-            var sourceList = e.Data.GetData("StswSourceList") as IList;
-            var targetItem = targetElement.DataContext;
-
-            if (draggedItem != null && targetItem != null && ReferenceEquals(sourceList, currentList))
-                SwapInList(currentList, draggedItem, targetItem);
-        }
-    }
-
-    /// <summary>
     /// Handles the drag-over event on the empty space of the list.
     /// Ensures the correct cursor appearance and move effect during the operation.
     /// </summary>
     /// <param name="sender">The drag box receiving the event.</param>
     /// <param name="e">Drag event arguments.</param>
-    private void OnDragOver(object sender, DragEventArgs e)
+    protected override void OnDragOver(DragEventArgs e)
     {
+        base.OnDragOver(e);
         e.Effects = DragDropEffects.Move;
         e.Handled = true;
     }
@@ -160,8 +141,10 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     /// </summary>
     /// <param name="sender">The drop target list box.</param>
     /// <param name="e">Drag event arguments.</param>
-    private void OnDrop(object sender, DragEventArgs e)
+    protected override void OnDrop(DragEventArgs e)
     {
+        base.OnDrop(e);
+
         if (IsReadOnly)
         {
             e.Handled = true;
@@ -186,6 +169,24 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
             if (!targetList.Contains(draggedItem))
                 targetList.Insert(insertIndex, draggedItem);
+        }
+    }
+
+    /// <summary>
+    /// Handles the drag-over event for individual list items, allowing item reordering within the same list.
+    /// </summary>
+    /// <param name="sender">The item being dragged over.</param>
+    /// <param name="e">Drag event arguments.</param>
+    private void OnItemDragOver(object sender, DragEventArgs e)
+    {
+        if (sender is FrameworkElement targetElement && ItemsSource is IList currentList)
+        {
+            var draggedItem = e.Data.GetData("StswDraggedItem");
+            var sourceList = e.Data.GetData("StswSourceList") as IList;
+            var targetItem = targetElement.DataContext;
+
+            if (draggedItem != null && targetItem != null && ReferenceEquals(sourceList, currentList))
+                SwapInList(currentList, draggedItem, targetItem);
         }
     }
 

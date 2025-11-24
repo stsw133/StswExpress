@@ -21,6 +21,9 @@ namespace StswExpress;
 /// </example>
 public class StswInfoBar : Control, IStswCornerControl
 {
+    private ButtonBase? _btnClose;
+    private ButtonBase? _btnCopyToClipboard;
+
     static StswInfoBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBar), new FrameworkPropertyMetadata(typeof(StswInfoBar)));
@@ -32,12 +35,20 @@ public class StswInfoBar : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_btnCopyToClipboard != null)
+            _btnCopyToClipboard.Click -= PART_ButtonCopyToClipboard_Click;
+        if (_btnClose != null)
+            _btnClose.Click -= PART_ButtonClose_Click;
+
         /// Button: copy to clipboard
-        if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase btnCopyToClipboard)
-            btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+        _btnCopyToClipboard = GetTemplateChild("PART_ButtonCopyToClipboard") as ButtonBase;
+        if (_btnCopyToClipboard != null)
+            _btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+
         /// Button: close
-        if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
-            btnClose.Click += PART_ButtonClose_Click;
+        _btnClose = GetTemplateChild("PART_ButtonClose") as ButtonBase;
+        if (_btnClose != null)
+            _btnClose.Click += PART_ButtonClose_Click;
     }
 
     /// <summary>

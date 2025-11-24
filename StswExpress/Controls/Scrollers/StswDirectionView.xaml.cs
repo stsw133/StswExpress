@@ -54,7 +54,7 @@ public class StswDirectionView : ScrollViewer
         /// Button: down
         if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
-            btnDown.Click += (_, _) => ScrollInfo.MouseWheelDown();
+            btnDown.Click += DirectionButton_Click;
             btnDown.MouseEnter += HandleMouseEnterOnButton;
             btnDown.MouseLeave += HandleMouseLeaveFromButton;
             btnDown.IsVisibleChanged += Button_IsVisibleChanged;
@@ -63,7 +63,7 @@ public class StswDirectionView : ScrollViewer
         /// Button: left
         if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
-            btnLeft.Click += (_, _) => ScrollInfo.MouseWheelLeft();
+            btnLeft.Click += DirectionButton_Click;
             btnLeft.MouseEnter += HandleMouseEnterOnButton;
             btnLeft.MouseLeave += HandleMouseLeaveFromButton;
             btnLeft.IsVisibleChanged += Button_IsVisibleChanged;
@@ -72,7 +72,7 @@ public class StswDirectionView : ScrollViewer
         /// Button: right
         if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
-            btnRight.Click += (_, _) => ScrollInfo.MouseWheelRight();
+            btnRight.Click += DirectionButton_Click;
             btnRight.MouseEnter += HandleMouseEnterOnButton;
             btnRight.MouseLeave += HandleMouseLeaveFromButton;
             btnRight.IsVisibleChanged += Button_IsVisibleChanged;
@@ -81,7 +81,7 @@ public class StswDirectionView : ScrollViewer
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
-            btnUp.Click += (_, _) => ScrollInfo.MouseWheelUp();
+            btnUp.Click += DirectionButton_Click;
             btnUp.MouseEnter += HandleMouseEnterOnButton;
             btnUp.MouseLeave += HandleMouseLeaveFromButton;
             btnUp.IsVisibleChanged += Button_IsVisibleChanged;
@@ -232,6 +232,23 @@ public class StswDirectionView : ScrollViewer
             _btnUp.IsEnabled = true;
             _btnDown.IsEnabled = true;
         }
+    }
+
+    /// <summary>
+    /// Handles click events for directional buttons to perform scrolling actions.
+    /// </summary>
+    /// <param name="sender">The button which raised the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void DirectionButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (ReferenceEquals(sender, _btnDown))
+            ScrollInfo.MouseWheelDown();
+        else if (ReferenceEquals(sender, _btnLeft))
+            ScrollInfo.MouseWheelLeft();
+        else if (ReferenceEquals(sender, _btnRight))
+            ScrollInfo.MouseWheelRight();
+        else if (ReferenceEquals(sender, _btnUp))
+            ScrollInfo.MouseWheelUp();
     }
 
     /// <summary>
@@ -819,6 +836,7 @@ public class StswDirectionView : ScrollViewer
         if (button == null)
             return;
 
+        button.Click -= DirectionButton_Click;
         button.MouseEnter -= HandleMouseEnterOnButton;
         button.MouseLeave -= HandleMouseLeaveFromButton;
         button.IsVisibleChanged -= Button_IsVisibleChanged;

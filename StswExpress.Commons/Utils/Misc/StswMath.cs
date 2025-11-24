@@ -61,6 +61,24 @@ public static class StswMath
     }
 
     /// <summary>
+    /// Performs a division and returns zero if the denominator is zero.
+    /// </summary>
+    /// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
+    /// <param name="num">The numerator.</param>
+    /// <param name="den">The denominator.</param>
+    /// <returns>The result of the division, or zero if the denominator is zero.</returns>
+    public static T Div0<T>(T num, T den) where T : INumber<T> => den == T.Zero ? T.Zero : num / den;
+
+    /// <summary>
+    /// Performs a division and returns a default value if the denominator is zero.
+    /// </summary>
+    /// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
+    /// <param name="num">The numerator.</param>
+    /// <param name="den">The denominator.</param>
+    /// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
+    public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
+
+    /// <summary>
     /// Computes the Euclidean modulo of a given long integer value with respect to a specified modulus.
     /// </summary>
     /// <param name="value">The dividend that will be wrapped.</param>
@@ -86,23 +104,31 @@ public static class StswMath
     public static int EuclidMod(int value, int modulus) => (int)EuclidMod((long)value, modulus);
 
     /// <summary>
-    /// Performs a division and returns zero if the denominator is zero.
+    /// Linearly interpolates between <paramref name="start"/> and <paramref name="end"/> by <paramref name="amount"/>.
     /// </summary>
-    /// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
-    /// <param name="num">The numerator.</param>
-    /// <param name="den">The denominator.</param>
-    /// <returns>The result of the division, or zero if the denominator is zero.</returns>
-    public static T Div0<T>(T num, T den) where T : INumber<T> => den == T.Zero ? T.Zero : num / den;
+    /// <param name="start">The starting value.</param>
+    /// <param name="end">The ending value.</param>
+    /// <param name="amount">A factor typically in the range [0, 1].</param>
+    /// <returns>The interpolated value.</returns>
+    public static double Lerp(double start, double end, double amount) => start + (end - start) * amount;
 
     /// <summary>
-    /// Performs a division and returns a default value if the denominator is zero.
+    /// Computes the normalized interpolation factor of <paramref name="value"/> within the range defined by <paramref name="start"/> and <paramref name="end"/>.
     /// </summary>
-    /// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
-    /// <param name="num">The numerator.</param>
-    /// <param name="den">The denominator.</param>
-    /// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
-    public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
+    /// <param name="start">The start of the range.</param>
+    /// <param name="end">The end of the range.</param>
+    /// <param name="value">The value to normalize.</param>
+    /// <returns>A factor that can be used with <see cref="Lerp(double, double, double)"/>.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="start"/> equals <paramref name="end"/>.</exception>
+    public static double InverseLerp(double start, double end, double value)
+    {
+        if (start == end)
+            throw new ArgumentException("start and end must differ to compute inverse interpolation.", nameof(end));
 
+        return (value - start) / (end - start);
+    }
+
+    #region String calculation
     /// <summary>
     /// Evaluates a mathematical expression provided as a string and returns the result as a <see cref="double"/>.
     /// </summary>
@@ -470,4 +496,5 @@ public static class StswMath
         /// <returns><see langword="true"/> if the character is an exponent indicator; otherwise, <see langword="false"/>.</returns>
         private static bool IsExponentIndicator(char c) => c is 'e' or 'E';
     }
+    #endregion
 }

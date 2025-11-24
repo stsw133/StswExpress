@@ -28,6 +28,8 @@ namespace StswExpress;
 /// </example>
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
+    private ButtonBase? _btnCloseAll;
+    private ButtonBase? _btnCopyAllToClipboard;
     private readonly StswScrollActionScheduler _scrollActionScheduler;
     private ScrollViewer? _scrollViewer;
 
@@ -46,15 +48,23 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("OPT_ScrollView") is ScrollViewer scrollViewer)
-            _scrollViewer = scrollViewer;
+        if (_btnCopyAllToClipboard != null)
+            _btnCopyAllToClipboard.Click -= PART_ButtonCopyAllToClipboard_Click;
+        if (_btnCloseAll != null)
+            _btnCloseAll.Click -= PART_ButtonCloseAll_Click;
+
+        /// scroll viewer
+        _scrollViewer = GetTemplateChild("OPT_ScrollView") as ScrollViewer;
 
         /// Button: copy all to clipboard
-        if (GetTemplateChild("PART_ButtonCopyAllToClipboard") is ButtonBase btnCopyAllToClipboard)
-            btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
+        _btnCopyAllToClipboard = GetTemplateChild("PART_ButtonCopyAllToClipboard") as ButtonBase;
+        if (_btnCopyAllToClipboard != null)
+            _btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
+
         /// Button: close all
-        if (GetTemplateChild("PART_ButtonCloseAll") is ButtonBase btnCloseAll)
-            btnCloseAll.Click += PART_ButtonCloseAll_Click;
+        _btnCloseAll = GetTemplateChild("PART_ButtonCloseAll") as ButtonBase;
+        if (_btnCloseAll != null)
+            _btnCloseAll.Click += PART_ButtonCloseAll_Click;
     }
 
     /// <inheritdoc/>

@@ -386,6 +386,34 @@ public static partial class StswFn
     }
     #endregion
 
+    #region Numeric functions
+    /// <summary>
+    /// Formats a byte size into a human-readable string (e.g., KB, MB, GB).
+    /// </summary>
+    /// <param name="bytes">The size in bytes.</param>
+    /// <param name="decimalPlaces">The number of decimal places to include in the formatted value.</param>
+    /// <returns>A human-readable string representing the size.</returns>
+    public static string FormatByteSize(long bytes, int decimalPlaces = 1)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(decimalPlaces);
+
+        string[] sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+        double length = Math.Abs(bytes);
+        var order = 0;
+
+        while (length >= 1024 && order < sizes.Length - 1)
+        {
+            length /= 1024;
+            order++;
+        }
+
+        var format = $"F{decimalPlaces}";
+        var prefix = bytes < 0 ? "-" : string.Empty;
+        var formatted = length.ToString(format, CultureInfo.InvariantCulture);
+        return $"{prefix}{formatted} {sizes[order]}".Trim();
+    }
+    #endregion
+
     #region Text functions
     /// <summary>
     /// Splits a string by a specified separator into chunks of size n.
@@ -460,6 +488,27 @@ public static partial class StswFn
 
         var pattern = $"(?:{Regex.Escape(textToRemove)}){{2,}}";
         return Regex.Replace(originalText, pattern, textToRemove);
+    }
+
+    /// <summary>
+    /// Truncates text to the specified length and appends an ellipsis when truncation occurs.
+    /// </summary>
+    /// <param name="value">The original text.</param>
+    /// <param name="maxLength">The maximum allowed length.</param>
+    /// <param name="ellipsis">The ellipsis string to append when truncation occurs.</param>
+    /// <returns>The truncated string if necessary; otherwise, the original text.</returns>
+    public static string TruncateWithEllipsis(string? value, int maxLength, string ellipsis = "…")
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxLength);
+
+        if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
+            return value ?? string.Empty;
+
+        var ellipsisLength = string.IsNullOrEmpty(ellipsis) ? 0 : ellipsis.Length;
+        if (ellipsisLength >= maxLength)
+            return ellipsisLength == 0 ? string.Empty : ellipsis[..maxLength];
+
+        return value[..(maxLength - ellipsisLength)] + ellipsis;
     }
     #endregion
 

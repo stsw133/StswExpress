@@ -47,13 +47,16 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         UpdateTextCommand ??= new StswCommand(UpdateText); // ensure the command is initialized
 
+        /// popup
         _popup = GetTemplateChild("PART_Popup") as Popup;
 
-        if (GetTemplateChild("PART_ListBox") is ListBox listBox)
-        {
-            listBox.SelectionChanged += (_, _) => UpdateTextCommand?.Execute(null);
-            _listBox = listBox;
-        }
+        /// listbox
+        if (_listBox != null)
+            _listBox.SelectionChanged -= ListBox_SelectionChanged;
+
+        _listBox = GetTemplateChild("PART_ListBox") as ListBox;
+        if (_listBox != null)
+            _listBox.SelectionChanged += ListBox_SelectionChanged;
     }
 
     /// <inheritdoc/>
@@ -87,6 +90,13 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             DisplayMemberPath = string.Empty;
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
+
+    /// <summary>
+    /// Handles selection changes in the internal ListBox.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateTextCommand?.Execute(null);
 
     /// <summary>
     /// Updates the displayed text based on the selected items.

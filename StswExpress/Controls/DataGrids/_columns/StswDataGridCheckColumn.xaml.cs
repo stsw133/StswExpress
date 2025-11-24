@@ -47,11 +47,11 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         {
             Style = StswDisplayElementStyle
         };
-        displayElement.SetBinding(StswCheckBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        displayElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        displayElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
-        displayElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+        displayElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
         ApplyIconBindings(displayElement);
 
         /// bindings
@@ -68,11 +68,11 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         {
             Style = StswEditingElementStyle
         };
-        editingElement.SetBinding(StswCheckBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
-        editingElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswCheckBox.HorizontalAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.VerticalAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
         ApplyIconBindings(editingElement);
 
         /// bindings
@@ -93,7 +93,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         ApplyConditionalBinding(element, nameof(IconIndeterminate), IconIndeterminateProperty, StswCheckBox.IconIndeterminateProperty);
 
         if (IconScale.HasValue)
-            element.SetBinding(StswCheckBox.IconScaleProperty, CreateColumnBinding(nameof(IconScale)));
+            element.SetBinding(StswCheckBox.IconScaleProperty, this.CreateColumnBinding(nameof(IconScale)));
         else
             element.ClearValue(StswCheckBox.IconScaleProperty);
     }
@@ -121,21 +121,10 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         if (ReadLocalValue(columnProperty) == DependencyProperty.UnsetValue)
             element.ClearValue(targetProperty);
         else if (element is FrameworkElement frameworkElement)
-            frameworkElement.SetBinding(targetProperty, CreateColumnBinding(propertyName));
+            frameworkElement.SetBinding(targetProperty, this.CreateColumnBinding(propertyName));
         else
-            BindingOperations.SetBinding(element, targetProperty, CreateColumnBinding(propertyName));
+            BindingOperations.SetBinding(element, targetProperty, this.CreateColumnBinding(propertyName));
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     #region Logic properties
     /// <summary>

@@ -45,10 +45,10 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         {
             Margin = new Thickness(2, 0, 2, 0)
         };
-        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
 
         if (dataItem == CollectionView.NewItemPlaceholder || dataItem == null)
         {
@@ -101,10 +101,10 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         else
             editingElement.ItemsSource = ItemsSource;
 
-        editingElement.SetBinding(StswComboBox.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswComboBox.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswComboBox.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswComboBox.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswComboBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswComboBox.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswComboBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswComboBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         /// bindings
         if (SelectedItemBinding != null)
@@ -129,17 +129,6 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         if (sender is DataGridCell cell && !cell.IsEditing)
             cell.IsEditing = true;
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     /// <summary>
     /// Returns a clone of the binding associated with the column's <see cref="ItemsSourceProperty"/>, if any.

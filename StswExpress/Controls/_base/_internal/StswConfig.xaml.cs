@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Shell;
 
 namespace StswExpress;
@@ -17,6 +18,10 @@ namespace StswExpress;
 /// </remarks>
 internal class StswConfig : Control, IStswCornerControl
 {
+    private ButtonBase? _btnCancel;
+    private ButtonBase? _btnConfirm;
+    private Slider? _iSizeSlider;
+
     internal StswConfig(object? identifier)
     {
         Identifier = identifier;
@@ -32,17 +37,52 @@ internal class StswConfig : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_btnConfirm != null)
+            _btnConfirm.Click -= BtnConfirm_Click;
+        if (_btnCancel != null)
+            _btnCancel.Click -= BtnCancel_Click;
+        if (_iSizeSlider != null)
+            _iSizeSlider.MouseLeave -= ISize_MouseLeave;
+
         /// Button: confirm
-        if (GetTemplateChild("PART_ButtonConfirm") is ButtonBase btnConfirm)
-            btnConfirm.Click += (_, _) => Close(true);
+        _btnConfirm = GetTemplateChild("PART_ButtonConfirm") as ButtonBase;
+        if (_btnConfirm != null)
+            _btnConfirm.Click += BtnConfirm_Click;
 
         /// Button: cancel
-        if (GetTemplateChild("PART_ButtonCancel") is ButtonBase btnCancel)
-            btnCancel.Click += (_, _) => Close(false);
+        _btnCancel = GetTemplateChild("PART_ButtonCancel") as ButtonBase;
+        if (_btnCancel != null)
+            _btnCancel.Click += BtnCancel_Click;
 
         /// Slider: iSize
-        if (GetTemplateChild("PART_iSize") is Slider iSize)
-            iSize.MouseLeave += (_, _) => StswSettings.Default.iSize = iSize.Value;
+        _iSizeSlider = GetTemplateChild("PART_iSize") as Slider;
+        if (_iSizeSlider != null)
+            _iSizeSlider.MouseLeave += ISize_MouseLeave;
+    }
+
+    /// <summary>
+    /// Handles the click event of the cancel button, closing the dialog without saving changes.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void BtnCancel_Click(object sender, RoutedEventArgs e) => Close(false);
+
+    /// <summary>
+    /// Handles the click event of the confirm button, closing the dialog and saving changes.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void BtnConfirm_Click(object sender, RoutedEventArgs e) => Close(true);
+
+    /// <summary>
+    /// Handles the mouse leave event of the iSize slider, updating the setting when the user stops interacting with it.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ISize_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (_iSizeSlider != null)
+            StswSettings.Default.iSize = _iSizeSlider.Value;
     }
 
     /// <summary>

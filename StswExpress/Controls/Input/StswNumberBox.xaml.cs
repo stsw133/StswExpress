@@ -16,6 +16,9 @@ namespace StswExpress;
 [ContentProperty(nameof(Value))]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
+    private ButtonBase? _btnDown;
+    private ButtonBase? _btnUp;
+
     static StswNumberBoxBase()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
@@ -27,12 +30,20 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     {
         base.OnApplyTemplate();
 
+        if (_btnUp != null)
+            _btnUp.Click -= PART_ButtonUp_Click;
+        if (_btnDown != null)
+            _btnDown.Click -= PART_ButtonDown_Click;
+
         /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
-            btnUp.Click += PART_ButtonUp_Click;
+        _btnUp = GetTemplateChild("PART_ButtonUp") as ButtonBase;
+        if (_btnUp != null)
+            _btnUp.Click += PART_ButtonUp_Click;
+
         /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
-            btnDown.Click += PART_ButtonDown_Click;
+        _btnDown = GetTemplateChild("PART_ButtonDown") as ButtonBase;
+        if (_btnDown != null)
+            _btnDown.Click += PART_ButtonDown_Click;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }

@@ -17,6 +17,10 @@ namespace StswExpress;
 /// </example>
 public class StswFilterTagsItem : ContentControl, IStswCornerControl
 {
+    private Button? _btnAdd;
+    private Button? _btnRemove;
+    private Button? _btnSelect;
+
     static StswFilterTagsItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterTagsItem), new FrameworkPropertyMetadata(typeof(StswFilterTagsItem)));
@@ -28,18 +32,49 @@ public class StswFilterTagsItem : ContentControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_btnAdd != null)
+            _btnAdd.Click -= BtnAdd_Click;
+        if (_btnRemove != null)
+            _btnRemove.Click -= BtnRemove_Click;
+        if (_btnSelect != null)
+            _btnSelect.Click -= BtnSelect_Click;
+
         /// Add
-        if (GetTemplateChild("PART_Add") is Button btnAdd)
-            btnAdd.Click += (_, _) => SetIncluded();
+        _btnAdd = GetTemplateChild("PART_Add") as Button;
+        if (_btnAdd != null)
+            _btnAdd.Click += BtnAdd_Click;
 
         /// Remove
-        if (GetTemplateChild("PART_Remove") is Button btnRemove)
-            btnRemove.Click += (_, _) => SetExcluded();
+        _btnRemove = GetTemplateChild("PART_Remove") as Button;
+        if (_btnRemove != null)
+            _btnRemove.Click += BtnRemove_Click;
 
         /// Select
-        if (GetTemplateChild("PART_Select") is Button btnSelect)
-            btnSelect.Click += (_, _) => SelectOnlyThis();
+        _btnSelect = GetTemplateChild("PART_Select") as Button;
+        if (_btnSelect != null)
+            _btnSelect.Click += BtnSelect_Click;
     }
+
+    /// <summary>
+    /// Sets the current item as included.
+    /// </summary>
+    /// <param name="sender">Event sender.</param>
+    /// <param name="e">Event arguments.</param>
+    private void BtnAdd_Click(object sender, RoutedEventArgs e) => SetIncluded();
+
+    /// <summary>
+    /// Sets the current item as excluded.
+    /// </summary>
+    /// <param name="sender">Event sender.</param>
+    /// <param name="e">Event arguments.</param>
+    private void BtnRemove_Click(object sender, RoutedEventArgs e) => SetExcluded();
+
+    /// <summary>
+    /// Selects only this item.
+    /// </summary>
+    /// <param name="sender">Event sender.</param>
+    /// <param name="e">Event arguments.</param>
+    private void BtnSelect_Click(object sender, RoutedEventArgs e) => SelectOnlyThis();
 
     /// <summary>
     /// Sets the current item as included.

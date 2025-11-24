@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,6 +39,11 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        if (_buttonCopyToClipboard != null)
+            _buttonCopyToClipboard.Click -= PART_ButtonCopyToClipboard_Click;
+        if (_buttonSendMail != null)
+            _buttonSendMail.Click -= PART_ButtonSendMail_Click;
 
         /// Button: copy to clipboard
         _buttonCopyToClipboard = GetTemplateChild("PART_ButtonCopyToClipboard") as ButtonBase;

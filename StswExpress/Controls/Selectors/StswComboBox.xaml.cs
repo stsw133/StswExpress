@@ -24,8 +24,10 @@ namespace StswExpress;/// <summary>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
     private TextBoxBase? _filter;
+    private Popup? _popup;
     private ICollectionView? _itemsView;
     private object? _hiddenSelectedItem;
+
     bool IStswDropControl.SuppressNextOpen { get; set; }
 
     public StswComboBox()
@@ -47,12 +49,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     {
         base.OnApplyTemplate();
 
+        /// filter textbox
         _filter = GetTemplateChild("PART_Filter") as TextBoxBase;
-        
-        if (GetTemplateChild("PART_Popup") is Popup popup)
+
+        /// popup
+        if (_popup != null)
         {
-            popup.Opened += OnIsDropDownOpenChanged;
-            popup.GotFocus += OnIsDropDownOpenChanged;
+            _popup.Opened -= OnIsDropDownOpenChanged;
+            _popup.GotFocus -= OnIsDropDownOpenChanged;
+        }
+
+        _popup = GetTemplateChild("PART_Popup") as Popup;
+        if (_popup != null)
+        {
+            _popup.Opened += OnIsDropDownOpenChanged;
+            _popup.GotFocus += OnIsDropDownOpenChanged;
         }
     }
 

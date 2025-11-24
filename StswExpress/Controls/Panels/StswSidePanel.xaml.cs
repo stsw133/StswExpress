@@ -25,6 +25,7 @@ public class StswSidePanel : ContentControl
 {
     private ContentPresenter? _contentPresenter;
     private TranslateTransform? _contentTransform;
+    private Border? _expandBorder;
 
     static StswSidePanel()
     {
@@ -35,11 +36,12 @@ public class StswSidePanel : ContentControl
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
-        if (_contentPresenter is not null)
+        /// content presenter
+        if (_contentPresenter != null)
             _contentPresenter.SizeChanged -= OnContentPresenterSizeChanged;
 
         _contentPresenter = GetTemplateChild("OPT_Content") as ContentPresenter;
-        if (_contentPresenter is not null)
+        if (_contentPresenter != null)
         {
             _contentPresenter.SizeChanged += OnContentPresenterSizeChanged;
             if (_contentPresenter.RenderTransform is not TranslateTransform transform)
@@ -50,12 +52,13 @@ public class StswSidePanel : ContentControl
             _contentTransform = transform;
         }
 
-        if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
-            expandBorder.MouseEnter += (_, _) =>
-            {
-                if (!IsAlwaysVisible && IsCollapsed)
-                    IsCollapsed = false;
-            };
+        /// expand border
+        if (_expandBorder != null)
+            _expandBorder.MouseEnter -= ExpandBorder_MouseEnter;
+
+        _expandBorder = GetTemplateChild("PART_ExpandBorder") as Border;
+        if (_expandBorder != null)
+            _expandBorder.MouseEnter += ExpandBorder_MouseEnter;
 
         UpdateCollapsedState(false);
     }
@@ -66,6 +69,17 @@ public class StswSidePanel : ContentControl
         base.OnMouseLeave(e);
         if (!IsAlwaysVisible && !IsCollapsed)
             IsCollapsed = true;
+    }
+
+    /// <summary>
+    /// Handles the MouseEnter event on the expand border to expand the panel when hovered.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ExpandBorder_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (!IsAlwaysVisible && IsCollapsed)
+            IsCollapsed = false;
     }
     #endregion
 

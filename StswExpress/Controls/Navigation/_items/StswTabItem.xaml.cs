@@ -16,6 +16,8 @@ namespace StswExpress;
 /// </example>
 public class StswTabItem : TabItem
 {
+    private ButtonBase? _closeTabButton;
+
     static StswTabItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabItem), new FrameworkPropertyMetadata(typeof(StswTabItem)));
@@ -28,8 +30,12 @@ public class StswTabItem : TabItem
         base.OnApplyTemplate();
 
         /// CloseTabButton
-        if (GetTemplateChild("PART_CloseTabButton") is ButtonBase closeTabButton)
-            closeTabButton.Click += PART_CloseTabButton_Click;
+        if (_closeTabButton != null)
+            _closeTabButton.Click -= PART_CloseTabButton_Click;
+
+        _closeTabButton = GetTemplateChild("PART_CloseTabButton") as ButtonBase;
+        if (_closeTabButton != null)
+            _closeTabButton.Click += PART_CloseTabButton_Click;
     }
 
     /// <summary>

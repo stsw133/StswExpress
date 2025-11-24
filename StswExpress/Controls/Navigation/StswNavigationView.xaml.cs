@@ -28,6 +28,7 @@ namespace StswExpress;
 public class StswNavigationView : ContentControl, IStswCornerControl
 {
     private StswNavigationTree? _mainTree, _pinnedTree;
+    private ToggleButton? _stripModeButton;
 
     public StswNavigationView()
     {
@@ -48,24 +49,48 @@ public class StswNavigationView : ContentControl, IStswCornerControl
         base.OnApplyTemplate();
 
         /// buttons
-        if (GetTemplateChild("PART_StripModeButton") is ToggleButton stripModeButton)
+        if (_stripModeButton != null)
         {
-            stripModeButton.IsChecked = TabStripMode == StswCompactibility.Full;
-            stripModeButton.Checked += (_, _) => TabStripMode = StswCompactibility.Full;
-            stripModeButton.Unchecked += (_, _) => TabStripMode = StswCompactibility.Compact;
+            _stripModeButton.Checked -= StripModeButton_Checked;
+            _stripModeButton.Unchecked -= StripModeButton_Unchecked;
         }
+
+        _stripModeButton = GetTemplateChild("PART_StripModeButton") as ToggleButton;
+        if (_stripModeButton != null)
+        {
+            _stripModeButton.IsChecked = TabStripMode == StswCompactibility.Full;
+            _stripModeButton.Checked += StripModeButton_Checked;
+            _stripModeButton.Unchecked += StripModeButton_Unchecked;
+        }
+
         /// trees
-        if (GetTemplateChild("PART_MainTree") is StswNavigationTree mainTree)
-        {
-            _mainTree = mainTree;
+        if (_mainTree != null)
+            _mainTree.SelectedItemChanged -= MainTree_SelectedItemChanged;
+        if (_pinnedTree != null)
+            _pinnedTree.SelectedItemChanged -= PinnedTree_SelectedItemChanged;
+
+        _mainTree = GetTemplateChild("PART_MainTree") as StswNavigationTree;
+        if (_mainTree != null)
             _mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
-        }
-        if (GetTemplateChild("PART_PinnedTree") is StswNavigationTree pinnedTree)
-        {
-            _pinnedTree = pinnedTree;
+
+        _pinnedTree = GetTemplateChild("PART_PinnedTree") as StswNavigationTree;
+        if (_pinnedTree != null)
             _pinnedTree.SelectedItemChanged += PinnedTree_SelectedItemChanged;
-        }
     }
+
+    /// <summary>
+    /// Handles the event when the strip mode button is unchecked.
+    /// </summary>
+    /// <param name="sender">The sender of the event, typically the strip mode button.</param>
+    /// <param name="e">The event arguments.</param>
+    private void StripModeButton_Unchecked(object? sender, RoutedEventArgs e) => TabStripMode = StswCompactibility.Compact;
+
+    /// <summary>
+    /// Handles the event when the strip mode button is checked.
+    /// </summary>
+    /// <param name="sender">The sender of the event, typically the strip mode button.</param>
+    /// <param name="e">The event arguments.</param>
+    private void StripModeButton_Checked(object? sender, RoutedEventArgs e) => TabStripMode = StswCompactibility.Full;
 
     /// <summary>
     /// Handles the selection change in the main tree view.
@@ -109,11 +134,8 @@ public class StswNavigationView : ContentControl, IStswCornerControl
         //currentItem.UpdateLayout();
 
         foreach (var child in currentItem.Items)
-        {
-            var childItem = currentItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
-            if (childItem != null && DeselectItem(childItem))
+            if (currentItem.ItemContainerGenerator.ContainerFromItem(child) is TreeViewItem childItem && DeselectItem(childItem))
                 return true;
-        }
 
         return false;
     }

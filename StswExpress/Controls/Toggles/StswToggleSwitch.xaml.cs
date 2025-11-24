@@ -41,7 +41,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         _backgroundBorder = GetTemplateChild("PART_BackgroundBorder") as Border;
         _circleBorder = GetTemplateChild("PART_CircleBorder") as Border;
 
-        Loaded += (_, _) => SetSwitch();
+        Loaded -= OnLoaded;
+        Loaded += OnLoaded;
         _isLoaded = true;
     }
 
@@ -90,6 +91,13 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
 
         SetSwitch();
     }
+
+    /// <summary>
+    /// Handles the Loaded event to initialize the switch.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e) => SetSwitch();
 
     /// <summary>
     /// Initializes and updates the visual properties of the toggle switch.

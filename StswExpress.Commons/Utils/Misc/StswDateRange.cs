@@ -417,6 +417,49 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     }
 
     /// <summary>
+    /// Expands the current range by subtracting <paramref name="before"/> from the start and adding <paramref name="after"/>
+    /// to the end.
+    /// </summary>
+    /// <param name="before">The amount of time to subtract from the start of the range. Must be non-negative.</param>
+    /// <param name="after">The amount of time to add to the end of the range. Must be non-negative.</param>
+    /// <returns>A new <see cref="StswDateRange"/> expanded by the requested offsets.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="before"/> or <paramref name="after"/> is negative.</exception>
+    public StswDateRange Expand(TimeSpan before, TimeSpan after)
+    {
+        if (before < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(before), "Value must be non-negative.");
+        if (after < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(after), "Value must be non-negative.");
+
+        var isAscending = Start <= End;
+        var (orderedStart, orderedEnd) = OrderRange(Start, End);
+        var expandedStart = orderedStart - before;
+        var expandedEnd = orderedEnd + after;
+
+        return isAscending
+            ? new StswDateRange(expandedStart, expandedEnd)
+            : new StswDateRange(expandedEnd, expandedStart);
+    }
+
+    /// <summary>
+    /// Expands the current range symmetrically by the specified <paramref name="amount"/>.
+    /// </summary>
+    /// <param name="amount">The amount of time to subtract from the start and add to the end. Must be non-negative.</param>
+    /// <returns>A new <see cref="StswDateRange"/> expanded on both sides.</returns>
+    public StswDateRange Expand(TimeSpan amount) => Expand(amount, amount);
+
+    /// <summary>
+    /// Gets the midpoint of the current range.
+    /// </summary>
+    /// <returns>The midpoint between the ordered start and end values.</returns>
+    public DateTime GetMidpoint()
+    {
+        var (orderedStart, orderedEnd) = OrderRange(Start, End);
+        var ticks = orderedStart.Ticks + (orderedEnd.Ticks - orderedStart.Ticks) / 2;
+        return new DateTime(ticks, orderedStart.Kind);
+    }
+
+    /// <summary>
     /// Returns a normalized copy of the range in chronological order.
     /// </summary>
     /// <returns>A <see cref="StswDateRange"/> whose start is earlier than or equal to its end.</returns>
@@ -433,6 +476,21 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     {
         if (End < Start)
             (Start, End) = (End, Start);
+    }
+
+    /// <summary>
+    /// Shifts the range so that it starts at <paramref name="newStart"/> while preserving its duration and orientation.
+    /// </summary>
+    /// <param name="newStart">The desired start value of the shifted range.</param>
+    /// <returns>A new <see cref="StswDateRange"/> that begins at <paramref name="newStart"/>.</returns>
+    public StswDateRange ShiftTo(DateTime newStart)
+    {
+        var duration = Duration;
+        var isAscending = Start <= End;
+
+        return isAscending
+            ? new StswDateRange(newStart, newStart + duration)
+            : new StswDateRange(newStart, newStart - duration);
     }
 
     /// <summary>

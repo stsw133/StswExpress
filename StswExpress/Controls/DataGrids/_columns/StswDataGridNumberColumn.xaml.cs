@@ -38,10 +38,10 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         {
             Margin = new Thickness(2, 0, 2, 0)
         };
-        displayElement.SetBinding(TextBlock.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, CreateColumnBinding(nameof(TextWrapping)));
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
         /// bindings
@@ -72,31 +72,20 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         {
             Style = StswEditingElementStyle
         };
-        editingElement.SetBinding(StswNumberBoxBase<T>.FormatProperty, CreateColumnBinding(nameof(Format)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.IncrementProperty, CreateColumnBinding(nameof(Increment)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.MaximumProperty, CreateColumnBinding(nameof(Maximum)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.MinimumProperty, CreateColumnBinding(nameof(Minimum)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.PaddingProperty, CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.PlaceholderProperty, CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.HorizontalContentAlignmentProperty, CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.VerticalContentAlignmentProperty, CreateColumnBinding(nameof(VerticalContentAlignment)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.FormatProperty, this.CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.IncrementProperty, this.CreateColumnBinding(nameof(Increment)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswNumberBoxBase<T>.ValueProperty, Binding);
 
         return editingElement;
     }
-
-    /// <summary>
-    /// Creates a one-way binding to a property of this column.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to bind to.</param>
-    /// <returns>A one-way binding to the specified property.</returns>
-    private Binding CreateColumnBinding(string propertyName) => new(propertyName)
-    {
-        Source = this,
-        Mode = BindingMode.OneWay
-    };
 
     #region Logic properties
     /// <summary>

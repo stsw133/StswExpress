@@ -15,6 +15,8 @@ namespace StswExpress;
 /// </remarks>
 public class StswToastItem : ContentControl, IStswCornerControl
 {
+    private ButtonBase? _btnClose;
+
     static StswToastItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToastItem), new FrameworkPropertyMetadata(typeof(StswToastItem)));
@@ -26,9 +28,13 @@ public class StswToastItem : ContentControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
+        if (_btnClose != null)
+            _btnClose.Click -= BtnClose_Click;
+
         /// Button: close
-        if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
-            btnClose.Click += (s, e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
+        _btnClose = GetTemplateChild("PART_ButtonClose") as ButtonBase;
+        if (_btnClose != null)
+            _btnClose.Click += BtnClose_Click;
     }
 
     /// <inheritdoc/>
@@ -48,6 +54,13 @@ public class StswToastItem : ContentControl, IStswCornerControl
 
         e.Handled = true;
     }
+
+    /// <summary>
+    /// Handles the Click event of the close button, removing the toast item from its parent ItemsControl.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void BtnClose_Click(object sender, RoutedEventArgs e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
     #endregion
 
     #region Logic properties

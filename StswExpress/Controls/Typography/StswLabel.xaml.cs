@@ -32,6 +32,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
     {
         base.OnApplyTemplate();
 
+        Loaded -= OnLoaded;
         Loaded += OnLoaded;
     }
 
