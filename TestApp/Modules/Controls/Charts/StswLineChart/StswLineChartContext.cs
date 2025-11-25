@@ -2,25 +2,15 @@
 using System.Linq;
 
 namespace TestApp;
-public partial class StswChartLegendContext : ControlsContext
+public partial class StswLineChartContext : ControlsContext
 {
-    public override void SetDefaults()
-    {
-        base.SetDefaults();
-        VerticalAlignment = System.Windows.VerticalAlignment.Top;
-
-        Columns = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Columns)))?.Value ?? default;
-        Rows = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Rows)))?.Value ?? default;
-        ShowDetails = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowDetails)))?.Value ?? default;
-    }
-
-    [StswCommand] void AddValue()
+    [StswCommand]
+    void AddValue()
     {
         Items.First(x => x.Title == "Option 9").Value += 20;
         //Items = [.. Items.OrderByDescending(x => x.Value)];
     }
 
-    [StswObservableProperty] int _columns;
     [StswObservableProperty] ObservableCollection<StswChartItemTestModel> _items =
     [
         new() { Title = "Option 1", Value = 1000, Description = "The biggest (by default) source of value" },
@@ -34,6 +24,7 @@ public partial class StswChartLegendContext : ControlsContext
         new() { Title = "Option 9", Value = 40, Description = "Value of this source can be increased through button" },
         new() { Title = "Option 10", Value = 10, Description = "The smallest (by default) source of value" }
     ];
-    [StswObservableProperty] int _rows;
-    [StswObservableProperty] bool _showDetails;
+
+    [StswObservableProperty] double _pointSize = 12d;
+    [StswObservableProperty] double _lineThickness = 2d;
 }

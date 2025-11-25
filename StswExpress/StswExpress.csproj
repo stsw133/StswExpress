@@ -80,10 +80,10 @@
     <Page Update="Controls\Charts\StswChartLegend.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Charts\StswChartColumn.xaml">
+    <Page Update="Controls\Charts\StswColumnChart.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Charts\StswChartPie.xaml">
+    <Page Update="Controls\Charts\StswPieChart.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DataGrids\_columns\StswDataGridStatusColumn.xaml">

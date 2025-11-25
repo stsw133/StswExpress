@@ -3,13 +3,13 @@
 namespace StswExpress;
 
 /// <summary>
-/// Represents an individual column item within a <see cref="StswChartColumn"/> control.
+/// Represents an individual column item within a <see cref="StswColumnChart"/> control.
 /// </summary>
-public class StswChartColumnItem : StswChartItem
+public class StswColumnChartItem : StswChartItem
 {
-    static StswChartColumnItem()
+    static StswColumnChartItem()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartColumnItem), new FrameworkPropertyMetadata(typeof(StswChartColumnItem)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnChartItem), new FrameworkPropertyMetadata(typeof(StswColumnChartItem)));
     }
 
     #region Logic properties
@@ -25,7 +25,7 @@ public class StswChartColumnItem : StswChartItem
         = DependencyProperty.Register(
             nameof(ColumnHeight),
             typeof(double),
-            typeof(StswChartColumnItem),
+            typeof(StswColumnChartItem),
             new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -41,7 +41,7 @@ public class StswChartColumnItem : StswChartItem
         = DependencyProperty.Register(
             nameof(ColumnWidth),
             typeof(double),
-            typeof(StswChartColumnItem),
+            typeof(StswColumnChartItem),
             new PropertyMetadata(double.NaN)
         );
     #endregion

@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswChartPieView.xaml
+/// Interaction logic for StswPieChartView.xaml
 /// </summary>
-public partial class StswChartPieView : UserControl
+public partial class StswPieChartView : UserControl
 {
-    public StswChartPieView()
+    public StswPieChartView()
     {
         InitializeComponent();
     }

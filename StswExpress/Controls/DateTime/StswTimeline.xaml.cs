@@ -83,9 +83,10 @@ public class StswTimeline : ItemsControl
 
         if (!ApplyMemberValue(item, ToolTipMemberPath, value => container.SetCurrentValue(StswTimelineItem.ToolTipContentProperty, value))
          && container.ToolTipContent == null && container.Description != null)
-        {
             container.SetCurrentValue(StswTimelineItem.ToolTipContentProperty, container.Description);
-        }
+
+        if (container.PopupContent == null)
+            container.SetCurrentValue(StswTimelineItem.PopupContentProperty, container.ToolTipContent ?? container.Content);
     }
 
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
@@ -154,36 +155,19 @@ public class StswTimeline : ItemsControl
         for (var i = 0; i < orderedContainers.Count; i++)
             indexLookup[orderedContainers[i]] = i;
 
-        var datedItems = orderedContainers.Where(c => c.Date.HasValue).ToList();
-
-        var minDate = StartDate.HasValue ? StartDate.Value.ToUniversalTime() : datedItems.MinOrDefault(static x => x.Date?.ToUniversalTime());
-        var maxDate = EndDate.HasValue ? EndDate.Value.ToUniversalTime() : datedItems.MaxOrDefault(static x => x.Date?.ToUniversalTime());
-
-        if (minDate.HasValue && maxDate.HasValue && minDate > maxDate)
-            (minDate, maxDate) = (maxDate, minDate);
-
+        var range = GetTimelineRange(orderedContainers);
         var availableWidth = Math.Max(0.0, ActualWidth - Padding.Left - Padding.Right);
 
-        if (!minDate.HasValue || !maxDate.HasValue || minDate.Value == maxDate.Value)
+        if (!range.min.HasValue || !range.max.HasValue || range.min.Value == range.max.Value)
         {
-            for (var i = 0; i < orderedContainers.Count; i++)
-            {
-                var normalized = orderedContainers.Count <= 1 ? 0.5 : i / (double)(orderedContainers.Count - 1);
-                orderedContainers[i].RelativePosition = normalized;
-                ApplyContainerPosition(orderedContainers[i], availableWidth);
-            }
+            DistributeEvenly(orderedContainers, availableWidth);
             return;
         }
 
-        var totalTicks = (maxDate.Value - minDate.Value).Ticks;
+        var totalTicks = (range.max.Value - range.min.Value).Ticks;
         if (totalTicks <= 0)
         {
-            for (var i = 0; i < orderedContainers.Count; i++)
-            {
-                var normalized = orderedContainers.Count <= 1 ? 0.5 : i / (double)(orderedContainers.Count - 1);
-                orderedContainers[i].RelativePosition = normalized;
-                ApplyContainerPosition(orderedContainers[i], availableWidth);
-            }
+            DistributeEvenly(orderedContainers, availableWidth);
             return;
         }
 
@@ -191,7 +175,7 @@ public class StswTimeline : ItemsControl
         {
             var index = indexLookup[container];
             double normalized = container.Date.HasValue
-                ? Math.Clamp((container.Date.Value.ToUniversalTime() - minDate.Value).Ticks / (double)totalTicks, 0.0, 1.0)
+                ? Math.Clamp((container.Date.Value.ToUniversalTime() - range.min.Value).Ticks / (double)totalTicks, 0.0, 1.0)
                 : (orderedContainers.Count <= 1 ? 0.5 : index / (double)(orderedContainers.Count - 1));
 
             container.RelativePosition = normalized;
@@ -212,6 +196,32 @@ public class StswTimeline : ItemsControl
         {
             if (ItemContainerGenerator.ContainerFromIndex(i) is StswTimelineItem container)
                 yield return container;
+        }
+    }
+
+    private (DateTime? min, DateTime? max) GetTimelineRange(IReadOnlyCollection<StswTimelineItem> orderedContainers)
+    {
+        var datedItems = orderedContainers.Where(static c => c.Date.HasValue).ToList();
+
+        var minDate = Minimum ?? StartDate ?? datedItems.MinOrDefault(static x => x.Date);
+        var maxDate = Maximum ?? EndDate ?? datedItems.MaxOrDefault(static x => x.Date);
+
+        minDate = minDate?.ToUniversalTime();
+        maxDate = maxDate?.ToUniversalTime();
+
+        if (minDate.HasValue && maxDate.HasValue && minDate > maxDate)
+            (minDate, maxDate) = (maxDate, minDate);
+
+        return (minDate, maxDate);
+    }
+
+    private void DistributeEvenly(IReadOnlyList<StswTimelineItem> orderedContainers, double availableWidth)
+    {
+        for (var i = 0; i < orderedContainers.Count; i++)
+        {
+            var normalized = orderedContainers.Count <= 1 ? 0.5 : i / (double)(orderedContainers.Count - 1);
+            orderedContainers[i].RelativePosition = normalized;
+            ApplyContainerPosition(orderedContainers[i], availableWidth);
         }
     }
 
@@ -269,6 +279,24 @@ public class StswTimeline : ItemsControl
     }
     public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(
         nameof(EndDate), typeof(DateTime?), typeof(StswTimeline),
+        new PropertyMetadata(null, OnRangeChanged));
+
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(
+        nameof(Minimum), typeof(DateTime?), typeof(StswTimeline),
+        new PropertyMetadata(null, OnRangeChanged));
+
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(
+        nameof(Maximum), typeof(DateTime?), typeof(StswTimeline),
         new PropertyMetadata(null, OnRangeChanged));
 
     public string? DateMemberPath
@@ -408,6 +436,14 @@ public class StswTimelineItem : ContentControl
     }
     public static readonly DependencyProperty ToolTipContentProperty = DependencyProperty.Register(
         nameof(ToolTipContent), typeof(object), typeof(StswTimelineItem));
+
+    public object? PopupContent
+    {
+        get => GetValue(PopupContentProperty);
+        set => SetValue(PopupContentProperty, value);
+    }
+    public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register(
+        nameof(PopupContent), typeof(object), typeof(StswTimelineItem));
     #endregion
 
     #region Style properties

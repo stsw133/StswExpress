@@ -18,18 +18,18 @@ namespace StswExpress;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswChartPie ItemsSource="{Binding SalesData}" StrokeThickness="10" MinPercentageRender="5"/&gt;
+/// &lt;se:StswPieChart ItemsSource="{Binding SalesData}" StrokeThickness="10" MinPercentageRender="5"/&gt;
 /// </code>
 /// </example>
-public class StswChartPie : ItemsControl
+public class StswPieChart : ItemsControl
 {
-    static StswChartPie()
+    static StswPieChart()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartPie), new FrameworkPropertyMetadata(typeof(StswChartPie)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPieChart), new FrameworkPropertyMetadata(typeof(StswPieChart)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswChartPieItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartPieItem;
+    protected override DependencyObject GetContainerForItemOverride() => new StswPieChartItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswPieChartItem;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -56,7 +56,7 @@ public class StswChartPie : ItemsControl
     /// <inheritdoc/>
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
     {
-        if (element is StswChartPieItem c)
+        if (element is StswPieChartItem c)
             c.ValueChanged -= OnItemValueChanged;
         base.ClearContainerForItemOverride(element, item);
     }
@@ -64,11 +64,11 @@ public class StswChartPie : ItemsControl
     /// <summary>
     /// Retrieves all the pie chart item containers.
     /// </summary>
-    /// <returns>An enumerable of <see cref="StswChartPieItem"/> containers.</returns>
-    private IEnumerable<StswChartPieItem> GetContainers()
+    /// <returns>An enumerable of <see cref="StswPieChartItem"/> containers.</returns>
+    private IEnumerable<StswPieChartItem> GetContainers()
     {
         for (var i = 0; i < Items.Count; i++)
-            if (ItemContainerGenerator.ContainerFromIndex(i) is StswChartPieItem c)
+            if (ItemContainerGenerator.ContainerFromIndex(i) is StswPieChartItem c)
                 yield return c;
     }
 
@@ -76,7 +76,7 @@ public class StswChartPie : ItemsControl
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
-        if (element is StswChartPieItem c)
+        if (element is StswPieChartItem c)
             c.ValueChanged += OnItemValueChanged;
     }
 
@@ -139,7 +139,7 @@ public class StswChartPie : ItemsControl
     /// Applies visibility settings for percentage labels based on the minimum percentage threshold.
     /// </summary>
     /// <param name="items">The collection of pie chart items.</param>
-    private void ApplyMinPercentageVisibility(IEnumerable<StswChartPieItem> items)
+    private void ApplyMinPercentageVisibility(IEnumerable<StswPieChartItem> items)
     {
         foreach (var item in items)
             item.IsPercentageVisible = item.Percentage >= MinPercentageRender;
@@ -149,7 +149,7 @@ public class StswChartPie : ItemsControl
     /// Applies stroke dash patterns to pie chart segments based on their percentage values and the configured stroke thickness.
     /// </summary>
     /// <param name="items">The collection of pie chart items.</param>
-    private void ApplyStrokeDashes(IEnumerable<StswChartPieItem> items)
+    private void ApplyStrokeDashes(IEnumerable<StswPieChartItem> items)
     {
         var t = Math.Max(1.0, StrokeThickness);
 
@@ -182,14 +182,14 @@ public class StswChartPie : ItemsControl
         = DependencyProperty.Register(
             nameof(MinPercentageRender),
             typeof(double),
-            typeof(StswChartPie),
+            typeof(StswPieChart),
             new FrameworkPropertyMetadata(default(double),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswChartPie stsw)
+        if (obj is not StswPieChart stsw)
             return;
 
         stsw.RequestChartUpdate();
@@ -208,14 +208,14 @@ public class StswChartPie : ItemsControl
         = DependencyProperty.Register(
             nameof(StrokeThickness),
             typeof(double),
-            typeof(StswChartPie),
+            typeof(StswPieChart),
             new FrameworkPropertyMetadata(default(double),
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswChartPie stsw)
+        if (obj is not StswPieChart stsw)
             return;
 
         stsw.RequestChartUpdate();

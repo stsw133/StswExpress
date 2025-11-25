@@ -3,12 +3,12 @@
                     xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswChartColumnItem}">
+    <Style TargetType="{x:Type se:StswColumnChartItem}">
         <Setter Property="Background" Value="{Binding Title, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='G B?20%'}"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswChartColumnItem}">
+                <ControlTemplate TargetType="{x:Type se:StswColumnChartItem}">
                     <DockPanel>
                         <!-- name text -->
                         <se:StswText DockPanel.Dock="Bottom"

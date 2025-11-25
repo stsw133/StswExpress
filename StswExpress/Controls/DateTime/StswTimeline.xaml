@@ -91,25 +91,63 @@
                                          Visibility="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
                         </StackPanel>
                         <Grid Grid.Row="1" VerticalAlignment="Center">
-                            <Ellipse x:Name="PART_Marker"
-                                     Width="{TemplateBinding IndicatorSize}"
-                                     Height="{TemplateBinding IndicatorSize}"
-                                     Fill="{TemplateBinding Foreground}"
-                                     Stroke="{DynamicResource StswTimeline.Static.Border}"
-                                     StrokeThickness="1"
-                                     RenderTransformOrigin="0.5,0.5">
-                                <Ellipse.RenderTransform>
-                                    <ScaleTransform x:Name="PART_MarkerScale"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
+                            <ToggleButton x:Name="PART_Marker"
+                                          Width="{TemplateBinding IndicatorSize}"
+                                          Height="{TemplateBinding IndicatorSize}"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Cursor="Hand"
+                                          FocusVisualStyle="{x:Null}"
+                                          Padding="0">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Ellipse x:Name="PART_MarkerShape"
+                                                 Width="{TemplateBinding Width}"
+                                                 Height="{TemplateBinding Height}"
+                                                 Fill="{TemplateBinding Foreground}"
+                                                 Stroke="{DynamicResource StswTimeline.Static.Border}"
+                                                 StrokeThickness="1"
+                                                 RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <ScaleTransform/>
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+                                        <!--
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleX)" Value="1.2"/>
+                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleY)" Value="1.2"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleX)" Value="0.9"/>
+                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleY)" Value="0.9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                        -->
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <se:StswPopup IsOpen="{Binding IsChecked, ElementName=PART_Marker, Mode=TwoWay}"
+                                          Placement="Top"
+                                          PlacementTarget="{Binding ElementName=PART_Marker}"
+                                          StaysOpen="False">
+                                <StackPanel MaxWidth="260"
+                                            Margin="0,0,0,8">
+                                    <se:StswText Text="{TemplateBinding Header}"
+                                                 FontWeight="SemiBold"
+                                                 Visibility="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
+                                    <se:StswText Text="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:G}}"
+                                                 FontSize="12"
+                                                 Foreground="{DynamicResource StswTimeline.Static.Border}"
+                                                 Visibility="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
+                                    <ContentPresenter Content="{Binding PopupContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}}"
+                                                      Margin="0,4,0,0"
+                                                      Visibility="{Binding PopupContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
+                                </StackPanel>
+                            </se:StswPopup>
                         </Grid>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_MarkerScale" Property="ScaleTransform.ScaleX" Value="1.2"/>
-                            <Setter TargetName="PART_MarkerScale" Property="ScaleTransform.ScaleY" Value="1.2"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -9,7 +9,7 @@ StswExpress provides a wide range of controls, many inspired by **WinUI 3**, as 
 Here's a breakdown:
 
 - **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
-- **Charts**: `StswChartColumn`, `StswChartLegend`, `StswChartPie`
+- **Charts**: `StswChartLegend`, `StswColumnChart`, `StswPieChart`
 - **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswRangeCalendar`, `StswTimePicker`, `StswTimerControl`

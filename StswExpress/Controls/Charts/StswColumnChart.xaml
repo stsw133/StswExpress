@@ -3,7 +3,7 @@
                     xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswChartColumn}">
+    <Style TargetType="{x:Type se:StswColumnChart}">
         <Setter Property="Background" Value="{DynamicResource StswChart.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswChart.Static.Border}"/>
 
@@ -23,7 +23,7 @@
         
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswChartColumn}">
+                <ControlTemplate TargetType="{x:Type se:StswColumnChart}">
                     <!-- main -->
                     <Border x:Name="OPT_MainBorder"
                             Background="{TemplateBinding Background}"
@@ -48,7 +48,7 @@
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type se:StswChartColumnItem}">
+                <Style TargetType="{x:Type se:StswColumnChartItem}">
                     <Setter Property="Title" Value="{Binding Title}"/>
                     <Setter Property="Description" Value="{Binding Description}"/>
                     <Setter Property="Value" Value="{Binding Value}"/>

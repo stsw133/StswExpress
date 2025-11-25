@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace TestApp;
-public partial class StswChartPieContext : ControlsContext
+public partial class StswPieChartContext : ControlsContext
 {
     [StswCommand] void AddValue()
     {

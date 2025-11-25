@@ -6,11 +6,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a pie chart item control used within a pie chart to display individual segments.
 /// </summary>
-public class StswChartPieItem : StswChartItem
+public class StswPieChartItem : StswChartItem
 {
-    static StswChartPieItem()
+    static StswPieChartItem()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartPieItem), new FrameworkPropertyMetadata(typeof(StswChartPieItem)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPieChartItem), new FrameworkPropertyMetadata(typeof(StswPieChartItem)));
     }
 
     #region Logic properties
@@ -26,7 +26,7 @@ public class StswChartPieItem : StswChartItem
         = DependencyProperty.Register(
             nameof(Angle),
             typeof(double),
-            typeof(StswChartPieItem)
+            typeof(StswPieChartItem)
         );
 
     /// <summary>
@@ -41,7 +41,7 @@ public class StswChartPieItem : StswChartItem
         = DependencyProperty.Register(
             nameof(Center),
             typeof(Point),
-            typeof(StswChartPieItem)
+            typeof(StswPieChartItem)
         );
     #endregion
 
@@ -58,7 +58,7 @@ public class StswChartPieItem : StswChartItem
         = DependencyProperty.Register(
             nameof(IsPercentageVisible),
             typeof(bool),
-            typeof(StswChartPieItem)
+            typeof(StswPieChartItem)
         );
 
     /// <summary>
@@ -73,7 +73,7 @@ public class StswChartPieItem : StswChartItem
         = DependencyProperty.Register(
             nameof(StrokeDashArray),
             typeof(DoubleCollection),
-            typeof(StswChartPieItem)
+            typeof(StswPieChartItem)
         );
 
     /// <summary>
@@ -88,7 +88,7 @@ public class StswChartPieItem : StswChartItem
         = DependencyProperty.Register(
             nameof(TextSize),
             typeof(double),
-            typeof(StswChartPieItem)
+            typeof(StswPieChartItem)
         );
     #endregion
 }

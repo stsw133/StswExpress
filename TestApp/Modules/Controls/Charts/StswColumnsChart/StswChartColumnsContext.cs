@@ -2,12 +2,12 @@
 using System.Linq;
 
 namespace TestApp;
-public partial class StswChartColumnContext : ControlsContext
+public partial class StswColumnChartContext : ControlsContext
 {
     [StswCommand] void AddValue()
     {
         Items.First(x => x.Title == "Option 9").Value += 20;
-        Items = [.. Items.OrderByDescending(x => x.Value)];
+        //Items = [.. Items.OrderByDescending(x => x.Value)];
     }
 
     [StswObservableProperty] ObservableCollection<StswChartItemTestModel> _items =

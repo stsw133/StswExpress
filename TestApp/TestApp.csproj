@@ -72,10 +72,10 @@
     <Compile Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Charts\StswChartColumn\StswChartColumnView.xaml.cs">
+    <Compile Update="Modules\Controls\Charts\StswColumnChart\StswColumnChartView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml.cs">
+    <Compile Update="Modules\Controls\Charts\StswPieChart\StswPieChartView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DataGrids\StswDataPager\StswDataPagerView.xaml.cs">
@@ -327,10 +327,10 @@
     <Page Update="Modules\Controls\Charts\StswChartLegend\StswChartLegendView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Charts\StswChartColumn\StswChartColumnView.xaml">
+    <Page Update="Modules\Controls\Charts\StswColumnChart\StswColumnChartView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml">
+    <Page Update="Modules\Controls\Charts\StswPieChart\StswPieChartView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\DataGrids\StswDataPager\StswDataPagerView.xaml">

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswChartPie}">
+    <Style TargetType="{x:Type se:StswPieChart}">
         <Setter Property="MinPercentageRender" Value="2"/>
 
         <Setter Property="Background" Value="{DynamicResource StswChart.Static.Background}"/>
@@ -26,7 +26,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswChartPie}">
+                <ControlTemplate TargetType="{x:Type se:StswPieChart}">
                     <!-- main -->
                     <Grid x:Name="OPT_MainPanel"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -52,7 +52,7 @@
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type se:StswChartPieItem}">
+                <Style TargetType="{x:Type se:StswPieChartItem}">
                     <Setter Property="Title" Value="{Binding Title}"/>
                     <Setter Property="Description" Value="{Binding Description}"/>
                     <Setter Property="Value" Value="{Binding Value}"/>

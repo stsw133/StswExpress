@@ -15,18 +15,18 @@ namespace StswExpress;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswChartColumn ItemsSource="{Binding RevenueData}" Width="400" Height="300"/&gt;
+/// &lt;se:StswColumnChart ItemsSource="{Binding RevenueData}" Width="400" Height="300"/&gt;
 /// </code>
 /// </example>
-public class StswChartColumn : ItemsControl
+public class StswColumnChart : ItemsControl
 {
-    static StswChartColumn()
+    static StswColumnChart()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartColumn), new FrameworkPropertyMetadata(typeof(StswChartColumn)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnChart), new FrameworkPropertyMetadata(typeof(StswColumnChart)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswChartColumnItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartColumnItem;
+    protected override DependencyObject GetContainerForItemOverride() => new StswColumnChartItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswColumnChartItem;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -60,7 +60,7 @@ public class StswChartColumn : ItemsControl
     /// <inheritdoc/>
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
     {
-        if (element is StswChartColumnItem c)
+        if (element is StswColumnChartItem c)
             c.ValueChanged -= OnItemValueChanged;
         base.ClearContainerForItemOverride(element, item);
     }
@@ -68,11 +68,11 @@ public class StswChartColumn : ItemsControl
     /// <summary>
     /// Gets the containers for all items in the chart.
     /// </summary>
-    /// <returns>An enumerable of <see cref="StswChartColumnItem"/> containers.</returns>
-    private IEnumerable<StswChartColumnItem> GetContainers()
+    /// <returns>An enumerable of <see cref="StswColumnChartItem"/> containers.</returns>
+    private IEnumerable<StswColumnChartItem> GetContainers()
     {
         for (var i = 0; i < Items.Count; i++)
-            if (ItemContainerGenerator.ContainerFromIndex(i) is StswChartColumnItem c)
+            if (ItemContainerGenerator.ContainerFromIndex(i) is StswColumnChartItem c)
                 yield return c;
     }
 
@@ -80,7 +80,7 @@ public class StswChartColumn : ItemsControl
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
-        if (element is StswChartColumnItem c)
+        if (element is StswColumnChartItem c)
         {
             c.ValueChanged += OnItemValueChanged;
             if (!double.IsNaN(c.ColumnWidth))
