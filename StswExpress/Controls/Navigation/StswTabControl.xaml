@@ -34,7 +34,6 @@
                         <!-- header panel -->
                         <DockPanel x:Name="OPT_HeaderPanel" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
                             <se:StswButton x:Name="OPT_NewItemButton"
-                                           Command="{TemplateBinding NewItemCommand}"
                                            Visibility="{TemplateBinding NewItemButtonVisibility}"
                                            Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>

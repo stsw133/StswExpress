@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -12,21 +12,20 @@ public partial class StswSelectionBoxContext : ControlsContext
     {
         base.SetDefaults();
 
+        HideSelectedItemWhenFiltered = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.HideSelectedItemWhenFilteredProperty)?.Value ?? default;
+        IsFilterEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.IsFilterEnabledProperty)?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSelectionBox.IsReadOnlyProperty)?.Value ?? default;
         DropArrowVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property == StswDropArrow.VisibilityProperty)?.Value ?? default;
     }
 
-    [StswCommand] void Randomize()
-    {
-        foreach (var item in Items.Where(x => new Random().NextDouble() > 0.6))
-            item.IsSelected = !item.IsSelected;
-        //UpdateTextCommand?.Execute(null);
-    }
+    [StswCommand] void Randomize() => Items.Where(x => new Random().NextDouble() > 0.6).ForEach(x => x.IsSelected = !x.IsSelected);
 
+    [StswObservableProperty] bool _hideSelectedItemWhenFiltered;
     [StswObservableProperty] bool _icon;
+    [StswObservableProperty] bool _isFilterEnabled;
     [StswObservableProperty] bool _isReadOnly;
-    [StswObservableProperty] BindingList<StswListBoxTestModel> _items = new([.. Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 })]);
+    [StswObservableProperty] ObservableCollection<StswListBoxTestModel> _items = new([.. Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 })]);
+    [StswObservableProperty] bool _subControls;
+    [StswObservableProperty] Visibility _dropArrowVisibility;
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
-    [StswObservableProperty] bool _subControls = false;
-    [StswObservableProperty] Visibility _dropArrowVisibility = Visibility.Visible;
 }

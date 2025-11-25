@@ -1,27 +1,43 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
 /// A tab control with extended functionality, including dynamic tab creation, 
-/// visibility toggling, and command-based item management.
+/// visibility toggling, and identifier-based tab management.
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswTabControl AreTabsVisible="True" NewItemButtonVisibility="Visible"&gt;
+/// &lt;se:StswTabControl Identifier="MainTabs" AreTabsVisible="True" NewItemButtonVisibility="Visible"&gt;
 ///     &lt;se:StswTabItem Header="Home"/&gt;
 ///     &lt;se:StswTabItem Header="Settings"/&gt;
 /// &lt;/se:StswTabControl&gt;
+///
+/// &lt;!-- somewhere else in code --&gt;
+/// var newTab = StswTabControl.Add("MainTabs");
+/// newTab.Header = "Dynamic tab";
 /// </code>
 /// </example>
 public class StswTabControl : TabControl
 {
+    private static readonly HashSet<WeakReference<StswTabControl>> _loadedInstances = [];
+    private readonly MouseButtonEventHandler _previewMouseLeftButtonDownHandler;
+    private readonly MouseEventHandler _mouseMoveHandler;
+    private readonly MouseButtonEventHandler _mouseLeftButtonUpHandler;
+    private readonly DragEventHandler _dropHandler;
+    private readonly DragEventHandler _dragOverHandler;
+
+    private ICommand? _newItemCommand;
+    private ButtonBase? _newItemButton;
+
     public StswTabControl()
     {
         _previewMouseLeftButtonDownHandler = OnTabPreviewMouseLeftButtonDown;
@@ -29,6 +45,9 @@ public class StswTabControl : TabControl
         _mouseLeftButtonUpHandler = OnTabMouseLeftButtonUp;
         _dropHandler = OnTabDrop;
         _dragOverHandler = OnTabDragOver;
+
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     static StswTabControl()
@@ -44,10 +63,42 @@ public class StswTabControl : TabControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        
-        SetCurrentValue(NewItemCommandProperty, NewItemCommand ?? new StswCommand(CreateItem));
+
+        _newItemButton = GetTemplateChild("OPT_NewItemButton") as ButtonBase;
+        if (_newItemButton is not null)
+            _newItemButton.Command = _newItemCommand ??= new StswCommand(() => AddTab());
+
         UpdateReorderHandlers(CanReorder);
         UpdateTabItemsAllowDrop();
+    }
+
+    /// <summary>
+    /// Tracks loaded instances to enable identifier-based lookups.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (weakRef.TryGetTarget(out StswTabControl? tabControl) && ReferenceEquals(tabControl, this))
+                return;
+
+        _loadedInstances.Add(new WeakReference<StswTabControl>(this));
+    }
+
+    /// <summary>
+    /// Removes unloaded instances to prevent memory leaks.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (!weakRef.TryGetTarget(out StswTabControl? tabControl) || ReferenceEquals(tabControl, this))
+            {
+                _loadedInstances.Remove(weakRef);
+                break;
+            }
     }
 
     /// <inheritdoc/>
@@ -69,53 +120,111 @@ public class StswTabControl : TabControl
     }
 
     /// <summary>
-    /// Creates a new tab item and adds it to the tab control. 
-    /// Supports both bound item sources and direct tab item collections.
+    /// Adds a new tab item to the control identified by the provided <paramref name="tabControlIdentifier"/>.
     /// </summary>
-    private void CreateItem()
+    /// <param name="tabControlIdentifier">The <see cref="Identifier"/> value of the target <see cref="StswTabControl"/>.</param>
+    /// <returns>The created <see cref="StswTabItem"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no matching control instance is found or when multiple matches are detected.</exception>
+    public static StswTabItem Add(object? tabControlIdentifier)
     {
-        object? newItem = null;
+        var tabControl = GetInstance(tabControlIdentifier);
+        return tabControl.AddTab();
+    }
+
+    /// <summary>
+    /// Adds a new tab item to the control using <see cref="NewItemTemplate"/> or a default <see cref="StswTabItem"/> instance.
+    /// Returns the created <see cref="StswTabItem"/> so it can be further customized by the caller.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the created item cannot be converted to <see cref="StswTabItem"/>.</exception>
+    private StswTabItem AddTab()
+    {
+        var newItem = CreateNewItemInstance ?? throw new InvalidOperationException("Failed to create a new tab item. The NewItemTemplate or default constructor returned null.");
 
         if (ItemsSource is IList list)
-        {
-            var itemType = list.GetType().GenericTypeArguments.FirstOrDefault() ?? typeof(object);
-            newItem = CreateNewItemInstance(itemType);
-            if (newItem != null)
-            {
-                list.Add(newItem);
-                SelectedIndex = list.Count - 1;
-            }
-        }
-        else if (Items != null)
-        {
-            newItem = CreateNewItemInstance(typeof(StswTabItem));
-            if (newItem != null)
-            {
-                Items.Add(newItem);
-                SelectedIndex = Items.Count - 1;
-            }
-        }
+            list.Add(newItem);
+        else Items.Add(newItem);
 
-        if (newItem != null)
-        {
-            NewItem = newItem;
+        SetCurrentValue(SelectedItemProperty, newItem);
 
-            if (NewItemCreatedCommand?.CanExecute(newItem) == true)
-                NewItemCreatedCommand.Execute(newItem);
+        return EnsureTabContainer(newItem);
+    }
+
+    /// <summary>
+    /// Instantiates a new <see cref="StswTabItem"/> based on the <see cref="NewItemTemplate"/>, or a default instance when no template is provided.
+    /// </summary>
+    /// <returns>The created tab item.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when <see cref="NewItemTemplate"/> does not create a <see cref="StswTabItem"/>.</exception>
+    private object? CreateNewItemInstance
+    {
+        get
+        {
+            if (NewItemTemplate?.LoadContent() is { } templateItem)
+            {
+                if (templateItem is not StswTabItem templatedTab)
+                    throw new InvalidOperationException($"{nameof(NewItemTemplate)} must create a {nameof(StswTabItem)} instance.");
+
+                return templatedTab;
+            }
+
+            return new StswTabItem();
         }
     }
 
     /// <summary>
-    /// Gets or sets the command that is executed after a new tab item is created.
+    /// Ensures the created item is presented as a <see cref="StswTabItem"/>, generating the container if necessary.
     /// </summary>
-    /// <param name="targetType">The type of the new tab item to create.</param>
-    /// <returns>The newly created tab item instance.</returns>
-    private object? CreateNewItemInstance(Type targetType)
+    /// <param name="item">The item that was added to the control.</param>
+    /// <returns>The corresponding <see cref="StswTabItem"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when a tab item container cannot be resolved.</exception>
+    private StswTabItem EnsureTabContainer(object item)
     {
-        if (NewItemTemplate?.LoadContent() is { } templateItem && targetType.IsInstanceOfType(templateItem))
-            return templateItem;
+        if (item is StswTabItem tabItem)
+            return tabItem;
 
-        return Activator.CreateInstance(targetType);
+        var container = ItemContainerGenerator.ContainerFromItem(item) as StswTabItem;
+        if (container is not null)
+            return container;
+
+        UpdateLayout();
+        container = ItemContainerGenerator.ContainerFromItem(item) as StswTabItem;
+
+        return container ?? throw new InvalidOperationException($"Item created for {nameof(StswTabControl)} must be of type {nameof(StswTabItem)}.");
+    }
+
+    /// <summary>
+    /// Finds the <see cref="StswTabControl"/> instance matching the provided identifier.
+    /// </summary>
+    /// <param name="tabControlIdentifier">The identifier used to locate the control.</param>
+    /// <returns>The matching control instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no matching instance is found or when multiple matches are detected.</exception>
+    internal static StswTabControl GetInstance(object? tabControlIdentifier)
+    {
+        if (_loadedInstances.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswTabControl)} instances.");
+
+        var targets = new List<StswTabControl>();
+        foreach (var instance in _loadedInstances.ToList())
+        {
+            if (instance.TryGetTarget(out var tabInstance))
+            {
+                object? identifier = null;
+
+                if (tabInstance.CheckAccess())
+                    identifier = tabInstance.Identifier;
+                else identifier = tabInstance.Dispatcher.Invoke(() => tabInstance.Identifier);
+
+                if (Equals(tabControlIdentifier, identifier))
+                    targets.Add(tabInstance);
+            }
+            else _loadedInstances.Remove(instance);
+        }
+
+        if (targets.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswTabControl)} have an {nameof(Identifier)} property matching {nameof(tabControlIdentifier)} ('{tabControlIdentifier}') argument.");
+        if (targets.Count > 1)
+            throw new InvalidOperationException($"Multiple viable {nameof(StswTabControl)}s. Specify a unique Identifier on each {nameof(StswTabControl)}, especially where multiple Windows are a concern.");
+
+        return targets[0];
     }
     #endregion
 
@@ -152,19 +261,18 @@ public class StswTabControl : TabControl
         );
 
     /// <summary>
-    /// Gets or sets the newly created tab item when a new tab is added.
+    /// Gets or sets an identifier for the tab control instance, allowing for easy retrieval and manipulation of specific tab controls in code.
     /// </summary>
-    public object? NewItem
+    public object? Identifier
     {
-        get => (object?)GetValue(NewItemProperty);
-        set => SetValue(NewItemProperty, value);
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
     }
-    public static readonly DependencyProperty NewItemProperty
+    public static readonly DependencyProperty IdentifierProperty
         = DependencyProperty.Register(
-            nameof(NewItem),
+            nameof(Identifier),
             typeof(object),
-            typeof(StswTabControl),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+            typeof(StswTabControl)
         );
 
     /// <summary>
@@ -179,36 +287,6 @@ public class StswTabControl : TabControl
         = DependencyProperty.Register(
             nameof(NewItemTemplate),
             typeof(DataTemplate),
-            typeof(StswTabControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the command executed after a new tab item is created.
-    /// </summary>
-    public ICommand? NewItemCreatedCommand
-    {
-        get => (ICommand?)GetValue(NewItemCreatedCommandProperty);
-        set => SetValue(NewItemCreatedCommandProperty, value);
-    }
-    public static readonly DependencyProperty NewItemCreatedCommandProperty
-        = DependencyProperty.Register(
-            nameof(NewItemCreatedCommand),
-            typeof(ICommand),
-            typeof(StswTabControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the command responsible for creating a new tab item in the tab control.
-    /// </summary>
-    public ICommand? NewItemCommand
-    {
-        get => (ICommand?)GetValue(NewItemCommandProperty);
-        set => SetValue(NewItemCommandProperty, value);
-    }
-    public static readonly DependencyProperty NewItemCommandProperty
-        = DependencyProperty.Register(
-            nameof(NewItemCommand),
-            typeof(ICommand),
             typeof(StswTabControl)
         );
 
@@ -229,12 +307,6 @@ public class StswTabControl : TabControl
     #endregion
 
     #region Drag & drop logic
-    private readonly MouseButtonEventHandler _previewMouseLeftButtonDownHandler;
-    private readonly MouseEventHandler _mouseMoveHandler;
-    private readonly MouseButtonEventHandler _mouseLeftButtonUpHandler;
-    private readonly DragEventHandler _dropHandler;
-    private readonly DragEventHandler _dragOverHandler;
-
     private Point _dragStartPoint;
     private StswTabItem? _draggedItem;
     private bool _isDragging;

@@ -29,28 +29,25 @@
         <!-- content -->
         <se:StswTabControl AreTabsVisible="{Binding AreTabsVisible}"
                            CanReorder="{Binding CanReorder}"
+                           Identifier="StswTabControlView"
                            IsEnabled="{Binding IsEnabled}"
                            ItemsSource="{Binding Items}"
-                           NewItem="{Binding NewItem}"
                            NewItemButtonVisibility="{Binding NewItemButtonVisibility}"
                            TabStripPlacement="{Binding TabStripPlacement}"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswTabControl.ItemContainerStyle>
-                <Style TargetType="{x:Type se:StswTabItem}">
-                    <Setter Property="Content" Value="{Binding Content}"/>
-                    <Setter Property="IsClosable" Value="{Binding IsClosable}"/>
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <se:StswLabel Content="{Binding Name}" IconData="{Binding Icon}"/>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </se:StswTabControl.ItemContainerStyle>
+            <se:StswTabControl.NewItemTemplate>
+                <DataTemplate>
+                    <se:StswTabItem IsClosable="True">
+                        <se:StswTabItem.Header>
+                            <se:StswLabel Content="New tab" IconData="{x:Static se:StswIcons.Plus}"/>
+                        </se:StswTabItem.Header>
+                        <se:StswText Text="New content"/>
+                    </se:StswTabItem>
+                </DataTemplate>
+            </se:StswTabControl.NewItemTemplate>
         </se:StswTabControl>
         <!-- status panel -->
         

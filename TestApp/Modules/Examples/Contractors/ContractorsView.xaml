@@ -11,10 +11,8 @@
 
     <se:StswTabControl AreTabsVisible="True"
                        BorderThickness="0 1 0 0"
-                       Margin="1"
-                       NewItem="{Binding NewTab}"
-                       NewItemCommand="{Binding NewTabCommand, Mode=OneWayToSource}"
-                       NewItemCreatedCommand="{Binding NewTabCreatedCommand}">
+                       Identifier="ContractorsView"
+                       Margin="1">
         <se:StswTabControl.NewItemTemplate>
             <DataTemplate>
                 <se:StswTabItem IsClosable="True">

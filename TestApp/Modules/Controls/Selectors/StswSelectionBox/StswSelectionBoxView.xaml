@@ -13,9 +13,15 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- HideSelectedItemWhenFiltered -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HideSelectedItemWhenFiltered, Type={x:Type se:StswSelectionBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HideSelectedItemWhenFiltered}"/>
             <!-- Icon -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswSelectionBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
+            <!-- IsFilterEnabled -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFilterEnabled, Type={x:Type se:StswSelectionBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterEnabled}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswSelectionBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
@@ -28,7 +34,9 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSelectionBox DisplayMemberPath="Name"
+                             HideSelectedItemWhenFiltered="{Binding HideSelectedItemWhenFiltered}"
                              IsEnabled="{Binding IsEnabled}"
+                             IsFilterEnabled="{Binding IsFilterEnabled}"
                              IsReadOnly="{Binding IsReadOnly}"
                              ItemsSource="{Binding Items}"
                              Placeholder="Select items..."

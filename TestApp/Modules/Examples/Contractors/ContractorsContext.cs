@@ -91,8 +91,7 @@ public partial class ContractorsContext : StswObservableObject
         {
             _pendingTabAction = EditorAction.Add;
             _pendingContractor = null;
-
-            await Task.Run(() => App.Current.Dispatcher.Invoke(() => NewTabCommand?.Execute(null)));
+            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
         }
         catch (Exception ex)
         {
@@ -111,8 +110,7 @@ public partial class ContractorsContext : StswObservableObject
         {
             _pendingTabAction = EditorAction.Clone;
             _pendingContractor = m;
-
-            await Task.Run(() => App.Current.Dispatcher.Invoke(() => NewTabCommand?.Execute(null)));
+            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
         }
         catch (Exception ex)
         {
@@ -132,8 +130,7 @@ public partial class ContractorsContext : StswObservableObject
         {
             _pendingTabAction = EditorAction.Edit;
             _pendingContractor = m;
-
-            await Task.Run(() => App.Current.Dispatcher.Invoke(() => NewTabCommand?.Execute(null)));
+            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
         }
         catch (Exception ex)
         {
@@ -172,8 +169,10 @@ public partial class ContractorsContext : StswObservableObject
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
 
     /// ConfigureNewTab
-    private void ConfigureNewTab(StswTabItem tab)
+    private void CreateAndConfigureTab()
     {
+        var tab = StswTabControl.Add("ContractorsView");
+
         var context = tab.Content switch
         {
             ContractorsSingleContext ctx => ctx,
@@ -210,19 +209,12 @@ public partial class ContractorsContext : StswObservableObject
                 break;
         }
     }
+    private EditorAction _pendingTabAction = EditorAction.Add;
+    private ContractorModel? _pendingContractor;
 
 
 
     [StswObservableProperty] StswDataGridFiltersDataModel _filtersContractors = new();
     [StswObservableProperty] StswCollectionViewWrapper<ContractorModel> _listContractors = new();
     [StswObservableProperty] object? _selectedContractor;
-
-    [StswObservableProperty] StswTabItem? _newTab;
-    private EditorAction _pendingTabAction = EditorAction.Add;
-    private ContractorModel? _pendingContractor;
-
-    private ICommand? _newTabCreatedCommand;
-    public ICommand NewTabCreatedCommand => _newTabCreatedCommand ??= new StswCommand<StswTabItem>(ConfigureNewTab);
-
-    public ICommand? NewTabCommand { get; set; }
 }
