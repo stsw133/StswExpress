@@ -1,492 +1,443 @@
-﻿using StswExpress.Commons;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
-using System.Linq;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Threading;
+using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
-/// Represents a horizontal timeline control that visualizes chronological events as interactive points.
+/// Displays a timeline of points laid out horizontally or vertically based on their dates.
+/// Supports optional <see cref="Minimum"/> and <see cref="Maximum"/> bounds and opens a popup on hover for each item.
 /// </summary>
 [StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswTimeline : ItemsControl
 {
-    private const string ItemsHostPartName = "PART_ItemsHost";
-
-    private bool _isUpdateScheduled;
-    private Canvas? _itemsHost;
+    private DateTime? _itemsMinimum;
+    private DateTime? _itemsMaximum;
 
     static StswTimeline()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimeline), new FrameworkPropertyMetadata(typeof(StswTimeline)));
     }
 
-    public StswTimeline()
-    {
-        ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
-        SizeChanged += (_, _) => InvalidateItemPositions();
-        Loaded += (_, _) => InvalidateItemPositions();
-    }
-
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        _itemsHost = GetTemplateChild(ItemsHostPartName) as Canvas;
-        InvalidateItemPositions();
-    }
-
     protected override DependencyObject GetContainerForItemOverride() => new StswTimelineItem();
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTimelineItem;
 
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is not StswTimelineItem container)
-            return;
-
-        container.ParentTimeline = this;
-        container.Content = item;
-
-        if (item is StswTimelineItem)
-            return;
-
-        var dateSet = ApplyMemberValue(item, DateMemberPath, value => container.SetCurrentValue(StswTimelineItem.DateProperty, value.ConvertTo<DateTime?>()));
-        if (!dateSet)
-        {
-            switch (item)
-            {
-                case DateTime dt:
-                    container.SetCurrentValue(StswTimelineItem.DateProperty, dt);
-                    break;
-                case DateTimeOffset dto:
-                    container.SetCurrentValue(StswTimelineItem.DateProperty, dto.DateTime);
-                    break;
-            }
-        }
-
-        var headerPath = !string.IsNullOrWhiteSpace(HeaderMemberPath)
-            ? HeaderMemberPath
-            : (!string.IsNullOrWhiteSpace(DisplayMemberPath) ? DisplayMemberPath : null);
-        var headerSet = ApplyMemberValue(item, headerPath, value => container.SetCurrentValue(StswTimelineItem.HeaderProperty, value?.ToString()));
-        if (!headerSet && container.Header == null && item != null && headerPath == null)
-            container.SetCurrentValue(StswTimelineItem.HeaderProperty, item.ToString());
-
-        ApplyMemberValue(item, DescriptionMemberPath, value => container.SetCurrentValue(StswTimelineItem.DescriptionProperty, value?.ToString()));
-
-        if (!ApplyMemberValue(item, ToolTipMemberPath, value => container.SetCurrentValue(StswTimelineItem.ToolTipContentProperty, value))
-         && container.ToolTipContent == null && container.Description != null)
-            container.SetCurrentValue(StswTimelineItem.ToolTipContentProperty, container.Description);
-
-        if (container.PopupContent == null)
-            container.SetCurrentValue(StswTimelineItem.PopupContentProperty, container.ToolTipContent ?? container.Content);
-    }
-
-    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-    {
-        if (element is StswTimelineItem container)
-        {
-            container.ParentTimeline = null;
-            container.RelativePosition = double.NaN;
-        }
-
-        base.ClearContainerForItemOverride(element, item);
-    }
-
+    #region Events & methods
+    /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
-        InvalidateItemPositions();
+
+        if (e?.NewItems != null)
+            foreach (var item in e.NewItems)
+                ApplyContainerBindings(item);
+
+        UpdateAutomaticRange();
+        InvalidateArrange();
     }
 
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    /// <inheritdoc/>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        base.OnRenderSizeChanged(sizeInfo);
-        InvalidateItemPositions();
+        base.OnItemsSourceChanged(oldValue, newValue);
+        UpdateAutomaticRange();
+        InvalidateArrange();
     }
 
-    private void ItemContainerGenerator_StatusChanged(object? sender, EventArgs e)
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
-        if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-            InvalidateItemPositions();
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswTimelineItem timelineItem)
+            ConfigureContainer(timelineItem, item);
     }
 
-    internal void InvalidateItemPositions()
+    /// <summary>
+    /// Applies necessary bindings to the container for the given item.
+    /// </summary>
+    /// <param name="item">The item to apply bindings for.</param>
+    private void ApplyContainerBindings(object item)
     {
-        if (_isUpdateScheduled)
+        if (ItemContainerGenerator.ContainerFromItem(item) is StswTimelineItem container)
+            ConfigureContainer(container, item);
+    }
+
+    /// <summary>
+    /// Configures the timeline item container with necessary bindings.
+    /// </summary>
+    /// <param name="container">The timeline item container.</param>
+    /// <param name="item">The item associated with the container.</param>
+    private void ConfigureContainer(StswTimelineItem container, object item)
+    {
+        container.SetBinding(StswTimelineItem.OrientationProperty, new Binding(nameof(Orientation))
+        {
+            Source = this,
+            Mode = BindingMode.OneWay
+        });
+        container.SetBinding(StswTimelineItem.PopupTemplateProperty, new Binding(nameof(ItemPopupTemplate))
+        {
+            Source = this,
+            Mode = BindingMode.OneWay
+        });
+        container.SetBinding(StswTimelineItem.PopupTemplateSelectorProperty, new Binding(nameof(ItemPopupTemplateSelector))
+        {
+            Source = this,
+            Mode = BindingMode.OneWay
+        });
+        container.SetBinding(StswTimelineItem.ToolTipInitialShowDelayProperty, new Binding(nameof(ToolTipInitialShowDelay))
+        {
+            Source = this,
+            Mode = BindingMode.OneWay
+        });
+        container.SetBinding(StswTimelineItem.ToolTipShowDurationProperty, new Binding(nameof(ToolTipShowDuration))
+        {
+            Source = this,
+            Mode = BindingMode.OneWay
+        });
+
+        SetDateBinding(container, item);
+    }
+
+    /// <summary>
+    /// Sets the date binding for the timeline item container based on the provided item.
+    /// </summary>
+    /// <param name="container">The timeline item container.</param>
+    /// <param name="item">The item associated with the container.</param>
+    private void SetDateBinding(StswTimelineItem container, object item)
+    {
+        BindingOperations.ClearBinding(container, StswTimelineItem.DateProperty);
+
+        if (item is StswTimelineItem timelineItem && ReferenceEquals(container, timelineItem))
             return;
 
-        _isUpdateScheduled = true;
-        Dispatcher.BeginInvoke(new Action(() =>
+        if (item is DateTime dateTime)
         {
-            _isUpdateScheduled = false;
-            UpdateItemOffsets();
-        }), DispatcherPriority.Render);
-    }
-
-    private void UpdateItemOffsets()
-    {
-        if (!IsLoaded || _itemsHost is null)
-            return;
-
-        var containers = GetContainers().ToList();
-        if (containers.Count == 0)
-            return;
-
-        // ensure order matches item collection
-        var orderedContainers = new List<StswTimelineItem>();
-        for (var i = 0; i < Items.Count; i++)
-        {
-            if (ItemContainerGenerator.ContainerFromIndex(i) is StswTimelineItem container)
-                orderedContainers.Add(container);
-        }
-
-        if (orderedContainers.Count == 0)
-            orderedContainers = containers;
-
-        var indexLookup = new Dictionary<StswTimelineItem, int>(orderedContainers.Count);
-        for (var i = 0; i < orderedContainers.Count; i++)
-            indexLookup[orderedContainers[i]] = i;
-
-        var range = GetTimelineRange(orderedContainers);
-        var availableWidth = Math.Max(0.0, ActualWidth - Padding.Left - Padding.Right);
-
-        if (!range.min.HasValue || !range.max.HasValue || range.min.Value == range.max.Value)
-        {
-            DistributeEvenly(orderedContainers, availableWidth);
+            container.Date = dateTime;
             return;
         }
 
-        var totalTicks = (range.max.Value - range.min.Value).Ticks;
-        if (totalTicks <= 0)
+        if (item is DateTime?)
         {
-            DistributeEvenly(orderedContainers, availableWidth);
-            return;
-        }
-
-        foreach (var container in orderedContainers)
-        {
-            var index = indexLookup[container];
-            double normalized = container.Date.HasValue
-                ? Math.Clamp((container.Date.Value.ToUniversalTime() - range.min.Value).Ticks / (double)totalTicks, 0.0, 1.0)
-                : (orderedContainers.Count <= 1 ? 0.5 : index / (double)(orderedContainers.Count - 1));
-
-            container.RelativePosition = normalized;
-            ApplyContainerPosition(container, availableWidth);
-        }
-    }
-
-    private void ApplyContainerPosition(StswTimelineItem container, double availableWidth)
-    {
-        var offset = Padding.Left + availableWidth * container.RelativePosition - container.IndicatorSize / 2;
-        Canvas.SetLeft(container, double.IsNaN(offset) ? 0 : offset);
-        Canvas.SetTop(container, Padding.Top);
-    }
-
-    private IEnumerable<StswTimelineItem> GetContainers()
-    {
-        for (var i = 0; i < Items.Count; i++)
-        {
-            if (ItemContainerGenerator.ContainerFromIndex(i) is StswTimelineItem container)
-                yield return container;
-        }
-    }
-
-    private (DateTime? min, DateTime? max) GetTimelineRange(IReadOnlyCollection<StswTimelineItem> orderedContainers)
-    {
-        var datedItems = orderedContainers.Where(static c => c.Date.HasValue).ToList();
-
-        var minDate = Minimum ?? StartDate ?? datedItems.MinOrDefault(static x => x.Date);
-        var maxDate = Maximum ?? EndDate ?? datedItems.MaxOrDefault(static x => x.Date);
-
-        minDate = minDate?.ToUniversalTime();
-        maxDate = maxDate?.ToUniversalTime();
-
-        if (minDate.HasValue && maxDate.HasValue && minDate > maxDate)
-            (minDate, maxDate) = (maxDate, minDate);
-
-        return (minDate, maxDate);
-    }
-
-    private void DistributeEvenly(IReadOnlyList<StswTimelineItem> orderedContainers, double availableWidth)
-    {
-        for (var i = 0; i < orderedContainers.Count; i++)
-        {
-            var normalized = orderedContainers.Count <= 1 ? 0.5 : i / (double)(orderedContainers.Count - 1);
-            orderedContainers[i].RelativePosition = normalized;
-            ApplyContainerPosition(orderedContainers[i], availableWidth);
-        }
-    }
-
-    private bool ApplyMemberValue(object item, string? memberPath, Action<object?> setter)
-    {
-        if (string.IsNullOrWhiteSpace(memberPath))
-            return false;
-
-        if (!TryGetMemberValue(item, memberPath, out var value))
-            return false;
-
-        setter(value);
-        return true;
-    }
-
-    private static bool TryGetMemberValue(object item, string memberPath, out object? value)
-    {
-        object? current = item;
-        foreach (var part in memberPath.Split(['.'], StringSplitOptions.RemoveEmptyEntries))
-        {
-            if (current == null)
+            var nullableDate = (DateTime?)item;
+            if (nullableDate.HasValue)
             {
-                value = null;
-                return true;
+                container.Date = nullableDate.Value;
+                return;
             }
-
-            var property = current.GetType().GetProperty(part);
-            if (property == null)
-            {
-                value = null;
-                return false;
-            }
-
-            current = property.GetValue(current);
         }
 
-        value = current;
-        return true;
+        var path = string.IsNullOrWhiteSpace(DateMemberPath) ? "Date" : DateMemberPath;
+        var descriptor = TypeDescriptor.GetProperties(item)[path];
+
+        if (descriptor != null)
+            BindingOperations.SetBinding(container, StswTimelineItem.DateProperty, new Binding(path)
+            {
+                Source = item,
+                Mode = BindingMode.OneWay
+            });
     }
+
+    /// <summary>
+    /// Updates the automatic minimum and maximum dates based on the items in the timeline.
+    /// </summary>
+    private void UpdateAutomaticRange()
+    {
+        if (Minimum.HasValue && Maximum.HasValue)
+        {
+            _itemsMinimum = null;
+            _itemsMaximum = null;
+            return;
+        }
+
+        DateTime? min = null;
+        DateTime? max = null;
+
+        foreach (var item in Items)
+        {
+            var date = GetItemDate(item);
+            if (!date.HasValue)
+                continue;
+
+            if (!min.HasValue || date.Value < min.Value)
+                min = date.Value;
+            if (!max.HasValue || date.Value > max.Value)
+                max = date.Value;
+        }
+
+        _itemsMinimum = min;
+        _itemsMaximum = max;
+    }
+
+    /// <summary>
+    /// Gets the date associated with the given item.
+    /// </summary>
+    /// <param name="item">The item to retrieve the date from.</param>
+    /// <returns>The date associated with the item, or <see langword="null"/> if not found.</returns>
+    private DateTime? GetItemDate(object item)
+    {
+        if (item is StswTimelineItem timelineItem)
+            return timelineItem.Date;
+
+        if (item is DateTime dateTime)
+            return dateTime;
+
+        if (item is DateTime?)
+        {
+            var nullableDate = (DateTime?)item;
+            if (nullableDate.HasValue)
+                return nullableDate.Value;
+        }
+
+        var path = string.IsNullOrWhiteSpace(DateMemberPath) ? "Date" : DateMemberPath;
+        var descriptor = TypeDescriptor.GetProperties(item)[path];
+        var value = descriptor?.GetValue(item);
+
+        return value switch
+        {
+            DateTime dt => dt,
+            _ => null
+        };
+    }
+
+    /// <summary>
+    /// Gets the effective minimum and maximum dates for the timeline.
+    /// </summary>
+    /// <returns>A tuple containing the effective minimum and maximum dates.</returns>
+    internal (DateTime Minimum, DateTime Maximum) GetEffectiveRange()
+    {
+        var minimum = Minimum ?? _itemsMinimum ?? _itemsMaximum ?? DateTime.Now;
+        var maximum = Maximum ?? _itemsMaximum ?? _itemsMinimum ?? minimum;
+
+        return (minimum, maximum);
+    }
+    #endregion
 
     #region Logic properties
-    public DateTime? StartDate
-    {
-        get => (DateTime?)GetValue(StartDateProperty);
-        set => SetValue(StartDateProperty, value);
-    }
-    public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(
-        nameof(StartDate), typeof(DateTime?), typeof(StswTimeline),
-        new PropertyMetadata(null, OnRangeChanged));
-
-    public DateTime? EndDate
-    {
-        get => (DateTime?)GetValue(EndDateProperty);
-        set => SetValue(EndDateProperty, value);
-    }
-    public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(
-        nameof(EndDate), typeof(DateTime?), typeof(StswTimeline),
-        new PropertyMetadata(null, OnRangeChanged));
-
-    public DateTime? Minimum
-    {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(
-        nameof(Minimum), typeof(DateTime?), typeof(StswTimeline),
-        new PropertyMetadata(null, OnRangeChanged));
-
-    public DateTime? Maximum
-    {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(
-        nameof(Maximum), typeof(DateTime?), typeof(StswTimeline),
-        new PropertyMetadata(null, OnRangeChanged));
-
+    /// <summary>
+    /// Gets or sets the path to the property that provides the date for each item.
+    /// </summary>
     public string? DateMemberPath
     {
         get => (string?)GetValue(DateMemberPathProperty);
         set => SetValue(DateMemberPathProperty, value);
     }
-    public static readonly DependencyProperty DateMemberPathProperty = DependencyProperty.Register(
-        nameof(DateMemberPath), typeof(string), typeof(StswTimeline));
-
-    public string? HeaderMemberPath
+    public static readonly DependencyProperty DateMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(DateMemberPath),
+            typeof(string),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnDateMemberPathChanged)
+        );
+    private static void OnDateMemberPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        get => (string?)GetValue(HeaderMemberPathProperty);
-        set => SetValue(HeaderMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty HeaderMemberPathProperty = DependencyProperty.Register(
-        nameof(HeaderMemberPath), typeof(string), typeof(StswTimeline));
+        if (d is not StswTimeline stsw)
+            return;
 
-    public string? DescriptionMemberPath
-    {
-        get => (string?)GetValue(DescriptionMemberPathProperty);
-        set => SetValue(DescriptionMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty DescriptionMemberPathProperty = DependencyProperty.Register(
-        nameof(DescriptionMemberPath), typeof(string), typeof(StswTimeline));
+        foreach (var item in stsw.Items)
+            stsw.ApplyContainerBindings(item);
 
-    public string? ToolTipMemberPath
-    {
-        get => (string?)GetValue(ToolTipMemberPathProperty);
-        set => SetValue(ToolTipMemberPathProperty, value);
+        stsw.UpdateAutomaticRange();
+        stsw.InvalidateArrange();
     }
-    public static readonly DependencyProperty ToolTipMemberPathProperty = DependencyProperty.Register(
-        nameof(ToolTipMemberPath), typeof(string), typeof(StswTimeline));
+
+    /// <summary>
+    /// Gets or sets the template used to display the popup content for each item.
+    /// </summary>
+    public DataTemplate? ItemPopupTemplate
+    {
+        get => (DataTemplate?)GetValue(ItemPopupTemplateProperty);
+        set => SetValue(ItemPopupTemplateProperty, value);
+    }
+    public static readonly DependencyProperty ItemPopupTemplateProperty
+        = DependencyProperty.Register(
+            nameof(ItemPopupTemplate),
+            typeof(DataTemplate),
+            typeof(StswTimeline)
+        );
+
+    /// <summary>
+    /// Gets or sets the template selector used to choose the popup template for each item.
+    /// </summary>
+    public DataTemplateSelector? ItemPopupTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(ItemPopupTemplateSelectorProperty);
+        set => SetValue(ItemPopupTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty ItemPopupTemplateSelectorProperty
+        = DependencyProperty.Register(
+            nameof(ItemPopupTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(StswTimeline)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum date for the timeline.
+    /// </summary>
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(DateTime?),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnRangeChanged)
+        );
+    private static void OnRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswTimeline stsw)
+            return;
+
+        stsw.UpdateAutomaticRange();
+        stsw.InvalidateArrange();
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum date for the timeline.
+    /// </summary>
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(DateTime?),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnRangeChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the orientation of the timeline.
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
     #endregion
 
     #region Style properties
-    public double ItemHeight
+    /// <summary>
+    /// Gets or sets the initial delay, in milliseconds, before a tooltip is shown for an item.
+    /// </summary>
+    public int ToolTipInitialShowDelay
     {
-        get => (double)GetValue(ItemHeightProperty);
-        set => SetValue(ItemHeightProperty, value);
+        get => (int)GetValue(ToolTipInitialShowDelayProperty);
+        set => SetValue(ToolTipInitialShowDelayProperty, value);
     }
-    public static readonly DependencyProperty ItemHeightProperty = DependencyProperty.Register(
-        nameof(ItemHeight), typeof(double), typeof(StswTimeline),
-        new PropertyMetadata(72.0));
+    public static readonly DependencyProperty ToolTipInitialShowDelayProperty
+        = DependencyProperty.Register(
+            nameof(ToolTipInitialShowDelay),
+            typeof(int),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(200)
+        );
 
-    public double IndicatorSize
+    /// <summary>
+    /// Gets or sets the duration, in milliseconds, that a tooltip stays visible for an item.
+    /// </summary>
+    public int ToolTipShowDuration
     {
-        get => (double)GetValue(IndicatorSizeProperty);
-        set => SetValue(IndicatorSizeProperty, value);
+        get => (int)GetValue(ToolTipShowDurationProperty);
+        set => SetValue(ToolTipShowDurationProperty, value);
     }
-    public static readonly DependencyProperty IndicatorSizeProperty = DependencyProperty.Register(
-        nameof(IndicatorSize), typeof(double), typeof(StswTimeline),
-        new PropertyMetadata(12.0, OnIndicatorSizeChanged));
-
-    public Brush LineBrush
-    {
-        get => (Brush)GetValue(LineBrushProperty);
-        set => SetValue(LineBrushProperty, value);
-    }
-    public static readonly DependencyProperty LineBrushProperty = DependencyProperty.Register(
-        nameof(LineBrush), typeof(Brush), typeof(StswTimeline));
-
-    public double LineThickness
-    {
-        get => (double)GetValue(LineThicknessProperty);
-        set => SetValue(LineThicknessProperty, value);
-    }
-    public static readonly DependencyProperty LineThicknessProperty = DependencyProperty.Register(
-        nameof(LineThickness), typeof(double), typeof(StswTimeline),
-        new PropertyMetadata(2.0));
+    public static readonly DependencyProperty ToolTipShowDurationProperty
+        = DependencyProperty.Register(
+            nameof(ToolTipShowDuration),
+            typeof(int),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(10000)
+        );
     #endregion
-
-    private static void OnRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswTimeline timeline)
-            timeline.InvalidateItemPositions();
-    }
-
-    private static void OnIndicatorSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswTimeline timeline)
-            timeline.InvalidateItemPositions();
-    }
-
-    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-        if (e.Property == PaddingProperty)
-            InvalidateItemPositions();
-    }
 }
 
 /// <summary>
-/// Represents an individual timeline point rendered within <see cref="StswTimeline"/>.
+/// A panel that positions timeline items proportionally between the effective minimum and maximum dates.
 /// </summary>
-[StswPlannedChanges(StswPlannedChanges.Finish)]
-public class StswTimelineItem : ContentControl
+public class StswTimelinePanel : Panel
 {
-    static StswTimelineItem()
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimelineItem), new FrameworkPropertyMetadata(typeof(StswTimelineItem)));
+        foreach (UIElement child in InternalChildren)
+            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+        return availableSize;
     }
 
-    internal double RelativePosition { get; set; } = double.NaN;
-    internal StswTimeline? ParentTimeline { get; set; }
-
-    #region Logic properties
-    public DateTime? Date
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize)
     {
-        get => (DateTime?)GetValue(DateProperty);
-        set => SetValue(DateProperty, value);
-    }
-    public static readonly DependencyProperty DateProperty = DependencyProperty.Register(
-        nameof(Date), typeof(DateTime?), typeof(StswTimelineItem),
-        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnLayoutAffectingPropertyChanged));
+        if (InternalChildren.Count == 0)
+            return finalSize;
 
-    public string? Header
-    {
-        get => (string?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header), typeof(string), typeof(StswTimelineItem));
+        if (ItemsControl.GetItemsOwner(this) is not StswTimeline owner)
+            return finalSize;
 
-    public string? Description
-    {
-        get => (string?)GetValue(DescriptionProperty);
-        set => SetValue(DescriptionProperty, value);
-    }
-    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-        nameof(Description), typeof(string), typeof(StswTimelineItem));
+        var (minimum, maximum) = owner.GetEffectiveRange();
+        var span = maximum - minimum;
+        var orientation = owner.Orientation;
+        var length = orientation == Orientation.Horizontal ? finalSize.Width : finalSize.Height;
+        var center = orientation == Orientation.Horizontal ? finalSize.Height / 2 : finalSize.Width / 2;
+        var totalSeconds = Math.Max(span.TotalSeconds, 0.001);
 
-    public object? ToolTipContent
-    {
-        get => GetValue(ToolTipContentProperty);
-        set => SetValue(ToolTipContentProperty, value);
-    }
-    public static readonly DependencyProperty ToolTipContentProperty = DependencyProperty.Register(
-        nameof(ToolTipContent), typeof(object), typeof(StswTimelineItem));
-
-    public object? PopupContent
-    {
-        get => GetValue(PopupContentProperty);
-        set => SetValue(PopupContentProperty, value);
-    }
-    public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register(
-        nameof(PopupContent), typeof(object), typeof(StswTimelineItem));
-    #endregion
-
-    #region Style properties
-    public double IndicatorSize
-    {
-        get => (double)GetValue(IndicatorSizeProperty);
-        set => SetValue(IndicatorSizeProperty, value);
-    }
-    public static readonly DependencyProperty IndicatorSizeProperty = DependencyProperty.Register(
-        nameof(IndicatorSize), typeof(double), typeof(StswTimelineItem),
-        new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.AffectsMeasure, OnLayoutAffectingPropertyChanged));
-    #endregion
-
-    private static void OnLayoutAffectingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswTimelineItem item)
-            item.ParentTimeline?.InvalidateItemPositions();
-    }
-}
-
-internal static class StswTimelineEnumerableExtensions
-{
-    public static DateTime? MinOrDefault(this IEnumerable<StswTimelineItem> items, Func<StswTimelineItem, DateTime?> selector)
-    {
-        DateTime? result = null;
-        foreach (var item in items)
+        var maxHalfExtent = 0d;
+        foreach (UIElement child in InternalChildren)
         {
-            var value = selector(item);
-            if (value.HasValue)
-                result = result.HasValue && result.Value <= value.Value ? result : value;
+            var extent = orientation == Orientation.Horizontal ? child.DesiredSize.Width : child.DesiredSize.Height;
+            maxHalfExtent = Math.Max(maxHalfExtent, extent / 2);
         }
-        return result;
-    }
 
-    public static DateTime? MaxOrDefault(this IEnumerable<StswTimelineItem> items, Func<StswTimelineItem, DateTime?> selector)
-    {
-        DateTime? result = null;
-        foreach (var item in items)
+        var usableLength = Math.Max(0, length - maxHalfExtent * 2);
+        var startOffset = maxHalfExtent;
+
+        foreach (UIElement child in InternalChildren)
         {
-            var value = selector(item);
-            if (value.HasValue)
-                result = result.HasValue && result.Value >= value.Value ? result : value;
+            if (child is not StswTimelineItem item)
+            {
+                child.Arrange(new Rect(finalSize));
+                continue;
+            }
+
+            var offsetSeconds = (item.Date - minimum).TotalSeconds;
+            var ratio = Math.Min(1, Math.Max(0, offsetSeconds / totalSeconds));
+            var position = startOffset + usableLength * ratio;
+
+            if (orientation == Orientation.Horizontal)
+            {
+                var x = position - child.DesiredSize.Width / 2;
+                var y = center - child.DesiredSize.Height / 2;
+                child.Arrange(new Rect(new Point(x, y), child.DesiredSize));
+            }
+            else
+            {
+                var x = center - child.DesiredSize.Width / 2;
+                var y = position - child.DesiredSize.Height / 2;
+                child.Arrange(new Rect(new Point(x, y), child.DesiredSize));
+            }
         }
-        return result;
+
+        return finalSize;
     }
 }

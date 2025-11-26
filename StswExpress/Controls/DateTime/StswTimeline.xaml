@@ -4,151 +4,48 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTimeline}">
-        <Setter Property="Background" Value="{DynamicResource StswTimeline.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswTimeline.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswTimeline.Indicator.Fill}"/>
-        <Setter Property="LineBrush" Value="{DynamicResource StswTimeline.Static.Border}"/>
-        <Setter Property="LineThickness" Value="2"/>
-        <Setter Property="IndicatorSize" Value="12"/>
-        <Setter Property="ItemHeight" Value="80"/>
-        <Setter Property="Padding" Value="24 32"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <Canvas ClipToBounds="False"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Padding" Value="3"/>
+
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTimeline}">
-                    <Border Background="{TemplateBinding Background}">
-                        <Grid>
-                            <Border Height="{TemplateBinding LineThickness}"
-                                    Background="{TemplateBinding LineBrush}"
-                                    VerticalAlignment="Center"
-                                    Margin="{TemplateBinding Padding}"
-                                    CornerRadius="1"/>
-                            <Canvas x:Name="PART_ItemsHost"
-                                    Margin="{TemplateBinding Padding}"
-                                    ClipToBounds="False"
-                                    IsItemsHost="True"/>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type se:StswTimelineItem}">
-        <Setter Property="Foreground" Value="{DynamicResource StswTimeline.Indicator.Fill}"/>
-        <Setter Property="Height" Value="{Binding ItemHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimeline}}}"/>
-        <Setter Property="IndicatorSize" Value="{Binding IndicatorSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimeline}}}"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="ToolTipService.ToolTip">
-            <Setter.Value>
-                <se:StswToolTip MaxWidth="260" Placement="Top">
-                    <StackPanel>
-                        <se:StswText Text="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}}"
-                                     FontWeight="SemiBold"
-                                     Visibility="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                        <se:StswText Text="{Binding Date, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}, StringFormat={}{0:G}}"
-                                     FontSize="12"
-                                     Foreground="{DynamicResource StswTimeline.Static.Border}"
-                                     Visibility="{Binding Date, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                        <se:StswText Text="{Binding Description, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}}"
-                                     Margin="0,4,0,0"
-                                     TextWrapping="Wrap"
-                                     Visibility="{Binding Description, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                        <ContentPresenter Content="{Binding ToolTipContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}}"
-                                          Margin="0,4,0,0"
-                                          Visibility="{Binding ToolTipContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                    </StackPanel>
-                </se:StswToolTip>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswTimelineItem}">
-                    <Grid Height="{TemplateBinding Height}" VerticalAlignment="Stretch">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,12">
-                            <se:StswText Text="{TemplateBinding Header}"
-                                         FontWeight="SemiBold"
-                                         TextAlignment="Center"
-                                         Visibility="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                            <se:StswText Text="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:dd MMM yyyy}}"
-                                         FontSize="12"
-                                         Foreground="{DynamicResource StswTimeline.Static.Border}"
-                                         TextAlignment="Center"
-                                         Visibility="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                        </StackPanel>
-                        <Grid Grid.Row="1" VerticalAlignment="Center">
-                            <ToggleButton x:Name="PART_Marker"
-                                          Width="{TemplateBinding IndicatorSize}"
-                                          Height="{TemplateBinding IndicatorSize}"
-                                          Background="Transparent"
-                                          BorderThickness="0"
-                                          Cursor="Hand"
-                                          FocusVisualStyle="{x:Null}"
-                                          Padding="0">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <Ellipse x:Name="PART_MarkerShape"
-                                                 Width="{TemplateBinding Width}"
-                                                 Height="{TemplateBinding Height}"
-                                                 Fill="{TemplateBinding Foreground}"
-                                                 Stroke="{DynamicResource StswTimeline.Static.Border}"
-                                                 StrokeThickness="1"
-                                                 RenderTransformOrigin="0.5,0.5">
-                                            <Ellipse.RenderTransform>
-                                                <ScaleTransform/>
-                                            </Ellipse.RenderTransform>
-                                        </Ellipse>
-                                        <!--
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleX)" Value="1.2"/>
-                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleY)" Value="1.2"/>
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleX)" Value="0.9"/>
-                                                <Setter TargetName="PART_MarkerShape" Property="RenderTransform.(ScaleTransform.ScaleY)" Value="0.9"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                        -->
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-
-                            <se:StswPopup IsOpen="{Binding IsChecked, ElementName=PART_Marker, Mode=TwoWay}"
-                                          Placement="Top"
-                                          PlacementTarget="{Binding ElementName=PART_Marker}"
-                                          StaysOpen="False">
-                                <StackPanel MaxWidth="260"
-                                            Margin="0,0,0,8">
-                                    <se:StswText Text="{TemplateBinding Header}"
-                                                 FontWeight="SemiBold"
-                                                 Visibility="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                                    <se:StswText Text="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:G}}"
-                                                 FontSize="12"
-                                                 Foreground="{DynamicResource StswTimeline.Static.Border}"
-                                                 Visibility="{Binding Date, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                                    <ContentPresenter Content="{Binding PopupContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswTimelineItem}}}"
-                                                      Margin="0,4,0,0"
-                                                      Visibility="{Binding PopupContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/>
-                                </StackPanel>
-                            </se:StswPopup>
-                        </Grid>
+                    <!-- main -->
+                    <Grid Margin="{TemplateBinding Padding}">
+                        <Rectangle x:Name="OPT_Line" Fill="{TemplateBinding BorderBrush}" RadiusX="1" RadiusY="1"/>
+                        <ItemsPresenter/>
                     </Grid>
+                    <!-- triggers -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="OPT_Line"/>
+                            <Setter Property="VerticalAlignment" Value="Center" TargetName="OPT_Line"/>
+                            <Setter Property="Height" Value="{Binding BorderThickness.Top, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Line"/>
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="VerticalAlignment" Value="Stretch" TargetName="OPT_Line"/>
+                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="OPT_Line"/>
+                            <Setter Property="Width" Value="{Binding BorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_Line"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <se:StswTimelinePanel/>
+                </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
     </Style>

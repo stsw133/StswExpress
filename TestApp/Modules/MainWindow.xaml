@@ -79,9 +79,10 @@
                 <se:StswNavigationElement Header="StswDecimalBox" ContextNamespace="{x:Type local:StswDecimalBoxContext}"/>
                 <se:StswNavigationElement Header="StswPasswordBox" ContextNamespace="{x:Type local:StswPasswordBoxContext}"/>
                 <se:StswNavigationElement Header="StswRatingControl" ContextNamespace="{x:Type local:StswRatingControlContext}"/>
+                <se:StswNavigationElement Header="StswRichBox" ContextNamespace="{x:Type local:StswRichBoxContext}"/>
+                <se:StswNavigationElement Header="StswRichEditor" ContextNamespace="{x:Type local:StswRichEditorContext}"/>
                 <se:StswNavigationElement Header="StswSlider" ContextNamespace="{x:Type local:StswSliderContext}"/>
                 <se:StswNavigationElement Header="StswTextBox" ContextNamespace="{x:Type local:StswTextBoxContext}"/>
-                <se:StswNavigationElement Header="StswTextEditor" ContextNamespace="{x:Type local:StswTextEditorContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="{x:Type local:StswBorderContext}"/>

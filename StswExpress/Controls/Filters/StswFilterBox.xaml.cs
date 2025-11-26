@@ -125,9 +125,9 @@ public class StswFilterBox : Control, IStswCornerControl
 
         /// build selection list if applicable
         var selectedItems = ItemsSource?.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
-        var listValues = selectedItems?
+        var listValues = selectedItems ?
             .Select(item => SelectedValuePath != null
-                ? item.GetType().GetProperty(SelectedValuePath)?.GetValue(item) ?? item
+                ? item.GetPropertyValue(SelectedValuePath) ?? item
                 : item)
             .ToList()
             ?? [];
@@ -287,7 +287,7 @@ public class StswFilterBox : Control, IStswCornerControl
                             StswFilterMode.EndsWith => val1 != null && textValue?.EndsWith(val1) == true,
                             StswFilterMode.Like => MatchesLikePattern(textValue, val1),
                             StswFilterMode.NotLike => !MatchesLikePattern(textValue, val1),
-                            StswFilterMode.Between => textValue.Between(val1, val2),
+                            StswFilterMode.Between => val1 != null && val2 != null && textValue != null && textValue.Between(val1, val2),
                             _ => true
                         };
                     }

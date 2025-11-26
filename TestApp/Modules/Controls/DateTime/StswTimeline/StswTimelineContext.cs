@@ -8,7 +8,7 @@ public partial class StswTimelineContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-        ApplyNaturalRange();
+        //ApplyNaturalRange();
     }
 
     [StswCommand]
@@ -16,23 +16,23 @@ public partial class StswTimelineContext : ControlsContext
     {
         if (Milestones.Count == 0)
         {
-            StartDate = null;
-            EndDate = null;
+            Minimum = null;
+            Maximum = null;
             return;
         }
 
         var min = Milestones.Min(x => x.Date);
         var max = Milestones.Max(x => x.Date);
 
-        StartDate = min.AddDays(-7);
-        EndDate = max.AddDays(7);
+        Minimum = min.AddDays(-7);
+        Maximum = max.AddDays(7);
     }
 
     [StswCommand]
     private void ClearRange()
     {
-        StartDate = null;
-        EndDate = null;
+        Minimum = null;
+        Maximum = null;
     }
 
     public ObservableCollection<StswTimelineMilestone> Milestones { get; } =
@@ -76,8 +76,8 @@ public partial class StswTimelineContext : ControlsContext
 
 
 
-    [StswObservableProperty] DateTime? _startDate;
-    [StswObservableProperty] DateTime? _endDate;
+    [StswObservableProperty] DateTime? _minimum;
+    [StswObservableProperty] DateTime? _maximum;
     [StswObservableProperty] double _indicatorSize = 12d;
     [StswObservableProperty] double _itemHeight = 80d;
 }

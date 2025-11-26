@@ -35,7 +35,7 @@ public enum StswCalendarUnit
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswNavigation.TabStripMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
+/// Enumeration for <see cref="StswNavigation.TabStripMode"/> and <see cref="StswRichEditor.ToolbarMode"/>.
 /// </summary>
 public enum StswCompactibility
 {

@@ -13,35 +13,42 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartDate, Type={x:Type se:StswTimeline}}"/>
-            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding StartDate}"/>
-
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf EndDate, Type={x:Type se:StswTimeline}}"/>
-            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding EndDate}"/>
-
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemHeight, Type={x:Type se:StswTimeline}}"/>
-            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding ItemHeight}"/>
-
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IndicatorSize, Type={x:Type se:StswTimeline}}"/>
-            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding IndicatorSize}"/>
-
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswTimeline}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
+            <!-- Commands -->
             <UniformGrid Margin="0 6 0 0" Rows="1">
                 <se:StswButton Content="Auto range" Command="{Binding ApplyNaturalRangeCommand}" Margin="0 0 6 0"/>
                 <se:StswButton Content="Clear range" Command="{Binding ClearRangeCommand}"/>
             </UniformGrid>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswTimeline DateMemberPath="Date" DescriptionMemberPath="Summary" HeaderMemberPath="Title" ToolTipMemberPath="Details"
-                         IndicatorSize="{Binding IndicatorSize}"
+        <se:StswTimeline DateMemberPath="Date"
                          IsEnabled="{Binding IsEnabled}"
-                         ItemHeight="{Binding ItemHeight}"
                          ItemsSource="{Binding Milestones}"
-                         StartDate="{Binding StartDate}"
-                         EndDate="{Binding EndDate}"
+                         Minimum="{Binding Minimum}"
+                         Maximum="{Binding Maximum}"
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
-                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswTimeline.ItemPopupTemplate>
+                <DataTemplate>
+                    <se:StswText>
+                        <Run Text="{Binding Date, StringFormat=yyyy-MM-dd, Mode=OneWay}" FontSize="11"/>
+                        <LineBreak/>
+                        <Run Text="{Binding Title, Mode=OneWay}" FontWeight="Bold"/>
+                        <LineBreak/>
+                        <Run Text="{Binding Summary, Mode=OneWay}"/>
+                        <LineBreak/>
+                        <Run Text="{Binding Details, Mode=OneWay}"/>
+                    </se:StswText>
+                </DataTemplate>
+            </se:StswTimeline.ItemPopupTemplate>
+        </se:StswTimeline>
         <!-- status panel -->
         
     </local:ControlsBase>

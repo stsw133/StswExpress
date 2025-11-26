@@ -115,7 +115,7 @@
                         <!-- Icon -->
                         <DataGridTemplateColumn IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
-                                <se:StswFilterBox Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="datalength(Icon)"/>
+                                <se:StswFilterBox Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="IconByteSize"/>
                             </DataGridTemplateColumn.Header>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

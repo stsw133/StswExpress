@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswTextEditor}">
+    <Style TargetType="{x:Type se:StswRichEditor}">
         <Setter Property="AcceptsTab" Value="True"/>
         <Setter Property="SelectedColorHighlight" Value="Transparent"/>
         <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
@@ -42,7 +42,7 @@
         
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswTextEditor}">
+                <ControlTemplate TargetType="{x:Type se:StswRichEditor}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
@@ -64,7 +64,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.New}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.New}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.File}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
@@ -74,7 +74,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.Open}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.Open}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{DynamicResource StswColor.Structure}"/>
                                                 </se:StswButton>
                                                 
@@ -84,7 +84,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.Save}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.Save}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Fill="{DynamicResource StswColor.Modify}"/>
                                                 </se:StswButton>
                                                 
@@ -94,7 +94,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.SaveAs}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.SaveAs}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentSaveAll}" Fill="{DynamicResource StswColor.Modify}"/>
                                                 </se:StswButton>
                                             </DockPanel>
@@ -106,7 +106,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.Reload}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.Reload}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Reload}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
@@ -116,7 +116,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.ShowInExplorer}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.ShowInExplorer}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FolderInformation}" Fill="{DynamicResource StswColor.Structure}"/>
                                                 </se:StswButton>
                                                 
@@ -126,7 +126,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.Print}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.Print}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Printer}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
@@ -136,7 +136,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.File.SendMail}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.File.SendMail}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Email}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                             </DockPanel>
@@ -146,7 +146,7 @@
                                                          FontWeight="Medium"
                                                          HorizontalAlignment="Center"
                                                          Opacity="0.6"
-                                                         Text="{se:StswTranslate StswTextEditor.File}"
+                                                         Text="{se:StswTranslate StswRichEditor.File}"
                                                          se:StswToolTip.Text="{TemplateBinding FilePath}"/>
                                         </DockPanel>
                                         <!-- separator -->
@@ -160,7 +160,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.Undo, Suffix=' (Ctrl + Z)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.Undo, Suffix=' (Ctrl + Z)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
                                                 
@@ -170,7 +170,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.Redo, Suffix=' (Ctrl + Y)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.Redo, Suffix=' (Ctrl + Y)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Fill="{DynamicResource StswColor.Neutral}"/>
                                                 </se:StswButton>
 
@@ -180,7 +180,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.SelectAll, Suffix=' (Ctrl + A)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.SelectAll, Suffix=' (Ctrl + A)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectAll}"/>
                                                 </se:StswButton>
                                             </DockPanel>
@@ -192,7 +192,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.Cut, Suffix=' (Ctrl + X)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.Cut, Suffix=' (Ctrl + X)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}"/>
                                                 </se:StswButton>
 
@@ -202,7 +202,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.Copy, Suffix=' (Ctrl + C)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.Copy, Suffix=' (Ctrl + C)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}"/>
                                                 </se:StswButton>
 
@@ -212,12 +212,12 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Edit.Paste, Suffix=' (Ctrl + V)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Edit.Paste, Suffix=' (Ctrl + V)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}"/>
                                                 </se:StswButton>
                                             </DockPanel>
 
-                                            <se:StswText x:Name="OPT_EditText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswTextEditor.Edit}"/>
+                                            <se:StswText x:Name="OPT_EditText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswRichEditor.Edit}"/>
                                         </DockPanel>
                                         <!-- separator -->
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
@@ -242,7 +242,7 @@
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.FontIncrease}">
+                                                                   se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.FontIncrease}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeIncrease}"/>
                                                     </se:StswButton>
 
@@ -252,7 +252,7 @@
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.FontDecrease}">
+                                                                   se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.FontDecrease}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeDecrease}"/>
                                                     </se:StswButton>
                                                 </DockPanel>
@@ -274,7 +274,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Bold, Suffix=' (Ctrl + B)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Bold, Suffix=' (Ctrl + B)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}"/>
                                                 </se:StswButton>
 
@@ -284,7 +284,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Italic, Suffix=' (Ctrl + I)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Italic, Suffix=' (Ctrl + I)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}"/>
                                                 </se:StswButton>
 
@@ -294,7 +294,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Underline, Suffix=' (Ctrl + U)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Underline, Suffix=' (Ctrl + U)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}"/>
                                                 </se:StswButton>
 
@@ -304,7 +304,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Strikethrough}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Strikethrough}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatStrikethrough}"/>
                                                 </se:StswButton>
 
@@ -314,7 +314,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Subscript, Suffix=' (Ctrl + OemPlus)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Subscript, Suffix=' (Ctrl + OemPlus)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSubscript}"/>
                                                 </se:StswButton>
 
@@ -324,7 +324,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.Superscript, Suffix=' (Ctrl + Shift + OemPlus)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.Superscript, Suffix=' (Ctrl + Shift + OemPlus)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSuperscript}"/>
                                                 </se:StswButton>
 
@@ -341,7 +341,7 @@
                                                                     se:StswPopup.CornerClipping="False"
                                                                     se:StswPopup.CornerRadius="0"
                                                                     se:StswPopup.Padding="0"
-                                                                    se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.ColorText}">
+                                                                    se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.ColorText}">
                                                     <se:StswSplitButton.Header>
                                                         <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -351,10 +351,10 @@
                                                         </se:StswButton>
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
-                                                        <TabItem Header="{se:StswTranslate StswTextEditor.Font.ColorStandard}">
+                                                        <TabItem Header="{se:StswTranslate StswRichEditor.Font.ColorStandard}">
                                                             <se:StswColorSelector SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                         </TabItem>
-                                                        <TabItem Header="{se:StswTranslate StswTextEditor.Font.ColorDetailed}">
+                                                        <TabItem Header="{se:StswTranslate StswRichEditor.Font.ColorDetailed}">
                                                             <se:StswColorPicker SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
@@ -373,7 +373,7 @@
                                                                     se:StswPopup.CornerClipping="False"
                                                                     se:StswPopup.CornerRadius="0"
                                                                     se:StswPopup.Padding="0"
-                                                                    se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Font.ColorHighlight}">
+                                                                    se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Font.ColorHighlight}">
                                                     <se:StswSplitButton.Header>
                                                         <se:StswButton se:StswControl.IsBorderless="True" Command="{Binding FontColorHighlightCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -383,17 +383,17 @@
                                                         </se:StswButton>
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
-                                                        <TabItem Header="{se:StswTranslate StswTextEditor.Font.ColorStandard}">
+                                                        <TabItem Header="{se:StswTranslate StswRichEditor.Font.ColorStandard}">
                                                             <se:StswColorSelector SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
                                                         </TabItem>
-                                                        <TabItem Header="{se:StswTranslate StswTextEditor.Font.ColorDetailed}">
+                                                        <TabItem Header="{se:StswTranslate StswRichEditor.Font.ColorDetailed}">
                                                             <se:StswColorPicker SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
                                                 </se:StswSplitButton>
                                             </DockPanel>
 
-                                            <se:StswText x:Name="OPT_FontText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswTextEditor.Font}"/>
+                                            <se:StswText x:Name="OPT_FontText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswRichEditor.Font}"/>
                                         </DockPanel>
                                         <!-- separator -->
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
@@ -406,7 +406,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.IndentIncrease}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.IndentIncrease}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentIncrease}"/>
                                                 </se:StswButton>
                                                 
@@ -416,7 +416,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.IndentDecrease}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.IndentDecrease}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}"/>
                                                 </se:StswButton>
 
@@ -427,12 +427,12 @@
                                                                    Margin="{TemplateBinding SubPadding}"
                                                                    se:StswDropArrow.Data="{x:Static se:StswIcons.FormatListText}"
                                                                    se:StswDropArrow.IsRotated="False"
-                                                                   se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.StartList}">
+                                                                   se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.StartList}">
                                                     <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleBullets" Focusable="False" HorizontalContentAlignment="Left">
-                                                        <se:StswLabel Content="{se:StswTranslate StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
+                                                        <se:StswLabel Content="{se:StswTranslate StswRichEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
                                                     </se:StswButton>
                                                     <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleNumbering" Focusable="False" HorizontalContentAlignment="Left">
-                                                        <se:StswLabel Content="{se:StswTranslate StswTextEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
+                                                        <se:StswLabel Content="{se:StswTranslate StswRichEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
                                                     </se:StswButton>
                                                 </se:StswDropButton>
 
@@ -443,7 +443,7 @@
                                                                    Margin="{TemplateBinding SubPadding}"
                                                                    se:StswDropArrow.Data="{x:Static se:StswIcons.ArrowExpandVertical}"
                                                                    se:StswDropArrow.IsRotated="False"
-                                                                   se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.Interline}">
+                                                                   se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.Interline}">
                                                     <se:StswButton Content="auto" se:StswControl.IsBorderless="True" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <se:StswButton Content="1" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
                                                     <se:StswButton Content="1.15" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
@@ -459,7 +459,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.AlignLeft, Suffix=' (Ctrl + L)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.AlignLeft, Suffix=' (Ctrl + L)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignLeft}"/>
                                                 </se:StswButton>
                                                 
@@ -469,7 +469,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.AlignCenter, Suffix=' (Ctrl + E)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.AlignCenter, Suffix=' (Ctrl + E)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignCenter}"/>
                                                 </se:StswButton>
 
@@ -479,7 +479,7 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.AlignRight, Suffix=' (Ctrl + R)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.AlignRight, Suffix=' (Ctrl + R)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignRight}"/>
                                                 </se:StswButton>
 
@@ -489,12 +489,12 @@
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
                                                                Margin="{TemplateBinding SubPadding}"
-                                                               se:StswToolTip.Text="{se:StswTranslate StswTextEditor.Paragraph.AlignJustify, Suffix=' (Ctrl + J)'}">
+                                                               se:StswToolTip.Text="{se:StswTranslate StswRichEditor.Paragraph.AlignJustify, Suffix=' (Ctrl + J)'}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignJustify}"/>
                                                 </se:StswButton>
                                             </DockPanel>
                                             
-                                            <se:StswText x:Name="OPT_SectionText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswTextEditor.Paragraph}"/>
+                                            <se:StswText x:Name="OPT_SectionText" FontSize="10" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.6" Text="{se:StswTranslate StswRichEditor.Paragraph}"/>
                                         </DockPanel>
                                         <!-- separator -->
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}" BorderThickness="1" Orientation="Vertical"/>

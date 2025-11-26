@@ -1046,6 +1046,7 @@ public static partial class StswExtensions
     #region Universal extensions
     /// <summary>
     /// Gets the value of a property by name from an object.
+    /// Supports nested paths separated by dots (e.g., "Contractor.Id").
     /// </summary>
     /// <param name="obj">The object from which to get the property value.</param>
     /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
@@ -1053,13 +1054,28 @@ public static partial class StswExtensions
     /// <returns>The value of the property if it exists; otherwise, <see langword="null"/>.</returns>
     public static object? GetPropertyValue(this object obj, string propertyName, bool ignoreCase = false)
     {
-        if (obj is null || propertyName is null)
+        if (obj is null || string.IsNullOrWhiteSpace(propertyName))
             return null;
 
         var flags = BindingFlags.Public | BindingFlags.Instance;
-        if (ignoreCase) flags |= BindingFlags.IgnoreCase;
+        if (ignoreCase)
+            flags |= BindingFlags.IgnoreCase;
 
-        return obj.GetType().GetProperty(propertyName, flags)?.GetValue(obj);
+
+        object? current = obj;
+        foreach (var part in propertyName.Split(['.'], StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (current is null)
+                return null;
+
+            var property = current.GetType().GetProperty(part, flags);
+            if (property is null)
+                return null;
+
+            current = property.GetValue(current);
+        }
+
+        return current;
     }
     #endregion
 }

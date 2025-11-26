@@ -157,11 +157,18 @@ public class StswColumnChart : ItemsControl
     /// </summary>
     private void RequestChartUpdate()
     {
+        if (IsLoaded)
+        {
+            _chartUpdateOperation = null;
+            MakeChart();
+            return;
+        }
+
         if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
             return;
 
         var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
-        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
+        _chartUpdateOperation = Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
         {
             _chartUpdateOperation = null;
             MakeChart();

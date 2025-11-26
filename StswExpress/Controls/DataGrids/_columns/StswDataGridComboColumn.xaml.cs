@@ -328,18 +328,16 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
 
             foreach (var item in items)
             {
-                var itemType = item.GetType();
-                var valueProp = !string.IsNullOrEmpty(selectedValuePath)
-                    ? itemType.GetProperty(selectedValuePath)
-                    : null;
-                var displayProp = !string.IsNullOrEmpty(displayMemberPath)
-                    ? itemType.GetProperty(displayMemberPath)
-                    : null;
+                var itemValue = !string.IsNullOrEmpty(selectedValuePath)
+                    ? item.GetPropertyValue(selectedValuePath)
+                    : item;
 
-                var itemValue = valueProp?.GetValue(item) ?? item;
                 if (Equals(itemValue, selectedValue))
                 {
-                    var display = displayProp?.GetValue(item)?.ToString() ?? item.ToString() ?? string.Empty;
+                    var displayValue = !string.IsNullOrEmpty(displayMemberPath)
+                        ? item.GetPropertyValue(displayMemberPath)
+                        : item;
+                    var display = displayValue?.ToString() ?? item.ToString() ?? string.Empty;
                     _cache[selectedValue] = display;
                     return display;
                 }

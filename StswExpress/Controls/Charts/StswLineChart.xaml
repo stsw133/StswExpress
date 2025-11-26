@@ -23,6 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLineChart}">
+                    <!-- main -->
                     <Border x:Name="OPT_MainBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -32,6 +33,7 @@
                             <ItemsPresenter/>
                         </Grid>
                     </Border>
+                    <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="OPT_MainBorder"/>

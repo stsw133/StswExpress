@@ -173,16 +173,12 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             newlySelected.Add(selectedItem);
 
             /// if we have a DisplayMemberPath, try to get that property
-            if (!string.IsNullOrEmpty(DisplayMemberPath) && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propInfo)
-            {
-                var value = propInfo.GetValue(selectedItem)?.ToString();
-                if (!string.IsNullOrEmpty(value))
-                    sb.Append(value).Append(listSeparator);
-            }
-            else
-            {
-                sb.Append(selectedItem).Append(listSeparator);
-            }
+            var value = !string.IsNullOrEmpty(DisplayMemberPath)
+                ? selectedItem.GetPropertyValue(DisplayMemberPath)?.ToString()
+                : selectedItem.ToString();
+
+            if (!string.IsNullOrEmpty(value))
+                sb.Append(value).Append(listSeparator);
         }
 
         /// remove the trailing separator if needed
@@ -219,10 +215,10 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (string.IsNullOrEmpty(FilterText))
             return true;
 
-        if (!string.IsNullOrEmpty(FilterMemberPath) && obj.GetType().GetProperty(FilterMemberPath) is PropertyInfo filterMemberPathProp)
-            return filterMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
-        if (!string.IsNullOrEmpty(DisplayMemberPath) && obj.GetType().GetProperty(DisplayMemberPath) is PropertyInfo displayMemberPathProp)
-            return displayMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        if (!string.IsNullOrEmpty(FilterMemberPath))
+            return obj.GetPropertyValue(FilterMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        if (!string.IsNullOrEmpty(DisplayMemberPath))
+            return obj.GetPropertyValue(DisplayMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
 
         return obj?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
     }

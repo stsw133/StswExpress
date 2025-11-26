@@ -60,6 +60,9 @@
     <Compile Update="Modules\Controls\Filters\StswFilterTags\StswFilterTagsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Input\StswRichBox\StswRichBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Media\StswGifImage\StswGifImageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -282,7 +285,7 @@
     <Compile Update="Modules\Controls\Layout\StswGroupBox\StswGroupBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Input\StswTextEditor\StswTextEditorView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswRichEditor\StswRichEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Buttons\StswToggleButton\StswToggleButtonView.xaml.cs">
@@ -557,7 +560,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Input\StswTextEditor\StswTextEditorView.xaml">
+    <Page Update="Modules\Controls\Input\StswRichEditor\StswRichEditorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

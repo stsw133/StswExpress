@@ -38,17 +38,8 @@ public partial class ContractorsContext : StswObservableObject
     {
         try
         {
-            // for CollectionView filters:
             ListContractors.ReplaceWith(await Task.Run(() => SQLService.GetContractors(null)));
-            //FiltersContractors.Apply?.Invoke();
-
-            // for SQL filters:
-            //FiltersContractors.Apply?.Invoke();
-
-            //IEnumerable<ContractorModel> list = [];
-            //await Task.Run(() => list = SQL.GetContractors(FiltersContractors));
-            //ListContractors = new(list);
-            //ListContractorsView?.Refresh();
+            FiltersContractors.Apply?.Invoke(); // this is necessary to re-apply filters after refreshing the collection, otherwise collection is unfiltered at start
         }
         catch (Exception ex)
         {

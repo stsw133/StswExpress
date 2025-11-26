@@ -15,24 +15,24 @@
                                   Y1="{Binding PreviousPosition.Y, RelativeSource={RelativeSource TemplatedParent}}"
                                   X2="{Binding Position.X, RelativeSource={RelativeSource TemplatedParent}}"
                                   Y2="{Binding Position.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                  IsHitTestVisible="False"
+                                  Opacity="0.8"
                                   Stroke="{TemplateBinding Background}"
                                   StrokeThickness="{Binding LineThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswLineChart}}}"
                                   StrokeStartLineCap="Round"
                                   StrokeEndLineCap="Round"
-                                  Opacity="0.8"
                                   Visibility="{Binding ShowConnector, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                            <Border Background="{TemplateBinding Background}"
-                                    Width="{Binding PointSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswLineChart}}}"
-                                    Height="{Binding PointSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswLineChart}}}"
-                                    CornerRadius="500"
-                                    BorderThickness="1"
-                                    BorderBrush="{DynamicResource StswChart.Static.Border}"
-                                    Canvas.Left="{Binding DotPosition.X, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Canvas.Top="{Binding DotPosition.Y, RelativeSource={RelativeSource TemplatedParent}}">
-                                <Border.ToolTip>
+                            <Ellipse Canvas.Left="{Binding DotPosition.X, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Canvas.Top="{Binding DotPosition.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Fill="{TemplateBinding Background}"
+                                     Stroke="{DynamicResource StswChart.Static.Border}"
+                                     StrokeThickness="1"
+                                     Height="{Binding PointSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswLineChart}}}"
+                                     Width="{Binding PointSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswLineChart}}}">
+                                <Ellipse.ToolTip>
                                     <se:StswChartTip ShowDescription="True" ShowName="True"/>
-                                </Border.ToolTip>
-                            </Border>
+                                </Ellipse.ToolTip>
+                            </Ellipse>
                         </Canvas>
                     </Grid>
                 </ControlTemplate>

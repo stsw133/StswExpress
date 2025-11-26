@@ -180,10 +180,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (string.IsNullOrEmpty(FilterText))
             return true;
 
-        if (!string.IsNullOrEmpty(FilterMemberPath) && obj.GetType().GetProperty(FilterMemberPath) is PropertyInfo filterMemberPathProp)
-            return filterMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
-        if (!string.IsNullOrEmpty(DisplayMemberPath) && obj.GetType().GetProperty(DisplayMemberPath) is PropertyInfo displayMemberPathProp)
-            return displayMemberPathProp.GetValue(obj)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        if (!string.IsNullOrEmpty(FilterMemberPath))
+            return obj.GetPropertyValue(FilterMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        if (!string.IsNullOrEmpty(DisplayMemberPath))
+            return obj.GetPropertyValue(DisplayMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
 
         return obj?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
     }

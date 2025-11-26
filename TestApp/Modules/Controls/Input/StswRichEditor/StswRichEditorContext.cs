@@ -2,7 +2,7 @@
 using System.Windows.Documents;
 
 namespace TestApp;
-public partial class StswTextEditorContext : ControlsContext
+public partial class StswRichEditorContext : ControlsContext
 {
     public override void SetDefaults()
     {

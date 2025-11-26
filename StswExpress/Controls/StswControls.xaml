@@ -29,7 +29,8 @@
         <ResourceDictionary Source="DataGrids/_items/StswDataGridRow.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
-        
+
+        <ResourceDictionary Source="DateTime/_items/StswTimelineItem.xaml"/>
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
         <ResourceDictionary Source="DateTime/StswTimeline.xaml"/>
@@ -47,9 +48,10 @@
         <ResourceDictionary Source="Input/StswNumberBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="Input/StswRatingControl.xaml"/>
+        <ResourceDictionary Source="Input/StswRichBox.xaml"/>
+        <ResourceDictionary Source="Input/StswRichEditor.xaml"/>
         <ResourceDictionary Source="Input/StswSlider.xaml"/>
         <ResourceDictionary Source="Input/StswTextBox.xaml"/>
-        <ResourceDictionary Source="Input/StswTextEditor.xaml"/>
 
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>

@@ -71,8 +71,17 @@ public class StswLineChart : ItemsControl
             container.ValueChanged += OnItemValueChanged;
     }
 
+    /// <summary>
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
     private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
 
+    /// <summary>
+    /// Retrieves all the line chart item containers.
+    /// </summary>
+    /// <returns>An enumerable of <see cref="StswLineChartItem"/> containers.</returns>
     private IEnumerable<StswLineChartItem> GetContainers()
     {
         for (var i = 0; i < Items.Count; i++)
@@ -160,13 +169,23 @@ public class StswLineChart : ItemsControl
     }
     private bool _isRecalc;
 
+    /// <summary>
+    /// Requests a chart update by scheduling a call to <see cref="MakeChart"/> on the dispatcher.
+    /// </summary>
     private void RequestChartUpdate()
     {
+        if (IsLoaded)
+        {
+            _chartUpdateOperation = null;
+            MakeChart();
+            return;
+        }
+
         if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
             return;
 
         var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
-        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
+        _chartUpdateOperation = Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
         {
             _chartUpdateOperation = null;
             MakeChart();

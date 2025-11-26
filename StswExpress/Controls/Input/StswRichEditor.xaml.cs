@@ -19,11 +19,11 @@ namespace StswExpress;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswTextEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
+/// &lt;se:StswRichEditor FilePath="C:\Documents\sample.rtf" ToolbarMode="Compact"/&gt;
 /// </code>
 /// </example>
 [StswPlannedChanges(StswPlannedChanges.Rework, "Current implementation is obsolete and will be reworked in future versions.")]
-public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
+public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     private StswComboBox? _fontFamily;
     private StswDecimalBox? _fontSize;
@@ -41,7 +41,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     public ICommand FontColorHighlightCommand { get; }
     public ICommand SectionInterlineCommand { get; }
 
-    public StswTextEditor()
+    public StswRichEditor()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
 
@@ -58,9 +58,9 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         FontColorHighlightCommand = new StswCommand(FontColorHighlight);
         SectionInterlineCommand = new StswCommand<object?>(SectionInterline);
     }
-    static StswTextEditor()
+    static StswRichEditor()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRichEditor), new FrameworkPropertyMetadata(typeof(StswRichEditor)));
     }
 
     #region Events & methods
@@ -87,7 +87,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         //if (_fontSize != null)
         //    _fontSize.ValueChanged += PART_FontSize_ValueChanged;
 
-        OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
+        LoadFilePath();
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
     }
 
@@ -127,6 +127,32 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     private bool HasChanges() => CanUndo || CanRedo;
 
     /// <summary>
+    /// Loads content from the provided <see cref="FilePath"/> if it exists, otherwise clears the document.
+    /// </summary>
+    protected virtual void LoadFilePath()
+    {
+        if (FilePath != null)
+        {
+            if (File.Exists(FilePath))
+            {
+                using var fileStream = new FileStream(FilePath, FileMode.Open);
+                var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+                range.Load(fileStream, DataFormats.Rtf);
+
+                IsUndoEnabled = !IsUndoEnabled;
+                IsUndoEnabled = !IsUndoEnabled;
+            }
+        }
+        else
+        {
+            Document.Blocks.Clear();
+
+            IsUndoEnabled = !IsUndoEnabled;
+            IsUndoEnabled = !IsUndoEnabled;
+        }
+    }
+
+    /// <summary>
     /// Creates a new empty document in the editor.
     /// If there are unsaved changes, prompts the user for confirmation before clearing the content.
     /// </summary>
@@ -135,8 +161,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         if (HasChanges())
         {
             var result = await StswMessageDialog.Show(
-                StswTranslator.GetTranslation("StswTextEditor.File.New.StswMessageDialog"),
-                StswTranslator.GetTranslation("StswTextEditor"),
+                StswTranslator.GetTranslation("StswRichEditor.File.New.StswMessageDialog"),
+                StswTranslator.GetTranslation("StswRichEditor"),
                 null,
                 StswDialogButtons.YesNo,
                 StswDialogImage.Question,
@@ -167,8 +193,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             if (HasChanges())
             {
                 var result = await StswMessageDialog.Show(
-                    StswTranslator.GetTranslation("StswTextEditor.File.Open.StswMessageDialog"),
-                    StswTranslator.GetTranslation("StswTextEditor"),
+                    StswTranslator.GetTranslation("StswRichEditor.File.Open.StswMessageDialog"),
+                    StswTranslator.GetTranslation("StswRichEditor"),
                     null,
                     StswDialogButtons.YesNo,
                     StswDialogImage.Question,
@@ -227,8 +253,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         if (HasChanges())
         {
             var result = await StswMessageDialog.Show(
-                StswTranslator.GetTranslation("StswTextEditor.File.Reload.StswMessageDialog"),
-                StswTranslator.GetTranslation("StswTextEditor"),
+                StswTranslator.GetTranslation("StswRichEditor.File.Reload.StswMessageDialog"),
+                StswTranslator.GetTranslation("StswRichEditor"),
                 null,
                 StswDialogButtons.YesNo,
                 StswDialogImage.Question,
@@ -373,35 +399,17 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(FilePath),
             typeof(string),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilePathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnFilePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswTextEditor stsw)
+        if (d is not StswRichEditor stsw)
             return;
 
-        if (stsw.FilePath != null)
-        {
-            if (File.Exists(stsw.FilePath))
-            {
-                using var fileStream = new FileStream(stsw.FilePath, FileMode.Open);
-                var range = new TextRange(stsw.Document.ContentStart, stsw.Document.ContentEnd);
-                range.Load(fileStream, DataFormats.Rtf);
-
-                stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-                stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-            }
-        }
-        else
-        {
-            stsw.Document.Blocks.Clear();
-
-            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-            stsw.IsUndoEnabled = !stsw.IsUndoEnabled;
-        }
+        stsw.LoadFilePath();
     }
 
     /// <summary>
@@ -417,14 +425,14 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SelectedColorText),
             typeof(Color),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedColorTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswTextEditor stsw)
+        if (d is not StswRichEditor stsw)
             return;
 
         stsw.FontColorText();
@@ -443,14 +451,14 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SelectedColorHighlight),
             typeof(Color),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorHighlightChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnSelectedColorHighlightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswTextEditor stsw)
+        if (d is not StswRichEditor stsw)
             return;
 
         stsw.FontColorHighlight();
@@ -469,7 +477,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswTextEditor)
+            typeof(StswRichEditor)
         );
 
     /// <summary>
@@ -484,7 +492,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(ToolbarMode),
             typeof(StswCompactibility),
-            typeof(StswTextEditor)
+            typeof(StswRichEditor)
         );
     #endregion
 
@@ -499,7 +507,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -513,7 +521,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -529,7 +537,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -545,7 +553,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -561,7 +569,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SubCornerRadius),
             typeof(CornerRadius),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -577,7 +585,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(SubPadding),
             typeof(Thickness),
-            typeof(StswTextEditor),
+            typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
     #endregion

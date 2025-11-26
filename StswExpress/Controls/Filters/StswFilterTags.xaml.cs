@@ -41,11 +41,8 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
             return str;
 
         if (!string.IsNullOrWhiteSpace(DisplayMemberPath))
-        {
-            var prop = item.GetType().GetProperty(DisplayMemberPath);
-            if (prop != null && prop.GetValue(item) is string value)
+            if (item.GetPropertyValue(DisplayMemberPath) is string value)
                 return value;
-        }
 
         return null;
     }

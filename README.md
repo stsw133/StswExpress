@@ -9,13 +9,13 @@ StswExpress provides a wide range of controls, many inspired by **WinUI 3**, as 
 Here's a breakdown:
 
 - **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
-- **Charts**: `StswChartLegend`, `StswColumnChart`, `StswPieChart`
+- **Charts**: `StswChartLegend`, `StswColumnChart`, `StswLineChart`, `StswPieChart`
 - **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataPager`
-- **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswRangeCalendar`, `StswTimePicker`, `StswTimerControl`
+- **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswRangeCalendar`, `StswTimeline`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
 - **Filters**: `StswFilterBox`, `StswFilterTags`
-- **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswSlider`, `StswTextBox`, `StswTextEditor`
+- **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswRichBox`, `StswRichEditor`, `StswSlider`, `StswTextBox`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
 - **Media**: `StswGifImage`, `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
