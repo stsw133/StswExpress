@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace StswExpress;
 /// <summary>
@@ -21,8 +22,6 @@ namespace StswExpress;
 /// &lt;se:StswNavigationElement Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/&gt;
 /// </code>
 /// </example>
-[ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework, "Revise navigation element logic and structure.")]
 public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;
@@ -70,6 +69,58 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         }
 
         base.OnSelected(e);
+    }
+
+    /// <summary>
+    /// Scrolls the expanded items of the navigation element into view within the parent scroll viewer.
+    /// </summary>
+    /// <param name="stsw">The navigation element whose expanded items should be scrolled into view.</param>
+    private static void ScrollExpandedItemsIntoView(StswNavigationElement stsw)
+    {
+        if (stsw._stswNavigation == null)
+            return;
+
+        stsw.Dispatcher.InvokeAsync(() =>
+        {
+            var scrollView = StswFnUI.FindVisualChild<StswScrollView>(stsw._stswNavigation);
+            var headerElement = stsw.Template.FindName("OPT_MainBorder", stsw) as FrameworkElement;
+            var itemsElement = stsw.Template.FindName("OPT_Items", stsw) as FrameworkElement;
+
+            if (scrollView == null || headerElement == null || itemsElement == null || !itemsElement.IsVisible)
+                return;
+
+            scrollView.UpdateLayout();
+            headerElement.UpdateLayout();
+            itemsElement.UpdateLayout();
+
+            var headerTopInViewport = headerElement.TranslatePoint(new Point(0, 0), scrollView).Y;
+            var itemsBottomInViewport = itemsElement.TranslatePoint(new Point(0, itemsElement.ActualHeight), scrollView).Y;
+
+            var headerTopOffset = scrollView.VerticalOffset + headerTopInViewport;
+            var sectionHeight = itemsBottomInViewport - headerTopInViewport;
+            var viewportHeight = scrollView.ViewportHeight;
+
+            if (double.IsNaN(viewportHeight) || double.IsInfinity(viewportHeight))
+                return;
+
+            var headerAboveViewport = headerTopInViewport < 0;
+            var itemsBelowViewport = itemsBottomInViewport > viewportHeight;
+
+            if (!headerAboveViewport && !itemsBelowViewport)
+                return;
+
+            double targetOffset;
+
+            if (sectionHeight > viewportHeight)
+                targetOffset = headerTopOffset;
+            else if (itemsBelowViewport)
+                targetOffset = scrollView.VerticalOffset + (itemsBottomInViewport - viewportHeight);
+            else
+                targetOffset = headerTopOffset;
+
+            targetOffset = Math.Max(0, Math.Min(targetOffset, scrollView.ScrollableHeight));
+            scrollView.ScrollToVerticalOffset(targetOffset);
+        }, DispatcherPriority.Background);
     }
     #endregion
 
@@ -221,7 +272,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
 
                 /// when clicking the same expander
                 if (stsw._stswNavigation.CompactedExpander == stsw && stsw._stswNavigation.ItemsCompact.Count > 0)
-                    stsw._stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
+                    stsw._stswNavigation.ItemsCompact = [];
                 else /// when clicking different expander
                 {
                     /// load new items to compact panel
@@ -232,6 +283,11 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
                 }
 
                 stsw.IsChecked = false;
+            }
+            /// when expanding expander in full mode
+            else if (stsw._stswNavigation.AutoScrollExpandedItemsIntoView && stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Full)
+            {
+                ScrollExpandedItemsIntoView(stsw);
             }
             /// when clicking button
             else if (!stsw.HasItems && stsw.IsChecked)
@@ -248,7 +304,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
                 if (stsw.ContextNamespace != null)
                 {
                     stsw.IsBusy = true;
-                    stsw._stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
+                    stsw._stswNavigation.SetContent(stsw.ContextNamespace, stsw.CreateNewInstance);
                     stsw.IsBusy = false;
                 }
             }

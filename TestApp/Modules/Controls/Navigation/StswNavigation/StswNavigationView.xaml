@@ -12,9 +12,14 @@
             Represents a navigation control that allows managing multiple contexts and navigation elements.
         </local:ControlsBase.Description>
         <!-- properties -->
-
+        <local:ControlsBase.Properties>
+            <!-- TabStripPlacement -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TabStripPlacement, Type={x:Type se:StswNavigation}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Dock}" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswNavigation IsEnabled="{Binding IsEnabled}"
+                           TabStripPlacement="{Binding TabStripPlacement}"
                            TabStripWidth="180"
                            HorizontalAlignment="{Binding HorizontalAlignment}"
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Markup;
 
 namespace StswExpress;
 /// <summary>
@@ -23,10 +23,9 @@ namespace StswExpress;
 /// &lt;/se:StswNavigation&gt;
 /// </code>
 /// </example>
-[ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework, "This control needs to support MVVM pattern better.")]
 public class StswNavigation : TreeView, IStswCornerControl
 {
+    private static readonly HashSet<WeakReference<StswNavigation>> _loadedInstances = [];
     private ToggleButton? _tabStripModeButton;
     internal StswNavigationElement? CompactedExpander;
 
@@ -36,6 +35,9 @@ public class StswNavigation : TreeView, IStswCornerControl
         SetValue(ContextsProperty, new StswObservableDictionary<string, object?>());
         SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationElement>());
         SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationElement>());
+
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
     static StswNavigation()
     {
@@ -60,52 +62,32 @@ public class StswNavigation : TreeView, IStswCornerControl
     }
 
     /// <summary>
-    /// Changes the current context and optionally creates a new instance of the context object.
-    /// Supports switching between different views dynamically.
+    /// Tracks loaded instances to enable identifier-based lookups.
     /// </summary>
-    /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
-    /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
-    /// <returns>The newly assigned content.</returns>
-    public object? ChangeContext(object context, bool createNewInstance)
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (DesignerProperties.GetIsInDesignMode(this) || context is null)
-            return null;
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (weakRef.TryGetTarget(out StswNavigation? navigation) && ReferenceEquals(navigation, this))
+                return;
 
-        if (Command is not null)
-        {
-            Command.Execute(context);
-        }
-        else if (context is Type type)
-        {
-            if (createNewInstance || !Contexts.TryGetValue(type.FullName!, out var value))
+        _loadedInstances.Add(new WeakReference<StswNavigation>(this));
+    }
+
+    /// <summary>
+    /// Removes unloaded instances to prevent memory leaks.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (!weakRef.TryGetTarget(out StswNavigation? navigation) || ReferenceEquals(navigation, this))
             {
-                Contexts.Remove(type.FullName!);
-                value = Activator.CreateInstance(type);
-                Contexts.Add(type.FullName!, value);
+                _loadedInstances.Remove(weakRef);
+                break;
             }
-            return Content = value;
-        }
-        else if (context is string name1)
-        {
-            if (createNewInstance || !Contexts.TryGetValue(name1, out var value))
-            {
-                Contexts.Remove(name1);
-                value = (Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
-                Contexts.Add(name1, value);
-            }
-            return Content = value;
-        }
-        else if (context.GetType().FullName is string name2 && !context.GetType().IsValueType)
-        {
-            if (createNewInstance || !Contexts.TryGetValue(name2, out var value))
-            {
-                Contexts.Remove(name2);
-                value = context;
-                Contexts.Add(name2, value);
-            }
-            return Content = value;
-        }
-        return Content = null;
     }
 
     /// <summary>
@@ -114,15 +96,111 @@ public class StswNavigation : TreeView, IStswCornerControl
     /// <param name="sender">The sender object triggering the event.</param>
     /// <param name="e">The event arguments.</param>
     private void PART_TabStripModeButton_Click(object sender, RoutedEventArgs e)
+        => TabStripMode = TabStripMode == StswCompactibility.Full
+            ? StswCompactibility.Compact
+            : StswCompactibility.Full;
+
+    /// <summary>
+    /// Finds the <see cref="StswNavigation"/> instance matching the provided identifier.
+    /// </summary>
+    /// <param name="identifier">The identifier used to locate the control.</param>
+    /// <returns>The matching control instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no matching instance is found or when multiple matches are detected.</exception>
+    internal static StswNavigation GetInstance(object? identifier)
     {
-        if (TabStripMode == StswCompactibility.Full)
-            TabStripMode = StswCompactibility.Compact;
-        else
-            TabStripMode = StswCompactibility.Full;
+        if (_loadedInstances.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswNavigation)} instances.");
+
+        var targets = new List<StswNavigation>();
+        foreach (var instance in _loadedInstances.ToList())
+        {
+            if (instance.TryGetTarget(out var navigation))
+            {
+                object? navigationIdentifier = null;
+
+                if (navigation.CheckAccess())
+                    navigationIdentifier = navigation.Identifier;
+                else navigationIdentifier = navigation.Dispatcher.Invoke(() => navigation.Identifier);
+
+                if (Equals(identifier, navigationIdentifier))
+                    targets.Add(navigation);
+            }
+            else _loadedInstances.Remove(instance);
+        }
+
+        if (targets.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswNavigation)} have an {nameof(Identifier)} property matching {nameof(identifier)} ('{identifier}') argument.");
+        if (targets.Count > 1)
+            throw new InvalidOperationException($"Multiple viable {nameof(StswNavigation)}s. Specify a unique Identifier on each {nameof(StswNavigation)}, especially where multiple Windows are a concern.");
+
+        return targets[0];
     }
+
+    /// <summary>
+    /// Changes the current context and optionally creates a new instance of the context object.
+    /// Supports switching between different views dynamically.
+    /// </summary>
+    /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
+    /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
+    /// <returns>The newly assigned content.</returns>
+    public object? SetContent(object context, bool createNewInstance)
+    {
+        if (DesignerProperties.GetIsInDesignMode(this) || context is null)
+            return null;
+
+        var key = context switch
+        {
+            Type type => type.FullName,
+            string name => name,
+            _ when !context.GetType().IsValueType => context.GetType().FullName,
+            _ => null
+        };
+        if (key is null)
+            return Content = null;
+
+        if (!createNewInstance && Contexts.TryGetValue(key, out var existingValue))
+            return Content = existingValue;
+
+        var value = context switch
+        {
+            Type type => Activator.CreateInstance(type),
+            string name => Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name)?.Unwrap(),
+            _ => context
+        };
+
+        Contexts.Remove(key);
+        Contexts.Add(key, value);
+
+        return Content = value;
+    }
+
+    /// <summary>
+    /// Changes the context of a <see cref="StswNavigation"/> identified by <paramref name="identifier"/>.
+    /// </summary>
+    /// <param name="context">The context to switch to, either as a type name or an object instance.</param>
+    /// <param name="createNewInstance">Determines whether a new instance should be created.</param>
+    /// <param name="identifier">The <see cref="Identifier"/> used to locate the navigation control.</param>
+    /// <returns>The newly assigned content.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no matching control is found or multiple matches exist.</exception>
+    public static object? SetContent(object context, bool createNewInstance, object? identifier) => GetInstance(identifier).SetContent(context, createNewInstance);
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically scroll expanded items into view.
+    /// </summary>
+    public bool AutoScrollExpandedItemsIntoView
+    {
+        get => (bool)GetValue(AutoScrollExpandedItemsIntoViewProperty);
+        set => SetValue(AutoScrollExpandedItemsIntoViewProperty, value);
+    }
+    public static readonly DependencyProperty AutoScrollExpandedItemsIntoViewProperty
+        = DependencyProperty.Register(
+            nameof(AutoScrollExpandedItemsIntoView),
+            typeof(bool),
+            typeof(StswNavigation)
+        );
+
     /// <summary>
     /// Gets or sets the collection of UI elements used in the custom window's title bar.
     /// Allows adding extra controls such as buttons, search fields, or indicators.
@@ -136,21 +214,6 @@ public class StswNavigation : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the command to execute when changing contexts.
-    /// </summary>
-    public ICommand? Command
-    {
-        get => (ICommand?)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
-    public static readonly DependencyProperty CommandProperty
-        = DependencyProperty.Register(
-            nameof(Command),
-            typeof(ICommand),
             typeof(StswNavigation)
         );
 
@@ -207,6 +270,21 @@ public class StswNavigation : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Contexts),
             typeof(StswObservableDictionary<string, object?>),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Identifier used with <see cref="SetContent(object, bool, object?)"/> to locate a specific navigation instance.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
             typeof(StswNavigation)
         );
 

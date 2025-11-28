@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -120,8 +117,10 @@ public class StswBarcode : Control, IStswCornerControl
         var modules = matrix.GetLength(0);
 
         var moduleSize = (int)Math.Max(1, Math.Floor(Math.Min(width, height) / (modules + 8)));
-        var quiet = 4;
+        if (moduleSize < 3)
+            moduleSize = 3;
 
+        var quiet = 4;
         var imageSize = moduleSize * (modules + 2 * quiet);
         var bitmap = new WriteableBitmap(imageSize, imageSize, 96, 96, PixelFormats.Pbgra32, null);
 

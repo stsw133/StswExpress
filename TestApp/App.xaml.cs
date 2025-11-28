@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace TestApp;
@@ -29,6 +31,10 @@ public partial class App : StswApp
         /// example for removing theme from config:
         //StswResources.AvailableThemes = ["Light", "Dark"];
         //StswResources.CurrentTheme = "Light"; //or `string.Empty` to get default theme
+
+        var dump = QrEncoder.DebugEncode("HELLO");
+        Console.WriteLine(dump);
+        QrEncoder.SaveTestHello();
     }
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

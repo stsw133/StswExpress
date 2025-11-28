@@ -22,8 +22,12 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <Image Source="{TemplateBinding CodeImage}"
+                        <Image RenderOptions.BitmapScalingMode="NearestNeighbor"
+                               RenderOptions.EdgeMode="Aliased"
+                               SnapsToDevicePixels="True"
+                               Source="{TemplateBinding CodeImage}"
                                Stretch="Uniform"
+                               UseLayoutRounding="True"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>

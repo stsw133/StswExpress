@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
@@ -11,22 +16,67 @@ public static class QrEncoder
 {
     private const int MinVersion = 1;
     private const int MaxVersion = 40;
-    private const int FormatEcLevel = 0b00; // M
+    private const int FormatEcLevel = 0b00;
 
-    private static readonly int[] EcCodewordsPerBlock =
-    [
-        -1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26,
-        28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28
-    ];
+    private readonly struct EcInfo
+    {
+        public int EcPerBlock { get; init; }
+        public int Group1Blocks { get; init; }
+        public int Group1Data { get; init; }
+        public int Group2Blocks { get; init; }
+        public int Group2Data { get; init; }
 
-    private static readonly int[] EcBlocks =
+        public int TotalDataBytes =>
+            Group1Blocks * Group1Data +
+            Group2Blocks * Group2Data;
+    }
+
+    private static readonly EcInfo[] EcTable =
     [
-        -1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20,
-        21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49
+        default,
+        new EcInfo { EcPerBlock = 10, Group1Blocks = 1, Group1Data = 16, Group2Blocks = 0, Group2Data = 0 }, // version 1
+        new EcInfo { EcPerBlock = 16, Group1Blocks = 1, Group1Data = 28, Group2Blocks = 0, Group2Data = 0 }, // 2
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 1, Group1Data = 44, Group2Blocks = 0, Group2Data = 0 }, // 3
+        new EcInfo { EcPerBlock = 18, Group1Blocks = 2, Group1Data = 32, Group2Blocks = 0, Group2Data = 0 }, // 4
+        new EcInfo { EcPerBlock = 24, Group1Blocks = 2, Group1Data = 43, Group2Blocks = 0, Group2Data = 0 }, // 5
+        new EcInfo { EcPerBlock = 16, Group1Blocks = 4, Group1Data = 27, Group2Blocks = 0, Group2Data = 0 }, // 6
+        new EcInfo { EcPerBlock = 18, Group1Blocks = 4, Group1Data = 31, Group2Blocks = 0, Group2Data = 0 }, // 7
+        new EcInfo { EcPerBlock = 22, Group1Blocks = 2, Group1Data = 38, Group2Blocks = 2, Group2Data = 39 }, // 8
+        new EcInfo { EcPerBlock = 22, Group1Blocks = 3, Group1Data = 36, Group2Blocks = 2, Group2Data = 37 }, // 9
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 4, Group1Data = 43, Group2Blocks = 1, Group2Data = 44 }, // 10
+        new EcInfo { EcPerBlock = 30, Group1Blocks = 1, Group1Data = 50, Group2Blocks = 4, Group2Data = 51 }, // 11
+        new EcInfo { EcPerBlock = 22, Group1Blocks = 6, Group1Data = 36, Group2Blocks = 2, Group2Data = 37 }, // 12
+        new EcInfo { EcPerBlock = 22, Group1Blocks = 8, Group1Data = 37, Group2Blocks = 1, Group2Data = 38 }, // 13
+        new EcInfo { EcPerBlock = 24, Group1Blocks = 4, Group1Data = 40, Group2Blocks = 5, Group2Data = 41 }, // 14
+        new EcInfo { EcPerBlock = 24, Group1Blocks = 5, Group1Data = 41, Group2Blocks = 5, Group2Data = 42 }, // 15
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 7, Group1Data = 45, Group2Blocks = 3, Group2Data = 46 }, // 16
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 10, Group1Data = 46, Group2Blocks = 1, Group2Data = 47 }, // 17
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 9, Group1Data = 43, Group2Blocks = 4, Group2Data = 44 }, // 18
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 3, Group1Data = 44, Group2Blocks = 11, Group2Data = 45 }, // 19
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 3, Group1Data = 41, Group2Blocks = 13, Group2Data = 42 }, // 20
+        new EcInfo { EcPerBlock = 26, Group1Blocks = 17, Group1Data = 42, Group2Blocks = 0, Group2Data = 0 }, // 21
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 17, Group1Data = 46, Group2Blocks = 0, Group2Data = 0 }, // 22
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 4, Group1Data = 47, Group2Blocks = 14, Group2Data = 48 }, // 23
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 6, Group1Data = 45, Group2Blocks = 14, Group2Data = 46 }, // 24
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 8, Group1Data = 47, Group2Blocks = 13, Group2Data = 48 }, // 25
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 19, Group1Data = 46, Group2Blocks = 4, Group2Data = 47 }, // 26
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 22, Group1Data = 45, Group2Blocks = 3, Group2Data = 46 }, // 27
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 3, Group1Data = 45, Group2Blocks = 23, Group2Data = 46 }, // 28
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 21, Group1Data = 45, Group2Blocks = 7, Group2Data = 46 }, // 29
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 19, Group1Data = 47, Group2Blocks = 10, Group2Data = 48 }, // 30
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 2, Group1Data = 46, Group2Blocks = 29, Group2Data = 47 }, // 31
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 10, Group1Data = 46, Group2Blocks = 23, Group2Data = 47 }, // 32
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 14, Group1Data = 46, Group2Blocks = 21, Group2Data = 47 }, // 33
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 14, Group1Data = 46, Group2Blocks = 23, Group2Data = 47 }, // 34
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 12, Group1Data = 47, Group2Blocks = 26, Group2Data = 48 }, // 35
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 6,  Group1Data = 47, Group2Blocks = 34, Group2Data = 48 }, // 36
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 29, Group1Data = 46, Group2Blocks = 14, Group2Data = 47 }, // 37
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 13, Group1Data = 46, Group2Blocks = 32, Group2Data = 47 }, // 38
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 40, Group1Data = 47, Group2Blocks = 7,  Group2Data = 48 }, // 39
+        new EcInfo { EcPerBlock = 28, Group1Blocks = 18, Group1Data = 47, Group2Blocks = 31, Group2Data = 48 }, // 40
     ];
 
     #region Public API
-
     /// <summary>
     /// Encodes the given text into a QR code matrix (Model 2, ECC M) with automatic version &amp; mask selection.
     /// </summary>
@@ -88,7 +138,7 @@ public static class QrEncoder
     private static byte[] EncodeDataToCodewords(string text, int version, Encoding encoding)
     {
         var bytes = encoding.GetBytes(text);
-        var dataCodewords = GetNumDataCodewords(version);
+        var dataCodewords = EcTable[version].TotalDataBytes;
         var capacityBits = dataCodewords * 8;
         var charCountBits = GetCharCountBits(version);
         var neededBits = 4 + charCountBits + bytes.Length * 8;
@@ -174,27 +224,10 @@ public static class QrEncoder
     /// <returns>Array of all codewords (data + error correction).</returns>
     private static int GetNumDataCodewords(int version)
     {
-        var rawDataModules = GetNumRawDataModules(version);
-        return rawDataModules / 8 - EcCodewordsPerBlock[version] * EcBlocks[version];
-    }
+        if (version < MinVersion || version > MaxVersion)
+            throw new ArgumentOutOfRangeException(nameof(version));
 
-    /// <summary>
-    /// Calculates the number of raw data modules for the given version.
-    /// </summary>
-    /// <param name="version">The QR version.</param>
-    /// <returns>The number of raw data modules.</returns>
-    private static int GetNumRawDataModules(int version)
-    {
-        var result = (16 * version + 128) * version + 64;
-        if (version >= 2)
-        {
-            var numAlign = version / 7 + 2;
-            result -= (25 * numAlign - 10) * numAlign - 55;
-            if (version >= 7)
-                result -= 36;
-        }
-
-        return result;
+        return EcTable[version].TotalDataBytes;
     }
     #endregion
 
@@ -232,9 +265,57 @@ public static class QrEncoder
     /// <returns>The product in GF(256).</returns>
     private static byte GfMul(byte a, byte b)
     {
-        if (a == 0 || b == 0) return 0;
-        int log = GfLog[a] + GfLog[b];
+        if (a == 0 || b == 0)
+            return 0;
+
+        var log = GfLog[a] + GfLog[b];
         return GfExp[log];
+    }
+
+    /// <summary>
+    /// Multiplies two polynomials in GF(256).
+    /// <param name="p">The first polynomial coefficients.</param>
+    /// <param name="q">The second polynomial coefficients.</param>
+    /// </summary>
+    private static byte[] PolyMultiply(byte[] p, byte[] q)
+    {
+        var res = new byte[p.Length + q.Length - 1];
+
+        for (var i = 0; i < p.Length; i++)
+        {
+            var a = p[i];
+            if (a == 0) continue;
+
+            for (var j = 0; j < q.Length; j++)
+            {
+                var b = q[j];
+                if (b == 0) continue;
+
+                res[i + j] ^= GfMul(a, b);
+            }
+        }
+
+        return res;
+    }
+
+    /// <summary>
+    /// Builds the generator polynomial for Reed–Solomon encoding.
+    /// </summary>
+    /// <param name="degree">The degree of the generator polynomial.</param>
+    /// <returns>Array representing the generator polynomial coefficients.</returns>
+    private static byte[] BuildGenerator(int degree)
+    {
+        if (degree < 1 || degree > 255)
+            throw new ArgumentOutOfRangeException(nameof(degree));
+
+        var gen = new byte[] { 1 };
+        for (var i = 0; i < degree; i++)
+        {
+            var factor = new[] { (byte)1, GfExp[i] };
+            gen = PolyMultiply(gen, factor);
+        }
+
+        return gen;
     }
 
     /// <summary>
@@ -246,19 +327,22 @@ public static class QrEncoder
     private static byte[] ComputeErrorCorrection(byte[] data, int ecCount)
     {
         var gen = BuildGenerator(ecCount);
-        var res = new byte[ecCount];
-        foreach (var d in data)
-        {
-            var factor = (byte)(d ^ res[0]);
-            Array.Copy(res, 1, res, 0, ecCount - 1);
-            res[ecCount - 1] = 0;
 
-            if (factor != 0)
-                for (var i = 0; i < ecCount; i++)
-                    res[i] ^= GfMul(gen[i], factor);
+        var msg = new byte[data.Length + ecCount];
+        Buffer.BlockCopy(data, 0, msg, 0, data.Length);
+
+        for (var i = 0; i < data.Length; i++)
+        {
+            var coef = msg[i];
+            if (coef == 0) continue;
+
+            for (var j = 0; j < gen.Length; j++)
+                msg[i + j] ^= GfMul(coef, gen[j]);
         }
 
-        return res;
+        var ecc = new byte[ecCount];
+        Buffer.BlockCopy(msg, data.Length, ecc, 0, ecCount);
+        return ecc;
     }
 
     /// <summary>
@@ -269,77 +353,70 @@ public static class QrEncoder
     /// <returns>Array of all codewords (data + error correction).</returns>
     private static byte[] AddErrorCorrection(byte[] data, int version)
     {
-        var numBlocks = EcBlocks[version];
-        var ecPerBlock = EcCodewordsPerBlock[version];
-        var rawCodewords = GetNumRawDataModules(version) / 8;
-        var numShortBlocks = numBlocks - rawCodewords % numBlocks;
-        var shortBlockLength = rawCodewords / numBlocks;
+        var info = EcTable[version];
 
-        var blocks = new List<byte[]>();
-        var k = 0;
+        var totalData = info.TotalDataBytes;
+        var ecPerBlock = info.EcPerBlock;
+        var numBlocks = info.Group1Blocks + info.Group2Blocks;
 
-        for (var i = 0; i < numBlocks; i++)
+        if (data.Length != totalData)
+            throw new ArgumentException(
+                $"Expected {totalData} data codewords for version {version}-M, got {data.Length}.",
+                nameof(data));
+
+        var blocksData = new List<byte[]>(numBlocks);
+        var blocksEcc = new List<byte[]>(numBlocks);
+
+        var offset = 0;
+
+        for (var i = 0; i < info.Group1Blocks; i++)
         {
-            var dataLength = shortBlockLength - ecPerBlock + (i < numShortBlocks ? 0 : 1);
-            var blockData = new byte[dataLength];
-            Buffer.BlockCopy(data, k, blockData, 0, dataLength);
-            k += dataLength;
+            var len = info.Group1Data;
+            var block = new byte[len];
+            Buffer.BlockCopy(data, offset, block, 0, len);
+            offset += len;
 
-            var ecc = ComputeErrorCorrection(blockData, ecPerBlock);
-            if (i < numShortBlocks)
-                blockData = Combine(blockData, new byte[] { 0 });
-
-            blocks.Add(Combine(blockData, ecc));
+            blocksData.Add(block);
+            blocksEcc.Add(ComputeErrorCorrection(block, ecPerBlock));
         }
 
-        var result = new List<byte>(rawCodewords);
-        for (var i = 0; i < blocks[0].Length; i++)
+        for (var i = 0; i < info.Group2Blocks; i++)
         {
-            for (var j = 0; j < blocks.Count; j++)
-            {
-                if (i == shortBlockLength - ecPerBlock && j < numShortBlocks)
-                    continue;
+            var len = info.Group2Data;
+            var block = new byte[len];
+            Buffer.BlockCopy(data, offset, block, 0, len);
+            offset += len;
 
-                result.Add(blocks[j][i]);
+            blocksData.Add(block);
+            blocksEcc.Add(ComputeErrorCorrection(block, ecPerBlock));
+        }
+
+        var maxDataLen = 0;
+        foreach (var b in blocksData)
+            if (b.Length > maxDataLen)
+                maxDataLen = b.Length;
+
+        var result = new List<byte>(totalData + numBlocks * ecPerBlock);
+
+        for (var i = 0; i < maxDataLen; i++)
+        {
+            for (var b = 0; b < numBlocks; b++)
+            {
+                var block = blocksData[b];
+                if (i < block.Length)
+                    result.Add(block[i]);
+            }
+        }
+
+        for (var i = 0; i < ecPerBlock; i++)
+        {
+            for (var b = 0; b < numBlocks; b++)
+            {
+                result.Add(blocksEcc[b][i]);
             }
         }
 
         return [.. result];
-    }
-
-    /// <summary>
-    /// Builds the generator polynomial for Reed–Solomon encoding.
-    /// </summary>
-    /// <param name="degree">The degree of the generator polynomial.</param>
-    /// <returns>Array representing the generator polynomial coefficients.</returns>
-    private static byte[] BuildGenerator(int degree)
-    {
-        var gen = new byte[degree];
-        gen[degree - 1] = 1;
-
-        for (var i = 0; i < degree; i++)
-        {
-            var alphaPow = GfExp[i];
-            for (var j = 0; j < degree - 1; j++)
-                gen[j] = (byte)(gen[j + 1] ^ GfMul(gen[j], alphaPow));
-            gen[degree - 1] = GfMul(gen[degree - 1], alphaPow);
-        }
-
-        return gen;
-    }
-
-    /// <summary>
-    /// Combines two byte arrays.
-    /// </summary>
-    /// <param name="a">The first byte array.</param>
-    /// <param name="b">The second byte array.</param>
-    /// <returns>The combined byte array.</returns>
-    private static byte[] Combine(byte[] a, byte[] b)
-    {
-        var res = new byte[a.Length + b.Length];
-        Buffer.BlockCopy(a, 0, res, 0, a.Length);
-        Buffer.BlockCopy(b, 0, res, a.Length, b.Length);
-        return res;
     }
     #endregion
 
@@ -943,4 +1020,153 @@ public static class QrEncoder
         return (version << 12) | (value & 0xFFF);
     }
     #endregion
+
+#if DEBUG
+    /// <summary>
+    /// Generates a detailed debug output of the QR code encoding process.
+    /// </summary>
+    public static string DebugEncode(string text, Encoding? encoding = null)
+    {
+        encoding ??= Encoding.GetEncoding("ISO-8859-1");
+        var bytes = encoding.GetBytes(text);
+
+        var sb = new StringBuilder();
+        sb.AppendLine($"TEXT: \"{text}\"");
+        sb.AppendLine($"BYTES ({bytes.Length}): {string.Join(" ", bytes.Select(b => b.ToString("X2")))}");
+
+        var version = SelectVersion(text, encoding);
+        var size = 17 + 4 * version;
+        sb.AppendLine($"VERSION: {version}");
+        sb.AppendLine($"SIZE: {size}x{size}");
+
+        var ecInfo = EcTable[version];
+        var totalDataBytes = ecInfo.Group1Blocks * ecInfo.Group1Data + ecInfo.Group2Blocks * ecInfo.Group2Data;
+        sb.AppendLine($"EC INFO: EcPerBlock={ecInfo.EcPerBlock}, " +
+                      $"G1Blocks={ecInfo.Group1Blocks}, G1Data={ecInfo.Group1Data}, " +
+                      $"G2Blocks={ecInfo.Group2Blocks}, G2Data={ecInfo.Group2Data}");
+        sb.AppendLine($"TOTAL DATA BYTES (wg tabeli EC): {totalDataBytes}");
+
+        // 1) data bytes
+        var dataBytes = EncodeDataToCodewords(text, version, encoding);
+        sb.AppendLine($"ENCODED DATA BYTES (Length={dataBytes.Length}):");
+        sb.AppendLine(string.Join(" ", dataBytes.Select(b => b.ToString("X2"))));
+
+        // 2) error correction bytes
+        var eccBytes = ComputeErrorCorrection(dataBytes, ecInfo.EcPerBlock);
+        sb.AppendLine($"ECC BYTES (Length={eccBytes.Length}):");
+        sb.AppendLine(string.Join(" ", eccBytes.Select(b => b.ToString("X2"))));
+
+        // 3) all codewords (data + ecc)
+        var allCodewords = AddErrorCorrection(dataBytes, version);
+        sb.AppendLine($"ALL CODEWORDS (data+ecc, Length={allCodewords.Length}):");
+        sb.AppendLine(string.Join(" ", allCodewords.Select(b => b.ToString("X2"))));
+
+        // 4) place data into matrix
+        var modules = new bool[size, size];
+        var isFunction = new bool[size, size];
+        PlaceFunctionPatterns(modules, isFunction, version);
+        PlaceDataBits(modules, isFunction, allCodewords);
+
+        sb.AppendLine();
+        sb.AppendLine("MATRIX BEFORE MASK (D = dark, . = light):");
+        sb.AppendLine(DumpMatrix(modules));
+
+        // 5) try all masks and select the best one
+        var baseMatrix = (bool[,])modules.Clone();
+        var bestMask = 0;
+        var bestPenalty = int.MaxValue;
+
+        for (var maskId = 0; maskId < 8; maskId++)
+        {
+            var candidate = (bool[,])baseMatrix.Clone();
+            ApplyMask(candidate, isFunction, maskId);
+            var penalty = CalculatePenalty(candidate);
+            sb.AppendLine($"MASK {maskId}: penalty = {penalty}");
+            if (penalty < bestPenalty)
+            {
+                bestPenalty = penalty;
+                bestMask = maskId;
+            }
+        }
+
+        sb.AppendLine($"BEST MASK ID: {bestMask}");
+        var bestMatrix = (bool[,])baseMatrix.Clone();
+        ApplyMask(bestMatrix, isFunction, bestMask);
+        AddFormatInformation(bestMatrix, bestMask, version);
+
+        sb.AppendLine();
+        sb.AppendLine("FINAL MATRIX (after mask + format info):");
+        sb.AppendLine(DumpMatrix(bestMatrix));
+
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Prosty tekstowy dump macierzy QR: 'D' = ciemny, '.' = jasny.
+    /// </summary>
+    private static string DumpMatrix(bool[,] m)
+    {
+        var size = m.GetLength(0);
+        var sb = new StringBuilder(size * (size + 2));
+
+        for (var y = 0; y < size; y++)
+        {
+            for (var x = 0; x < size; x++)
+                sb.Append(m[x, y] ? 'D' : '.');
+            sb.AppendLine();
+        }
+
+        return sb.ToString();
+    }
+
+    public static void SaveTestHello()
+    {
+        var matrix = QrEncoder.Encode("HELLO");
+
+        int modules = matrix.GetLength(0);
+        int moduleSize = 10;
+        int quiet = 4;
+        int size = (modules + 2 * quiet) * moduleSize;
+
+        var bmp = new WriteableBitmap(size, size, 96, 96, PixelFormats.Pbgra32, null);
+        var dark = Colors.Black;
+        var light = Colors.White;
+
+        bmp.Lock();
+        unsafe
+        {
+            byte* buffer = (byte*)bmp.BackBuffer;
+            int stride = bmp.BackBufferStride;
+
+            for (int y = 0; y < size; y++)
+            {
+                byte* row = buffer + y * stride;
+                int my = y / moduleSize - quiet;
+
+                for (int x = 0; x < size; x++)
+                {
+                    int mx = x / moduleSize - quiet;
+                    bool isDark =
+                        mx >= 0 && mx < modules &&
+                        my >= 0 && my < modules &&
+                        matrix[mx, my]; // znów: [mx, my] !!!
+
+                    var c = isDark ? dark : light;
+                    int idx = x * 4;
+                    row[idx + 0] = c.B;
+                    row[idx + 1] = c.G;
+                    row[idx + 2] = c.R;
+                    row[idx + 3] = c.A;
+                }
+            }
+        }
+        bmp.AddDirtyRect(new Int32Rect(0, 0, size, size));
+        bmp.Unlock();
+
+        using var fs = File.Create("qr_hello.png");
+        var enc = new PngBitmapEncoder();
+        enc.Frames.Add(BitmapFrame.Create(bmp));
+        enc.Save(fs);
+    }
+#endif
 }
