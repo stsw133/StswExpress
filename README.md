@@ -17,7 +17,7 @@ Here's a breakdown:
 - **Filters**: `StswFilterBox`, `StswFilterTags`
 - **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswRichBox`, `StswRichEditor`, `StswSlider`, `StswTextBox`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
-- **Media**: `StswGifImage`, `StswImage`, `StswMediaPlayer`
+- **Media**: `StswBarcode`, `StswGifImage`, `StswImage`, `StswMediaPlayer`
 - **Navigation**: `StswMenu`, `StswMenuItem`, `StswNavigation`, `StswNavigationElement`, `StswTabControl`, `StswTabItem`
 - **Panels**: `StswDynamicGrid`, `StswGrid`, `StswGridSplitter`, `StswSidePanel`
 - **Paths**: `StswPathPicker`, `StswPathTree`

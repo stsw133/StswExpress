@@ -26,6 +26,15 @@ public enum StswAutoLayoutMode
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswBarcode.CodeType"/>.
+/// </summary>
+public enum StswBarcodeType
+{
+    Barcode,
+    QR
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswCalendar.SelectionUnit"/>.
 /// </summary>
 public enum StswCalendarUnit

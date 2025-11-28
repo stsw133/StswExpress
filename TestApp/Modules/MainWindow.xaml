@@ -94,6 +94,7 @@
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="{x:Type local:StswZoomControlContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
+                <se:StswNavigationElement Header="StswBarcode" ContextNamespace="{x:Type local:StswBarcodeContext}"/>
                 <se:StswNavigationElement Header="StswGifImage" ContextNamespace="{x:Type local:StswGifImageContext}"/>
                 <se:StswNavigationElement Header="StswImage" ContextNamespace="{x:Type local:StswImageContext}"/>
                 <se:StswNavigationElement Header="StswMediaPlayer" ContextNamespace="{x:Type local:StswMediaPlayerContext}"/>

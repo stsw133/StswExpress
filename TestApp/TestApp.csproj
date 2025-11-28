@@ -63,6 +63,9 @@
     <Compile Update="Modules\Controls\Input\StswRichBox\StswRichBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Media\StswBarcode\StswBarcodeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Media\StswGifImage\StswGifImageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

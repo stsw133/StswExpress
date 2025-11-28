@@ -61,6 +61,7 @@
         <ResourceDictionary Source="Layout/StswToolBar.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
 
+        <ResourceDictionary Source="Media/StswBarcode.xaml"/>
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
