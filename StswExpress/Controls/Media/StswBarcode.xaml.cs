@@ -60,7 +60,13 @@ public class StswBarcode : Control, IStswCornerControl
     /// <returns>The generated barcode image.</returns>
     private ImageSource GenerateBarcodeImage(double width, double height)
     {
-        var pattern = Code39Encoder.BuildPattern(Value);
+        var pattern = CodeType switch
+        {
+            StswBarcodeType.Code39 => Code39Encoder.BuildPattern(Value),
+            StswBarcodeType.Code128 => Code128Encoder.BuildPattern(Value),
+            StswBarcodeType.Ean13 => Ean13Encoder.BuildPattern(Value),
+            _ => Code39Encoder.BuildPattern(Value)
+        };
         var moduleWidth = Math.Max(1, (int)Math.Floor(width / pattern.Count));
         var imageWidth = Math.Max(moduleWidth * pattern.Count, 1);
         var imageHeight = Math.Max((int)Math.Floor(height), 1);

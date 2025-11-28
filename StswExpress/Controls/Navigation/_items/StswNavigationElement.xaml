@@ -136,6 +136,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
 </ResourceDictionary>

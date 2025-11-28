@@ -5,8 +5,8 @@
     <Style TargetType="{x:Type se:StswBarcode}">
         <Setter Property="DarkBrush" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="LightBrush" Value="{DynamicResource StswBox.Static.Background}"/>
-        
-        <Setter Property="CodeType" Value="Barcode"/>
+
+        <Setter Property="CodeType" Value="Code39"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

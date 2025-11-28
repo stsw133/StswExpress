@@ -30,7 +30,9 @@ public enum StswAutoLayoutMode
 /// </summary>
 public enum StswBarcodeType
 {
-    Barcode,
+    Code39,
+    Code128,
+    Ean13,
     QR
 }
 

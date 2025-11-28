@@ -36,12 +36,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         get => (object?)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
-    public static readonly DependencyProperty ContentProperty
-        = DependencyProperty.Register(
-            nameof(Content),
-            typeof(object),
-            typeof(StswSubDrop)
-        );
+    public static readonly DependencyProperty ContentProperty = ContentControl.ContentProperty.AddOwner(typeof(StswSubDrop));
 
     /// <summary>
     /// Gets or sets a string format applied to the <see cref="Content"/>.
@@ -52,12 +47,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         get => (string?)GetValue(ContentStringFormatProperty);
         set => SetValue(ContentStringFormatProperty, value);
     }
-    public static readonly DependencyProperty ContentStringFormatProperty
-        = DependencyProperty.Register(
-            nameof(ContentStringFormat),
-            typeof(string),
-            typeof(StswSubDrop)
-        );
+    public static readonly DependencyProperty ContentStringFormatProperty = ContentControl.ContentStringFormatProperty.AddOwner(typeof(StswSubDrop));
 
     /// <summary>
     /// Gets or sets the data template used to display the <see cref="Content"/>.
@@ -67,12 +57,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         get => (DataTemplate?)GetValue(ContentTemplateProperty);
         set => SetValue(ContentTemplateProperty, value);
     }
-    public static readonly DependencyProperty ContentTemplateProperty
-        = DependencyProperty.Register(
-            nameof(ContentTemplate),
-            typeof(DataTemplate),
-            typeof(StswSubDrop)
-        );
+    public static readonly DependencyProperty ContentTemplateProperty = ContentControl.ContentTemplateProperty.AddOwner(typeof(StswSubDrop));
 
     /// <summary>
     /// Gets or sets a data template selector for the <see cref="Content"/>.
@@ -83,12 +68,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         get => (DataTemplateSelector?)GetValue(ContentTemplateSelectorProperty);
         set => SetValue(ContentTemplateSelectorProperty, value);
     }
-    public static readonly DependencyProperty ContentTemplateSelectorProperty
-        = DependencyProperty.Register(
-            nameof(ContentTemplateSelector),
-            typeof(DataTemplateSelector),
-            typeof(StswSubDrop)
-        );
+    public static readonly DependencyProperty ContentTemplateSelectorProperty = ContentControl.ContentTemplateSelectorProperty.AddOwner(typeof(StswSubDrop));
 
     /// <inheritdoc/>
     public Geometry? IconData

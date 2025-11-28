@@ -22,8 +22,8 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework, "Revise navigation element logic and structure and derive from TreeViewItem for better hierarchical support.")]
-public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
+[StswPlannedChanges(StswPlannedChanges.Rework, "Revise navigation element logic and structure.")]
+public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;
 
@@ -31,6 +31,9 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
     }
+
+    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationElement();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationElement;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -51,6 +54,22 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     {
         base.OnRender(drawingContext);
         OnItemsIndentationChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <inheritdoc/>
+    protected override void OnSelected(RoutedEventArgs e)
+    {
+        if (HasItems)
+        {
+            e.Handled = true;
+
+            if (IsSelected)
+                SetCurrentValue(IsSelectedProperty, false);
+
+            return;
+        }
+
+        base.OnSelected(e);
     }
     #endregion
 

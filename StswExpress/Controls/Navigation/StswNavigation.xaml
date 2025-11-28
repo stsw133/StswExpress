@@ -24,13 +24,15 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        
+
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
-        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="False"/>
         <Setter Property="se:StswScrollView.DynamicMode" Value="Partial"/>
         <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
         <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -110,32 +112,7 @@
                                             <Setter Property="ExpandedSize" Value="12"/>
                                         </Style>
                                     </se:StswScrollView.Resources>
-                                    <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel>
-                                                    <StackPanel.Style>
-                                                        <Style TargetType="{x:Type StackPanel}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
-                                                                    <Setter Property="Orientation" Value="Vertical"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
-                                                                    <Setter Property="Orientation" Value="Horizontal"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
-                                                                    <Setter Property="Orientation" Value="Vertical"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
-                                                                    <Setter Property="Orientation" Value="Horizontal"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </StackPanel.Style>
-                                                </StackPanel>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
+                                    <ItemsPresenter Focusable="False"/>
                                 </se:StswScrollView>
                             </DockPanel>
                             <!-- separator -->
@@ -221,6 +198,33 @@
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
+                                        <Setter Property="Orientation" Value="Vertical"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
+                                        <Setter Property="Orientation" Value="Horizontal"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
+                                        <Setter Property="Orientation" Value="Vertical"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
+                                        <Setter Property="Orientation" Value="Horizontal"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
     </Style>

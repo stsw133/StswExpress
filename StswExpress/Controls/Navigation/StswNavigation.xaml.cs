@@ -24,8 +24,8 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Items))]
-[StswPlannedChanges(StswPlannedChanges.Rework, "This control needs to support MVVM pattern better and derive from TreeView for hierarchical navigation.")]
-public class StswNavigation : ContentControl, IStswCornerControl
+[StswPlannedChanges(StswPlannedChanges.Rework, "This control needs to support MVVM pattern better.")]
+public class StswNavigation : TreeView, IStswCornerControl
 {
     private ToggleButton? _tabStripModeButton;
     internal StswNavigationElement? CompactedExpander;
@@ -34,7 +34,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
         SetValue(ContextsProperty, new StswObservableDictionary<string, object?>());
-        SetValue(ItemsProperty, new ObservableCollection<StswNavigationElement>());
         SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationElement>());
         SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationElement>());
     }
@@ -42,6 +41,9 @@ public class StswNavigation : ContentControl, IStswCornerControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
     }
+
+    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationElement();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationElement;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -152,6 +154,46 @@ public class StswNavigation : ContentControl, IStswCornerControl
             typeof(StswNavigation)
         );
 
+    /// <inheritdoc/>
+    public object? Content
+    {
+        get => (object?)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+    public static readonly DependencyProperty ContentProperty = ContentControl.ContentProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets a string format applied to the <see cref="Content"/>.
+    /// Useful for formatting text-based content.
+    /// </summary>
+    public string? ContentStringFormat
+    {
+        get => (string?)GetValue(ContentStringFormatProperty);
+        set => SetValue(ContentStringFormatProperty, value);
+    }
+    public static readonly DependencyProperty ContentStringFormatProperty = ContentControl.ContentStringFormatProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets the data template used to display the <see cref="Content"/>.
+    /// </summary>
+    public DataTemplate? ContentTemplate
+    {
+        get => (DataTemplate?)GetValue(ContentTemplateProperty);
+        set => SetValue(ContentTemplateProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateProperty = ContentControl.ContentTemplateProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets a data template selector for the <see cref="Content"/>.
+    /// Allows dynamic selection of templates based on content type.
+    /// </summary>
+    public DataTemplateSelector? ContentTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(ContentTemplateSelectorProperty);
+        set => SetValue(ContentTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateSelectorProperty = ContentControl.ContentTemplateSelectorProperty.AddOwner(typeof(StswNavigation));
+
     /// <summary>
     /// Gets the collection of contexts associated with this navigation control.
     /// Each context represents a separate view that can be dynamically switched.
@@ -165,21 +207,6 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Contexts),
             typeof(StswObservableDictionary<string, object?>),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of navigation elements displayed in the control.
-    /// </summary>
-    public ObservableCollection<StswNavigationElement> Items
-    {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-    public static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigation)
         );
 

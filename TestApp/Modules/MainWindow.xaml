@@ -101,7 +101,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
                 <se:StswNavigationElement Header="StswMenu" ContextNamespace="{x:Type local:StswMenuContext}"/>
-                <se:StswNavigationElement Header="StswNavigationView" ContextNamespace="{x:Type local:StswNavigationViewContext}"/>
+                <se:StswNavigationElement Header="StswNavigation" ContextNamespace="{x:Type local:StswNavigationContext}"/>
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="{x:Type local:StswTabControlContext}"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Panels" IconData="{x:Static se:StswIcons.FormatListGroup}">

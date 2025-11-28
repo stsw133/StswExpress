@@ -67,12 +67,9 @@
 
         <ResourceDictionary Source="Navigation/_items/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/_items/StswNavigationElement.xaml"/>
-        <ResourceDictionary Source="Navigation/_items/StswNavigationTree.xaml"/>
-        <ResourceDictionary Source="Navigation/_items/StswNavigationViewItem.xaml"/>
         <ResourceDictionary Source="Navigation/_items/StswTabItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
-        <ResourceDictionary Source="Navigation/StswNavigationView.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
 
         <ResourceDictionary Source="Panels/StswGridSplitter.xaml"/>
