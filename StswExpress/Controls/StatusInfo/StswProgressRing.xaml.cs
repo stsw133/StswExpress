@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 
-namespace StswExpress;
+namespace StswExpress;
+
 /// <summary>
 /// A circular progress indicator with text and scaling support.
 /// Can display percentage, value, or custom text inside the ring.
@@ -20,13 +18,11 @@ namespace StswExpress;
 /// &lt;se:StswProgressRing Value="25" Minimum="0" Maximum="50" Scale="2"/&gt;
 /// </code>
 /// </example>
-public class StswProgressRing : ProgressBar
+public class StswProgressRing : StswProgressBar
 {
     public StswProgressRing()
     {
-        SetCurrentValue(StrokeDashArrayProperty, _strokeDashArray);
-        UpdateProgressText();
-        UpdateStrokeDashArray();
+        UpdateProgressGeometry();
     }
     static StswProgressRing()
     {
@@ -34,87 +30,195 @@ public class StswProgressRing : ProgressBar
     }
 
     #region Events & methods
-    /// <inheritdoc />
+    /// <inheritdoc/>
     protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
         base.OnMaximumChanged(oldMaximum, newMaximum);
-        UpdateProgressText();
-        UpdateStrokeDashArray();
+        UpdateProgressGeometry();
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
     {
         base.OnMinimumChanged(oldMinimum, newMinimum);
-        UpdateProgressText();
-        UpdateStrokeDashArray();
+        UpdateProgressGeometry();
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);
-        UpdateProgressText();
-        UpdateStrokeDashArray();
+        UpdateProgressGeometry();
     }
 
     /// <summary>
-    /// Updates the progress text based on the current value and selected text mode.
+    /// Updates the geometry of the progress arc based on current Value/Minimum/Maximum.
     /// </summary>
-    private void UpdateProgressText()
+    private void UpdateProgressGeometry()
     {
-        if (TextMode == StswProgressTextMode.Custom)
+        if (IsIndeterminate)
             return;
 
-        if (Maximum <= Minimum)
+        Geometry geometry;
+
+        if (Maximum <= Minimum || double.IsNaN(Value) || double.IsInfinity(Value))
         {
-            SetCurrentValue(TextProperty, string.Empty);
-            return;
-        }
-
-        var range = Maximum - Minimum;
-        var current = Value - Minimum;
-        var progress = Math.Clamp(current / range, 0d, 1d);
-
-        var text = TextMode switch
-        {
-            StswProgressTextMode.None => string.Empty,
-            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
-            StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
-            StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
-            _ => null
-        };
-
-        SetCurrentValue(TextProperty, text);
-    }
-
-    /// <summary>
-    /// Updates the stroke dash array to reflect the current progress value.
-    /// </summary>
-    private void UpdateStrokeDashArray()
-    {
-        if (Maximum <= Minimum)
-        {
-            _strokeDashArray[0] = 0d;
-            _strokeDashArray[1] = StrokeDashLength;
+            geometry = Geometry.Empty;
+            _lastNormalized = double.NaN;
         }
         else
         {
-            var normalized = Math.Clamp((Value - Minimum) / (Maximum - Minimum), 0d, 1d);
+            var normalized = Math.Clamp(
+                (Value - Minimum) / (Maximum - Minimum),
+                0d,
+                1d);
 
-            _strokeDashArray[0] = normalized * StrokeDashLength;
-            _strokeDashArray[1] = StrokeDashLength;
+            if (normalized.Equals(_lastNormalized))
+                return;
+
+            _lastNormalized = normalized;
+            geometry = CreateArcGeometry(normalized);
         }
 
-        SetCurrentValue(StrokeDashArrayProperty, null);
-        SetCurrentValue(StrokeDashArrayProperty, _strokeDashArray);
+        ProgressGeometry = geometry;
+    }
+    private double _lastNormalized = double.NaN;
+
+    /// <summary>
+    /// Creates an arc geometry representing the progress based on the normalized value (0 to 1).
+    /// </summary>
+    private static Geometry CreateArcGeometry(double normalized)
+    {
+        if (normalized <= 0d)
+            return Geometry.Empty;
+
+        if (normalized >= 1d - 0.0001d)
+            return FullCircleGeometry;
+
+        const double radius = 4d;
+        const double centerCoord = 5d;
+        var center = new Point(centerCoord, centerCoord);
+
+        const double startAngle = 0d;
+        var sweepAngle = 360d * normalized;
+        var endAngle = startAngle + sweepAngle;
+
+        var startPoint = PointOnCircle(center, radius, startAngle);
+        var endPoint = PointOnCircle(center, radius, endAngle);
+
+        var geometry = new StreamGeometry();
+
+        using (var ctx = geometry.Open())
+        {
+            ctx.BeginFigure(startPoint, isFilled: false, isClosed: false);
+            ctx.ArcTo(
+                endPoint,
+                new Size(radius, radius),
+                rotationAngle: 0,
+                isLargeArc: sweepAngle > 180d,
+                sweepDirection: SweepDirection.Clockwise,
+                isStroked: true,
+                isSmoothJoin: false);
+        }
+
+        geometry.Freeze();
+        return geometry;
     }
 
-    private const double StrokeDashLength = 21.89204;
-    private readonly DoubleCollection _strokeDashArray = [0d, StrokeDashLength];
+    /// <summary>
+    /// Creates a full circle geometry.
+    /// </summary>
+    /// <returns>Geometry representing a full circle.</returns>
+    private static StreamGeometry CreateFullCircleGeometry()
+    {
+        const double radius = 4d;
+        const double centerCoord = 5d;
+        var center = new Point(centerCoord, centerCoord);
+
+        const double startAngle = 0d;
+        const double midAngle = 180d;
+
+        var startPoint = PointOnCircle(center, radius, startAngle);
+        var midPoint = PointOnCircle(center, radius, midAngle);
+
+        var geometry = new StreamGeometry();
+
+        using (var ctx = geometry.Open())
+        {
+            ctx.BeginFigure(startPoint, isFilled: false, isClosed: false);
+            ctx.ArcTo(
+                midPoint,
+                new Size(radius, radius),
+                rotationAngle: 0,
+                isLargeArc: false,
+                sweepDirection: SweepDirection.Clockwise,
+                isStroked: true,
+                isSmoothJoin: false);
+
+            ctx.ArcTo(
+                startPoint,
+                new Size(radius, radius),
+                rotationAngle: 0,
+                isLargeArc: false,
+                sweepDirection: SweepDirection.Clockwise,
+                isStroked: true,
+                isSmoothJoin: false);
+        }
+
+        geometry.Freeze();
+        return geometry;
+    }
+    private static readonly Geometry FullCircleGeometry = CreateFullCircleGeometry();
+
+    /// <summary>
+    /// Calculates a point on the circumference of a circle given its center, radius, and angle in degrees.
+    /// </summary>
+    /// <param name="center">Center point of the circle.</param>
+    /// <param name="radius">Radius of the circle.</param>
+    /// <param name="angleDegrees">Angle in degrees.</param>
+    /// <returns>Point on the circle at the specified angle.</returns>
+    private static Point PointOnCircle(Point center, double radius, double angleDegrees)
+    {
+        var angleRadians = angleDegrees * Math.PI / 180d;
+        var x = center.X + radius * Math.Cos(angleRadians);
+        var y = center.Y + radius * Math.Sin(angleRadians);
+        return new Point(x, y);
+    }
     #endregion
 
-    #region Logic properties
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the geometry representing the progress arc.
+    /// </summary>
+    internal Geometry ProgressGeometry
+    {
+        get => (Geometry)GetValue(ProgressGeometryProperty);
+        set => SetValue(ProgressGeometryProperty, value);
+    }
+    public static readonly DependencyProperty ProgressGeometryProperty
+        = DependencyProperty.Register(
+            nameof(ProgressGeometry),
+            typeof(Geometry),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(Geometry.Empty, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the progress ring stroke.
+    /// </summary>
+    public double RingThickness
+    {
+        get => (double)GetValue(RingThicknessProperty);
+        set => SetValue(RingThicknessProperty, value);
+    }
+    public static readonly DependencyProperty RingThicknessProperty
+        = DependencyProperty.Register(
+            nameof(RingThickness),
+            typeof(double),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
     /// <summary>
     /// Gets or sets the scale of the progress ring.
     /// Determines the size of the ring in proportion to its default dimensions.
@@ -140,99 +244,5 @@ public class StswProgressRing : ProgressBar
 
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
-
-    /// <summary>
-    /// Gets or sets the current state of the progress ring, which can be used for styling purposes.
-    /// </summary>
-    public StswProgressState State
-    {
-        get => (StswProgressState)GetValue(StateProperty);
-        set => SetValue(StateProperty, value);
-    }
-    public static readonly DependencyProperty StateProperty
-        = DependencyProperty.Register(
-            nameof(State),
-            typeof(StswProgressState),
-            typeof(StswProgressRing)
-        );
-
-    /// <summary>
-    /// Gets or sets the stroke dash array used to control the visibility of the ring's progress arc.
-    /// This property dynamically updates based on the <see cref="Value"/>.
-    /// </summary>
-    internal DoubleCollection StrokeDashArray
-    {
-        get => (DoubleCollection)GetValue(StrokeDashArrayProperty);
-        set => SetValue(StrokeDashArrayProperty, value);
-    }
-    public static readonly DependencyProperty StrokeDashArrayProperty
-        = DependencyProperty.Register(
-            nameof(StrokeDashArray),
-            typeof(DoubleCollection),
-            typeof(StswProgressRing)
-        );
-
-    /// <summary>
-    /// Gets or sets the text displayed inside the progress ring.
-    /// Updates dynamically based on the selected <see cref="TextMode"/>.
-    /// </summary>
-    public string? Text
-    {
-        get => (string?)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-    public static readonly DependencyProperty TextProperty
-        = DependencyProperty.Register(
-            nameof(Text),
-            typeof(string),
-            typeof(StswProgressRing)
-        );
-
-    /// <summary>
-    /// Gets or sets the mode used to display progress text.
-    /// Determines whether the progress ring shows a percentage, an absolute value, or custom text.
-    /// </summary>
-    public StswProgressTextMode TextMode
-    {
-        get => (StswProgressTextMode)GetValue(TextModeProperty);
-        set => SetValue(TextModeProperty, value);
-    }
-    public static readonly DependencyProperty TextModeProperty
-        = DependencyProperty.Register(
-            nameof(TextMode),
-            typeof(StswProgressTextMode),
-            typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(default(StswProgressTextMode),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnTextModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnTextModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswProgressRing stsw)
-            return;
-
-        if (stsw.TextMode == StswProgressTextMode.Custom)
-            stsw.SetCurrentValue(TextProperty, string.Empty);
-        else
-            stsw.UpdateProgressText();
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush used for the progress ring's visual representation.
-    /// </summary>
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
-    public static readonly DependencyProperty FillProperty
-        = DependencyProperty.Register(
-            nameof(Fill),
-            typeof(Brush),
-            typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

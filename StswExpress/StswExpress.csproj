@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
-    <Authors>Karol Staszewski, Hubert Rogowski</Authors>
+    <Authors>Karol Staszewski</Authors>
     <Version>0.22.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>

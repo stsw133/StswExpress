@@ -38,7 +38,6 @@ public interface IStswIconControl
     public double IconStrokeThickness { get; set; }
     public static readonly DependencyProperty? IconStrokeThicknessProperty;
 
-
     /// <summary>
     /// Handles changes to the scale of the icon, adjusting its size accordingly.
     /// </summary>

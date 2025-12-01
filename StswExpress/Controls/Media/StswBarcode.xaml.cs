@@ -39,14 +39,21 @@ public class StswBarcode : Control, IStswCornerControl
     /// </summary>
     private void UpdateCodeImage()
     {
-        var width = double.IsNaN(ActualWidth) || ActualWidth <= 0 ? 160 : ActualWidth;
-        var height = double.IsNaN(ActualHeight) || ActualHeight <= 0 ? 160 : ActualHeight;
-
-        CodeImage = CodeType switch
+        try
         {
-            StswBarcodeType.QR => GenerateQrImage(width, height),
-            _ => GenerateBarcodeImage(width, height)
-        };
+            var width = double.IsNaN(ActualWidth) || ActualWidth <= 0 ? 160 : ActualWidth;
+            var height = double.IsNaN(ActualHeight) || ActualHeight <= 0 ? 160 : ActualHeight;
+
+            CodeImage = CodeType switch
+            {
+                StswBarcodeType.QR => GenerateQrImage(width, height),
+                _ => GenerateBarcodeImage(width, height)
+            };
+        }
+        catch
+        {
+            CodeImage = null;
+        }
     }
 
     /// <summary>

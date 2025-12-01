@@ -530,14 +530,7 @@ public class StswRatingControl : Control, IStswIconControl
 /// </summary>
 internal sealed class StswRatingMaskConverter : IMultiValueConverter
 {
-    /// <summary>
-    /// Converts the rating value and item index to a LinearGradientBrush mask.
-    /// </summary>
-    /// <param name="values">An array containing the rating value, item index, and expand direction.</param>
-    /// <param name="targetType">The target type of the conversion (expected to be Brush).</param>
-    /// <param name="parameter">An optional parameter (not used).</param>
-    /// <param name="culture">The culture info (not used).</param>
-    /// <returns>A LinearGradientBrush representing the fill mask for the rating item.</returns>
+    /// <inheritdoc/>
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         if (values is not [object rawVal, object idxObj, object dirObj])
@@ -555,15 +548,7 @@ internal sealed class StswRatingMaskConverter : IMultiValueConverter
         return MakeMask(frac, dir);
     }
 
-    /// <summary>
-    /// Not implemented. Converts back is not supported.
-    /// </summary>
-    /// <param name="value">The value produced by the binding target (not used).</param>
-    /// <param name="targetTypes">The array of target types (not used).</param>
-    /// <param name="parameter">An optional parameter (not used).</param>
-    /// <param name="culture">The culture info (not used).</param>
-    /// <returns>Throws NotSupportedException.</returns>
-    /// <exception cref="NotSupportedException">Always thrown since ConvertBack is not supported.</exception>
+    /// <inheritdoc/>
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotSupportedException();
 
     /// <summary>

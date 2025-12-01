@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
 /// <summary>
 /// Simple QR Code encoder for Model 2 QR codes (ECC M) with automatic version selection.
 /// </summary>
-public static class QrEncoder
+internal static class QrEncoder
 {
     private const int MinVersion = 1;
     private const int MaxVersion = 40;

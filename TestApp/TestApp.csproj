@@ -8,7 +8,7 @@
     <AssemblyName>TestApp</AssemblyName>
     <Version>0.22.0</Version>
     <Copyright></Copyright>
-    <Authors>Karol Staszewski, Hubert Rogowski</Authors>
+    <Authors>Karol Staszewski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
