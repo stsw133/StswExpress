@@ -55,7 +55,7 @@ public class StswBarcode : Control, IStswCornerControl
     /// <param name="width">The desired width of the image.</param>
     /// <param name="height">The desired height of the image.</param>
     /// <returns>The generated barcode image.</returns>
-    private ImageSource GenerateBarcodeImage(double width, double height)
+    private WriteableBitmap GenerateBarcodeImage(double width, double height)
     {
         var pattern = CodeType switch
         {
@@ -109,7 +109,7 @@ public class StswBarcode : Control, IStswCornerControl
     /// <param name="width">The width of the matrix.</param>
     /// <param name="height">The height of the matrix.</param>
     /// <returns>The generated QR-like matrix.</returns>
-    private ImageSource GenerateQrImage(double width, double height)
+    private WriteableBitmap GenerateQrImage(double width, double height)
     {
         var text = Value ?? string.Empty;
 
@@ -145,7 +145,7 @@ public class StswBarcode : Control, IStswCornerControl
 
                     if (moduleX >= 0 && moduleX < modules
                      && moduleY >= 0 && moduleY < modules)
-                        isDark = matrix[moduleX, moduleY];
+                        isDark = matrix[moduleY, moduleX];
 
                     var color = isDark ? dark : light;
                     var idx = x * 4;
