@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +15,9 @@ namespace StswExpress;
 /// </summary>
 public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
 {
+    private bool _isDocumentDirty;
+    private bool _suppressFormattedTextUpdate;
+
     public StswRichBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -29,30 +35,98 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
         LoadFilePath();
     }
 
+    /// <inheritdoc/>
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        CommitFormattedText();
+        base.OnLostFocus(e);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnTextChanged(TextChangedEventArgs e)
+    {
+        base.OnTextChanged(e);
+
+        if (_suppressFormattedTextUpdate)
+            return;
+
+        _isDocumentDirty = true;
+    }
+
+    /// <summary>
+    /// Commits the current document content to the <see cref="FormattedText"/> property in RTF format.
+    /// </summary>
+    private void CommitFormattedText()
+    {
+        if (_suppressFormattedTextUpdate || !_isDocumentDirty)
+            return;
+
+        _suppressFormattedTextUpdate = true;
+
+        using var stream = new MemoryStream();
+        var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+        range.Save(stream, DataFormats.Rtf);
+        stream.Position = 0;
+
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        SetCurrentValue(FormattedTextProperty, reader.ReadToEnd());
+
+        _isDocumentDirty = false;
+        _suppressFormattedTextUpdate = false;
+    }
+
     /// <summary>
     /// Loads content from the provided <see cref="FilePath"/> if it exists, otherwise clears the document.
     /// </summary>
     private void LoadFilePath()
     {
-        if (FilePath != null)
-        {
-            if (File.Exists(FilePath))
-            {
-                using var fileStream = new FileStream(FilePath, FileMode.Open);
-                var range = new TextRange(Document.ContentStart, Document.ContentEnd);
-                range.Load(fileStream, DataFormats.Rtf);
+        _suppressFormattedTextUpdate = true;
 
-                IsUndoEnabled = !IsUndoEnabled;
-                IsUndoEnabled = !IsUndoEnabled;
-            }
+        if (FilePath != null && File.Exists(FilePath))
+        {
+            using var fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+            range.Load(fileStream, DataFormats.Rtf);
         }
         else
         {
             Document.Blocks.Clear();
-
-            IsUndoEnabled = !IsUndoEnabled;
-            IsUndoEnabled = !IsUndoEnabled;
         }
+
+        IsUndoEnabled = !IsUndoEnabled;
+        IsUndoEnabled = !IsUndoEnabled;
+
+        _suppressFormattedTextUpdate = false;
+
+        _isDocumentDirty = true;
+        CommitFormattedText();
+    }
+
+    /// <summary>
+    /// Replaces the document content using the provided RTF formatted text.
+    /// </summary>
+    /// <param name="formattedText">The RTF string to load into the document.</param>
+    private void LoadFormattedText(string? formattedText)
+    {
+        _suppressFormattedTextUpdate = true;
+
+        if (!string.IsNullOrWhiteSpace(formattedText))
+        {
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(formattedText));
+            var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+            range.Load(stream, DataFormats.Rtf);
+        }
+        else
+        {
+            Document.Blocks.Clear();
+        }
+
+        IsUndoEnabled = !IsUndoEnabled;
+        IsUndoEnabled = !IsUndoEnabled;
+
+        _suppressFormattedTextUpdate = false;
+
+        _isDocumentDirty = false;
     }
     #endregion
 
@@ -96,6 +170,34 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
         stsw.LoadFilePath();
     }
 
+    /// <summary>
+    /// Gets or sets the formatted rich text content of the control in Rich Text Format (RTF).
+    /// When set, the document is replaced with the provided formatted text.
+    /// When retrieved, the current content of the document is returned as an RTF string.
+    /// </summary>
+    public string? FormattedText
+    {
+        get => (string?)GetValue(FormattedTextProperty);
+        set => SetValue(FormattedTextProperty, value);
+    }
+    public static readonly DependencyProperty FormattedTextProperty
+        = DependencyProperty.Register(
+            nameof(FormattedText),
+            typeof(string),
+            typeof(StswRichBox),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormattedTextChanged, null, false, UpdateSourceTrigger.LostFocus)
+        );
+    public static void OnFormattedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not StswRichBox stsw)
+            return;
+
+        if (!stsw._suppressFormattedTextUpdate)
+            stsw.LoadFormattedText(e.NewValue as string);
+    }
+
     /// <inheritdoc/>
     public bool HasError
     {
@@ -123,6 +225,9 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Placeholder is not supported for StswRichBox.")]
     public string? Placeholder
     {
         get => (string?)GetValue(PlaceholderProperty);
@@ -132,7 +237,8 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswRichBox)
+            typeof(StswRichBox),
+            new FrameworkPropertyMetadata(default(string?), null, (_, _) => null)
         );
 
     /// <summary>

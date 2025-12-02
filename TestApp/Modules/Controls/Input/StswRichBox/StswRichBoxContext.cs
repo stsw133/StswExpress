@@ -11,12 +11,12 @@ public partial class StswRichBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    [StswCommand] void Clear() => Text = string.Empty;
-    [StswCommand] void Randomize() => Text = Guid.NewGuid().ToString();
+    [StswCommand] void Clear() => FormattedText = string.Empty;
+    [StswCommand] void Randomize() => FormattedText = Guid.NewGuid().ToString();
 
     [StswObservableProperty] string? _filePath;
+    [StswObservableProperty] string? _formattedText;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;
     [StswObservableProperty] bool _subControls = false;
-    [StswObservableProperty] string _text = string.Empty;
 }

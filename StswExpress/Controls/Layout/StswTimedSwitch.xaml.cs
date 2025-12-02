@@ -17,11 +17,14 @@ namespace StswExpress;
 /// </example>
 public class StswTimedSwitch : CheckBox
 {
-    private readonly DispatcherTimer timer = new();
+    private readonly DispatcherTimer _timer = new();
+    private bool _isTimerTickSubscribed;
 
     public StswTimedSwitch()
     {
-        timer.Tick += Timer_Tick;
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
+        SubscribeToTimerTick();
     }
     static StswTimedSwitch()
     {
@@ -40,7 +43,7 @@ public class StswTimedSwitch : CheckBox
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-        timer.Stop();
+        _timer.Stop();
     }
 
     /// <summary>
@@ -50,10 +53,52 @@ public class StswTimedSwitch : CheckBox
     /// <param name="e">The event arguments</param>
     private void Timer_Tick(object? sender, EventArgs e)
     {
-        timer.Stop();
+        _timer.Stop();
 
         if (IsChecked == true)
             SetCurrentValue(IsCheckedProperty, false);
+    }
+
+    /// <summary>
+    /// Handles the Loaded event to subscribe to the timer tick event.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void OnLoaded(object sender, RoutedEventArgs e) => SubscribeToTimerTick();
+
+    /// <summary>
+    /// Handles the Unloaded event to stop the timer and unsubscribe from the tick event.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _timer.Stop();
+        UnsubscribeFromTimerTick();
+    }
+
+    /// <summary>
+    /// Subscribes to the timer tick event.
+    /// </summary>
+    private void SubscribeToTimerTick()
+    {
+        if (_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick += Timer_Tick;
+        _isTimerTickSubscribed = true;
+    }
+
+    /// <summary>
+    /// Unsubscribes from the timer tick event to prevent memory leaks.
+    /// </summary>
+    private void UnsubscribeFromTimerTick()
+    {
+        if (!_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick -= Timer_Tick;
+        _isTimerTickSubscribed = false;
     }
 
     /// <summary>
@@ -64,9 +109,9 @@ public class StswTimedSwitch : CheckBox
         if (SwitchTime <= TimeSpan.Zero)
             return;
 
-        timer.Stop();
-        timer.Interval = SwitchTime;
-        timer.Start();
+        _timer.Stop();
+        _timer.Interval = SwitchTime;
+        _timer.Start();
     }
 
     /// <summary>
@@ -76,16 +121,16 @@ public class StswTimedSwitch : CheckBox
     {
         if (SwitchTime <= TimeSpan.Zero)
         {
-            timer.Stop();
+            _timer.Stop();
             return;
         }
 
-        timer.Interval = SwitchTime;
+        _timer.Interval = SwitchTime;
 
         if (IsChecked == true)
         {
-            timer.Stop();
-            timer.Start();
+            _timer.Stop();
+            _timer.Start();
         }
     }
     #endregion

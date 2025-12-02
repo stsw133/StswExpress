@@ -42,7 +42,7 @@
                                                   BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                   Focusable="False"
                                                   Orientation="Horizontal">
-                                <StackPanel Orientation="Horizontal">
+                                <DockPanel>
                                     <ItemsControl Focusable="False" ItemsSource="{Binding Pages, RelativeSource={RelativeSource TemplatedParent}}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -58,7 +58,6 @@
                                                                     Command="{Binding PageChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
                                                                     CommandParameter="{Binding Page}"
                                                                     Content="{Binding Description}"
-                                                                    CornerRadius="5"
                                                                     FontSize="11"
                                                                     IsChecked="{Binding IsSelected}"
                                                                     IsEnabled="{Binding IsEnabled}"
@@ -68,14 +67,14 @@
                                     </ItemsControl>
                                     <se:StswDecimalBox DockPanel.Dock="Right"
                                                        BorderThickness="1"
-                                                       CornerRadius="5"
+                                                       HorizontalAlignment="Right"
                                                        Margin="{TemplateBinding Padding}"
                                                        Maximum="{Binding TotalPages, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Minimum="1"
                                                        SeparatorThickness="1"
                                                        Value="{Binding CurrentPage, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                        Width="100"/>
-                                </StackPanel>
+                                </DockPanel>
                             </se:StswDirectionView>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"

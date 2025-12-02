@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -279,5 +280,70 @@ public class StswImage : Control, IStswCornerControl
             typeof(StswImage),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+
+    #region File format conversion
+    /// <summary>
+    /// A mapping of file extensions to their corresponding BitmapEncoder factories.
+    /// </summary>
+    private static readonly Dictionary<string, Func<BitmapEncoder>> EncoderFactories =
+        new Dictionary<string, Func<BitmapEncoder>>(StringComparer.OrdinalIgnoreCase)
+        {
+            [".bmp"] = () => new BmpBitmapEncoder(),
+            [".gif"] = () => new GifBitmapEncoder(),
+            [".jpg"] = () => new JpegBitmapEncoder(),
+            [".jpeg"] = () => new JpegBitmapEncoder(),
+            [".png"] = () => new PngBitmapEncoder(),
+            [".tif"] = () => new TiffBitmapEncoder(),
+            [".tiff"] = () => new TiffBitmapEncoder(),
+            [".wmp"] = () => new WmpBitmapEncoder(),
+        };
+
+    /// <summary>
+    /// Converts an image file to a new format using Windows Imaging Component decoders/encoders.
+    /// </summary>
+    /// <param name="sourcePath">Path to the source image.</param>
+    /// <param name="destinationPath">Path to the converted image (the extension determines the output format).</param>
+    /// <exception cref="ArgumentException">Thrown when any of the provided paths are empty or lack a valid extension.</exception>
+    /// <exception cref="FileNotFoundException">Thrown when the source file cannot be found.</exception>
+    /// <exception cref="NotSupportedException">Thrown when the destination format is not supported.</exception>
+    public static void ConvertImage(string sourcePath, string destinationPath)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(sourcePath);
+        ArgumentException.ThrowIfNullOrEmpty(destinationPath);
+
+        if (!File.Exists(sourcePath))
+            throw new FileNotFoundException("Source file not found.", sourcePath);
+
+        var destinationExtension = Path.GetExtension(destinationPath);
+        if (string.IsNullOrWhiteSpace(destinationExtension))
+            throw new ArgumentException("Destination path must include a file extension.", nameof(destinationPath));
+
+        if (!EncoderFactories.TryGetValue(destinationExtension, out var encoderFactory))
+            throw new NotSupportedException($"Unsupported destination format: {destinationExtension}");
+
+        using var sourceStream = File.OpenRead(sourcePath);
+        var decoder = BitmapDecoder.Create(
+            sourceStream,
+            BitmapCreateOptions.PreservePixelFormat,
+            BitmapCacheOption.OnLoad);
+
+        var encoder = encoderFactory();
+        encoder.Frames.Add(decoder.Frames[0]);
+
+        var destinationDirectory = Path.GetDirectoryName(destinationPath);
+        if (!string.IsNullOrWhiteSpace(destinationDirectory))
+            Directory.CreateDirectory(destinationDirectory);
+
+        using var destinationStream = File.Open(destinationPath, FileMode.Create, FileAccess.Write);
+        encoder.Save(destinationStream);
+    }
+
+    /// <summary>
+    /// Checks if the converter has a known encoder for the destination format.
+    /// </summary>
+    /// <param name="destinationExtension">The destination file extension (e.g. ".png").</param>
+    /// <returns><see langword="true"/> when the extension is supported; otherwise, <see langword="false"/>.</returns>
+    public static bool SupportsDestinationFormat(string? destinationExtension) => !string.IsNullOrWhiteSpace(destinationExtension) && EncoderFactories.ContainsKey(destinationExtension);
     #endregion
 }

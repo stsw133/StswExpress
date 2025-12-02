@@ -14,21 +14,12 @@
         <!-- properties -->
         
         <!-- content -->
-        <Grid HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <se:StswPieChart IsEnabled="{Binding IsEnabled}"
-                             ItemsSource="{Binding Items}"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswChartLegend Grid.Column="1" Columns="1"
-                                Header="Some random elements:"
-                                IsEnabled="{Binding IsEnabled}"
-                                ItemsSource="{Binding Items}"
-                                VerticalContentAlignment="Top"/>
-        </Grid>
+        <se:StswPieChart IsEnabled="{Binding IsEnabled}"
+                         ItemsSource="{Binding Items}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>

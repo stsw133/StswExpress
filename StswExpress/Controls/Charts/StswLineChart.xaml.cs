@@ -104,8 +104,21 @@ public class StswLineChart : ItemsControl
             if (items.Length == 0)
                 return;
 
-            var width = ActualWidth;
-            var height = ActualHeight;
+            const double dotStrokeThickness = 1.0;
+            var dotSize = PointSize;
+            var dotRadius = dotSize / 2.0;
+            var dotHalfStroke = dotStrokeThickness / 2.0;
+            var strokeRadius = LineThickness / 2.0;
+            var paddingExtent = Math.Max(dotRadius + dotHalfStroke, strokeRadius);
+            var padding = Padding;
+            var xPadding = paddingExtent;
+            var yPadding = paddingExtent;
+
+            var contentWidth = Math.Max(ActualWidth - padding.Left - padding.Right, 0);
+            var contentHeight = Math.Max(ActualHeight - padding.Top - padding.Bottom, 0);
+
+            var width = Math.Max(contentWidth - (2 * xPadding), 0);
+            var height = Math.Max(contentHeight - (2 * yPadding), 0);
             if (width <= 0 || height <= 0)
             {
                 foreach (var item in items)
@@ -131,21 +144,20 @@ public class StswLineChart : ItemsControl
                 var item = items[index];
                 item.Percentage = sum != 0 ? (double)(item.Value / sum) * 100.0 : 0.0;
 
-                var relativeX = (items.Length <= 1) ? centerX : stepX * index;
+                var relativeX = (items.Length <= 1) ? xPadding + centerX : xPadding + (stepX * index);
                 var denominator = max - min;
                 var relativeYRatio = denominator == 0
                     ? 0.5
                     : (double)((item.Value - min) / denominator);
-                var relativeY = height - (relativeYRatio * height);
+                var relativeY = yPadding + height - (relativeYRatio * height);
 
                 if (double.IsNaN(relativeY) || double.IsInfinity(relativeY))
                     relativeY = height / 2.0;
 
                 item.Position = new Point(relativeX, relativeY);
 
-                var dotSize = PointSize;
-                var dotLeft = relativeX - dotSize / 2.0;
-                var dotTop = relativeY - dotSize / 2.0;
+                var dotLeft = relativeX - dotRadius;
+                var dotTop = relativeY - dotRadius;
                 item.DotPosition = new Point(dotLeft, dotTop);
 
                 if (previous is not null)

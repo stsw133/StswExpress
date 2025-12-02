@@ -62,6 +62,7 @@ public static class StswCommands
 
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(StswRichBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
 
         /// close dialog command
@@ -160,6 +161,9 @@ public static class StswCommands
             case StswPasswordBox pwd:
                 pwd.Password = default;
                 break;
+            case StswRichBox rb:
+                rb.FormattedText = default;
+                break;
             case TextBox tb:
                 tb.Clear();
                 break;
@@ -176,6 +180,7 @@ public static class StswCommands
         e.CanExecute = (e.Parameter ?? sender) switch
         {
             StswPasswordBox pwd => !string.IsNullOrEmpty(pwd.Password),
+            StswRichBox rb => !string.IsNullOrEmpty(rb.FormattedText),
             TextBox tb => !string.IsNullOrEmpty(tb.Text),
             _ => false,
         };

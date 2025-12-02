@@ -16,6 +16,9 @@
             <!-- FilePath -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilePath, Type={x:Type se:StswRichBox}}"/>
             <se:StswPathPicker Filter="RTF (*.rtf)|*.rtf|All files|*.*" Margin="0 0 0 3" SelectedPath="{Binding FilePath}" SelectionUnit="OpenFile"/>
+            <!-- FormattedText -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FormattedText, Type={x:Type se:StswRichBox}}"/>
+            <se:StswTextBox Height="100" Margin="0 0 0 3" Text="{Binding FormattedText}" HorizontalScrollBarVisibility="Visible" VerticalContentAlignment="Top"/>
             <!-- Icon -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswRichBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
@@ -28,9 +31,9 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswRichBox FilePath="{Binding FilePath}"
+                        FormattedText="{Binding FormattedText}"
                         IsEnabled="{Binding IsEnabled}"
                         IsReadOnly="{Binding IsReadOnly}"
-                        Placeholder="Enter the text..."
                         HorizontalAlignment="{Binding HorizontalAlignment}"
                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                         VerticalAlignment="{Binding VerticalAlignment}"

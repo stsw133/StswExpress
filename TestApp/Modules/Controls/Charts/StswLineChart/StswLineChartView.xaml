@@ -21,23 +21,14 @@
             <se:StswDecimalBox Format="N1" Margin="0 0 0 3" Minimum="1" Value="{Binding LineThickness}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <Grid HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <se:StswLineChart IsEnabled="{Binding IsEnabled}"
-                              ItemsSource="{Binding Items}"
-                              PointSize="{Binding PointSize}"
-                              LineThickness="{Binding LineThickness}"
-                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswChartLegend Grid.Column="1" Columns="1"
-                                Header="Some random elements:"
-                                IsEnabled="{Binding IsEnabled}"
-                                ItemsSource="{Binding Items}"
-                                VerticalAlignment="Top"/>
-        </Grid>
+        <se:StswLineChart IsEnabled="{Binding IsEnabled}"
+                          ItemsSource="{Binding Items}"
+                          PointSize="{Binding PointSize}"
+                          LineThickness="{Binding LineThickness}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>

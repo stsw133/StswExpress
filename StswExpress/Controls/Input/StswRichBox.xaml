@@ -59,41 +59,22 @@
                             <!-- error -->
                             <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
-                            <Grid>
-                                <se:StswText x:Name="OPT_Placeholder"
-                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                             IsHitTestVisible="False"
-                                             Margin="{TemplateBinding Padding}"
-                                             Padding="2 0 0 0"
-                                             Text="{TemplateBinding Placeholder}"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="Collapsed"/>
-                                <se:StswScrollView x:Name="PART_ContentHost"
-                                                   AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   Focusable="False"
-                                                   IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
-                            </Grid>
+                            <se:StswScrollView x:Name="PART_ContentHost"
+                                               AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                               DynamicMode="{Binding (se:StswScrollView.DynamicMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Focusable="False"
+                                               IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                               PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                               HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                               VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
                         </DockPanel>
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <!--
-                        <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
-                        -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
@@ -110,7 +91,6 @@
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>

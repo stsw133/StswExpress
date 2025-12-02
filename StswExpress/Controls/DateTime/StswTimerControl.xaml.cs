@@ -22,10 +22,13 @@ public class StswTimerControl : Control
     private readonly DispatcherTimer _timer = new();
     private TextBlock? _display;
     private DateTime _lastTickTime;
+    private bool _isTimerTickSubscribed;
 
     public StswTimerControl()
     {
-        _timer.Tick += Timer_Tick;
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
+        SubscribeToTimerTick();
     }
     static StswTimerControl()
     {
@@ -41,6 +44,48 @@ public class StswTimerControl : Control
         _display = GetTemplateChild("PART_Display") as TextBlock;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <summary>
+    /// Handles the Loaded event of the control, subscribing to the timer tick event.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e) => SubscribeToTimerTick();
+
+    /// <summary>
+    /// Handles the Unloaded event of the control, stopping the timer and unsubscribing from the timer tick event.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _timer.Stop();
+        UnsubscribeFromTimerTick();
+    }
+
+    /// <summary>
+    /// Subscribes to the timer's tick event to update the current time.
+    /// </summary>
+    private void SubscribeToTimerTick()
+    {
+        if (_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick += Timer_Tick;
+        _isTimerTickSubscribed = true;
+    }
+
+    /// <summary>
+    /// Unsubscribes from the timer's tick event to stop updating the current time.
+    /// </summary>
+    private void UnsubscribeFromTimerTick()
+    {
+        if (!_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick -= Timer_Tick;
+        _isTimerTickSubscribed = false;
     }
 
     /// <summary>
@@ -83,24 +128,18 @@ public class StswTimerControl : Control
     /// </summary>
     private void UpdateTimerInterval()
     {
-        if (Format == null)
-            _timer.Interval = TimeSpan.FromSeconds(1);
-        else if (Format.Contains("fff"))
-            _timer.Interval = TimeSpan.FromMilliseconds(1);
-        else if (Format.Contains("ff"))
-            _timer.Interval = TimeSpan.FromMilliseconds(10);
-        else if (Format.Contains("f"))
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
-        else if (Format.Contains("ss"))
-            _timer.Interval = TimeSpan.FromSeconds(1);
-        else if (Format.Contains("mm"))
-            _timer.Interval = TimeSpan.FromMinutes(1);
-        else if (Format.Contains("hh"))
-            _timer.Interval = TimeSpan.FromHours(1);
-        else
-            _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Interval = Format switch
+        {
+            null => TimeSpan.FromSeconds(1),
+            var fmt when fmt.Contains("fff") => TimeSpan.FromMilliseconds(1),
+            var fmt when fmt.Contains("ff") => TimeSpan.FromMilliseconds(10),
+            var fmt when fmt.Contains('f') => TimeSpan.FromMilliseconds(100),
+            var fmt when fmt.Contains("ss") => TimeSpan.FromSeconds(1),
+            var fmt when fmt.Contains("mm") => TimeSpan.FromMinutes(1),
+            var fmt when fmt.Contains("hh") => TimeSpan.FromHours(1),
+            _ => TimeSpan.FromSeconds(1),
+        };
     }
-
     #endregion
 
     #region Logic properties
