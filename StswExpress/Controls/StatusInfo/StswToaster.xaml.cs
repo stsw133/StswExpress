@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +25,7 @@ namespace StswExpress;
 /// </example>
 public class StswToaster : ItemsControl
 {
+    private static readonly HashSet<WeakReference<StswToaster>> _loadedInstances = [];
     private readonly Timer? _timer;
     private bool _fastRemoving;
     private bool _timerStarted;
@@ -30,6 +33,8 @@ public class StswToaster : ItemsControl
     public StswToaster()
     {
         _timer = new Timer(OnTimerTick, null, Timeout.Infinite, Timeout.Infinite);
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
     static StswToaster()
     {
@@ -41,44 +46,48 @@ public class StswToaster : ItemsControl
 
     #region Events & methods
     /// <summary>
-    /// Displays a new toast notification with the specified content and an optional click action.
+    /// Registers the toaster instance for identifier-based lookups.
     /// </summary>
-    /// <param name="content">The content of the toast.</param>
-    /// <param name="onClick">The action to perform when the toast is clicked.</param>
-    /// <param name="window">The target window where the toast should be displayed (optional).</param>
-    public static void Show(StswDialogImage type, object content, Action? onClick = null, StswWindow? window = null)
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        window ??= StswApp.StswWindow;
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (weakRef.TryGetTarget(out StswToaster? toaster) && ReferenceEquals(toaster, this))
+                return;
 
-        if (window.Template.FindName(nameof(StswToaster), window) is StswToaster toaster)
-        {
-            var toastItem = new StswToastItem
-            {
-                Type = type,
-                Content = content,
-                ClickAction = onClick
-            };
+        _loadedInstances.Add(new WeakReference<StswToaster>(this));
+    }
 
-            if (toaster.ItemsSource is IList itemsSource)
+    /// <summary>
+    /// Unregisters the toaster instance when it is unloaded.
+    /// </summary>
+    /// <param name="sender">The sender object.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var weakRef in _loadedInstances.ToList())
+            if (!weakRef.TryGetTarget(out StswToaster? toaster) || ReferenceEquals(toaster, this))
             {
-                if (toaster.GenerateAtBottom)
-                    itemsSource.Insert(0, toastItem);
-                else
-                    itemsSource.Add(toastItem);
+                _loadedInstances.Remove(weakRef);
+                break;
             }
-            else
-            {
-                if (toaster.GenerateAtBottom)
-                    toaster.Items.Insert(0, toastItem);
-                else
-                    toaster.Items.Add(toastItem);
-            }
+    }
 
-            if (!toaster.IsMouseOver && !toaster._timerStarted)
-                toaster.StartTimer();
-            else if (!toaster.IsMouseOver)
-                toaster._timer?.Change(toaster.DisplayDuration, toaster.DisplayDuration);
-        }
+    /// <inheritdoc/>
+    protected override void OnMouseEnter(MouseEventArgs e)
+    {
+        base.OnMouseEnter(e);
+        if (_timerStarted)
+            StopTimer();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+        base.OnMouseLeave(e);
+        if (!_timerStarted)
+            StartTimer();
     }
 
     /// <summary>
@@ -97,22 +106,6 @@ public class StswToaster : ItemsControl
             itemsSource.Remove(item);
         else if (itemsControl.Items.Contains(item))
             itemsControl.Items.Remove(item);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnMouseEnter(MouseEventArgs e)
-    {
-        base.OnMouseEnter(e);
-        if (_timerStarted)
-            StopTimer();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnMouseLeave(MouseEventArgs e)
-    {
-        base.OnMouseLeave(e);
-        if (!_timerStarted)
-            StartTimer();
     }
 
     /// <summary>
@@ -197,6 +190,85 @@ public class StswToaster : ItemsControl
         _fastRemoving = false;
         _timer?.Change(Timeout.Infinite, Timeout.Infinite);
     }
+
+    /// <summary>
+    /// Finds the <see cref="StswToaster"/> instance matching the provided identifier.
+    /// </summary>
+    /// <param name="toasterIdentifier">Identifier used to locate the toaster instance.</param>
+    /// <returns>The matching <see cref="StswToaster"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no matching instance is found or when multiple matches are detected.</exception>
+    internal static StswToaster GetInstance(object? toasterIdentifier)
+    {
+        if (_loadedInstances.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswToaster)} instances.");
+
+        var targets = new List<StswToaster>();
+        foreach (var instance in _loadedInstances.ToList())
+        {
+            if (instance.TryGetTarget(out var toaster))
+            {
+                object? identifier = null;
+
+                if (toaster.CheckAccess())
+                    identifier = toaster.Identifier;
+                else
+                    identifier = toaster.Dispatcher.Invoke(() => toaster.Identifier);
+
+                if (Equals(toasterIdentifier, identifier))
+                    targets.Add(toaster);
+            }
+            else _loadedInstances.Remove(instance);
+        }
+
+        if (targets.Count == 0)
+            throw new InvalidOperationException($"No loaded {nameof(StswToaster)} have an {nameof(Identifier)} property matching {nameof(toasterIdentifier)} ('{toasterIdentifier}') argument.");
+        if (targets.Count > 1)
+            throw new InvalidOperationException($"Multiple viable {nameof(StswToaster)}s. Specify a unique Identifier on each {nameof(StswToaster)}, especially where multiple Windows are a concern.");
+
+        return targets[0];
+    }
+
+    /// <summary>
+    /// Displays a new toast notification with the specified content and an optional click action.
+    /// </summary>
+    /// <param name="content">The content of the toast.</param>
+    /// <param name="onClick">The action to perform when the toast is clicked.</param>
+    /// <param name="window">The target window where the toast should be displayed (optional).</param>
+    public static void Show(StswDialogImage type, object content, Action? onClick = null, StswWindow? window = null, object? identifier = null)
+    {
+        identifier ??= StswApp.StswWindow;
+
+        var toaster = GetInstance(identifier);
+        if (toaster is null)
+            return;
+
+        var toastItem = new StswToastItem
+        {
+            Type = type,
+            Content = content,
+            ClickAction = onClick
+        };
+
+        if (toaster.ItemsSource is IList itemsSource)
+        {
+            if (toaster.GenerateAtBottom)
+                itemsSource.Insert(0, toastItem);
+            else
+                itemsSource.Add(toastItem);
+        }
+        else
+        {
+            if (toaster.GenerateAtBottom)
+                toaster.Items.Insert(0, toastItem);
+            else
+                toaster.Items.Add(toastItem);
+        }
+
+        if (!toaster.IsMouseOver && !toaster._timerStarted)
+            toaster.StartTimer();
+        else if (!toaster.IsMouseOver)
+            toaster._timer?.Change(toaster.DisplayDuration, toaster.DisplayDuration);
+    }
     #endregion
 
     #region Logic properties
@@ -212,6 +284,21 @@ public class StswToaster : ItemsControl
         = DependencyProperty.Register(
             nameof(DisplayDuration),
             typeof(TimeSpan),
+            typeof(StswToaster)
+        );
+
+    /// <summary>
+    /// Gets or sets the identifier that allows static access to a specific <see cref="StswToaster"/> instance.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
             typeof(StswToaster)
         );
 

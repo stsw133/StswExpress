@@ -32,6 +32,8 @@ namespace StswExpress;
 public class StswEventToCommandExtension : MarkupExtension
 {
     private BindingBase? _commandBinding;
+    private BindingBase? _commandParameterBinding;
+    private object? _commandParameterLiteral;
 
     /// <summary>
     /// Gets or sets the command to execute when the event is triggered.
@@ -42,7 +44,7 @@ public class StswEventToCommandExtension : MarkupExtension
         set => _commandBinding = value switch
         {
             null => null,
-            BindingBase bindingBase => bindingBase,
+            BindingBase bb => bb,
             ICommand cmd => new Binding { Source = cmd },
             string path => new Binding(path),
             _ => new Binding { Source = value }
@@ -50,9 +52,32 @@ public class StswEventToCommandExtension : MarkupExtension
     }
 
     /// <summary>
-    /// Gets or sets the parameter to pass to the command. If this is a <see cref="BindingBase"/>, it will be evaluated at runtime.
+    /// Gets or sets the command parameter to pass to the command.
     /// </summary>
-    public object? CommandParameter { get; set; }
+    public object? CommandParameter
+    {
+        get => _commandParameterLiteral;
+        set
+        {
+            _commandParameterLiteral = value;
+            if (value is not BindingBase)
+                _commandParameterBinding = null;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a binding for the command parameter.
+    /// </summary>
+    public BindingBase? CommandParameterBinding
+    {
+        get => _commandParameterBinding;
+        set
+        {
+            _commandParameterBinding = value;
+            if (value is not null)
+                _commandParameterLiteral = null;
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to pass the event arguments to the command if no <see cref="CommandParameter"/> is provided.
@@ -154,6 +179,9 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <param name="e">The event arguments.</param>
     private void ExecuteCommand(DependencyObject targetObject, EventArgs e)
     {
+        if (_commandBinding == null)
+            return;
+
         var cmd = EvaluateBinding<ICommand>(targetObject, _commandBinding);
         if (cmd is null)
             return;
@@ -172,11 +200,11 @@ public class StswEventToCommandExtension : MarkupExtension
     /// <returns>The preferred parameter type, or <see langword="null"/> if it cannot be determined.</returns>
     private object? ResolveParameter(DependencyObject target, EventArgs e)
     {
-        if (CommandParameter is BindingBase bb)
-            return EvaluateBinding<object>(target, bb);
+        if (_commandParameterBinding is not null)
+            return EvaluateBinding<object>(target, _commandParameterBinding);
 
         if (CommandParameter is not null)
-            return CommandParameter;
+            return _commandParameterLiteral;
 
         return PassEventArgs ? e : null;
     }

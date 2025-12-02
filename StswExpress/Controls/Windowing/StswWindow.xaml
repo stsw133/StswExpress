@@ -35,10 +35,13 @@
                             </Grid.RowDefinitions>
                             <!-- content grid -->
                             <AdornerDecorator Grid.Row="1">
-                                <se:StswContentDialog IsTabStop="False" Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                                <se:StswContentDialog Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}" IsTabStop="False">
                                     <Grid>
                                         <ContentPresenter/>
-                                        <se:StswToaster x:Name="StswToaster" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                        <se:StswToaster x:Name="StswToaster"
+                                                        Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"/>
                                     </Grid>
                                 </se:StswContentDialog>
                             </AdornerDecorator>

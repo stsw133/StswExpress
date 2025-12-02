@@ -5,6 +5,7 @@
 
     <Style TargetType="{x:Type se:StswTimerControl}">
         <Setter Property="Format" Value="mm\:ss"/>
+        <Setter Property="ResetOnStart" Value="True"/>
 
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>

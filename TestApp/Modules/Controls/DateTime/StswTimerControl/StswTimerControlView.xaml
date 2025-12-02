@@ -24,9 +24,12 @@
             <!-- IsCountingDown -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsCountingDown, Type={x:Type se:StswTimerControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsCountingDown}"/>
-            <!-- StartStopReset -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartStopReset, Type={x:Type se:StswTimerControl}}"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding StartStopReset}" IsThreeState="True"/>
+            <!-- IsRunning -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsRunning, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsRunning}"/>
+            <!-- ResetOnStart -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ResetOnStart, Type={x:Type se:StswTimerControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ResetOnStart}"/>
             <!-- StartTime -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf StartTime, Type={x:Type se:StswTimerControl}}"/>
             <se:StswTimePicker Margin="0 0 0 3" SelectedTime="{Binding StartTime}"/>
@@ -36,7 +39,8 @@
                              Format="{Binding Format}"
                              IsCountingDown="{Binding IsCountingDown}"
                              IsEnabled="{Binding IsEnabled}"
-                             StartStopReset="{Binding StartStopReset}"
+                             IsRunning="{Binding IsRunning}"
+                             ResetOnStart="{Binding ResetOnStart}"
                              StartTime="{Binding StartTime}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
