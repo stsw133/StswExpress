@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -71,48 +72,88 @@ public class StswSeparator : Separator
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Background { get; private set; }
+    [Obsolete($"{nameof(Background)} is not supported in {nameof(StswSeparator)}.")]
+    protected new Brush? Background
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(Background)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Foreground { get; private set; }
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswSeparator)}.")]
+    protected new Brush? Foreground
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(Foreground)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontFamily? FontFamily { get; private set; }
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswSeparator)}.")]
+    protected new FontFamily? FontFamily
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontFamily)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new double FontSize { get; private set; }
+    [Obsolete($"{nameof(FontSize)} is not supported in {nameof(StswSeparator)}.")]
+    protected new double FontSize
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontSize)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontStretch FontStretch { get; private set; }
+    [Obsolete($"{nameof(FontStyle)} is not supported in {nameof(StswSeparator)}.")]
+    protected new FontStretch FontStretch
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontStretch)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontWeight FontWeight { get; private set; }
+    [Obsolete($"{nameof(FontStyle)} is not supported in {nameof(StswSeparator)}.")]
+    protected new FontWeight FontWeight
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontWeight)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswSeparator)}.")]
+    protected new HorizontalAlignment HorizontalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswSeparator)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswSeparator)}.")]
+    protected new VerticalAlignment VerticalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswSeparator)}.");
+    }
     #endregion
 }

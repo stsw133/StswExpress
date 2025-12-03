@@ -182,55 +182,111 @@ public class StswIcon : Control
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswIcon)}.")]
+    protected new Brush? BorderBrush
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
+    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswIcon)}.")]
+    protected new Thickness? BorderThickness
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Foreground { get; private set; }
+    [Obsolete($"{nameof(Foreground)} is not supported in {nameof(StswIcon)}.")]
+    protected new Brush? Foreground
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(Foreground)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontFamily? FontFamily { get; private set; }
+    [Obsolete($"{nameof(FontFamily)} is not supported in {nameof(StswIcon)}.")]
+    protected new FontFamily? FontFamily
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontFamily)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new double FontSize { get; private set; }
+    [Obsolete($"{nameof(FontSize)} is not supported in {nameof(StswIcon)}.")]
+    protected new double FontSize
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontSize)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontStretch FontStretch { get; private set; }
+    [Obsolete($"{nameof(FontStretch)} is not supported in {nameof(StswIcon)}.")]
+    protected new FontStretch FontStretch
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontStretch)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new FontWeight FontWeight { get; private set; }
+    [Obsolete($"{nameof(FontStyle)} is not supported in {nameof(StswIcon)}.")]
+    protected new FontStyle FontStyle
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontStyle)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(FontWeight)} is not supported in {nameof(StswIcon)}.")]
+    protected new FontWeight FontWeight
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(FontWeight)} is not supported in {nameof(StswIcon)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswIcon)}.")]
+    protected new HorizontalAlignment HorizontalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswIcon)}.");
+    }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswIcon)}.")]
+    protected new VerticalAlignment VerticalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswIcon)}.");
+    }
     #endregion
 
     #region Animations

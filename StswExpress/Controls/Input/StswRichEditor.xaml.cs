@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace StswExpress;
 /// </code>
 /// </example>
 [StswPlannedChanges(StswPlannedChanges.Rework, "Current implementation is obsolete and will be reworked in future versions.")]
-public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
+public class StswRichEditor : StswRichBox
 {
     private StswComboBox? _fontFamily;
     private StswDecimalBox? _fontSize;
@@ -125,32 +126,6 @@ public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// </summary>
     /// <returns><see langword="true"/> if there are unsaved changes, otherwise <see langword="false"/>.</returns>
     private bool HasChanges() => CanUndo || CanRedo;
-
-    /// <summary>
-    /// Loads content from the provided <see cref="FilePath"/> if it exists, otherwise clears the document.
-    /// </summary>
-    protected virtual void LoadFilePath()
-    {
-        if (FilePath != null)
-        {
-            if (File.Exists(FilePath))
-            {
-                using var fileStream = new FileStream(FilePath, FileMode.Open);
-                var range = new TextRange(Document.ContentStart, Document.ContentEnd);
-                range.Load(fileStream, DataFormats.Rtf);
-
-                IsUndoEnabled = !IsUndoEnabled;
-                IsUndoEnabled = !IsUndoEnabled;
-            }
-        }
-        else
-        {
-            Document.Blocks.Clear();
-
-            IsUndoEnabled = !IsUndoEnabled;
-            IsUndoEnabled = !IsUndoEnabled;
-        }
-    }
 
     /// <summary>
     /// Creates a new empty document in the editor.
@@ -387,32 +362,6 @@ public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the file path associated with the current document.
-    /// When changed, the content of the editor is updated accordingly.
-    /// </summary>
-    public string? FilePath
-    {
-        get => (string?)GetValue(FilePathProperty);
-        set => SetValue(FilePathProperty, value);
-    }
-    public static readonly DependencyProperty FilePathProperty
-        = DependencyProperty.Register(
-            nameof(FilePath),
-            typeof(string),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFilePathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnFilePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRichEditor stsw)
-            return;
-
-        stsw.LoadFilePath();
-    }
-
-    /// <summary>
     /// Gets or sets the currently selected text color in the editor.
     /// Changing this property applies the color to the selected text.
     /// </summary>
@@ -465,22 +414,6 @@ public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     /// <summary>
-    /// Gets or sets the collection of sub-controls associated with the editor.
-    /// These can be used for adding additional UI elements like buttons or dropdowns.
-    /// </summary>
-    public ObservableCollection<IStswSubControl> SubControls
-    {
-        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
-        set => SetValue(SubControlsProperty, value);
-    }
-    public static readonly DependencyProperty SubControlsProperty
-        = DependencyProperty.Register(
-            nameof(SubControls),
-            typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswRichEditor)
-        );
-
-    /// <summary>
     /// Gets or sets the visibility and number of options displayed in the toolbar.
     /// </summary>
     public StswCompactibility ToolbarMode
@@ -497,34 +430,6 @@ public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #endregion
 
     #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
     /// <summary>
     /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
     /// </summary>
@@ -588,5 +493,20 @@ public class StswRichEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             typeof(StswRichEditor),
             new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
+    #endregion
+
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(Icon)} is not supported in {nameof(StswRichEditor)}.")]
+    protected new object? Icon
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(Icon)} is not supported in {nameof(StswRichEditor)}.");
+    }
     #endregion
 }

@@ -420,25 +420,45 @@ public class StswDirectionView : ScrollViewer
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new Brush? BorderBrush
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThicknessProperty { get; private set; }
+    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new Thickness? BorderThicknessProperty
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(Padding)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new HorizontalAlignment HorizontalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
+    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new VerticalAlignment VerticalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
+    }
     #endregion
 
     #region Animations

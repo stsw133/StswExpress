@@ -15,6 +15,7 @@
 
         <!-- content -->
         <se:StswSidePanel IsEnabled="{Binding IsEnabled}"
+                          Margin="-5"
                           MinHeight="10" MinWidth="10"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

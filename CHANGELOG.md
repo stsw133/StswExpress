@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.22.0](#0-22-0)
 - [Version 0.21.1](#0-21-1)
 - [Version 0.21.0](#0-21-0)
 - [Version 0.20.1](#0-20-1)
@@ -47,9 +48,67 @@
 
 ---
 
+<h1 id="0-22-0">0.22.0</h1>
+
+**Release Date**: 2025-12-03
+
+## StswExpress.Analyzers
+
+### Fixes
+- Code generation with the `StswCommand` attribute now correctly resolves a condition method when only the function name is provided without using `ConditionMethodName =`.
+
+## StswExpress.Commons
+
+### Additions
+- Added `ToInt` and `ToMediaColor` helpers to `StwExtensions`.
+- Added `TrustServerCertificate` property to `StswDatabaseModel` with full configuration support.
+- `StswDateRange` now offers `Expand`, `GetMidpoint`, and `ShiftTo` helpers.
+- `StswExtensions` extends `GetPropertyValue` to handle dotted nested paths.
+- `StswFn` adds `FormatByteSize` (moved from `StswPathPicker`) and `TruncateWithEllipsis` utilities.
+- `StswFormatParser` introduces a `FromCsv` method.
+- `StswMath` gains `Lerp` and `InverseLerp` helpers.
+
+### Changes
+- `StswDatabaseHelper.HasAttribute` accepts `allowGetterOnly` and validates enum types.
+- `StswDatabaseHelper`'s `PrepareInsertQuery` and `PrepareUpdateQuery` support excluding properties and anonymous types.
+- `StswExtensions` now exposes `IsNullOrDefault` and `IsNullOrEmpty` with `[NotNullWhen(false)]` annotations.
+- `StswObservableValidator` methods such as `ValidateAllProperties` and `ValidateProperty` return `bool` for simpler usage.
+
+## StswExpress (WPF)
+
+### Additions
+- Introduced `StswLineChart` and `StswLineChartItem` alongside renamed chart controls (`StswChartColumn` → `StswColumnChart`, `StswChartColumnItem` → `StswColumnChartItem`, `StswChartPie` → `StswPieChart`, `StswChartPieItem` → `StswPieChartItem`).
+- New controls: `StswBarcode`, and `StswGifImage`, `StswRangeCalendar` (with `StswCalendarEntry`), `StswTimeline` (and `StswTimelineItem`).
+- `StswIfElseConverter` now recognizes `{x:Null}` and maps it to `null`.
+- `StswImage` exposes static helpers for changing graphic file extensions.
+- `StswMessageDialog` adds a mail-composition button when `MailAddress` is provided and accepts an `options` parameter in `Show`.
+- `StswNavigation` now derives from `TreeView` (with `StswNavigationElement` as its container) and provides `AutoScrollExpandedItemsIntoView`. It, along with `StswTabControl`, `StswNotifyIcon`, and `StswToaster`, now supports identifiers similar to dialog controls.
+- `StswPathTree` supports filtering via a new `Filter` property.
+- `StswSelectionBox` now supports filtering akin to `StswComboBox`, adding `FilterMemberPath`, `FilterText`, `IsFilterEnabled`, and `HideSelectedItemWhenFiltered`.
+- `StswSidePanel` now animates its slide-in behavior.
+- `StswSpinner` gains a `Pulse` animation.
+- `StswTabControl` introduces `CanReorder` for drag-and-drop reordering and replaces `NewItem`/`NewItemCommand` with `Identifier` and `NewItemTemplate`.
+- `StswTextEditor` is split into `StswRichBox` and `StswRichEditor` for clearer usage.
+
+### Changes
+- `StswDataPager`, `StswFlipView`, `StswProgressBar`, `StswProgressRing`, and `StswTimerControl` received internal refactors.
+- `StswNavigation` removes the `Command` property, and navigation view classes (`StswNavigationView`, `StswNavigationTree`, `StswNavigationTreeItem`) have been removed.
+
+### Fixes
+- `StswDataGrid` defaults `RowDetailsVisibilityMode` to `Collapsed` instead of `VisibleWhenSelected`.
+- `StswDataGridCheckColumn` falls back to a default icon geometry instead of clearing when none is provided.
+- `StswDataGridComboColumn` correctly locates the context for `ItemsSourceBinding`.
+- `StswDropArrow` attached properties no longer conflict and correctly hide the icon.
+- `StswEventToCommand` now handles both bound and static parameters.
+- `StswMediaPlayer` slider interaction no longer glitches when seeking.
+- `StswScrollActionScheduler` defers scroll requests for all controls using `ScrollToItemBehavior`, reducing UI churn.
+- `StswSlider` properly supports vertical orientation.
+
+---
+
 <h1 id="0-21-1">0.21.1</h1>
 
-**Release Date**: 2025-11-XX
+**Release Date**: 2025-11-10
 
 ## StswExpress.Commons
 
@@ -65,7 +124,7 @@
 
 <h1 id="0-21-0">0.21.0</h1>
 
-**Release Date**: 2025-10-XX
+**Release Date**: 2025-10-24
 
 ## StswExpress.Analyzers
 

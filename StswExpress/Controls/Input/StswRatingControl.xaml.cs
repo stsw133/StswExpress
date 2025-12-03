@@ -515,13 +515,23 @@ public class StswRatingControl : Control, IStswIconControl
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswRatingControl)}.")]
+    protected new Brush? BorderBrush
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswRatingControl)}.");
+    }
 
     [Bindable(false)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
+    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswRatingControl)}.")]
+    protected new Thickness? BorderThickness
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswRatingControl)}.");
+    }
     #endregion
 }
 

@@ -78,7 +78,7 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Loads content from the provided <see cref="FilePath"/> if it exists, otherwise clears the document.
     /// </summary>
-    private void LoadFilePath()
+    protected void LoadFilePath()
     {
         _suppressFormattedTextUpdate = true;
 
@@ -224,23 +224,6 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
             typeof(StswRichBox)
         );
 
-    /// <inheritdoc/>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Placeholder is not supported for StswRichBox.")]
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswRichBox),
-            new FrameworkPropertyMetadata(default(string?), null, (_, _) => null)
-        );
-
     /// <summary>
     /// Gets or sets the collection of sub-controls associated with the editor.
     /// These can be used for adding additional UI elements like buttons or dropdowns.
@@ -286,5 +269,29 @@ public class StswRichBox : RichTextBox, IStswBoxControl, IStswCornerControl
             typeof(StswRichBox),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(Placeholder)} is not supported in {nameof(StswRichBox)}.")]
+    public string? Placeholder
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(Placeholder)} is not supported in {nameof(StswRichBox)}.");
+    }
+    [Obsolete($"{nameof(Placeholder)} is not supported in {nameof(StswRichBox)}.")]
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
+            typeof(StswRichBox),
+            new FrameworkPropertyMetadata(default(string?), OnPlaceholderChanged)
+        );
+    private static void OnPlaceholderChanged(DependencyObject _, DependencyPropertyChangedEventArgs __) => throw new NotSupportedException($"{nameof(Placeholder)} is not supported in {nameof(StswRichBox)}.");
     #endregion
 }

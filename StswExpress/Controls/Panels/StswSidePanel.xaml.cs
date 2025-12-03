@@ -187,6 +187,8 @@ public class StswSidePanel : ContentControl
         if (_contentPresenter is null || _contentTransform is null)
             return;
 
+        _contentTransform.BeginAnimation(TranslateTransform.XProperty, null);
+        _contentTransform.BeginAnimation(TranslateTransform.YProperty, null);
         _contentPresenter.Visibility = IsCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         if (direction is StswSlideDirection.Left or StswSlideDirection.Right)

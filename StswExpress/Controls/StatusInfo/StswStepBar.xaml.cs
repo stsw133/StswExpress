@@ -210,8 +210,8 @@ public class StswStepBar : Control
 [StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswStepBarItem : Control
 {
-    private GradientStop? _gradientStop1;
-    private GradientStop? _gradientStop2;
+    private readonly GradientStop? _gradientStop1;
+    private readonly GradientStop? _gradientStop2;
 
     static StswStepBarItem()
     {
