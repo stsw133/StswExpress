@@ -1,0 +1,30 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:se="using:StswExpress.Avalonia">
+	<Style Selector="se|StswButton">
+		<Setter Property="Background" Value="#FF2563EB"/>
+		<Setter Property="BorderBrush" Value="#FF1E3A8A"/>
+		
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Padding" Value="3"/>
+		
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		
+		<Setter Property="Template">
+			<ControlTemplate TargetType="controls:StswButton">
+				<Border Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						ClipToBounds="{TemplateBinding CornerClipping}">
+					<ContentPresenter Content="{TemplateBinding Content}"
+									  ContentTemplate="{TemplateBinding ContentTemplate}"
+									  Padding="{TemplateBinding Padding}"
+									  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</ResourceDictionary>

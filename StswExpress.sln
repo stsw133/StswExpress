@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Wpf", "StswExpr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Wpf", "TestApp.Wpf\TestApp.Wpf.csproj", "{D391293A-4534-ECBA-D54F-685F81C927D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Core", "StswExpress.Core\StswExpress.Core.csproj", "{6DED9BDB-3ABC-49D7-AB38-E2FF40C16FDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Avalonia", "StswExpress.Avalonia\StswExpress.Avalonia.csproj", "{F7AAE58B-3CE4-4537-8D90-1BAD0FC386F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DED9BDB-3ABC-49D7-AB38-E2FF40C16FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DED9BDB-3ABC-49D7-AB38-E2FF40C16FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DED9BDB-3ABC-49D7-AB38-E2FF40C16FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DED9BDB-3ABC-49D7-AB38-E2FF40C16FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AAE58B-3CE4-4537-8D90-1BAD0FC386F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AAE58B-3CE4-4537-8D90-1BAD0FC386F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AAE58B-3CE4-4537-8D90-1BAD0FC386F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AAE58B-3CE4-4537-8D90-1BAD0FC386F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
