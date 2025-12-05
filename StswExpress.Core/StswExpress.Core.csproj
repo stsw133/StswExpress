@@ -12,4 +12,8 @@
     <Folder Include="Utils\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+  </ItemGroup>
+
 </Project>

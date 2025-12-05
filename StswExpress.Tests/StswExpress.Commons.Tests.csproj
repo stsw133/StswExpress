@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StswExpress.Wpf\StswExpress.Wpf.csproj" />
+    <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
   </ItemGroup>
 
   <ItemGroup>

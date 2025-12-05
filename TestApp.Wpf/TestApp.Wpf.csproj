@@ -12,17 +12,14 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
-    <Description></Description>
-    <PackageIcon></PackageIcon>
-    <PackageReadmeFile></PackageReadmeFile>
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\changelog_en.rtf" />
-    <None Remove="Resources\help_en.pdf" />
-    <None Remove="Resources\icon.ico" />
-    <None Remove="Resources\logo.png" />
+    <None Remove="Assets\changelog_en.rtf" />
+    <None Remove="Assets\help_en.pdf" />
+    <None Remove="Assets\icon.ico" />
+    <None Remove="Assets\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\help_en.pdf">
+    <EmbeddedResource Include="Assets\help_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -40,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\icon.ico" />
-    <Resource Include="Resources\logo.png" />
+    <Resource Include="Assets\icon.ico" />
+    <Resource Include="Assets\logo.png" />
   </ItemGroup>
 
   <ItemGroup>

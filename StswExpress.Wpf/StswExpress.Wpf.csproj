@@ -39,11 +39,10 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\TestApp.Wpf\Resources\logo.png" Pack="true" PackagePath="\" />
+    <None Include="..\TestApp.Wpf\Assets\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
 	<ProjectReference Include="..\StswExpress.Core\StswExpress.Core.csproj" />
     <PackageReference Include="StswExpress.Analyzers" Version="*" />
   </ItemGroup>

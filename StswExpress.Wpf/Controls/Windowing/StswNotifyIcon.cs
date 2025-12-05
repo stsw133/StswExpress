@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +20,7 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswNotifyIcon IconPath="pack://application:,,,/Resources/Icon.ico" Text="My Application" IsAlwaysVisible="True"/&gt;
+/// &lt;se:StswNotifyIcon IconPath="pack://application:,,,/Assets/Icon.ico" Text="My Application" IsAlwaysVisible="True"/&gt;
 /// </code>
 /// </example>
 [StswPlannedChanges(StswPlannedChanges.Refactor | StswPlannedChanges.NewFeatures, "Needs code cleanup and additional features like restoring instead when another app instance is started.")]

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.3.9" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\\StswExpress.Avalonia\\StswExpress.Avalonia.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <AvaloniaResource Include="Assets\icon.ico" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Modules\Controls\" />
+	</ItemGroup>
+
+</Project>

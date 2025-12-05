@@ -12,6 +12,6 @@ public partial class StswGifImageContext : ControlsContext
         Stretch = (Stretch?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Stretch)))?.Value ?? default;
     }
 
-    [StswObservableProperty] Uri _source = new("/Resources/icon.ico", UriKind.Relative);
+    [StswObservableProperty] Uri _source = new("/Assets/icon.ico", UriKind.Relative);
     [StswObservableProperty] Stretch _stretch;
 }

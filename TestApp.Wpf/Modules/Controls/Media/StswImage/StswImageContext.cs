@@ -14,6 +14,6 @@ public partial class StswImageContext : ControlsContext
     }
 
     [StswObservableProperty] StswMenuMode _menuMode;
-    [StswObservableProperty] Uri _source = new("/Resources/icon.ico", UriKind.Relative);
+    [StswObservableProperty] Uri _source = new("/Assets/icon.ico", UriKind.Relative);
     [StswObservableProperty] Stretch _stretch;
 }
