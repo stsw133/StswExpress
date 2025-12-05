@@ -1,6 +1,6 @@
 using System;
 
-namespace StswExpress.Tests.Utils.Commands;
+namespace StswExpress.Wpf.Tests.Utils.Commands;
 public class StswCommandTests
 {
     [Fact]

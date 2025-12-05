@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests.Utils.Converters;
+namespace StswExpress.Wpf.Tests.Utils.Converters;
 public class StswLinqConverterTests
 {
     private readonly StswLinqConverter _converter = StswLinqConverter.Instance;

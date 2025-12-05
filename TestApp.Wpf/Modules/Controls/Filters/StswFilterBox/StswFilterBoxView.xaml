@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswFilterBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswFilterBoxContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            A control used for filtering data in a StswDataGrid.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- ApplyCaseTransform -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyCaseTransform, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyCaseTransform}"/>
+            <!-- ApplyNullReplacement -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyNullReplacement, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyNullReplacement}"/>
+            <!-- FilterMenuMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterMenuMode, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswMenuMode}" Margin="0 0 0 3" SelectedValue="{Binding FilterMenuMode}"/>
+            <!-- FilterType -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterType, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAdaptiveType}" Margin="0 0 0 3" SelectedValue="{Binding FilterType}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswFilterBox ApplyCaseTransform="{Binding ApplyCaseTransform}"
+                          ApplyNullReplacement="{Binding ApplyNullReplacement}"
+                          FilterMenuMode="{Binding FilterMenuMode}"
+                          FilterMode="Contains"
+                          FilterType="{Binding FilterType}"
+                          FilterValuePath="tab.ColumnName"
+                          IsEnabled="{Binding IsEnabled}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <DockPanel VerticalAlignment="Top">
+                <se:StswSubButton Command="{Binding RefreshCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:ControlsBase}}}"
+                                  Content="Filter: "
+                                  Padding="5"
+                                  VerticalAlignment="Top"/>
+                <StackPanel>
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value1, Converter={x:Static se:StswExistenceConverter.Instance}}">
+                        <Run Text="{Binding SqlParam1, Mode=OneWay}"/>
+                        <Run Text="="/>
+                        <Run Text="'"/>
+                        <Run Text="{Binding Value1, Mode=OneWay}"/>
+                        <Run Text="'"/>
+                    </se:StswText>
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value2, Converter={x:Static se:StswExistenceConverter.Instance}}">
+                        <Run Text="{Binding SqlParam2, Mode=OneWay}"/>
+                        <Run Text="="/>
+                        <Run Text="'"/>
+                        <Run Text="{Binding Value2, Mode=OneWay}"/>
+                        <Run Text="'"/>
+                    </se:StswText>
+                    <se:StswText Padding="5" Text="{Binding SqlString}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </DockPanel>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

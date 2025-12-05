@@ -1,0 +1,245 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:se="clr-namespace:StswExpress.Wpf">
+
+    <Style x:Key="StswCalendarStyle" TargetType="{x:Type se:StswCalendar}">
+        <Setter Property="Background" Value="{DynamicResource StswCalendar.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.Static.Border}"/>
+
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="3"/>
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswCalendar}">
+                    <!-- main -->
+                    <se:StswGroupBox x:Name="OPT_MainBorder"
+                                     Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerClipping="{TemplateBinding CornerClipping}"
+                                     CornerRadius="{TemplateBinding CornerRadius}"
+                                     Padding="0">
+                        <se:StswGroupBox.Header>
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch"/>
+                                <se:StswSubButton x:Name="PART_ButtonCurrentUnit" Grid.Column="2" HorizontalAlignment="Stretch" Content="{TemplateBinding SelectedMonthName}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch"/>
+                            </Grid>
+                        </se:StswGroupBox.Header>
+
+                        <Grid MinHeight="200" MinWidth="250"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <!-- items -->
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="6*"/>
+                                </Grid.RowDefinitions>
+                                <!-- days of week -->
+                                <UniformGrid x:Name="OPT_DayNames" Grid.Row="0" Columns="7">
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <se:StswText FontWeight="Heavy" Margin="2" Padding="{TemplateBinding Padding}" Text="{x:Static se:StswCalendar.DayOfWeek7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </UniformGrid>
+                                <!-- buttons for days or months -->
+                                <se:StswListBox x:Name="PART_Selector"
+                                                Background="Transparent"
+                                                DisplayMemberPath="Content"
+                                                ItemContainerStyle="{DynamicResource StswCalendarItemStyle}"
+                                                ItemsSource="{TemplateBinding Items}"
+                                                se:StswControl.IsBorderless="True"/>
+                            </Grid>
+                            <!-- today button -->
+                            <se:StswSeparator Grid.Row="1"/>
+                            <UniformGrid Grid.Row="2" Rows="1">
+                                <se:StswButton x:Name="PART_ButtonToday" se:StswControl.IsBorderless="True">
+                                    <se:StswLabel Content="{se:StswTranslate StswCalendar.Today}" IconData="{x:Static se:StswIcons.CalendarToday}" Padding="{TemplateBinding Padding}"/>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonClear" se:StswControl.IsBorderless="True">
+                                    <se:StswLabel Content="{se:StswTranslate StswCalendar.Clear}" IconData="{x:Static se:StswIcons.CalendarBlank}" Padding="{TemplateBinding Padding}"/>
+                                </se:StswButton>
+                            </UniformGrid>
+                        </Grid>
+                    </se:StswGroupBox>
+                    <!-- triggers -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="CurrentUnit" Value="Days">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousYear"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronLeft}" TargetName="PART_ButtonPreviousMonth"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronRight}" TargetName="PART_ButtonNextMonth"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextYear"/>
+                            <Setter Property="Grid.Row" Value="1" TargetName="PART_Selector"/>
+                            <Setter Property="ItemsPanel" TargetName="PART_Selector">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="7" Rows="6"/>
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="CurrentUnit" Value="Months">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleLeft}" TargetName="PART_ButtonPreviousYear"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleLeft}" TargetName="PART_ButtonPreviousMonth"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronDoubleRight}" TargetName="PART_ButtonNextMonth"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.ChevronTripleRight}" TargetName="PART_ButtonNextYear"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_Selector"/>
+                            <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_Selector"/>
+                            <Setter Property="ItemsPanel" TargetName="PART_Selector">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="4" Rows="3"/>
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_DayNames"/>
+                        </Trigger>
+                        <Trigger Property="SelectionUnit" Value="Months">
+                            <Setter Property="Focusable" Value="False" TargetName="PART_ButtonCurrentUnit"/>
+                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonCurrentUnit"/>
+                            <Setter Property="IsTabStop" Value="False" TargetName="PART_ButtonCurrentUnit"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StswCalendarItemStyle" TargetType="{x:Type se:StswListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4 2"/>
+
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswListBoxItem}">
+                    <!-- main -->
+                    <Border x:Name="OPT_Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <!-- triggers -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsSelected" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="Transparent" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="OPT_Border"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
+                        </MultiTrigger>
+
+                        <DataTrigger Binding="{Binding IsSpecialDay}" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
+                            <Setter Property="FontWeight" Value="Medium"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsInRange}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="OPT_Border"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRangeEdge}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="OPT_Border"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPreviewRange}" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="OPT_Border"/>
+                            <Setter Property="BorderThickness" Value="2" TargetName="OPT_Border"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSpecialDay}" Value="True"/>
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type se:StswCalendar}" BasedOn="{StaticResource StswCalendarStyle}"/>
+    <Style TargetType="{x:Type se:StswRangeCalendar}" BasedOn="{StaticResource StswCalendarStyle}"/>
+
+</ResourceDictionary>

@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests.Utils.MarkupExtensions;
+namespace StswExpress.Wpf.Tests.Utils.MarkupExtensions;
 public class StswNameOfExtensionTests
 {
     private class TestClass
@@ -14,7 +14,7 @@ public class StswNameOfExtensionTests
     [Fact]
     public void ProvideValue_ReturnsMember_WhenPropertyExists()
     {
-        var ext = new StswExpress.StswNameOfExtension("MyProperty")
+        var ext = new StswExpress.Wpf.StswNameOfExtension("MyProperty")
         {
             Type = typeof(TestClass)
         };
@@ -26,7 +26,7 @@ public class StswNameOfExtensionTests
     [Fact]
     public void ProvideValue_ReturnsMember_WhenFieldExists()
     {
-        var ext = new StswExpress.StswNameOfExtension("StaticField")
+        var ext = new StswExpress.Wpf.StswNameOfExtension("StaticField")
         {
             Type = typeof(TestClass)
         };
@@ -38,7 +38,7 @@ public class StswNameOfExtensionTests
     [Fact]
     public void ProvideValue_ThrowsArgumentException_WhenTypeIsNull()
     {
-        var ext = new StswExpress.StswNameOfExtension("MyProperty");
+        var ext = new StswExpress.Wpf.StswNameOfExtension("MyProperty");
         Assert.Throws<ArgumentException>(() => ext.ProvideValue(new DummyServiceProvider()));
     }
 
@@ -49,7 +49,7 @@ public class StswNameOfExtensionTests
     [InlineData("My.Property")]
     public void ProvideValue_ThrowsArgumentException_WhenMemberIsInvalid(string member)
     {
-        var ext = new StswExpress.StswNameOfExtension(member)
+        var ext = new StswExpress.Wpf.StswNameOfExtension(member)
         {
             Type = typeof(TestClass)
         };
@@ -59,7 +59,7 @@ public class StswNameOfExtensionTests
     [Fact]
     public void ProvideValue_ThrowsArgumentException_WhenMemberNotFound()
     {
-        var ext = new StswExpress.StswNameOfExtension("NonExistent")
+        var ext = new StswExpress.Wpf.StswNameOfExtension("NonExistent")
         {
             Type = typeof(TestClass)
         };
@@ -69,7 +69,7 @@ public class StswNameOfExtensionTests
     [Fact]
     public void ProvideValue_ThrowsArgumentNullException_WhenServiceProviderIsNull()
     {
-        var ext = new StswExpress.StswNameOfExtension("MyProperty")
+        var ext = new StswExpress.Wpf.StswNameOfExtension("MyProperty")
         {
             Type = typeof(TestClass)
         };

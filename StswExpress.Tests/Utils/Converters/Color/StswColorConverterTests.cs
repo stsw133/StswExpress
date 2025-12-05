@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Xunit;
 
-namespace StswExpress.Tests.Utils.Converters;
+namespace StswExpress.Wpf.Tests.Utils.Converters;
 public class StswColorConverterTests
 {
     private readonly StswColorConverter _converter = StswColorConverter.Instance;

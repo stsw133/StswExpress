@@ -1,4 +1,4 @@
-namespace StswExpress.Tests.Utils.Bindings;
+namespace StswExpress.Wpf.Tests.Utils.Bindings;
 public class StswBindingTriggerTests
 {
     [Fact]

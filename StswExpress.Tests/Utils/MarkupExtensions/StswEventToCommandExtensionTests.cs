@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress.Tests.Utils.MarkupExtensions;
+namespace StswExpress.Wpf.Tests.Utils.MarkupExtensions;
 public class StswEventToCommandExtensionTests
 {
     private class TestCommand : ICommand
@@ -207,7 +207,7 @@ public class StswEventToCommandExtensionTests
     public void EvaluateBinding_ReturnsDefault_WhenBindingBaseIsNull()
     {
         var control = new DummyControl();
-        var method = typeof(StswExpress.StswEventToCommandExtension)
+        var method = typeof(StswExpress.Wpf.StswEventToCommandExtension)
             .GetMethod("EvaluateBinding", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .MakeGenericMethod(typeof(object));
         var result = method.Invoke(null, [control, null]);
@@ -326,7 +326,7 @@ public class StswEventToCommandExtensionTests
     [StaFact]
     public void TempValueProperty_IsRegisteredAttachedProperty()
     {
-        var extType = typeof(StswExpress.StswEventToCommandExtension);
+        var extType = typeof(StswExpress.Wpf.StswEventToCommandExtension);
         var dpField = extType.GetField("TempValueProperty", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
         Assert.NotNull(dpField);
         var dp = dpField!.GetValue(null);

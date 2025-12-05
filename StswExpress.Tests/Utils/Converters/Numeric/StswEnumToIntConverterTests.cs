@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StswExpress.Tests.Utils.Converters;
+namespace StswExpress.Wpf.Tests.Utils.Converters;
 public class StswEnumToIntConverterTests
 {
     public enum TestEnum

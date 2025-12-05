@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace StswExpress.Tests.Utils;
+namespace StswExpress.Wpf.Tests.Utils;
 public class StswFnUITests
 {
     [Fact]

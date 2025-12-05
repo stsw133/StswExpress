@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswTimedSwitchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTimedSwitchContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            Represents a control that manages the display of different content for a specified duration when the timer is enabled.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- SwitchTime -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SwitchTime, Type={x:Type se:StswTimedSwitch}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding SwitchTime}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswTimedSwitch IsChecked="{Binding IsChecked}"
+                            IsEnabled="{Binding IsEnabled}"
+                            SwitchTime="{Binding SwitchTime}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswButton Command="{Binding EnableTimerCommand}">
+                <se:StswLabel Content="Save all changes" IconData="{x:Static se:StswIcons.ContentSaveAll}" IconFill="{DynamicResource StswColor.Modify}"/>
+            </se:StswButton>
+            <se:StswTimedSwitch.TimedContent>
+                <se:StswButton>
+                    <se:StswLabel Content="Saved 0 changes" IconData="{x:Static se:StswIcons.CheckAll}" IconFill="{DynamicResource StswColor.Modify}"/>
+                </se:StswButton>
+            </se:StswTimedSwitch.TimedContent>
+        </se:StswTimedSwitch>
+        <!-- status panel -->
+
+    </local:ControlsBase>
+</UserControl>

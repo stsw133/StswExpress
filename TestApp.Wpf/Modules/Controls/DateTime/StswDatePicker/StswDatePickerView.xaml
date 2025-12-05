@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswDatePickerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDatePickerContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            A control that allows users to select and display date.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Format -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
+            <!-- Icon -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Icon, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Icon}"/>
+            <!-- IncrementType -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IncrementType, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDateTimeIncrementType}" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswDatePicker Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
+            <!-- SelectionUnit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswCalendarUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
+            <!-- SubControls -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswDatePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswDatePicker Format="{Binding Format}"
+                           IncrementType="{Binding IncrementType}"
+                           IsEnabled="{Binding IsEnabled}"
+                           IsReadOnly="{Binding IsReadOnly}"
+                           Maximum="{Binding Maximum}"
+                           Minimum="{Binding Minimum}"
+                           Placeholder="Select date..."
+                           SelectedDate="{Binding SelectedDate}"
+                           SelectionUnit="{Binding SelectionUnit}"
+                           HorizontalAlignment="{Binding HorizontalAlignment}"
+                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                           VerticalAlignment="{Binding VerticalAlignment}"
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswDatePicker.Icon>
+                <se:StswIcon Data="{x:Static se:StswIcons.Account}" Margin="5 0 0 0" Visibility="{Binding Icon, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswDatePicker.Icon>
+            <se:StswDatePicker.SubControls>
+                <se:StswSubButton Command="{Binding RandomizeCommand}"
+                                  IconData="{x:Static se:StswIcons.DiceMultiple}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                <se:StswSubButton Command="{x:Static se:StswCommands.ClearText}"
+                                  IconData="{x:Static se:StswIcons.Close}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswDatePicker.SubControls>
+        </se:StswDatePicker>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

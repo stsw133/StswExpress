@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace StswExpress.Tests.Utils.Bindings;
+namespace StswExpress.Wpf.Tests.Utils.Bindings;
 public class StswBindingWatcherTests
 {
     private class TestFrameworkElement : FrameworkElement

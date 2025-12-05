@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswPathTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswPathTreeContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a custom file tree control that displays folders and files in a hierarchical structure.
+            This control allows for folder expansion and item selection with support for animations and custom paths.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Filter -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Filter, Type={x:Type se:StswPathPicker}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Filter}"/>
+            <!-- InitialPath -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf InitialPath, Type={x:Type se:StswPathTree}}"/>
+            <se:StswPathPicker Margin="0 0 0 3" SelectedPath="{Binding InitialPath}" SelectionUnit="OpenDirectory"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswListBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- ShowFiles -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowFiles, Type={x:Type se:StswPathTree}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowFiles}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswPathTree Filter="{Binding Filter}"
+                         InitialPath="{Binding InitialPath}"
+                         IsEnabled="{Binding IsEnabled}"
+                         IsReadOnly="{Binding IsReadOnly}"
+                         SelectedPath="{Binding SelectedPath}"
+                         ShowFiles="{Binding ShowFiles}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="Selected path: "/>
+                <Run Text="{Binding SelectedPath}" FontWeight="Bold"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswTabControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTabControlContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a tab control with extended functionality, including support for creating new tab items.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- AreTabsVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreTabsVisible, Type={x:Type se:StswTabControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreTabsVisible}"/>
+            <!-- CanReorder -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CanReorder, Type={x:Type se:StswTabControl}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CanReorder}"/>
+            <!-- NewItemButtonVisibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NewItemButtonVisibility, Type={x:Type se:StswTabControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding NewItemButtonVisibility}"/>
+            <!-- TabStripPlacement -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TabStripPlacement, Type={x:Type se:StswTabControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Dock}" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswTabControl AreTabsVisible="{Binding AreTabsVisible}"
+                           CanReorder="{Binding CanReorder}"
+                           Identifier="StswTabControlView"
+                           IsEnabled="{Binding IsEnabled}"
+                           ItemsSource="{Binding Items}"
+                           NewItemButtonVisibility="{Binding NewItemButtonVisibility}"
+                           TabStripPlacement="{Binding TabStripPlacement}"
+                           HorizontalAlignment="{Binding HorizontalAlignment}"
+                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                           VerticalAlignment="{Binding VerticalAlignment}"
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswTabControl.NewItemTemplate>
+                <DataTemplate>
+                    <se:StswTabItem IsClosable="True">
+                        <se:StswTabItem.Header>
+                            <se:StswLabel Content="New tab" IconData="{x:Static se:StswIcons.Plus}"/>
+                        </se:StswTabItem.Header>
+                        <se:StswText Text="New content"/>
+                    </se:StswTabItem>
+                </DataTemplate>
+            </se:StswTabControl.NewItemTemplate>
+        </se:StswTabControl>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

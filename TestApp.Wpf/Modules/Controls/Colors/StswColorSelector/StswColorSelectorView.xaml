@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswColorSelectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswColorSelectorContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a color selector control that provides a selection of standard and theme colors.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+
+        <!-- content -->
+        <se:StswColorSelector IsEnabled="{Binding IsEnabled}"
+                              SelectedColor="{Binding SelectedColor}"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

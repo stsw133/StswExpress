@@ -1,8 +1,0 @@
-﻿<ResourceDictionary x:Class="StswExpress.StswResources"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Themes/Brushes/Light.xaml"/>
-        <ResourceDictionary Source="Controls/StswControls.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-</ResourceDictionary>

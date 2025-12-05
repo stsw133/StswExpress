@@ -11,7 +11,7 @@ namespace StswExpress.Analyzers;
 [Generator]
 public class StswCommandGenerator : IIncrementalGenerator
 {
-    private const string AttributeFullName = "StswExpress.StswCommandAttribute";
+    private const string AttributeFullName = "StswExpress.Wpf.StswCommandAttribute";
 
     /// <summary>
     /// Initializes the generator by registering a syntax provider to collect declarations.

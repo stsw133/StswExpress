@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="TestApp.Wpf.ControlsBase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="750">
+    <UserControl.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Grid d:Background="White" se:StswGrid.ColumnDefinitions="200,5,*">
+                <!-- name and description -->
+                <se:StswScrollView Grid.Column="0" DynamicMode="Partial">
+                    <StackPanel Margin="5">
+                        <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                            <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                            <LineBreak/>
+                            <Run Text="{Binding Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                        </se:StswText>
+                        <StackPanel Margin="5">
+                            <se:StswText FontWeight="Medium" HorizontalAlignment="Center" Text="Properties:"/>
+                            <!-- HorizontalAlignment -->
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
+                            <se:StswSegment BorderThickness="2 2 2 0" ItemsSource="{Binding HorizontalAlignmentSource}" SelectedValue="{Binding HorizontalAlignment}">
+                                <se:StswSegment.ItemTemplate>
+                                    <DataTemplate>
+                                        <se:StswIcon Data="{Binding Display}"/>
+                                    </DataTemplate>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
+                            <se:StswSeparator BorderThickness="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
+                            <se:StswSegment BorderThickness="2 0 2 2" ItemsSource="{Binding HorizontalAlignmentSource}" SelectedValue="{Binding HorizontalContentAlignment}"
+                                            Visibility="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                <se:StswSegment.ItemTemplate>
+                                    <DataTemplate>
+                                        <se:StswIcon Data="{Binding Display}"/>
+                                    </DataTemplate>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
+                            <!-- VerticalAlignment -->
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
+                            <se:StswSegment BorderThickness="2 2 2 0" ItemsSource="{Binding VerticalAlignmentSource}" SelectedValue="{Binding VerticalAlignment}">
+                                <se:StswSegment.ItemTemplate>
+                                    <DataTemplate>
+                                        <se:StswIcon Data="{Binding Display}"/>
+                                    </DataTemplate>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
+                            <se:StswSeparator BorderThickness="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
+                            <se:StswSegment BorderThickness="2 0 2 2" ItemsSource="{Binding VerticalAlignmentSource}" SelectedValue="{Binding VerticalContentAlignment}"
+                                            Visibility="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                <se:StswSegment.ItemTemplate>
+                                    <DataTemplate>
+                                        <se:StswIcon Data="{Binding Display}"/>
+                                    </DataTemplate>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
+                            <!-- IsEnabled -->
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
+                            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEnabled}"/>
+                            <!-- other properties -->
+                            <ItemsControl Focusable="False" ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </se:StswScrollView>
+                <!-- splitter -->
+                <se:StswGridSplitter Grid.Column="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <!-- control -->
+                <se:StswScrollView Grid.Column="2">
+                    <Grid se:StswGrid.RowDefinitions="500,5,auto">
+                        <!-- content -->
+                        <ContentPresenter Grid.Row="0" Margin="5"/>
+                        <!-- splitter -->
+                        <se:StswGridSplitter Grid.Row="1" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <!-- status panel -->
+                        <ContentControl Grid.Row="2" Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Focusable="False" Margin="5"/>
+                    </Grid>
+                </se:StswScrollView>
+            </Grid>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

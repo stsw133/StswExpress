@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StswExpress.Tests.Utils.Commands;
+namespace StswExpress.Wpf.Tests.Utils.Commands;
 public class StswPausableCommandTests
 {
     [Fact]

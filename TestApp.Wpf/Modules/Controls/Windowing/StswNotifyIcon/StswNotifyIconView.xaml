@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswNotifyIconView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswNotifyIconContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            Represents a control for managing a system tray icon with customizable properties, including icons, tooltips, and notifications.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsAlwaysVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsAlwaysVisible, Type={x:Type se:StswNotifyIcon}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlwaysVisible}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <DockPanel>
+            <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                               IconPath="/Resources/icon.ico"
+                               Identifier="PrimaryNotifyIcon"
+                               IsAlwaysVisible="{Binding IsAlwaysVisible}"
+                               IsEnabled="{Binding IsEnabled}"
+                               Text="{x:Static se:StswFnUI.AppNameAndVersion}"
+                               Tip="{Binding Tip}">
+                <se:StswNotifyIcon.ContextMenu>
+                    <se:StswContextMenu>
+                        <se:StswMenuItem Command="{Binding ShowTipMinimizedCommand}" Header="Show random tip"/>
+                    </se:StswContextMenu>
+                </se:StswNotifyIcon.ContextMenu>
+            </se:StswNotifyIcon>
+            <se:StswButton Command="{Binding ShowTipStaticCommand}" Content="Show random static tip"/>
+        </DockPanel>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

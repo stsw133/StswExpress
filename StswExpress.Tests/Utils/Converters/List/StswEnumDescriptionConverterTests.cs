@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StswExpress.Tests.Utils.Converters;
+namespace StswExpress.Wpf.Tests.Utils.Converters;
 public class StswEnumDescriptionConverterTests
 {
     private readonly StswEnumDescriptionConverter _converter = StswEnumDescriptionConverter.Instance;

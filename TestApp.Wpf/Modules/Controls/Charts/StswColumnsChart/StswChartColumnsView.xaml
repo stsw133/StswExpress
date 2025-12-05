@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswColumnChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswColumnChartContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control being a column chart.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        
+        <!-- content -->
+        <se:StswColumnChart IsEnabled="{Binding IsEnabled}"
+                            ItemsSource="{Binding Items}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

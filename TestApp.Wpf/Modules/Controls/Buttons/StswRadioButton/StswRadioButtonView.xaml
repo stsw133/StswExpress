@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswRadioButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswRadioButtonContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that allows the user to select a single option from a group of mutually exclusive options.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- AllowUncheck -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AllowUncheck, Type={x:Type se:StswRadioButton}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AllowUncheck}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <UniformGrid DockPanel.Dock="Top" Columns="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}">
+                <se:StswLabel IconData="{x:Static se:StswIcons.Dice1}" Content="Option 1"/>
+            </se:StswRadioButton>
+            <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}">
+                <se:StswLabel IconData="{x:Static se:StswIcons.Dice2}" Content="Option 2"/>
+            </se:StswRadioButton>
+            <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}">
+                <se:StswLabel IconData="{x:Static se:StswIcons.Dice3}" Content="Option 3"/>
+            </se:StswRadioButton>
+            <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="4" IsChecked="{Binding SelectedOption[3]}">
+                <se:StswLabel IconData="{x:Static se:StswIcons.Dice4}" Content="Option 4"/>
+            </se:StswRadioButton>
+            <se:StswRadioButton Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}">
+                <se:StswLabel IconData="{x:Static se:StswIcons.Dice5}" Content="Option 5"/>
+            </se:StswRadioButton>
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type se:StswRadioButton}">
+                    <Setter Property="AllowUncheck" Value="{Binding AllowUncheck}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <Setter Property="Margin" Value="0 0 0 5"/>
+                    <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>
+                    <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment}"/>
+                </Style>
+            </UniformGrid.Resources>
+        </UniformGrid>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="You selected option "/>
+                <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

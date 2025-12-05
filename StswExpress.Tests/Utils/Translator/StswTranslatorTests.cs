@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace StswExpress.Tests.Utils.Translator;
+namespace StswExpress.Wpf.Tests.Utils.Translator;
 public class StswTranslatorTests
 {
     [Fact]

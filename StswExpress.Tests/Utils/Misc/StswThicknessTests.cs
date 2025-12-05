@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 
-namespace StswExpress.Tests.Utils.Misc;
+namespace StswExpress.Wpf.Tests.Utils.Misc;
 public class StswThicknessTests
 {
     [Fact]

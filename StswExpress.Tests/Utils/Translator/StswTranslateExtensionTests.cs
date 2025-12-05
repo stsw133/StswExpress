@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Data;
 
-namespace StswExpress.Tests.Utils.Translator;
+namespace StswExpress.Wpf.Tests.Utils.Translator;
 public class StswTranslateExtensionTests
 {
     private class MockTranslator : INotifyPropertyChanged
@@ -39,7 +39,7 @@ public class StswTranslateExtensionTests
     [Fact]
     public void Constructor_SetsKey()
     {
-        var ext = new StswExpress.StswTranslateExtension("TestKey");
+        var ext = new StswExpress.Wpf.StswTranslateExtension("TestKey");
         Assert.Equal("TestKey", ext.Key);
     }
 
@@ -47,7 +47,7 @@ public class StswTranslateExtensionTests
     public void TranslatedText_ReturnsExpectedFormat()
     {
         // Arrange
-        var ext = new StswExpress.StswTranslateExtension("Hello")
+        var ext = new StswExpress.Wpf.StswTranslateExtension("Hello")
         {
             DefaultValue = "Default",
             Prefix = "[",
@@ -63,7 +63,7 @@ public class StswTranslateExtensionTests
     [Fact]
     public void ProvideValue_DesignMode_ReturnsKeyWithPrefixSuffix()
     {
-        var ext = new StswExpress.StswTranslateExtension("DesignKey")
+        var ext = new StswExpress.Wpf.StswTranslateExtension("DesignKey")
         {
             Prefix = "<",
             Suffix = ">"
@@ -78,7 +78,7 @@ public class StswTranslateExtensionTests
     [Fact]
     public void ProvideValue_ReturnsBinding()
     {
-        var ext = new StswExpress.StswTranslateExtension("BindKey");
+        var ext = new StswExpress.Wpf.StswTranslateExtension("BindKey");
         var value = ext.ProvideValue(new object() as IServiceProvider);
         Assert.IsType<string>(ext.TranslatedText);
         Assert.True(value is BindingExpressionBase || value is string);
@@ -87,7 +87,7 @@ public class StswTranslateExtensionTests
     [Fact]
     public void TranslationManager_PropertyChanged_UpdatesTranslatedText()
     {
-        var ext = new StswExpress.StswTranslateExtension("LangKey");
+        var ext = new StswExpress.Wpf.StswTranslateExtension("LangKey");
         bool propertyChangedRaised = false;
         ext.PropertyChanged += (s, e) =>
         {
@@ -96,10 +96,10 @@ public class StswTranslateExtensionTests
         };
 
         // Simulate language change
-        var propertyChangedEvent = typeof(StswExpress.StswTranslator).GetEvent("PropertyChanged");
+        var propertyChangedEvent = typeof(StswExpress.Wpf.StswTranslator).GetEvent("PropertyChanged");
         if (propertyChangedEvent != null)
         {
-            var eventDelegate = (MulticastDelegate?)typeof(StswExpress.StswTranslator)
+            var eventDelegate = (MulticastDelegate?)typeof(StswExpress.Wpf.StswTranslator)
                 .GetField("PropertyChanged", BindingFlags.Static | BindingFlags.NonPublic)?
                 .GetValue(null);
 
@@ -107,13 +107,13 @@ public class StswTranslateExtensionTests
             {
                 foreach (var handler in eventDelegate.GetInvocationList())
                 {
-                    handler.Method.Invoke(handler.Target, new object[] { null, new PropertyChangedEventArgs(nameof(StswExpress.StswTranslator.CurrentLanguage)) });
+                    handler.Method.Invoke(handler.Target, new object[] { null, new PropertyChangedEventArgs(nameof(StswExpress.Wpf.StswTranslator.CurrentLanguage)) });
                 }
             }
         }
 
         ext.GetType().GetMethod("TranslationManager_PropertyChanged", BindingFlags.NonPublic | BindingFlags.Instance)
-            ?.Invoke(ext, new object[] { null, new PropertyChangedEventArgs(nameof(StswExpress.StswTranslator.CurrentLanguage)) });
+            ?.Invoke(ext, new object[] { null, new PropertyChangedEventArgs(nameof(StswExpress.Wpf.StswTranslator.CurrentLanguage)) });
 
         Assert.True(propertyChangedRaised);
     }

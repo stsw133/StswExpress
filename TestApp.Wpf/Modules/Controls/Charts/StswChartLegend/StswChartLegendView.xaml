@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswChartLegendView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswChartLegendContext}">
+    
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control designed for displaying chart's legend.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Columns -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Columns, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding Columns}"/>
+            <!-- Rows -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Rows, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswDecimalBox Format="N0" Margin="0 0 0 3" Value="{Binding Rows}"/>
+            <!-- ShowDetails -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowDetails, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswChartLegend Columns="{Binding Columns}"
+                            Header="Some random elements:"
+                            IsEnabled="{Binding IsEnabled}"
+                            ItemsSource="{Binding Items}"
+                            Rows="{Binding Rows}"
+                            ShowDetails="{Binding ShowDetails}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

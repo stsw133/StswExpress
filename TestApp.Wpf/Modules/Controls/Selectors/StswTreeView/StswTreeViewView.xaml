@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswTreeViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTreeViewContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that displays a collection of items in a hierarchical list.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswTreeView}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswTreeView IsEnabled="{Binding IsEnabled}"
+                         IsReadOnly="{Binding IsReadOnly}"
+                         ItemsSource="{Binding Items}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswTreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:StswTreeViewTestModel}" ItemsSource="{Binding SubItems}">
+                    <se:StswText Text="{Binding Name}" VerticalAlignment="Center"/>
+                </HierarchicalDataTemplate>
+            </se:StswTreeView.Resources>
+            <se:StswTreeView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </se:StswTreeView.ItemsPanel>
+        </se:StswTreeView>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="{Binding SelectedItem, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" is selected"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

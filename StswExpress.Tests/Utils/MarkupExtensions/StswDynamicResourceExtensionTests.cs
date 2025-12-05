@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests.Utils.MarkupExtensions;
+namespace StswExpress.Wpf.Tests.Utils.MarkupExtensions;
 public class StswDynamicResourceExtensionTests
 {
     [Fact]

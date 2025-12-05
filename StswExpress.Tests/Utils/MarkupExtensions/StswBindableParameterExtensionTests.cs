@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Tests.Utils.MarkupExtensions;
+namespace StswExpress.Wpf.Tests.Utils.MarkupExtensions;
 public class StswBindableParameterExtensionTests
 {
     private class DummyConverter : IValueConverter
@@ -25,7 +25,7 @@ public class StswBindableParameterExtensionTests
     [Fact]
     public void Constructor_Default_SetsPropertiesToNull()
     {
-        var ext = new StswExpress.StswBindableParameterExtension();
+        var ext = new StswExpress.Wpf.StswBindableParameterExtension();
         Assert.Null(ext.Binding);
         Assert.Null(ext.Converter);
         Assert.Null(ext.ConverterParameter);
@@ -35,7 +35,7 @@ public class StswBindableParameterExtensionTests
     [Fact]
     public void Constructor_Path_SetsBindingPath()
     {
-        var ext = new StswExpress.StswBindableParameterExtension("TestPath");
+        var ext = new StswExpress.Wpf.StswBindableParameterExtension("TestPath");
         Assert.NotNull(ext.Binding);
         Assert.Equal("TestPath", ext.Binding.Path.Path);
     }
@@ -44,14 +44,14 @@ public class StswBindableParameterExtensionTests
     public void Constructor_Binding_SetsBinding()
     {
         var binding = new Binding("SomePath");
-        var ext = new StswExpress.StswBindableParameterExtension(binding);
+        var ext = new StswExpress.Wpf.StswBindableParameterExtension(binding);
         Assert.Equal(binding, ext.Binding);
     }
 
     [Fact]
     public void ProvideValue_SingleBinding_ReturnsMultiBindingWithSingleValue()
     {
-        var ext = new StswExpress.StswBindableParameterExtension("Value");
+        var ext = new StswExpress.Wpf.StswBindableParameterExtension("Value");
         var provider = new DummyServiceProvider();
         var value = ext.ProvideValue(provider);
         Assert.IsType<BindingExpressionBase>(value);
@@ -61,7 +61,7 @@ public class StswBindableParameterExtensionTests
     public void ProvideValue_WithConverterParameter_UsesParameterInConverter()
     {
         var converter = new DummyConverter();
-        var ext = new StswExpress.StswBindableParameterExtension("MainValue")
+        var ext = new StswExpress.Wpf.StswBindableParameterExtension("MainValue")
         {
             Converter = converter,
             ConverterParameter = new Binding("ParamValue")
@@ -75,7 +75,7 @@ public class StswBindableParameterExtensionTests
     public void MultiValueConverterAdapter_Convert_ReturnsConvertedValue()
     {
         var converter = new DummyConverter();
-        var adapterType = typeof(StswExpress.StswBindableParameterExtension)
+        var adapterType = typeof(StswExpress.Wpf.StswBindableParameterExtension)
             .GetNestedType("MultiValueConverterAdapter", System.Reflection.BindingFlags.NonPublic);
         var adapter = Activator.CreateInstance(adapterType!);
         adapterType!.GetProperty("Converter")!.SetValue(adapter, converter);
@@ -93,7 +93,7 @@ public class StswBindableParameterExtensionTests
     public void MultiValueConverterAdapter_ConvertBack_ReturnsConvertedBackValue()
     {
         var converter = new DummyConverter();
-        var adapterType = typeof(StswExpress.StswBindableParameterExtension)
+        var adapterType = typeof(StswExpress.Wpf.StswBindableParameterExtension)
             .GetNestedType("MultiValueConverterAdapter", System.Reflection.BindingFlags.NonPublic);
         var adapter = Activator.CreateInstance(adapterType!);
         adapterType!.GetProperty("Converter")!.SetValue(adapter, converter);

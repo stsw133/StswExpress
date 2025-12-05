@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswDataGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDataGridContext}">
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- ScrollToItemBehavior -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollToItemBehavior, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollToItemBehavior}" Margin="0 0 0 3" SelectedValue="{Binding ScrollToItemBehavior}"/>
+            <!-- SelectionUnit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionUnit, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList DataGridSelectionUnit}" Margin="0 0 0 3" SelectedValue="{Binding SelectionUnit}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswDataGrid FrozenColumnCount="1"
+                         IsEnabled="{Binding IsEnabled}"
+                         IsReadOnly="{Binding IsReadOnly}"
+                         ItemsSource="{Binding Items}"
+                         ScrollToItemBehavior="{Binding ScrollToItemBehavior}"
+                         SelectionUnit="{Binding SelectionUnit}"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                         se:StswScrollView.Command="{Binding OnScrollBottomCommand}"
+                         se:StswScrollView.IsBusy="{Binding IsBusy}">
+            <se:StswDataGrid.Columns>
+                <se:StswDataGridStatusColumn/>
+                <!-- ID -->
+                <se:StswDataGridDecimalColumn Binding="{Binding Id}" Width="100">
+                    <se:StswDataGridDecimalColumn.Header>
+                        <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="Id"/>
+                    </se:StswDataGridDecimalColumn.Header>
+                </se:StswDataGridDecimalColumn>
+                <!-- Name -->
+                <se:StswDataGridTextColumn Binding="{Binding Name}" TextAlignment="Justify" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Width="200">
+                    <se:StswDataGridTextColumn.Header>
+                        <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
+                    </se:StswDataGridTextColumn.Header>
+                </se:StswDataGridTextColumn>
+            </se:StswDataGrid.Columns>
+            
+            <se:StswDataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <se:StswText Margin="3" Text="There are some row details..."/>
+                </DataTemplate>
+            </se:StswDataGrid.RowDetailsTemplate>
+
+            <se:StswDataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource StswDataGridCellStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%14}" Value="0">
+                            <Setter Property="Background" Value="#32E2"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </se:StswDataGrid.CellStyle>
+
+            <se:StswDataGrid.RowStyle>
+                <Style TargetType="{x:Type se:StswDataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Id, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=%15}" Value="0">
+                            <Setter Property="Background" Value="#3E22"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </se:StswDataGrid.RowStyle>
+        </se:StswDataGrid>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" total rows, "/>
+                <Run Text="{Binding Items.CountUnchanged, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" unchanged rows, "/>
+                <Run Text="{Binding Items.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                <Run Text=" added rows, "/>
+                <Run Text="{Binding Items.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                <Run Text=" modified rows, "/>
+                <Run Text="{Binding Items.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                <Run Text=" deleted rows"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>
