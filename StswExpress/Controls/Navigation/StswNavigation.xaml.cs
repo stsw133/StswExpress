@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -18,8 +17,8 @@ namespace StswExpress;
 /// The following example demonstrates how to use the class:
 /// <code>
 /// &lt;se:StswNavigation TabStripMode="Full"&gt;
-///     &lt;se:StswNavigationElement Header="Dashboard"/&gt;
-///     &lt;se:StswNavigationElement Header="Settings"/&gt;
+///     &lt;se:StswNavigationItem Header="Dashboard"/&gt;
+///     &lt;se:StswNavigationItem Header="Settings"/&gt;
 /// &lt;/se:StswNavigation&gt;
 /// </code>
 /// </example>
@@ -27,14 +26,14 @@ public class StswNavigation : TreeView, IStswCornerControl
 {
     private static readonly HashSet<WeakReference<StswNavigation>> _loadedInstances = [];
     private ToggleButton? _tabStripModeButton;
-    internal StswNavigationElement? CompactedExpander;
+    internal StswNavigationItem? CompactedExpander;
 
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
         SetValue(ContextsProperty, new StswObservableDictionary<string, object?>());
-        SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationElement>());
-        SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationElement>());
+        SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationItem>());
+        SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationItem>());
 
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -44,8 +43,8 @@ public class StswNavigation : TreeView, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationElement();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationElement;
+    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationItem;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -163,8 +162,8 @@ public class StswNavigation : TreeView, IStswCornerControl
 
         var value = context switch
         {
-            Type type => Activator.CreateInstance(type),
-            string name => Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name)?.Unwrap(),
+            Type type => StswDependencyInjectionHelper.Resolve(type),
+            string name => StswDependencyInjectionHelper.Resolve(name),
             _ => context
         };
 
@@ -292,15 +291,15 @@ public class StswNavigation : TreeView, IStswCornerControl
     /// Gets or sets the collection of navigation elements when the control is in compact mode.
     /// Items are displayed in a more condensed form.
     /// </summary>
-    public ObservableCollection<StswNavigationElement> ItemsCompact
+    public ObservableCollection<StswNavigationItem> ItemsCompact
     {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsCompactProperty);
+        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsCompactProperty);
         internal set => SetValue(ItemsCompactProperty, value);
     }
     public static readonly DependencyProperty ItemsCompactProperty
         = DependencyProperty.Register(
             nameof(ItemsCompact),
-            typeof(ObservableCollection<StswNavigationElement>),
+            typeof(ObservableCollection<StswNavigationItem>),
             typeof(StswNavigation)
         );
 
@@ -308,15 +307,15 @@ public class StswNavigation : TreeView, IStswCornerControl
     /// Gets or sets the collection of pinned navigation elements.
     /// Pinned items remain accessible regardless of mode changes.
     /// </summary>
-    public ObservableCollection<StswNavigationElement> ItemsPinned
+    public ObservableCollection<StswNavigationItem> ItemsPinned
     {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsPinnedProperty);
+        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsPinnedProperty);
         set => SetValue(ItemsPinnedProperty, value);
     }
     public static readonly DependencyProperty ItemsPinnedProperty
         = DependencyProperty.Register(
             nameof(ItemsPinned),
-            typeof(ObservableCollection<StswNavigationElement>),
+            typeof(ObservableCollection<StswNavigationItem>),
             typeof(StswNavigation)
         );
 
@@ -324,17 +323,17 @@ public class StswNavigation : TreeView, IStswCornerControl
     /// Gets or sets the last selected independent item.
     /// Ensures that only one item remains selected at a time.
     /// </summary>
-    internal StswNavigationElement LastSelectedItem
+    internal StswNavigationItem LastSelectedItem
     {
-        get => (StswNavigationElement)GetValue(LastSelectedItemProperty);
+        get => (StswNavigationItem)GetValue(LastSelectedItemProperty);
         set => SetValue(LastSelectedItemProperty, value);
     }
     public static readonly DependencyProperty LastSelectedItemProperty
         = DependencyProperty.Register(
             nameof(LastSelectedItem),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(StswNavigationItem),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnLastSelectedItemChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -343,8 +342,8 @@ public class StswNavigation : TreeView, IStswCornerControl
         if (d is not StswNavigation stsw)
             return;
 
-        var oldItem = e.OldValue as StswNavigationElement;
-        var newItem = e.NewValue as StswNavigationElement;
+        var oldItem = e.OldValue as StswNavigationItem;
+        var newItem = e.NewValue as StswNavigationItem;
 
         if (oldItem == newItem)
             return;
@@ -392,13 +391,13 @@ public class StswNavigation : TreeView, IStswCornerControl
             if (stsw.TabStripMode == StswCompactibility.Full)
             {
                 stsw.CompactedExpander.Items.Clear();
-                foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
+                foreach (StswNavigationItem item in stsw.ItemsCompact.TryClone())
                     stsw.CompactedExpander.Items.Add(item);
             }
             else if (stsw.TabStripMode == StswCompactibility.Compact)
             {
                 stsw.ItemsCompact.Clear();
-                foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
+                foreach (StswNavigationItem item in stsw.CompactedExpander.Items.TryClone())
                     stsw.ItemsCompact.Add(item);
             }
         }

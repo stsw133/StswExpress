@@ -208,24 +208,24 @@
 
     <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="#1e1616"/>
     <SolidColorBrush x:Key="StswNavigation.Static.Border" Color="#615151"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Static.Background" Color="#3d281e"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Static.Border" Color="#3c2114"/>
-    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Background" Color="#3b2a1b"/>
-    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Border" Color="#3a2311"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Background" Color="#4a3e28"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Border" Color="#49372e"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Background" Color="#363636"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Border" Color="#424242"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#666"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Background" Color="#965d48"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Border" Color="#615151"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Background" Color="#944d31"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Border" Color="#615151"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Background" Color="#933c19"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Border" Color="#615151"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Background" Color="#9b8886"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Border" Color="#9d9893"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Foreground" Color="#999"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Static.Background" Color="#3d281e"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Static.Border" Color="#3c2114"/>
+    <SolidColorBrush x:Key="StswNavigationItem.MouseOver.Background" Color="#3b2a1b"/>
+    <SolidColorBrush x:Key="StswNavigationItem.MouseOver.Border" Color="#3a2311"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Pressed.Background" Color="#4a3e28"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Pressed.Border" Color="#49372e"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Background" Color="#363636"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Border" Color="#424242"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Static.Background" Color="#965d48"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Static.Border" Color="#615151"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.MouseOver.Background" Color="#944d31"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.MouseOver.Border" Color="#615151"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Pressed.Background" Color="#933c19"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Pressed.Border" Color="#615151"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Background" Color="#9b8886"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Border" Color="#9d9893"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Foreground" Color="#999"/>
 
     <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#2d261d"/>
     <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#615151"/>

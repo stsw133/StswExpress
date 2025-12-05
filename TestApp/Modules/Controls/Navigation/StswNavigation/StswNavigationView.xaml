@@ -25,30 +25,30 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswNavigationElement Header="Page 1" IconData="{x:Static se:StswIcons.Dice1}">
-                <se:StswNavigationElement Header="Page 1a" IconData="{x:Static se:StswIcons.AlphaABox}" ContextNamespace="{x:Type local:StswButtonContext}"/>
-                <se:StswNavigationElement Header="Page 1b" IconData="{x:Static se:StswIcons.AlphaBBox}" ContextNamespace="{x:Type local:StswDropButtonContext}"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" ContextNamespace="{x:Type local:StswColorBoxContext}" IsSelected="True"/>
-            <se:StswNavigationElement Header="Page 3" IconData="{x:Static se:StswIcons.Dice3}" ContextNamespace="{x:Type local:StswDatePickerContext}"/>
-            <se:StswNavigationElement Header="Page 4" IconData="{x:Static se:StswIcons.Dice4}" ContextNamespace="{x:Type local:StswDecimalBoxContext}"/>
-            <se:StswNavigationElement Header="Page 5" IconData="{x:Static se:StswIcons.Dice5}">
-                <se:StswNavigationElement Header="Page 5a" IconData="{x:Static se:StswIcons.AlphaABox}" ContextNamespace="{x:Type local:StswInfoBadgeContext}"/>
-                <se:StswNavigationElement Header="Page 5b" IconData="{x:Static se:StswIcons.AlphaBBox}" ContextNamespace="{x:Type local:StswInfoPanelContext}"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Header="Page 6" IconData="{x:Static se:StswIcons.Dice6}">
-                <se:StswNavigationElement Header="Page 6a" IconData="{x:Static se:StswIcons.AlphaABox}">
-                    <se:StswNavigationElement Header="Page 6a1" IconData="{x:Static se:StswIcons.Numeric1Box}" ContextNamespace="{x:Type local:StswBorderContext}"/>
-                    <se:StswNavigationElement Header="Page 6a2" IconData="{x:Static se:StswIcons.Numeric2Box}" ContextNamespace="{x:Type local:StswZoomControlContext}"/>
-                </se:StswNavigationElement>
-                <se:StswNavigationElement Header="Page 6b" IconData="{x:Static se:StswIcons.AlphaBBox}" ContextNamespace="{x:Type local:ChangelogContext}">
-                    <se:StswNavigationElement Header="Page 6b1" IconData="{x:Static se:StswIcons.Numeric1Box}" ContextNamespace="{x:Type local:StswOutlinedTextContext}"/>
-                    <se:StswNavigationElement Header="Page 6b2" IconData="{x:Static se:StswIcons.Numeric2Box}" ContextNamespace="{x:Type local:StswTextContext}"/>
-                </se:StswNavigationElement>
-            </se:StswNavigationElement>
+            <se:StswNavigationItem Header="Page 1" IconData="{x:Static se:StswIcons.Dice1}">
+                <se:StswNavigationItem Header="Page 1a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswButtonContext}"/>
+                <se:StswNavigationItem Header="Page 1b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswDropButtonContext}"/>
+            </se:StswNavigationItem>
+            <se:StswNavigationItem Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" TargetType="{x:Type local:StswColorBoxContext}" IsSelected="True"/>
+            <se:StswNavigationItem Header="Page 3" IconData="{x:Static se:StswIcons.Dice3}" TargetType="{x:Type local:StswDatePickerContext}"/>
+            <se:StswNavigationItem Header="Page 4" IconData="{x:Static se:StswIcons.Dice4}" TargetType="{x:Type local:StswDecimalBoxContext}"/>
+            <se:StswNavigationItem Header="Page 5" IconData="{x:Static se:StswIcons.Dice5}">
+                <se:StswNavigationItem Header="Page 5a" IconData="{x:Static se:StswIcons.AlphaABox}" TargetType="{x:Type local:StswInfoBadgeContext}"/>
+                <se:StswNavigationItem Header="Page 5b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:StswInfoPanelContext}"/>
+            </se:StswNavigationItem>
+            <se:StswNavigationItem Header="Page 6" IconData="{x:Static se:StswIcons.Dice6}">
+                <se:StswNavigationItem Header="Page 6a" IconData="{x:Static se:StswIcons.AlphaABox}">
+                    <se:StswNavigationItem Header="Page 6a1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswBorderContext}"/>
+                    <se:StswNavigationItem Header="Page 6a2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswZoomControlContext}"/>
+                </se:StswNavigationItem>
+                <se:StswNavigationItem Header="Page 6b" IconData="{x:Static se:StswIcons.AlphaBBox}" TargetType="{x:Type local:ChangelogContext}">
+                    <se:StswNavigationItem Header="Page 6b1" IconData="{x:Static se:StswIcons.Numeric1Box}" TargetType="{x:Type local:StswOutlinedTextContext}"/>
+                    <se:StswNavigationItem Header="Page 6b2" IconData="{x:Static se:StswIcons.Numeric2Box}" TargetType="{x:Type local:StswTextContext}"/>
+                </se:StswNavigationItem>
+            </se:StswNavigationItem>
 
             <se:StswNavigation.ItemsPinned>
-                <se:StswNavigationElement Header="Page 7" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="{x:Type local:HomeContext}"/>
+                <se:StswNavigationItem Header="Page 7" IconData="{x:Static se:StswIcons.Home}" TargetType="{x:Type local:HomeContext}"/>
             </se:StswNavigation.ItemsPinned>
         </se:StswNavigation>
         <!-- status panel -->

@@ -211,24 +211,24 @@
     
     <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B90% S50%'}"/>
     <SolidColorBrush x:Key="StswNavigation.Static.Border" Color="#BBB"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B80% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B76% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B72% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B68% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B64% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B60% S50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Background" Color="#EEE"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Border" Color="#DDD"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#999"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B50%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B40%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.MouseOver.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B30%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Pressed.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B75%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B85%'}"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Checked.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B80% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B76% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.MouseOver.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B72% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.MouseOver.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B68% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Pressed.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B64% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Pressed.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B60% S50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Border" Color="#DDD"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Disabled.Foreground" Color="#999"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B50%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.MouseOver.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B40%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.MouseOver.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Pressed.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B30%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Pressed.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B65%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B75%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorConverter.Instance}, ConverterParameter='B85%'}"/>
+    <SolidColorBrush x:Key="StswNavigationItem.Checked.Disabled.Foreground" Color="#666"/>
 
     <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#BBB"/>

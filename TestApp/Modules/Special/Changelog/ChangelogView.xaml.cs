@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace TestApp;
 /// <summary>
@@ -11,7 +9,7 @@ public partial class ChangelogView : UserControl
     public ChangelogView()
     {
         InitializeComponent();
-
+        /*
         webView2.Source = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "changelog.html"));
         webView2.NavigationCompleted += async (sender, args) =>
         {
@@ -30,5 +28,6 @@ public partial class ChangelogView : UserControl
                     }
                 })();");
         };
+        */
     }
 }

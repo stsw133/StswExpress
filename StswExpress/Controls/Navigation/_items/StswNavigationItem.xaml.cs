@@ -19,20 +19,20 @@ namespace StswExpress;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswNavigationElement Header="Reports" IconData="{StaticResource UserIcon}" ContextNamespace="App.Views.ReportsView"/&gt;
+/// &lt;se:StswNavigationItem Header="Reports" IconData="{StaticResource UserIcon}" TargetType="App.Views.ReportsView"/&gt;
 /// </code>
 /// </example>
-public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIconControl
+public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconControl
 {
     private StswNavigation? _stswNavigation;
 
-    static StswNavigationElement()
+    static StswNavigationItem()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationItem), new FrameworkPropertyMetadata(typeof(StswNavigationItem)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationElement();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationElement;
+    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationItem();
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationItem;
 
     #region Events & methods
     /// <inheritdoc/>
@@ -75,7 +75,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
     /// Scrolls the expanded items of the navigation element into view within the parent scroll viewer.
     /// </summary>
     /// <param name="stsw">The navigation element whose expanded items should be scrolled into view.</param>
-    private static void ScrollExpandedItemsIntoView(StswNavigationElement stsw)
+    private static void ScrollExpandedItemsIntoView(StswNavigationItem stsw)
     {
         if (stsw._stswNavigation == null)
             return;
@@ -126,22 +126,6 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the namespace of the context associated with this navigation element.
-    /// This defines the view or logical context to be loaded when the element is selected.
-    /// </summary>
-    public object ContextNamespace
-    {
-        get => (object)GetValue(ContextNamespaceProperty);
-        set => SetValue(ContextNamespaceProperty, value);
-    }
-    public static readonly DependencyProperty ContextNamespaceProperty
-        = DependencyProperty.Register(
-            nameof(ContextNamespace),
-            typeof(object),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
     /// Gets or sets a value indicating whether to create a new instance of the context object when the element is checked.
     /// If set to <see langword="true"/>, a fresh instance of the context is created each time the navigation element is selected.
     /// </summary>
@@ -154,7 +138,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(CreateNewInstance),
             typeof(bool),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <inheritdoc/>
@@ -167,7 +151,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <inheritdoc/>
@@ -180,7 +164,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <summary>
@@ -196,7 +180,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <summary>
@@ -212,7 +196,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <summary>
@@ -228,7 +212,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IsInCompactPanel),
             typeof(bool),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationItem)
         );
 
     /// <summary>
@@ -244,14 +228,14 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IsChecked),
             typeof(bool),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsCheckedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNavigationElement stsw)
+        if (d is not StswNavigationItem stsw)
             return;
 
         if (stsw._stswNavigation != null)
@@ -263,7 +247,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
                 if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
                 {
                     stsw._stswNavigation.CompactedExpander.Items.Clear();
-                    foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.TryClone())
+                    foreach (StswNavigationItem item in stsw._stswNavigation.ItemsCompact.TryClone())
                     {
                         item.IsInCompactPanel = false;
                         stsw._stswNavigation.CompactedExpander.Items.Add(item);
@@ -277,7 +261,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
                 {
                     /// load new items to compact panel
                     stsw._stswNavigation.CompactedExpander = stsw;
-                    stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationElement>()];
+                    stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationItem>()];
                     foreach (var item in stsw._stswNavigation.ItemsCompact)
                         item.IsInCompactPanel = true;
                 }
@@ -301,10 +285,10 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
                     stsw._stswNavigation.ItemsCompact.Clear();
 
                 /// load context for content presenter
-                if (stsw.ContextNamespace != null)
+                if (stsw.TargetType != null)
                 {
                     stsw.IsBusy = true;
-                    stsw._stswNavigation.SetContent(stsw.ContextNamespace, stsw.CreateNewInstance);
+                    stsw._stswNavigation.SetContent(stsw.TargetType, stsw.CreateNewInstance);
                     stsw.IsBusy = false;
                 }
             }
@@ -330,19 +314,34 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(TabStripMode),
             typeof(StswCompactibility),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(StswCompactibility),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnTabStripModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNavigationElement stsw)
+        if (d is not StswNavigationItem stsw)
             return;
 
         if (stsw.HasItems && stsw.TabStripMode == StswCompactibility.Compact)
             stsw.IsChecked = false;
     }
+
+    /// <summary>
+    /// Gets or sets the type of the target context to be loaded when the navigation element is selected.
+    /// </summary>
+    public Type TargetType
+    {
+        get => (Type)GetValue(TargetTypeProperty);
+        set => SetValue(TargetTypeProperty, value);
+    }
+    public static readonly DependencyProperty TargetTypeProperty
+        = DependencyProperty.Register(
+            nameof(TargetType),
+            typeof(Type),
+            typeof(StswNavigationItem)
+        );
     #endregion
 
     #region Style properties
@@ -356,7 +355,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -370,7 +369,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -384,7 +383,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -398,7 +397,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -412,7 +411,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(IconStrokeThickness),
             typeof(double),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -429,14 +428,14 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(ItemsIndentation),
             typeof(double),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(double),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsIndentationChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnItemsIndentationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNavigationElement stsw)
+        if (d is not StswNavigationItem stsw)
             return;
 
         var padding = stsw.Padding;
@@ -444,8 +443,8 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
 
         while (ancestorElement != null)
         {
-            ancestorElement = StswFnUI.FindVisualAncestor<StswNavigationElement>(ancestorElement);
-            if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
+            ancestorElement = StswFnUI.FindVisualAncestor<StswNavigationItem>(ancestorElement);
+            if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.TargetType == null)
                 padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
         }
         stsw.ItemsMargin = padding;
@@ -464,7 +463,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(ItemsMargin),
             typeof(Thickness?),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(Thickness?), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
 
@@ -481,7 +480,7 @@ public class StswNavigationElement : TreeViewItem, IStswCornerControl, IStswIcon
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswNavigationElement),
+            typeof(StswNavigationItem),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion

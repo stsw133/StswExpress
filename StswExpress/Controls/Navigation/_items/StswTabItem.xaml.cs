@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -17,6 +19,7 @@ namespace StswExpress;
 public class StswTabItem : TabItem
 {
     private ButtonBase? _closeTabButton;
+    private bool _isResolvingContent;
 
     static StswTabItem()
     {
@@ -36,6 +39,45 @@ public class StswTabItem : TabItem
         _closeTabButton = GetTemplateChild("PART_CloseTabButton") as ButtonBase;
         if (_closeTabButton != null)
             _closeTabButton.Click += PART_CloseTabButton_Click;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnContentChanged(object oldContent, object newContent)
+    {
+        if (_isResolvingContent || DesignerProperties.GetIsInDesignMode(this) || newContent is null)
+        {
+            base.OnContentChanged(oldContent, newContent);
+            return;
+        }
+
+        object? resolved = null;
+
+        switch (newContent)
+        {
+            case Type type:
+                resolved = StswDependencyInjectionHelper.Resolve(type);
+                break;
+
+            case string typeName:
+                resolved = StswDependencyInjectionHelper.Resolve(typeName);
+                break;
+        }
+
+        if (resolved is null)
+        {
+            base.OnContentChanged(oldContent, newContent);
+            return;
+        }
+
+        _isResolvingContent = true;
+        try
+        {
+            Content = resolved;
+        }
+        finally
+        {
+            _isResolvingContent = false;
+        }
     }
 
     /// <summary>

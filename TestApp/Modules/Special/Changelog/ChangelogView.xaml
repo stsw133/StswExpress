@@ -8,7 +8,7 @@
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              mc:Ignorable="d">
 
-    <wv2:WebView2 x:Name="webView2">
+    <wv2:WebView2 x:Name="webView2" Source="https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md">
         <wv2:WebView2.Resources>
             <Style TargetType="{x:Type wv2:WebView2}">
                 <Style.Triggers>

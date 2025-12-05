@@ -21,7 +21,11 @@ namespace StswExpress;
 public class StswApp : Application
 {
     //public static IConfiguration Configuration { get; private set; } = null!;
-    //public static IServiceProvider? ServiceProvider { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
+    /// </summary>
+    public static IServiceProvider? ServiceProvider { get; set; }
 
     /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)

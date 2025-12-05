@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>TestApp</AssemblyName>
-    <Version>0.22.0</Version>
+    <Version>0.23.0</Version>
     <Copyright></Copyright>
     <Authors>Karol Staszewski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -30,9 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\changelog.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\help_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

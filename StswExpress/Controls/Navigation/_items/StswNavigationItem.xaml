@@ -2,12 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswNavigationElement}">
+    <Style TargetType="{x:Type se:StswNavigationItem}">
         <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
         <Setter Property="ItemsIndentation" Value="23"/>
-        
-        <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Static.Border}"/>
+
+        <Setter Property="Background" Value="{DynamicResource StswNavigationItem.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.Static.Border}"/>
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         
         <Setter Property="BorderThickness" Value="0"/>
@@ -28,7 +28,7 @@
         
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswNavigationElement}">
+                <ControlTemplate TargetType="{x:Type se:StswNavigationItem}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
@@ -91,7 +91,7 @@
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasHeader" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="OPT_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_MainButton"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="OPT_Separator"/>
                         </Trigger>

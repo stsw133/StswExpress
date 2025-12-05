@@ -159,7 +159,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!-- template for StswToggleButton in: "StswNavigationElement" -->
+    <!-- template for StswToggleButton in: "StswNavigationItem" -->
     <ControlTemplate x:Key="StswNavigationToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
         <!-- main -->
         <se:StswBorder x:Name="OPT_MainBorder"
@@ -176,25 +176,25 @@
         <!-- triggers -->
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="OPT_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="Background" Value="{DynamicResource StswNavigationItem.MouseOver.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.MouseOver.Border}" TargetName="OPT_MainBorder"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Pressed.Background}" TargetName="OPT_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="Background" Value="{DynamicResource StswNavigationItem.Pressed.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.Pressed.Border}" TargetName="OPT_MainBorder"/>
             </Trigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding HasItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}" Value="False"/>
+                    <Condition Binding="{Binding HasItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationItem}}}" Value="False"/>
                     <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="Background" Value="{DynamicResource StswNavigationItem.Checked.Static.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.Checked.Static.Border}" TargetName="OPT_MainBorder"/>
             </MultiDataTrigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="OPT_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="OPT_MainBorder"/>
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}"/>
+                <Setter Property="Background" Value="{DynamicResource StswNavigationItem.Disabled.Background}" TargetName="OPT_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationItem.Disabled.Border}" TargetName="OPT_MainBorder"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationItem.Disabled.Foreground}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

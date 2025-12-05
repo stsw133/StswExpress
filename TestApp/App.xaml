@@ -10,12 +10,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!--
-            <Style TargetType="{x:Type se:StswWindowBar}">
-                <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
-                <Setter Property="BorderThickness" Value="0 0 0 1"/>
-            </Style>
-            -->
         </ResourceDictionary>
     </se:StswApp.Resources>
 </se:StswApp>
