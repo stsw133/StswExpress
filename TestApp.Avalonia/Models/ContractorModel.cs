@@ -17,6 +17,6 @@ public partial class ContractorModel : StswObservableObject, IStswDetailedItem, 
     //partial void OnIconChanged(byte[]? oldValue, byte[]? newValue) => IconSource ??= StswFnUI.BytesToBitmapImage(newValue);
     //public int IconByteSize => Icon?.Length ?? 0;
 
-    [StswObservableProperty] Bitmap? _iconSource;
-    partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
+    //[StswObservableProperty] Bitmap? _iconSource;
+    //partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
 }

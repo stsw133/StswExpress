@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-windows7.0</TargetFrameworks>
-    <OutputType Condition="'$(TargetFramework)' == 'net8.0-windows7.0'">WinExe</OutputType>
-    <OutputType Condition="'$(TargetFramework)' != 'net8.0-windows7.0'">Exe</OutputType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
     <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
 	<UseAppHost>true</UseAppHost>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -17,6 +16,10 @@
 	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
 	<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\icon.ico" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.3.9" />
@@ -33,6 +36,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
 	  <ProjectReference Include="..\StswExpress.Avalonia\StswExpress.Avalonia.csproj" />
 	</ItemGroup>
 

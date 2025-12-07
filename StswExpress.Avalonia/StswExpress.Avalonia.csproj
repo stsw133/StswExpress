@@ -33,8 +33,11 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.9" />
-    <PackageReference Include="StswExpress.Analyzers" Version="*" />
   </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StswExpress.Analyzers" Version="*" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
@@ -44,5 +47,14 @@
 	<ItemGroup>
     <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Themes\Resources\halloween_background.webp" />
+	  <Resource Include="Themes\Resources\night_background.webp" />
+	  <Resource Include="Themes\Resources\pink_background.webp" />
+	  <Resource Include="Themes\Resources\spring_background.webp" />
+	  <Resource Include="Themes\Resources\summer_background.webp" />
+	  <Resource Include="Themes\Resources\winter_background.webp" />
+	</ItemGroup>
 
 </Project>

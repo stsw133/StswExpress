@@ -1,0 +1,5 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui">
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceInclude Source="avares://StswExpress.Avalonia/StswResources.axaml"/>
+	</ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

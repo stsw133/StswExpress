@@ -23,6 +23,6 @@ public partial class ArticleModel : StswObservableObject, IStswTrackableItem
     [StswObservableProperty] byte[]? _icon;
     //partial void OnIconChanged(byte[]? oldValue, byte[]? newValue) => IconSource ??= StswFnUI.BytesToBitmapImage(newValue);
 
-    [StswObservableProperty] Bitmap? _iconSource;
-    partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
+    //[StswObservableProperty] Bitmap? _iconSource;
+    //partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
 }

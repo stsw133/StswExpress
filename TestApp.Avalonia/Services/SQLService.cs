@@ -15,7 +15,7 @@ internal static class SQLService
         set => _dbCurrent = value;
     }
     private static StswDatabaseModel? _dbCurrent;
-
+    
     /// InitializeTables
     internal static void InitializeContractorsTables() => DbCurrent.ExecuteNonQuery(@"
         if not exists (select 1 from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
@@ -56,7 +56,7 @@ internal static class SQLService
     internal static void SetContractors(StswObservableCollection<ContractorModel> list) => DbCurrent.Set(list,
         "dbo.StswExpressTEST_Contractors", typeof(ContractorModel).GetProperties().Select(x => x.Name).Except([
             nameof(ContractorModel.Id),
-            nameof(ContractorModel.IconSource),
+            //nameof(ContractorModel.IconSource),
             nameof(ContractorModel.Address),
             nameof(ContractorModel.ItemState)
         ]));
