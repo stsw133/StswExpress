@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using StswExpress.Core;
 
 namespace StswExpress.Avalonia;
 

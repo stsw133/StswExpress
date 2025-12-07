@@ -1,6 +1,8 @@
 ﻿global using Avalonia;
 global using Avalonia.Controls.ApplicationLifetimes;
 global using Avalonia.Markup.Xaml;
+global using StswExpress.Avalonia;
+global using StswExpress.Commons;
 
 namespace TestApp.Avalonia;
 /// <summary>

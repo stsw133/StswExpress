@@ -43,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\StswExpress.Core\StswExpress.Core.csproj" />
     <PackageReference Include="StswExpress.Analyzers" Version="*" />
   </ItemGroup>
 
@@ -51,6 +50,10 @@
     <Resource Include="Themes\Resources\*.webp" />
     <Resource Include="Utils\Translator\Translations\*.json" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+	</ItemGroup>
 
   <ItemGroup>
     <Compile Update="StswSettings.Designer.cs">

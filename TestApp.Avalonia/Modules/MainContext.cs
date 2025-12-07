@@ -1,6 +1,4 @@
-﻿using StswExpress.Commons;
-
-namespace TestApp.Avalonia;
+﻿namespace TestApp.Avalonia;
 public class MainContext : StswObservableObject
 {
     public string CountText => $"Licznik: {_count}";
