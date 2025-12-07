@@ -1,0 +1,19 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:se="using:StswExpress.Avalonia">
+
+    <Style Selector="se|StswBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+		<!--
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+		-->
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+	
+	<Style Selector="se|StswButton:disabled">
+		<Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Disabled.Border}"/>
+	</Style>
+</Styles>

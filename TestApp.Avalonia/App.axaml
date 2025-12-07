@@ -2,6 +2,9 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:se="using:StswExpress.Avalonia">
+	<Application.Styles>
+		<StyleInclude Source="avares://StswExpress.Avalonia/Controls/StswControls.axaml"/>
+	</Application.Styles>
 	<Application.Resources>
 		<se:StswResources/>
 	</Application.Resources>

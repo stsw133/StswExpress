@@ -28,6 +28,12 @@ public partial class StswResources : ResourceDictionary
     }
 
     /// <summary>
+    /// Retrieves the instance of <see cref="StswResources"/> from the application's merged dictionaries.
+    /// </summary>
+    /// <returns>The <see cref="StswResources"/> instance if found; otherwise, <see langword="null"/>.</returns>
+    public static StswResources? GetInstance() => Application.Current?.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) as StswResources;
+
+    /// <summary>
     /// Gets the list of available themes that can be applied to the application.
     /// </summary>
     public static ObservableCollection<string?> AvailableThemes { get; set; } =
@@ -70,6 +76,15 @@ public partial class StswResources : ResourceDictionary
     /// <summary>
     /// Occurs when the theme is changed, allowing custom brushes or settings to be applied.
     /// </summary>
+    /// <example>
+    /// Example usage:
+    /// <code>
+    /// StswResources.CustomThemeChanged += (sender, theme) =>
+    /// {
+    ///     Console.WriteLine($"Theme changed to {theme}");
+    /// };
+    /// </code>
+    /// </example>
     public static event EventHandler<string?>? CustomThemeChanged;
 
     /// <summary>

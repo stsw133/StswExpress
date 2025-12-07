@@ -74,6 +74,20 @@ public partial class StswResources
     private string? _currentTheme;
 
     /// <summary>
+    /// Occurs when the theme is changed, allowing custom brushes or settings to be applied.
+    /// </summary>
+    /// <example>
+    /// Example usage:
+    /// <code>
+    /// StswResources.CustomThemeChanged += (sender, theme) =>
+    /// {
+    ///     Console.WriteLine($"Theme changed to {theme}");
+    /// };
+    /// </code>
+    /// </example>
+    public static event EventHandler<string?>? CustomThemeChanged;
+
+    /// <summary>
     /// Updates the application's resource dictionary to use the selected theme and triggers theme change events.
     /// </summary>
     /// <param name="theme">The new theme to apply.</param>
@@ -92,20 +106,6 @@ public partial class StswResources
             }
         }
     }
-
-    /// <summary>
-    /// Occurs when the theme is changed, allowing custom brushes or settings to be applied.
-    /// </summary>
-    /// <example>
-    /// Example usage:
-    /// <code>
-    /// StswResources.CustomThemeChanged += (sender, theme) =>
-    /// {
-    ///     Console.WriteLine($"Theme changed to {theme}");
-    /// };
-    /// </code>
-    /// </example>
-    public static event EventHandler<string?>? CustomThemeChanged;
 
     /// <summary>
     /// Initializes and updates the application's main theme resource dictionary in the provided <see cref="ResourceDictionary"/>.
