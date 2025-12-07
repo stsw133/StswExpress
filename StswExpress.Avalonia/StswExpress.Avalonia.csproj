@@ -2,17 +2,46 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.23.0</Version>
-    <Authors>Karol Staszewski</Authors>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Authors>Karol Staszewski</Authors>
+	<Version>0.23.0</Version>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<RepositoryType></RepositoryType>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+	<PackageIcon>logo.png</PackageIcon>
+	<Description>This package offers:
+• A variety of modern controls (inspired by WinUI 3) with enhanced styling and functionalities.
+• Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.
+• Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+	<PackageTags>Controls; Themes; Utils</PackageTags>
+	<Copyright>© 2025 Karol Staszewski</Copyright>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.3.9" />
+    <None Include="..\README.md" Link="README.md">
+      <PackagePath>\</PackagePath>
+      <Pack>true</Pack>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.9" />
+    <PackageReference Include="StswExpress.Analyzers" Version="*" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\TestApp.Wpf\Assets\logo.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
   </ItemGroup>
 

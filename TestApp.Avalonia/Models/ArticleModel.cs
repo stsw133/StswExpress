@@ -1,5 +1,4 @@
 ﻿using Avalonia.Media.Imaging;
-using System;
 
 namespace TestApp.Avalonia;
 public partial class ArticleModel : StswObservableObject, IStswTrackableItem
@@ -25,5 +24,5 @@ public partial class ArticleModel : StswObservableObject, IStswTrackableItem
     //partial void OnIconChanged(byte[]? oldValue, byte[]? newValue) => IconSource ??= StswFnUI.BytesToBitmapImage(newValue);
 
     [StswObservableProperty] Bitmap? _iconSource;
-    //partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
+    partial void OnIconSourceChanged(Bitmap? oldValue, Bitmap? newValue) => Icon = newValue?.ToBytes();
 }

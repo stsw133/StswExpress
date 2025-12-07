@@ -1,8 +1,4 @@
-﻿global using Avalonia;
-global using Avalonia.Data;
-global using Avalonia.Data.Converters;
-global using Avalonia.Markup.Xaml;
-global using StswExpress.Commons;
+﻿global using StswExpress.Commons;
 
 namespace StswExpress.Wpf;
 

@@ -1,25 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-windows</TargetFrameworks>
-    <OutputType Condition="'$(TargetFramework)' == 'net8.0-windows'">WinExe</OutputType>
-    <OutputType Condition="'$(TargetFramework)' != 'net8.0-windows'">Exe</OutputType>
+    <TargetFrameworks>net8.0;net8.0-windows7.0</TargetFrameworks>
+    <OutputType Condition="'$(TargetFramework)' == 'net8.0-windows7.0'">WinExe</OutputType>
+    <OutputType Condition="'$(TargetFramework)' != 'net8.0-windows7.0'">Exe</OutputType>
     <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
 	<UseAppHost>true</UseAppHost>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<AssemblyName>TestApp</AssemblyName>
+	<Version>0.23.0</Version>
+	<Authors>Karol Staszewski</Authors>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.3.9" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
-		<PackageReference Include="StswExpress.Analyzers" Version="*" />
-	</ItemGroup>
-	
-	<ItemGroup>
-		<ProjectReference Include="..\\StswExpress.Avalonia\\StswExpress.Avalonia.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -28,6 +30,10 @@
 	
 	<ItemGroup>
 	  <Folder Include="Modules\Controls\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\StswExpress.Avalonia\StswExpress.Avalonia.csproj" />
 	</ItemGroup>
 
 </Project>
