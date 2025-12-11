@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -38,6 +39,7 @@ public class StswApp : Application
 
         base.OnStartup(e);
 
+        TypeDescriptor.AddAttributes(typeof(Visibility), new TypeConverterAttribute(typeof(StswBoolToVisibilityTypeConverter)));
         EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
         Task.Run(StswTranslator.LoadTranslationsForCurrentLanguageAsync);
         StswResources.InitializeResources(Resources);

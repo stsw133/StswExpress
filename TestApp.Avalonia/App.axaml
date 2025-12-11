@@ -6,6 +6,6 @@
 		<StyleInclude Source="avares://StswExpress.Avalonia/Controls/StswControls.axaml"/>
 	</Application.Styles>
 	<Application.Resources>
-		<se:StswResources/>
+		<se:StswResources CurrentTheme="Dark"/>
 	</Application.Resources>
 </Application>

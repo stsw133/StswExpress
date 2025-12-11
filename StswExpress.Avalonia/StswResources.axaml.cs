@@ -10,6 +10,11 @@ namespace StswExpress.Avalonia;
 /// </summary>
 public partial class StswResources : ResourceDictionary
 {
+    static StswResources()
+    {
+        CurrentThemeProperty.Changed.AddClassHandler<StswResources>(OnCurrentThemeChanged);
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StswResources"/> class.
     /// </summary>
@@ -59,19 +64,20 @@ public partial class StswResources : ResourceDictionary
     /// </example>
     public string? CurrentTheme
     {
-        get => _currentTheme;
-        set
-        {
-            var newTheme = string.IsNullOrEmpty(value) ? "Light" : value;
-
-            if (_currentTheme == newTheme)
-                return;
-
-            _currentTheme = newTheme;
-            OnThemeChanged(newTheme);
-        }
+        get => GetValue(CurrentThemeProperty);
+        set => SetValue(CurrentThemeProperty, value);
     }
-    private string? _currentTheme;
+    public static readonly StyledProperty<string?> CurrentThemeProperty = AvaloniaProperty.Register<StswResources, string?>(nameof(CurrentTheme));
+    private static void OnCurrentThemeChanged(StswResources resources, AvaloniaPropertyChangedEventArgs e)
+    {
+        var newTheme = string.IsNullOrEmpty((string?)e.NewValue) ? "Light" : (string?)e.NewValue;
+
+        if (resources.CurrentTheme == newTheme)
+            return;
+
+        resources.CurrentTheme = newTheme;
+        resources.OnThemeChanged(newTheme);
+    }
 
     /// <summary>
     /// Occurs when the theme is changed, allowing custom brushes or settings to be applied.

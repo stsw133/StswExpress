@@ -23,7 +23,7 @@
                        Padding="3"
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswText Margin="3" TextWrapping="Wrap" Visibility="{Binding ShowExampleContent, Converter={x:Static se:StswBoolConverter.Instance}}">
+            <se:StswText Margin="3" TextWrapping="Wrap" Visibility="{Binding ShowExampleContent}">
                 <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                 <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
                 <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>

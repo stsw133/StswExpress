@@ -7,7 +7,7 @@ namespace StswExpress.Wpf;
 /// <summary>
 /// Represents a resource manager for handling themes and application resources.
 /// </summary>
-public partial class StswResources
+public partial class StswResources : ResourceDictionary
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StswResources"/> class.
@@ -114,14 +114,20 @@ public partial class StswResources
     /// <param name="resources">The <see cref="ResourceDictionary"/> to update with the current theme.</param>
     internal static void InitializeResources(ResourceDictionary resources)
     {
-        var themeUri = new Uri($"/{nameof(StswExpress.Wpf)};component/StswResources.xaml", UriKind.Relative);
-        var dictIndex = resources.MergedDictionaries
+        var existingDictionary = resources.MergedDictionaries
             .Select((x, index) => new { x, index })
-            .FirstOrDefault(d => d.x.Source == themeUri)?.index;
+            .FirstOrDefault(d => d.x is StswResources);
 
-        if (dictIndex.HasValue)
-            resources.MergedDictionaries[dictIndex.Value] = new StswResources(StswSettings.Default.Theme);
+        if (existingDictionary?.x is StswResources stswResources)
+        {
+            if (string.IsNullOrEmpty(stswResources.CurrentTheme))
+                stswResources.CurrentTheme = StswSettings.Default.Theme;
+
+            resources.MergedDictionaries[existingDictionary.index] = stswResources;
+        }
         else
+        {
             resources.MergedDictionaries.Add(new StswResources(StswSettings.Default.Theme));
+        }
     }
 }
