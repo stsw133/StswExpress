@@ -21,11 +21,9 @@ public class StswPathToIconConverter : MarkupExtension, IValueConverter
 
     /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return value is string path && !string.IsNullOrWhiteSpace(path)
+        => value is string path && !string.IsNullOrWhiteSpace(path)
             ? StswFnUI.ExtractAssociatedIcon(path)?.ToImageSource()
             : Binding.DoNothing;
-    }
 
     /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;

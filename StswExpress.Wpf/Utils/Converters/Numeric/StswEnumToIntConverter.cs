@@ -28,16 +28,10 @@ public class StswEnumToIntConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <inheritdoc/>
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return ConvertEnum(value, targetType, parameter);
-    }
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => ConvertEnum(value, targetType, parameter);
 
     /// <inheritdoc/>
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return ConvertEnum(value, targetType, parameter);
-    }
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => ConvertEnum(value, targetType, parameter);
 
     /// <summary>
     /// Handles conversion between <see cref="Enum"/>, <see cref="int"/>, and <see cref="string"/>.

@@ -35,7 +35,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// <inheritdoc/>
-    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is ICollectionView collectionView)
             value = collectionView.Cast<object>();
@@ -61,7 +61,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 
     /// <summary>
     /// Checks if any element in the collection satisfies the given condition.

@@ -22,22 +22,12 @@ namespace StswExpress.Wpf;
 /// &lt;/LinearGradientBrush&gt;
 /// </code>
 /// </example>
-public class StswDynamicColorExtension : MarkupExtension
+public class StswDynamicColorExtension(string resourceKey) : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the resource key used to locate the <see cref="SolidColorBrush"/>.
     /// </summary>
-    public string ResourceKey { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswDynamicColorExtension"/> class with the specified resource key.
-    /// </summary>
-    /// <param name="resourceKey">The resource key associated with a <see cref="SolidColorBrush"/>.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="resourceKey"/> is null or empty.</exception>
-    public StswDynamicColorExtension(string resourceKey)
-    {
-        ResourceKey = resourceKey;
-    }
+    public string ResourceKey { get; set; } = resourceKey;
 
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)

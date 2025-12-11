@@ -1,6 +1,6 @@
 ﻿global using StswExpress.Commons;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Avalonia;
 
 /// <summary>
 /// Enumeration for <see cref="StswAdaptiveBox.Type"/> and <see cref="StswFilterBox.FilterType"/>.

@@ -206,11 +206,13 @@ public static partial class StswExtensions
         var hBitmap = bitmap.GetHbitmap();
         try
         {
-            return Imaging.CreateBitmapSourceFromHBitmap(
+            var source = Imaging.CreateBitmapSourceFromHBitmap(
                 hBitmap,
                 IntPtr.Zero,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions());
+            source.Freeze();
+            return source;
         }
         finally
         {

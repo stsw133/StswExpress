@@ -22,11 +22,9 @@ public class StswGeometryToPathFiguresConverter : MarkupExtension, IValueConvert
 
     /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return value is Geometry geometry
+        => value is Geometry geometry
             ? geometry.GetFlattenedPathGeometry().Figures
             : Binding.DoNothing;
-    }
 
     /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;

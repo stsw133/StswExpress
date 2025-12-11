@@ -28,11 +28,11 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='null'}"/&gt;
-/// &lt;TextBlock Visibility="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/&gt;
-/// &lt;TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='empty null'}"/&gt;
-/// &lt;TextBlock Visibility="{Binding SomeNumber, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!default'}"/&gt;
-/// &lt;TextBlock Visibility="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='default !empty'}"/&gt;
+/// &lt;TextBlock IsEnabled="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='null'}"/&gt;
+/// &lt;TextBlock IsEnabled="{Binding SomeValue, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!null'}"/&gt;
+/// &lt;TextBlock IsEnabled="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='empty null'}"/&gt;
+/// &lt;TextBlock IsEnabled="{Binding SomeNumber, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='!default'}"/&gt;
+/// &lt;TextBlock IsEnabled="{Binding SomeList, Converter={x:Static se:StswExistenceConverter.Instance}, ConverterParameter='default !empty'}"/&gt;
 /// </code>
 /// </example>
 public class StswExistenceConverter : MarkupExtension, IValueConverter

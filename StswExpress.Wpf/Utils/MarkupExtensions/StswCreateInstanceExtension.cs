@@ -41,7 +41,7 @@ internal partial class StswCreateInstanceExtension(Type type, string? args) : Ma
     public string Args { get; set; } = args ?? string.Empty;
 
     /// <inheritdoc/>
-    public override object? ProvideValue(IServiceProvider serviceProvider)
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var parsedArgs = ParseArguments(Args);
         return CreateInstanceWithBestConstructor(Type, parsedArgs);

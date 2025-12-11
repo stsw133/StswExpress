@@ -14,8 +14,8 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;TextBlock Text="Deprecated Option" Visibility="{Binding MyEnumValue, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
-/// &lt;TextBlock Text="Warning: Deprecated" Visibility="{Binding MyObject.DeprecatedProperty, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
+/// &lt;TextBlock Text="Deprecated Option" IsEnabled="{Binding MyEnumValue, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
+/// &lt;TextBlock Text="Warning: Deprecated" IsEnabled="{Binding MyObject.DeprecatedProperty, Converter={x:Static local:StswHasAttributeConverter.Instance}, ConverterParameter=System.ObsoleteAttribute}"/&gt;
 /// </code>
 /// </example>
 public class StswHasAttributeConverter : MarkupExtension, IValueConverter
@@ -69,14 +69,12 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     /// </summary>
     /// <param name="targetType">The target type to determine the default value.</param>
     /// <returns><see cref="Visibility.Collapsed"/> for Visibility, <see langword="false"/> for boolean, and <see langword="null"/> otherwise.</returns>
-    private static object? GetDefaultValue(Type targetType)
+    private static object? GetDefaultValue(Type targetType) => targetType switch
     {
-        if (targetType == typeof(Visibility))
-            return Visibility.Collapsed;
-        if (targetType == typeof(bool))
-            return false;
-        return null;
-    }
+        Type t when t == typeof(Visibility) => Visibility.Collapsed,
+        Type t when t == typeof(bool) => false,
+        _ => null,
+    };
 
     /// <summary>
     /// Returns the converted value based on the target type and attribute presence.
@@ -88,9 +86,7 @@ public class StswHasAttributeConverter : MarkupExtension, IValueConverter
     /// <see langword="true"/> if the attribute is found and <see langword="false"/> otherwise when targetType is bool.
     /// </returns>
     private static object? GetReturnValue(Type targetType, bool hasAttribute)
-    {
-        return targetType == typeof(Visibility)
+        => targetType == typeof(Visibility)
             ? (hasAttribute ? Visibility.Visible : Visibility.Collapsed)
             : hasAttribute;
-    }
 }

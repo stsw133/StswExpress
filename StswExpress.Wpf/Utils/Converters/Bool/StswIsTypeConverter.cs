@@ -17,9 +17,9 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;TextBlock Text="This is a text" Visibility="{Binding SelectedObject, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.String}}"/&gt;
-/// &lt;TextBlock Text="This is a number" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Double}}"/&gt;
-/// &lt;TextBlock Text="Matches MyCustomClass" Visibility="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type local:MyCustomClass}}"/&gt;
+/// &lt;TextBlock Text="This is a text" IsEnabled="{Binding SelectedObject, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.String}}"/&gt;
+/// &lt;TextBlock Text="This is a number" IsEnabled="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Double}}"/&gt;
+/// &lt;TextBlock Text="Matches MyCustomClass" IsEnabled="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type local:MyCustomClass}}"/&gt;
 /// &lt;CheckBox IsChecked="{Binding SelectedItem, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type System.Int32}}"/&gt;
 /// </code>
 /// </example>

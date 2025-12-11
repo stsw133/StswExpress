@@ -15,10 +15,10 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;TextBlock Text="Only for small values" Visibility="{Binding SomeNumber, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&lt;=10'}"/&gt;
-/// &lt;Button Content="Administration panel" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='=Admin'}"/&gt;
-/// &lt;Button Content="Delete" Visibility="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='!Guest'}"/&gt;
-/// &lt;Button Content="Advanced options" Visibility="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&amp;2'}"/&gt;
+/// &lt;TextBlock Text="Only for small values" IsEnabled="{Binding SomeNumber, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&lt;=10'}"/&gt;
+/// &lt;Button Content="Administration panel" IsEnabled="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='=Admin'}"/&gt;
+/// &lt;Button Content="Delete" IsEnabled="{Binding UserRole, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='!Guest'}"/&gt;
+/// &lt;Button Content="Advanced options" IsEnabled="{Binding UserPermissions, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter='&amp;2'}"/&gt;
 /// </code>
 /// </example>
 public class StswCompareConverter : MarkupExtension, IValueConverter

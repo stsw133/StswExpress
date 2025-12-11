@@ -23,9 +23,9 @@ namespace StswExpress.Wpf;
 /// &lt;RadioButton Content="Option A" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=0}"/&gt;
 /// &lt;RadioButton Content="Option B" IsChecked="{Binding SelectedOption, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=1}"/&gt;
 /// 
-/// &lt;TextBlock Text="Only for users" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Admin}"/&gt;
+/// &lt;TextBlock Text="Only for users" IsEnabled="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=Admin}"/&gt;
 /// 
-/// &lt;TextBlock Text="Limited access" Visibility="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/&gt;
+/// &lt;TextBlock Text="Limited access" IsEnabled="{Binding UserRole, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter=!Admin}"/&gt;
 /// </code>
 /// </example>
 public class StswRadioConverter : MarkupExtension, IValueConverter

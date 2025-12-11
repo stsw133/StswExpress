@@ -1,4 +1,4 @@
-﻿using Avalonia.Media;using Avalonia.Media.Imaging;using Avalonia.Platform;using System.Reflection;using System.Security.Cryptography;using System.Text;namespace StswExpress.Avalonia;
+﻿using Avalonia;using Avalonia.Media;using Avalonia.Media.Imaging;using Avalonia.Platform;using System.Reflection;using System.Runtime.InteropServices;using System.Security.Cryptography;using System.Text;namespace StswExpress.Avalonia;
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
@@ -289,4 +289,182 @@ public static class StswFnUI
         return new Bitmap(mem);
     }
     #endregion
+
+    #region File functions
+    /// <summary>
+    /// Extracts the associated icon of the specified file or directory path.
+    /// If the path points to a directory, attempts to retrieve the default folder icon.
+    /// </summary>
+    /// <param name="path">The file or directory path to extract the icon from.</param>
+    /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
+    public static IImage? ExtractAssociatedIcon(string? path, bool largeIcon = true)
+    {
+        if (!Path.Exists(path))
+            return null;
+
+        var flags = SHGFI_ICON | (largeIcon ? SHGFI_LARGEICON : SHGFI_SMALLICON);
+        if (SHGetFileInfo(path, 0, out var shinfo, (uint)Marshal.SizeOf<SHFILEINFO>(), flags) == IntPtr.Zero || shinfo.hIcon == IntPtr.Zero)
+            return null;
+
+        try
+        {
+            return shinfo.hIcon.ToAvaloniaBitmap();
+        }
+        finally
+        {
+            DestroyIcon(shinfo.hIcon);
+        }
+    }
+
+    /// <summary>
+    /// Converts a Windows icon handle (HICON) to an Avalonia <see cref="IImage"/>.
+    /// </summary>
+    /// <param name="hIcon">The handle to the icon (HICON).</param>
+    /// <returns>The converted Avalonia <see cref="IImage"/>.</returns>
+    private static WriteableBitmap? ToAvaloniaBitmap(this IntPtr hIcon)
+    {
+        if (hIcon == IntPtr.Zero)
+            return null;
+
+        if (!GetIconInfo(hIcon, out var iconInfo))
+            return null;
+
+        var hbmColor = iconInfo.hbmColor;
+        var hbmMask = iconInfo.hbmMask;
+
+        try
+        {
+            if (hbmColor == IntPtr.Zero)
+                return null;
+
+            var bmi = new BITMAPINFO();
+            bmi.bmiHeader.biSize = (uint)Marshal.SizeOf<BITMAPINFOHEADER>();
+
+            IntPtr hdc = GetDC(IntPtr.Zero);
+            if (hdc == IntPtr.Zero)
+                return null;
+
+            try
+            {
+                if (GetDIBits(hdc, hbmColor, 0, 0, IntPtr.Zero, ref bmi, DIB_RGB_COLORS) == 0)
+                    return null;
+
+                int width = bmi.bmiHeader.biWidth;
+                int height = Math.Abs(bmi.bmiHeader.biHeight);
+                if (width <= 0 || height <= 0)
+                    return null;
+
+                bmi.bmiHeader.biPlanes = 1;
+                bmi.bmiHeader.biBitCount = 32;
+                bmi.bmiHeader.biCompression = BI_RGB;
+                bmi.bmiHeader.biHeight = -height;
+
+                int stride = width * 4;
+                int imageSize = stride * height;
+
+                IntPtr buffer = Marshal.AllocHGlobal(imageSize);
+                try
+                {
+                    if (GetDIBits(hdc, hbmColor, 0, (uint)height, buffer, ref bmi, DIB_RGB_COLORS) == 0)
+                        return null;
+
+                    var pixelSize = new PixelSize(width, height);
+                    var dpi = new Vector(96, 96);
+                    var bmp = new WriteableBitmap(PixelFormat.Bgra8888, AlphaFormat.Premul, buffer, pixelSize, dpi, stride);
+
+                    return bmp;
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(buffer);
+                }
+            }
+            finally
+            {
+                ReleaseDC(IntPtr.Zero, hdc);
+            }
+        }
+        finally
+        {
+            if (hbmColor != IntPtr.Zero)
+                DeleteObject(hbmColor);
+            if (hbmMask != IntPtr.Zero)
+                DeleteObject(hbmMask);
+        }
+    }
+    #endregion
+
+    private const uint SHGFI_ICON = 0x000000100;
+    private const uint SHGFI_LARGEICON = 0x000000000;
+    private const uint SHGFI_SMALLICON = 0x000000001;
+    private const uint DIB_RGB_COLORS = 0;
+    private const uint BI_RGB = 0;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    private struct SHFILEINFO
+    {
+        public IntPtr hIcon;
+        public int iIcon;
+        public uint dwAttributes;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ICONINFO
+    {
+        public bool fIcon;
+        public int xHotspot;
+        public int yHotspot;
+        public IntPtr hbmMask;
+        public IntPtr hbmColor;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct BITMAPINFOHEADER
+    {
+        public uint biSize;
+        public int biWidth;
+        public int biHeight;
+        public ushort biPlanes;
+        public ushort biBitCount;
+        public uint biCompression;
+        public uint biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public uint biClrUsed;
+        public uint biClrImportant;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct BITMAPINFO
+    {
+        public BITMAPINFOHEADER bmiHeader;
+        public uint bmiColors;
+    }
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, out SHFILEINFO psfi, uint cbFileInfo, uint uFlags);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool DestroyIcon(IntPtr hIcon);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
+
+    [DllImport("gdi32.dll", SetLastError = true)]
+    private static extern int GetDIBits(IntPtr hdc, IntPtr hbmp, uint uStartScan, uint cScanLines, IntPtr lpvBits, ref BITMAPINFO lpbi, uint uUsage);
+
+    [DllImport("gdi32.dll", SetLastError = true)]
+    private static extern bool DeleteObject(IntPtr hObject);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr GetDC(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern int ReleaseDC(IntPtr hWnd, IntPtr hdc);
 }

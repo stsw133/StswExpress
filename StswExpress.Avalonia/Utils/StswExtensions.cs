@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using System.Runtime.InteropServices;
 
 namespace StswExpress.Avalonia;
 /// <summary>
@@ -49,6 +51,23 @@ public static partial class StswExtensions
     #endregion
 
     #region Color extensions
+    /// <summary>
+    /// Calculates the brightness of a <see cref="Color"/> using the HSL color model.
+    /// </summary>
+    /// <param name="c">The color to calculate brightness for.</param>
+    /// <returns>The brightness value ranging from 0 (darkest) to 1 (brightest).</returns>
+    public static float GetBrightness(this Color c)
+    {
+        var r = c.R / 255f;
+        var g = c.G / 255f;
+        var b = c.B / 255f;
+
+        var max = Math.Max(r, Math.Max(g, b));
+        var min = Math.Min(r, Math.Min(g, b));
+
+        return (max + min) / 2f;
+    }
+
     /// <summary>
     /// Converts a <see cref="Color"/> to a hexadecimal color string.
     /// </summary>

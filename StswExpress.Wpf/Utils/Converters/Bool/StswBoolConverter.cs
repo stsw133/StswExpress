@@ -17,8 +17,8 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;Button Content="Save" Visibility="{Binding CanSave, Converter={x:Static se:StswBoolConverter.Instance}}"/&gt;
-/// &lt;Button Content="Edit" Visibility="{Binding IsEditing, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!'}"/&gt;
+/// &lt;Button Content="Save" IsEnabled="{Binding CanSave, Converter={x:Static se:StswBoolConverter.Instance}}"/&gt;
+/// &lt;Button Content="Edit" IsEnabled="{Binding IsEditing, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!'}"/&gt;
 /// &lt;TextBlock Text="{Binding IsAdmin, Converter={x:Static se:StswBoolConverter.Instance}, TargetType={x:Type sys:Int32}}"/&gt;
 /// </code>
 /// </example>
