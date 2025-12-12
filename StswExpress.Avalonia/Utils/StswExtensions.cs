@@ -1,8 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using System.Runtime.InteropServices;
 
 namespace StswExpress.Avalonia;
 /// <summary>

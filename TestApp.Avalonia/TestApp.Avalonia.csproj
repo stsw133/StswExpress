@@ -8,7 +8,7 @@
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyName>TestApp</AssemblyName>
+	<AssemblyName>TestApp.Avalonia</AssemblyName>
 	<Version>0.23.0</Version>
 	<Authors>Karol Staszewski</Authors>
 	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -16,6 +16,11 @@
 	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
 	<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="Modules\Controls\ControlsBase.axaml" />
+    <AvaloniaXaml Remove="Modules\Controls\Typography\StswIcon\StswIconView.axaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Assets\icon.ico" />
@@ -32,7 +37,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="Modules\Controls\" />
+	  <Page Include="Modules\Controls\ControlsBase.axaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	
 	<ItemGroup>

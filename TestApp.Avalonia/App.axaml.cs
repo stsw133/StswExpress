@@ -1,10 +1,10 @@
-﻿global using Avalonia;
-global using Avalonia.Controls.ApplicationLifetimes;
-global using Avalonia.Markup.Xaml;
-global using StswExpress.Avalonia;
+﻿global using StswExpress.Avalonia;
 global using StswExpress.Commons;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
 
-namespace TestApp.Avalonia;
+namespace TestApp.Ava;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>

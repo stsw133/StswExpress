@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace TestApp.Avalonia;
+namespace TestApp.Ava;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>

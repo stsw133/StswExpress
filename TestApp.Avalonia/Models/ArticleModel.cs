@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media.Imaging;
 
-namespace TestApp.Avalonia;
+namespace TestApp.Ava;
 public partial class ArticleModel : StswObservableObject, IStswTrackableItem
 {
     [StswObservableProperty] int _id;

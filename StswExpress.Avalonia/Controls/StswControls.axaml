@@ -4,5 +4,7 @@
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Buttons/StswButton.axaml"/>
 	
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Layout/StswBorder.axaml"/>
+
+	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswIcon.axaml"/>
 	
 </Styles>

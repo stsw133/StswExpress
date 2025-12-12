@@ -1,4 +1,4 @@
-﻿namespace TestApp.Avalonia;
+﻿namespace TestApp.Ava;
 public class MainContext : StswObservableObject
 {
     public string CountText => $"Licznik: {_count}";

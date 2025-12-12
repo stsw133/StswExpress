@@ -1,4 +1,6 @@
-﻿namespace TestApp.Avalonia;
+﻿using Avalonia;
+
+namespace TestApp.Ava;
 internal static class Program
 {
     [STAThread]

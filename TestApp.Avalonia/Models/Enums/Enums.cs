@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TestApp.Avalonia;
+namespace TestApp.Ava;
 
 public enum ArticleType
 {

@@ -67,6 +67,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Include="Controls\Typography\StswIcon.axaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Folder Include="Controls\_base\_interfaces\" />
 	</ItemGroup>
 

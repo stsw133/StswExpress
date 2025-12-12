@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TestApp.Avalonia;
+namespace TestApp.Ava;
 
 internal static class SQLService
 {

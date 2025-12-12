@@ -26,6 +26,7 @@ public class StswBorder : Border
     {
         AffectsRender<StswBorder>(CornerClippingProperty);
     }
+
     #region Events & methods
     /// <summary>
     /// Applies a rounded clipping region to the child element based on <see cref="CornerRadius"/> and <see cref="BorderThickness"/>.

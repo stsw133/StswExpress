@@ -1,4 +1,4 @@
-﻿namespace TestApp.Avalonia;
+﻿namespace TestApp.Ava;
 public partial class AddressModel : StswObservableObject
 {
     [StswObservableProperty] string? _city;
