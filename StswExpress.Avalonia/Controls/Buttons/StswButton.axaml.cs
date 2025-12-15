@@ -13,5 +13,4 @@ namespace StswExpress.Avalonia;
 /// </example>
 public class StswButton : Button
 {
-
 }

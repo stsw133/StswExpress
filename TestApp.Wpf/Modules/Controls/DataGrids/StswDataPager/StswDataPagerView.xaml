@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDataPagerContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
             Represents a control that displays a page navigation for a collection of items.
         </local:ControlsBase.Description>

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswProgressRingContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
             Represents a control being a progress ring with additional features such as displaying progress as text and different states.
         </local:ControlsBase.Description>

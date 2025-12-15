@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswRepeatButtonContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
             Represents a control that provides a user interface element used to repeatedly trigger actions when pressed and held.
         </local:ControlsBase.Description>

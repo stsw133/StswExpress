@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTimelineContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
             Presents the StswTimeline control which arranges chronological items along a horizontal axis and reveals extra information through hover tooltips.
         </local:ControlsBase.Description>

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswRatingControlContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
             Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
         </local:ControlsBase.Description>

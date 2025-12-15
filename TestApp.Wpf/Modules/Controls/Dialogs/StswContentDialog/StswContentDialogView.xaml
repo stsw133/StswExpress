@@ -8,7 +8,7 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswContentDialogContext}">
 
     <se:StswContentDialog Identifier="StswContentDialogView" CloseOnBackdropClick="{Binding CloseOnBackdropClick}">
-        <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase IsContentAlignmentVisible="False">
             <local:ControlsBase.Description>
                 Represents a customizable content dialog control for displaying various types of content.
             </local:ControlsBase.Description>

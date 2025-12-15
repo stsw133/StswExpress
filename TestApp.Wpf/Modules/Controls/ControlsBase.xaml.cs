@@ -14,24 +14,8 @@ public partial class ControlsBase : UserControl
         SetValue(PropertiesProperty, new ObservableCollection<UIElement>());
     }
 
-    #region Logic properties
     /// <summary>
-    /// 
-    /// </summary>
-    public Visibility ContentAlignmentVisibility
-    {
-        get => (Visibility)GetValue(ContentAlignmentVisibilityProperty);
-        set => SetValue(ContentAlignmentVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ContentAlignmentVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ContentAlignmentVisibility),
-            typeof(Visibility),
-            typeof(ControlsBase)
-        );
-
-    /// <summary>
-    /// 
+    /// Gets or sets the description text.
     /// </summary>
     public string? Description
     {
@@ -46,7 +30,22 @@ public partial class ControlsBase : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the content alignment options are visible.
+    /// </summary>
+    public bool IsContentAlignmentVisible
+    {
+        get => (bool)GetValue(IsContentAlignmentVisibleProperty);
+        set => SetValue(IsContentAlignmentVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsContentAlignmentVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsContentAlignmentVisible),
+            typeof(bool),
+            typeof(ControlsBase)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of property elements.
     /// </summary>
     public ObservableCollection<UIElement> Properties
     {
@@ -61,7 +60,7 @@ public partial class ControlsBase : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the status panel element.
     /// </summary>
     public UIElement StatusPanel
     {
@@ -74,5 +73,4 @@ public partial class ControlsBase : UserControl
             typeof(UIElement),
             typeof(ControlsBase)
         );
-    #endregion
 }

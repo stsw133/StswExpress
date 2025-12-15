@@ -18,8 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Remove="Modules\Controls\ControlsBase.axaml" />
-    <AvaloniaXaml Remove="Modules\Controls\Typography\StswIcon\StswIconView.axaml" />
+    <AvaloniaXaml Remove="Modules\Controls\Typography\StswIcon\ControlsBase.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,12 +33,6 @@
 	
 	<ItemGroup>
 	  <AvaloniaResource Include="Assets\icon.ico" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Page Include="Modules\Controls\ControlsBase.axaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	</ItemGroup>
 	
 	<ItemGroup>

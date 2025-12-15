@@ -24,18 +24,8 @@ public class StswIcon : TemplatedControl
 {
     static StswIcon()
     {
-        AffectsMeasure<StswIcon>([
-                CanvasSizeProperty,
-                ScaleProperty
-            ]);
-        AffectsRender<StswIcon>([
-                DataProperty,
-                FillProperty,
-                IsRotatedProperty,
-                ScaleProperty,
-                StrokeProperty,
-                StrokeThicknessProperty
-            ]);
+        AffectsMeasure<StswIcon>(CanvasSizeProperty, ScaleProperty);
+        AffectsRender<StswIcon>(DataProperty, FillProperty, IsRotatedProperty, ScaleProperty, StrokeProperty, StrokeThicknessProperty);
     }
 
     #region Events & methods

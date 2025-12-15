@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswContextMenuContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+    <local:ControlsBase IsContentAlignmentVisible="False">
         <local:ControlsBase.Description>
             Represents a context menu with extended functionality, including support for corner customization.
         </local:ControlsBase.Description>

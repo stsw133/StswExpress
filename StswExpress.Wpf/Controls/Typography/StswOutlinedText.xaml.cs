@@ -29,8 +29,8 @@ public class StswOutlinedText : FrameworkElement
 
     public StswOutlinedText()
     {
-        UpdatePen();
         TextDecorations = [];
+        UpdatePen();
     }
     static StswOutlinedText()
     {
@@ -38,25 +38,32 @@ public class StswOutlinedText : FrameworkElement
     }
 
     #region Events & methods
-    /// <summary>
-    /// Updates the pen used for drawing the text outline.
-    /// Adjusts stroke properties such as thickness and line caps.
-    /// </summary>
-    private void UpdatePen()
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize)
     {
-        var newPen = new Pen(Stroke, StrokeThickness)
-        {
-            DashCap = PenLineCap.Round,
-            EndLineCap = PenLineCap.Round,
-            LineJoin = PenLineJoin.Round,
-            StartLineCap = PenLineCap.Round
-        };
+        EnsureFormattedText();
 
-        if (!newPen.Equals(_pen))
+        if (_formattedText != null)
         {
-            _pen = newPen;
-            InvalidateVisual();
+            _formattedText.MaxTextWidth = finalSize.Width;
+            _formattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
         }
+
+        _textGeometry = null;
+        return finalSize;
+    }
+
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        EnsureFormattedText();
+
+        if (_formattedText is null)
+            return new Size();
+
+        _formattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+        _formattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
+        return new Size(Math.Ceiling(_formattedText.Width), Math.Ceiling(_formattedText.Height));
     }
 
     /// <inheritdoc/>
@@ -64,40 +71,14 @@ public class StswOutlinedText : FrameworkElement
     {
         EnsureGeometry();
 
-        if (_textGeometry != null)
-        {
-            if (_pen != null)
-                drawingContext.DrawGeometry(null, _pen, _textGeometry);
-            if (Fill != null)
-                drawingContext.DrawGeometry(Fill, null, _textGeometry);
-        }
-    }
+        if (_textGeometry is null)
+            return;
 
-    /// <inheritdoc/>
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        EnsureFormattedText();
-        if (_formattedText != null)
-        {
-            _formattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
-            _formattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
-            return new Size(Math.Ceiling(_formattedText.Width), Math.Ceiling(_formattedText.Height));
-        }
-        return new Size();
-    }
+        if (_pen is not null)
+            drawingContext.DrawGeometry(null, _pen, _textGeometry);
 
-    /// <inheritdoc/>
-    protected override Size ArrangeOverride(Size finalSize)
-    {
-        EnsureFormattedText();
-        if (_formattedText != null)
-        {
-            _formattedText.MaxTextWidth = finalSize.Width;
-            _formattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
-        }
-        _textGeometry = null;
-
-        return finalSize;
+        if (Fill is not null)
+            drawingContext.DrawGeometry(Fill, null, _textGeometry);
     }
 
     /// <summary>
@@ -139,9 +120,28 @@ public class StswOutlinedText : FrameworkElement
         if (_formattedText != null)
             return;
 
-        _formattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+        _formattedText = new FormattedText(
+            Text ?? string.Empty,
+            CultureInfo.CurrentUICulture,
+            FlowDirection,
+            new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
+            FontSize,
+            Brushes.Black,
+            VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
         UpdateFormattedText();
+    }
+
+    /// <summary>
+    /// Ensures that the text geometry is generated for rendering.
+    /// </summary>
+    private void EnsureGeometry()
+    {
+        if (_textGeometry != null)
+            return;
+
+        EnsureFormattedText();
+        _textGeometry = _formattedText?.BuildGeometry(new Point(0, 0));
     }
 
     /// <summary>
@@ -165,15 +165,24 @@ public class StswOutlinedText : FrameworkElement
     }
 
     /// <summary>
-    /// Ensures that the text geometry is generated for rendering.
+    /// Updates the pen used for drawing the text outline.
+    /// Adjusts stroke properties such as thickness and line caps.
     /// </summary>
-    private void EnsureGeometry()
+    private void UpdatePen()
     {
-        if (_textGeometry != null)
-            return;
+        var newPen = new Pen(Stroke, StrokeThickness)
+        {
+            DashCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round,
+            LineJoin = PenLineJoin.Round,
+            StartLineCap = PenLineCap.Round
+        };
 
-        EnsureFormattedText();
-        _textGeometry = _formattedText?.BuildGeometry(new Point(0, 0));
+        if (!newPen.Equals(_pen))
+        {
+            _pen = newPen;
+            InvalidateVisual();
+        }
     }
     #endregion
 

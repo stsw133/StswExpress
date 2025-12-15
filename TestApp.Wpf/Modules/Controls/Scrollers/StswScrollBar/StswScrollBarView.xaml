@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswScrollBarContext}">
 
-    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+    <local:ControlsBase IsContentAlignmentVisible="False">
         <local:ControlsBase.Description>
             Represents a control that extends the ScrollBar class with additional functionality.
         </local:ControlsBase.Description>

@@ -6,11 +6,13 @@
 		x:DataType="local:MainContext"
         Height="600" Width="1000" WindowStartupLocation="CenterScreen"
         Title="Test" Icon="/Assets/icon.ico">
-    
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-		<se:StswIcon Data="{x:Static se:StswIcons.Seal}"/>
-		<TextBlock Text="TEST" IsVisible="{Binding IsVisible, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter='!'}"/>
-		<se:StswButton Content="TEST" Click="IncrementCount"/>
-        <TextBlock FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}"/>
+	
+    <StackPanel>
+		<se:StswIcon Data="{x:Static se:StswIcons.Seal}" Margin="5" Scale="2.5"/>
+		<se:StswSeparator/>
+		<se:StswButton Content="TEST" Click="IncrementCount" Margin="5"/>
+        <se:StswText FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}"/>
+        <se:StswOutlinedText FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}" Fill="White" Stroke="Red"/>
+	    <local:StswIconView/>
     </StackPanel>
 </Window>

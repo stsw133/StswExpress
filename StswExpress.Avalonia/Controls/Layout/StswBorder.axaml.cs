@@ -28,6 +28,16 @@ public class StswBorder : Border
     }
 
     #region Events & methods
+    /*
+    /// <inheritdoc/>
+    public override void Render(DrawingContext context)
+    {
+        if (CornerClipping && Child is Control child)
+            OnApplyChildClip(child);
+
+        base.Render(context);
+    }
+    */
     /// <summary>
     /// Applies a rounded clipping region to the child element based on <see cref="CornerRadius"/> and <see cref="BorderThickness"/>.
     /// </summary>
@@ -47,10 +57,6 @@ public class StswBorder : Border
         get => GetValue(CornerClippingProperty);
         set => SetValue(CornerClippingProperty, value);
     }
-    public static readonly StyledProperty<bool> CornerClippingProperty
-        = AvaloniaProperty.Register<StswBorder, bool>(
-            nameof(CornerClipping),
-            defaultValue: false
-        );
+    public static readonly StyledProperty<bool> CornerClippingProperty = AvaloniaProperty.Register<StswBorder, bool>(nameof(CornerClipping), defaultValue: false);
     #endregion
 }

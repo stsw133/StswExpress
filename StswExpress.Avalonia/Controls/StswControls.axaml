@@ -4,7 +4,10 @@
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Buttons/StswButton.axaml"/>
 	
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Layout/StswBorder.axaml"/>
+	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Layout/StswSeparator.axaml"/>
 
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswIcon.axaml"/>
+	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswOutlinedText.axaml"/>
+	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswText.axaml"/>
 	
 </Styles>
