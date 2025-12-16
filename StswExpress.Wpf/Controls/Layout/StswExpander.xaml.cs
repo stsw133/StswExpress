@@ -50,7 +50,7 @@ public class StswExpander : Expander, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between the header and the content of the expander.
+    /// Gets or sets the thickness of the separator between the header and the content.
     /// </summary>
     public double SeparatorThickness
     {

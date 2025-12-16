@@ -49,21 +49,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Themes\Resources\halloween_background.webp" />
-	  <Resource Include="Themes\Resources\night_background.webp" />
-	  <Resource Include="Themes\Resources\pink_background.webp" />
-	  <Resource Include="Themes\Resources\spring_background.webp" />
-	  <Resource Include="Themes\Resources\summer_background.webp" />
-	  <Resource Include="Themes\Resources\winter_background.webp" />
-	  <Resource Include="Utils\Translator\Translations\de.json" />
-	  <Resource Include="Utils\Translator\Translations\en.json" />
-	  <Resource Include="Utils\Translator\Translations\es.json" />
-	  <Resource Include="Utils\Translator\Translations\fr.json" />
-	  <Resource Include="Utils\Translator\Translations\ja.json" />
-	  <Resource Include="Utils\Translator\Translations\ko.json" />
-	  <Resource Include="Utils\Translator\Translations\pl.json" />
-	  <Resource Include="Utils\Translator\Translations\ru.json" />
-	  <Resource Include="Utils\Translator\Translations\zh-cn.json" />
+		<Resource Include="Themes\Resources\*.webp" />
+		<Resource Include="Utils\Translator\Translations\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,21 +58,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\Buttons\StswToggleButton.axaml.cs">
-	    <DependentUpon>StswToggleButton.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Controls\Buttons\StswRepeatButton.axaml.cs">
-	    <DependentUpon>StswRepeatButton.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Controls\Buttons\StswRadioButton.axaml.cs">
-	    <DependentUpon>StswRadioButton.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Controls\Buttons\StswHyperlinkButton.axaml.cs">
-	    <DependentUpon>StswHyperlinkButton.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Controls\Panels\StswGridSplitter.axaml.cs">
-	    <DependentUpon>StswGridSplitter.axaml</DependentUpon>
-	  </Compile>
+		<Compile Update="**\*.axaml.cs">
+			<DependentUpon>%(Filename).axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 </Project>
