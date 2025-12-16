@@ -9,7 +9,7 @@ namespace StswExpress.Wpf;
 /// Wrapper for a collection of items that implements <see cref="IStswTrackableItem"/> and provides a <see cref="CollectionViewSource"/> for data binding.
 /// </summary>
 /// <typeparam name="T">Type of the items in the collection, which must implement <see cref="IStswTrackableItem"/>.</typeparam>
-public class StswCollectionViewWrapper<T> : StswObservableObject where T : IStswTrackableItem
+public class StswCollectionViewWrapper<T> : StswObservableObject
 {
     public StswObservableCollection<T> Items { get; }
     public CollectionViewSource Source { get; }

@@ -70,4 +70,22 @@
 	  <Folder Include="Controls\_base\_interfaces\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Controls\Buttons\StswToggleButton.axaml.cs">
+	    <DependentUpon>StswToggleButton.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\Buttons\StswRepeatButton.axaml.cs">
+	    <DependentUpon>StswRepeatButton.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\Buttons\StswRadioButton.axaml.cs">
+	    <DependentUpon>StswRadioButton.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\Buttons\StswHyperlinkButton.axaml.cs">
+	    <DependentUpon>StswHyperlinkButton.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\Panels\StswGridSplitter.axaml.cs">
+	    <DependentUpon>StswGridSplitter.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Windows;
@@ -298,6 +300,33 @@ public static partial class StswExtensions
     /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>
     /// <returns>The converted <see cref="Color"/>.</returns>
     public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
+    #endregion
+
+    #region Enum extensions
+    /// <summary>
+    /// Creates a list of <see cref="StswSelectionItem"/> entries for every value of the provided enum type.
+    /// This is useful for populating filter dropdowns or selection lists in UI components.
+    /// </summary>
+    /// <param name="enumType">The enum type to convert.</param>
+    /// <returns>A list of <see cref="StswSelectionItem"/> items with <see cref="StswSelectionItem.Value"/> set to the enum value and <see cref="StswSelectionItem.Display"/> set to its description.</returns>
+    public static IList<StswSelectionItem> ToFilterItems(this Type enumType)
+    {
+        ArgumentNullException.ThrowIfNull(enumType);
+
+        if (!enumType.IsEnum)
+            throw new ArgumentException("Type must be an enum.", nameof(enumType));
+
+        return [.. Enum.GetValues(enumType)
+            .Cast<Enum>()
+            // 2 lines below can be uncommented to remove duplicate enum values
+            //.GroupBy(value => value)
+            //.Select(group => group.Key)
+            .Select(value => new StswSelectionItem
+            {
+                Value = value,
+                Display = value.GetDescription()
+            })];
+    }
     #endregion
 
     #region Process extensions

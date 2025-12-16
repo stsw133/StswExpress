@@ -44,18 +44,5 @@ public class StswEnumToListExtension : MarkupExtension
     }
 
     /// <inheritdoc/>
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return Enum.GetValues(_enumType)
-                   .Cast<Enum>()
-                   // 2 lines below can be uncommented to remove duplicate enum values
-                   //.GroupBy(value => value)
-                   //.Select(group => group.Key)
-                   .Select(value => new StswSelectionItem
-                   {
-                       Display = value.GetDescription(),
-                       Value = value
-                   })
-                   .ToList();
-    }
+    public override object ProvideValue(IServiceProvider serviceProvider) => _enumType.ToFilterItems();
 }

@@ -17,6 +17,10 @@
 	<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
+	<PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+		<OutputType>WinExe</OutputType>
+	</PropertyGroup>
+
   <ItemGroup>
     <AvaloniaXaml Remove="Modules\Controls\Typography\StswIcon\ControlsBase.axaml" />
   </ItemGroup>

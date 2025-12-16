@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -222,6 +223,24 @@ public class StswExtensionsTests
         Assert.Equal(20, color.R);
         Assert.Equal(30, color.G);
         Assert.Equal(40, color.B);
+    }
+    #endregion
+
+    #region Enum extensions
+    private enum TestEnum
+    {
+        [Description("Test Value")]
+        Value
+    }
+
+    [Fact]
+    public void ToFilterItems_CreatesItemsWithDescription()
+    {
+        var items = typeof(TestEnum).ToFilterItems();
+
+        var item = Assert.Single(items);
+        Assert.Equal(TestEnum.Value, item.Value);
+        Assert.Equal("Test Value", item.Display);
     }
     #endregion
 

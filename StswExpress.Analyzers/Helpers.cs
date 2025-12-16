@@ -54,18 +54,30 @@ internal static class Helpers
     /// Retrieves the attribute data for a specific attribute from the given symbol.
     /// </summary>
     /// <param name="symbol">The symbol to check for attributes.</param>
-    /// <param name="attributeFullName">The full name of the attribute to look for.</param>
+    /// <param name="attributeFullNames">The full names of the attributes to look for.</param>
     /// <returns>The attribute data if found; otherwise, <see langword="null"/>.</returns>
-    internal static AttributeData? GetAttribute(ISymbol symbol, string attributeFullName)
-        => symbol.GetAttributes().FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == attributeFullName);
+    internal static AttributeData? GetAttribute(ISymbol symbol, params string[] attributeFullNames)
+    {
+        foreach (var attribute in symbol.GetAttributes())
+        {
+            var attributeName = attribute.AttributeClass?.ToDisplayString();
+            if (attributeName is null)
+                continue;
+
+            foreach (var name in attributeFullNames)
+                if (attributeName == name)
+                    return attribute;
+        }
+
+        return null;
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="PartialClassContext"/> for the specified class symbol.
     /// </summary>
     /// <param name="classSymbol">The class symbol to create the context for.</param>
     /// <returns>A new instance of <see cref="PartialClassContext"/> containing the class symbol.</returns>
-    public static PartialClassContext GetClassContext(INamedTypeSymbol classSymbol)
-        => new PartialClassContext { ClassSymbol = classSymbol };
+    public static PartialClassContext GetClassContext(INamedTypeSymbol classSymbol) => new PartialClassContext { ClassSymbol = classSymbol };
 
     /// <summary>
     /// Retrieves a named argument from the attribute data.

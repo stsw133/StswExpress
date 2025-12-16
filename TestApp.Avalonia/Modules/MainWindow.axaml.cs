@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 
 namespace TestApp.Ava;
 /// <summary>
@@ -13,10 +12,5 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = _viewModel;
-    }
-
-    private void IncrementCount(object? sender, RoutedEventArgs e)
-    {
-        _viewModel.Increment();
     }
 }

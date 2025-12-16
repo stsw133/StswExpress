@@ -18,7 +18,7 @@ public partial class StswIconContext : ControlsContext
         Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property!.Name.Equals(nameof(Scale)))?.Value ?? default;
         SelectedIcon = Icons.FirstOrDefault(x => x.Value is Geometry geometry && geometry.Equals(Data));
     }
-
+    
     [StswCommand] void SetGridLengthAuto() => Scale = GridLength.Auto;
     [StswCommand] void SetGridLengthFill() => Scale = new GridLength(1, GridUnitType.Star);
     
@@ -27,7 +27,7 @@ public partial class StswIconContext : ControlsContext
     {
         if (SelectedIcon?.Value is Geometry geometry && geometry.Equals(newValue))
             return;
-
+    
         SelectedIcon = Icons.FirstOrDefault(x => x.Value is Geometry icon && icon.Equals(newValue));
     }
 
@@ -35,5 +35,5 @@ public partial class StswIconContext : ControlsContext
     [StswObservableProperty] GridLength _scale;
 
     [StswObservableProperty] StswComboItem? _selectedIcon;
-    partial void OnSelectedIconChanged(StswComboItem? oldValue, StswComboItem? newValue) => Data = newValue?.Value as Geometry;
+    //partial void OnSelectedIconChanged(StswComboItem? oldValue, StswComboItem? newValue) => Data = newValue?.Value as Geometry;
 }

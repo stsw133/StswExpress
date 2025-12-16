@@ -30,7 +30,7 @@
 									</DataTemplate>
 								</ListBox.ItemTemplate>
 							</ListBox>
-							<Border BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=`True~1~2`}"/>
+							<se:StswSeparator BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
 							<ListBox BorderThickness="2 0 2 2"
 									 ItemsSource="{Binding HorizontalAlignmentSource}"
 									 SelectedItem="{Binding HorizontalContentAlignment}"
@@ -52,8 +52,8 @@
 									</DataTemplate>
 								</ListBox.ItemTemplate>
 							</ListBox>
-							<Border BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=`True~1~2`}"/>
-							<ListBox BorderThickness="2 0 2 2"
+							<se:StswSeparator BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
+                            <ListBox BorderThickness="2 0 2 2"
 									 ItemsSource="{Binding VerticalAlignmentSource}"
 									 SelectedItem="{Binding VerticalContentAlignment}"
                                      IsVisible="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}">
@@ -72,10 +72,10 @@
 					</StackPanel>
 				</ScrollViewer>
 				<!-- splitter -->
-				<GridSplitter Grid.Column="1"
-							  Focusable="False"
-							  HorizontalAlignment="Stretch"
-							  VerticalAlignment="Stretch"/>
+				<se:StswGridSplitter Grid.Column="1"
+                                     Focusable="False"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"/>
 				<!-- control -->
 				<ScrollViewer Grid.Column="2">
 					<Grid RowDefinitions="500,5,auto">
@@ -84,10 +84,10 @@
 										  Content="{Binding Content, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"
 										  Margin="5"/>
 						<!-- splitter -->
-						<GridSplitter Grid.Row="1"
-									  Focusable="False"
-									  HorizontalAlignment="Stretch"
-									  VerticalAlignment="Stretch"/>
+						<se:StswGridSplitter Grid.Row="1"
+                                             Focusable="False"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"/>
 						<!-- status panel -->
 						<ContentControl Grid.Row="2"
 										Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"

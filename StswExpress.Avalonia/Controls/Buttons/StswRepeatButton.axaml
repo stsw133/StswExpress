@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:se="using:StswExpress.Avalonia">
 
-	<Style Selector="se|StswButton">
+	<Style Selector="se|StswRepeatButton">
 		<Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
@@ -41,23 +41,32 @@
 		</Setter>
 	</Style>
 
-	<Style Selector="se|StswButton:pointerover">
+	<Style Selector="se|StswRepeatButton:pointerover">
 		<Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}"/>
 	</Style>
 
-	<Style Selector="se|StswButton:pressed">
+	<Style Selector="se|StswRepeatButton:pressed">
 		<Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}"/>
 	</Style>
 
-	<Style Selector="se|StswButton:default">
-		<Setter Property="BorderBrush" Value="{DynamicResource StswButton.Defaulted.Border}"/>
-	</Style>
-
-	<Style Selector="se|StswButton:disabled">
+	<Style Selector="se|StswRepeatButton:disabled">
 		<Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}"/>
 		<Setter Property="Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
 	</Style>
+
+	<!-- <Style x:Key="StswRepeatButtonTransparentStyle" Selector="RepeatButton">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Focusable" Value="False"/>
+		<Setter Property="IsTabStop" Value="False"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RepeatButton">
+					<Border Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style> -->
 </Styles>
