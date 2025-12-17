@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswToolBarContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents an information bar control that can display a description, title, and type information, with an optional close button.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties
         <local:ControlsBase.Properties>
             

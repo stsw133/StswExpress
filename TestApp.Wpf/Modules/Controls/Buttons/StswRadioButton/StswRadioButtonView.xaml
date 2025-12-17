@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswRadioButtonContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a control that allows the user to select a single option from a group of mutually exclusive options.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- AllowUncheck -->

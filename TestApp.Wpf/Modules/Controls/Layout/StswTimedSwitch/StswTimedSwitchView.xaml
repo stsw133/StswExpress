@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTimedSwitchContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="False">
-        <local:ControlsBase.Description>
-            Represents a control that manages the display of different content for a specified duration when the timer is enabled.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- SwitchTime -->

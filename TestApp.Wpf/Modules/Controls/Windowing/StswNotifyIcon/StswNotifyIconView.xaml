@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswNotifyIconContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="False">
-        <local:ControlsBase.Description>
-            Represents a control for managing a system tray icon with customizable properties, including icons, tooltips, and notifications.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsAlwaysVisible -->

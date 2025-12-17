@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswColorBoxContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Icon -->

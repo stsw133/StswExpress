@@ -6,11 +6,8 @@
              xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswChartLegendContext}">
-    
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a control designed for displaying chart's legend.
-        </local:ControlsBase.Description>
+
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Columns -->

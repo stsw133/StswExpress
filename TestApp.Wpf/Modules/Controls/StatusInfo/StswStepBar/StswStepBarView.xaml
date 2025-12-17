@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswStepBarContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="False">
-        <local:ControlsBase.Description>
-            Represents a control that displays a sequence of steps to indicate progress through a process.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties
         <local:ControlsBase.Properties>
         

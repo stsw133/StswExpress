@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswTextContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="False">
-        <local:ControlsBase.Description>
-            Represents a control that is displaying a text.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
 
         <!-- content -->

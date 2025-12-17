@@ -8,13 +8,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswCalendarContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a custom calendar control with date selection functionality.
-            The control allows users to navigate between months and years, select individual days or months, and provides
-            support for minimum and maximum date ranges. It also includes functionality for quick selection of the current date
-            and offers support for customization, such as corner radius and item appearance.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Minimum -->

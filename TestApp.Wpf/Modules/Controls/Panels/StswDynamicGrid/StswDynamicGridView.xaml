@@ -7,11 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDynamicGridContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="False">
-        <local:ControlsBase.Description>
-            A dynamic panel that arranges its children in a flexible grid-like structure.
-            It supports automatic layout based on the number of items, customizable spacing, and stretching specific rows or columns.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Columns -->

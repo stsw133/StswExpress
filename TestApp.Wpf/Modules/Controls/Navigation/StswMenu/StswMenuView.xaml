@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswMenuContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a menu control with extended functionality, including support for corner customization.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
         
         <!-- content -->

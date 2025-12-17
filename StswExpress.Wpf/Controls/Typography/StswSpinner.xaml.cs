@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace StswExpress.Wpf;
@@ -18,12 +17,231 @@ namespace StswExpress.Wpf;
 /// &lt;se:StswSpinner Type="Dots" Scale="2" Fill="Red"/&gt;
 /// </code>
 /// </example>
-public class StswSpinner : Control
+public class StswSpinner : FrameworkElement
 {
-    static StswSpinner()
+    private const double BaseSize = 24d;
+    private const double TwoPi = Math.PI * 2;
+    private readonly Stopwatch _stopwatch = new();
+    private double _animationClock;
+    private bool _isAnimating;
+
+    public StswSpinner()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(typeof(StswSpinner)));
+        Loaded += (_, _) => UpdateAnimationState();
+        Unloaded += (_, _) => UpdateAnimationState();
+        IsVisibleChanged += (_, _) => UpdateAnimationState();
     }
+
+    #region Events & methods
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize) => finalSize;
+
+    /// <inheritdoc/>
+    protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
+    {
+        var pt = hitTestParameters.HitPoint;
+
+        if (pt.X >= 0 && pt.X <= ActualWidth
+         && pt.Y >= 0 && pt.Y <= ActualHeight)
+            return new PointHitTestResult(this, pt);
+
+        return null;
+    }
+
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        var scale = GetScaleFactor();
+        var desiredWidth = double.IsNaN(Width) ? BaseSize * scale : Width;
+        var desiredHeight = double.IsNaN(Height) ? BaseSize * scale : Height;
+
+        if (!double.IsInfinity(availableSize.Width))
+            desiredWidth = Math.Min(availableSize.Width, desiredWidth);
+
+        if (!double.IsInfinity(availableSize.Height))
+            desiredHeight = Math.Min(availableSize.Height, desiredHeight);
+
+        return new(desiredWidth, desiredHeight);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.Property == IsEnabledProperty)
+        {
+            UpdateAnimationState();
+            InvalidateVisual();
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        base.OnRender(drawingContext);
+
+        var size = Math.Min(RenderSize.Width, RenderSize.Height);
+        if (size <= 0)
+            return;
+
+        var fill = Fill ?? Brushes.Gray;
+        var center = new Point(RenderSize.Width / 2, RenderSize.Height / 2);
+
+        switch (Type)
+        {
+            case StswSpinnerType.Circles:
+                DrawCircles(drawingContext, center, size, fill);
+                break;
+            case StswSpinnerType.Crescent:
+                DrawCrescent(drawingContext, center, size, fill);
+                break;
+            case StswSpinnerType.Dots:
+                DrawDots(drawingContext, center, size, fill);
+                break;
+            case StswSpinnerType.Helix:
+                DrawHelix(drawingContext, center, size, fill);
+                break;
+            case StswSpinnerType.Lines:
+                DrawLines(drawingContext, center, size, fill);
+                break;
+            case StswSpinnerType.Pulse:
+                DrawPulse(drawingContext, center, size, fill);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Animation frame update handler.
+    /// </summary>
+    /// <param name="sender">Event sender.</param>
+    /// <param name="e">Event arguments.</param>
+    private void OnRendering(object? sender, EventArgs e)
+    {
+        var delta = _stopwatch.Elapsed.TotalSeconds;
+        _stopwatch.Restart();
+
+        _animationClock = (_animationClock + delta) % 60;
+        InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Clamps a value between 0 and 1.
+    /// </summary>
+    /// <param name="value">Input value.</param>
+    /// <returns>Clamped value between 0 and 1.</returns>
+    private static double Clamp01(double value) => value < 0 ? 0 : (value > 1 ? 1 : value);
+
+    /// <summary>
+    /// Easing function with power.
+    /// </summary>
+    /// <param name="t">Input value between 0 and 1.</param>
+    /// <param name="power">Easing power.</param>
+    /// <returns>Eased value between 0 and 1.</returns>
+    private static double EaseInPow(double t, double power)
+    {
+        t = Clamp01(t);
+        return Math.Pow(t, power);
+    }
+
+    /// <summary>
+    /// Easing function with power for ease-out.
+    /// </summary>
+    /// <param name="t">Input value between 0 and 1.</param>
+    /// <param name="power">Easing power.</param>
+    /// <returns>Eased value between 0 and 1.</returns>
+    private static double EaseOutPow(double t, double power)
+    {
+        t = Clamp01(t);
+        return 1.0 - Math.Pow(1.0 - t, power);
+    }
+
+    /// <summary>
+    /// Easing function with power of 2.
+    /// </summary>
+    /// <param name="value">Input value between 0 and 1.</param>
+    /// <returns>Eased value between 0 and 1.</returns>
+    private static double EaseInPower2(double value)
+    {
+        value = Clamp01(value);
+        return value * value;
+    }
+
+    /// <summary>
+    /// Easing function with power of 2 for ease-out.
+    /// </summary>
+    /// <param name="value">Input value between 0 and 1.</param>
+    /// <returns>Eased value between 0 and 1.</returns>
+    private static double EaseOutPower2(double value)
+    {
+        value = Clamp01(value);
+        return 1 - EaseInPower2(1 - value);
+    }
+
+    /// <summary>
+    /// Evaluates a value within a segment using easing.
+    /// </summary>
+    /// <param name="t">Current time value.</param>
+    /// <param name="t0">Start time of the segment.</param>
+    /// <param name="t1">End time of the segment.</param>
+    /// <param name="v0">Start value of the segment.</param>
+    /// <param name="v1">End value of the segment.</param>
+    /// <param name="easeOut">Whether to use ease-out easing.</param>
+    /// <param name="power">Easing power.</param>
+    /// <returns>Evaluated value.</returns>
+    private static double EvalSegment(double t, double t0, double t1, double v0, double v1, bool easeOut, double power)
+    {
+        if (t <= t0) return v0;
+        if (t >= t1) return v1;
+
+        double u = (t - t0) / (t1 - t0);
+        u = easeOut ? EaseOutPow(u, power) : EaseInPow(u, power);
+        return StswMath.Lerp(v0, v1, u);
+    }
+
+    /// <summary>
+    /// Calculates the progress of the current animation cycle.
+    /// </summary>
+    /// <param name="durationSeconds">Duration of one animation cycle in seconds.</param>
+    /// <returns>Progress value between 0 and 1.</returns>
+    private double GetProgress(double durationSeconds)
+    {
+        if (!_isAnimating || durationSeconds <= 0)
+            return 0;
+
+        return _animationClock % durationSeconds / durationSeconds;
+    }
+
+    /// <summary>
+    /// Gets the scale factor based on the Scale property.
+    /// </summary>
+    /// <returns>Scale factor as a double.</returns>
+    private double GetScaleFactor() => Scale.IsStar ? 1 : Scale.Value;
+
+    /// <summary>
+    /// Updates animation subscription depending on control visibility and global settings.
+    /// </summary>
+    private void UpdateAnimationState()
+    {
+        var shouldAnimate = StswApp.Settings.AnimationsEnabled
+                         && StswControl.GetEnableAnimations(this)
+                         && IsLoaded
+                         && IsVisible
+                         && IsEnabled;
+
+        if (shouldAnimate && !_isAnimating)
+        {
+            CompositionTarget.Rendering += OnRendering;
+            _stopwatch.Restart();
+            _isAnimating = true;
+        }
+        else if (!shouldAnimate && _isAnimating)
+        {
+            CompositionTarget.Rendering -= OnRendering;
+            _stopwatch.Reset();
+            _isAnimating = false;
+        }
+    }
+    #endregion
 
     #region Logic properties
     /// <summary>
@@ -46,9 +264,7 @@ public class StswSpinner : Control
         );
     public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswSpinner stsw)
-            return;
-
+        var stsw = (StswSpinner)d;
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
 
@@ -65,8 +281,17 @@ public class StswSpinner : Control
         = DependencyProperty.Register(
             nameof(Type),
             typeof(StswSpinnerType),
-            typeof(StswSpinner)
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(StswSpinnerType.Circles,
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnTypeChanged)
         );
+    private static void OnTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswSpinner)d;
+        stsw._animationClock = 0;
+        stsw.InvalidateVisual();
+    }
     #endregion
 
     #region Style properties
@@ -88,117 +313,341 @@ public class StswSpinner : Control
         );
     #endregion
 
-    #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
-    
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswSpinner)}.")]
-    protected new Brush? BorderBrush
+    #region Drawing
+    /// <summary>
+    /// Draws a series of circles arranged in a circular pattern.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawCircles(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswSpinner)}.");
+        const int dots = 8;
+        var ringRadius = (size / 2) - size * 0.12;
+        var dotRadius = size * 0.1;
+        var progress = GetProgress(1);
+
+        for (var i = 0; i < dots; i++)
+        {
+            var offset = i / (double)dots;
+            var phase = (progress - offset + 1) % 1.0;
+
+            var opacity = phase <= 0.9 ? 1.0 - EaseInPower2(phase / 0.9) : 0.0;
+            if (opacity <= 0)
+                continue;
+
+            var angle = offset * TwoPi;
+            var dotCenter = new Point(
+                center.X + ringRadius * Math.Cos(angle),
+                center.Y + ringRadius * Math.Sin(angle));
+
+            dc.PushOpacity(opacity);
+            dc.DrawEllipse(brush, null, dotCenter, dotRadius, dotRadius);
+            dc.Pop();
+        }
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswSpinner)}.")]
-    protected new Thickness? BorderThickness
+    /// <summary>
+    /// Draws a crescent-shaped spinner animation.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawCrescent(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswSpinner)}.");
+        var ringRadius = size / 2 - size * 0.1;
+        var progress = GetProgress(1.2);
+        var startAngle = progress * 360;
+        const double sweep = 280;
+
+        var geometry = new StreamGeometry();
+        using (var ctx = geometry.Open())
+        {
+            var start = PointOnCircle(center, ringRadius, startAngle);
+            var end = PointOnCircle(center, ringRadius, startAngle + sweep);
+            ctx.BeginFigure(start, false, false);
+            ctx.ArcTo(end, new Size(ringRadius, ringRadius), 0, sweep > 180, SweepDirection.Clockwise, true, false);
+        }
+
+        geometry.Freeze();
+        var pen = new Pen(brush, size * 0.12)
+        {
+            StartLineCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round
+        };
+
+        dc.DrawGeometry(null, pen, geometry);
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(Foreground)} is not supported in {nameof(StswSpinner)}.")]
-    protected new Brush? Foreground
+    /// <summary>
+    /// Draws a series of dots that animate in a linear sequence.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawDots(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(Foreground)} is not supported in {nameof(StswSpinner)}.");
+        const int dots = 3;
+        var cycleSeconds = 0.9;
+        var progress = GetProgress(cycleSeconds);
+
+        var dotSpacing = size * 0.35;
+        var baseDotRadius = size * 0.12;
+        var timeShiftPerDot = 0.2 / cycleSeconds;
+
+        for (var i = 0; i < dots; i++)
+        {
+            var offset = i * timeShiftPerDot;
+            var phase = (progress - offset + 1) % 1;
+
+            //var t0 = 0.0 / cycleSeconds;
+            var t1 = 0.4 / cycleSeconds;
+            var t2 = 0.8 / cycleSeconds;
+
+            double opacity;
+            double scale;
+
+            if (phase <= t1)
+            {
+                var t = phase / t1;
+                t = EaseInPower2(t);
+
+                opacity = StswMath.Lerp(0.3, 1.0, t);
+                scale = StswMath.Lerp(0.25, 1.0, t);
+            }
+            else if (phase <= t2)
+            {
+                var t = (phase - t1) / (t2 - t1);
+                t = EaseOutPower2(t);
+
+                opacity = StswMath.Lerp(1.0, 0.3, t);
+                scale = StswMath.Lerp(1.0, 0.25, t);
+            }
+            else
+            {
+                opacity = 0.3;
+                scale = 0.25;
+            }
+
+            var dotCenter = new Point(
+                center.X + (i - 1) * dotSpacing,
+                center.Y);
+
+            dc.PushOpacity(opacity);
+            dc.DrawEllipse(brush, null, dotCenter, baseDotRadius * scale, baseDotRadius * scale);
+            dc.Pop();
+        }
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontFamily)} is not supported in {nameof(StswSpinner)}.")]
-    protected new FontFamily? FontFamily
+    /// <summary>
+    /// Draws a helix-style spinner animation.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawHelix(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontFamily)} is not supported in {nameof(StswSpinner)}.");
+        const double baseCanvasSize = 850.0;
+        const double orbitSeconds = 4.0;
+        const double sizeScale = 1.2;
+
+        var scaleToControl = size / baseCanvasSize;
+        var offsetX = center.X - baseCanvasSize * scaleToControl / 2.0;
+        var offsetY = center.Y - baseCanvasSize * scaleToControl / 2.0;
+
+        var orbitPhase = GetProgress(orbitSeconds);
+
+        for (var i = 1; i <= 14; i++)
+        {
+            var group = (i - 1) / 2;
+            var fromBack = (i % 2) == 0;
+
+            var timeOffsetSeconds = (285.0 * group + (group - 1)) / 1000.0;
+            var phase = (orbitPhase + (timeOffsetSeconds / orbitSeconds)) % 1.0;
+            var left = group * 125.0;
+
+            double top;
+            if (!fromBack)
+            {
+                if (phase <= 0.25) top = EvalSegment(phase, 0.00, 0.25, 375, 575, easeOut: true, power: 1.7);
+                else if (phase <= 0.50) top = EvalSegment(phase, 0.25, 0.50, 575, 375, easeOut: false, power: 1.7);
+                else if (phase <= 0.75) top = EvalSegment(phase, 0.50, 0.75, 375, 175, easeOut: true, power: 1.7);
+                else top = EvalSegment(phase, 0.75, 1.00, 175, 375, easeOut: false, power: 1.7);
+            }
+            else
+            {
+                if (phase <= 0.25) top = EvalSegment(phase, 0.00, 0.25, 375, 175, easeOut: true, power: 1.7);
+                else if (phase <= 0.50) top = EvalSegment(phase, 0.25, 0.50, 175, 375, easeOut: false, power: 1.7);
+                else if (phase <= 0.75) top = EvalSegment(phase, 0.50, 0.75, 375, 575, easeOut: true, power: 1.7);
+                else top = EvalSegment(phase, 0.75, 1.00, 575, 375, easeOut: false, power: 1.7);
+            }
+
+            double opacity;
+            if (!fromBack)
+            {
+                if (phase < 0.25) opacity = 1;
+                else if (phase < 0.45) opacity = StswMath.Lerp(1, 0, EaseInPow((phase - 0.25) / (0.45 - 0.25), 1.7));
+                else if (phase < 0.55) opacity = 0;
+                else if (phase < 0.75) opacity = StswMath.Lerp(0, 1, EaseOutPow((phase - 0.55) / (0.75 - 0.55), 1.7));
+                else opacity = 1;
+            }
+            else
+            {
+                if (phase < 0.05) opacity = 0;
+                else if (phase < 0.25) opacity = StswMath.Lerp(0, 1, EaseOutPow((phase - 0.05) / (0.25 - 0.05), 1.7));
+                else if (phase < 0.75) opacity = 1;
+                else if (phase < 0.95) opacity = StswMath.Lerp(1, 0, EaseInPow((phase - 0.75) / (0.95 - 0.75), 1.7));
+                else opacity = 0;
+            }
+
+            if (opacity <= 0.001)
+                continue;
+
+            double ellipseSize;
+            double margin;
+
+            if (!fromBack)
+            {
+                if (phase <= 0.25) ellipseSize = EvalSegment(phase, 0.00, 0.25, 100, 70, easeOut: true, power: 1.5);
+                else if (phase <= 0.50) ellipseSize = EvalSegment(phase, 0.25, 0.50, 70, 20, easeOut: false, power: 1.5);
+                else if (phase <= 0.75) ellipseSize = EvalSegment(phase, 0.50, 0.75, 20, 70, easeOut: false, power: 1.5);
+                else ellipseSize = EvalSegment(phase, 0.75, 1.00, 70, 100, easeOut: true, power: 1.5);
+
+                if (phase <= 0.25) margin = EvalSegment(phase, 0.00, 0.25, 0, 15, easeOut: true, power: 1.5);
+                else if (phase <= 0.50) margin = EvalSegment(phase, 0.25, 0.50, 15, 40, easeOut: false, power: 1.5);
+                else if (phase <= 0.75) margin = EvalSegment(phase, 0.50, 0.75, 40, 15, easeOut: false, power: 1.5);
+                else margin = EvalSegment(phase, 0.75, 1.00, 15, 0, easeOut: true, power: 1.5);
+            }
+            else
+            {
+                if (phase <= 0.25) ellipseSize = EvalSegment(phase, 0.00, 0.25, 20, 70, easeOut: true, power: 1.5);
+                else if (phase <= 0.50) ellipseSize = EvalSegment(phase, 0.25, 0.50, 70, 100, easeOut: false, power: 1.5);
+                else if (phase <= 0.75) ellipseSize = EvalSegment(phase, 0.50, 0.75, 100, 70, easeOut: false, power: 1.5);
+                else ellipseSize = EvalSegment(phase, 0.75, 1.00, 70, 20, easeOut: true, power: 1.5);
+
+                if (phase <= 0.25) margin = EvalSegment(phase, 0.00, 0.25, 40, 15, easeOut: true, power: 1.5);
+                else if (phase <= 0.50) margin = EvalSegment(phase, 0.25, 0.50, 15, 0, easeOut: false, power: 1.5);
+                else if (phase <= 0.75) margin = EvalSegment(phase, 0.50, 0.75, 0, 15, easeOut: false, power: 1.5);
+                else margin = EvalSegment(phase, 0.75, 1.00, 15, 40, easeOut: true, power: 1.5);
+            }
+
+            ellipseSize *= sizeScale;
+            double drawLeft = left + margin;
+            double drawTop = top + margin;
+            double drawSize = Math.Max(0.1, ellipseSize - 2 * margin);
+
+            var ellipseRect = new Rect(
+                offsetX + drawLeft * scaleToControl,
+                offsetY + drawTop * scaleToControl,
+                drawSize * scaleToControl,
+                drawSize * scaleToControl);
+
+            dc.PushOpacity(opacity);
+            dc.DrawEllipse(brush, null,
+                new Point(ellipseRect.X + ellipseRect.Width / 2, ellipseRect.Y + ellipseRect.Height / 2),
+                ellipseRect.Width / 2, ellipseRect.Height / 2);
+            dc.Pop();
+        }
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontSize)} is not supported in {nameof(StswSpinner)}.")]
-    protected new double FontSize
+    /// <summary>
+    /// Draws a series of lines arranged in a circular pattern.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawLines(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontSize)} is not supported in {nameof(StswSpinner)}.");
+        const int lines = 8;
+        var outerRadius = (size / 2) - size * 0.14;
+        var innerRadius = outerRadius - size * 0.18;
+        var baseThickness = size * 0.08;
+        var progress = GetProgress(1);
+
+        for (var i = 0; i < lines; i++)
+        {
+            var offset = i / (double)lines;
+            var phase = (progress - offset + 1) % 1;
+
+            var opacity = phase <= 0.9 ? 1.0 - EaseInPower2(phase / 0.9) : 0.0;
+            if (opacity  <= 0)
+                continue;
+
+            var angle = offset * TwoPi;
+            var outerPoint = new Point(
+                center.X + outerRadius * Math.Cos(angle),
+                center.Y + outerRadius * Math.Sin(angle));
+            var innerPoint = new Point(
+                center.X + innerRadius * Math.Cos(angle),
+                center.Y + innerRadius * Math.Sin(angle));
+
+            var thickness = baseThickness * (0.7 + 0.3 * opacity);
+            var pen = new Pen(brush, thickness)
+            {
+                StartLineCap = PenLineCap.Round,
+                EndLineCap = PenLineCap.Round
+            };
+
+            dc.PushOpacity(opacity);
+            dc.DrawLine(pen, innerPoint, outerPoint);
+            dc.Pop();
+        }
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontStretch)} is not supported in {nameof(StswSpinner)}.")]
-    protected new FontStretch FontStretch
+    /// <summary>
+    /// Draws a pulsing ring animation.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawPulse(DrawingContext dc, Point center, double size, Brush brush)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontStretch)} is not supported in {nameof(StswSpinner)}.");
+        var progress = GetProgress(1.5);
+        var pen = new Pen(brush, size * 0.08);
+        var centerDotRadius = size * 0.13;
+
+        DrawPulseRing(dc, center, size, pen, progress);
+        DrawPulseRing(dc, center, size, pen, (progress + 0.4) % 1);
+        dc.DrawEllipse(brush, null, center, centerDotRadius, centerDotRadius);
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontStyle)} is not supported in {nameof(StswSpinner)}.")]
-    protected new FontStyle FontStyle
+    /// <summary>
+    /// Draws a single pulse ring at a given progress state.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="pen">Pen used for drawing the ring.</param>
+    /// <param name="progress">Progress of the pulse animation (0 to 1).</param>
+    private static void DrawPulseRing(DrawingContext dc, Point center, double size, Pen pen, double progress)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontStyle)} is not supported in {nameof(StswSpinner)}.");
+        var opacity = 0.8 * (1.0 - progress);
+        var ringRadius = size * (0.25 + 0.55 * progress);
+
+        dc.PushOpacity(opacity);
+        dc.DrawEllipse(null, pen, center, ringRadius, ringRadius);
+        dc.Pop();
     }
 
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontWeight)} is not supported in {nameof(StswSpinner)}.")]
-    protected new FontWeight FontWeight
+    /// <summary>
+    /// Calculates a point on the circumference of a circle.
+    /// </summary>
+    /// <param name="center">Center point of the circle.</param>
+    /// <param name="radius">Radius of the circle.</param>
+    /// <param name="angleInDegrees">Angle in degrees.</param>
+    /// <returns>Point on the circle.</returns>
+    private static Point PointOnCircle(Point center, double radius, double angleInDegrees)
     {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontWeight)} is not supported in {nameof(StswSpinner)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswSpinner)}.")]
-    protected new HorizontalAlignment HorizontalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswSpinner)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswSpinner)}.")]
-    protected new VerticalAlignment VerticalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswSpinner)}.");
+        var angle = angleInDegrees * Math.PI / 180;
+        return new(
+            center.X + radius * Math.Cos(angle),
+            center.Y + radius * Math.Sin(angle));
     }
     #endregion
 }

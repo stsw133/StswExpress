@@ -18,7 +18,8 @@
 • Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Wpf.xml</DocumentationFile>
     <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
     <Copyright>© 2025 Karol Staszewski</Copyright>

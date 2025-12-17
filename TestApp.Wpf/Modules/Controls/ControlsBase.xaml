@@ -9,14 +9,22 @@
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
             <Grid d:Background="White" se:StswGrid.ColumnDefinitions="200,5,*">
-                <!-- name and description -->
+                <!-- properties -->
                 <se:StswScrollView Grid.Column="0" DynamicMode="Partial">
                     <StackPanel Margin="5">
+                        <!-- loading time -->
+                        <se:StswText Padding="5" FontStyle="Italic">
+                            <Run Text="Loading time: "/>
+                            <Run Text="{Binding LoadingTime, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                        </se:StswText>
+                        <se:StswSeparator BorderThickness="1" Margin="5"/>
+                        <!-- name and description -->
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                             <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
                             <LineBreak/>
                             <Run Text="{Binding Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </se:StswText>
+                        <se:StswSeparator BorderThickness="1" Margin="5"/>
                         <StackPanel Margin="5">
                             <se:StswText FontWeight="Medium" HorizontalAlignment="Center" Text="Properties:"/>
                             <!-- HorizontalAlignment -->

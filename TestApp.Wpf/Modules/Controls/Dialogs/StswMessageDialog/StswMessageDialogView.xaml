@@ -7,39 +7,36 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance local:StswMessageDialogContext}">
 
-    <se:StswContentDialog Identifier="StswMessageDialogView" CloseOnBackdropClick="{Binding CloseOnBackdropClick}">
-        <local:ControlsBase IsContentAlignmentVisible="False">
-            <local:ControlsBase.Description>
-                Represents a control behaving like content dialog with various properties for customization.
-            </local:ControlsBase.Description>
-            <!-- properties -->
-            <local:ControlsBase.Properties>
-                <!-- Buttons -->
-                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Buttons, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogButtons}" Margin="0 0 0 3" SelectedValue="{Binding Buttons}"/>
-                <!-- CloseOnBackdropClick -->
-                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CloseOnBackdropClick, Type={x:Type se:StswContentDialog}}"/>
-                <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
-                <!-- Image -->
-                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Image, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogImage}" Margin="0 0 0 3" SelectedValue="{Binding Image}"/>
-                <!-- MailAddress -->
-                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MailAddress, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswTextBox Margin="0 0 0 3" Text="{Binding MailAddress}"/>
-                <!-- ShowDetails -->
-                <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Show details"/>
-                <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
-            </local:ControlsBase.Properties>
-            <!-- content -->
+    <local:ControlsBase>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Buttons -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Buttons, Type={x:Type se:StswMessageDialog}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogButtons}" Margin="0 0 0 3" SelectedValue="{Binding Buttons}"/>
+            <!-- CloseOnBackdropClick -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf CloseOnBackdropClick, Type={x:Type se:StswContentDialog}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding CloseOnBackdropClick}"/>
+            <!-- Image -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Image, Type={x:Type se:StswMessageDialog}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswDialogImage}" Margin="0 0 0 3" SelectedValue="{Binding Image}"/>
+            <!-- MailAddress -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MailAddress, Type={x:Type se:StswMessageDialog}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding MailAddress}"/>
+            <!-- ShowDetails -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Show details"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswContentDialog Identifier="StswMessageDialogView" CloseOnBackdropClick="{Binding CloseOnBackdropClick}">
             <se:StswButton Command="{Binding OpenMessageDialogCommand}" Content="Open message dialog" VerticalAlignment="Top"/>
-            <!-- status panel -->
-            <local:ControlsBase.StatusPanel>
-                <se:StswText Padding="5">
-                    <Run Text="Dialog ended with "/>
-                    <Run Text="{Binding DialogResult}" FontWeight="Bold"/>
-                    <Run Text=" result"/>
-                </se:StswText>
-            </local:ControlsBase.StatusPanel>
-        </local:ControlsBase>
-    </se:StswContentDialog>
+        </se:StswContentDialog>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="Dialog ended with "/>
+                <Run Text="{Binding DialogResult}" FontWeight="Bold"/>
+                <Run Text=" result"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
 </UserControl>

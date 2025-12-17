@@ -7,10 +7,7 @@
              xmlns:local="clr-namespace:TestApp.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswToggleButtonContext}">
 
-    <local:ControlsBase IsContentAlignmentVisible="True">
-        <local:ControlsBase.Description>
-            Represents a control that allows users to switch between two states: on and off.
-        </local:ControlsBase.Description>
+    <local:ControlsBase>
         <!-- properties -->
 
         <!-- content -->
