@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -18,28 +19,69 @@ public class StswApp : Application
     //public static IConfiguration Configuration { get; private set; } = null!;
 
     /// <summary>
+    /// Gets or sets the global settings for the application.
+    /// </summary>
+    public static StswGlobalSettings? GlobalSettings { get; set; }
+
+    /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
     /// </summary>
     public static IServiceProvider? ServiceProvider { get; set; }
-    /*
+
+
+
     /// <inheritdoc/>
-    protected override void OnStartup(StartupEventArgs e)
+    public override void OnFrameworkInitializationCompleted()
     {
-        if (!AllowMultipleInstances && CheckForExistingInstance())
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            Current.Shutdown();
-            return;
+            desktop.Startup += OnStartup;
+            desktop.Exit += OnExit;
         }
 
-        base.OnStartup(e);
-
-        EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
-        Task.Run(StswTranslator.LoadTranslationsForCurrentLanguageAsync);
-        StswResources.InitializeResources(Resources);
-        if (IsRegisterDataTemplatesEnabled)
-            RegisterDataTemplates(ContextSuffix, ViewSuffix);
+        base.OnFrameworkInitializationCompleted();
     }
-    */
+
+    /// <summary>
+    /// Handles the application startup event.
+    /// </summary>
+    /// <param name="s">The source of the event.</param>
+    /// <param name="e">The startup event arguments.</param>
+    private async void OnStartup(object? s, ControlledApplicationLifetimeStartupEventArgs e)
+    {
+        /// Single Instance Check
+        //if (!AllowMultipleInstances && CheckForExistingInstance())
+        //{
+        //    Current.Shutdown();
+        //    return;
+        //}
+
+        /// Resources, Translations, Settings
+        GlobalSettings = await StswSettingsStore.LoadAsync(perMachine: false);
+        //await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
+        //StswResources.InitializeResources(Resources);
+
+
+        /// Custom TypeConverters, Event Handlers, DataTemplates
+        //EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
+        //if (IsRegisterDataTemplatesEnabled)
+        //    RegisterDataTemplates(ContextSuffix, ViewSuffix);
+    }
+
+    /// <summary>
+    /// Handles the application exit event.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The exit event arguments.</param>
+    private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    {
+        /// Save Global Settings
+        if (GlobalSettings is not null)
+            await StswSettingsStore.SaveAsync(GlobalSettings);
+    }
+
+
+
     /// <summary>
     /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
     /// </summary>
@@ -147,7 +189,6 @@ public class StswApp : Application
         }
     }
     */
-
     /*
     /// <summary>
     /// Gets the current application's main <see cref="StswWindow"/> instance.

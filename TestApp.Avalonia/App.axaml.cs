@@ -1,14 +1,14 @@
 ﻿global using StswExpress.Avalonia;
 global using StswExpress.Commons;
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
 namespace TestApp.Ava;
+
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App : StswApp
 {
     /// <inheritdoc/>
     public override void Initialize()

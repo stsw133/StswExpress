@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,27 +23,41 @@ public class StswApp : Application
     //public static IConfiguration Configuration { get; private set; } = null!;
 
     /// <summary>
+    /// Gets or sets the global settings for the application.
+    /// </summary>
+    public static StswGlobalSettings? GlobalSettings { get; set; }
+
+    /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
     /// </summary>
     public static IServiceProvider? ServiceProvider { get; set; }
 
+
+
     /// <inheritdoc/>
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
+        /// Single Instance Check
         if (!AllowMultipleInstances && CheckForExistingInstance())
         {
             Current.Shutdown();
             return;
         }
 
+        /// Initialization
         base.OnStartup(e);
 
+        /// Resources, Translations, Settings
+        GlobalSettings = await StswSettingsStore.LoadAsync(perMachine: false);
+        await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
+        StswResources.InitializeResources(Resources);
+
+        /// Custom TypeConverters, Event Handlers, DataTemplates
         TypeDescriptor.AddAttributes(typeof(Visibility), new TypeConverterAttribute(typeof(StswBoolToVisibilityTypeConverter)));
         EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
-        Task.Run(StswTranslator.LoadTranslationsForCurrentLanguageAsync);
-        StswResources.InitializeResources(Resources);
         if (IsRegisterDataTemplatesEnabled)
             RegisterDataTemplates(ContextSuffix, ViewSuffix);
+
         /*
         /// Configuration
         var configurationBuilder = new ConfigurationBuilder()
@@ -62,6 +75,19 @@ public class StswApp : Application
         MainWindow.Show();
         */
     }
+
+    /// <inheritdoc/>
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        /// Save Global Settings
+        if (GlobalSettings is not null)
+            await StswSettingsStore.SaveAsync(GlobalSettings);
+
+        /// Cleanup
+        base.OnExit(e);
+    }
+
+
 
     /// <summary>
     /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
