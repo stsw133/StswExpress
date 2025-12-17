@@ -11,11 +11,7 @@ namespace StswExpress.Analyzers;
 [Generator]
 public class StswCommandGenerator : IIncrementalGenerator
 {
-    private static readonly string[] AttributeFullNames =
-    [
-        "StswExpress.Avalonia.StswCommandAttribute",
-        "StswExpress.Wpf.StswCommandAttribute",
-    ];
+    private static readonly string AttributeFullName = "StswExpress.Wpf.StswCommandAttribute";
 
     /// <summary>
     /// Initializes the generator by registering a syntax provider to collect declarations.
@@ -37,7 +33,7 @@ public class StswCommandGenerator : IIncrementalGenerator
                 .Select(method => new
                 {
                     Method = method,
-                    Attribute = Helpers.GetAttribute(method, AttributeFullNames)
+                    Attribute = Helpers.GetAttribute(method, AttributeFullName)
                 })
                 .Where(m => m.Attribute is not null)
                 .GroupBy(m => m.Method.ContainingType, SymbolEqualityComparer.Default);
