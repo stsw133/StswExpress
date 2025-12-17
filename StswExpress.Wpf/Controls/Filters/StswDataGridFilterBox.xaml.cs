@@ -17,23 +17,23 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
+/// &lt;se:StswDataGridFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/&gt;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Header))]
-public class StswFilterBox : Control, IStswCornerControl
+public class StswDataGridFilterBox : Control, IStswCornerControl
 {
     private ButtonBase? _filterModeButton;
     private StswDataGrid? _dataGrid;
     public ICommand SelectModeCommand { get; }
 
-    public StswFilterBox()
+    public StswDataGridFilterBox()
     {
         SelectModeCommand = new StswCommand<StswFilterMode>(x => FilterMode = x);
     }
-    static StswFilterBox()
+    static StswDataGridFilterBox()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterBox), new FrameworkPropertyMetadata(typeof(StswFilterBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGridFilterBox), new FrameworkPropertyMetadata(typeof(StswDataGridFilterBox)));
     }
 
     #region Events & methods
@@ -462,7 +462,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ApplyCaseTransform),
             typeof(bool),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -477,7 +477,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ApplyNullReplacement),
             typeof(bool),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -492,7 +492,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -508,7 +508,7 @@ public class StswFilterBox : Control, IStswCornerControl
             nameof(FilterChanged),
             RoutingStrategy.Bubble,
             typeof(RoutedEventHandler),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -523,7 +523,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterMenuMode),
             typeof(StswMenuMode),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -538,14 +538,14 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterMode),
             typeof(StswFilterMode?),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default(StswFilterMode?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnFilterModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswFilterBox stsw)
+        if (d is not StswDataGridFilterBox stsw)
             return;
 
         /// update visual symbol if found
@@ -574,7 +574,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterType),
             typeof(StswAdaptiveType),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(StswAdaptiveType.Auto)
         );
 
@@ -590,12 +590,12 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterValuePath),
             typeof(string),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new PropertyMetadata(default(string), OnFilterValuePathChanged)
         );
     public static void OnFilterValuePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswFilterBox stsw)
+        if (d is not StswDataGridFilterBox stsw)
             return;
 
         /// create param name by removing non-alphanumeric characters
@@ -615,7 +615,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(FilterVisibility),
             typeof(Visibility),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -631,7 +631,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
@@ -648,7 +648,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -663,7 +663,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -678,7 +678,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsInDataGrid),
             typeof(bool),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -693,20 +693,20 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswFilterBox stsw)
+        if (d is not StswDataGridFilterBox stsw)
             return;
 
         if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
         {
             if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
 
             /// short usage for StswComboItem
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
@@ -732,7 +732,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -747,7 +747,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SelectionUnit),
             typeof(StswCalendarUnit),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -762,7 +762,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SqlParam),
             typeof(string),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -777,7 +777,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SqlString),
             typeof(string),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -792,14 +792,14 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Value1),
             typeof(object),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswFilterBox stsw)
+        if (d is not StswDataGridFilterBox stsw)
             return;
 
         var filtersType = stsw._dataGrid?.FiltersType;
@@ -840,7 +840,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Value2),
             typeof(object),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -859,7 +859,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <inheritdoc/>
@@ -872,7 +872,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswFilterBox)
+            typeof(StswDataGridFilterBox)
         );
 
     /// <summary>
@@ -887,7 +887,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswFilterBox),
+            typeof(StswDataGridFilterBox),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion

@@ -112,7 +112,7 @@
                                                             Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=200}"
                                                             Visibility="Collapsed">
                                                 <se:StswTextBox.Icon>
-                                                    <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="2 0 0 0" Padding="0" Opacity="0.6"/>
+                                                    <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="2 0 0 0" Opacity="0.6"/>
                                                 </se:StswTextBox.Icon>
                                             </se:StswTextBox>
                                             <se:StswSeparator x:Name="OPT_FilterSeparator" DockPanel.Dock="Top"

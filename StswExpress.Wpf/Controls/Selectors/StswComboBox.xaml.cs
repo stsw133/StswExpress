@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -54,17 +53,11 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
         /// popup
         if (_popup != null)
-        {
             _popup.Opened -= OnIsDropDownOpenChanged;
-            _popup.GotFocus -= OnIsDropDownOpenChanged;
-        }
 
         _popup = GetTemplateChild("PART_Popup") as Popup;
         if (_popup != null)
-        {
             _popup.Opened += OnIsDropDownOpenChanged;
-            _popup.GotFocus += OnIsDropDownOpenChanged;
-        }
     }
 
     /// <summary>
@@ -75,10 +68,14 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <param name="e">The event arguments</param>
     private void OnIsDropDownOpenChanged(object? sender, EventArgs e)
     {
-        if (IsDropDownOpen && IsFilterEnabled)
-            Keyboard.Focus(_filter);
+        if (IsDropDownOpen && IsFilterEnabled && _filter != null)
+            _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
+            {
+                if (_filter.IsVisible)
+                    _filter.Focus();
+            });
         else if (IsDropDownOpen && IsEditable)
-            Keyboard.Focus(this);
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, () => Keyboard.Focus(this));
 
         if (IsDropDownOpen)
             UpdateSelectedItemVisibility();

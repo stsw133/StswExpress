@@ -14,20 +14,20 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- ApplyCaseTransform -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyCaseTransform, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyCaseTransform, Type={x:Type se:StswDataGridFilterBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyCaseTransform}"/>
             <!-- ApplyNullReplacement -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyNullReplacement, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ApplyNullReplacement, Type={x:Type se:StswDataGridFilterBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ApplyNullReplacement}"/>
             <!-- FilterMenuMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterMenuMode, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterMenuMode, Type={x:Type se:StswDataGridFilterBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswMenuMode}" Margin="0 0 0 3" SelectedValue="{Binding FilterMenuMode}"/>
             <!-- FilterType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterType, Type={x:Type se:StswFilterBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf FilterType, Type={x:Type se:StswDataGridFilterBox}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAdaptiveType}" Margin="0 0 0 3" SelectedValue="{Binding FilterType}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswFilterBox ApplyCaseTransform="{Binding ApplyCaseTransform}"
+        <se:StswDataGridFilterBox ApplyCaseTransform="{Binding ApplyCaseTransform}"
                           ApplyNullReplacement="{Binding ApplyNullReplacement}"
                           FilterMenuMode="{Binding FilterMenuMode}"
                           FilterMode="Contains"

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -21,19 +19,119 @@ namespace StswExpress.Wpf;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Data))]
-public class StswIcon : Control
+public class StswIcon : FrameworkElement
 {
-    static StswIcon()
+    private readonly RotateTransform _rotateTransform;
+    private readonly Storyboard _collapseStoryboard;
+    private readonly Storyboard _expandStoryboard;
+
+    private Pen? _cachedPen;
+    private Brush? _cachedStroke;
+    private double _cachedStrokeThickness;
+
+    public StswIcon()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
+        _rotateTransform = new RotateTransform(0);
+        RenderTransform = _rotateTransform;
+        RenderTransformOrigin = new Point(0.5, 0.5);
+
+        (_expandStoryboard, _collapseStoryboard) = CreateStoryboards();
+        ApplyRotation(IsRotated, animate: false);
     }
 
     #region Events & methods
     /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    protected override Size ArrangeOverride(Size finalSize) => finalSize;
+
+    /// <inheritdoc/>
+    protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
     {
-        base.OnApplyTemplate();
-        AssignAnimations();
+        var pt = hitTestParameters.HitPoint;
+
+        if (pt.X >= 0 && pt.X <= ActualWidth
+         && pt.Y >= 0 && pt.Y <= ActualHeight)
+            return new PointHitTestResult(this, pt);
+
+        return null;
+    }
+
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        var desiredWidth = double.IsNaN(Width) ? CanvasSize : Width;
+        var desiredHeight = double.IsNaN(Height) ? CanvasSize : Height;
+
+        if (!double.IsInfinity(availableSize.Width))
+            desiredWidth = Math.Min(availableSize.Width, desiredWidth);
+
+        if (!double.IsInfinity(availableSize.Height))
+            desiredHeight = Math.Min(availableSize.Height, desiredHeight);
+
+        return new(desiredWidth, desiredHeight);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        base.OnRender(drawingContext);
+
+        if (Data == null || CanvasSize <= 0)
+            return;
+
+        var rect = new Rect(0, 0, ActualWidth, ActualHeight);
+        if (rect.Width <= 0 || rect.Height <= 0)
+            return;
+
+        var scale = Math.Min(rect.Width / CanvasSize, rect.Height / CanvasSize);
+        if (scale <= 0)
+            return;
+
+        var offsetX = (rect.Width - CanvasSize * scale) / 2;
+        var offsetY = (rect.Height - CanvasSize * scale) / 2;
+
+        drawingContext.PushTransform(new TranslateTransform(offsetX, offsetY));
+        drawingContext.PushTransform(new ScaleTransform(scale, scale));
+
+        var pen = GetPen();
+        drawingContext.DrawGeometry(Fill, pen, Data);
+
+        drawingContext.Pop();
+        drawingContext.Pop();
+    }
+
+    /// <summary>
+    /// Gets the cached pen or creates a new one if necessary.
+    /// </summary>
+    /// <returns>The pen to be used for stroking the icon.</returns>
+    private Pen? GetPen()
+    {
+        if (StrokeThickness <= 0 || Stroke == null)
+            return null;
+
+        if (_cachedPen != null
+         && ReferenceEquals(_cachedStroke, Stroke)
+         && _cachedStrokeThickness.Equals(StrokeThickness))
+            return _cachedPen;
+
+        var pen = new Pen(Stroke, StrokeThickness);
+        if (pen.CanFreeze)
+            pen.Freeze();
+
+        _cachedPen = pen;
+        _cachedStroke = Stroke;
+        _cachedStrokeThickness = StrokeThickness;
+
+        return _cachedPen;
+    }
+
+    /// <summary>
+    /// Invalidates the cached pen.
+    /// </summary>
+    private void InvalidatePenCache()
+    {
+        _cachedPen = null;
+        _cachedStroke = null;
+        _cachedStrokeThickness = 0;
     }
     #endregion
 
@@ -53,7 +151,7 @@ public class StswIcon : Control
             typeof(double),
             typeof(StswIcon),
             new FrameworkPropertyMetadata(24.0,
-                FrameworkPropertyMetadataOptions.AffectsMeasure)
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -89,8 +187,14 @@ public class StswIcon : Control
             typeof(bool),
             typeof(StswIcon),
             new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.AffectsRender)
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnIsRotatedChanged)
         );
+    private static void OnIsRotatedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswIcon)d;
+        stsw.ApplyRotation((bool)e.NewValue, animate: true);
+    }
 
     /// <summary>
     /// Gets or sets the scale of the icon.
@@ -112,9 +216,7 @@ public class StswIcon : Control
         );
     public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswIcon stsw)
-            return;
-
+        var stsw = (StswIcon)d;
         IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
     #endregion
@@ -153,8 +255,14 @@ public class StswIcon : Control
             typeof(Brush),
             typeof(StswIcon),
             new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender)
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnPenRelevantPropertyChanged)
         );
+    private static void OnPenRelevantPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswIcon)d;
+        stsw.InvalidatePenCache();
+    }
 
     /// <summary>
     /// Gets or sets the thickness of the icon's stroke.
@@ -171,134 +279,46 @@ public class StswIcon : Control
             typeof(double),
             typeof(StswIcon),
             new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsRender)
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnPenRelevantPropertyChanged)
         );
-    #endregion
-
-    #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
-    
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswIcon)}.")]
-    protected new Brush? BorderBrush
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswIcon)}.")]
-    protected new Thickness? BorderThickness
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(Foreground)} is not supported in {nameof(StswIcon)}.")]
-    protected new Brush? Foreground
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(Foreground)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontFamily)} is not supported in {nameof(StswIcon)}.")]
-    protected new FontFamily? FontFamily
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontFamily)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontSize)} is not supported in {nameof(StswIcon)}.")]
-    protected new double FontSize
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontSize)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontStretch)} is not supported in {nameof(StswIcon)}.")]
-    protected new FontStretch FontStretch
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontStretch)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontStyle)} is not supported in {nameof(StswIcon)}.")]
-    protected new FontStyle FontStyle
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontStyle)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(FontWeight)} is not supported in {nameof(StswIcon)}.")]
-    protected new FontWeight FontWeight
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(FontWeight)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswIcon)}.")]
-    protected new HorizontalAlignment HorizontalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswIcon)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswIcon)}.")]
-    protected new VerticalAlignment VerticalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswIcon)}.");
-    }
     #endregion
 
     #region Animations
     /// <summary>
-    /// Configures animations for the control, including rotation effects.
-    /// Animations are triggered when the <see cref="IsRotated"/> property changes.
+    /// Creates the expand and collapse storyboards for rotation animations.
     /// </summary>
-    public void AssignAnimations()
+    /// <param name="rotate">Indicates whether to rotate the icon.</param>
+    /// <param name="animate">Indicates whether to animate the rotation.</param>
+    private void ApplyRotation(bool rotate, bool animate)
     {
-        if (GetTemplateChild("PART_Viewbox") is not Viewbox viewBox)
-            return;
+        if (animate && StswApp.Settings.AnimationsEnabled && StswControl.GetEnableAnimations(this))
+        {
+            if (rotate)
+            {
+                _collapseStoryboard.Stop(this);
+                _expandStoryboard.Begin(this, true);
+            }
+            else
+            {
+                _expandStoryboard.Stop(this);
+                _collapseStoryboard.Begin(this, true);
+            }
+        }
+        else
+        {
+            _expandStoryboard.Stop(this);
+            _collapseStoryboard.Stop(this);
+            _rotateTransform.Angle = rotate ? 180 : 0;
+        }
+    }
 
+    /// <summary>
+    /// Creates the expand and collapse storyboards for the rotation animations.
+    /// </summary>
+    /// <returns>A tuple containing the expand and collapse storyboards.</returns>
+    private (Storyboard expandStoryboard, Storyboard collapseStoryboard) CreateStoryboards()
+    {
         var expandAnimation = new DoubleAnimation
         {
             To = 180,
@@ -317,31 +337,15 @@ public class StswIcon : Control
 
         var expandStoryboard = new Storyboard();
         expandStoryboard.Children.Add(expandAnimation);
-        Storyboard.SetTarget(expandAnimation, viewBox);
-        Storyboard.SetTargetProperty(expandAnimation, new PropertyPath("(Viewbox.RenderTransform).(RotateTransform.Angle)"));
+        Storyboard.SetTarget(expandAnimation, this);
+        Storyboard.SetTargetProperty(expandAnimation, new PropertyPath("(FrameworkElement.RenderTransform).(RotateTransform.Angle)"));
 
         var collapseStoryboard = new Storyboard();
         collapseStoryboard.Children.Add(collapseAnimation);
-        Storyboard.SetTarget(collapseAnimation, viewBox);
-        Storyboard.SetTargetProperty(collapseAnimation, new PropertyPath("(Viewbox.RenderTransform).(RotateTransform.Angle)"));
+        Storyboard.SetTarget(collapseAnimation, this);
+        Storyboard.SetTargetProperty(collapseAnimation, new PropertyPath("(FrameworkElement.RenderTransform).(RotateTransform.Angle)"));
 
-        DependencyPropertyDescriptor.FromProperty(IsRotatedProperty, typeof(StswIcon))
-            ?.AddValueChanged(this, (s, e) =>
-            {
-                if (StswApp.Settings.AnimationsEnabled && StswControl.GetEnableAnimations(this))
-                {
-                    if (IsRotated)
-                        expandStoryboard.Begin();
-                    else
-                        collapseStoryboard.Begin();
-                }
-                else
-                {
-                    expandStoryboard.Remove();
-                    collapseStoryboard.Remove();
-                    ((RotateTransform)viewBox.RenderTransform).Angle = IsRotated ? 180 : 0;
-                }
-            });
+        return (expandStoryboard, collapseStoryboard);
     }
     #endregion
 }

@@ -30,7 +30,7 @@ namespace StswExpress.Wpf;
 /// </example>
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
-    private readonly List<StswFilterBox> _attachedFilterBoxes = [];
+    private readonly List<StswDataGridFilterBox> _attachedFilterBoxes = [];
     private readonly StswScrollActionScheduler _scrollActionScheduler;
 
     private static Type? SqlParameterType { get; set; }
@@ -73,7 +73,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             filterBox.FilterChanged -= FilterBox_FilterChanged;
 
         _attachedFilterBoxes.Clear();
-        _attachedFilterBoxes.AddRange(StswFnUI.FindVisualChildren<StswFilterBox>(this));
+        _attachedFilterBoxes.AddRange(StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this));
 
         foreach (var filterBox in _attachedFilterBoxes)
             filterBox.FilterChanged += FilterBox_FilterChanged;
@@ -250,7 +250,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     private void ApplyFilters()
     {
-        var filterBoxes = StswFnUI.FindVisualChildren<StswFilterBox>(this).ToList();
+        var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
 
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {
@@ -273,7 +273,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// </summary>
     private void ClearFilters()
     {
-        var filterBoxes = StswFnUI.FindVisualChildren<StswFilterBox>(this).ToList();
+        var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
 
         foreach (var filterBox in filterBoxes)
         {
@@ -329,7 +329,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// Generates the SQL condition string and assigns appropriate parameters for filtering.
     /// </summary>
     /// <param name="filterBoxes">The list of filter boxes used to construct the SQL filter.</param>
-    private void UpdateSqlFilters(IEnumerable<StswFilterBox> filterBoxes)
+    private void UpdateSqlFilters(IEnumerable<StswDataGridFilterBox> filterBoxes)
     {
         if (!SqlClientAvailable || SqlParameterType == null)
             return;

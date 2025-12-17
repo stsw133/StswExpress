@@ -15,7 +15,7 @@ public partial class StswFilterBoxContext : ControlsContext
     
     [StswCommand] void Refresh(ControlsBase? controlsBase)
     {
-        if (controlsBase?.Content is StswFilterBox filter)
+        if (controlsBase?.Content is StswDataGridFilterBox filter)
         {
             SqlParam1 = filter.SqlParam + '1';
             SqlParam2 = filter.SqlParam + '2';

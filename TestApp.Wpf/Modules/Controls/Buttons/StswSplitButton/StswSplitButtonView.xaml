@@ -35,7 +35,7 @@
             <se:StswSplitButton.Header>
                 <se:StswTextBox se:StswControl.IsBorderless="True" Placeholder="Search...">
                     <se:StswTextBox.Icon>
-                        <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Padding="3 0 0 0" Opacity="0.4"/>
+                        <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="3 0 0 0" Opacity="0.4"/>
                     </se:StswTextBox.Icon>
                 </se:StswTextBox>
             </se:StswSplitButton.Header>

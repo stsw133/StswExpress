@@ -36,7 +36,8 @@
                      IsEnabled="{Binding IsEnabled}"
                      Scale="{Binding Scale}"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
-                     VerticalAlignment="{Binding VerticalAlignment}"/>
+                     VerticalAlignment="{Binding VerticalAlignment}"
+                     ToolTip="TEST"/>
         <!-- status panel -->
         
     </local:ControlsBase>

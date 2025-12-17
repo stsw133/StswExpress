@@ -101,21 +101,21 @@
                         <!-- ID -->
                         <se:StswDataGridDecimalColumn Binding="{Binding Id}" IsReadOnly="True">
                             <se:StswDataGridDecimalColumn.Header>
-                                <se:StswFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="ID"/>
+                                <se:StswDataGridFilterBox Header="ID" FilterType="Number" FilterMode="Equal" FilterValuePath="ID"/>
                             </se:StswDataGridDecimalColumn.Header>
                         </se:StswDataGridDecimalColumn>
 
                         <!-- Type -->
                         <se:StswDataGridComboColumn DisplayMemberPath="Display" ItemsSource="{se:StswEnumToList local:ContractorType}" SelectedValueBinding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Value">
                             <se:StswDataGridComboColumn.Header>
-                                <se:StswFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="Type" ItemsSource="{se:StswEnumToList local:ContractorType}"/>
+                                <se:StswDataGridFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="Type" ItemsSource="{se:StswEnumToList local:ContractorType}"/>
                             </se:StswDataGridComboColumn.Header>
                         </se:StswDataGridComboColumn>
 
                         <!-- Icon -->
                         <DataGridTemplateColumn IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
-                                <se:StswFilterBox Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="IconByteSize"/>
+                                <se:StswDataGridFilterBox Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="IconByteSize"/>
                             </DataGridTemplateColumn.Header>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -127,56 +127,56 @@
                         <!-- Name -->
                         <se:StswDataGridTextColumn Binding="{Binding Name}">
                             <se:StswDataGridTextColumn.Header>
-                                <se:StswFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
+                                <se:StswDataGridFilterBox Header="Name" FilterType="Text" FilterMode="Contains" FilterValuePath="Name"/>
                             </se:StswDataGridTextColumn.Header>
                         </se:StswDataGridTextColumn>
 
                         <!-- Country -->
                         <se:StswDataGridTextColumn Binding="{Binding Address.Country}">
                             <se:StswDataGridTextColumn.Header>
-                                <se:StswFilterBox Header="Country" FilterType="Text" FilterMode="Contains" FilterValuePath="Country"/>
+                                <se:StswDataGridFilterBox Header="Country" FilterType="Text" FilterMode="Contains" FilterValuePath="Country"/>
                             </se:StswDataGridTextColumn.Header>
                         </se:StswDataGridTextColumn>
 
                         <!-- PostCode -->
                         <se:StswDataGridTextColumn Binding="{Binding Address.PostCode}">
                             <se:StswDataGridTextColumn.Header>
-                                <se:StswFilterBox Header="Post code" FilterType="Text" FilterMode="Contains" FilterValuePath="PostCode"/>
+                                <se:StswDataGridFilterBox Header="Post code" FilterType="Text" FilterMode="Contains" FilterValuePath="PostCode"/>
                             </se:StswDataGridTextColumn.Header>
                         </se:StswDataGridTextColumn>
 
                         <!-- City -->
                         <se:StswDataGridTextColumn Binding="{Binding Address.City}">
                             <se:StswDataGridTextColumn.Header>
-                                <se:StswFilterBox Header="City" FilterType="Text" FilterMode="Contains" FilterValuePath="City"/>
+                                <se:StswDataGridFilterBox Header="City" FilterType="Text" FilterMode="Contains" FilterValuePath="City"/>
                             </se:StswDataGridTextColumn.Header>
                         </se:StswDataGridTextColumn>
 
                         <!-- Street -->
                         <se:StswDataGridTextColumn Binding="{Binding Address.Street}">
                             <se:StswDataGridTextColumn.Header>
-                                <se:StswFilterBox Header="Street" FilterType="Text" FilterMode="Contains" FilterValuePath="Street"/>
+                                <se:StswDataGridFilterBox Header="Street" FilterType="Text" FilterMode="Contains" FilterValuePath="Street"/>
                             </se:StswDataGridTextColumn.Header>
                         </se:StswDataGridTextColumn>
 
                         <!-- DefaultDiscount -->
                         <se:StswDataGridDecimalColumn Binding="{Binding DefaultDiscount}">
                             <se:StswDataGridDecimalColumn.Header>
-                                <se:StswFilterBox Header="Default discount" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="DefaultDiscount"/>
+                                <se:StswDataGridFilterBox Header="Default discount" FilterType="Number" FilterMode="GreaterEqual" FilterValuePath="DefaultDiscount"/>
                             </se:StswDataGridDecimalColumn.Header>
                         </se:StswDataGridDecimalColumn>
 
                         <!-- IsArchival -->
                         <se:StswDataGridCheckColumn Binding="{Binding IsArchival}">
                             <se:StswDataGridCheckColumn.Header>
-                                <se:StswFilterBox Header="Is archival" FilterType="Check" FilterValuePath="IsArchival" ApplyNullReplacement="True"/>
+                                <se:StswDataGridFilterBox Header="Is archival" FilterType="Check" FilterValuePath="IsArchival" ApplyNullReplacement="True"/>
                             </se:StswDataGridCheckColumn.Header>
                         </se:StswDataGridCheckColumn>
 
                         <!-- CreateDT -->
                         <se:StswDataGridDateColumn Binding="{Binding CreateDT, StringFormat='yyyy-MM-dd HH:mm'}" Format="yyyy-MM-dd HH:mm">
                             <se:StswDataGridDateColumn.Header>
-                                <se:StswFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="CreateDT"
+                                <se:StswDataGridFilterBox Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterValuePath="CreateDT"
                                                   Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='M-2'}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
                             </se:StswDataGridDateColumn.Header>
                         </se:StswDataGridDateColumn>

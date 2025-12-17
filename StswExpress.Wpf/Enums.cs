@@ -1,7 +1,7 @@
 ﻿namespace StswExpress.Wpf;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and <see cref="StswFilterBox.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and <see cref="StswDataGridFilterBox.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -120,7 +120,7 @@ public enum StswDynamicVisibilityMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilterBox.FilterMode"/>.
+/// Enumeration for <see cref="StswDataGridFilterBox.FilterMode"/>.
 /// </summary>
 public enum StswFilterMode
 {
@@ -154,7 +154,7 @@ public enum StswInfoFormat
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilterBox.FilterMenuMode"/> and <see cref="StswImage.MenuMode"/>.
+/// Enumeration for <see cref="StswDataGridFilterBox.FilterMenuMode"/> and <see cref="StswImage.MenuMode"/>.
 /// </summary>
 public enum StswMenuMode
 {

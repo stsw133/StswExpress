@@ -73,10 +73,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     private void AttachTemplateEvents()
     {
         if (_popup != null)
-        {
             _popup.Opened += OnDropDownOpened;
-            _popup.GotFocus += OnDropDownOpened;
-        }
 
         if (_listBox != null)
             _listBox.SelectionChanged += ListBox_SelectionChanged;
@@ -88,10 +85,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     private void DetachTemplateEvents()
     {
         if (_popup != null)
-        {
             _popup.Opened -= OnDropDownOpened;
-            _popup.GotFocus -= OnDropDownOpened;
-        }
 
         if (_listBox != null)
             _listBox.SelectionChanged -= ListBox_SelectionChanged;
@@ -130,8 +124,14 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <param name="e">The event arguments.</param>
     private void OnDropDownOpened(object? sender, EventArgs e)
     {
-        if (IsDropDownOpen && IsFilterEnabled)
-            Keyboard.Focus(_filter);
+        if (!IsDropDownOpen || !IsFilterEnabled || _filter is null)
+            return;
+
+        _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
+        {
+            if (_filter.IsVisible)
+                _filter.Focus();
+        });
     }
 
     /// <summary>
