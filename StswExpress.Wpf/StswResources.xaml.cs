@@ -9,6 +9,8 @@ namespace StswExpress.Wpf;
 /// </summary>
 public partial class StswResources : ResourceDictionary
 {
+    private static bool _themeSyncInProgress;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StswResources"/> class.
     /// </summary>
@@ -68,6 +70,16 @@ public partial class StswResources : ResourceDictionary
                 return;
 
             _currentTheme = newTheme;
+
+            if (!_themeSyncInProgress)
+            {
+                try
+                {
+                    _themeSyncInProgress = true;
+                    StswApp.Settings.SyncThemeFromResources(newTheme);
+                }
+                finally { _themeSyncInProgress = false; }
+            }
             OnThemeChanged(newTheme);
         }
     }
@@ -121,13 +133,34 @@ public partial class StswResources : ResourceDictionary
         if (existingDictionary?.x is StswResources stswResources)
         {
             if (string.IsNullOrEmpty(stswResources.CurrentTheme))
-                stswResources.CurrentTheme = StswSettings.Default.Theme;
+                stswResources.CurrentTheme = StswApp.Settings.Theme;
 
             resources.MergedDictionaries[existingDictionary.index] = stswResources;
         }
         else
         {
-            resources.MergedDictionaries.Add(new StswResources(StswSettings.Default.Theme));
+            resources.MergedDictionaries.Add(new StswResources(StswApp.Settings.Theme));
         }
+    }
+
+    /// <summary>
+    /// Synchronizes the theme from application settings to the <see cref="StswResources"/> instance.
+    /// </summary>
+    /// <param name="theme">The theme to synchronize.</param>
+    internal static void SyncThemeFromSettings(string? theme)
+    {
+        if (_themeSyncInProgress)
+            return;
+
+        var instance = GetInstance();
+        if (instance is null)
+            return;
+
+        try
+        {
+            _themeSyncInProgress = true;
+            instance.CurrentTheme = theme;
+        }
+        finally { _themeSyncInProgress = false; }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace StswExpress.Wpf;
 
@@ -51,32 +54,51 @@ public interface IStswSelectionControl
     /// <param name="newValue">The new ItemsSource value.</param>
     public static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
     {
-        IEnumerable? actualSource = newValue;
-
         /// check if newValue is a CollectionView and get the SourceCollection
-        if (newValue is ICollectionView collectionView)
-            actualSource = collectionView.SourceCollection;
+        IEnumerable? ResolveActualSource() => newValue is ICollectionView collectionView
+            ? collectionView.SourceCollection
+            : newValue;
 
-        /// continue with the logic using actualSource
-        if (actualSource?.GetType()?.IsListType(out var innerType) == true)
+        void ApplyDefaultPaths()
         {
-            /// KeyValuePair usage
-            if (innerType?.IsGenericType == true && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+            /// check if user has provided custom paths
+            var hasDisplayMemberPath = !string.IsNullOrEmpty(selectionControl.DisplayMemberPath);
+            var hasSelectedValuePath = !string.IsNullOrEmpty(selectionControl.SelectedValuePath);
+
+            if (selectionControl is DependencyObject dependencyObject)
             {
-                if (string.IsNullOrEmpty(selectionControl.DisplayMemberPath) && selectionControl.ItemTemplate == null)
-                    selectionControl.DisplayMemberPath = nameof(KeyValuePair<object, object>.Key);
-                if (string.IsNullOrEmpty(selectionControl.SelectedValuePath))
-                    selectionControl.SelectedValuePath = nameof(KeyValuePair<object, object>.Value);
+                hasDisplayMemberPath |= HasUserProvidedValue(dependencyObject, ItemsControl.DisplayMemberPathProperty);
+                hasSelectedValuePath |= HasUserProvidedValue(dependencyObject, Selector.SelectedValuePathProperty);
             }
-            /// StswComboItem short usage
-            else if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+
+            /// analyze the actual source type to determine default paths
+            var actualSource = ResolveActualSource();
+            if (actualSource?.GetType()?.IsListType(out var innerType) == true)
             {
-                if (string.IsNullOrEmpty(selectionControl.DisplayMemberPath) && selectionControl.ItemTemplate == null)
-                    selectionControl.DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(selectionControl.SelectedValuePath))
-                    selectionControl.SelectedValuePath = nameof(StswComboItem.Value);
+                /// KeyValuePair usage
+                if (innerType?.IsGenericType == true && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+                {
+                    if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
+                        selectionControl.DisplayMemberPath = nameof(KeyValuePair<object, object>.Key);
+                    if (!hasSelectedValuePath)
+                        selectionControl.SelectedValuePath = nameof(KeyValuePair<object, object>.Value);
+                }
+                /// StswComboItem short usage
+                else if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+                {
+                    if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
+                        selectionControl.DisplayMemberPath = nameof(StswComboItem.Display);
+                    if (!hasSelectedValuePath)
+                        selectionControl.SelectedValuePath = nameof(StswComboItem.Value);
+                }
             }
         }
+
+        /// defer applying default paths to ensure ItemsSource is fully updated
+        if (selectionControl is DispatcherObject dispatcherObject && dispatcherObject.Dispatcher != null)
+            dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(ApplyDefaultPaths));
+        else
+            ApplyDefaultPaths();
     }
 
     /// <summary>
@@ -116,7 +138,7 @@ public interface IStswSelectionControl
     /// <param name="removedItems">The deselected items.</param>
     public static void SelectionChanged(ItemsControl selectionControl, IList? addedItems, IList? removedItems)
     {
-        if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(selectionControl))
+        if (StswApp.Settings.AnimationsEnabled && StswControl.GetEnableAnimations(selectionControl))
         {
             if (addedItems != null)
                 foreach (var selectedItem in addedItems)
@@ -128,5 +150,17 @@ public interface IStswSelectionControl
                     if (selectionControl.ItemContainerGenerator.ContainerFromItem(unselectedItem) is Control item && item.Template.FindName("OPT_MainBorder", item) is Border border)
                         StswSharedAnimations.AnimateClick(selectionControl, border, false);
         }
+    }
+
+    /// <summary>
+    /// Determines if a user has explicitly set a value for a given dependency property on the selection control.
+    /// </summary>
+    /// <param name="selectionControl">The selection control.</param>
+    /// <param name="property">The dependency property to check.</param>
+    /// <returns><see langword="true"/> if the user has provided a value; otherwise, <see langword="false"/>.</returns>
+    private static bool HasUserProvidedValue(DependencyObject selectionControl, DependencyProperty property)
+    {
+        var valueSource = DependencyPropertyHelper.GetValueSource(selectionControl, property);
+        return valueSource.BaseValueSource != BaseValueSource.Default || valueSource.IsExpression;
     }
 }

@@ -1,0 +1,142 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:se="using:StswExpress.Avalonia">
+
+	<Style Selector="se|StswCheckBox">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Static.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Static.Border}"/>
+		<Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+
+		<Setter Property="IconUnchecked" Value="{DynamicResource StswCheck.Unchecked.Icon}"/>
+		<Setter Property="IconChecked" Value="{DynamicResource StswCheck.Checked.Icon}"/>
+		<Setter Property="IconIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Icon}"/>
+
+		<Setter Property="BorderThickness" Value="2"/>
+		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="CornerRadius" Value="30"/>
+		<Setter Property="IconScale" Value="1.33"/>
+		<Setter Property="Padding" Value="3"/>
+
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Focusable" Value="True"/>
+		<Setter Property="IsTabStop" Value="True"/>
+
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="se:StswCheckBox">
+					<Grid Background="Transparent" ColumnDefinitions="Auto,*">
+						<se:StswBorder x:Name="OPT_MainBorder"
+									   Background="{TemplateBinding Background}"
+									   BorderBrush="{TemplateBinding BorderBrush}"
+									   BorderThickness="{TemplateBinding BorderThickness}"
+									   ClipToBounds="{TemplateBinding ClipToBounds}"
+									   CornerRadius="{TemplateBinding CornerRadius}">
+							<se:StswIcon x:Name="OPT_Icon"
+										 Data="{TemplateBinding IconUnchecked}"
+										 Fill="{TemplateBinding GlyphBrush}"
+										 Margin="{TemplateBinding Padding}"
+										 Scale="{TemplateBinding IconScale}"
+										 HorizontalAlignment="Center"
+										 VerticalAlignment="Center"/>
+						</se:StswBorder>
+						<ContentPresenter x:Name="OPT_Content" Grid.Column="1"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  Focusable="False"
+										  Margin="4 0 0 0"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
+	<Style Selector="se|StswCheckBox[IsChecked=False] /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}"/>
+	</Style>
+	
+	<Style Selector="se|StswCheckBox:unchecked /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:indeterminate /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:checked /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:checked /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:pointerover /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.MouseOver.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:pointerover:checked /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:pressed /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Pressed.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:pressed:checked /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:read-only /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.ReadOnly.Background}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:read-only:checked /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Checked.ReadOnly.Background}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:read-only /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Fill" Value="{DynamicResource StswCheck.ReadOnly.Glyph}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:read-only:checked /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.ReadOnly.Glyph}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Glyph}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled:checked /template/ se|StswBorder#OPT_MainBorder">
+		<Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled:checked /template/ se|StswIcon#OPT_Icon">
+		<Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Glyph}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled">
+		<Setter Property="Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
+	</Style>
+
+	<Style Selector="se|StswCheckBox:disabled:checked">
+		<Setter Property="Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
+	</Style>
+</Styles>

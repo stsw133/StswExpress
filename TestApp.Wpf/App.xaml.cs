@@ -39,7 +39,7 @@ public partial class App : StswApp
 
     private static async void OpenHelp()
     {
-        if (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Resources\help_{StswSettings.Default.Language.ToLower()}.pdf") is string helpPath && File.Exists(helpPath))
+        if (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Resources\help_{StswApp.Settings.Language ?? "en"}.pdf") is string helpPath && File.Exists(helpPath))
             StswFn.OpenPath(helpPath);
         else if (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\help_en.pdf") is string helpPathEN && File.Exists(helpPathEN))
             StswFn.OpenPath(helpPathEN);

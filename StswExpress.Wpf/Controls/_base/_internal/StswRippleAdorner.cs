@@ -25,13 +25,6 @@ internal class StswRippleAdorner : Adorner
     private readonly ScaleTransform _scaleTransform;
     private readonly TranslateTransform _translateTransform;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswRippleAdorner"/> class.
-    /// </summary>
-    /// <param name="adornedElement">The UI element to which the ripple effect is applied.</param>
-    /// <param name="clickPosition">The position of the mouse click, which serves as the center of the ripple effect.</param>
-    /// <param name="size">The initial size of the ripple effect.</param>
-    /// <param name="border">The border within which the ripple effect is clipped.</param>
     public StswRippleAdorner(UIElement adornedElement, Point clickPosition, double size, Border border) : base(adornedElement)
     {
         _border = border;
@@ -70,6 +63,20 @@ internal class StswRippleAdorner : Adorner
         AnimateRipple();
     }
 
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        _canvas.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+        return finalSize;
+    }
+
+    /// <inheritdoc/>
+    protected override Visual GetVisualChild(int index) => _canvas;
+
+    /// <inheritdoc/>
+    protected override int VisualChildrenCount => 1;
+
+    #region Animations
     /// <summary>
     /// Starts the animation of the ripple effect, scaling the ellipse from a small size to its full size
     /// while fading out its opacity.
@@ -103,17 +110,5 @@ internal class StswRippleAdorner : Adorner
 
         sb.Begin(_ellipse);
     }
-
-    /// <inheritdoc/>
-    protected override int VisualChildrenCount => 1;
-    
-    /// <inheritdoc/>
-    protected override Visual GetVisualChild(int index) => _canvas;
-
-    /// <inheritdoc/>
-    protected override Size ArrangeOverride(Size finalSize)
-    {
-        _canvas.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
-        return finalSize;
-    }
+    #endregion
 }

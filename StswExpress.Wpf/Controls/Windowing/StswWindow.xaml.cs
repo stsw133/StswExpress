@@ -147,7 +147,7 @@ public class StswWindow : Window, IStswCornerControl
     private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
-        var iSize = StswSettings.Default.iSize;
+        var iSize = StswApp.Settings.UiScale;
 
         if (Fullscreen)
         {

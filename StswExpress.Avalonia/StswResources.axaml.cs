@@ -10,6 +10,8 @@ namespace StswExpress.Avalonia;
 /// </summary>
 public partial class StswResources : ResourceDictionary
 {
+    private static bool _themeSyncInProgress;
+
     static StswResources()
     {
         CurrentThemeProperty.Changed.AddClassHandler<StswResources>(OnCurrentThemeChanged);
@@ -76,6 +78,15 @@ public partial class StswResources : ResourceDictionary
             return;
 
         resources.CurrentTheme = newTheme;
+        if (!_themeSyncInProgress)
+        {
+            try
+            {
+                _themeSyncInProgress = true;
+                StswApp.Settings.SyncThemeFromResources(newTheme);
+            }
+            finally { _themeSyncInProgress = false; }
+        }
         resources.OnThemeChanged(newTheme);
     }
 
@@ -130,5 +141,26 @@ public partial class StswResources : ResourceDictionary
             resources.MergedDictionaries[dictIndex.Value] = new StswResources();
         else
             resources.MergedDictionaries.Add(new StswResources());
+    }
+
+    /// <summary>
+    /// Synchronizes the current theme from application settings to the resource manager.
+    /// </summary>
+    /// <param name="theme">The theme to synchronize.</param>
+    internal static void SyncThemeFromSettings(string? theme)
+    {
+        if (_themeSyncInProgress)
+            return;
+
+        var instance = GetInstance();
+        if (instance is null)
+            return;
+
+        try
+        {
+            _themeSyncInProgress = true;
+            instance.CurrentTheme = theme;
+        }
+        finally { _themeSyncInProgress = false; }
     }
 }

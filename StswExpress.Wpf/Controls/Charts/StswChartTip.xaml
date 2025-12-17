@@ -35,8 +35,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswBorder.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
-                                            ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                            <ScaleTransform ScaleX="{Binding UiScale, Source={x:Static se:StswApp.Settings}}"
+                                            ScaleY="{Binding UiScale, Source={x:Static se:StswApp.Settings}}"/>
                         </se:StswBorder.LayoutTransform>
 
                         <DockPanel Margin="{TemplateBinding Padding}">

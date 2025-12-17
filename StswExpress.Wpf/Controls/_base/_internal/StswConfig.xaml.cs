@@ -82,14 +82,14 @@ internal class StswConfig : Control, IStswCornerControl
     private void ISize_MouseLeave(object sender, MouseEventArgs e)
     {
         if (_iSizeSlider != null)
-            StswSettings.Default.iSize = _iSizeSlider.Value;
+            StswApp.Settings.UiScale = _iSizeSlider.Value;
     }
 
     /// <summary>
     /// Closes the configuration dialog and applies or discards changes based on user choice.
     /// </summary>
     /// <param name="result">A boolean indicating whether changes should be saved (<see langword="true"/>) or discarded (<see langword="false"/>).</param>
-    private void Close(bool? result)
+    private async void Close(bool? result)
     {
         if (Identifier is StswWindow stswWindow && stswWindow.ConfigPresentationMode == StswPresentationMode.Window)
             Window.GetWindow(this).Close();
@@ -97,15 +97,9 @@ internal class StswConfig : Control, IStswCornerControl
             StswContentDialog.Close(Identifier);
 
         if (result == true)
-        {
-            StswSettings.Default.Save();
-        }
+            await StswSettingsStore.SaveAsync(StswApp.Settings, false);
         else
-        {
-            StswSettings.Default.Reload();
-            StswSettings.Default.Language = StswSettings.Default.Language;
-            StswSettings.Default.Theme = StswSettings.Default.Theme;
-        }
+            StswApp.Settings = await StswSettingsStore.LoadAsync(false);
     }
 
     /// <summary>

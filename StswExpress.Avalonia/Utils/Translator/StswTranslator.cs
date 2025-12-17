@@ -1,4 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using Avalonia;
+using Avalonia.Threading;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Text.Json;
 
 namespace StswExpress.Avalonia;
 
@@ -28,6 +35,7 @@ namespace StswExpress.Avalonia;
 public static class StswTranslator
 {
     private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _translations = [];
+    private static bool _languageSyncInProgress;
 
     /// <summary>
     /// Gets the list of available languages.
@@ -44,7 +52,7 @@ public static class StswTranslator
         { "ru", "Русский" },
         { "zh-cn", "中文" }
     };
-    /*
+    
     /// <summary>
     /// Gets or sets the current language used for translations.
     /// If this is empty, the system language is used.
@@ -55,7 +63,7 @@ public static class StswTranslator
         {
             if (string.IsNullOrEmpty(_currentLanguage))
             {
-                var savedLanguage = StswSettings.Default.Language;
+                var savedLanguage = StswApp.Settings.Language;
                 if (string.IsNullOrEmpty(savedLanguage))
                 {
                     var systemLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -76,22 +84,49 @@ public static class StswTranslator
                 ClearTranslationsForLanguage(_currentLanguage ?? "en");
                 _currentLanguage = string.IsNullOrEmpty(value) ? null : value;
 
+                if (!_languageSyncInProgress)
+                {
+                    try
+                    {
+                        _languageSyncInProgress = true;
+                        StswApp.Settings.SyncLanguageFromTranslator(_currentLanguage);
+                    }
+                    finally { _languageSyncInProgress = false; }
+                }
+
                 Task.Run(async () =>
                 {
                     await LoadTranslationsForCurrentLanguageAsync();
-                    Application.Current.Dispatcher.Invoke(() => OnPropertyChanged(nameof(CurrentLanguage)));
+                    Dispatcher.UIThread.Post(() => OnPropertyChanged(nameof(CurrentLanguage)));
                 });
             }
         }
     }
     private static string? _currentLanguage;
-
+    
     /// <<summary>
     /// Occurs when a property of the TranslationManager changes (e.g., CurrentLanguage).
     /// Used to notify the UI that translations need to be refreshed.
     /// </summary>>
     public static event PropertyChangedEventHandler? PropertyChanged;
     private static void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
+
+    /// <summary>
+    /// Synchronizes the current language setting with the specified language value from the settings.
+    /// </summary>
+    /// <param name="language">The language code to synchronize with, or null to clear the current language setting.</param>
+    internal static void SyncLanguageFromSettings(string? language)
+    {
+        if (_languageSyncInProgress)
+            return;
+
+        try
+        {
+            _languageSyncInProgress = true;
+            CurrentLanguage = language ?? string.Empty;
+        }
+        finally { _languageSyncInProgress = false; }
+    }
 
     /// <summary>
     /// Loads translations from a JSON file.
@@ -181,14 +216,14 @@ public static class StswTranslator
         {
             if (!string.IsNullOrEmpty(language))
             {
-                var data = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)));
+                var data = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
                 if (data != null)
                     foreach (var kvp in data)
                         AddOrUpdateTranslation(kvp.Key, language, kvp.Value);
             }
             else
             {
-                var data = await JsonSerializer.DeserializeAsync<Dictionary<string, Dictionary<string, string>>>(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)));
+                var data = await JsonSerializer.DeserializeAsync<Dictionary<string, Dictionary<string, string>>>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
                 if (data != null)
                     foreach (var kvp in data)
                         foreach (var langPair in kvp.Value)
@@ -207,11 +242,22 @@ public static class StswTranslator
     /// </summary>
     /// <param name="key">Unique translation key.</param>
     /// <param name="language">Language code (e.g., "en", "pl").</param>
-    /// <param name="value">Translated string value.</param>
-    public static void AddOrUpdateTranslation(string key, string language, string value)
+    /// <param name="translation">Translated string value.</param>
+    public static void AddOrUpdateTranslation(string key, string language, string translation)
     {
-        var langDict = _translations.GetOrAdd(key, _ => new());
-        langDict[language] = value;
+        var languageDict = _translations.GetOrAdd(key, _ => new ConcurrentDictionary<string, string>());
+        languageDict[language] = translation;
+    }
+
+    /// <summary>
+    /// Adds or updates multiple translations from a nested dictionary.
+    /// </summary>
+    /// <param name="translations">Dictionary containing translation keys and their corresponding language-value pairs.</param>
+    public static void AddOrUpdateTranslations(Dictionary<string, Dictionary<string, string>> translations)
+    {
+        foreach (var kvp in translations)
+            foreach (var langPair in kvp.Value)
+                AddOrUpdateTranslation(kvp.Key, langPair.Key, langPair.Value);
     }
 
     /// <summary>
@@ -220,26 +266,57 @@ public static class StswTranslator
     /// <param name="language">Language code to clear translations for.</param>
     private static void ClearTranslationsForLanguage(string language)
     {
-        var keysToRemove = _translations.Keys
-            .Where(k => k.StartsWith("Stsw") && _translations[k].ContainsKey(language))
-            .ToList();
+        foreach (var key in _translations.Keys)
+            if (_translations.TryGetValue(key, out var languageDict))
+                languageDict.TryRemove(language, out _);
+    }
 
-        foreach (var key in keysToRemove)
-        {
-            if (_translations.TryGetValue(key, out var langDict))
-            {
-                langDict.TryRemove(language, out _);
-
-                if (langDict.IsEmpty)
-                    _translations.TryRemove(key, out _);
-            }
-        }
+    /// <summary>
+    /// Clears all translations.
+    /// </summary>
+    public static void ClearTranslations()
+    {
+        _translations.Clear();
     }
 
     /// <summary>
     /// Event triggered before loading default translations, allowing custom translations to be added.
     /// </summary>
     public static event Func<string, Task<string?>>? CustomTranslationLoader;
+
+    /// <summary>
+    /// Imports translations from a JSON string.
+    /// </summary>
+    /// <param name="json">A valid JSON string containing translations.</param>
+    public static void ImportTranslationsFromJson(string json)
+    {
+        try
+        {
+            var deserializedData = JsonSerializer.Deserialize<ConcurrentDictionary<string, ConcurrentDictionary<string, string>>>(json);
+            if (deserializedData != null)
+                _translations = deserializedData;
+        }
+        catch
+        {
+            // Handle deserialization errors as needed.
+        }
+    }
+
+    /// <summary>
+    /// Asynchronously imports translations from a JSON file.
+    /// </summary>
+    /// <param name="filePath">Path to the JSON file.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task ImportTranslationsFromJsonFileAsync(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return;
+
+        using var stream = File.OpenRead(filePath);
+        using var reader = new StreamReader(stream);
+        var json = await reader.ReadToEndAsync();
+        ImportTranslationsFromJson(json);
+    }
 
     /// <summary>
     /// Loads translations for the current language asynchronously.
@@ -264,6 +341,45 @@ public static class StswTranslator
                     await LoadTranslationsFromJsonStringAsync(customJson, language);
             }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="assembly"></param>
+    /// <param name="language"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static void LoadEmbeddedTranslations(Assembly assembly, string? language = null)
+    {
+        var languageToUse = language ?? (!string.IsNullOrEmpty(CurrentLanguage) ? CurrentLanguage : "en");
+
+        var resourceNames = assembly.GetManifestResourceNames()
+            .Where(r => r.EndsWith($".{languageToUse}.json"));
+
+        foreach (var resourceName in resourceNames)
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var reader = new StreamReader(stream ?? throw new InvalidOperationException("Resource stream is null.")))
+            {
+                var json = reader.ReadToEnd();
+                LoadTranslationsFromJsonString(json, languageToUse);
+            }
+    }
+
+    /// <summary>
+    /// Loads translations from an embedded resource JSON file.
+    /// </summary>
+    /// <param name="resourceName">Name of the embedded resource.</param>
+    /// <param name="assembly">Assembly containing the embedded resource.</param>
+    /// <param name="language">Optional language to load directly as a flat dicitonary.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the resource stream is <see langword="null"/>.</exception>
+    public static void LoadEmbeddedTranslations(string resourceName, Assembly assembly, string? language = null)
+    {
+        var languageToUse = language ?? (!string.IsNullOrEmpty(CurrentLanguage) ? CurrentLanguage : "en");
+
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        using var reader = new StreamReader(stream ?? throw new InvalidOperationException("Resource stream is null."));
+        var json = reader.ReadToEnd();
+        LoadTranslationsFromJsonString(json, languageToUse);
     }
 
     /// <summary>
@@ -313,5 +429,4 @@ public static class StswTranslator
 
         return $"{prefix}{defaultValue ?? key}{suffix}";
     }
-    */
 }

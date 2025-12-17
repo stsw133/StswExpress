@@ -84,8 +84,10 @@ public static class StswFocusVisual
         public static StswSquashStructToDoubleConverter Instance => instance ??= new StswSquashStructToDoubleConverter();
         private static StswSquashStructToDoubleConverter? instance;
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value switch
@@ -96,6 +98,7 @@ public static class StswFocusVisual
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     }
 }

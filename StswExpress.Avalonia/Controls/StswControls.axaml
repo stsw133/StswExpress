@@ -11,7 +11,12 @@
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Layout/StswSeparator.axaml"/>
 	
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Panels/StswGridSplitter.axaml"/>
-
+	
+    <StyleInclude Source="avares://StswExpress.Avalonia/Controls/Scrollers/StswDirectionView.axaml"/>
+	
+    <StyleInclude Source="avares://StswExpress.Avalonia/Controls/Toggles/StswCheckBox.axaml"/>
+    <StyleInclude Source="avares://StswExpress.Avalonia/Controls/Toggles/StswRadioBox.axaml"/>
+	
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswIcon.axaml"/>
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswOutlinedText.axaml"/>
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Typography/StswText.axaml"/>

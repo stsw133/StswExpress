@@ -155,7 +155,7 @@ public class StswSidePanel : ContentControl
         var direction = GetSlideDirection();
 
         var canAnimate = animate
-            && StswSettings.Default.EnableAnimations
+            && StswApp.Settings.AnimationsEnabled
             && StswControl.GetEnableAnimations(this);
 
         if (direction == StswSlideDirection.None)

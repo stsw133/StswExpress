@@ -33,7 +33,7 @@
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}"
                             ZoomStep="{Binding ZoomStep}">
-            <se:StswImage Source="/Assets/logo.png" Stretch="None"/>
+            <se:StswImage Source="/Assets/icon.ico" Stretch="None"/>
         </se:StswZoomControl>
         <!-- status panel -->
 

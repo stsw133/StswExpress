@@ -328,7 +328,7 @@ public class StswIcon : Control
         DependencyPropertyDescriptor.FromProperty(IsRotatedProperty, typeof(StswIcon))
             ?.AddValueChanged(this, (s, e) =>
             {
-                if (StswSettings.Default.EnableAnimations && StswControl.GetEnableAnimations(this))
+                if (StswApp.Settings.AnimationsEnabled && StswControl.GetEnableAnimations(this))
                 {
                     if (IsRotated)
                         expandStoryboard.Begin();

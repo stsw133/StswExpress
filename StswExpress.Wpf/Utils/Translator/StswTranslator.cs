@@ -37,6 +37,7 @@ namespace StswExpress.Wpf;
 /// </example>
 public static class StswTranslator
 {
+    private static bool _languageSyncInProgress;
     private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _translations = [];
 
     /// <summary>
@@ -65,7 +66,7 @@ public static class StswTranslator
         {
             if (string.IsNullOrEmpty(_currentLanguage))
             {
-                var savedLanguage = StswSettings.Default.Language;
+                var savedLanguage = StswApp.Settings.Language;
                 if (string.IsNullOrEmpty(savedLanguage))
                 {
                     var systemLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -85,6 +86,15 @@ public static class StswTranslator
             {
                 ClearTranslationsForLanguage(_currentLanguage ?? "en");
                 _currentLanguage = string.IsNullOrEmpty(value) ? null : value;
+                if (!_languageSyncInProgress)
+                {
+                    try
+                    {
+                        _languageSyncInProgress = true;
+                        StswApp.Settings.SyncLanguageFromTranslator(_currentLanguage);
+                    }
+                    finally { _languageSyncInProgress = false; }
+                }
 
                 Task.Run(async () =>
                 {
@@ -96,12 +106,118 @@ public static class StswTranslator
     }
     private static string? _currentLanguage;
 
-    /// <<summary>
-    /// Occurs when a property of the TranslationManager changes (e.g., CurrentLanguage).
-    /// Used to notify the UI that translations need to be refreshed.
-    /// </summary>>
-    public static event PropertyChangedEventHandler? PropertyChanged;
-    private static void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
+    /// <summary>
+    /// Adds or updates a single translation entry for a given key and language.
+    /// Example usage: AddOrUpdateTranslation("Config.Confirmation", "en", "Confirmation");
+    /// </summary>
+    /// <param name="key">Unique translation key.</param>
+    /// <param name="language">Language code (e.g., "en", "pl").</param>
+    /// <param name="value">Translated string value.</param>
+    public static void AddOrUpdateTranslation(string key, string language, string value)
+    {
+        var langDict = _translations.GetOrAdd(key, _ => new());
+        langDict[language] = value;
+    }
+
+    /// <summary>
+    /// Clears translations for a specific language.
+    /// </summary>
+    /// <param name="language">Language code to clear translations for.</param>
+    private static void ClearTranslationsForLanguage(string language)
+    {
+        var keysToRemove = _translations.Keys
+            .Where(k => k.StartsWith("Stsw") && _translations[k].ContainsKey(language))
+            .ToList();
+
+        foreach (var key in keysToRemove)
+        {
+            if (_translations.TryGetValue(key, out var langDict))
+            {
+                langDict.TryRemove(language, out _);
+
+                if (langDict.IsEmpty)
+                    _translations.TryRemove(key, out _);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exports the current translations to a JSON file.
+    /// The structure is the same as the one used for loading translations:
+    /// {
+    ///   "Key1": { "en": "Value1", "pl": "Wartość1", ... },
+    ///   "Key2": { "en": "Value2", "pl": "Wartość2", ... }
+    /// }
+    /// </summary>
+    /// <param name="filePath">Path to the JSON file for export.</param>
+    public static void ExportTranslationsToJson(string filePath)
+    {
+        try
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            var options = jsonSerializerOptions;
+            var json = JsonSerializer.Serialize(_translations, options);
+
+            File.WriteAllText(filePath, json);
+        }
+        catch
+        {
+            // Handle deserialization errors as needed.
+        }
+    }
+
+    /// <summary>
+    /// Returns the translated value for the given key, according to the currently selected language.
+    /// If the key or the language is missing, returns the defaultValue.
+    /// </summary>
+    /// <param name="key">Translation key.</param>
+    /// <param name="defaultValue">Default value if translation is missing.</param>
+    /// <param name="prefix">Optional prefix to be added to the translated value.</param>
+    /// <param name="suffix">Optional suffix to be added to the translated value.</param>
+    /// <returns>Translated string with optional prefix and suffix.</returns>
+    public static string GetTranslation(string key, string? defaultValue = null, string? language = null, string? prefix = null, string? suffix = null)
+    {
+        var languageToUse = language ?? (!string.IsNullOrEmpty(CurrentLanguage) ? CurrentLanguage : "en");
+
+        if (_translations.TryGetValue(key, out var langDict))
+            if (langDict.TryGetValue(languageToUse, out var translation))
+                return $"{prefix}{translation}{suffix}";
+
+        return $"{prefix}{defaultValue ?? key}{suffix}";
+    }
+
+    /// <summary>
+    /// Loads translations for the current language asynchronously.
+    /// </summary>
+    internal static async Task LoadTranslationsForCurrentLanguageAsync()
+    {
+        var language = string.IsNullOrEmpty(CurrentLanguage) ? "en" : CurrentLanguage;
+        var resourcePath = $"Utils/Translator/Translations/{language}.json";
+
+        var json = StswFnUI.GetResourceAsText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
+        if (json == null)
+            return;
+
+        await LoadTranslationsFromJsonStringAsync(json, language);
+
+        if (CustomTranslationLoader != null)
+        {
+            foreach (var handler in CustomTranslationLoader.GetInvocationList().Cast<Func<string, Task<string?>>>())
+            {
+                var customJson = await handler.Invoke(language);
+                if (!string.IsNullOrEmpty(customJson))
+                    await LoadTranslationsFromJsonStringAsync(customJson, language);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Event triggered before loading default translations, allowing custom translations to be added.
+    /// </summary>
+    public static event Func<string, Task<string?>>? CustomTranslationLoader;
 
     /// <summary>
     /// Loads translations from a JSON file.
@@ -212,115 +328,26 @@ public static class StswTranslator
     }
 
     /// <summary>
-    /// Adds or updates a single translation entry for a given key and language.
-    /// Example usage: AddOrUpdateTranslation("Config.Confirmation", "en", "Confirmation");
+    /// Synchronizes the current language setting with the specified language value from the settings.
     /// </summary>
-    /// <param name="key">Unique translation key.</param>
-    /// <param name="language">Language code (e.g., "en", "pl").</param>
-    /// <param name="value">Translated string value.</param>
-    public static void AddOrUpdateTranslation(string key, string language, string value)
+    /// <param name="language">The language code to synchronize with, or null to clear the current language setting.</param>
+    internal static void SyncLanguageFromSettings(string? language)
     {
-        var langDict = _translations.GetOrAdd(key, _ => new());
-        langDict[language] = value;
-    }
-
-    /// <summary>
-    /// Clears translations for a specific language.
-    /// </summary>
-    /// <param name="language">Language code to clear translations for.</param>
-    private static void ClearTranslationsForLanguage(string language)
-    {
-        var keysToRemove = _translations.Keys
-            .Where(k => k.StartsWith("Stsw") && _translations[k].ContainsKey(language))
-            .ToList();
-
-        foreach (var key in keysToRemove)
-        {
-            if (_translations.TryGetValue(key, out var langDict))
-            {
-                langDict.TryRemove(language, out _);
-
-                if (langDict.IsEmpty)
-                    _translations.TryRemove(key, out _);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Event triggered before loading default translations, allowing custom translations to be added.
-    /// </summary>
-    public static event Func<string, Task<string?>>? CustomTranslationLoader;
-
-    /// <summary>
-    /// Loads translations for the current language asynchronously.
-    /// </summary>
-    internal static async Task LoadTranslationsForCurrentLanguageAsync()
-    {
-        var language = string.IsNullOrEmpty(CurrentLanguage) ? "en" : CurrentLanguage;
-        var resourcePath = $"Utils/Translator/Translations/{language}.json";
-
-        var json = StswFnUI.GetResourceAsText(Assembly.GetExecutingAssembly().FullName!, resourcePath);
-        if (json == null)
+        if (_languageSyncInProgress)
             return;
 
-        await LoadTranslationsFromJsonStringAsync(json, language);
-
-        if (CustomTranslationLoader != null)
-        {
-            foreach (var handler in CustomTranslationLoader.GetInvocationList().Cast<Func<string, Task<string?>>>())
-            {
-                var customJson = await handler.Invoke(language);
-                if (!string.IsNullOrEmpty(customJson))
-                    await LoadTranslationsFromJsonStringAsync(customJson, language);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Exports the current translations to a JSON file.
-    /// The structure is the same as the one used for loading translations:
-    /// {
-    ///   "Key1": { "en": "Value1", "pl": "Wartość1", ... },
-    ///   "Key2": { "en": "Value2", "pl": "Wartość2", ... }
-    /// }
-    /// </summary>
-    /// <param name="filePath">Path to the JSON file for export.</param>
-    public static void ExportTranslationsToJson(string filePath)
-    {
         try
         {
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-            var options = jsonSerializerOptions;
-            var json = JsonSerializer.Serialize(_translations, options);
-
-            File.WriteAllText(filePath, json);
+            _languageSyncInProgress = true;
+            CurrentLanguage = language ?? string.Empty;
         }
-        catch
-        {
-            // Handle deserialization errors as needed.
-        }
+        finally { _languageSyncInProgress = false; }
     }
 
-    /// <summary>
-    /// Returns the translated value for the given key, according to the currently selected language.
-    /// If the key or the language is missing, returns the defaultValue.
-    /// </summary>
-    /// <param name="key">Translation key.</param>
-    /// <param name="defaultValue">Default value if translation is missing.</param>
-    /// <param name="prefix">Optional prefix to be added to the translated value.</param>
-    /// <param name="suffix">Optional suffix to be added to the translated value.</param>
-    /// <returns>Translated string with optional prefix and suffix.</returns>
-    public static string GetTranslation(string key, string? defaultValue = null, string? language = null, string? prefix = null, string? suffix = null)
-    {
-        var languageToUse = language ?? (!string.IsNullOrEmpty(CurrentLanguage) ? CurrentLanguage : "en");
-
-        if (_translations.TryGetValue(key, out var langDict))
-            if (langDict.TryGetValue(languageToUse, out var translation))
-                return $"{prefix}{translation}{suffix}";
-
-        return $"{prefix}{defaultValue ?? key}{suffix}";
-    }
+    /// <<summary>
+    /// Occurs when a property of the TranslationManager changes (e.g., CurrentLanguage).
+    /// Used to notify the UI that translations need to be refreshed.
+    /// </summary>>
+    public static event PropertyChangedEventHandler? PropertyChanged;
+    private static void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 }

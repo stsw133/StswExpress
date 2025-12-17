@@ -760,7 +760,7 @@ public class StswDirectionView : ScrollViewer
     {
         var property = GetLengthProperty(button);
 
-        if (!StswSettings.Default.EnableAnimations)
+        if (!StswApp.Settings.AnimationsEnabled)
         {
             button.BeginAnimation(property, null);
             if (property == WidthProperty)
@@ -785,7 +785,7 @@ public class StswDirectionView : ScrollViewer
     /// <param name="value">The target opacity value.</param>
     private static void AnimateOpacity(UIElement element, double value)
     {
-        if (!StswSettings.Default.EnableAnimations)
+        if (!StswApp.Settings.AnimationsEnabled)
         {
             element.BeginAnimation(OpacityProperty, null);
             element.Opacity = value;

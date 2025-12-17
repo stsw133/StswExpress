@@ -1,4 +1,5 @@
-﻿using System;
+﻿global using StswExpress.Commons;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -25,7 +26,7 @@ public class StswApp : Application
     /// <summary>
     /// Gets or sets the global settings for the application.
     /// </summary>
-    public static StswGlobalSettings? GlobalSettings { get; set; }
+    public static StswSettings Settings { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
@@ -48,7 +49,7 @@ public class StswApp : Application
         base.OnStartup(e);
 
         /// Resources, Translations, Settings
-        GlobalSettings = await StswSettingsStore.LoadAsync(perMachine: false);
+        Settings = await StswSettingsStore.LoadAsync(perMachine: false);
         await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         StswResources.InitializeResources(Resources);
 
@@ -80,8 +81,7 @@ public class StswApp : Application
     protected override async void OnExit(ExitEventArgs e)
     {
         /// Save Global Settings
-        if (GlobalSettings is not null)
-            await StswSettingsStore.SaveAsync(GlobalSettings);
+        await StswSettingsStore.SaveAsync(Settings);
 
         /// Cleanup
         base.OnExit(e);

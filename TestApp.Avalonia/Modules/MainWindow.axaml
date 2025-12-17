@@ -12,6 +12,19 @@
 		<se:StswSeparator/>
 		<se:StswButton Command="{Binding IncrementCountCommand}" Content="TEST" Margin="5"/>
         <se:StswText FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}"/>
+		<se:StswCheckBox Content="Check me!" Margin="5"/>
+		<se:StswCheckBox Content="Check me!" Margin="5"/>
+		<se:StswRadioBox Content="Check me!" Margin="5"/>
+		<se:StswRadioBox Content="Check me!" Margin="5"/>
+		<se:StswDirectionView Width="200" Height="100" Margin="5">
+			<StackPanel Orientation="Horizontal">
+				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+			</StackPanel>
+		</se:StswDirectionView>
         <local:StswIconView/>
     </StackPanel>
 </Window>

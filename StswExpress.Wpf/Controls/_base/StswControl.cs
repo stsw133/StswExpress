@@ -83,7 +83,7 @@ public static class StswControl
     {
         if (sender is Control control)
         {
-            if (StswSettings.Default.EnableAnimations /*&& GetEnableAnimations(control)*/)
+            if (StswApp.Settings.AnimationsEnabled /*&& GetEnableAnimations(control)*/)
             {
                 var point = e.GetPosition(control);
                 var size = Math.Max(control.ActualWidth, control.ActualHeight);

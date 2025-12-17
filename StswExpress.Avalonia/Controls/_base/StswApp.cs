@@ -21,7 +21,7 @@ public class StswApp : Application
     /// <summary>
     /// Gets or sets the global settings for the application.
     /// </summary>
-    public static StswGlobalSettings? GlobalSettings { get; set; }
+    public static StswSettings Settings { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
@@ -57,7 +57,7 @@ public class StswApp : Application
         //}
 
         /// Resources, Translations, Settings
-        GlobalSettings = await StswSettingsStore.LoadAsync(perMachine: false);
+        Settings = await StswSettingsStore.LoadAsync(perMachine: false);
         //await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         //StswResources.InitializeResources(Resources);
 
@@ -76,8 +76,7 @@ public class StswApp : Application
     private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         /// Save Global Settings
-        if (GlobalSettings is not null)
-            await StswSettingsStore.SaveAsync(GlobalSettings);
+        await StswSettingsStore.SaveAsync(Settings);
     }
 
 

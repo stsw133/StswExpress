@@ -170,7 +170,7 @@ public class StswScrollBar : ScrollBar
     /// </summary>
     private void AnimateOpacityWithDelayedFadeOut()
     {
-        if (!StswSettings.Default.EnableAnimations || DynamicMode != StswDynamicVisibilityMode.Full)
+        if (!StswApp.Settings.AnimationsEnabled || DynamicMode != StswDynamicVisibilityMode.Full)
         {
             SetOpacity(this, DynamicMode == StswDynamicVisibilityMode.Full ? 0 : 1);
             return;
@@ -210,7 +210,7 @@ public class StswScrollBar : ScrollBar
     /// <param name="delay">An optional delay before the animation starts.</param>
     private void AnimateOpacity(UIElement? element, double toValue, TimeSpan duration, TimeSpan? delay = null)
     {
-        if (!StswSettings.Default.EnableAnimations || element == null)
+        if (!StswApp.Settings.AnimationsEnabled || element == null)
         {
             SetOpacity(element, toValue);
             return;
@@ -231,7 +231,7 @@ public class StswScrollBar : ScrollBar
     /// <param name="toValue">The target size value to animate to.</param>
     private void AnimateSize(double toValue)
     {
-        if (!StswSettings.Default.EnableAnimations)
+        if (!StswApp.Settings.AnimationsEnabled)
         {
             SetSize(toValue);
             return;

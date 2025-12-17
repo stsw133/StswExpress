@@ -31,6 +31,15 @@ internal sealed class StswScrollActionScheduler
     }
 
     /// <summary>
+    /// Cancels any scheduled action.
+    /// </summary>
+    public void Cancel()
+    {
+        _timer.Stop();
+        _pendingAction = null;
+    }
+
+    /// <summary>
     /// Schedules an action to be executed after the defined delay.
     /// </summary>
     /// <param name="action">The action to be executed.</param>
@@ -44,15 +53,6 @@ internal sealed class StswScrollActionScheduler
         _timer.Stop();
         _timer.Interval = _delay;
         _timer.Start();
-    }
-
-    /// <summary>
-    /// Cancels any scheduled action.
-    /// </summary>
-    public void Cancel()
-    {
-        _timer.Stop();
-        _pendingAction = null;
     }
 
     /// <summary>

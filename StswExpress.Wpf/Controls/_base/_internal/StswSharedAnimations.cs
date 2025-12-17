@@ -25,7 +25,7 @@ internal static class StswSharedAnimations
     /// <param name="isSelected">Indicates whether the target is in the selected state.</param>
     internal static void AnimateClick(Control control, Border? target, bool isSelected)
     {
-        if (target == null || !StswSettings.Default.EnableAnimations || !StswControl.GetEnableAnimations(control))
+        if (target == null || !StswApp.Settings.AnimationsEnabled || !StswControl.GetEnableAnimations(control))
             return;
 
         Color fromBackgroundColor = ((SolidColorBrush)target.Background).Color;

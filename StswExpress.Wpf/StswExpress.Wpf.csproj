@@ -30,15 +30,11 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="StswSettings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>StswSettings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
-	<None Include="..\TestApp.Wpf\Assets\logo.png" Pack="true" PackagePath="\" />
+	  <None Include="..\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,14 +49,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
 	</ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="StswSettings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StswSettings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
 
   <ItemGroup>
 	  <Page Update="**/*.xaml">
