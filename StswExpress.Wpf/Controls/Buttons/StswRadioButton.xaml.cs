@@ -104,8 +104,7 @@ public class StswRadioButton : RadioButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswRadioButton),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswRadioButton)
         );
 
     /// <inheritdoc/>
@@ -118,8 +117,7 @@ public class StswRadioButton : RadioButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswRadioButton),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswRadioButton)
         );
     #endregion
 }

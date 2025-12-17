@@ -254,8 +254,7 @@ public class StswBarcode : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswBarcode),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswBarcode)
         );
 
     /// <inheritdoc/>
@@ -268,8 +267,7 @@ public class StswBarcode : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswBarcode),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswBarcode)
         );
 
     /// <summary>

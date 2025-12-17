@@ -63,8 +63,7 @@ public class StswListViewItem : ListViewItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswListViewItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswListViewItem)
         );
 
     /// <inheritdoc/>
@@ -77,8 +76,7 @@ public class StswListViewItem : ListViewItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswListViewItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswListViewItem)
         );
     #endregion
 }

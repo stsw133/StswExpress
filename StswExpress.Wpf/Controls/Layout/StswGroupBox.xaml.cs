@@ -31,8 +31,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswGroupBox),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswGroupBox)
         );
 
     /// <inheritdoc/>
@@ -45,8 +44,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswGroupBox),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswGroupBox)
         );
 
     /// <summary>

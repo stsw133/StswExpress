@@ -97,9 +97,9 @@ internal class StswConfig : Control, IStswCornerControl
             StswContentDialog.Close(Identifier);
 
         if (result == true)
-            await StswSettingsStore.SaveAsync(StswApp.Settings, false);
+            await StswSettings.SaveAsync(StswApp.Settings, false);
         else
-            StswApp.Settings = await StswSettingsStore.LoadAsync(false);
+            StswApp.Settings = await StswSettings.LoadAsync(false);
     }
 
     /// <summary>
@@ -167,8 +167,7 @@ internal class StswConfig : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswConfig),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswConfig)
         );
 
     /// <inheritdoc/>
@@ -181,8 +180,7 @@ internal class StswConfig : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswConfig),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswConfig)
         );
     #endregion
 }

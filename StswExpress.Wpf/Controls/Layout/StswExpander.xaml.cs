@@ -31,8 +31,7 @@ public class StswExpander : Expander, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswExpander),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswExpander)
         );
 
     /// <inheritdoc/>
@@ -45,8 +44,7 @@ public class StswExpander : Expander, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswExpander),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswExpander)
         );
 
     /// <summary>

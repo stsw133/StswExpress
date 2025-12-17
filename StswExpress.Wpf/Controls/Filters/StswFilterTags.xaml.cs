@@ -155,8 +155,7 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswFilterTags),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswFilterTags)
         );
 
     /// <inheritdoc/>
@@ -169,8 +168,7 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswFilterTags),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswFilterTags)
         );
     #endregion
 }

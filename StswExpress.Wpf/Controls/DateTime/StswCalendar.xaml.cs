@@ -718,8 +718,7 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswCalendar),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswCalendar)
         );
 
     /// <inheritdoc/>
@@ -732,8 +731,7 @@ public class StswCalendar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCalendar),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswCalendar)
         );
 
     /// Names for days of week

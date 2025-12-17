@@ -355,8 +355,7 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswNavigationItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswNavigationItem)
         );
 
     /// <inheritdoc/>
@@ -369,8 +368,7 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswNavigationItem)
         );
 
     /// <inheritdoc/>

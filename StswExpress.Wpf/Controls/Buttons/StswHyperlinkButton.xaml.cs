@@ -26,11 +26,10 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     protected override void OnClick()
     {
         base.OnClick();
-
-        if (NavigateUri != null && !string.IsNullOrEmpty(NavigateUri.AbsoluteUri))
+        if (NavigateUri is { IsAbsoluteUri: true } uri && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
         {
             StswFn.OpenPath(NavigateUri.AbsoluteUri);
-            WasClicked = true;
+            IsVisited = true;
         }
     }
     #endregion
@@ -64,8 +63,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswHyperlinkButton),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswHyperlinkButton)
         );
 
     /// <inheritdoc/>
@@ -78,24 +76,24 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswHyperlinkButton),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswHyperlinkButton)
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the button has been clicked at least once.
-    /// This can be used to track user interaction with the hyperlink button.
+    /// Gets or sets a value indicating whether the hyperlink button has been visited (clicked).
     /// </summary>
-    public bool WasClicked
+    public bool IsVisited
     {
-        get => (bool)GetValue(WasClickedProperty);
-        set => SetValue(WasClickedProperty, value);
+        get => (bool)GetValue(IsVisitedProperty);
+        private set => SetValue(IsVisitedPropertyKey, value);
     }
-    public static readonly DependencyProperty WasClickedProperty
-        = DependencyProperty.Register(
-            nameof(WasClicked),
+    private static readonly DependencyPropertyKey IsVisitedPropertyKey
+        = DependencyProperty.RegisterReadOnly(
+            nameof(IsVisited),
             typeof(bool),
-            typeof(StswHyperlinkButton)
+            typeof(StswHyperlinkButton),
+            new FrameworkPropertyMetadata(false)
         );
+    public static readonly DependencyProperty IsVisitedProperty = IsVisitedPropertyKey.DependencyProperty;
     #endregion
 }

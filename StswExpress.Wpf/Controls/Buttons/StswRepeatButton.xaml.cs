@@ -31,8 +31,7 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswRepeatButton),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswRepeatButton)
         );
 
     /// <inheritdoc/>
@@ -45,8 +44,7 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswRepeatButton),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswRepeatButton)
         );
     #endregion
 }

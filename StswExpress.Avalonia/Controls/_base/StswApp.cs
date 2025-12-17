@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using StswExpress.Avalonia.Settings;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -16,20 +17,17 @@ namespace StswExpress.Avalonia;
 /// </remarks>
 public class StswApp : Application
 {
-    //public static IConfiguration Configuration { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the global settings for the application.
-    /// </summary>
-    public static StswSettings Settings { get; set; } = new();
-
     /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
     /// </summary>
     public static IServiceProvider? ServiceProvider { get; set; }
 
+    /// <summary>
+    /// Gets or sets the global settings for the application.
+    /// </summary>
+    public static StswSettingsModel Settings { get; set; } = new();
 
-
+    #region Events & methods
     /// <inheritdoc/>
     public override void OnFrameworkInitializationCompleted()
     {
@@ -38,7 +36,6 @@ public class StswApp : Application
             desktop.Startup += OnStartup;
             desktop.Exit += OnExit;
         }
-
         base.OnFrameworkInitializationCompleted();
     }
 
@@ -57,8 +54,8 @@ public class StswApp : Application
         //}
 
         /// Resources, Translations, Settings
-        Settings = await StswSettingsStore.LoadAsync(perMachine: false);
-        //await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
+        Settings = await StswSettings.LoadAsync(perMachine: false);
+        await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         //StswResources.InitializeResources(Resources);
 
 
@@ -76,10 +73,8 @@ public class StswApp : Application
     private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         /// Save Global Settings
-        await StswSettingsStore.SaveAsync(Settings);
+        await StswSettings.SaveAsync(Settings);
     }
-
-
 
     /// <summary>
     /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
@@ -141,27 +136,7 @@ public class StswApp : Application
             }
         }
     }
-    */
-    /// <summary>
-    /// Restores the main window of an existing application instance, bringing it to the foreground.
-    /// If the window is minimized, it is restored.
-    /// </summary>
-    /// <param name="process">The process instance of the running application.</param>
-    private void RestoreWindow(Process process)
-    {
-        IntPtr hWnd = process.MainWindowHandle;
-
-        if (hWnd != IntPtr.Zero)
-        {
-            ShowWindow(hWnd, SW_RESTORE);
-            SetForegroundWindow(hWnd);
-        }
-        else
-        {
-            ActivateTrayWindow(process);
-        }
-    }
-    /*
+    
     /// <summary>
     /// Dynamically registers data templates for each context-view pair within the application assembly.
     /// Maps each context type ending with <see cref="ContextSuffix"/> to a view type ending with <see cref="ViewSuffix"/> if available.
@@ -188,6 +163,25 @@ public class StswApp : Application
         }
     }
     */
+    /// <summary>
+    /// Restores the main window of an existing application instance, bringing it to the foreground.
+    /// If the window is minimized, it is restored.
+    /// </summary>
+    /// <param name="process">The process instance of the running application.</param>
+    private void RestoreWindow(Process process)
+    {
+        IntPtr hWnd = process.MainWindowHandle;
+
+        if (hWnd != IntPtr.Zero)
+        {
+            ShowWindow(hWnd, SW_RESTORE);
+            SetForegroundWindow(hWnd);
+        }
+        else
+        {
+            ActivateTrayWindow(process);
+        }
+    }
     /*
     /// <summary>
     /// Gets the current application's main <see cref="StswWindow"/> instance.
@@ -195,6 +189,9 @@ public class StswApp : Application
     /// </summary>
     public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
     */
+    #endregion
+
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
     /// When set to <see langword="false"/>, a second instance will attempt to bring the first instance to the foreground and then shut down.
@@ -226,8 +223,7 @@ public class StswApp : Application
     /// Defaults to "View".
     /// </summary>
     public string ViewSuffix { get; set; } = "View";
-
-
+    #endregion
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool EnumThreadWindows(int dwThreadId, EnumThreadWndProc lpfn, IntPtr lParam);

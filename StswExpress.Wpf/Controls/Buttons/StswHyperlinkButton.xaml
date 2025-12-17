@@ -54,7 +54,7 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="WasClicked" Value="True">
+                        <Trigger Property="{x:Static se:StswHyperlinkButton.IsVisitedProperty}" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Link.Visited.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

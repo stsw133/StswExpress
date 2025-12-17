@@ -180,8 +180,7 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswChartLegend),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswChartLegend)
         );
 
     /// <inheritdoc/>
@@ -194,8 +193,7 @@ public class StswChartLegend : HeaderedItemsControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswChartLegend),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswChartLegend)
         );
     #endregion
 }

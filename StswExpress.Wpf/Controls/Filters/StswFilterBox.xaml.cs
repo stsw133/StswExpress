@@ -498,7 +498,6 @@ public class StswFilterBox : Control, IStswCornerControl
     /// <summary>
     /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
     /// </summary>
-    //[StswInfo("0.15.0")]
     public event RoutedEventHandler FilterChanged
     {
         add => AddHandler(FilterChangedEvent, value);
@@ -860,8 +859,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswFilterBox),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswFilterBox)
         );
 
     /// <inheritdoc/>
@@ -874,8 +872,7 @@ public class StswFilterBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswFilterBox),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswFilterBox)
         );
 
     /// <summary>

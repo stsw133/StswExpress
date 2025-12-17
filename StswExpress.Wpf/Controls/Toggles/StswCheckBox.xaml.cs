@@ -100,8 +100,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswCheckBox),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswCheckBox)
         );
 
     /// <inheritdoc/>
@@ -114,8 +113,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCheckBox),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswCheckBox)
         );
 
     /// <summary>

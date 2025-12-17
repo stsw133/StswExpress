@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -25,8 +24,15 @@ namespace StswExpress.Wpf;/// <summary>
 /// &lt;se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/&gt;
 /// </code>
 /// </example>
+[TemplatePart(Name = FilterPartName, Type = typeof(TextBoxBase))]
+[TemplatePart(Name = ListBoxPartName, Type = typeof(ListBox))]
+[TemplatePart(Name = PopupPartName, Type = typeof(Popup))]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
+    private const string FilterPartName = "PART_Filter";
+    private const string ListBoxPartName = "PART_ListBox";
+    private const string PopupPartName = "PART_Popup";
+
     private readonly HashSet<object> _hiddenSelectedItems = [];
     private ICollectionView? _itemsView;
     private TextBoxBase? _filter;
@@ -39,6 +45,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
+        UpdateTextCommand = new StswCommand(UpdateText);
     }
     static StswSelectionBox()
     {
@@ -51,64 +58,58 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     {
         base.OnApplyTemplate();
 
-        UpdateTextCommand ??= new StswCommand(UpdateText); // ensure the command is initialized
+        DetachTemplateEvents();
 
-        if (_popup != null)
-        {
-            _popup.Opened -= OnDropDownOpened;
-            _popup.GotFocus -= OnDropDownOpened;
-        }
-        if (_listBox != null)
-            _listBox.SelectionChanged -= ListBox_SelectionChanged;
+        _filter = GetTemplateChild(FilterPartName) as TextBoxBase;
+        _popup = GetTemplateChild(PopupPartName) as Popup;
+        _listBox = GetTemplateChild(ListBoxPartName) as ListBox;
 
-        /// filter textbox
-        _filter = GetTemplateChild("PART_Filter") as TextBoxBase;
+        AttachTemplateEvents();
+    }
 
-        /// popup
-        _popup = GetTemplateChild("PART_Popup") as Popup;
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_popup != null)
         {
             _popup.Opened += OnDropDownOpened;
             _popup.GotFocus += OnDropDownOpened;
         }
 
-        /// listbox
-        _listBox = GetTemplateChild("PART_ListBox") as ListBox;
         if (_listBox != null)
             _listBox.SelectionChanged += ListBox_SelectionChanged;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_popup != null)
+        {
+            _popup.Opened -= OnDropDownOpened;
+            _popup.GotFocus -= OnDropDownOpened;
+        }
+
+        if (_listBox != null)
+            _listBox.SelectionChanged -= ListBox_SelectionChanged;
     }
 
     /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        if (newValue?.GetType()?.IsListType(out var innerType) == true)
-        {
-            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new InvalidOperationException($"{nameof(StswSelectionBox)} ItemsSource must contain objects implementing {nameof(IStswSelectionItem)}!");
-
-            /// Optional: If using StswComboItem (short usage), set defaults
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-            {
-                if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
-                    DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(SelectedValuePath))
-                    SelectedValuePath = nameof(StswComboItem.Value);
-            }
-        }
-
-        DetachFilter();
-        ShowHiddenSelectedItems();
-        _itemsView = newValue != null ? CollectionViewSource.GetDefaultView(newValue) : null;
-
-        if (IsFilterEnabled)
-            AttachFilter();
-        else
-            _itemsView?.Refresh();
-
         base.OnItemsSourceChanged(oldValue, newValue);
 
-        /// refresh displayed text whenever the ItemsSource changes.
-        UpdateTextCommand?.Execute(null);
+        ValidateItemsSource(newValue);
+        ResetHiddenItems();
+
+        DetachFilter();
+        _itemsView = newValue != null ? CollectionViewSource.GetDefaultView(newValue) : null;
+
+        RefreshFilter();
+        UpdateText();
         UpdateSelectedItemsVisibility();
     }
 
@@ -117,6 +118,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     {
         if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
             DisplayMemberPath = string.Empty;
+
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
 
@@ -139,7 +141,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <param name="e">The event data.</param>
     private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        UpdateTextCommand?.Execute(null);
+        UpdateText();
         UpdateSelectedItemsVisibility();
     }
 
@@ -158,34 +160,50 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (_popup?.IsLoaded == true && _listBox?.IsLoaded == false)
             return;
 
-        var itemsSource = ItemsSource.OfType<IStswSelectionItem>();
+        var selectedItems = ItemsSource.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
+        var displayValues = selectedItems
+            .Select(GetDisplayValue)
+            .Where(value => !string.IsNullOrEmpty(value))
+            .ToList();
 
-        /// build text from all selected items
-        var newlySelected = new ObservableCollection<IStswSelectionItem>();
-        var sb = new StringBuilder();
-
-        /// use the local list separator (e.g. ", ")
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
+        Text = string.Join(listSeparator, displayValues);
+    }
 
-        foreach (var selectedItem in itemsSource.Where(x => x.IsSelected))
+    /// <summary>
+    /// Resets the visibility of all hidden selected items to visible.
+    /// </summary>
+    private void ResetHiddenItems()
+    {
+        _hiddenSelectedItems.Clear();
+
+        if (_listBox == null)
+            return;
+
+        foreach (var item in _listBox.Items)
+            SetContainerVisibility(item, Visibility.Visible);
+    }
+
+    /// <summary>
+    /// Validates the provided ItemsSource to ensure it contains items implementing IStswSelectionItem.
+    /// </summary>
+    /// <param name="newValue"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void ValidateItemsSource(IEnumerable? newValue)
+    {
+        if (newValue?.GetType()?.IsListType(out var innerType) != true)
+            return;
+
+        if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+            throw new InvalidOperationException($"{nameof(StswSelectionBox)} ItemsSource must contain objects implementing {nameof(IStswSelectionItem)}!");
+
+        if (innerType.IsAssignableTo(typeof(StswComboItem)))
         {
-            newlySelected.Add(selectedItem);
-
-            /// if we have a DisplayMemberPath, try to get that property
-            var value = !string.IsNullOrEmpty(DisplayMemberPath)
-                ? selectedItem.GetPropertyValue(DisplayMemberPath)?.ToString()
-                : selectedItem.ToString();
-
-            if (!string.IsNullOrEmpty(value))
-                sb.Append(value).Append(listSeparator);
+            if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
+                DisplayMemberPath = nameof(StswComboItem.Display);
+            if (string.IsNullOrEmpty(SelectedValuePath))
+                SelectedValuePath = nameof(StswComboItem.Value);
         }
-
-        /// remove the trailing separator if needed
-        if (sb.Length >= listSeparator.Length)
-            sb.Length -= listSeparator.Length;
-
-        /// final text
-        Text = sb.ToString();
     }
     #endregion
 
@@ -211,33 +229,59 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <returns><see langword="true"/> if the object matches the filter; otherwise, <see langword="false"/>.</returns>
     private bool MatchesFilter(object obj)
     {
-        if (string.IsNullOrEmpty(FilterText))
+        var filterText = FilterText?.Trim();
+        if (string.IsNullOrEmpty(filterText))
             return true;
 
-        if (!string.IsNullOrEmpty(FilterMemberPath))
-            return obj.GetPropertyValue(FilterMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
-        if (!string.IsNullOrEmpty(DisplayMemberPath))
-            return obj.GetPropertyValue(DisplayMemberPath)?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        var candidate = GetFilterCandidate(obj);
+        if (string.IsNullOrEmpty(candidate))
+            return false;
 
-        return obj?.ToString()?.ToLower()?.Contains(FilterText?.ToLower() ?? string.Empty) == true;
+        return candidate.Contains(filterText, StringComparison.CurrentCultureIgnoreCase);
     }
 
     /// <summary>
-    /// Attaches the filter to the collection view if filtering is enabled.
+    /// Gets the display value of the selected item based on <see cref="DisplayMemberPath"/>.
     /// </summary>
-    private void AttachFilter()
+    /// <param name="selectedItem">The selected item.</param>
+    /// <returns>The display value as a string, or <see langword="null"/> if none is found.</returns>
+    private string? GetDisplayValue(IStswSelectionItem selectedItem)
+    {
+        if (!string.IsNullOrEmpty(DisplayMemberPath))
+            return selectedItem.GetPropertyValue(DisplayMemberPath)?.ToString();
+
+        return selectedItem.ToString();
+    }
+
+    /// <summary>
+    /// Gets the string representation of the object to be used for filtering.
+    /// </summary>
+    /// <param name="obj">The object to get the filter candidate from.</param>
+    /// <returns>The string representation used for filtering, or <see langword="null"/> if none is found.</returns>
+    private string? GetFilterCandidate(object obj)
+    {
+        if (!string.IsNullOrEmpty(FilterMemberPath))
+            return obj.GetPropertyValue(FilterMemberPath)?.ToString();
+
+        if (!string.IsNullOrEmpty(DisplayMemberPath))
+            return obj.GetPropertyValue(DisplayMemberPath)?.ToString();
+
+        return obj?.ToString();
+    }
+
+    /// <summary>
+    /// Refreshes the filter on the collection view.
+    /// </summary>
+    private void RefreshFilter()
     {
         if (_itemsView is null)
             return;
 
-        if (!_itemsView.CanFilter)
-        {
-            _itemsView.Refresh();
-            return;
-        }
+        DetachFilter();
 
-        _itemsView.Filter -= CollectionViewFilter;
-        _itemsView.Filter += CollectionViewFilter;
+        if (IsFilterEnabled && _itemsView.CanFilter)
+            _itemsView.Filter += CollectionViewFilter;
+
         _itemsView.Refresh();
     }
 
@@ -402,9 +446,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (d is not StswSelectionBox stsw)
             return;
 
-        if (stsw.IsFilterEnabled)
-            stsw._itemsView?.Refresh();
-
+        stsw.RefreshFilter();
         stsw.UpdateSelectedItemsVisibility();
     }
 
@@ -474,13 +516,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (d is not StswSelectionBox stsw)
             return;
 
-        stsw.DetachFilter();
-
-        if (stsw.IsFilterEnabled)
-            stsw.AttachFilter();
-        else
-            stsw._itemsView?.Refresh();
-
+        stsw.RefreshFilter();
         stsw.UpdateSelectedItemsVisibility();
     }
 
@@ -584,8 +620,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSelectionBox),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswSelectionBox)
         );
 
     /// <inheritdoc/>
@@ -598,8 +633,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSelectionBox),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>

@@ -176,8 +176,7 @@ public class StswInfoBadge : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswInfoBadge),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswInfoBadge)
         );
 
     /// <inheritdoc/>
@@ -190,8 +189,7 @@ public class StswInfoBadge : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswInfoBadge),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswInfoBadge)
         );
     #endregion
 }

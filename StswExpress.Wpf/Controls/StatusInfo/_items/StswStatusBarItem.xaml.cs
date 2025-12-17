@@ -37,8 +37,7 @@ public class StswStatusBarItem : StatusBarItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswStatusBarItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswStatusBarItem)
         );
 
     /// <inheritdoc/>
@@ -51,8 +50,7 @@ public class StswStatusBarItem : StatusBarItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswStatusBarItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswStatusBarItem)
         );
     #endregion
 }

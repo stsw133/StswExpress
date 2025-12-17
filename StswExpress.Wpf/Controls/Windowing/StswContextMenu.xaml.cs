@@ -70,8 +70,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswContextMenu),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswContextMenu)
         );
 
     /// <inheritdoc/>
@@ -84,8 +83,7 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswContextMenu),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswContextMenu)
         );
     #endregion
 }

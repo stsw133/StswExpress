@@ -493,8 +493,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswDataGrid)
         );
 
     /// <inheritdoc/>
@@ -507,8 +506,7 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswDataGrid)
         );
 
     /// <summary>

@@ -23,7 +23,8 @@
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
                             <se:StswSegment BorderThickness="2 2 2 0"
                                             ItemsSource="{Binding HorizontalAlignmentSource}"
-                                            SelectedValue="{Binding HorizontalAlignment}">
+                                            SelectedValue="{Binding HorizontalAlignment}"
+                                            SelectedValuePath="Value">
                                 <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
@@ -34,6 +35,7 @@
                             <se:StswSegment BorderThickness="2 0 2 2"
                                             ItemsSource="{Binding HorizontalAlignmentSource}"
                                             SelectedValue="{Binding HorizontalContentAlignment}"
+                                            SelectedValuePath="Value"
                                             Visibility="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                 <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
@@ -45,7 +47,8 @@
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
                             <se:StswSegment BorderThickness="2 2 2 0"
                                             ItemsSource="{Binding VerticalAlignmentSource}"
-                                            SelectedValue="{Binding VerticalAlignment}">
+                                            SelectedValue="{Binding VerticalAlignment}"
+                                            SelectedValuePath="Value">
                                 <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
@@ -56,6 +59,7 @@
                             <se:StswSegment BorderThickness="2 0 2 2"
                                             ItemsSource="{Binding VerticalAlignmentSource}"
                                             SelectedValue="{Binding VerticalContentAlignment}"
+                                            SelectedValuePath="Value"
                                             Visibility="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                 <se:StswSegment.ItemTemplate>
                                     <DataTemplate>

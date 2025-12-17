@@ -431,8 +431,7 @@ public class StswNavigation : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswNavigation)
         );
 
     /// <inheritdoc/>
@@ -445,8 +444,7 @@ public class StswNavigation : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswNavigation)
         );
 
     /// <summary>

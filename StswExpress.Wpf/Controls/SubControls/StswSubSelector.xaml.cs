@@ -176,8 +176,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswSubSelector)
         );
 
     /// <inheritdoc/>
@@ -190,8 +189,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswSubSelector)
         );
 
     /// <inheritdoc/>

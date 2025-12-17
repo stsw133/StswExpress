@@ -62,8 +62,7 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswComboBoxItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswComboBoxItem)
         );
 
     /// <inheritdoc/>
@@ -76,8 +75,7 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBoxItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswComboBoxItem)
         );
     #endregion
 }

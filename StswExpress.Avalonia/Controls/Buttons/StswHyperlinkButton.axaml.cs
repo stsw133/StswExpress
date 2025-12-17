@@ -19,11 +19,10 @@ public class StswHyperlinkButton : Button
     protected override void OnClick()
     {
         base.OnClick();
-
-        if (NavigateUri != null && !string.IsNullOrWhiteSpace(NavigateUri.AbsoluteUri))
+        if (NavigateUri is { IsAbsoluteUri: true } uri && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
         {
             StswFn.OpenPath(NavigateUri.AbsoluteUri);
-            WasClicked = true;
+            IsVisited = true;
         }
     }
 
@@ -32,8 +31,8 @@ public class StswHyperlinkButton : Button
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == WasClickedProperty)
-            PseudoClasses.Set(":visited", WasClicked);
+        if (change.Property == IsVisitedProperty)
+            PseudoClasses.Set(":visited", IsVisited);
     }
     #endregion
 
@@ -48,16 +47,18 @@ public class StswHyperlinkButton : Button
         set => SetValue(NavigateUriProperty, value);
     }
     public static readonly StyledProperty<Uri?> NavigateUriProperty = AvaloniaProperty.Register<StswHyperlinkButton, Uri?>(nameof(NavigateUri));
+    #endregion
 
+    #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether the button has been clicked at least once.
     /// This can be used to track user interaction with the hyperlink button.
     /// </summary>
-    public bool WasClicked
+    public bool IsVisited
     {
-        get => GetValue(WasClickedProperty);
-        set => SetValue(WasClickedProperty, value);
+        get => GetValue(IsVisitedProperty);
+        set => SetValue(IsVisitedProperty, value);
     }
-    public static readonly StyledProperty<bool> WasClickedProperty = AvaloniaProperty.Register<StswHyperlinkButton, bool>(nameof(WasClicked));
+    public static readonly StyledProperty<bool> IsVisitedProperty = AvaloniaProperty.Register<StswHyperlinkButton, bool>(nameof(IsVisited));
     #endregion
 }

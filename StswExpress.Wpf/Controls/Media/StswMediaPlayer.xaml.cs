@@ -487,8 +487,7 @@ public class StswMediaPlayer : ItemsControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswMediaPlayer)
         );
 
     /// <inheritdoc/>
@@ -501,8 +500,7 @@ public class StswMediaPlayer : ItemsControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswMediaPlayer)
         );
 
     /// <summary>

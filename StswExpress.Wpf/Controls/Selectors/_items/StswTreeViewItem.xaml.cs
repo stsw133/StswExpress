@@ -85,8 +85,7 @@ public class StswTreeViewItem : TreeViewItem
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswTreeViewItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswTreeViewItem)
         );
 
     /// <inheritdoc/>
@@ -99,8 +98,7 @@ public class StswTreeViewItem : TreeViewItem
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTreeViewItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswTreeViewItem)
         );
     #endregion
 }

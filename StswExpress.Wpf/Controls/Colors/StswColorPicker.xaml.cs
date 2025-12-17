@@ -332,8 +332,7 @@ public class StswColorPicker : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswColorPicker)
         );
 
     /// <inheritdoc/>
@@ -346,8 +345,7 @@ public class StswColorPicker : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswColorPicker)
         );
 
     /// <summary>

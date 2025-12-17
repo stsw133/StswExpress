@@ -41,8 +41,7 @@ public class StswStatusBar : StatusBar
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswStatusBar),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswStatusBar)
         );
 
     /// <inheritdoc/>
@@ -55,8 +54,7 @@ public class StswStatusBar : StatusBar
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswStatusBar),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswStatusBar)
         );
     #endregion
 }

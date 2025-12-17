@@ -512,8 +512,7 @@ public class StswContentDialog : ContentControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswContentDialog),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswContentDialog)
         );
 
     /// <summary>

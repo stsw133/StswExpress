@@ -173,8 +173,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswToolTip),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswToolTip)
         );
 
     /// <inheritdoc/>
@@ -187,8 +186,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswToolTip),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswToolTip)
         );
     #endregion
 }

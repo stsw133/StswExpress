@@ -898,8 +898,7 @@ public class StswSlider : Slider
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswSlider)
         );
 
     /// <summary>

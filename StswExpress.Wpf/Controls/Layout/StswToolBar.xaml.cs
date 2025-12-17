@@ -33,8 +33,7 @@ public class StswToolBar : ToolBar, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswToolBar),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswToolBar)
         );
 
     /// <inheritdoc/>
@@ -47,8 +46,7 @@ public class StswToolBar : ToolBar, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswToolBar),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswToolBar)
         );
     #endregion
 }

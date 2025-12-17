@@ -212,8 +212,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswInfoPanel),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswInfoPanel)
         );
 
     /// <inheritdoc/>
@@ -226,8 +225,7 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswInfoPanel),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswInfoPanel)
         );
 
     /// <summary>

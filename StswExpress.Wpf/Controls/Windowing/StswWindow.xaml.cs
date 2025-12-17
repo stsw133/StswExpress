@@ -246,8 +246,7 @@ public class StswWindow : Window, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswWindow)
         );
 
     /// <inheritdoc/>
@@ -261,7 +260,7 @@ public class StswWindow : Window, IStswCornerControl
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender, OnCornerRadiusChanged)
+            new FrameworkPropertyMetadata(default(CornerRadius), OnCornerRadiusChanged)
         );
     public static void OnCornerRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

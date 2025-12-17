@@ -75,8 +75,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswMenuItem),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswMenuItem)
         );
 
     /// <inheritdoc/>
@@ -89,8 +88,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswMenuItem),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+            typeof(StswMenuItem)
         );
 
     /// <inheritdoc/>

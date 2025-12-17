@@ -1,4 +1,5 @@
 ﻿global using StswExpress.Commons;
+using StswExpress.Wpf.Settings;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -21,20 +22,17 @@ namespace StswExpress.Wpf;
 /// </remarks>
 public class StswApp : Application
 {
-    //public static IConfiguration Configuration { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the global settings for the application.
-    /// </summary>
-    public static StswSettings Settings { get; set; } = new();
-
     /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
     /// </summary>
     public static IServiceProvider? ServiceProvider { get; set; }
 
+    /// <summary>
+    /// Gets or sets the global settings for the application.
+    /// </summary>
+    public static StswSettingsModel Settings { get; set; } = new();
 
-
+    #region Events & methods
     /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -49,7 +47,7 @@ public class StswApp : Application
         base.OnStartup(e);
 
         /// Resources, Translations, Settings
-        Settings = await StswSettingsStore.LoadAsync(perMachine: false);
+        Settings = await StswSettings.LoadAsync(perMachine: false);
         await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         StswResources.InitializeResources(Resources);
 
@@ -58,36 +56,17 @@ public class StswApp : Application
         EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
         if (IsRegisterDataTemplatesEnabled)
             RegisterDataTemplates(ContextSuffix, ViewSuffix);
-
-        /*
-        /// Configuration
-        var configurationBuilder = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
-        Configuration = configurationBuilder.Build();
-        
-        /// DependencyInjection
-        var serviceCollection = new ServiceCollection();
-        ConfigureServices(serviceCollection);
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        ServiceProvider = serviceCollection.BuildServiceProvider();
-        
-        MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-        MainWindow.Show();
-        */
     }
 
     /// <inheritdoc/>
     protected override async void OnExit(ExitEventArgs e)
     {
         /// Save Global Settings
-        await StswSettingsStore.SaveAsync(Settings);
+        await StswSettings.SaveAsync(Settings);
 
         /// Cleanup
         base.OnExit(e);
     }
-
-
 
     /// <summary>
     /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
@@ -131,61 +110,7 @@ public class StswApp : Application
 
         return false;
     }
-    /*
-    /// ConfigureServices
-    protected virtual void ConfigureServices(ServiceCollection services)
-    {
-        if (!services.Any(x => x.ServiceType == typeof(IConfiguration)))
-            services.Configure<AppSettings>(Configuration.GetSection(string.Empty));
 
-        if (!services.Any(x => x.ServiceType == typeof(Func<Type, BaseContext>)))
-            services.AddSingleton<Func<Type, BaseContext>>(provider => contextType => (BaseContext)provider.GetRequiredService(contextType));
-
-        if (!services.Any(x => x.ServiceType == typeof(Func<Type, string?, BaseDialog>)))
-            services.AddSingleton<Func<Type, string?, BaseDialog>>(provider => (contextType, identifier) =>
-            {
-                var dialog = (BaseDialog)provider.GetRequiredService(contextType);
-                dialog.DialogIdentifier = identifier;
-                return dialog;
-            });
-
-        if (!services.Any(x => x.ServiceType == typeof(MainWindow)))
-            services.AddSingleton(provider => new MainWindow
-            {
-                Content = provider.GetRequiredService<MainContext>()
-            });
-
-        var alreadyRegistered = new HashSet<Type>(services.Select(x => x.ServiceType));
-        var assembly = Assembly.GetEntryAssembly();
-        if (assembly is null)
-            return;
-
-        var types = assembly.GetTypes();
-
-        foreach (var type in types)
-        {
-            if (type.IsAbstract || type.IsInterface || type.IsGenericType || type.IsValueType)
-                continue;
-
-            if (type.Name.EndsWith("Context", StringComparison.OrdinalIgnoreCase))
-            {
-                if (!alreadyRegistered.Contains(type))
-                {
-                    services.AddSingleton(type);
-                    alreadyRegistered.Add(type);
-                }
-                continue;
-            }
-
-            var iface = type.GetInterface($"I{type.Name}");
-            if (iface != null && !alreadyRegistered.Contains(iface) && !alreadyRegistered.Contains(type))
-            {
-                services.AddSingleton(iface, type);
-                alreadyRegistered.Add(iface);
-            }
-        }
-    }
-    */
     /// <summary>
     /// Handles the global preview key down event.
     /// Toggles the fullscreen mode of the window when the F11 key is pressed.
@@ -201,26 +126,6 @@ public class StswApp : Application
                 stswWindow.Fullscreen = !stswWindow.Fullscreen;
                 e.Handled = true;
             }
-        }
-    }
-
-    /// <summary>
-    /// Restores the main window of an existing application instance, bringing it to the foreground.
-    /// If the window is minimized, it is restored.
-    /// </summary>
-    /// <param name="process">The process instance of the running application.</param>
-    private void RestoreWindow(Process process)
-    {
-        IntPtr hWnd = process.MainWindowHandle;
-
-        if (hWnd != IntPtr.Zero)
-        {
-            ShowWindow(hWnd, SW_RESTORE);
-            SetForegroundWindow(hWnd);
-        }
-        else
-        {
-            ActivateTrayWindow(process);
         }
     }
 
@@ -250,14 +155,34 @@ public class StswApp : Application
         }
     }
 
+    /// <summary>
+    /// Restores the main window of an existing application instance, bringing it to the foreground.
+    /// If the window is minimized, it is restored.
+    /// </summary>
+    /// <param name="process">The process instance of the running application.</param>
+    private void RestoreWindow(Process process)
+    {
+        IntPtr hWnd = process.MainWindowHandle;
 
+        if (hWnd != IntPtr.Zero)
+        {
+            ShowWindow(hWnd, SW_RESTORE);
+            SetForegroundWindow(hWnd);
+        }
+        else
+        {
+            ActivateTrayWindow(process);
+        }
+    }
 
     /// <summary>
     /// Gets the current application's main <see cref="StswWindow"/> instance.
     /// Throws an exception if the main window is not of the expected type.
     /// </summary>
     public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
+    #endregion
 
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
     /// When set to <see langword="false"/>, a second instance will attempt to bring the first instance to the foreground and then shut down.
@@ -289,8 +214,7 @@ public class StswApp : Application
     /// Defaults to "View".
     /// </summary>
     public string ViewSuffix { get; set; } = "View";
-
-
+    #endregion
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool EnumThreadWindows(int dwThreadId, EnumThreadWndProc lpfn, IntPtr lParam);
