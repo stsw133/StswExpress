@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 namespace TestApp.Wpf;
-public partial class StswFilterBoxContext : ControlsContext
+public partial class StswDataGridFilterBoxContext : ControlsContext
 {
     public override void SetDefaults()
     {

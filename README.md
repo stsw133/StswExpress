@@ -11,10 +11,10 @@ Here's a breakdown:
 - **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
 - **Charts**: `StswChartLegend`, `StswColumnChart`, `StswLineChart`, `StswPieChart`
 - **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
-- **DataGrids**: `StswDataGrid`, `StswDataPager`
+- **DataGrids**: `StswDataGrid`, `StswDataGridFilterBox`, `StswDataPager`
 - **Date & Time**: `StswCalendar`, `StswDatePicker`, `StswRangeCalendar`, `StswTimeline`, `StswTimePicker`, `StswTimerControl`
 - **Dialogs**: `StswContentDialog`, `StswMessageDialog`
-- **Filters**: `StswFilterBox`, `StswFilterTags`
+- **Filters**: `StswFilterTags`, `StswSearchBox`
 - **Input**: `StswAdaptiveBox`, `StswNumberBox`, `StswPasswordBox`, `StswRatingControl`, `StswRichBox`, `StswRichEditor`, `StswSlider`, `StswTextBox`
 - **Layout**: `StswBorder`, `StswExpander`, `StswGroupBox`, `StswSeparator`, `StswTimedSwitch`, `StswToolBar`, `StswZoomControl`
 - **Media**: `StswBarcode`, `StswGifImage`, `StswImage`, `StswMediaPlayer`

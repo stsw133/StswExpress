@@ -28,6 +28,7 @@
         <ResourceDictionary Source="DataGrids/_columns/StswDataGridStatusColumn.xaml"/>
         <ResourceDictionary Source="DataGrids/_items/StswDataGridRow.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="DataGrids/StswDataGridFilterBox.xaml"/>
         <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
 
         <ResourceDictionary Source="DateTime/_items/StswTimelineItem.xaml"/>
@@ -41,8 +42,8 @@
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
         <ResourceDictionary Source="Filters/_items/StswFilterTagsItem.xaml"/>
-        <ResourceDictionary Source="Filters/StswDataGridFilterBox.xaml"/>
         <ResourceDictionary Source="Filters/StswFilterTags.xaml"/>
+        <ResourceDictionary Source="Filters/StswSearchBox.xaml"/>
         
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumberBox.xaml"/>

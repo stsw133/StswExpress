@@ -56,6 +56,7 @@
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Data grids" IconData="{x:Static se:StswIcons.Table}">
                 <se:StswNavigationItem Header="StswDataGrid" TargetType="{x:Type local:StswDataGridContext}"/>
+                <se:StswNavigationItem Header="StswDataGridFilterBox" TargetType="{x:Type local:StswDataGridFilterBoxContext}"/>
                 <se:StswNavigationItem Header="StswDataPager" TargetType="{x:Type local:StswDataPagerContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Date &amp; time" IconData="{x:Static se:StswIcons.CalendarRange}">
@@ -71,8 +72,8 @@
                 <se:StswNavigationItem Header="StswMessageDialog" TargetType="{x:Type local:StswMessageDialogContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Filters" IconData="{x:Static se:StswIcons.FilterOutline}">
-                <se:StswNavigationItem Header="StswFilterBox" TargetType="{x:Type local:StswFilterBoxContext}"/>
                 <se:StswNavigationItem Header="StswFilterTags" TargetType="{x:Type local:StswFilterTagsContext}"/>
+                <se:StswNavigationItem Header="StswSearchBox" TargetType="{x:Type local:StswSearchBoxContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationItem Header="StswAdaptiveBox" TargetType="{x:Type local:StswAdaptiveBoxContext}"/>

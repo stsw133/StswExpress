@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="TestApp.Wpf.StswFilterBoxView"
+﻿<UserControl x:Class="TestApp.Wpf.StswDataGridFilterBoxView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
              xmlns:local="clr-namespace:TestApp.Wpf"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswFilterBoxContext}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswDataGridFilterBoxContext}">
 
     <local:ControlsBase IsContentAlignmentVisible="True">
         <local:ControlsBase.Description>
@@ -28,16 +28,16 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDataGridFilterBox ApplyCaseTransform="{Binding ApplyCaseTransform}"
-                          ApplyNullReplacement="{Binding ApplyNullReplacement}"
-                          FilterMenuMode="{Binding FilterMenuMode}"
-                          FilterMode="Contains"
-                          FilterType="{Binding FilterType}"
-                          FilterValuePath="tab.ColumnName"
-                          IsEnabled="{Binding IsEnabled}"
-                          HorizontalAlignment="{Binding HorizontalAlignment}"
-                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}"
-                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                                  ApplyNullReplacement="{Binding ApplyNullReplacement}"
+                                  FilterMenuMode="{Binding FilterMenuMode}"
+                                  FilterMode="Contains"
+                                  FilterType="{Binding FilterType}"
+                                  FilterValuePath="tab.ColumnName"
+                                  IsEnabled="{Binding IsEnabled}"
+                                  HorizontalAlignment="{Binding HorizontalAlignment}"
+                                  HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                  VerticalAlignment="{Binding VerticalAlignment}"
+                                  VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <DockPanel VerticalAlignment="Top">

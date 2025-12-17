@@ -94,6 +94,11 @@
                                                MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                                Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                                     <DockPanel>
+                                        <!-- filter
+                                        <se:StswSearchBox x:Name="PART_Filter" DockPanel.Dock="Top"
+                                                          se:StswControl.IsBorderless="True"
+                                                          Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=200}"
+                                                          Visibility="Collapsed"/> -->
                                         <se:StswTextBox x:Name="PART_Filter" DockPanel.Dock="Top"
                                                         se:StswControl.IsBorderless="True"
                                                         Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=200}"
@@ -107,6 +112,7 @@
                                                           BorderThickness="{TemplateBinding SeparatorThickness}"
                                                           Orientation="Horizontal"
                                                           Visibility="Collapsed"/>
+                                        <!-- items -->
                                         <se:StswListBox x:Name="PART_ListBox"
                                                         Background="{Binding Background, ElementName=DropDownBorder}"
                                                         BorderBrush="{Binding BorderBrush, ElementName=DropDownBorder}"

@@ -48,6 +48,9 @@
     <Compile Update="Modules\Controls\DateTime\StswTimeline\StswTimelineView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Filters\StswSearchBox\StswSearchBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Filters\StswFilterTags\StswFilterTagsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -204,7 +207,7 @@
     <Compile Update="Modules\Controls\Typography\StswOutlinedText\StswOutlinedTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Filters\StswFilterBox\StswFilterBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\DataGrids\StswDataGridFilterBox\StswDataGridFilterBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DataGrids\StswDataGrid\StswDataGridView.xaml.cs">
@@ -462,7 +465,7 @@
     <Page Update="Modules\Controls\Typography\StswOutlinedText\StswOutlinedTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Filters\StswFilterBox\StswFilterBoxView.xaml">
+    <Page Update="Modules\Controls\DataGrids\StswDataGridFilterBox\StswDataGridFilterBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -2,11 +2,11 @@
 
 namespace TestApp.Wpf;
 /// <summary>
-/// Interaction logic for StswFilterBoxView.xaml
+/// Interaction logic for StswSearchBoxView.xaml
 /// </summary>
-public partial class StswFilterBoxView : UserControl
+public partial class StswSearchBoxView : UserControl
 {
-    public StswFilterBoxView()
+    public StswSearchBoxView()
     {
         InitializeComponent();
     }
