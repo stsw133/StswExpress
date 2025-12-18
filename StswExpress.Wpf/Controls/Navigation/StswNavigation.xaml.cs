@@ -136,6 +136,25 @@ public class StswNavigation : TreeView, IStswCornerControl
     }
 
     /// <summary>
+    /// Restores items placed into the compact panel back to their owning expander.
+    /// </summary>
+    internal void RestoreCompactItems()
+    {
+        if (CompactedExpander != null && ItemsCompact.Count > 0)
+        {
+            CompactedExpander.Items.Clear();
+            foreach (StswNavigationItem item in ItemsCompact.ToList())
+            {
+                item.IsInCompactPanel = false;
+                CompactedExpander.Items.Add(item);
+            }
+            ItemsCompact.Clear();
+        }
+
+        CompactedExpander = null;
+    }
+
+    /// <summary>
     /// Changes the current context and optionally creates a new instance of the context object.
     /// Supports switching between different views dynamically.
     /// </summary>
@@ -386,19 +405,17 @@ public class StswNavigation : TreeView, IStswCornerControl
             return;
 
         /// get back all items from compact panel into original expander
-        if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
+        if (stsw.TabStripMode != StswCompactibility.Compact)
         {
-            if (stsw.TabStripMode == StswCompactibility.Full)
+            stsw.RestoreCompactItems();
+        }
+        else if (stsw.CompactedExpander != null)
+        {
+            stsw.ItemsCompact.Clear();
+            foreach (StswNavigationItem item in stsw.CompactedExpander.Items.TryClone())
             {
-                stsw.CompactedExpander.Items.Clear();
-                foreach (StswNavigationItem item in stsw.ItemsCompact.TryClone())
-                    stsw.CompactedExpander.Items.Add(item);
-            }
-            else if (stsw.TabStripMode == StswCompactibility.Compact)
-            {
-                stsw.ItemsCompact.Clear();
-                foreach (StswNavigationItem item in stsw.CompactedExpander.Items.TryClone())
-                    stsw.ItemsCompact.Add(item);
+                item.IsInCompactPanel = true;
+                stsw.ItemsCompact.Add(item);
             }
         }
     }

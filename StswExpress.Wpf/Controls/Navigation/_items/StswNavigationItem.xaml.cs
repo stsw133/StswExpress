@@ -282,7 +282,7 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
 
                 /// hide compact panel
                 if (stsw._stswNavigation.TabStripMode == StswCompactibility.Compact)
-                    stsw._stswNavigation.ItemsCompact.Clear();
+                    stsw._stswNavigation.RestoreCompactItems();
 
                 /// load context for content presenter
                 if (stsw.TargetType != null)

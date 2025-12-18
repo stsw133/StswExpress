@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress.Wpf">
 
     <Style TargetType="{x:Type se:StswIcon}">
-        <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
         <Setter Property="Focusable" Value="False"/>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -93,7 +94,8 @@ public class StswIcon : FrameworkElement
         drawingContext.PushTransform(new ScaleTransform(scale, scale));
 
         var pen = GetPen();
-        drawingContext.DrawGeometry(Fill, pen, Data);
+        var fill = Fill ?? Foreground;
+        drawingContext.DrawGeometry(fill, pen, Data);
 
         drawingContext.Pop();
         drawingContext.Pop();
@@ -238,6 +240,22 @@ public class StswIcon : FrameworkElement
             typeof(StswIcon),
             new FrameworkPropertyMetadata(default(Brush),
                 FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the foreground brush of the icon.
+    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
+    /// </summary>
+    public Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+    public static readonly DependencyProperty ForegroundProperty
+        = Control.ForegroundProperty.AddOwner(
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>

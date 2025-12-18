@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace StswExpress.Wpf;
@@ -84,11 +85,14 @@ public class StswSpinner : FrameworkElement
         if (size <= 0)
             return;
 
-        var fill = Fill ?? Brushes.Gray;
+        var fill = Fill ?? Foreground ?? Brushes.Gray;
         var center = new Point(RenderSize.Width / 2, RenderSize.Height / 2);
 
         switch (Type)
         {
+            case StswSpinnerType.Bars:
+                DrawBars(drawingContext, center, size, fill);
+                break;
             case StswSpinnerType.Circles:
                 DrawCircles(drawingContext, center, size, fill);
                 break;
@@ -311,9 +315,64 @@ public class StswSpinner : FrameworkElement
             new FrameworkPropertyMetadata(default(Brush),
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
+
+    /// <summary>
+    /// Gets or sets the foreground brush of the spinner.
+    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
+    /// </summary>
+    public Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+    public static readonly DependencyProperty ForegroundProperty
+        = Control.ForegroundProperty.AddOwner(
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
     #endregion
 
     #region Drawing
+    /// <summary>
+    /// Draws bouncing bars similar to an equalizer.
+    /// </summary>
+    /// <param name="dc">Drawing context.</param>
+    /// <param name="center">Center point of the spinner.</param>
+    /// <param name="size">Overall size of the spinner.</param>
+    /// <param name="brush">Brush used for drawing.</param>
+    private void DrawBars(DrawingContext dc, Point center, double size, Brush brush)
+    {
+        const int bars = 5;
+        var progress = GetProgress(1.2);
+        var barWidth = size * 0.12;
+        var spacing = size * 0.08;
+        var maxHeight = size * 0.7;
+        var startX = center.X - ((bars - 1) * (barWidth + spacing)) / 2;
+
+        for (var i = 0; i < bars; i++)
+        {
+            var offset = i / (double)bars;
+            var phase = (progress - offset + 1.0) % 1.0;
+
+            var wave = 0.5 - 0.5 * Math.Cos(TwoPi * phase);
+            var height = size * (0.18 + 0.52 * wave);
+            var top = center.Y + maxHeight / 2 - height;
+
+            var rect = new Rect(
+                startX + i * (barWidth + spacing),
+                top,
+                barWidth,
+                height);
+
+            var barOpacity = 0.35 + 0.65 * wave;
+
+            dc.PushOpacity(barOpacity);
+            dc.DrawRoundedRectangle(brush, null, rect, barWidth / 2, barWidth / 2);
+            dc.Pop();
+        }
+    }
+
     /// <summary>
     /// Draws a series of circles arranged in a circular pattern.
     /// </summary>
@@ -403,7 +462,6 @@ public class StswSpinner : FrameworkElement
             var offset = i * timeShiftPerDot;
             var phase = (progress - offset + 1) % 1;
 
-            //var t0 = 0.0 / cycleSeconds;
             var t1 = 0.4 / cycleSeconds;
             var t2 = 0.8 / cycleSeconds;
 

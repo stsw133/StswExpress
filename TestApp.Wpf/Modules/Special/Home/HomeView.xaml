@@ -14,25 +14,20 @@
     </UserControl.Resources>
 
     <se:StswScrollView DynamicMode="Partial" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <DockPanel Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <se:StswOutlinedText DockPanel.Dock="Top" Fill="#26bfe6" FontSize="60" Stroke="#2673e5" StrokeThickness="6" Text="stsw" HorizontalAlignment="Center"/>
-            <StackPanel Margin="0 10 0 40">
-                <se:StswDynamicGrid DockPanel.Dock="Top" Columns="2">
-                    <se:StswLabel Content="Authors:" IconData="{x:Static se:StswIcons.AccountMultiple}" Style="{StaticResource Header}"/>
-                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Authors}"/>
-                    <se:StswLabel Content="   Name:" IconData="{x:Static se:StswIcons.Library}" Style="{StaticResource Header}"/>
-                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Name}"/>
-                    <se:StswLabel Content=" Version:" IconData="{x:Static se:StswIcons.Update}" Style="{StaticResource Header}"/>
-                    <se:StswText FontWeight="Medium" Padding="3" Text="{Binding Version}"/>
-                    <se:StswLabel Content="  Github:" IconData="{x:Static se:StswIcons.Github}" Style="{StaticResource Header}"/>
-                    <se:StswHyperlinkButton NavigateUri="https://github.com/stsw133/StswExpress"/>
-                </se:StswDynamicGrid>
-                <se:StswLabel Content="Technical details:" Margin="0 20 0 0" FontWeight="Bold"/>
-                <se:StswDynamicGrid DockPanel.Dock="Top" Columns="2">
-                    <se:StswLabel Content=" Version:" IconData="{x:Static se:StswIcons.DotNet}" Style="{StaticResource Header}"/>
-                    <se:StswLabel Content="{Binding NetVersion}" FontWeight="Medium"/>
-                </se:StswDynamicGrid>
-            </StackPanel>
-        </DockPanel>
+        <StackPanel Margin="0 0 0 20" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <se:StswOutlinedText Fill="#26bfe6" FontSize="60" HorizontalAlignment="Center" Stroke="#2673e5" StrokeThickness="6" Text="stsw"/>
+            <se:StswDynamicGrid Columns="2">
+                <se:StswLabel Content="Authors:" IconData="{x:Static se:StswIcons.AccountMultiple}" Style="{StaticResource Header}"/>
+                <se:StswLabel Content="{Binding Authors}" FontWeight="Medium"/>
+                <se:StswLabel Content="   Name:" IconData="{x:Static se:StswIcons.Library}" Style="{StaticResource Header}"/>
+                <se:StswLabel Content="{Binding Name}" FontWeight="Medium"/>
+                <se:StswLabel Content=" Version:" IconData="{x:Static se:StswIcons.Update}" Style="{StaticResource Header}"/>
+                <se:StswLabel Content="{Binding Version}" FontWeight="Medium"/>
+                <se:StswLabel Content="  Github:" IconData="{x:Static se:StswIcons.Github}" Style="{StaticResource Header}"/>
+                <se:StswHyperlinkButton NavigateUri="https://github.com/stsw133/StswExpress"/>
+                <se:StswLabel Content=" Version:" IconData="{x:Static se:StswIcons.DotNet}" Style="{StaticResource Header}"/>
+                <se:StswLabel Content="{Binding NetVersion}" FontWeight="Medium"/>
+            </se:StswDynamicGrid>
+        </StackPanel>
     </se:StswScrollView>
 </UserControl>

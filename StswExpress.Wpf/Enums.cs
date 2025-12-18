@@ -252,6 +252,7 @@ public enum StswSliderMode
 /// </summary>
 public enum StswSpinnerType
 {
+    Bars,
     Circles,
     Crescent,
     Dots,

@@ -16,7 +16,7 @@ namespace StswExpress.Wpf;/// <summary>
 /// Supports item binding, selection tracking, drop-down customization, and error indication.
 /// </summary>
 /// <remarks>
-/// The <see cref="ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
+/// The <see cref="ItemsControl.ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
 /// </remarks>
 /// <example>
 /// The following example demonstrates how to use the class:

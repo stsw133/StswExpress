@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <Version>0.23.0</Version>
     <Authors>Karol Staszewski</Authors>
+    <Copyright>© 2025 Karol Staszewski</Copyright>
     <Description>This package offers utilities such as:
 • extended observable collections and objects
 • database query tools
@@ -14,15 +15,16 @@
 • messangers and stores
 • data hashing methods
 • code extensions and helpers</Description>
-    <Copyright>© 2025 Karol Staszewski</Copyright>
-    <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
-    <PackageTags>Utils</PackageTags>
-    <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageIcon>logo.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageTags>Utils</PackageTags>
+	<PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Wpf.xml</DocumentationFile>
 	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
