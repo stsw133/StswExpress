@@ -48,7 +48,6 @@ public class StswIcon : FrameworkElement
     protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
     {
         var pt = hitTestParameters.HitPoint;
-
         if (pt.X >= 0 && pt.X <= ActualWidth
          && pt.Y >= 0 && pt.Y <= ActualHeight)
             return new PointHitTestResult(this, pt);

@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace StswExpress.Wpf;
 /// <summary>
@@ -26,6 +28,7 @@ public class StswNavigation : TreeView, IStswCornerControl
 {
     private static readonly HashSet<WeakReference<StswNavigation>> _loadedInstances = [];
     private ToggleButton? _tabStripModeButton;
+    private FrameworkElement? _mainPanel;
     internal StswNavigationItem? CompactedExpander;
 
     public StswNavigation()
@@ -58,6 +61,8 @@ public class StswNavigation : TreeView, IStswCornerControl
         _tabStripModeButton = GetTemplateChild("PART_TabStripModeButton") as ToggleButton;
         if (_tabStripModeButton != null)
             _tabStripModeButton.Click += PART_TabStripModeButton_Click;
+
+        _mainPanel = GetTemplateChild("OPT_MainPanel") as FrameworkElement;
     }
 
     /// <summary>
@@ -418,6 +423,8 @@ public class StswNavigation : TreeView, IStswCornerControl
                 stsw.ItemsCompact.Add(item);
             }
         }
+
+        stsw.AnimateTabStripModeTransition((StswCompactibility)e.OldValue, stsw.TabStripMode);
     }
 
     /// <summary>
@@ -497,5 +504,58 @@ public class StswNavigation : TreeView, IStswCornerControl
             typeof(StswNavigation),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
         );
+    #endregion
+
+    #region Animations
+    /// <summary>
+    /// Animates the tab strip panel width when switching between full and compact modes.
+    /// </summary>
+    /// <param name="oldMode">The previous tab strip mode.</param>
+    /// <param name="newMode">The new tab strip mode.</param>
+    private void AnimateTabStripModeTransition(StswCompactibility oldMode, StswCompactibility newMode)
+    {
+        if (oldMode == newMode || _mainPanel is not FrameworkElement mainPanel || !IsLoaded)
+            return;
+
+        if (!StswApp.Settings.AnimationsEnabled || !StswControl.GetEnableAnimations(this))
+            return;
+
+        var isAnimationRequested =
+            oldMode == StswCompactibility.Full && newMode == StswCompactibility.Compact ||
+            oldMode == StswCompactibility.Compact && newMode == StswCompactibility.Full;
+        if (!isAnimationRequested)
+            return;
+
+        var startWidth = mainPanel.ActualWidth;
+        if (double.IsNaN(startWidth) || startWidth <= 0)
+            return;
+
+        Dispatcher.InvokeAsync(() =>
+        {
+            if (_mainPanel is not FrameworkElement targetPanel)
+                return;
+
+            targetPanel.UpdateLayout();
+
+            var targetWidth = targetPanel.DesiredSize.Width;
+            if (newMode == StswCompactibility.Full && !double.IsNaN(TabStripWidth) && TabStripWidth > 0)
+                targetWidth = TabStripWidth;
+
+            if (double.IsNaN(targetWidth) || targetWidth <= 0)
+                return;
+
+            var animation = new DoubleAnimation
+            {
+                From = startWidth,
+                To = targetWidth,
+                Duration = TimeSpan.FromMilliseconds(200),
+                EasingFunction = new QuadraticEase(),
+                FillBehavior = FillBehavior.Stop
+            };
+            animation.Completed += (_, _) => targetPanel.BeginAnimation(WidthProperty, null);
+
+            targetPanel.BeginAnimation(WidthProperty, animation);
+        }, DispatcherPriority.Loaded);
+    }
     #endregion
 }

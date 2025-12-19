@@ -20,11 +20,9 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswSpinner : FrameworkElement
 {
-    private const double BaseSize = 24d;
-    private const double TwoPi = Math.PI * 2;
-    private readonly Stopwatch _stopwatch = new();
-    private double _animationClock;
     private bool _isAnimating;
+    private double _nowSeconds;
+    private Pen? _penCache;
 
     public StswSpinner()
     {
@@ -41,7 +39,6 @@ public class StswSpinner : FrameworkElement
     protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
     {
         var pt = hitTestParameters.HitPoint;
-
         if (pt.X >= 0 && pt.X <= ActualWidth
          && pt.Y >= 0 && pt.Y <= ActualHeight)
             return new PointHitTestResult(this, pt);
@@ -53,8 +50,8 @@ public class StswSpinner : FrameworkElement
     protected override Size MeasureOverride(Size availableSize)
     {
         var scale = GetScaleFactor();
-        var desiredWidth = double.IsNaN(Width) ? BaseSize * scale : Width;
-        var desiredHeight = double.IsNaN(Height) ? BaseSize * scale : Height;
+        var desiredWidth = double.IsNaN(Width) ? 24 * scale : Width;
+        var desiredHeight = double.IsNaN(Height) ? 24 * scale : Height;
 
         if (!double.IsInfinity(availableSize.Width))
             desiredWidth = Math.Min(availableSize.Width, desiredWidth);
@@ -121,19 +118,15 @@ public class StswSpinner : FrameworkElement
     /// <param name="e">Event arguments.</param>
     private void OnRendering(object? sender, EventArgs e)
     {
-        var delta = _stopwatch.Elapsed.TotalSeconds;
-        _stopwatch.Restart();
+        if (!_isAnimating)
+            return;
 
-        _animationClock = (_animationClock + delta) % 60;
-        InvalidateVisual();
+        if (e is RenderingEventArgs rea)
+        {
+            _nowSeconds = rea.RenderingTime.TotalSeconds;
+            InvalidateVisual();
+        }
     }
-
-    /// <summary>
-    /// Clamps a value between 0 and 1.
-    /// </summary>
-    /// <param name="value">Input value.</param>
-    /// <returns>Clamped value between 0 and 1.</returns>
-    private static double Clamp01(double value) => value < 0 ? 0 : (value > 1 ? 1 : value);
 
     /// <summary>
     /// Easing function with power.
@@ -157,28 +150,6 @@ public class StswSpinner : FrameworkElement
     {
         t = Clamp01(t);
         return 1.0 - Math.Pow(1.0 - t, power);
-    }
-
-    /// <summary>
-    /// Easing function with power of 2.
-    /// </summary>
-    /// <param name="value">Input value between 0 and 1.</param>
-    /// <returns>Eased value between 0 and 1.</returns>
-    private static double EaseInPower2(double value)
-    {
-        value = Clamp01(value);
-        return value * value;
-    }
-
-    /// <summary>
-    /// Easing function with power of 2 for ease-out.
-    /// </summary>
-    /// <param name="value">Input value between 0 and 1.</param>
-    /// <returns>Eased value between 0 and 1.</returns>
-    private static double EaseOutPower2(double value)
-    {
-        value = Clamp01(value);
-        return 1 - EaseInPower2(1 - value);
     }
 
     /// <summary>
@@ -212,7 +183,7 @@ public class StswSpinner : FrameworkElement
         if (!_isAnimating || durationSeconds <= 0)
             return 0;
 
-        return _animationClock % durationSeconds / durationSeconds;
+        return (_nowSeconds % durationSeconds) / durationSeconds;
     }
 
     /// <summary>
@@ -226,22 +197,21 @@ public class StswSpinner : FrameworkElement
     /// </summary>
     private void UpdateAnimationState()
     {
-        var shouldAnimate = StswApp.Settings.AnimationsEnabled
-                         && StswControl.GetEnableAnimations(this)
-                         && IsLoaded
-                         && IsVisible
-                         && IsEnabled;
+        var shouldAnimate =
+            StswApp.Settings.AnimationsEnabled &&
+            StswControl.GetEnableAnimations(this) &&
+            IsLoaded &&
+            IsVisible &&
+            IsEnabled;
 
         if (shouldAnimate && !_isAnimating)
         {
             CompositionTarget.Rendering += OnRendering;
-            _stopwatch.Restart();
             _isAnimating = true;
         }
         else if (!shouldAnimate && _isAnimating)
         {
             CompositionTarget.Rendering -= OnRendering;
-            _stopwatch.Reset();
             _isAnimating = false;
         }
     }
@@ -293,7 +263,7 @@ public class StswSpinner : FrameworkElement
     private static void OnTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var stsw = (StswSpinner)d;
-        stsw._animationClock = 0;
+        stsw._penCache = null;
         stsw.InvalidateVisual();
     }
     #endregion
@@ -334,6 +304,36 @@ public class StswSpinner : FrameworkElement
     #endregion
 
     #region Drawing
+    private const double TwoPi = Math.PI * 2;
+
+    /// <summary>
+    /// Gets a cached pen with specified brush and thickness.
+    /// </summary>
+    /// <param name="brush">Brush of the pen.</param>
+    /// <param name="thickness">Thickness of the pen.</param>
+    /// <returns>Cached pen instance.</returns>
+    private Pen GetPen(Brush brush, double thickness)
+    {
+        _penCache ??= new Pen(brush, thickness)
+        {
+            StartLineCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round
+        };
+
+        _penCache.Brush = brush;
+        _penCache.Thickness = thickness;
+        return _penCache;
+    }
+
+    private static double Clamp01(double v) => v < 0 ? 0 : (v > 1 ? 1 : v);
+    private static double EaseInPower2(double v) { v = Clamp01(v); return v * v; }
+    private static double EaseOutPower2(double v) => 1 - EaseInPower2(1 - Clamp01(v));
+    private static Point PointOnCircle(Point c, double r, double deg)
+    {
+        var a = deg * Math.PI / 180;
+        return new(c.X + r * Math.Cos(a), c.Y + r * Math.Sin(a));
+    }
+
     /// <summary>
     /// Draws bouncing bars similar to an equalizer.
     /// </summary>
@@ -419,7 +419,7 @@ public class StswSpinner : FrameworkElement
         var ringRadius = size / 2 - size * 0.1;
         var progress = GetProgress(1.2);
         var startAngle = progress * 360;
-        const double sweep = 280;
+        const double sweep = 240;
 
         var geometry = new StreamGeometry();
         using (var ctx = geometry.Open())
@@ -622,37 +622,28 @@ public class StswSpinner : FrameworkElement
     private void DrawLines(DrawingContext dc, Point center, double size, Brush brush)
     {
         const int lines = 8;
-        var outerRadius = (size / 2) - size * 0.14;
+        var outerRadius = (size / 2) - size * 0.12;
         var innerRadius = outerRadius - size * 0.18;
-        var baseThickness = size * 0.08;
         var progress = GetProgress(1);
+        var pen = GetPen(brush, size * 0.08);
 
         for (var i = 0; i < lines; i++)
         {
-            var offset = i / (double)lines;
-            var phase = (progress - offset + 1) % 1;
-
+            var phase = (progress - i / (double)lines + 1) % 1;
             var opacity = phase <= 0.9 ? 1.0 - EaseInPower2(phase / 0.9) : 0.0;
-            if (opacity  <= 0)
+            if (opacity <= 0)
                 continue;
 
-            var angle = offset * TwoPi;
-            var outerPoint = new Point(
+            var angle = i * TwoPi / lines;
+            var outer = new Point(
                 center.X + outerRadius * Math.Cos(angle),
                 center.Y + outerRadius * Math.Sin(angle));
-            var innerPoint = new Point(
+            var inner = new Point(
                 center.X + innerRadius * Math.Cos(angle),
                 center.Y + innerRadius * Math.Sin(angle));
 
-            var thickness = baseThickness * (0.7 + 0.3 * opacity);
-            var pen = new Pen(brush, thickness)
-            {
-                StartLineCap = PenLineCap.Round,
-                EndLineCap = PenLineCap.Round
-            };
-
             dc.PushOpacity(opacity);
-            dc.DrawLine(pen, innerPoint, outerPoint);
+            dc.DrawLine(pen, inner, outer);
             dc.Pop();
         }
     }
@@ -667,11 +658,11 @@ public class StswSpinner : FrameworkElement
     private void DrawPulse(DrawingContext dc, Point center, double size, Brush brush)
     {
         var progress = GetProgress(1.5);
-        var pen = new Pen(brush, size * 0.08);
+        var pen = GetPen(brush, size * 0.08);
         var centerDotRadius = size * 0.13;
 
         DrawPulseRing(dc, center, size, pen, progress);
-        DrawPulseRing(dc, center, size, pen, (progress + 0.4) % 1);
+        DrawPulseRing(dc, center, size, pen, (progress + 0.5) % 1);
         dc.DrawEllipse(brush, null, center, centerDotRadius, centerDotRadius);
     }
 
@@ -685,27 +676,35 @@ public class StswSpinner : FrameworkElement
     /// <param name="progress">Progress of the pulse animation (0 to 1).</param>
     private static void DrawPulseRing(DrawingContext dc, Point center, double size, Pen pen, double progress)
     {
-        var opacity = 0.8 * (1.0 - progress);
-        var ringRadius = size * (0.25 + 0.55 * progress);
+        const double rMin = 0.18;
+        const double rMax = 0.52;
+        var ringRadius = size * (rMin + (rMax - rMin) * progress);
+        const double a = 0.25;
+        const double b = 0.75;
+
+        double w;
+        if (progress < a)
+        {
+            var x = progress / a;
+            w = x * x * (3 - 2 * x);
+        }
+        else if (progress > b)
+        {
+            var x = (1 - progress) / (1 - b);
+            w = x * x * (3 - 2 * x);
+        }
+        else
+        {
+            w = 1.0;
+        }
+
+        var opacity = 0.65 * w;
+        if (opacity <= 0.001)
+            return;
 
         dc.PushOpacity(opacity);
         dc.DrawEllipse(null, pen, center, ringRadius, ringRadius);
         dc.Pop();
-    }
-
-    /// <summary>
-    /// Calculates a point on the circumference of a circle.
-    /// </summary>
-    /// <param name="center">Center point of the circle.</param>
-    /// <param name="radius">Radius of the circle.</param>
-    /// <param name="angleInDegrees">Angle in degrees.</param>
-    /// <returns>Point on the circle.</returns>
-    private static Point PointOnCircle(Point center, double radius, double angleInDegrees)
-    {
-        var angle = angleInDegrees * Math.PI / 180;
-        return new(
-            center.X + radius * Math.Cos(angle),
-            center.Y + radius * Math.Sin(angle));
     }
     #endregion
 }

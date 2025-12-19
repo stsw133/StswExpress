@@ -113,8 +113,6 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="IsContentVisible" Value="False" TargetName="OPT_Header"/>
                             <Setter Property="ToolTip" Value="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainBorder"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center" TargetName="OPT_Header"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center" TargetName="OPT_Header"/>
                         </MultiTrigger>
                         <Trigger Property="TabStripMode" Value="Compact">
                             <Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" TargetName="OPT_MainButton"/>
