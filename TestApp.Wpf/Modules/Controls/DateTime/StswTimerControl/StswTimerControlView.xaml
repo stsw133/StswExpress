@@ -38,9 +38,7 @@
                              ResetOnStart="{Binding ResetOnStart}"
                              StartTime="{Binding StartTime}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             VerticalAlignment="{Binding VerticalAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                             VerticalAlignment="{Binding VerticalAlignment}"/>
         <!-- status panel -->
         
     </local:ControlsBase>
