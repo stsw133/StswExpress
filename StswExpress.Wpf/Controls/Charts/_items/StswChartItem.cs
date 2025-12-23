@@ -9,15 +9,7 @@ namespace StswExpress.Wpf;
 /// </summary>
 public abstract class StswChartItem : ContentControl
 {
-    #region Events & methods
-    /// <summary>
-    /// Event that is raised when the Value property changes.
-    /// </summary>
-    public event EventHandler? ValueChanged;
-    protected virtual void OnValueChanged() => ValueChanged?.Invoke(this, EventArgs.Empty);
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the description associated with the item.
     /// </summary>
@@ -78,5 +70,13 @@ public abstract class StswChartItem : ContentControl
             typeof(StswChartItem),
             new FrameworkPropertyMetadata(default(decimal), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, static (d, _) => ((StswChartItem)d).OnValueChanged())
         );
+    #endregion
+
+    #region Events
+    /// <summary>
+    /// Event that is raised when the Value property changes.
+    /// </summary>
+    public event EventHandler? ValueChanged;
+    protected virtual void OnValueChanged() => ValueChanged?.Invoke(this, EventArgs.Empty);
     #endregion
 }

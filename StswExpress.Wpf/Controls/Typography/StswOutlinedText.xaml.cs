@@ -23,170 +23,17 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Text))]
 public class StswOutlinedText : FrameworkElement
 {
-    private FormattedText? _formattedText;
-    private Geometry? _textGeometry;
-    private Pen? _pen;
-
+    static StswOutlinedText()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(typeof(StswOutlinedText)));
+    }
     public StswOutlinedText()
     {
         TextDecorations = [];
         UpdatePen();
     }
-    static StswOutlinedText()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(typeof(StswOutlinedText)));
-    }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override Size ArrangeOverride(Size finalSize)
-    {
-        EnsureFormattedText();
-
-        if (_formattedText != null)
-        {
-            _formattedText.MaxTextWidth = finalSize.Width;
-            _formattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
-        }
-
-        _textGeometry = null;
-        return finalSize;
-    }
-
-    /// <inheritdoc/>
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        EnsureFormattedText();
-
-        if (_formattedText is null)
-            return new Size();
-
-        _formattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
-        _formattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
-        return new Size(Math.Ceiling(_formattedText.Width), Math.Ceiling(_formattedText.Height));
-    }
-
-    /// <inheritdoc/>
-    protected override void OnRender(DrawingContext drawingContext)
-    {
-        EnsureGeometry();
-
-        if (_textGeometry is null)
-            return;
-
-        if (_pen is not null)
-            drawingContext.DrawGeometry(null, _pen, _textGeometry);
-
-        if (Fill is not null)
-            drawingContext.DrawGeometry(Fill, null, _textGeometry);
-    }
-
-    /// <summary>
-    /// Handles changes that require invalidating the formatted text and updating the visual display.
-    /// </summary>
-    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
-    /// <param name="e">Event data containing the changed property.</param>
-    private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-    {
-        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
-        outlinedTextBlock._formattedText = null;
-        outlinedTextBlock._textGeometry = null;
-
-        outlinedTextBlock.InvalidateMeasure();
-        outlinedTextBlock.InvalidateVisual();
-    }
-
-    /// <summary>
-    /// Updates the formatted text properties when certain attributes such as font or text alignment change.
-    /// </summary>
-    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
-    /// <param name="e">Event data containing the changed property.</param>
-    private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-    {
-        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
-        outlinedTextBlock.UpdateFormattedText();
-        outlinedTextBlock._textGeometry = null;
-
-        outlinedTextBlock.InvalidateMeasure();
-        outlinedTextBlock.InvalidateVisual();
-    }
-
-    /// <summary>
-    /// Ensures that the formatted text object is initialized.
-    /// Creates a new formatted text instance if necessary.
-    /// </summary>
-    private void EnsureFormattedText()
-    {
-        if (_formattedText != null)
-            return;
-
-        _formattedText = new FormattedText(
-            Text ?? string.Empty,
-            CultureInfo.CurrentUICulture,
-            FlowDirection,
-            new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
-            FontSize,
-            Brushes.Black,
-            VisualTreeHelper.GetDpi(this).PixelsPerDip);
-
-        UpdateFormattedText();
-    }
-
-    /// <summary>
-    /// Ensures that the text geometry is generated for rendering.
-    /// </summary>
-    private void EnsureGeometry()
-    {
-        if (_textGeometry != null)
-            return;
-
-        EnsureFormattedText();
-        _textGeometry = _formattedText?.BuildGeometry(new Point(0, 0));
-    }
-
-    /// <summary>
-    /// Updates the properties of the formatted text object, such as font size, weight, alignment, and decorations.
-    /// </summary>
-    private void UpdateFormattedText()
-    {
-        if (_formattedText == null)
-            return;
-
-        _formattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
-        _formattedText.TextAlignment = TextAlignment;
-        _formattedText.Trimming = TextTrimming;
-
-        _formattedText.SetFontSize(FontSize);
-        _formattedText.SetFontStyle(FontStyle);
-        _formattedText.SetFontWeight(FontWeight);
-        _formattedText.SetFontFamily(FontFamily);
-        _formattedText.SetFontStretch(FontStretch);
-        _formattedText.SetTextDecorations(TextDecorations);
-    }
-
-    /// <summary>
-    /// Updates the pen used for drawing the text outline.
-    /// Adjusts stroke properties such as thickness and line caps.
-    /// </summary>
-    private void UpdatePen()
-    {
-        var newPen = new Pen(Stroke, StrokeThickness)
-        {
-            DashCap = PenLineCap.Round,
-            EndLineCap = PenLineCap.Round,
-            LineJoin = PenLineJoin.Round,
-            StartLineCap = PenLineCap.Round
-        };
-
-        if (!newPen.Equals(_pen))
-        {
-            _pen = newPen;
-            InvalidateVisual();
-        }
-    }
-    #endregion
-
-    #region Properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the fill color of the text.
     /// The fill applies to the interior of the text glyphs.
@@ -396,5 +243,160 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(TextWrapping.NoWrap, OnFormattedTextUpdated)
         );
+    #endregion
+
+    #region Overrides
+    private FormattedText? _formattedText;
+    private Geometry? _textGeometry;
+    private Pen? _pen;
+
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        EnsureFormattedText();
+
+        if (_formattedText != null)
+        {
+            _formattedText.MaxTextWidth = finalSize.Width;
+            _formattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
+        }
+
+        _textGeometry = null;
+        return finalSize;
+    }
+
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        EnsureFormattedText();
+
+        if (_formattedText is null)
+            return new Size();
+
+        _formattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+        _formattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
+        return new Size(Math.Ceiling(_formattedText.Width), Math.Ceiling(_formattedText.Height));
+    }
+
+    /// <inheritdoc/>
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        EnsureGeometry();
+
+        if (_textGeometry is null)
+            return;
+
+        if (_pen is not null)
+            drawingContext.DrawGeometry(null, _pen, _textGeometry);
+
+        if (Fill is not null)
+            drawingContext.DrawGeometry(Fill, null, _textGeometry);
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles changes that require invalidating the formatted text and updating the visual display.
+    /// </summary>
+    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
+    /// <param name="e">Event data containing the changed property.</param>
+    private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
+        outlinedTextBlock._formattedText = null;
+        outlinedTextBlock._textGeometry = null;
+
+        outlinedTextBlock.InvalidateMeasure();
+        outlinedTextBlock.InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Updates the formatted text properties when certain attributes such as font or text alignment change.
+    /// </summary>
+    /// <param name="dependencyObject">The dependency object that triggered the update.</param>
+    /// <param name="e">Event data containing the changed property.</param>
+    private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
+        outlinedTextBlock.UpdateFormattedText();
+        outlinedTextBlock._textGeometry = null;
+
+        outlinedTextBlock.InvalidateMeasure();
+        outlinedTextBlock.InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Ensures that the formatted text object is initialized.
+    /// Creates a new formatted text instance if necessary.
+    /// </summary>
+    private void EnsureFormattedText()
+    {
+        if (_formattedText != null)
+            return;
+
+        _formattedText = new FormattedText(
+            Text ?? string.Empty,
+            CultureInfo.CurrentUICulture,
+            FlowDirection,
+            new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
+            FontSize,
+            Brushes.Black,
+            VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+        UpdateFormattedText();
+    }
+
+    /// <summary>
+    /// Ensures that the text geometry is generated for rendering.
+    /// </summary>
+    private void EnsureGeometry()
+    {
+        if (_textGeometry != null)
+            return;
+
+        EnsureFormattedText();
+        _textGeometry = _formattedText?.BuildGeometry(new Point(0, 0));
+    }
+
+    /// <summary>
+    /// Updates the properties of the formatted text object, such as font size, weight, alignment, and decorations.
+    /// </summary>
+    private void UpdateFormattedText()
+    {
+        if (_formattedText == null)
+            return;
+
+        _formattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
+        _formattedText.TextAlignment = TextAlignment;
+        _formattedText.Trimming = TextTrimming;
+
+        _formattedText.SetFontSize(FontSize);
+        _formattedText.SetFontStyle(FontStyle);
+        _formattedText.SetFontWeight(FontWeight);
+        _formattedText.SetFontFamily(FontFamily);
+        _formattedText.SetFontStretch(FontStretch);
+        _formattedText.SetTextDecorations(TextDecorations);
+    }
+
+    /// <summary>
+    /// Updates the pen used for drawing the text outline.
+    /// Adjusts stroke properties such as thickness and line caps.
+    /// </summary>
+    private void UpdatePen()
+    {
+        var newPen = new Pen(Stroke, StrokeThickness)
+        {
+            DashCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round,
+            LineJoin = PenLineJoin.Round,
+            StartLineCap = PenLineCap.Round
+        };
+
+        if (!newPen.Equals(_pen))
+        {
+            _pen = newPen;
+            InvalidateVisual();
+        }
+    }
     #endregion
 }

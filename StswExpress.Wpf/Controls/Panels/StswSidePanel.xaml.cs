@@ -23,67 +23,12 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswSidePanel : ContentControl
 {
-    private ContentPresenter? _contentPresenter;
-    private TranslateTransform? _contentTransform;
-    private Border? _expandBorder;
-
     static StswSidePanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSidePanel), new FrameworkPropertyMetadata(typeof(StswSidePanel)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        /// content presenter
-        if (_contentPresenter != null)
-            _contentPresenter.SizeChanged -= OnContentPresenterSizeChanged;
-
-        _contentPresenter = GetTemplateChild("OPT_Content") as ContentPresenter;
-        if (_contentPresenter != null)
-        {
-            _contentPresenter.SizeChanged += OnContentPresenterSizeChanged;
-            if (_contentPresenter.RenderTransform is not TranslateTransform transform)
-            {
-                transform = new TranslateTransform();
-                _contentPresenter.RenderTransform = transform;
-            }
-            _contentTransform = transform;
-        }
-
-        /// expand border
-        if (_expandBorder != null)
-            _expandBorder.MouseEnter -= ExpandBorder_MouseEnter;
-
-        _expandBorder = GetTemplateChild("PART_ExpandBorder") as Border;
-        if (_expandBorder != null)
-            _expandBorder.MouseEnter += ExpandBorder_MouseEnter;
-
-        UpdateCollapsedState(false);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnMouseLeave(MouseEventArgs e)
-    {
-        base.OnMouseLeave(e);
-        if (!IsAlwaysVisible && !IsCollapsed)
-            IsCollapsed = true;
-    }
-
-    /// <summary>
-    /// Handles the MouseEnter event on the expand border to expand the panel when hovered.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ExpandBorder_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (!IsAlwaysVisible && IsCollapsed)
-            IsCollapsed = false;
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a value indicating whether the side panel is always visible.
     /// If true, the panel remains expanded and doesn't collapse, overriding mouse hover behavior.
@@ -102,9 +47,7 @@ public class StswSidePanel : ContentControl
         );
     public static void OnIsAlwaysVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswSidePanel stsw)
-            return;
-
+        var stsw = (StswSidePanel)d;
         var newIsCollapsed = !stsw.IsAlwaysVisible;
         if (stsw.IsCollapsed != newIsCollapsed)
             stsw.IsCollapsed = newIsCollapsed;
@@ -128,10 +71,81 @@ public class StswSidePanel : ContentControl
         );
     private static void OnIsCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswSidePanel stsw)
-            return;
-
+        var stsw = (StswSidePanel)d;
         stsw.UpdateCollapsedState(true);
+    }
+    #endregion
+
+    #region Template
+    private Border? _expandBorder;
+    private ContentPresenter? _contentPresenter;
+    private TranslateTransform? _contentTransform;
+
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        /// content presenter
+        if (_contentPresenter != null)
+            _contentPresenter.SizeChanged -= OnContentPresenterSizeChanged;
+
+        _contentPresenter = GetTemplateChild("OPT_Content") as ContentPresenter;
+        if (_contentPresenter != null)
+        {
+            _contentPresenter.SizeChanged += OnContentPresenterSizeChanged;
+            if (_contentPresenter.RenderTransform is not TranslateTransform transform)
+            {
+                transform = new TranslateTransform();
+                _contentPresenter.RenderTransform = transform;
+            }
+            _contentTransform = transform;
+        }
+
+        DetachTemplateEvents();
+        _expandBorder = GetTemplateChild("PART_ExpandBorder") as Border;
+        AttachTemplateEvents();
+
+        UpdateCollapsedState(false);
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_expandBorder != null)
+            _expandBorder.MouseEnter += ExpandBorder_MouseEnter;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_expandBorder != null)
+            _expandBorder.MouseEnter -= ExpandBorder_MouseEnter;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+        base.OnMouseLeave(e);
+        if (!IsAlwaysVisible && !IsCollapsed)
+            IsCollapsed = true;
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles the MouseEnter event on the expand border to expand the panel when hovered.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ExpandBorder_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (!IsAlwaysVisible && IsCollapsed)
+            IsCollapsed = false;
     }
     #endregion
 

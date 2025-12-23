@@ -13,7 +13,7 @@ public class StswPieChartItem : StswChartItem
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPieChartItem), new FrameworkPropertyMetadata(typeof(StswPieChartItem)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the angle of the chart item.
     /// </summary>
@@ -43,9 +43,7 @@ public class StswPieChartItem : StswChartItem
             typeof(Point),
             typeof(StswPieChartItem)
         );
-    #endregion
 
-    #region Style properties
     /// <summary>
     /// Gets or sets the visibility of the chart item's percentage.
     /// </summary>

@@ -23,36 +23,7 @@ public class StswListBoxItem : ListBoxItem, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBoxItem), new FrameworkPropertyMetadata(typeof(StswListBoxItem)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (DataContext is IStswSelectionItem)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the item is in read-only mode.
-    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswListBoxItem)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -78,5 +49,32 @@ public class StswListBoxItem : ListBoxItem, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswListBoxItem)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item is in read-only mode.
+    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswListBoxItem)
+        );
+    #endregion
+
+    #region Template
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (DataContext is IStswSelectionItem)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+    }
     #endregion
 }

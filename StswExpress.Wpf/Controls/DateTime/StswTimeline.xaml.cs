@@ -15,18 +15,172 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswTimeline : ItemsControl
 {
-    private DateTime? _itemsMinimum;
-    private DateTime? _itemsMaximum;
-
     static StswTimeline()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimeline), new FrameworkPropertyMetadata(typeof(StswTimeline)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswTimelineItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTimelineItem;
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets the path to the property that provides the date for each item.
+    /// </summary>
+    public string? DateMemberPath
+    {
+        get => (string?)GetValue(DateMemberPathProperty);
+        set => SetValue(DateMemberPathProperty, value);
+    }
+    public static readonly DependencyProperty DateMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(DateMemberPath),
+            typeof(string),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnDateMemberPathChanged)
+        );
+    private static void OnDateMemberPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimeline)d;
+        foreach (var item in stsw.Items)
+            stsw.ApplyContainerBindings(item);
+        stsw.UpdateAutomaticRange();
+        stsw.InvalidateArrange();
+    }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the template used to display the popup content for each item.
+    /// </summary>
+    public DataTemplate? ItemPopupTemplate
+    {
+        get => (DataTemplate?)GetValue(ItemPopupTemplateProperty);
+        set => SetValue(ItemPopupTemplateProperty, value);
+    }
+    public static readonly DependencyProperty ItemPopupTemplateProperty
+        = DependencyProperty.Register(
+            nameof(ItemPopupTemplate),
+            typeof(DataTemplate),
+            typeof(StswTimeline)
+        );
+
+    /// <summary>
+    /// Gets or sets the template selector used to choose the popup template for each item.
+    /// </summary>
+    public DataTemplateSelector? ItemPopupTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(ItemPopupTemplateSelectorProperty);
+        set => SetValue(ItemPopupTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty ItemPopupTemplateSelectorProperty
+        = DependencyProperty.Register(
+            nameof(ItemPopupTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(StswTimeline)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum date for the timeline.
+    /// </summary>
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(DateTime?),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnRangeChanged)
+        );
+    private static void OnRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimeline)d;
+        stsw.UpdateAutomaticRange();
+        stsw.InvalidateArrange();
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum date for the timeline.
+    /// </summary>
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(DateTime?),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsArrange,
+                OnRangeChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the orientation of the timeline.
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+
+    /// <summary>
+    /// Gets or sets the initial delay, in milliseconds, before a tooltip is shown for an item.
+    /// </summary>
+    public int ToolTipInitialShowDelay
+    {
+        get => (int)GetValue(ToolTipInitialShowDelayProperty);
+        set => SetValue(ToolTipInitialShowDelayProperty, value);
+    }
+    public static readonly DependencyProperty ToolTipInitialShowDelayProperty
+        = DependencyProperty.Register(
+            nameof(ToolTipInitialShowDelay),
+            typeof(int),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(200)
+        );
+
+    /// <summary>
+    /// Gets or sets the duration, in milliseconds, that a tooltip stays visible for an item.
+    /// </summary>
+    public int ToolTipShowDuration
+    {
+        get => (int)GetValue(ToolTipShowDurationProperty);
+        set => SetValue(ToolTipShowDurationProperty, value);
+    }
+    public static readonly DependencyProperty ToolTipShowDurationProperty
+        = DependencyProperty.Register(
+            nameof(ToolTipShowDuration),
+            typeof(int),
+            typeof(StswTimeline),
+            new FrameworkPropertyMetadata(10000)
+        );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswTimelineItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTimelineItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswTimelineItem timelineItem)
+            ConfigureContainer(timelineItem, item);
+    }
+
     /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
@@ -47,14 +201,10 @@ public class StswTimeline : ItemsControl
         UpdateAutomaticRange();
         InvalidateArrange();
     }
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswTimelineItem timelineItem)
-            ConfigureContainer(timelineItem, item);
-    }
+    #region Logic
+    private DateTime? _itemsMinimum, _itemsMaximum;
 
     /// <summary>
     /// Applies necessary bindings to the container for the given item.
@@ -215,161 +365,6 @@ public class StswTimeline : ItemsControl
         return (minimum, maximum);
     }
     #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the path to the property that provides the date for each item.
-    /// </summary>
-    public string? DateMemberPath
-    {
-        get => (string?)GetValue(DateMemberPathProperty);
-        set => SetValue(DateMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty DateMemberPathProperty
-        = DependencyProperty.Register(
-            nameof(DateMemberPath),
-            typeof(string),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(default(string),
-                FrameworkPropertyMetadataOptions.AffectsArrange,
-                OnDateMemberPathChanged)
-        );
-    private static void OnDateMemberPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimeline stsw)
-            return;
-
-        foreach (var item in stsw.Items)
-            stsw.ApplyContainerBindings(item);
-
-        stsw.UpdateAutomaticRange();
-        stsw.InvalidateArrange();
-    }
-
-    /// <summary>
-    /// Gets or sets the template used to display the popup content for each item.
-    /// </summary>
-    public DataTemplate? ItemPopupTemplate
-    {
-        get => (DataTemplate?)GetValue(ItemPopupTemplateProperty);
-        set => SetValue(ItemPopupTemplateProperty, value);
-    }
-    public static readonly DependencyProperty ItemPopupTemplateProperty
-        = DependencyProperty.Register(
-            nameof(ItemPopupTemplate),
-            typeof(DataTemplate),
-            typeof(StswTimeline)
-        );
-
-    /// <summary>
-    /// Gets or sets the template selector used to choose the popup template for each item.
-    /// </summary>
-    public DataTemplateSelector? ItemPopupTemplateSelector
-    {
-        get => (DataTemplateSelector?)GetValue(ItemPopupTemplateSelectorProperty);
-        set => SetValue(ItemPopupTemplateSelectorProperty, value);
-    }
-    public static readonly DependencyProperty ItemPopupTemplateSelectorProperty
-        = DependencyProperty.Register(
-            nameof(ItemPopupTemplateSelector),
-            typeof(DataTemplateSelector),
-            typeof(StswTimeline)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum date for the timeline.
-    /// </summary>
-    public DateTime? Maximum
-    {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(DateTime?),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.AffectsArrange,
-                OnRangeChanged)
-        );
-    private static void OnRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimeline stsw)
-            return;
-
-        stsw.UpdateAutomaticRange();
-        stsw.InvalidateArrange();
-    }
-
-    /// <summary>
-    /// Gets or sets the minimum date for the timeline.
-    /// </summary>
-    public DateTime? Minimum
-    {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(DateTime?),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.AffectsArrange,
-                OnRangeChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the orientation of the timeline.
-    /// </summary>
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the initial delay, in milliseconds, before a tooltip is shown for an item.
-    /// </summary>
-    public int ToolTipInitialShowDelay
-    {
-        get => (int)GetValue(ToolTipInitialShowDelayProperty);
-        set => SetValue(ToolTipInitialShowDelayProperty, value);
-    }
-    public static readonly DependencyProperty ToolTipInitialShowDelayProperty
-        = DependencyProperty.Register(
-            nameof(ToolTipInitialShowDelay),
-            typeof(int),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(200)
-        );
-
-    /// <summary>
-    /// Gets or sets the duration, in milliseconds, that a tooltip stays visible for an item.
-    /// </summary>
-    public int ToolTipShowDuration
-    {
-        get => (int)GetValue(ToolTipShowDurationProperty);
-        set => SetValue(ToolTipShowDurationProperty, value);
-    }
-    public static readonly DependencyProperty ToolTipShowDurationProperty
-        = DependencyProperty.Register(
-            nameof(ToolTipShowDuration),
-            typeof(int),
-            typeof(StswTimeline),
-            new FrameworkPropertyMetadata(10000)
-        );
-    #endregion
 }
 
 /// <summary>
@@ -377,15 +372,6 @@ public class StswTimeline : ItemsControl
 /// </summary>
 public class StswTimelinePanel : Panel
 {
-    /// <inheritdoc/>
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        foreach (UIElement child in InternalChildren)
-            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
-        return availableSize;
-    }
-
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
@@ -439,5 +425,14 @@ public class StswTimelinePanel : Panel
         }
 
         return finalSize;
+    }
+
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        foreach (UIElement child in InternalChildren)
+            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+        return availableSize;
     }
 }

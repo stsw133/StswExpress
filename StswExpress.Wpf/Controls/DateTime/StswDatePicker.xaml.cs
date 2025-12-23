@@ -25,7 +25,140 @@ public class StswDatePicker : StswBoxBase
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the date format displayed in the column.
+    /// Example: "dd/MM/yyyy".
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
+            typeof(StswDatePicker),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
+        );
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDatePicker)d;
+        stsw.FormatChanged(stsw.Format ?? "d");
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswDatePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the increment type that determines how the date changes when scrolling with the mouse wheel.
+    /// </summary>
+    public StswDateTimeIncrementType IncrementType
+    {
+        get => (StswDateTimeIncrementType)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+            nameof(IncrementType),
+            typeof(StswDateTimeIncrementType),
+            typeof(StswDatePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable date in the control.
+    /// </summary>
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(DateTime?),
+            typeof(StswDatePicker),
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
+        );
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDatePicker)d;
+        if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
+            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum allowable date in the control.
+    /// </summary>
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(DateTime?),
+            typeof(StswDatePicker),
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected date in the control.
+    /// </summary>
+    public DateTime? SelectedDate
+    {
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
+    }
+    public static readonly DependencyProperty SelectedDateProperty
+        = DependencyProperty.Register(
+            nameof(SelectedDate),
+            typeof(DateTime?),
+            typeof(StswDatePicker),
+            new FrameworkPropertyMetadata(default(DateTime?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static object? OnSelectedDateChanging(DependencyObject d, object? baseValue)
+    {
+        var stsw = (StswDatePicker)d;
+        return stsw.MinMaxValidate((DateTime?)baseValue);
+    }
+
+    /// <summary>
+    /// Gets or sets the selection unit of the control.
+    /// Determines whether the user selects an individual day or an entire month.
+    /// </summary>
+    public StswCalendarUnit SelectionUnit
+    {
+        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
+    }
+    public static readonly DependencyProperty SelectionUnitProperty
+        = DependencyProperty.Register(
+            nameof(SelectionUnit),
+            typeof(StswCalendarUnit),
+            typeof(StswDatePicker)
+        );
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -33,6 +166,9 @@ public class StswDatePicker : StswBoxBase
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
+    #endregion
+
+    #region Overrides
     /*
     /// <inheritdoc/>
     protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -83,7 +219,9 @@ public class StswDatePicker : StswBoxBase
             }
         }
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Ensures the provided date value is within the defined minimum and maximum limits.
     /// If the value is outside the allowed range, it is adjusted accordingly.
@@ -154,144 +292,5 @@ public class StswDatePicker : StswBoxBase
             }
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the date format displayed in the column.
-    /// Example: "dd/MM/yyyy".
-    /// </summary>
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
-    public static readonly DependencyProperty FormatProperty
-        = DependencyProperty.Register(
-            nameof(Format),
-            typeof(string),
-            typeof(StswDatePicker),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged)
-        );
-    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDatePicker stsw)
-            return;
-
-        stsw.FormatChanged(stsw.Format ?? "d");
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down menu is currently open.
-    /// </summary>
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswDatePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the increment type that determines how the date changes when scrolling with the mouse wheel.
-    /// </summary>
-    public StswDateTimeIncrementType IncrementType
-    {
-        get => (StswDateTimeIncrementType)GetValue(IncrementTypeProperty);
-        set => SetValue(IncrementTypeProperty, value);
-    }
-    public static readonly DependencyProperty IncrementTypeProperty
-        = DependencyProperty.Register(
-            nameof(IncrementType),
-            typeof(StswDateTimeIncrementType),
-            typeof(StswDatePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum allowable date in the control.
-    /// </summary>
-    public DateTime? Maximum
-    {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(DateTime?),
-            typeof(StswDatePicker),
-            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
-        );
-    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDatePicker stsw)
-            return;
-
-        if (stsw.SelectedDate != null && !stsw.SelectedDate.Between(stsw.Minimum, stsw.Maximum))
-            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
-    }
-
-    /// <summary>
-    /// Gets or sets the minimum allowable date in the control.
-    /// </summary>
-    public DateTime? Minimum
-    {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(DateTime?),
-            typeof(StswDatePicker),
-            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected date in the control.
-    /// </summary>
-    public DateTime? SelectedDate
-    {
-        get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, value);
-    }
-    public static readonly DependencyProperty SelectedDateProperty
-        = DependencyProperty.Register(
-            nameof(SelectedDate),
-            typeof(DateTime?),
-            typeof(StswDatePicker),
-            new FrameworkPropertyMetadata(default(DateTime?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, OnSelectedDateChanging, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static object? OnSelectedDateChanging(DependencyObject d, object? baseValue)
-    {
-        if (d is not StswDatePicker stsw)
-            return baseValue;
-
-        return stsw.MinMaxValidate((DateTime?)baseValue);
-    }
-
-    /// <summary>
-    /// Gets or sets the selection unit of the control.
-    /// Determines whether the user selects an individual day or an entire month.
-    /// </summary>
-    public StswCalendarUnit SelectionUnit
-    {
-        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
-        set => SetValue(SelectionUnitProperty, value);
-    }
-    public static readonly DependencyProperty SelectionUnitProperty
-        = DependencyProperty.Register(
-            nameof(SelectionUnit),
-            typeof(StswCalendarUnit),
-            typeof(StswDatePicker)
-        );
     #endregion
 }

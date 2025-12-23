@@ -16,15 +16,118 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Value))]
 public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
-    private ButtonBase? _btnDown;
-    private ButtonBase? _btnUp;
-
     static StswNumberBoxBase()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the numeric format used for displaying values (e.g., "N2" for two decimal places, "C2" for currency).
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
+            typeof(StswNumberBoxBase<T>),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
+        );
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswNumberBoxBase<T>)d;
+        stsw.FormatChanged(stsw.Format);
+    }
+
+    /// <summary>
+    /// Gets or sets the step value used when adjusting the number using the up/down buttons or mouse wheel.
+    /// </summary>
+    public T Increment
+    {
+        get => (T)GetValue(IncrementProperty);
+        set => SetValue(IncrementProperty, value);
+    }
+    public static readonly DependencyProperty IncrementProperty
+        = DependencyProperty.Register(
+            nameof(Increment),
+            typeof(T),
+            typeof(StswNumberBoxBase<T>)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable value in the control. 
+    /// The input value will be clamped to this maximum if exceeded.
+    /// </summary>
+    public T? Maximum
+    {
+        get => (T?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new PropertyMetadata(default(T?), OnMinMaxChanged)
+        );
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswNumberBoxBase<T>)d;
+        if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
+            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum allowable value in the control. 
+    /// The input value will be clamped to this minimum if lower.
+    /// </summary>
+    public T? Minimum
+    {
+        get => (T?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new PropertyMetadata(default(T?), OnMinMaxChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the numeric value of the control. 
+    /// Supports data binding and updates when the user enters a new value or uses increment/decrement controls.
+    /// </summary>
+    public T? Value
+    {
+        get => (T?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    public static readonly DependencyProperty ValueProperty
+        = DependencyProperty.Register(
+            nameof(Value),
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new FrameworkPropertyMetadata(default(T?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static object? OnValueChanging(DependencyObject d, object? baseValue)
+    {
+        var stsw = (StswNumberBoxBase<T>)d;
+        return stsw.MinMaxValidate((T?)baseValue);
+    }
+    #endregion
+
+    #region Template
+    private ButtonBase? _btnDown, _btnUp;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -47,13 +150,9 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
+    #endregion
 
-    private static bool TryParse(string? text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
-    private static T Add(T a, T b) => a + b;
-    private static T Subtract(T a, T b) => a - b;
-    private static bool IsZero(T value) => value == T.Zero;
-    private static int Compare(T a, T b) => a.CompareTo(b);
-
+    #region Logic
     /// <summary>
     /// Handles the click event for the "Up" button, incrementing the numeric value.
     /// The increment is determined by the <see cref="Increment"/> property.
@@ -184,114 +283,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
     }
     #endregion
 
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the numeric format used for displaying values (e.g., "N2" for two decimal places, "C2" for currency).
-    /// </summary>
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
-    public static readonly DependencyProperty FormatProperty
-        = DependencyProperty.Register(
-            nameof(Format),
-            typeof(string),
-            typeof(StswNumberBoxBase<T>),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged)
-        );
-    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswNumberBoxBase<T> stsw)
-            return;
-
-        stsw.FormatChanged(stsw.Format);
-    }
-
-    /// <summary>
-    /// Gets or sets the step value used when adjusting the number using the up/down buttons or mouse wheel.
-    /// </summary>
-    public T Increment
-    {
-        get => (T)GetValue(IncrementProperty);
-        set => SetValue(IncrementProperty, value);
-    }
-    public static readonly DependencyProperty IncrementProperty
-        = DependencyProperty.Register(
-            nameof(Increment),
-            typeof(T),
-            typeof(StswNumberBoxBase<T>)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum allowable value in the control. 
-    /// The input value will be clamped to this maximum if exceeded.
-    /// </summary>
-    public T? Maximum
-    {
-        get => (T?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(T?),
-            typeof(StswNumberBoxBase<T>),
-            new PropertyMetadata(default(T?), OnMinMaxChanged)
-        );
-    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswNumberBoxBase<T> stsw)
-            return;
-
-        if (stsw.Value != null && !stsw.Value.Between(stsw.Minimum, stsw.Maximum))
-            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
-    }
-
-    /// <summary>
-    /// Gets or sets the minimum allowable value in the control. 
-    /// The input value will be clamped to this minimum if lower.
-    /// </summary>
-    public T? Minimum
-    {
-        get => (T?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(T?),
-            typeof(StswNumberBoxBase<T>),
-            new PropertyMetadata(default(T?), OnMinMaxChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the numeric value of the control. 
-    /// Supports data binding and updates when the user enters a new value or uses increment/decrement controls.
-    /// </summary>
-    public T? Value
-    {
-        get => (T?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
-    public static readonly DependencyProperty ValueProperty
-        = DependencyProperty.Register(
-            nameof(Value),
-            typeof(T?),
-            typeof(StswNumberBoxBase<T>),
-            new FrameworkPropertyMetadata(default(T?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, OnValueChanging, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static object? OnValueChanging(DependencyObject d, object? baseValue)
-    {
-        if (d is not StswNumberBoxBase<T> stsw)
-            return baseValue;
-
-        return stsw.MinMaxValidate((T?)baseValue);
-    }
+    #region Helpers
+    private static bool TryParse(string? text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
+    private static T Add(T a, T b) => a + b;
+    private static T Subtract(T a, T b) => a - b;
+    private static bool IsZero(T value) => value == T.Zero;
+    private static int Compare(T a, T b) => a.CompareTo(b);
     #endregion
 }
 

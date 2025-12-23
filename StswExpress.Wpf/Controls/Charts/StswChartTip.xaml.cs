@@ -22,7 +22,7 @@ public class StswChartTip : StswToolTip
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartTip), new FrameworkPropertyMetadata(typeof(StswChartTip)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Indicates whether the description of the chart element should be displayed in the tooltip.
     /// </summary>

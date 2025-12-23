@@ -13,7 +13,7 @@ public class StswDataGridRow : DataGridRow
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGridRow), new FrameworkPropertyMetadata(typeof(StswDataGridRow)));
     }
 
-    #region Events & methods
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnSelected(RoutedEventArgs e)
     {

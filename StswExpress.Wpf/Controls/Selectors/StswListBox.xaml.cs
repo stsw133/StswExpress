@@ -25,87 +25,42 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
-    private readonly StswScrollActionScheduler _scrollActionScheduler;
-
-    public StswListBox()
-    {
-        _scrollActionScheduler = new StswScrollActionScheduler(this);
-    }
     static StswListBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));
     }
-
-    protected override DependencyObject GetContainerForItemOverride() => new StswListBoxItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListBoxItem;
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public StswListBox()
     {
-        base.OnApplyTemplate();
-
-        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
     }
 
+    #region Dependency properties
     /// <inheritdoc/>
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    public bool CornerClipping
     {
-        base.OnItemsChanged(e);
-
-        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
-
-    /// <inheritdoc/>
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
-    {
-        IStswSelectionControl.ItemsSourceChanged(this, newValue);
-        base.OnItemsSourceChanged(oldValue, newValue);
-    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswListBox)
+        );
 
     /// <inheritdoc/>
-    protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+    public CornerRadius CornerRadius
     {
-        IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
-        base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswListBox)
+        );
 
-    /// <inheritdoc/>
-    protected override void OnPreviewKeyDown(KeyEventArgs e)
-    {
-        if (!IStswSelectionControl.PreviewKeyDown(this, e)) return;
-        base.OnPreviewKeyDown(e);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-    {
-        base.OnSelectionChanged(e);
-        IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
-
-        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
-            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
-    }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is StswListBoxItem listBoxItem)
-        {
-            listBoxItem.SetBinding(StswListBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
-            {
-                Source = this,
-                Mode = BindingMode.OneWay
-            });
-        }
-    }
-    #endregion
-
-    #region Logic properties
     /// <inheritdoc/>
     public bool IsReadOnly
     {
@@ -135,31 +90,78 @@ public class StswListBox : ListBox, IStswCornerControl, IStswSelectionControl
         );
     #endregion
 
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswListBox)
-        );
+    #region Template
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    public override void OnApplyTemplate()
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnApplyTemplate();
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswListBox)
-        );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswListBoxItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListBoxItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswListBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswListBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        IStswSelectionControl.ItemsSourceChanged(this, newValue);
+        base.OnItemsSourceChanged(oldValue, newValue);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+    {
+        IStswSelectionControl.ItemTemplateChanged(this, newItemTemplate);
+        base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IStswSelectionControl.PreviewKeyDown(this, e))
+            return;
+        base.OnPreviewKeyDown(e);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+        IStswSelectionControl.SelectionChanged(this, e.AddedItems, e.RemovedItems);
+
+        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
+            _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
+    }
     #endregion
 }

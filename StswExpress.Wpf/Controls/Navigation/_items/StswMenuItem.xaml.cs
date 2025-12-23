@@ -20,51 +20,7 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMenuItem), new FrameworkPropertyMetadata(typeof(StswMenuItem)));
     }
 
-    #region Logic properties
-    /// <inheritdoc/>
-    public Geometry? IconData
-    {
-        get => (Geometry?)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
-    }
-    public static readonly DependencyProperty IconDataProperty
-        = DependencyProperty.Register(
-            nameof(IconData),
-            typeof(Geometry),
-            typeof(StswMenuItem)
-        );
-
-    /// <inheritdoc/>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswMenuItem)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the menu item is in a busy or loading state. 
-    /// This can be used to visually indicate ongoing operations.
-    /// </summary>
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
-    public static readonly DependencyProperty IsBusyProperty
-        = DependencyProperty.Register(
-            nameof(IsBusy),
-            typeof(bool),
-            typeof(StswMenuItem)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -92,6 +48,19 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
+    public static readonly DependencyProperty IconDataProperty
+        = DependencyProperty.Register(
+            nameof(IconData),
+            typeof(Geometry),
+            typeof(StswMenuItem)
+        );
+
+    /// <inheritdoc/>
     public Brush IconFill
     {
         get => (Brush)GetValue(IconFillProperty);
@@ -103,6 +72,19 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             typeof(Brush),
             typeof(StswMenuItem),
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswMenuItem)
         );
 
     /// <inheritdoc/>
@@ -131,6 +113,22 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             typeof(double),
             typeof(StswMenuItem),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the menu item is in a busy or loading state. 
+    /// This can be used to visually indicate ongoing operations.
+    /// </summary>
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
+    public static readonly DependencyProperty IsBusyProperty
+        = DependencyProperty.Register(
+            nameof(IsBusy),
+            typeof(bool),
+            typeof(StswMenuItem)
         );
     #endregion
 }

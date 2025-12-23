@@ -24,77 +24,16 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Content))]
 public class StswPopup : Popup, IStswCornerControl
 {
-    public StswPopup()
-    {
-        Init();
-    }
     static StswPopup()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPopup), new FrameworkPropertyMetadata(typeof(StswPopup)));
     }
-
-    #region Events & methods
-    /// <summary>
-    /// Initializes the popup's child content based on the selected <see cref="ScrollType"/>.
-    /// </summary>
-    private void Init()
+    public StswPopup()
     {
-        Child = new ContentControl
-        {
-            ContentTemplate = ScrollType switch
-            {
-                StswScrollType.DirectionView => (DataTemplate)FindResource("StswPopupDirectionViewTemplate"),
-                StswScrollType.ScrollView => (DataTemplate)FindResource("StswPopupScrollViewTemplate"),
-                _ => throw new System.NotImplementedException()
-            }
-        };
+        Init();
     }
-    #endregion
 
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the content displayed inside the popup.
-    /// </summary>
-    public object? Content
-    {
-        get => (object?)GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
-    }
-    public static readonly DependencyProperty ContentProperty
-        = DependencyProperty.Register(
-            nameof(Content),
-            typeof(object),
-            typeof(StswPopup)
-        );
-
-    /// <summary>
-    /// Gets or sets the type of scroll viewer used within the popup content.
-    /// Determines whether a directional or standard scroll view is used.
-    /// </summary>
-    public StswScrollType ScrollType
-    {
-        get => (StswScrollType)GetValue(ScrollTypeProperty);
-        set => SetValue(ScrollTypeProperty, value);
-    }
-    public static readonly DependencyProperty ScrollTypeProperty
-        = DependencyProperty.Register(
-            nameof(ScrollType),
-            typeof(StswScrollType),
-            typeof(StswPopup),
-            new FrameworkPropertyMetadata(StswScrollType.ScrollView,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnScrollTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnScrollTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswPopup stsw)
-            return;
-
-        stsw.Init();
-    }
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the background brush for the popup.
     /// </summary>
@@ -147,6 +86,21 @@ public class StswPopup : Popup, IStswCornerControl
     public static Thickness GetBorderThickness(DependencyObject d) => (Thickness)d.GetValue(BorderThicknessProperty);
     public static void SetBorderThickness(DependencyObject d, Thickness value) => d.SetValue(BorderThicknessProperty, value);
 
+    /// <summary>
+    /// Gets or sets the content displayed inside the popup.
+    /// </summary>
+    public object? Content
+    {
+        get => (object?)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+    public static readonly DependencyProperty ContentProperty
+        = DependencyProperty.Register(
+            nameof(Content),
+            typeof(object),
+            typeof(StswPopup)
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -196,5 +150,47 @@ public class StswPopup : Popup, IStswCornerControl
         );
     public static Thickness GetPadding(DependencyObject d) => (Thickness)d.GetValue(PaddingProperty);
     public static void SetPadding(DependencyObject d, Thickness value) => d.SetValue(PaddingProperty, value);
+
+    /// <summary>
+    /// Gets or sets the type of scroll viewer used within the popup content.
+    /// Determines whether a directional or standard scroll view is used.
+    /// </summary>
+    public StswScrollType ScrollType
+    {
+        get => (StswScrollType)GetValue(ScrollTypeProperty);
+        set => SetValue(ScrollTypeProperty, value);
+    }
+    public static readonly DependencyProperty ScrollTypeProperty
+        = DependencyProperty.Register(
+            nameof(ScrollType),
+            typeof(StswScrollType),
+            typeof(StswPopup),
+            new FrameworkPropertyMetadata(StswScrollType.ScrollView,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnScrollTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnScrollTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswPopup)d;
+        stsw.Init();
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Initializes the popup's child content based on the selected <see cref="ScrollType"/>.
+    /// </summary>
+    private void Init()
+    {
+        Child = new ContentControl
+        {
+            ContentTemplate = ScrollType switch
+            {
+                StswScrollType.DirectionView => (DataTemplate)FindResource("StswPopupDirectionViewTemplate"),
+                StswScrollType.ScrollView => (DataTemplate)FindResource("StswPopupScrollViewTemplate"),
+                _ => throw new System.NotImplementedException()
+            }
+        };
+    }
     #endregion
 }

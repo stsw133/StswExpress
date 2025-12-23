@@ -15,7 +15,7 @@ public class StswTimelineItem : ContentControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimelineItem), new FrameworkPropertyMetadata(typeof(StswTimelineItem)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the date associated with the timeline item.
     /// </summary>
@@ -77,9 +77,7 @@ public class StswTimelineItem : ContentControl
             typeof(DataTemplateSelector),
             typeof(StswTimelineItem)
         );
-    #endregion
 
-    #region Style properties
     /// <summary>
     /// Gets or sets the initial delay for showing the tooltip associated with this item.
     /// </summary>

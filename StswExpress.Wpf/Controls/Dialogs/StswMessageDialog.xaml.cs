@@ -20,126 +20,18 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
-    private ButtonBase? _buttonCopyToClipboard;
-    private ButtonBase? _buttonSendMail;
-
     public ICommand CloseCommand { get; }
 
-    public StswMessageDialog()
-    {
-        CloseCommand = new StswCommand<bool?>(Close);
-    }
     static StswMessageDialog()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMessageDialog), new FrameworkPropertyMetadata(typeof(StswMessageDialog)));
     }
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public StswMessageDialog()
     {
-        base.OnApplyTemplate();
-
-        if (_buttonCopyToClipboard != null)
-            _buttonCopyToClipboard.Click -= PART_ButtonCopyToClipboard_Click;
-        if (_buttonSendMail != null)
-            _buttonSendMail.Click -= PART_ButtonSendMail_Click;
-
-        /// Button: copy to clipboard
-        _buttonCopyToClipboard = GetTemplateChild("PART_ButtonCopyToClipboard") as ButtonBase;
-        if (_buttonCopyToClipboard != null)
-            _buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
-
-        /// Button: send mail
-        _buttonSendMail = GetTemplateChild("PART_ButtonSendMail") as ButtonBase;
-        if (_buttonSendMail != null)
-            _buttonSendMail.Click += PART_ButtonSendMail_Click;
+        CloseCommand = new StswCommand<bool?>(Close);
     }
 
-    /// <summary>
-    /// Handles the copy-to-clipboard button click event.
-    /// Copies the dialog's message and details (if available) to the clipboard.
-    /// </summary>
-    /// <param name="sender">The button triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
-    {
-        Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
-        if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
-            stsw.IsChecked = true;
-    }
-
-    /// <summary>
-    /// Handles the send mail button click event and opens a new email with the dialog content.
-    /// </summary>
-    /// <param name="sender">The button triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void PART_ButtonSendMail_Click(object sender, RoutedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(MailAddress))
-            return;
-
-        var mailBody = Details is not null ? $"{Message}{Environment.NewLine}{Environment.NewLine}{Details}" : Message;
-        var mailtoUri = $"mailto:{MailAddress}?subject={Uri.EscapeDataString(Title ?? string.Empty)}&body={Uri.EscapeDataString(mailBody)}";
-
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = mailtoUri,
-            UseShellExecute = true
-        });
-    }
-    #endregion
-
-    #region Show & close
-    /// <summary>
-    /// Closes the message dialog and sets the result.
-    /// </summary>
-    /// <param name="result">The result value as a string, which is parsed into a boolean if not null.</param>
-    private void Close(bool? result) => StswContentDialog.Close(Identifier, result);
-
-    /// <summary>
-    /// Shows the message dialog asynchronously with an exception message and details.
-    /// </summary>
-    /// <param name="ex">The exception whose message and details are displayed in the dialog.</param>
-    /// <param name="title">The title of the dialog (optional).</param>
-    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
-    /// <param name="options">Additional options for displaying the dialog (optional).</param>
-    /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(Exception ex, string? title = null, object? identifier = null, StswMessageDialogShowOptions? options = null)
-        => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, identifier, options);
-
-    /// <summary>
-    /// Shows the message dialog asynchronously with customizable content and options.
-    /// </summary>
-    /// <param name="message">The primary message displayed in the dialog.</param>
-    /// <param name="title">The title of the dialog (optional).</param>
-    /// <param name="details">Additional details displayed in the dialog (optional).</param>
-    /// <param name="buttons">The button layout of the dialog.</param>
-    /// <param name="image">The icon displayed in the dialog.</param>
-    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
-    /// <param name="options">Additional options for displaying the dialog (optional).</param>
-    /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(string message, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null, StswMessageDialogShowOptions? options = null)
-    {
-        var showOptions = options ?? new StswMessageDialogShowOptions();
-        var dialog = new StswMessageDialog()
-        {
-            Title = title,
-            Message = message,
-            Details = details,
-            MailAddress = showOptions.MailAddress,
-            Buttons = buttons,
-            Image = image,
-            Identifier = identifier ?? StswApp.StswWindow
-        };
-        if (showOptions.SaveLog && Enum.TryParse(image.ToString(), out StswInfoType infoType))
-            StswLog.Write(infoType, details ?? message);
-
-        return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the buttons displayed in the dialog (e.g., OK, Yes/No, Cancel).
     /// </summary>
@@ -153,6 +45,36 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
             nameof(Buttons),
             typeof(StswDialogButtons),
             typeof(StswMessageDialog)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswMessageDialog),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswMessageDialog),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <summary>
@@ -235,9 +157,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
     private static void OnMailAddressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswMessageDialog stsw)
-            return;
-
+        var stsw = (StswMessageDialog)d;
         stsw.HasMailAddress = !string.IsNullOrWhiteSpace(e.NewValue as string);
     }
 
@@ -307,35 +227,122 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
     #endregion
 
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswMessageDialog),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    #region Events & methods
+    private ButtonBase? _buttonCopyToClipboard, _buttonSendMail;
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    public override void OnApplyTemplate()
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnApplyTemplate();
+
+        DetachTemplateEvents();
+        _buttonCopyToClipboard = GetTemplateChild("PART_ButtonCopyToClipboard") as ButtonBase;
+        _buttonSendMail = GetTemplateChild("PART_ButtonSendMail") as ButtonBase;
+        AttachTemplateEvents();
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswMessageDialog),
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_buttonCopyToClipboard != null)
+            _buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+        if (_buttonSendMail != null)
+            _buttonSendMail.Click += PART_ButtonSendMail_Click;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_buttonCopyToClipboard != null)
+            _buttonCopyToClipboard.Click -= PART_ButtonCopyToClipboard_Click;
+        if (_buttonSendMail != null)
+            _buttonSendMail.Click -= PART_ButtonSendMail_Click;
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles the copy-to-clipboard button click event.
+    /// Copies the dialog's message and details (if available) to the clipboard.
+    /// </summary>
+    /// <param name="sender">The button triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText(Details == null ? Message : $"{Message}{Environment.NewLine}{Details}");
+        if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
+            stsw.IsChecked = true;
+    }
+
+    /// <summary>
+    /// Handles the send mail button click event and opens a new email with the dialog content.
+    /// </summary>
+    /// <param name="sender">The button triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_ButtonSendMail_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(MailAddress))
+            return;
+
+        var mailBody = Details is not null ? $"{Message}{Environment.NewLine}{Environment.NewLine}{Details}" : Message;
+        var mailtoUri = $"mailto:{MailAddress}?subject={Uri.EscapeDataString(Title ?? string.Empty)}&body={Uri.EscapeDataString(mailBody)}";
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = mailtoUri,
+            UseShellExecute = true
+        });
+    }
+
+    /// <summary>
+    /// Closes the message dialog and sets the result.
+    /// </summary>
+    /// <param name="result">The result value as a string, which is parsed into a boolean if not null.</param>
+    private void Close(bool? result) => StswContentDialog.Close(Identifier, result);
+
+    /// <summary>
+    /// Shows the message dialog asynchronously with an exception message and details.
+    /// </summary>
+    /// <param name="ex">The exception whose message and details are displayed in the dialog.</param>
+    /// <param name="title">The title of the dialog (optional).</param>
+    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
+    /// <param name="options">Additional options for displaying the dialog (optional).</param>
+    /// <returns>The result of the dialog.</returns>
+    public static async Task<bool?> Show(Exception ex, string? title = null, object? identifier = null, StswMessageDialogShowOptions? options = null)
+        => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, identifier, options);
+
+    /// <summary>
+    /// Shows the message dialog asynchronously with customizable content and options.
+    /// </summary>
+    /// <param name="message">The primary message displayed in the dialog.</param>
+    /// <param name="title">The title of the dialog (optional).</param>
+    /// <param name="details">Additional details displayed in the dialog (optional).</param>
+    /// <param name="buttons">The button layout of the dialog.</param>
+    /// <param name="image">The icon displayed in the dialog.</param>
+    /// <param name="identifier">An identifier used to determine where the dialog should be shown.</param>
+    /// <param name="options">Additional options for displaying the dialog (optional).</param>
+    /// <returns>The result of the dialog.</returns>
+    public static async Task<bool?> Show(string message, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null, StswMessageDialogShowOptions? options = null)
+    {
+        var showOptions = options ?? new StswMessageDialogShowOptions();
+        var dialog = new StswMessageDialog()
+        {
+            Title = title,
+            Message = message,
+            Details = details,
+            MailAddress = showOptions.MailAddress,
+            Buttons = buttons,
+            Image = image,
+            Identifier = identifier ?? StswApp.StswWindow
+        };
+        if (showOptions.SaveLog && Enum.TryParse(image.ToString(), out StswInfoType infoType))
+            StswLog.Write(infoType, details ?? message);
+
+        return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
+    }
     #endregion
 }

@@ -22,46 +22,34 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
-    
-    #region Events & methods
+
+    #region Dependency properties
     /// <inheritdoc/>
-    protected override void OnKeyDown(KeyEventArgs e)
+    public bool CornerClipping
     {
-        base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            UpdateMainProperty(true);
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswBoxBase)
+        );
 
     /// <inheritdoc/>
-    protected override void OnLostFocus(RoutedEventArgs e)
+    public CornerRadius CornerRadius
     {
-        UpdateMainProperty(false);
-        base.OnLostFocus(e);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswBoxBase)
+        );
 
-    /// <summary>
-    /// Handles changes to the format of the text displayed in the control.
-    /// </summary>
-    /// <param name="newFormat">The new string format to apply to the text.</param>
-    protected virtual void FormatChanged(string? newFormat)
-    {
-        if (GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
-        {
-            var newBinding = binding.Clone();
-            newBinding.StringFormat = newFormat;
-            SetBinding(TextProperty, newBinding);
-        }
-    }
-
-    /// <summary>
-    /// Updates the main property associated with the control based on the user's input.
-    /// This method is responsible for validation and formatting before committing the value.
-    /// </summary>
-    /// <param name="alwaysUpdate">If set to <see langword="true"/>, the method will always update the main property, regardless of whether the value has changed.</param>
-    protected abstract void UpdateMainProperty(bool alwaysUpdate);
-    #endregion
-
-    #region Logic properties
     /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
@@ -114,6 +102,23 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
             typeof(StswBoxBase)
         );
 
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the text box and any function buttons.
+    /// This allows for customization of the visual spacing inside the control.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswBoxBase),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
     /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
@@ -143,48 +148,43 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     }
     #endregion
 
-    #region Style properties
+    #region Overrides
     /// <inheritdoc/>
-    public bool CornerClipping
+    protected override void OnKeyDown(KeyEventArgs e)
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        base.OnKeyDown(e);
+        if (!AcceptsReturn && e.Key == Key.Enter)
+            UpdateMainProperty(true);
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswBoxBase)
-        );
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    protected override void OnLostFocus(RoutedEventArgs e)
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        UpdateMainProperty(false);
+        base.OnLostFocus(e);
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswBoxBase)
-        );
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles changes to the format of the text displayed in the control.
+    /// </summary>
+    /// <param name="newFormat">The new string format to apply to the text.</param>
+    protected virtual void FormatChanged(string? newFormat)
+    {
+        if (GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
+        {
+            var newBinding = binding.Clone();
+            newBinding.StringFormat = newFormat;
+            SetBinding(TextProperty, newBinding);
+        }
+    }
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between the text box and any function buttons.
-    /// This allows for customization of the visual spacing inside the control.
+    /// Updates the main property associated with the control based on the user's input.
+    /// This method is responsible for validation and formatting before committing the value.
     /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswBoxBase),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    /// <param name="alwaysUpdate">If set to <see langword="true"/>, the method will always update the main property, regardless of whether the value has changed.</param>
+    protected abstract void UpdateMainProperty(bool alwaysUpdate);
     #endregion
 }

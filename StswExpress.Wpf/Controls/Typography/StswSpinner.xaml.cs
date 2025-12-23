@@ -19,10 +19,10 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswSpinner : FrameworkElement
 {
-    private bool _isAnimating;
-    private double _nowSeconds;
-    private Pen? _penCache;
-
+    static StswSpinner()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(typeof(StswSpinner)));
+    }
     public StswSpinner()
     {
         Loaded += (_, _) => UpdateAnimationState();
@@ -30,7 +30,91 @@ public class StswSpinner : FrameworkElement
         IsVisibleChanged += (_, _) => UpdateAnimationState();
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the fill brush of the loading circle.
+    /// </summary>
+    public Brush Fill
+    {
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
+    public static readonly DependencyProperty FillProperty
+        = DependencyProperty.Register(
+            nameof(Fill),
+            typeof(Brush),
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the foreground brush of the spinner.
+    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
+    /// </summary>
+    public Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+    public static readonly DependencyProperty ForegroundProperty
+        = Control.ForegroundProperty.AddOwner(
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the scale of the loading circle.
+    /// Determines the overall size of the spinner.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
+        );
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswSpinner)d;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
+    }
+
+    /// <summary>
+    /// Gets or sets the type of spinner animation.
+    /// Allows selecting different visual styles.
+    /// </summary>
+    public StswSpinnerType Type
+    {
+        get => (StswSpinnerType)GetValue(TypeProperty);
+        set => SetValue(TypeProperty, value);
+    }
+    public static readonly DependencyProperty TypeProperty
+        = DependencyProperty.Register(
+            nameof(Type),
+            typeof(StswSpinnerType),
+            typeof(StswSpinner),
+            new FrameworkPropertyMetadata(StswSpinnerType.Circles,
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnTypeChanged)
+        );
+    private static void OnTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswSpinner)d;
+        stsw._penCache = null;
+        stsw.InvalidateVisual();
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize) => finalSize;
 
@@ -109,6 +193,12 @@ public class StswSpinner : FrameworkElement
                 break;
         }
     }
+    #endregion
+
+    #region Logic
+    private bool _isAnimating;
+    private double _nowSeconds;
+    private Pen? _penCache;
 
     /// <summary>
     /// Animation frame update handler.
@@ -125,30 +215,6 @@ public class StswSpinner : FrameworkElement
             _nowSeconds = rea.RenderingTime.TotalSeconds;
             InvalidateVisual();
         }
-    }
-
-    /// <summary>
-    /// Easing function with power.
-    /// </summary>
-    /// <param name="t">Input value between 0 and 1.</param>
-    /// <param name="power">Easing power.</param>
-    /// <returns>Eased value between 0 and 1.</returns>
-    private static double EaseInPow(double t, double power)
-    {
-        t = Clamp01(t);
-        return Math.Pow(t, power);
-    }
-
-    /// <summary>
-    /// Easing function with power for ease-out.
-    /// </summary>
-    /// <param name="t">Input value between 0 and 1.</param>
-    /// <param name="power">Easing power.</param>
-    /// <returns>Eased value between 0 and 1.</returns>
-    private static double EaseOutPow(double t, double power)
-    {
-        t = Clamp01(t);
-        return 1.0 - Math.Pow(1.0 - t, power);
     }
 
     /// <summary>
@@ -216,93 +282,7 @@ public class StswSpinner : FrameworkElement
     }
     #endregion
 
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the scale of the loading circle.
-    /// Determines the overall size of the spinner.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswSpinner),
-            new FrameworkPropertyMetadata(default(GridLength),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                OnScaleChanged)
-        );
-    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswSpinner)d;
-        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
-    }
-
-    /// <summary>
-    /// Gets or sets the type of spinner animation.
-    /// Allows selecting different visual styles.
-    /// </summary>
-    public StswSpinnerType Type
-    {
-        get => (StswSpinnerType)GetValue(TypeProperty);
-        set => SetValue(TypeProperty, value);
-    }
-    public static readonly DependencyProperty TypeProperty
-        = DependencyProperty.Register(
-            nameof(Type),
-            typeof(StswSpinnerType),
-            typeof(StswSpinner),
-            new FrameworkPropertyMetadata(StswSpinnerType.Circles,
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnTypeChanged)
-        );
-    private static void OnTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswSpinner)d;
-        stsw._penCache = null;
-        stsw.InvalidateVisual();
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the loading circle.
-    /// </summary>
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
-    public static readonly DependencyProperty FillProperty
-        = DependencyProperty.Register(
-            nameof(Fill),
-            typeof(Brush),
-            typeof(StswSpinner),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the foreground brush of the spinner.
-    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
-    /// </summary>
-    public Brush Foreground
-    {
-        get => (Brush)GetValue(ForegroundProperty);
-        set => SetValue(ForegroundProperty, value);
-    }
-    public static readonly DependencyProperty ForegroundProperty
-        = Control.ForegroundProperty.AddOwner(
-            typeof(StswSpinner),
-            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
-                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-    #endregion
-
-    #region Drawing
+    #region Helpers
     private const double TwoPi = Math.PI * 2;
 
     /// <summary>
@@ -325,14 +305,18 @@ public class StswSpinner : FrameworkElement
     }
 
     private static double Clamp01(double v) => v < 0 ? 0 : (v > 1 ? 1 : v);
+    private static double EaseInPow(double t, double power) { t = Clamp01(t); return Math.Pow(t, power); }
     private static double EaseInPower2(double v) { v = Clamp01(v); return v * v; }
+    private static double EaseOutPow(double t, double power) { t = Clamp01(t); return 1.0 - Math.Pow(1.0 - t, power); }
     private static double EaseOutPower2(double v) => 1 - EaseInPower2(1 - Clamp01(v));
     private static Point PointOnCircle(Point c, double r, double deg)
     {
         var a = deg * Math.PI / 180;
         return new(c.X + r * Math.Cos(a), c.Y + r * Math.Sin(a));
     }
+    #endregion
 
+    #region Animations
     /// <summary>
     /// Draws bouncing bars similar to an equalizer.
     /// </summary>

@@ -23,12 +23,6 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswRangeCalendar : StswCalendar
 {
-    private bool _awaitingRangeEnd;
-    private bool _suppressDateHandling;
-    private bool _isUpdatingRangeFromSelection;
-    private Selector? _selectorHost;
-    private DateTime? _pendingRangeHoverDate;
-
     static StswRangeCalendar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRangeCalendar), new FrameworkPropertyMetadata(typeof(StswRangeCalendar)));
@@ -41,7 +35,34 @@ public class StswRangeCalendar : StswCalendar
         ItemsProperty.OverrideMetadata(typeof(StswRangeCalendar), new PropertyMetadata(null, OnItemsPropertyChanged));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the currently selected date range.
+    /// </summary>
+    public StswDateRange? SelectedRange
+    {
+        get => (StswDateRange?)GetValue(SelectedRangeProperty);
+        set => SetValue(SelectedRangeProperty, value);
+    }
+    public static readonly DependencyProperty SelectedRangeProperty
+        = DependencyProperty.Register(
+            nameof(SelectedRange),
+            typeof(StswDateRange),
+            typeof(StswRangeCalendar),
+            new FrameworkPropertyMetadata(default(StswDateRange),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedRangeChanged)
+        );
+    private static void OnSelectedRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRangeCalendar)d;
+        stsw.OnSelectedRangeChanged(e.OldValue as StswDateRange, e.NewValue as StswDateRange);
+    }
+    #endregion
+
+    #region Template
+    private Selector? _selectorHost;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -52,6 +73,36 @@ public class StswRangeCalendar : StswCalendar
         UpdateRangeVisuals();
     }
 
+    /// <summary>
+    /// Hooks pointer tracking events to the selector hosting calendar entries.
+    /// </summary>
+    private void AttachRangeSelector()
+    {
+        if (GetTemplateChild("PART_Selector") is Selector selector)
+        {
+            _selectorHost = selector;
+            selector.MouseMove += Selector_MouseMove;
+            selector.MouseLeave += Selector_MouseLeave;
+            selector.PreviewMouseLeftButtonDown += Selector_PreviewMouseLeftButtonDown;
+        }
+    }
+
+    /// <summary>
+    /// Removes pointer tracking events to avoid leaks when the template changes.
+    /// </summary>
+    private void DetachRangeSelector()
+    {
+        if (_selectorHost is null)
+            return;
+
+        _selectorHost.MouseMove -= Selector_MouseMove;
+        _selectorHost.MouseLeave -= Selector_MouseLeave;
+        _selectorHost.PreviewMouseLeftButtonDown -= Selector_PreviewMouseLeftButtonDown;
+        _selectorHost = null;
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
@@ -60,6 +111,13 @@ public class StswRangeCalendar : StswCalendar
         if (e.Property == CurrentUnitProperty || e.Property == SelectionUnitProperty)
             UpdateRangeVisuals();
     }
+    #endregion
+
+    #region Logic
+    private bool _awaitingRangeEnd;
+    private bool _suppressDateHandling;
+    private bool _isUpdatingRangeFromSelection;
+    private DateTime? _pendingRangeHoverDate;
 
     /// <summary>
     /// Handles changes to the SelectedDate property.
@@ -458,34 +516,6 @@ public class StswRangeCalendar : StswCalendar
     }
 
     /// <summary>
-    /// Hooks pointer tracking events to the selector hosting calendar entries.
-    /// </summary>
-    private void AttachRangeSelector()
-    {
-        if (GetTemplateChild("PART_Selector") is Selector selector)
-        {
-            _selectorHost = selector;
-            selector.MouseMove += Selector_MouseMove;
-            selector.MouseLeave += Selector_MouseLeave;
-            selector.PreviewMouseLeftButtonDown += Selector_PreviewMouseLeftButtonDown;
-        }
-    }
-
-    /// <summary>
-    /// Removes pointer tracking events to avoid leaks when the template changes.
-    /// </summary>
-    private void DetachRangeSelector()
-    {
-        if (_selectorHost is null)
-            return;
-
-        _selectorHost.MouseMove -= Selector_MouseMove;
-        _selectorHost.MouseLeave -= Selector_MouseLeave;
-        _selectorHost.PreviewMouseLeftButtonDown -= Selector_PreviewMouseLeftButtonDown;
-        _selectorHost = null;
-    }
-
-    /// <summary>
     /// Handles mouse movement over calendar entries to update the preview range.
     /// </summary>
     /// <param name="sender">The event sender.</param>
@@ -530,33 +560,6 @@ public class StswRangeCalendar : StswCalendar
             if (normalizedSelection.HasValue && normalizedSelection == normalizedDate)
                 HandleDateSelection(entry.Date);
         }
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the currently selected date range.
-    /// </summary>
-    public StswDateRange? SelectedRange
-    {
-        get => (StswDateRange?)GetValue(SelectedRangeProperty);
-        set => SetValue(SelectedRangeProperty, value);
-    }
-    public static readonly DependencyProperty SelectedRangeProperty
-        = DependencyProperty.Register(
-            nameof(SelectedRange),
-            typeof(StswDateRange),
-            typeof(StswRangeCalendar),
-            new FrameworkPropertyMetadata(default(StswDateRange),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedRangeChanged)
-        );
-    private static void OnSelectedRangeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRangeCalendar stsw)
-            return;
-
-        stsw.OnSelectedRangeChanged(e.OldValue as StswDateRange, e.NewValue as StswDateRange);
     }
     #endregion
 }

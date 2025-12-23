@@ -24,21 +24,74 @@ namespace StswExpress.Wpf;/// <summary>
 /// </example>
 public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 {
-    private readonly StswScrollActionScheduler _scrollActionScheduler;
-
-    public StswListView()
-    {
-        _scrollActionScheduler = new StswScrollActionScheduler(this);
-    }
     static StswListView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(typeof(StswListView)));
     }
+    public StswListView()
+    {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
+    }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswListViewItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListViewItem;
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswListView)
+        );
 
-    #region Events & methods
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswListView)
+        );
+
+    /// <inheritdoc/>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswListView)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
+    /// </summary>
+    public StswScrollToItemBehavior ScrollToItemBehavior
+    {
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
+            typeof(StswListView)
+        );
+    #endregion
+
+    #region Template
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -46,6 +99,27 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswListViewItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswListViewItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswListViewItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswListViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
     }
 
     /// <inheritdoc/>
@@ -87,78 +161,5 @@ public class StswListView : ListView, IStswCornerControl, IStswSelectionControl
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is StswListViewItem listBoxItem)
-        {
-            listBoxItem.SetBinding(StswListViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
-            {
-                Source = this,
-                Mode = BindingMode.OneWay
-            });
-        }
-    }
-    #endregion
-
-    #region Logic properties
-    /// <inheritdoc/>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswListView)
-        );
-
-    /// <summary>
-    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
-    /// </summary>
-    public StswScrollToItemBehavior ScrollToItemBehavior
-    {
-        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
-        set => SetValue(ScrollToItemBehaviorProperty, value);
-    }
-    public static readonly DependencyProperty ScrollToItemBehaviorProperty
-        = DependencyProperty.Register(
-            nameof(ScrollToItemBehavior),
-            typeof(StswScrollToItemBehavior),
-            typeof(StswListView)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswListView)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswListView)
-        );
     #endregion
 }

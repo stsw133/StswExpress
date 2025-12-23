@@ -19,15 +19,101 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswScrollBar : ScrollBar
 {
-    private ButtonBase? _arrowButton1, _arrowButton2;
-    private Border? _border;
-
     static StswScrollBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(typeof(StswScrollBar)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the size of the scroll bar when collapsed.
+    /// This size is applied when the scroll bar is not being interacted with (in dynamic mode).
+    /// </summary>
+    public double CollapsedSize
+    {
+        get => (double)GetValue(CollapsedSizeProperty);
+        set => SetValue(CollapsedSizeProperty, value);
+    }
+    public static readonly DependencyProperty CollapsedSizeProperty
+        = DependencyProperty.Register(
+            nameof(CollapsedSize),
+            typeof(double),
+            typeof(StswScrollBar),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
+    /// When set to <see langword="true"/>, the scroll bar will dynamically change its visibility and width based on user interaction.
+    /// </summary>
+    public StswDynamicVisibilityMode DynamicMode
+    {
+        get => (StswDynamicVisibilityMode)GetValue(DynamicModeProperty);
+        set => SetValue(DynamicModeProperty, value);
+    }
+    public static readonly DependencyProperty DynamicModeProperty
+        = DependencyProperty.Register(
+            nameof(DynamicMode),
+            typeof(StswDynamicVisibilityMode),
+            typeof(StswScrollBar),
+            new PropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
+        );
+    public static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswScrollBar)d;
+        stsw.StopAllAnimations();
+
+        switch (stsw.DynamicMode)
+        {
+            case StswDynamicVisibilityMode.Off:
+                stsw.SetSize(stsw.ExpandedSize);
+                SetOpacity(stsw, 1);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 1d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 1d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 1d);
+                break;
+            case StswDynamicVisibilityMode.Partial:
+                stsw.SetSize(stsw.CollapsedSize);
+                SetOpacity(stsw, 1);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
+                break;
+            case StswDynamicVisibilityMode.Full:
+                stsw.SetSize(stsw.CollapsedSize);
+                SetOpacity(stsw, 0);
+                stsw.IsHitTestVisible = true;
+                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
+                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the size of the scroll bar when expanded.
+    /// This size is applied when the scroll bar is actively being used or hovered over in dynamic mode.
+    /// </summary>
+    public double ExpandedSize
+    {
+        get => (double)GetValue(ExpandedSizeProperty);
+        set => SetValue(ExpandedSizeProperty, value);
+    }
+    public static readonly DependencyProperty ExpandedSizeProperty
+        = DependencyProperty.Register(
+            nameof(ExpandedSize),
+            typeof(double),
+            typeof(StswScrollBar),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+    #endregion
+
+    #region Template
+    private ButtonBase? _arrowButton1, _arrowButton2;
+    private Border? _border;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -48,7 +134,9 @@ public class StswScrollBar : ScrollBar
 
         OnDynamicModeChanged(this, new DependencyPropertyChangedEventArgs());
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
@@ -72,96 +160,6 @@ public class StswScrollBar : ScrollBar
         if (DynamicMode == StswDynamicVisibilityMode.Full)
             ValueChangedAnimation();
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hides when not in use).
-    /// When set to <see langword="true"/>, the scroll bar will dynamically change its visibility and width based on user interaction.
-    /// </summary>
-    public StswDynamicVisibilityMode DynamicMode
-    {
-        get => (StswDynamicVisibilityMode)GetValue(DynamicModeProperty);
-        set => SetValue(DynamicModeProperty, value);
-    }
-    public static readonly DependencyProperty DynamicModeProperty
-        = DependencyProperty.Register(
-            nameof(DynamicMode),
-            typeof(StswDynamicVisibilityMode),
-            typeof(StswScrollBar),
-            new PropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
-        );
-    public static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswScrollBar stsw)
-            return;
-
-        stsw.StopAllAnimations();
-
-        switch (stsw.DynamicMode)
-        {
-            case StswDynamicVisibilityMode.Off:
-                stsw.SetSize(stsw.ExpandedSize);
-                stsw.SetOpacity(stsw, 1);
-                stsw.IsHitTestVisible = true;
-                stsw._border?.SetCurrentValue(OpacityProperty, 1d);
-                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 1d);
-                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 1d);
-                break;
-            case StswDynamicVisibilityMode.Partial:
-                stsw.SetSize(stsw.CollapsedSize);
-                stsw.SetOpacity(stsw, 1);
-                stsw.IsHitTestVisible = true;
-                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
-                break;
-            case StswDynamicVisibilityMode.Full:
-                stsw.SetSize(stsw.CollapsedSize);
-                stsw.SetOpacity(stsw, 0);
-                stsw.IsHitTestVisible = true;
-                stsw._border?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton1?.SetCurrentValue(OpacityProperty, 0d);
-                stsw._arrowButton2?.SetCurrentValue(OpacityProperty, 0d);
-                break;
-        }
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the size of the scroll bar when collapsed.
-    /// This size is applied when the scroll bar is not being interacted with (in dynamic mode).
-    /// </summary>
-    public double CollapsedSize
-    {
-        get => (double)GetValue(CollapsedSizeProperty);
-        set => SetValue(CollapsedSizeProperty, value);
-    }
-    public static readonly DependencyProperty CollapsedSizeProperty
-        = DependencyProperty.Register(
-            nameof(CollapsedSize),
-            typeof(double),
-            typeof(StswScrollBar),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-
-    /// <summary>
-    /// Gets or sets the size of the scroll bar when expanded.
-    /// This size is applied when the scroll bar is actively being used or hovered over in dynamic mode.
-    /// </summary>
-    public double ExpandedSize
-    {
-        get => (double)GetValue(ExpandedSizeProperty);
-        set => SetValue(ExpandedSizeProperty, value);
-    }
-    public static readonly DependencyProperty ExpandedSizeProperty
-        = DependencyProperty.Register(
-            nameof(ExpandedSize),
-            typeof(double),
-            typeof(StswScrollBar),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
     #endregion
 
     #region Animations
@@ -208,7 +206,7 @@ public class StswScrollBar : ScrollBar
     /// <param name="toValue">The target opacity value.</param>
     /// <param name="duration">The duration of the animation.</param>
     /// <param name="delay">An optional delay before the animation starts.</param>
-    private void AnimateOpacity(UIElement? element, double toValue, TimeSpan duration, TimeSpan? delay = null)
+    private static void AnimateOpacity(UIElement? element, double toValue, TimeSpan duration, TimeSpan? delay = null)
     {
         if (!StswApp.Settings.AnimationsEnabled || element == null)
         {
@@ -294,7 +292,7 @@ public class StswScrollBar : ScrollBar
     /// </summary>
     /// <param name="element">The UI element whose opacity is to be set.</param>
     /// <param name="value">The opacity value to set (0.0 to 1.0).</param>
-    private void SetOpacity(UIElement? element, double value)
+    private static void SetOpacity(UIElement? element, double value)
     {
         if (element != null)
         {

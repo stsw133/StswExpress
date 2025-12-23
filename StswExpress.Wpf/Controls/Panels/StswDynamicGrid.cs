@@ -22,35 +22,105 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswDynamicGrid : Panel
 {
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override Size MeasureOverride(Size availableSize)
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the number of columns. If set to 0, columns are auto-calculated based on rows and item count.
+    /// </summary>
+    public int Columns
     {
-        var itemCount = InternalChildren.Count;
-        Orientation effectiveOrientation = GetEffectiveOrientation();
-        (var columns, var rows) = CalculateGridSize(itemCount, effectiveOrientation);
-
-        var columnWidths = new double[columns];
-        var rowHeights = new double[rows];
-
-        for (var i = 0; i < itemCount; i++)
-        {
-            var child = InternalChildren[i];
-            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
-            var col = effectiveOrientation == System.Windows.Controls.Orientation.Horizontal ? i % columns : i / rows;
-            var row = effectiveOrientation == System.Windows.Controls.Orientation.Horizontal ? i / columns : i % rows;
-
-            columnWidths[col] = Math.Max(columnWidths[col], child.DesiredSize.Width);
-            rowHeights[row] = Math.Max(rowHeights[row], child.DesiredSize.Height);
-        }
-
-        var totalWidth = columnWidths.Sum() + Spacing * (columns - 1);
-        var totalHeight = rowHeights.Sum() + Spacing * (rows - 1);
-
-        return new Size(totalWidth, totalHeight);
+        get => (int)GetValue(ColumnsProperty);
+        set => SetValue(ColumnsProperty, value);
     }
+    public static readonly DependencyProperty ColumnsProperty
+        = DependencyProperty.Register(
+            nameof(Columns),
+            typeof(int),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
 
+    /// <summary>
+    /// Gets or sets the layout orientation. If not set, it is auto-calculated based on Columns/Rows.
+    /// </summary>
+    public Orientation? Orientation
+    {
+        get => (Orientation?)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation?),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets the number of rows. If set to 0, rows are auto-calculated based on columns and item count.
+    /// </summary>
+    public int Rows
+    {
+        get => (int)GetValue(RowsProperty);
+        set => SetValue(RowsProperty, value);
+    }
+    public static readonly DependencyProperty RowsProperty
+        = DependencyProperty.Register(
+            nameof(Rows),
+            typeof(int),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets the spacing between elements.
+    /// </summary>
+    public double Spacing
+    {
+        get => (double)GetValue(SpacingProperty);
+        set => SetValue(SpacingProperty, value);
+    }
+    public static readonly DependencyProperty SpacingProperty
+        = DependencyProperty.Register(
+            nameof(Spacing),
+            typeof(double),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets the index of the column that should stretch to fill extra available width.
+    /// </summary>
+    public int StretchColumnIndex
+    {
+        get => (int)GetValue(StretchColumnIndexProperty);
+        set => SetValue(StretchColumnIndexProperty, value);
+    }
+    public static readonly DependencyProperty StretchColumnIndexProperty
+        = DependencyProperty.Register(
+            nameof(StretchColumnIndex),
+            typeof(int),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+
+    /// <summary>
+    /// Gets or sets the index of the row that should stretch to fill extra available height.
+    /// </summary>
+    public int StretchRowIndex
+    {
+        get => (int)GetValue(StretchRowIndexProperty);
+        set => SetValue(StretchRowIndexProperty, value);
+    }
+    public static readonly DependencyProperty StretchRowIndexProperty
+        = DependencyProperty.Register(
+            nameof(StretchRowIndex),
+            typeof(int),
+            typeof(StswDynamicGrid),
+            new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
@@ -110,6 +180,36 @@ public class StswDynamicGrid : Panel
         return finalSize;
     }
 
+    /// <inheritdoc/>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        var itemCount = InternalChildren.Count;
+        Orientation effectiveOrientation = GetEffectiveOrientation();
+        (var columns, var rows) = CalculateGridSize(itemCount, effectiveOrientation);
+
+        var columnWidths = new double[columns];
+        var rowHeights = new double[rows];
+
+        for (var i = 0; i < itemCount; i++)
+        {
+            var child = InternalChildren[i];
+            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+            var col = effectiveOrientation == System.Windows.Controls.Orientation.Horizontal ? i % columns : i / rows;
+            var row = effectiveOrientation == System.Windows.Controls.Orientation.Horizontal ? i / columns : i % rows;
+
+            columnWidths[col] = Math.Max(columnWidths[col], child.DesiredSize.Width);
+            rowHeights[row] = Math.Max(rowHeights[row], child.DesiredSize.Height);
+        }
+
+        var totalWidth = columnWidths.Sum() + Spacing * (columns - 1);
+        var totalHeight = rowHeights.Sum() + Spacing * (rows - 1);
+
+        return new Size(totalWidth, totalHeight);
+    }
+    #endregion
+
+    #region Helpers
     /// <summary>
     /// Calculates the number of columns and rows needed to arrange the children based on the orientation.
     /// </summary>
@@ -154,105 +254,5 @@ public class StswDynamicGrid : Panel
 
         return System.Windows.Controls.Orientation.Horizontal;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the number of columns. If set to 0, columns are auto-calculated based on rows and item count.
-    /// </summary>
-    public int Columns
-    {
-        get => (int)GetValue(ColumnsProperty);
-        set => SetValue(ColumnsProperty, value);
-    }
-    public static readonly DependencyProperty ColumnsProperty
-        = DependencyProperty.Register(
-            nameof(Columns),
-            typeof(int),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-
-    /// <summary>
-    /// Gets or sets the layout orientation. If not set, it is auto-calculated based on Columns/Rows.
-    /// </summary>
-    public Orientation? Orientation
-    {
-        get => (Orientation?)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation?),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-
-    /// <summary>
-    /// Gets or sets the number of rows. If set to 0, rows are auto-calculated based on columns and item count.
-    /// </summary>
-    public int Rows
-    {
-        get => (int)GetValue(RowsProperty);
-        set => SetValue(RowsProperty, value);
-    }
-    public static readonly DependencyProperty RowsProperty
-        = DependencyProperty.Register(
-            nameof(Rows),
-            typeof(int),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the spacing between elements.
-    /// </summary>
-    public double Spacing
-    {
-        get => (double)GetValue(SpacingProperty);
-        set => SetValue(SpacingProperty, value);
-    }
-    public static readonly DependencyProperty SpacingProperty
-        = DependencyProperty.Register(
-            nameof(Spacing),
-            typeof(double),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-
-    /// <summary>
-    /// Gets or sets the index of the column that should stretch to fill extra available width.
-    /// </summary>
-    public int StretchColumnIndex
-    {
-        get => (int)GetValue(StretchColumnIndexProperty);
-        set => SetValue(StretchColumnIndexProperty, value);
-    }
-    public static readonly DependencyProperty StretchColumnIndexProperty
-        = DependencyProperty.Register(
-            nameof(StretchColumnIndex),
-            typeof(int),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-
-    /// <summary>
-    /// Gets or sets the index of the row that should stretch to fill extra available height.
-    /// </summary>
-    public int StretchRowIndex
-    {
-        get => (int)GetValue(StretchRowIndexProperty);
-        set => SetValue(StretchRowIndexProperty, value);
-    }
-    public static readonly DependencyProperty StretchRowIndexProperty
-        = DependencyProperty.Register(
-            nameof(StretchRowIndex),
-            typeof(int),
-            typeof(StswDynamicGrid),
-            new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
     #endregion
 }

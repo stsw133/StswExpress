@@ -24,18 +24,62 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Components))]
 public class StswWindowBar : Control, IStswCornerControl
 {
-    private StswWindow? _window;
-
-    public StswWindowBar()
-    {
-        //SetValue(ComponentsProperty, new ObservableCollection<UIElement>()); // this code breaks the binding with StswWindow
-    }
     static StswWindowBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindowBar), new FrameworkPropertyMetadata(typeof(StswWindowBar)));
     }
+    public StswWindowBar()
+    {
+        //SetValue(ComponentsProperty, new ObservableCollection<UIElement>()); // this code breaks the binding with StswWindow
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the collection of UI elements displayed in the window bar.
+    /// Allows customization by adding additional controls to the bar.
+    /// </summary>
+    public IList Components
+    {
+        get => (IList)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(IList),
+            typeof(StswWindowBar)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswWindowBar)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswWindowBar)
+        );
+    #endregion
+
+    #region Template
+    private StswWindow? _window;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -46,7 +90,9 @@ public class StswWindowBar : Control, IStswCornerControl
         ConfigureButtons();
         ConfigureMenu();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Configures window control buttons, assigning event handlers to enable minimize, maximize, restore, and close actions.
     /// </summary>
@@ -158,51 +204,5 @@ public class StswWindowBar : Control, IStswCornerControl
             _ => true
         } ? Visibility.Visible : Visibility.Collapsed;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the collection of UI elements displayed in the window bar.
-    /// Allows customization by adding additional controls to the bar.
-    /// </summary>
-    public IList Components
-    {
-        get => (IList)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(IList),
-            typeof(StswWindowBar)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswWindowBar)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswWindowBar)
-        );
     #endregion
 }

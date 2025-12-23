@@ -26,98 +26,7 @@ public class StswChartLegend : HeaderedItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartLegend), new FrameworkPropertyMetadata(typeof(StswChartLegend)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswChartLegendItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartLegendItem;
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-        RequestChartUpdate();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-    {
-        base.OnItemsChanged(e);
-        RequestChartUpdate();
-    }
-
-    /// <summary>
-    /// Handles the ValueChanged event of an item and triggers chart regeneration.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
-
-    /// <inheritdoc/>
-    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-    {
-        if (element is StswChartLegendItem c)
-            c.ValueChanged -= OnItemValueChanged;
-        base.ClearContainerForItemOverride(element, item);
-    }
-
-    /// <summary>
-    /// Retrieves the list of legend item containers.
-    /// </summary>
-    /// <returns>A list of <see cref="StswChartLegendItem"/> containers.</returns>
-    private List<StswChartLegendItem> GetContainers()
-    {
-        var list = new List<StswChartLegendItem>(Items.Count);
-        foreach (var item in Items)
-        {
-            var c = ItemContainerGenerator.ContainerFromItem(item) as StswChartLegendItem ?? item as StswChartLegendItem;
-            if (c != null)
-                list.Add(c);
-        }
-        return list;
-    }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswChartLegendItem c)
-            c.ValueChanged += OnItemValueChanged;
-    }
-
-    /// <summary>
-    /// Generates and updates the chart legend based on the current items.
-    /// </summary>
-    public virtual void MakeChart()
-    {
-        var items = GetContainers();
-        if (items.Count == 0)
-            return;
-
-        var total = items.Sum(i => i.Value);
-        var hasTotal = total != 0;
-
-        foreach (var item in items)
-            item.Percentage = hasTotal ? Convert.ToDouble(item.Value / total * 100m) : 0d;
-    }
-
-    /// <summary>
-    /// Requests a chart update and throttles recalculations to a single dispatcher pass.
-    /// </summary>
-    private void RequestChartUpdate()
-    {
-        if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
-            return;
-
-        var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
-        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
-        {
-            _chartUpdateOperation = null;
-            MakeChart();
-        }));
-    }
-    private DispatcherOperation? _chartUpdateOperation;
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the number of columns in the chart legend.
     /// Determines how legend items are arranged in a grid format.
@@ -133,6 +42,32 @@ public class StswChartLegend : HeaderedItemsControl
             typeof(int),
             typeof(StswChartLegend),
             new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswChartLegend)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswChartLegend)
         );
 
     /// <summary>
@@ -169,31 +104,98 @@ public class StswChartLegend : HeaderedItemsControl
         );
     #endregion
 
-    #region Style properties
+    #region Template
     /// <inheritdoc/>
-    public bool CornerClipping
+    public override void OnApplyTemplate()
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        base.OnApplyTemplate();
+        RequestChartUpdate();
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswChartLegend)
-        );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswChartLegendItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswChartLegendItem;
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswChartLegendItem c)
+            c.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswChartLegendItem c)
+            c.ValueChanged += OnItemValueChanged;
+    }
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnItemsChanged(e);
+        RequestChartUpdate();
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswChartLegend)
-        );
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles the ValueChanged event of an item and triggers chart regeneration.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
+
+    /// <summary>
+    /// Retrieves the list of legend item containers.
+    /// </summary>
+    /// <returns>A list of <see cref="StswChartLegendItem"/> containers.</returns>
+    private List<StswChartLegendItem> GetContainers()
+    {
+        var list = new List<StswChartLegendItem>(Items.Count);
+        foreach (var item in Items)
+        {
+            var c = ItemContainerGenerator.ContainerFromItem(item) as StswChartLegendItem ?? item as StswChartLegendItem;
+            if (c != null)
+                list.Add(c);
+        }
+        return list;
+    }
+
+    /// <summary>
+    /// Generates and updates the chart legend based on the current items.
+    /// </summary>
+    public virtual void MakeChart()
+    {
+        var items = GetContainers();
+        if (items.Count == 0)
+            return;
+
+        var total = items.Sum(i => i.Value);
+        var hasTotal = total != 0;
+
+        foreach (var item in items)
+            item.Percentage = hasTotal ? Convert.ToDouble(item.Value / total * 100m) : 0d;
+    }
+
+    /// <summary>
+    /// Requests a chart update and throttles recalculations to a single dispatcher pass.
+    /// </summary>
+    private void RequestChartUpdate()
+    {
+        if (_chartUpdateOperation is { Status: DispatcherOperationStatus.Pending })
+            return;
+
+        var priority = IsLoaded ? DispatcherPriority.Render : DispatcherPriority.Loaded;
+        _chartUpdateOperation = Dispatcher.BeginInvoke(priority, new Action(() =>
+        {
+            _chartUpdateOperation = null;
+            MakeChart();
+        }));
+    }
+    private DispatcherOperation? _chartUpdateOperation;
     #endregion
 }

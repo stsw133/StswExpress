@@ -26,11 +26,10 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswNavigation : TreeView, IStswCornerControl
 {
-    private static readonly HashSet<WeakReference<StswNavigation>> _loadedInstances = [];
-    private ToggleButton? _tabStripModeButton;
-    private FrameworkElement? _mainPanel;
-    internal StswNavigationItem? CompactedExpander;
-
+    static StswNavigation()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
+    }
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
@@ -41,28 +40,334 @@ public class StswNavigation : TreeView, IStswCornerControl
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-    static StswNavigation()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically scroll expanded items into view.
+    /// </summary>
+    public bool AutoScrollExpandedItemsIntoView
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
+        get => (bool)GetValue(AutoScrollExpandedItemsIntoViewProperty);
+        set => SetValue(AutoScrollExpandedItemsIntoViewProperty, value);
+    }
+    public static readonly DependencyProperty AutoScrollExpandedItemsIntoViewProperty
+        = DependencyProperty.Register(
+            nameof(AutoScrollExpandedItemsIntoView),
+            typeof(bool),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of UI elements used in the custom window's title bar.
+    /// Allows adding extra controls such as buttons, search fields, or indicators.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswNavigation)
+        );
+
+    /// <inheritdoc/>
+    public object? Content
+    {
+        get => (object?)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+    public static readonly DependencyProperty ContentProperty = ContentControl.ContentProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets a string format applied to the <see cref="Content"/>.
+    /// Useful for formatting text-based content.
+    /// </summary>
+    public string? ContentStringFormat
+    {
+        get => (string?)GetValue(ContentStringFormatProperty);
+        set => SetValue(ContentStringFormatProperty, value);
+    }
+    public static readonly DependencyProperty ContentStringFormatProperty = ContentControl.ContentStringFormatProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets the data template used to display the <see cref="Content"/>.
+    /// </summary>
+    public DataTemplate? ContentTemplate
+    {
+        get => (DataTemplate?)GetValue(ContentTemplateProperty);
+        set => SetValue(ContentTemplateProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateProperty = ContentControl.ContentTemplateProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets or sets a data template selector for the <see cref="Content"/>.
+    /// Allows dynamic selection of templates based on content type.
+    /// </summary>
+    public DataTemplateSelector? ContentTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(ContentTemplateSelectorProperty);
+        set => SetValue(ContentTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateSelectorProperty = ContentControl.ContentTemplateSelectorProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets the collection of contexts associated with this navigation control.
+    /// Each context represents a separate view that can be dynamically switched.
+    /// </summary>
+    public StswObservableDictionary<string, object?> Contexts
+    {
+        get => (StswObservableDictionary<string, object?>)GetValue(ContextsProperty);
+        set => SetValue(ContextsProperty, value);
+    }
+    public static readonly DependencyProperty ContextsProperty
+        = DependencyProperty.Register(
+            nameof(Contexts),
+            typeof(StswObservableDictionary<string, object?>),
+            typeof(StswNavigation)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswNavigation)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Identifier used with <see cref="SetContent(object, bool, object?)"/> to locate a specific navigation instance.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of navigation elements when the control is in compact mode.
+    /// Items are displayed in a more condensed form.
+    /// </summary>
+    public ObservableCollection<StswNavigationItem> ItemsCompact
+    {
+        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsCompactProperty);
+        internal set => SetValue(ItemsCompactProperty, value);
+    }
+    public static readonly DependencyProperty ItemsCompactProperty
+        = DependencyProperty.Register(
+            nameof(ItemsCompact),
+            typeof(ObservableCollection<StswNavigationItem>),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of pinned navigation elements.
+    /// Pinned items remain accessible regardless of mode changes.
+    /// </summary>
+    public ObservableCollection<StswNavigationItem> ItemsPinned
+    {
+        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsPinnedProperty);
+        set => SetValue(ItemsPinnedProperty, value);
+    }
+    public static readonly DependencyProperty ItemsPinnedProperty
+        = DependencyProperty.Register(
+            nameof(ItemsPinned),
+            typeof(ObservableCollection<StswNavigationItem>),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the last selected independent item.
+    /// Ensures that only one item remains selected at a time.
+    /// </summary>
+    internal StswNavigationItem LastSelectedItem
+    {
+        get => (StswNavigationItem)GetValue(LastSelectedItemProperty);
+        set => SetValue(LastSelectedItemProperty, value);
+    }
+    public static readonly DependencyProperty LastSelectedItemProperty
+        = DependencyProperty.Register(
+            nameof(LastSelectedItem),
+            typeof(StswNavigationItem),
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(StswNavigationItem),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnLastSelectedItemChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnLastSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswNavigation)d;
+
+        var oldItem = e.OldValue as StswNavigationItem;
+        var newItem = e.NewValue as StswNavigationItem;
+
+        if (oldItem == newItem)
+            return;
+
+        if (!stsw.isLastSelectedItemChanging)
+        {
+            stsw.isLastSelectedItemChanging = true;
+
+            if (oldItem != null)
+                oldItem.IsChecked = false;
+            if (newItem != null)
+                newItem.IsChecked = true;
+
+            stsw.isLastSelectedItemChanging = false;
+        }
+    }
+    bool isLastSelectedItemChanging;
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between items and content.
+    /// Affects the spacing and visual separation in the navigation layout.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the navigation shows elements and their names.
+    /// Controls the navigation layout between compact and full modes.
+    /// </summary>
+    public StswCompactibility TabStripMode
+    {
+        get => (StswCompactibility)GetValue(TabStripModeProperty);
+        set => SetValue(TabStripModeProperty, value);
+    }
+    public static readonly DependencyProperty TabStripModeProperty
+        = DependencyProperty.Register(
+            nameof(TabStripMode),
+            typeof(StswCompactibility),
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(StswCompactibility),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnTabStripModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswNavigation)d;
+
+        /// get back all items from compact panel into original expander
+        if (stsw.TabStripMode != StswCompactibility.Compact)
+        {
+            stsw.RestoreCompactItems();
+        }
+        else if (stsw.CompactedExpander != null)
+        {
+            stsw.ItemsCompact.Clear();
+            foreach (StswNavigationItem item in stsw.CompactedExpander.Items.TryClone())
+            {
+                item.IsInCompactPanel = true;
+                stsw.ItemsCompact.Add(item);
+            }
+        }
+
+        stsw.AnimateTabStripModeTransition((StswCompactibility)e.OldValue, stsw.TabStripMode);
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationItem;
+    /// <summary>
+    /// Gets or sets the alignment of navigation elements.
+    /// Determines the placement of the tab strip within the control.
+    /// </summary>
+    public Dock TabStripPlacement
+    {
+        get => (Dock)GetValue(TabStripPlacementProperty);
+        set => SetValue(TabStripPlacementProperty, value);
+    }
+    public static readonly DependencyProperty TabStripPlacementProperty
+        = DependencyProperty.Register(
+            nameof(TabStripPlacement),
+            typeof(Dock),
+            typeof(StswNavigation)
+        );
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the width of the navigation items list.
+    /// Adjusts the size of the tab strip for a custom layout.
+    /// </summary>
+    public double TabStripWidth
+    {
+        get => (double)GetValue(TabStripWidthProperty);
+        set => SetValue(TabStripWidthProperty, value);
+    }
+    public static readonly DependencyProperty TabStripWidthProperty
+        = DependencyProperty.Register(
+            nameof(TabStripWidth),
+            typeof(double),
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+    #endregion
+
+    #region Template
+    private static readonly HashSet<WeakReference<StswNavigation>> _loadedInstances = [];
+    private ToggleButton? _tabStripModeButton;
+    private FrameworkElement? _mainPanel;
+    internal StswNavigationItem? CompactedExpander;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (_tabStripModeButton != null)
-            _tabStripModeButton.Click -= PART_TabStripModeButton_Click;
-
+        DetachTemplateEvents();
+        _mainPanel = GetTemplateChild("OPT_MainPanel") as FrameworkElement;
         _tabStripModeButton = GetTemplateChild("PART_TabStripModeButton") as ToggleButton;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_tabStripModeButton != null)
             _tabStripModeButton.Click += PART_TabStripModeButton_Click;
+    }
 
-        _mainPanel = GetTemplateChild("OPT_MainPanel") as FrameworkElement;
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_tabStripModeButton != null)
+            _tabStripModeButton.Click -= PART_TabStripModeButton_Click;
     }
 
     /// <summary>
@@ -93,7 +398,16 @@ public class StswNavigation : TreeView, IStswCornerControl
                 break;
             }
     }
+    #endregion
 
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswNavigationItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswNavigationItem;
+    #endregion
+
+    #region Logic
     /// <summary>
     /// Handles the click event for toggling between compact and full tab strip modes.
     /// </summary>
@@ -206,304 +520,6 @@ public class StswNavigation : TreeView, IStswCornerControl
     /// <returns>The newly assigned content.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no matching control is found or multiple matches exist.</exception>
     public static object? SetContent(object context, bool createNewInstance, object? identifier) => GetInstance(identifier).SetContent(context, createNewInstance);
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether to automatically scroll expanded items into view.
-    /// </summary>
-    public bool AutoScrollExpandedItemsIntoView
-    {
-        get => (bool)GetValue(AutoScrollExpandedItemsIntoViewProperty);
-        set => SetValue(AutoScrollExpandedItemsIntoViewProperty, value);
-    }
-    public static readonly DependencyProperty AutoScrollExpandedItemsIntoViewProperty
-        = DependencyProperty.Register(
-            nameof(AutoScrollExpandedItemsIntoView),
-            typeof(bool),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of UI elements used in the custom window's title bar.
-    /// Allows adding extra controls such as buttons, search fields, or indicators.
-    /// </summary>
-    public ObservableCollection<UIElement> Components
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswNavigation)
-        );
-
-    /// <inheritdoc/>
-    public object? Content
-    {
-        get => (object?)GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
-    }
-    public static readonly DependencyProperty ContentProperty = ContentControl.ContentProperty.AddOwner(typeof(StswNavigation));
-
-    /// <summary>
-    /// Gets or sets a string format applied to the <see cref="Content"/>.
-    /// Useful for formatting text-based content.
-    /// </summary>
-    public string? ContentStringFormat
-    {
-        get => (string?)GetValue(ContentStringFormatProperty);
-        set => SetValue(ContentStringFormatProperty, value);
-    }
-    public static readonly DependencyProperty ContentStringFormatProperty = ContentControl.ContentStringFormatProperty.AddOwner(typeof(StswNavigation));
-
-    /// <summary>
-    /// Gets or sets the data template used to display the <see cref="Content"/>.
-    /// </summary>
-    public DataTemplate? ContentTemplate
-    {
-        get => (DataTemplate?)GetValue(ContentTemplateProperty);
-        set => SetValue(ContentTemplateProperty, value);
-    }
-    public static readonly DependencyProperty ContentTemplateProperty = ContentControl.ContentTemplateProperty.AddOwner(typeof(StswNavigation));
-
-    /// <summary>
-    /// Gets or sets a data template selector for the <see cref="Content"/>.
-    /// Allows dynamic selection of templates based on content type.
-    /// </summary>
-    public DataTemplateSelector? ContentTemplateSelector
-    {
-        get => (DataTemplateSelector?)GetValue(ContentTemplateSelectorProperty);
-        set => SetValue(ContentTemplateSelectorProperty, value);
-    }
-    public static readonly DependencyProperty ContentTemplateSelectorProperty = ContentControl.ContentTemplateSelectorProperty.AddOwner(typeof(StswNavigation));
-
-    /// <summary>
-    /// Gets the collection of contexts associated with this navigation control.
-    /// Each context represents a separate view that can be dynamically switched.
-    /// </summary>
-    public StswObservableDictionary<string, object?> Contexts
-    {
-        get => (StswObservableDictionary<string, object?>)GetValue(ContextsProperty);
-        set => SetValue(ContextsProperty, value);
-    }
-    public static readonly DependencyProperty ContextsProperty
-        = DependencyProperty.Register(
-            nameof(Contexts),
-            typeof(StswObservableDictionary<string, object?>),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Identifier used with <see cref="SetContent(object, bool, object?)"/> to locate a specific navigation instance.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of navigation elements when the control is in compact mode.
-    /// Items are displayed in a more condensed form.
-    /// </summary>
-    public ObservableCollection<StswNavigationItem> ItemsCompact
-    {
-        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsCompactProperty);
-        internal set => SetValue(ItemsCompactProperty, value);
-    }
-    public static readonly DependencyProperty ItemsCompactProperty
-        = DependencyProperty.Register(
-            nameof(ItemsCompact),
-            typeof(ObservableCollection<StswNavigationItem>),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of pinned navigation elements.
-    /// Pinned items remain accessible regardless of mode changes.
-    /// </summary>
-    public ObservableCollection<StswNavigationItem> ItemsPinned
-    {
-        get => (ObservableCollection<StswNavigationItem>)GetValue(ItemsPinnedProperty);
-        set => SetValue(ItemsPinnedProperty, value);
-    }
-    public static readonly DependencyProperty ItemsPinnedProperty
-        = DependencyProperty.Register(
-            nameof(ItemsPinned),
-            typeof(ObservableCollection<StswNavigationItem>),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the last selected independent item.
-    /// Ensures that only one item remains selected at a time.
-    /// </summary>
-    internal StswNavigationItem LastSelectedItem
-    {
-        get => (StswNavigationItem)GetValue(LastSelectedItemProperty);
-        set => SetValue(LastSelectedItemProperty, value);
-    }
-    public static readonly DependencyProperty LastSelectedItemProperty
-        = DependencyProperty.Register(
-            nameof(LastSelectedItem),
-            typeof(StswNavigationItem),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(StswNavigationItem),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnLastSelectedItemChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnLastSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswNavigation stsw)
-            return;
-
-        var oldItem = e.OldValue as StswNavigationItem;
-        var newItem = e.NewValue as StswNavigationItem;
-
-        if (oldItem == newItem)
-            return;
-
-        if (!stsw.isLastSelectedItemChanging)
-        {
-            stsw.isLastSelectedItemChanging = true;
-
-            if (oldItem != null)
-                oldItem.IsChecked = false;
-            if (newItem != null)
-                newItem.IsChecked = true;
-
-            stsw.isLastSelectedItemChanging = false;
-        }
-    }
-    bool isLastSelectedItemChanging;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the navigation shows elements and their names.
-    /// Controls the navigation layout between compact and full modes.
-    /// </summary>
-    public StswCompactibility TabStripMode
-    {
-        get => (StswCompactibility)GetValue(TabStripModeProperty);
-        set => SetValue(TabStripModeProperty, value);
-    }
-    public static readonly DependencyProperty TabStripModeProperty
-        = DependencyProperty.Register(
-            nameof(TabStripMode),
-            typeof(StswCompactibility),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(StswCompactibility),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnTabStripModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswNavigation stsw)
-            return;
-
-        /// get back all items from compact panel into original expander
-        if (stsw.TabStripMode != StswCompactibility.Compact)
-        {
-            stsw.RestoreCompactItems();
-        }
-        else if (stsw.CompactedExpander != null)
-        {
-            stsw.ItemsCompact.Clear();
-            foreach (StswNavigationItem item in stsw.CompactedExpander.Items.TryClone())
-            {
-                item.IsInCompactPanel = true;
-                stsw.ItemsCompact.Add(item);
-            }
-        }
-
-        stsw.AnimateTabStripModeTransition((StswCompactibility)e.OldValue, stsw.TabStripMode);
-    }
-
-    /// <summary>
-    /// Gets or sets the alignment of navigation elements.
-    /// Determines the placement of the tab strip within the control.
-    /// </summary>
-    public Dock TabStripPlacement
-    {
-        get => (Dock)GetValue(TabStripPlacementProperty);
-        set => SetValue(TabStripPlacementProperty, value);
-    }
-    public static readonly DependencyProperty TabStripPlacementProperty
-        = DependencyProperty.Register(
-            nameof(TabStripPlacement),
-            typeof(Dock),
-            typeof(StswNavigation)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswNavigation)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswNavigation)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between items and content.
-    /// Affects the spacing and visual separation in the navigation layout.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the width of the navigation items list.
-    /// Adjusts the size of the tab strip for a custom layout.
-    /// </summary>
-    public double TabStripWidth
-    {
-        get => (double)GetValue(TabStripWidthProperty);
-        set => SetValue(TabStripWidthProperty, value);
-    }
-    public static readonly DependencyProperty TabStripWidthProperty
-        = DependencyProperty.Register(
-            nameof(TabStripWidth),
-            typeof(double),
-            typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
     #endregion
 
     #region Animations

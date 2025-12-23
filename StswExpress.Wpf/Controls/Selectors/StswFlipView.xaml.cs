@@ -25,38 +25,122 @@ namespace StswExpress.Wpf;
 [TemplatePart(Name = "PART_ButtonNext", Type = typeof(ButtonBase))]
 public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
 {
-    private ButtonBase? _buttonPrevious, _buttonNext;
-
     static StswFlipView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFlipView), new FrameworkPropertyMetadata(typeof(StswFlipView)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswFlipView)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswFlipView)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether looping is enabled when reaching the first or last item.
+    /// When enabled, navigating past the last item wraps around to the first, and vice versa.
+    /// </summary>
+    public bool IsLoopingEnabled
+    {
+        get => (bool)GetValue(IsLoopingEnabledProperty);
+        set => SetValue(IsLoopingEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsLoopingEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsLoopingEnabled),
+            typeof(bool),
+            typeof(StswFlipView),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsLoopingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsLoopingEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswFlipView)d;
+        stsw.UpdateNavigationButtons();
+    }
+
+    /// <inheritdoc/>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswFlipView),
+            new FrameworkPropertyMetadata(default(bool), OnIsReadOnlyChanged)
+        );
+    private static void OnIsReadOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswFlipView)d;
+        stsw.UpdateNavigationButtons();
+    }
+    #endregion
+
+    #region Template
+    private ButtonBase? _buttonPrevious, _buttonNext;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
-        if (_buttonPrevious != null)
-            _buttonPrevious.Click -= OnButtonPreviousClick;
-
-        if (_buttonNext != null)
-            _buttonNext.Click -= OnButtonNextClick;
-
         base.OnApplyTemplate();
 
-        /// Button: previous
+        DetachTemplateEvents();
         _buttonPrevious = GetTemplateChild("PART_ButtonPrevious") as ButtonBase;
-        if (_buttonPrevious != null)
-            _buttonPrevious.Click += OnButtonPreviousClick;
-
-        /// Button: next
         _buttonNext = GetTemplateChild("PART_ButtonNext") as ButtonBase;
-        if (_buttonNext != null)
-            _buttonNext.Click += OnButtonNextClick;
+        AttachTemplateEvents();
 
         UpdateNavigationButtons();
     }
 
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_buttonPrevious != null)
+            _buttonPrevious.Click += OnButtonPreviousClick;
+        if (_buttonNext != null)
+            _buttonNext.Click += OnButtonNextClick;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_buttonPrevious != null)
+            _buttonPrevious.Click -= OnButtonPreviousClick;
+        if (_buttonNext != null)
+            _buttonNext.Click -= OnButtonNextClick;
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
@@ -155,7 +239,9 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
         base.OnSelectionChanged(e);
         UpdateNavigationButtons();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Determines whether shifting by a specified step is possible, considering item count and looping settings.
     /// </summary>
@@ -233,82 +319,5 @@ public class StswFlipView : Selector, IStswCornerControl, IStswSelectionControl
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     private void OnButtonNextClick(object sender, RoutedEventArgs e) => ShiftBy(1);
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether looping is enabled when reaching the first or last item.
-    /// When enabled, navigating past the last item wraps around to the first, and vice versa.
-    /// </summary>
-    public bool IsLoopingEnabled
-    {
-        get => (bool)GetValue(IsLoopingEnabledProperty);
-        set => SetValue(IsLoopingEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsLoopingEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsLoopingEnabled),
-            typeof(bool),
-            typeof(StswFlipView),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsLoopingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsLoopingEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswFlipView stsw)
-            return;
-
-        stsw.UpdateNavigationButtons();
-    }
-
-    /// <inheritdoc/>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswFlipView),
-            new FrameworkPropertyMetadata(default(bool), OnIsReadOnlyChanged)
-        );
-    private static void OnIsReadOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswFlipView stsw)
-            return;
-
-        stsw.UpdateNavigationButtons();
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswFlipView)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswFlipView)
-        );
     #endregion
 }

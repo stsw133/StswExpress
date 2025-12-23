@@ -1,5 +1,4 @@
-﻿using StswExpress.Commons;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -29,16 +28,10 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswTabControl : TabControl
 {
-    private static readonly HashSet<WeakReference<StswTabControl>> _loadedInstances = [];
-    private readonly MouseButtonEventHandler _previewMouseLeftButtonDownHandler;
-    private readonly MouseEventHandler _mouseMoveHandler;
-    private readonly MouseButtonEventHandler _mouseLeftButtonUpHandler;
-    private readonly DragEventHandler _dropHandler;
-    private readonly DragEventHandler _dragOverHandler;
-
-    private ICommand? _newItemCommand;
-    private ButtonBase? _newItemButton;
-
+    static StswTabControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(typeof(StswTabControl)));
+    }
     public StswTabControl()
     {
         _previewMouseLeftButtonDownHandler = OnTabPreviewMouseLeftButtonDown;
@@ -51,15 +44,95 @@ public class StswTabControl : TabControl
         Unloaded += OnUnloaded;
     }
 
-    static StswTabControl()
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the tab headers are visible in the tab control.
+    /// </summary>
+    public bool AreTabsVisible
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(typeof(StswTabControl)));
+        get => (bool)GetValue(AreTabsVisibleProperty);
+        set => SetValue(AreTabsVisibleProperty, value);
     }
+    public static readonly DependencyProperty AreTabsVisibleProperty
+        = DependencyProperty.Register(
+            nameof(AreTabsVisible),
+            typeof(bool),
+            typeof(StswTabControl)
+        );
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
+    /// <summary>
+    /// Gets or sets a value indicating whether tab items can be reordered via drag and drop.
+    /// </summary>
+    public bool CanReorder
+    {
+        get => (bool)GetValue(CanReorderProperty);
+        set => SetValue(CanReorderProperty, value);
+    }
+    public static readonly DependencyProperty CanReorderProperty
+        = DependencyProperty.Register(
+            nameof(CanReorder),
+            typeof(bool),
+            typeof(StswTabControl),
+            new PropertyMetadata(false, OnCanReorderChanged)
+        );
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets an identifier for the tab control instance, allowing for easy retrieval and manipulation of specific tab controls in code.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswTabControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the template used to create a new tab item when the add button is invoked.
+    /// </summary>
+    public DataTemplate? NewItemTemplate
+    {
+        get => (DataTemplate?)GetValue(NewItemTemplateProperty);
+        set => SetValue(NewItemTemplateProperty, value);
+    }
+    public static readonly DependencyProperty NewItemTemplateProperty
+        = DependencyProperty.Register(
+            nameof(NewItemTemplate),
+            typeof(DataTemplate),
+            typeof(StswTabControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the visibility of the button used for adding new tab items.
+    /// </summary>
+    public Visibility NewItemButtonVisibility
+    {
+        get => (Visibility)GetValue(NewItemButtonVisibilityProperty);
+        set => SetValue(NewItemButtonVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty NewItemButtonVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(NewItemButtonVisibility),
+            typeof(Visibility),
+            typeof(StswTabControl)
+        );
+    #endregion
+
+    #region Template
+    private static readonly HashSet<WeakReference<StswTabControl>> _loadedInstances = [];
+    private readonly MouseButtonEventHandler _previewMouseLeftButtonDownHandler;
+    private readonly MouseEventHandler _mouseMoveHandler;
+    private readonly MouseButtonEventHandler _mouseLeftButtonUpHandler;
+    private readonly DragEventHandler _dropHandler;
+    private readonly DragEventHandler _dragOverHandler;
+
+    private ICommand? _newItemCommand;
+    private ButtonBase? _newItemButton;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -101,16 +174,13 @@ public class StswTabControl : TabControl
                 break;
             }
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-    {
-        base.OnItemsChanged(e);
-
-        if (CanReorder)
-            UpdateTabItemsAllowDrop();
-    }
-
+    protected override DependencyObject GetContainerForItemOverride() => new StswTabItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTabItem;
     /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
@@ -120,6 +190,17 @@ public class StswTabControl : TabControl
             tabItem.AllowDrop = CanReorder;
     }
 
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (CanReorder)
+            UpdateTabItemsAllowDrop();
+    }
+    #endregion
+
+    #region Logic
     /// <summary>
     /// Adds a new tab item to the control identified by the provided <paramref name="tabControlIdentifier"/>.
     /// </summary>
@@ -227,84 +308,6 @@ public class StswTabControl : TabControl
 
         return targets[0];
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the tab headers are visible in the tab control.
-    /// </summary>
-    public bool AreTabsVisible
-    {
-        get => (bool)GetValue(AreTabsVisibleProperty);
-        set => SetValue(AreTabsVisibleProperty, value);
-    }
-    public static readonly DependencyProperty AreTabsVisibleProperty
-        = DependencyProperty.Register(
-            nameof(AreTabsVisible),
-            typeof(bool),
-            typeof(StswTabControl)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether tab items can be reordered via drag and drop.
-    /// </summary>
-    public bool CanReorder
-    {
-        get => (bool)GetValue(CanReorderProperty);
-        set => SetValue(CanReorderProperty, value);
-    }
-    public static readonly DependencyProperty CanReorderProperty
-        = DependencyProperty.Register(
-            nameof(CanReorder),
-            typeof(bool),
-            typeof(StswTabControl),
-            new PropertyMetadata(false, OnCanReorderChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets an identifier for the tab control instance, allowing for easy retrieval and manipulation of specific tab controls in code.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswTabControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the template used to create a new tab item when the add button is invoked.
-    /// </summary>
-    public DataTemplate? NewItemTemplate
-    {
-        get => (DataTemplate?)GetValue(NewItemTemplateProperty);
-        set => SetValue(NewItemTemplateProperty, value);
-    }
-    public static readonly DependencyProperty NewItemTemplateProperty
-        = DependencyProperty.Register(
-            nameof(NewItemTemplate),
-            typeof(DataTemplate),
-            typeof(StswTabControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the visibility of the button used for adding new tab items.
-    /// </summary>
-    public Visibility NewItemButtonVisibility
-    {
-        get => (Visibility)GetValue(NewItemButtonVisibilityProperty);
-        set => SetValue(NewItemButtonVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty NewItemButtonVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(NewItemButtonVisibility),
-            typeof(Visibility),
-            typeof(StswTabControl)
-        );
     #endregion
 
     #region Drag & drop logic

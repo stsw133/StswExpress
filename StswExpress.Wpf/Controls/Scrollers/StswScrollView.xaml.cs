@@ -28,63 +28,7 @@ public class StswScrollView : ScrollViewer
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollView), new FrameworkPropertyMetadata(typeof(StswScrollView)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override void OnMouseWheel(MouseWheelEventArgs e)
-    {
-        /// horizontal scrolling
-        if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
-         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
-        {
-            if (e.Delta > 0)
-                ScrollInfo.MouseWheelLeft();
-            else
-                ScrollInfo.MouseWheelRight();
-
-            e.Handled = true;
-        }
-
-        base.OnMouseWheel(e);
-
-        /// scrolling scroll in another scroll
-        //if (Parent is UIElement parentElement)
-        //{
-        //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))
-        //    {
-        //        e.Handled = true;
-        //
-        //        var routedArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-        //        {
-        //            RoutedEvent = MouseWheelEvent
-        //        };
-        //        parentElement.RaiseEvent(routedArgs);
-        //    }
-        //}
-    }
-
-    /// <inheritdoc/>
-    protected override void OnScrollChanged(ScrollChangedEventArgs e)
-    {
-        base.OnScrollChanged(e);
-
-        if (AutoScroll && !IsBusy)
-        {
-            if (e.ExtentHeightChange == 0)
-                _autoScrolled = VerticalOffset == ScrollableHeight;
-
-            if (_autoScrolled && e.ExtentHeightChange != 0)
-                ScrollToVerticalOffset(ExtentHeight);
-        }
-
-        if (e.VerticalChange > 0)
-            if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
-                if (!IsBusy)
-                    Command?.Execute(CommandParameter);
-    }
-    private bool _autoScrolled;
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a value indicating whether auto-scrolling is enabled.
     /// If set to true, the content automatically scrolls to the bottom when new content is added.
@@ -198,6 +142,62 @@ public class StswScrollView : ScrollViewer
         );
     public static bool GetIsBusy(DependencyObject d) => (bool)d.GetValue(IsBusyProperty);
     public static void SetIsBusy(DependencyObject d, bool value) => d.SetValue(IsBusyProperty, value);
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+        /// horizontal scrolling
+        if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
+        {
+            if (e.Delta > 0)
+                ScrollInfo.MouseWheelLeft();
+            else
+                ScrollInfo.MouseWheelRight();
+
+            e.Handled = true;
+        }
+
+        base.OnMouseWheel(e);
+
+        /// scrolling scroll in another scroll
+        //if (Parent is UIElement parentElement)
+        //{
+        //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))
+        //    {
+        //        e.Handled = true;
+        //
+        //        var routedArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        //        {
+        //            RoutedEvent = MouseWheelEvent
+        //        };
+        //        parentElement.RaiseEvent(routedArgs);
+        //    }
+        //}
+    }
+
+    /// <inheritdoc/>
+    protected override void OnScrollChanged(ScrollChangedEventArgs e)
+    {
+        base.OnScrollChanged(e);
+
+        if (AutoScroll && !IsBusy)
+        {
+            if (e.ExtentHeightChange == 0)
+                _autoScrolled = VerticalOffset == ScrollableHeight;
+
+            if (_autoScrolled && e.ExtentHeightChange != 0)
+                ScrollToVerticalOffset(ExtentHeight);
+        }
+
+        if (e.VerticalChange > 0)
+            if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
+                if (!IsBusy)
+                    Command?.Execute(CommandParameter);
+    }
+    private bool _autoScrolled;
     #endregion
 
     #region Excluded properties

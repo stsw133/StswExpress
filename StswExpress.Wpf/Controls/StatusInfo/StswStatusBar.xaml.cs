@@ -27,10 +27,7 @@ public class StswStatusBar : StatusBar
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStatusBar), new FrameworkPropertyMetadata(typeof(StswStatusBar)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswStatusBarItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswStatusBarItem;
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -56,5 +53,12 @@ public class StswStatusBar : StatusBar
             typeof(CornerRadius),
             typeof(StswStatusBar)
         );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswStatusBarItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswStatusBarItem;
     #endregion
 }

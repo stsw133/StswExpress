@@ -18,48 +18,108 @@ namespace StswExpress.Wpf;
 /// </remarks>
 internal class StswConfig : Control, IStswCornerControl
 {
-    private ButtonBase? _btnCancel;
-    private ButtonBase? _btnConfirm;
-    private Slider? _iSizeSlider;
-
-    internal StswConfig(object? identifier)
-    {
-        Identifier = identifier;
-    }
     static StswConfig()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswConfig), new FrameworkPropertyMetadata(typeof(StswConfig)));
     }
+    internal StswConfig(object? identifier)
+    {
+        Identifier = identifier;
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswConfig)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswConfig)
+        );
+
+    /// <summary>
+    /// Identifier used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
+    /// The identifier helps in deciding the window or dialog context for displaying the configuration UI.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswConfig)
+        );
+
+    /// <summary>
+    /// Gets the application version from the calling assembly in "Major.Minor.Revision" format.
+    /// </summary>
+    public string Version { get; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Build}" : string.Empty;
+    #endregion
+
+    #region Template
+    private ButtonBase? _btnCancel, _btnConfirm;
+    private Slider? _iSizeSlider;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
+        DetachTemplateEvents();
+        _btnConfirm = GetTemplateChild("PART_ButtonConfirm") as ButtonBase;
+        _btnCancel = GetTemplateChild("PART_ButtonCancel") as ButtonBase;
+        _iSizeSlider = GetTemplateChild("PART_iSize") as Slider;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_btnConfirm != null)
+            _btnConfirm.Click += BtnConfirm_Click;
+        if (_btnCancel != null)
+            _btnCancel.Click += BtnCancel_Click;
+        if (_iSizeSlider != null)
+            _iSizeSlider.MouseLeave += ISize_MouseLeave;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
         if (_btnConfirm != null)
             _btnConfirm.Click -= BtnConfirm_Click;
         if (_btnCancel != null)
             _btnCancel.Click -= BtnCancel_Click;
         if (_iSizeSlider != null)
             _iSizeSlider.MouseLeave -= ISize_MouseLeave;
-
-        /// Button: confirm
-        _btnConfirm = GetTemplateChild("PART_ButtonConfirm") as ButtonBase;
-        if (_btnConfirm != null)
-            _btnConfirm.Click += BtnConfirm_Click;
-
-        /// Button: cancel
-        _btnCancel = GetTemplateChild("PART_ButtonCancel") as ButtonBase;
-        if (_btnCancel != null)
-            _btnCancel.Click += BtnCancel_Click;
-
-        /// Slider: iSize
-        _iSizeSlider = GetTemplateChild("PART_iSize") as Slider;
-        if (_iSizeSlider != null)
-            _iSizeSlider.MouseLeave += ISize_MouseLeave;
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Handles the click event of the cancel button, closing the dialog without saving changes.
     /// </summary>
@@ -131,56 +191,5 @@ internal class StswConfig : Control, IStswCornerControl
                 await StswContentDialog.Show(new StswConfig(identifier), identifier);
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Identifier used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
-    /// The identifier helps in deciding the window or dialog context for displaying the configuration UI.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswConfig)
-        );
-
-    /// <summary>
-    /// Gets the application version from the calling assembly in "Major.Minor.Revision" format.
-    /// </summary>
-    public string Version { get; } = Assembly.GetCallingAssembly().GetName().Version is Version v ? $"{v.Major}.{v.Minor}.{v.Build}" : string.Empty;
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswConfig)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswConfig)
-        );
     #endregion
 }

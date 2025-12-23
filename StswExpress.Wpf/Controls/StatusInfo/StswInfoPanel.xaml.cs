@@ -28,85 +28,42 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswInfoPanel : ItemsControl, IStswCornerControl
 {
-    private ButtonBase? _btnCloseAll;
-    private ButtonBase? _btnCopyAllToClipboard;
-    private readonly StswScrollActionScheduler _scrollActionScheduler;
-    private ScrollViewer? _scrollViewer;
-
-    public StswInfoPanel()
-    {
-        _scrollActionScheduler = new StswScrollActionScheduler(this);
-    }
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
     }
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public StswInfoPanel()
     {
-        base.OnApplyTemplate();
-
-        if (_btnCopyAllToClipboard != null)
-            _btnCopyAllToClipboard.Click -= PART_ButtonCopyAllToClipboard_Click;
-        if (_btnCloseAll != null)
-            _btnCloseAll.Click -= PART_ButtonCloseAll_Click;
-
-        /// scroll viewer
-        _scrollViewer = GetTemplateChild("OPT_ScrollView") as ScrollViewer;
-
-        /// Button: copy all to clipboard
-        _btnCopyAllToClipboard = GetTemplateChild("PART_ButtonCopyAllToClipboard") as ButtonBase;
-        if (_btnCopyAllToClipboard != null)
-            _btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
-
-        /// Button: close all
-        _btnCloseAll = GetTemplateChild("PART_ButtonCloseAll") as ButtonBase;
-        if (_btnCloseAll != null)
-            _btnCloseAll.Click += PART_ButtonCloseAll_Click;
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
     }
+
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswInfoPanel)
+        );
 
     /// <inheritdoc/>
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    public CornerRadius CornerRadius
     {
-        base.OnItemsChanged(e);
-
-        if (_scrollViewer != null)
-            if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-                _scrollActionScheduler.Schedule(_scrollViewer.ScrollToEnd, DispatcherPriority.Background);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswInfoPanel)
+        );
 
-    /// <summary>
-    /// Copies the content of all displayed information bars (titles and texts) to the clipboard.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
-    {
-        var sb = new StringBuilder();
-        foreach (var infoBar in StswFnUI.FindVisualChildren<StswInfoBar>(this))
-            sb.AppendLine($"{infoBar.Title}{Environment.NewLine}{infoBar.Text}");
-
-        Clipboard.SetText(sb.ToString());
-    }
-
-    /// <summary>
-    /// Handles the close-all button click event.
-    /// Clears all items from the panel, either from the <see cref="ItemsSource"/> collection or the internal <see cref="Items"/> list.
-    /// </summary>
-    /// <param name="sender">The sender object triggering the event.</param>
-    /// <param name="e">The event arguments.</param>
-    private void PART_ButtonCloseAll_Click(object sender, RoutedEventArgs e)
-    {
-        if (ItemsSource is IList list)
-            list.Clear();
-        else
-            Items?.Clear();
-    }
-    #endregion
-
-    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether each information bar can be closed individually.
     /// When enabled, each item will have a close button.
@@ -186,6 +143,22 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the thickness of the separator between the control panel and the information bars.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswInfoPanel),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether the control panel (containing batch operations) is visible.
     /// </summary>
     public bool ShowControlPanel
@@ -201,47 +174,84 @@ public class StswInfoPanel : ItemsControl, IStswCornerControl
         );
     #endregion
 
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswInfoPanel)
-        );
+    #region Template
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
+    private ButtonBase? _btnCloseAll, _btnCopyAllToClipboard;
+    private ScrollViewer? _scrollViewer;
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    public override void OnApplyTemplate()
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnApplyTemplate();
+
+        DetachTemplateEvents();
+        _scrollViewer = GetTemplateChild("OPT_ScrollView") as ScrollViewer;
+        _btnCloseAll = GetTemplateChild("PART_ButtonCloseAll") as ButtonBase;
+        _btnCopyAllToClipboard = GetTemplateChild("PART_ButtonCopyAllToClipboard") as ButtonBase;
+        AttachTemplateEvents();
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswInfoPanel)
-        );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between the control panel and the information bars.
+    /// Attaches event handlers to the template parts.
     /// </summary>
-    public double SeparatorThickness
+    private void AttachTemplateEvents()
     {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
+        if (_btnCopyAllToClipboard != null)
+            _btnCopyAllToClipboard.Click += PART_ButtonCopyAllToClipboard_Click;
+        if (_btnCloseAll != null)
+            _btnCloseAll.Click += PART_ButtonCloseAll_Click;
     }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswInfoPanel),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_btnCopyAllToClipboard != null)
+            _btnCopyAllToClipboard.Click -= PART_ButtonCopyAllToClipboard_Click;
+        if (_btnCloseAll != null)
+            _btnCloseAll.Click -= PART_ButtonCloseAll_Click;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (_scrollViewer != null)
+            if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+                _scrollActionScheduler.Schedule(_scrollViewer.ScrollToEnd, DispatcherPriority.Background);
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Copies the content of all displayed information bars (titles and texts) to the clipboard.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_ButtonCopyAllToClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        var sb = new StringBuilder();
+        foreach (var infoBar in StswFnUI.FindVisualChildren<StswInfoBar>(this))
+            sb.AppendLine($"{infoBar.Title}{Environment.NewLine}{infoBar.Text}");
+
+        Clipboard.SetText(sb.ToString());
+    }
+
+    /// <summary>
+    /// Handles the "Close All" button click event.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event.</param>
+    /// <param name="e">The event arguments.</param>
+    private void PART_ButtonCloseAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (ItemsSource is IList list)
+            list.Clear();
+        else
+            Items?.Clear();
+    }
     #endregion
 }

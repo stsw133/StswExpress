@@ -20,36 +20,281 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorPicker : Control, IStswCornerControl
 {
-    private FrameworkElement? _colorEllipse, _colorGrid;
-    private bool _blockColorEllipse;
-
     static StswColorPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
+    /// When enabled, users can adjust the opacity of the selected color.
+    /// </summary>
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsAlphaEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsAlphaEnabled),
+            typeof(bool),
+            typeof(StswColorPicker)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswColorPicker)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswColorPicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the picked color in the control.
+    /// This represents the color selected from the color spectrum, before applying modifications.
+    /// </summary>
+    public Color PickedColor
+    {
+        get => (Color)GetValue(PickedColorProperty);
+        internal set => SetValue(PickedColorProperty, value);
+    }
+    public static readonly DependencyProperty PickedColorProperty
+        = DependencyProperty.Register(
+            nameof(PickedColor),
+            typeof(Color),
+            typeof(StswColorPicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding for real-time color adjustments.
+    /// </summary>
+    public Color SelectedColor
+    {
+        get => (Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColor),
+            typeof(Color),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+
+        StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
+        stsw.SelectedColorA = stsw.SelectedColor.A;
+        stsw.SelectedColorR = stsw.SelectedColor.R;
+        stsw.SelectedColorG = stsw.SelectedColor.G;
+        stsw.SelectedColorB = stsw.SelectedColor.B;
+
+        if (!stsw._blockColorEllipse)
+        {
+            stsw.PickedColor = StswFnUI.ColorFromHsv(h, s, 1);
+            if (stsw._colorGrid != null)
+                stsw.UpdateEllipsePosition(stsw._colorGrid);
+        }
+
+        stsw.SelectedColorV = v;
+        stsw._blockColorEllipse = false;
+    }
+
+    /// <summary>
+    /// Gets or sets the alpha (transparency) component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
+    /// </summary>
+    internal byte SelectedColorA
+    {
+        get => (byte)GetValue(SelectedColorAProperty);
+        set => SetValue(SelectedColorAProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorAProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorA),
+            typeof(byte),
+            typeof(StswColorPicker),
+            new PropertyMetadata(default(byte), OnSelectedColorAChanged)
+        );
+    public static void OnSelectedColorAChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+        stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
+    }
+
+    /// <summary>
+    /// Gets or sets the red component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
+    /// </summary>
+    internal byte SelectedColorR
+    {
+        get => (byte)GetValue(SelectedColorRProperty);
+        set => SetValue(SelectedColorRProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorRProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorR),
+            typeof(byte),
+            typeof(StswColorPicker),
+            new PropertyMetadata(default(byte), OnSelectedColorRChanged)
+        );
+    public static void OnSelectedColorRChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
+    }
+
+    /// <summary>
+    /// Gets or sets the green component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
+    /// </summary>
+
+    internal byte SelectedColorG
+    {
+        get => (byte)GetValue(SelectedColorGProperty);
+        set => SetValue(SelectedColorGProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorGProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorG),
+            typeof(byte),
+            typeof(StswColorPicker),
+            new PropertyMetadata(default(byte), OnSelectedColorGChanged)
+        );
+    public static void OnSelectedColorGChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
+    }
+
+    /// <summary>
+    /// Gets or sets the blue component of the selected color.
+    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
+    /// </summary>
+    internal byte SelectedColorB
+    {
+        get => (byte)GetValue(SelectedColorBProperty);
+        set => SetValue(SelectedColorBProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorBProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorB),
+            typeof(byte),
+            typeof(StswColorPicker),
+            new PropertyMetadata(default(byte), OnSelectedColorBChanged)
+        );
+    public static void OnSelectedColorBChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
+    }
+
+    /// <summary>
+    /// Gets or sets the value (brightness) component of the selected color in HSV color space.
+    /// </summary>
+    internal double SelectedColorV
+    {
+        get => (double)GetValue(SelectedColorVProperty);
+        set => SetValue(SelectedColorVProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorVProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorV),
+            typeof(double),
+            typeof(StswColorPicker),
+            new PropertyMetadata(default(double), OnSelectedColorVChanged)
+        );
+    public static void OnSelectedColorVChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswColorPicker)d;
+        StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
+        stsw.SelectedColor = StswFnUI.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+        stsw._blockColorEllipse = true;
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum height and width of the color selection grid.
+    /// This value determines the size of the color selection area within the control.
+    /// </summary>
+    public double SelectorSize
+    {
+        get => (double)GetValue(SelectorSizeProperty);
+        set => SetValue(SelectorSizeProperty, value);
+    }
+    public static readonly DependencyProperty SelectorSizeProperty
+        = DependencyProperty.Register(
+            nameof(SelectorSize),
+            typeof(double),
+            typeof(StswColorPicker)
+        );
+    #endregion
+
+    #region Template
+    private FrameworkElement? _colorEllipse, _colorGrid;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (_colorGrid != null)
-        {
-            _colorGrid.MouseDown -= PART_ColorGrid_MouseDown;
-            _colorGrid.MouseMove -= PART_ColorGrid_MouseMove;
-            _colorGrid.SizeChanged -= PART_ColorGrid_SizeChanged;
-        }
-
+        DetachTemplateEvents();
         _colorGrid = GetTemplateChild("PART_ColorGrid") as FrameworkElement;
+        _colorEllipse = GetTemplateChild("PART_ColorEllipse") as FrameworkElement;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_colorGrid != null)
         {
             _colorGrid.MouseDown += PART_ColorGrid_MouseDown;
             _colorGrid.MouseMove += PART_ColorGrid_MouseMove;
             _colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
         }
-        _colorEllipse = GetTemplateChild("PART_ColorEllipse") as FrameworkElement;
     }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_colorGrid != null)
+        {
+            _colorGrid.MouseDown -= PART_ColorGrid_MouseDown;
+            _colorGrid.MouseMove -= PART_ColorGrid_MouseMove;
+            _colorGrid.SizeChanged -= PART_ColorGrid_SizeChanged;
+        }
+    }
+    #endregion
+
+    #region Logic
+    private bool _blockColorEllipse;
 
     /// <summary>
     /// Handles the <see cref="UIElement.MouseDown"/> event on the color grid.
@@ -123,245 +368,5 @@ public class StswColorPicker : Control, IStswCornerControl
             Canvas.SetTop(_colorEllipse, y - _colorEllipse.Height / 2);
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
-    /// When enabled, users can adjust the opacity of the selected color.
-    /// </summary>
-    public bool IsAlphaEnabled
-    {
-        get => (bool)GetValue(IsAlphaEnabledProperty);
-        set => SetValue(IsAlphaEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsAlphaEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsAlphaEnabled),
-            typeof(bool),
-            typeof(StswColorPicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the picked color in the control.
-    /// This represents the color selected from the color spectrum, before applying modifications.
-    /// </summary>
-    public Color PickedColor
-    {
-        get => (Color)GetValue(PickedColorProperty);
-        internal set => SetValue(PickedColorProperty, value);
-    }
-    public static readonly DependencyProperty PickedColorProperty
-        = DependencyProperty.Register(
-            nameof(PickedColor),
-            typeof(Color),
-            typeof(StswColorPicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected color in the control.
-    /// Supports two-way binding for real-time color adjustments.
-    /// </summary>
-    public Color SelectedColor
-    {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColor),
-            typeof(Color),
-            typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(Color),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-
-        StswFnUI.ColorToHsv(stsw.SelectedColor, out var h, out var s, out var v);
-        stsw.SelectedColorA = stsw.SelectedColor.A;
-        stsw.SelectedColorR = stsw.SelectedColor.R;
-        stsw.SelectedColorG = stsw.SelectedColor.G;
-        stsw.SelectedColorB = stsw.SelectedColor.B;
-
-        if (!stsw._blockColorEllipse)
-        {
-            stsw.PickedColor = StswFnUI.ColorFromHsv(h, s, 1);
-            if (stsw._colorGrid != null)
-                stsw.UpdateEllipsePosition(stsw._colorGrid);
-        }
-
-        stsw.SelectedColorV = v;
-        stsw._blockColorEllipse = false;
-    }
-
-    /// <summary>
-    /// Gets or sets the alpha (transparency) component of the selected color.
-    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
-    /// </summary>
-    internal byte SelectedColorA
-    {
-        get => (byte)GetValue(SelectedColorAProperty);
-        set => SetValue(SelectedColorAProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorAProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorA),
-            typeof(byte),
-            typeof(StswColorPicker),
-            new PropertyMetadata(default(byte), OnSelectedColorAChanged)
-        );
-    public static void OnSelectedColorAChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-
-        stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
-    }
-
-    /// <summary>
-    /// Gets or sets the red component of the selected color.
-    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
-    /// </summary>
-    internal byte SelectedColorR
-    {
-        get => (byte)GetValue(SelectedColorRProperty);
-        set => SetValue(SelectedColorRProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorRProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorR),
-            typeof(byte),
-            typeof(StswColorPicker),
-            new PropertyMetadata(default(byte), OnSelectedColorRChanged)
-        );
-    public static void OnSelectedColorRChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-
-        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
-    }
-
-    /// <summary>
-    /// Gets or sets the green component of the selected color.
-    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
-    /// </summary>
-
-    internal byte SelectedColorG
-    {
-        get => (byte)GetValue(SelectedColorGProperty);
-        set => SetValue(SelectedColorGProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorGProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorG),
-            typeof(byte),
-            typeof(StswColorPicker),
-            new PropertyMetadata(default(byte), OnSelectedColorGChanged)
-        );
-    public static void OnSelectedColorGChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-
-        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
-    }
-
-    /// <summary>
-    /// Gets or sets the blue component of the selected color.
-    /// This property is internally updated whenever <see cref="SelectedColor"/> changes.
-    /// </summary>
-    internal byte SelectedColorB
-    {
-        get => (byte)GetValue(SelectedColorBProperty);
-        set => SetValue(SelectedColorBProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorBProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorB),
-            typeof(byte),
-            typeof(StswColorPicker),
-            new PropertyMetadata(default(byte), OnSelectedColorBChanged)
-        );
-    public static void OnSelectedColorBChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-        
-        stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
-    }
-
-    /// <summary>
-    /// Gets or sets the value (brightness) component of the selected color in HSV color space.
-    /// </summary>
-    internal double SelectedColorV
-    {
-        get => (double)GetValue(SelectedColorVProperty);
-        set => SetValue(SelectedColorVProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorVProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorV),
-            typeof(double),
-            typeof(StswColorPicker),
-            new PropertyMetadata(default(double), OnSelectedColorVChanged)
-        );
-    public static void OnSelectedColorVChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswColorPicker stsw)
-            return;
-
-        StswFnUI.ColorToHsv(stsw.PickedColor, out var h, out var s, out var _);
-        stsw.SelectedColor = StswFnUI.ColorFromHsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
-        stsw._blockColorEllipse = true;
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswColorPicker)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswColorPicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the minimum height and width of the color selection grid.
-    /// This value determines the size of the color selection area within the control.
-    /// </summary>
-    public double SelectorSize
-    {
-        get => (double)GetValue(SelectorSizeProperty);
-        set => SetValue(SelectorSizeProperty, value);
-    }
-    public static readonly DependencyProperty SelectorSizeProperty
-        = DependencyProperty.Register(
-            nameof(SelectorSize),
-            typeof(double),
-            typeof(StswColorPicker)
-        );
     #endregion
 }

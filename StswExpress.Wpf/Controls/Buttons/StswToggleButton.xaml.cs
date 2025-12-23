@@ -17,37 +17,12 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswToggleButton : ToggleButton, IStswCornerControl
 {
-    private Border? _mainBorder;
-
     static StswToggleButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnChecked(RoutedEventArgs e)
-    {
-        base.OnChecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnUnchecked(RoutedEventArgs e)
-    {
-        base.OnUnchecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
-    }
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -73,5 +48,32 @@ public class StswToggleButton : ToggleButton, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswToggleButton)
         );
+    #endregion
+
+    #region Template
+    private Border? _mainBorder;
+
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
+    }
     #endregion
 }

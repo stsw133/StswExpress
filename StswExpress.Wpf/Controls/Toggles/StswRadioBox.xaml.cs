@@ -21,71 +21,12 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswRadioBox : RadioButton, IStswCornerControl
 {
-    private Border? _mainBorder;
-
     static StswRadioBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioBox), new FrameworkPropertyMetadata(typeof(StswRadioBox)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnToggle()
-    {
-        if (!IsReadOnly)
-            base.OnToggle();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnChecked(RoutedEventArgs e)
-    {
-        base.OnChecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnUnchecked(RoutedEventArgs e)
-    {
-        base.OnUnchecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnClick()
-    {
-        if (AllowUncheck && IsChecked == true)
-        {
-            SetCurrentValue(IsCheckedProperty, false);
-            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
-            return;
-        }
-
-        base.OnClick();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        if (AllowUncheck && IsChecked == true && (e.Key == Key.Space || e.Key == Key.Enter))
-        {
-            SetCurrentValue(IsCheckedProperty, false);
-            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
-            e.Handled = true;
-            return;
-        }
-
-        base.OnKeyDown(e);
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
     /// </summary>
@@ -101,39 +42,6 @@ public class StswRadioBox : RadioButton, IStswCornerControl
             typeof(StswRadioBox)
         );
 
-    /// <summary>
-    /// Gets or sets the scale of the icon inside the radio button.
-    /// </summary>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswRadioBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the radio button is in read-only mode.
-    /// When set to <see langword="true"/>, the button cannot be toggled.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswRadioBox)
-        );
-    #endregion
-
-    #region Style properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -209,6 +117,21 @@ public class StswRadioBox : RadioButton, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the scale of the icon inside the radio button.
+    /// </summary>
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswRadioBox)
+        );
+
+    /// <summary>
     /// Gets or sets the geometry used for the icon when the radio button is in the unchecked state.
     /// </summary>
     public Geometry? IconUnchecked
@@ -223,5 +146,82 @@ public class StswRadioBox : RadioButton, IStswCornerControl
             typeof(StswRadioBox),
             new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the radio button is in read-only mode.
+    /// When set to <see langword="true"/>, the button cannot be toggled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswRadioBox)
+        );
+    #endregion
+
+    #region Template
+    private Border? _mainBorder;
+
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnClick()
+    {
+        if (AllowUncheck && IsChecked == true)
+        {
+            SetCurrentValue(IsCheckedProperty, false);
+            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+            return;
+        }
+
+        base.OnClick();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (AllowUncheck && IsChecked == true && (e.Key == Key.Space || e.Key == Key.Enter))
+        {
+            SetCurrentValue(IsCheckedProperty, false);
+            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+            e.Handled = true;
+            return;
+        }
+
+        base.OnKeyDown(e);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnToggle()
+    {
+        if (!IsReadOnly)
+            base.OnToggle();
+    }
     #endregion
 }

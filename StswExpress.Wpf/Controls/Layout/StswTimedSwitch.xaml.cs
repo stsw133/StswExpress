@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -17,21 +16,105 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswTimedSwitch : CheckBox
 {
-    private readonly DispatcherTimer _timer = new();
-    private bool _isTimerTickSubscribed;
-
+    static StswTimedSwitch()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
+    }
     public StswTimedSwitch()
     {
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
         SubscribeToTimerTick();
     }
-    static StswTimedSwitch()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the duration after which the switch automatically reverts to its default state.
+    /// If set to zero, the switch remains in the active state indefinitely.
+    /// </summary>
+    public TimeSpan SwitchTime
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
+        get => (TimeSpan)GetValue(SwitchTimeProperty);
+        set => SetValue(SwitchTimeProperty, value);
+    }
+    public static readonly DependencyProperty SwitchTimeProperty
+        = DependencyProperty.Register(
+            nameof(SwitchTime),
+            typeof(TimeSpan),
+            typeof(StswTimedSwitch),
+            new PropertyMetadata(default(TimeSpan), OnSwitchTimeChanged)
+        );
+    public static void OnSwitchTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimedSwitch)d;
+        stsw.UpdateTimerAfterSwitchTimeChange();
     }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the content displayed during the active state of the switch.
+    /// Once the <see cref="SwitchTime"/> duration elapses, the content reverts to the default state.
+    /// </summary>
+    public object TimedContent
+    {
+        get => GetValue(TimedContentProperty);
+        set => SetValue(TimedContentProperty, value);
+    }
+    public static readonly DependencyProperty TimedContentProperty
+        = DependencyProperty.Register(
+            nameof(TimedContent),
+            typeof(object),
+            typeof(StswTimedSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets a format string applied to the <see cref="TimedContent"/> when displayed as text.
+    /// </summary>
+    public string TimedContentStringFormat
+    {
+        get => (string)GetValue(TimedContentStringFormatProperty);
+        set => SetValue(TimedContentStringFormatProperty, value);
+    }
+    public static readonly DependencyProperty TimedContentStringFormatProperty
+        = DependencyProperty.Register(
+            nameof(TimedContentStringFormat),
+            typeof(string),
+            typeof(StswTimedSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the data template used to display the <see cref="TimedContent"/>.
+    /// </summary>
+    public DataTemplate TimedContentTemplate
+    {
+        get => (DataTemplate)GetValue(TimedContentTemplateProperty);
+        set => SetValue(TimedContentTemplateProperty, value);
+    }
+    public static readonly DependencyProperty TimedContentTemplateProperty
+        = DependencyProperty.Register(
+            nameof(TimedContentTemplate),
+            typeof(DataTemplate),
+            typeof(StswTimedSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets a template selector that determines which template to apply to the <see cref="TimedContent"/>.
+    /// </summary>
+    public DataTemplateSelector TimedContentTemplateSelector
+    {
+        get => (DataTemplateSelector)GetValue(TimedContentTemplateSelectorProperty);
+        set => SetValue(TimedContentTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty TimedContentTemplateSelectorProperty
+        = DependencyProperty.Register(
+            nameof(TimedContentTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(StswTimedSwitch)
+        );
+    #endregion
+
+    #region Overrides
+    private readonly DispatcherTimer _timer = new();
+
     /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
@@ -45,6 +128,10 @@ public class StswTimedSwitch : CheckBox
         base.OnUnchecked(e);
         _timer.Stop();
     }
+    #endregion
+
+    #region Logic
+    private bool _isTimerTickSubscribed;
 
     /// <summary>
     /// Handles the timer tick event, reverting the switch to its default state after the specified duration.
@@ -133,92 +220,5 @@ public class StswTimedSwitch : CheckBox
             _timer.Start();
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the duration after which the switch automatically reverts to its default state.
-    /// If set to zero, the switch remains in the active state indefinitely.
-    /// </summary>
-    public TimeSpan SwitchTime
-    {
-        get => (TimeSpan)GetValue(SwitchTimeProperty);
-        set => SetValue(SwitchTimeProperty, value);
-    }
-    public static readonly DependencyProperty SwitchTimeProperty
-        = DependencyProperty.Register(
-            nameof(SwitchTime),
-            typeof(TimeSpan),
-            typeof(StswTimedSwitch),
-            new PropertyMetadata(default(TimeSpan), OnSwitchTimeChanged)
-        );
-    public static void OnSwitchTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimedSwitch stsw)
-            return;
-
-        stsw.UpdateTimerAfterSwitchTimeChange();
-    }
-
-    /// <summary>
-    /// Gets or sets the content displayed during the active state of the switch.
-    /// Once the <see cref="SwitchTime"/> duration elapses, the content reverts to the default state.
-    /// </summary>
-    public object TimedContent
-    {
-        get => GetValue(TimedContentProperty);
-        set => SetValue(TimedContentProperty, value);
-    }
-    public static readonly DependencyProperty TimedContentProperty
-        = DependencyProperty.Register(
-            nameof(TimedContent),
-            typeof(object),
-            typeof(StswTimedSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets a format string applied to the <see cref="TimedContent"/> when displayed as text.
-    /// </summary>
-    public string TimedContentStringFormat
-    {
-        get => (string)GetValue(TimedContentStringFormatProperty);
-        set => SetValue(TimedContentStringFormatProperty, value);
-    }
-    public static readonly DependencyProperty TimedContentStringFormatProperty
-        = DependencyProperty.Register(
-            nameof(TimedContentStringFormat),
-            typeof(string),
-            typeof(StswTimedSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the data template used to display the <see cref="TimedContent"/>.
-    /// </summary>
-    public DataTemplate TimedContentTemplate
-    {
-        get => (DataTemplate)GetValue(TimedContentTemplateProperty);
-        set => SetValue(TimedContentTemplateProperty, value);
-    }
-    public static readonly DependencyProperty TimedContentTemplateProperty
-        = DependencyProperty.Register(
-            nameof(TimedContentTemplate),
-            typeof(DataTemplate),
-            typeof(StswTimedSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets a template selector that determines which template to apply to the <see cref="TimedContent"/>.
-    /// </summary>
-    public DataTemplateSelector TimedContentTemplateSelector
-    {
-        get => (DataTemplateSelector)GetValue(TimedContentTemplateSelectorProperty);
-        set => SetValue(TimedContentTemplateSelectorProperty, value);
-    }
-    public static readonly DependencyProperty TimedContentTemplateSelectorProperty
-        = DependencyProperty.Register(
-            nameof(TimedContentTemplateSelector),
-            typeof(DataTemplateSelector),
-            typeof(StswTimedSwitch)
-        );
     #endregion
 }

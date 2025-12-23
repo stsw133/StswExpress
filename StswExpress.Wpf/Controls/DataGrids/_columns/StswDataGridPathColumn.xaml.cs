@@ -23,65 +23,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         ForegroundProperty.OverrideMetadata(typeof(StswDataGridPathColumn), new FrameworkPropertyMetadata(null));
     }
 
-    private static readonly Style StswEditingElementStyle = new(typeof(StswPathPicker), (Style)Application.Current.FindResource(typeof(StswPathPicker)))
-    {
-        Setters =
-        {
-            new Setter(StswPathPicker.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswPathPicker.CornerClippingProperty, false),
-            new Setter(StswPathPicker.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswPathPicker.FocusVisualStyleProperty, null),
-            new Setter(StswPathPicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswPathPicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
-        }
-    };
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-    {
-        var displayElement = new StswText()
-        {
-            Margin = new Thickness(2, 0, 2, 0)
-        };
-        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
-        StswDataGridTextColumn.BindFontProperties(this, displayElement);
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
-
-        return displayElement;
-    }
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-    {
-        var editingElement = new StswPathPicker()
-        {
-            Style = StswEditingElementStyle
-        };
-        editingElement.SetBinding(StswPathPicker.FilterProperty, this.CreateColumnBinding(nameof(Filter)));
-        editingElement.SetBinding(StswPathPicker.IsFileSizeVisibleProperty, this.CreateColumnBinding(nameof(IsFileSizeVisible)));
-        editingElement.SetBinding(StswPathPicker.IsShiftingEnabledProperty, this.CreateColumnBinding(nameof(IsShiftingEnabled)));
-        editingElement.SetBinding(StswPathPicker.MultiselectProperty, this.CreateColumnBinding(nameof(Multiselect)));
-        editingElement.SetBinding(StswPathPicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswPathPicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswPathPicker.SelectionUnitProperty, this.CreateColumnBinding(nameof(SelectionUnit)));
-        editingElement.SetBinding(StswPathPicker.SuggestedFilenameProperty, this.CreateColumnBinding(nameof(SuggestedFilename)));
-        editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswPathPicker.SelectedPathProperty, Binding);
-
-        return editingElement;
-    }
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the file filter used in the file selection dialog.
     /// Example: "Image Files (*.png;*.jpg)|*.png;*.jpg".
@@ -95,6 +37,22 @@ public class StswDataGridPathColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
+            typeof(StswDataGridPathColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets whether to show or not the file size.
+    /// If true, the size of the selected file is displayed next to the selected path.
+    /// </summary>
+    public bool IsFileSizeVisible
+    {
+        get => (bool)GetValue(IsFileSizeVisibleProperty);
+        set => SetValue(IsFileSizeVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsFileSizeVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsFileSizeVisible),
+            typeof(bool),
             typeof(StswDataGridPathColumn)
         );
 
@@ -126,6 +84,21 @@ public class StswDataGridPathColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Multiselect),
             typeof(bool),
+            typeof(StswDataGridPathColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the padding around the content inside the column's cells.
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
             typeof(StswDataGridPathColumn)
         );
 
@@ -174,39 +147,6 @@ public class StswDataGridPathColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(SuggestedFilename),
             typeof(string),
-            typeof(StswDataGridPathColumn)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets whether to show or not the file size.
-    /// If true, the size of the selected file is displayed next to the selected path.
-    /// </summary>
-    public bool IsFileSizeVisible
-    {
-        get => (bool)GetValue(IsFileSizeVisibleProperty);
-        set => SetValue(IsFileSizeVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsFileSizeVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsFileSizeVisible),
-            typeof(bool),
-            typeof(StswDataGridPathColumn)
-        );
-
-    /// <summary>
-    /// Gets or sets the padding around the content inside the column's cells.
-    /// </summary>
-    public Thickness Padding
-    {
-        get => (Thickness)GetValue(PaddingProperty);
-        set => SetValue(PaddingProperty, value);
-    }
-    public static readonly DependencyProperty PaddingProperty
-        = DependencyProperty.Register(
-            nameof(Padding),
-            typeof(Thickness),
             typeof(StswDataGridPathColumn)
         );
 
@@ -287,5 +227,65 @@ public class StswDataGridPathColumn : DataGridTextColumn
             typeof(StswDataGridPathColumn),
             new PropertyMetadata(VerticalAlignment.Top)
         );
+    #endregion
+
+    #region Overrides
+    private static readonly Style StswEditingElementStyle = new(typeof(StswPathPicker), (Style)Application.Current.FindResource(typeof(StswPathPicker)))
+    {
+        Setters =
+        {
+            new Setter(StswPathPicker.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswPathPicker.CornerClippingProperty, false),
+            new Setter(StswPathPicker.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswPathPicker.FocusVisualStyleProperty, null),
+            new Setter(StswPathPicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswPathPicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
+        }
+    };
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+    {
+        var displayElement = new StswText()
+        {
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
+
+        return displayElement;
+    }
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+    {
+        var editingElement = new StswPathPicker()
+        {
+            Style = StswEditingElementStyle
+        };
+        editingElement.SetBinding(StswPathPicker.FilterProperty, this.CreateColumnBinding(nameof(Filter)));
+        editingElement.SetBinding(StswPathPicker.IsFileSizeVisibleProperty, this.CreateColumnBinding(nameof(IsFileSizeVisible)));
+        editingElement.SetBinding(StswPathPicker.IsShiftingEnabledProperty, this.CreateColumnBinding(nameof(IsShiftingEnabled)));
+        editingElement.SetBinding(StswPathPicker.MultiselectProperty, this.CreateColumnBinding(nameof(Multiselect)));
+        editingElement.SetBinding(StswPathPicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswPathPicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswPathPicker.SelectionUnitProperty, this.CreateColumnBinding(nameof(SelectionUnit)));
+        editingElement.SetBinding(StswPathPicker.SuggestedFilenameProperty, this.CreateColumnBinding(nameof(SuggestedFilename)));
+        editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(editingElement, StswPathPicker.SelectedPathProperty, Binding);
+
+        return editingElement;
+    }
     #endregion
 }

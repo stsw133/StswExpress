@@ -25,26 +25,115 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswToaster : ItemsControl
 {
-    private static readonly HashSet<WeakReference<StswToaster>> _loadedInstances = [];
-    private readonly Timer? _timer;
-    private bool _fastRemoving;
-    private bool _timerStarted;
-
+    static StswToaster()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
+    }
     public StswToaster()
     {
         _timer = new Timer(OnTimerTick, null, Timeout.Infinite, Timeout.Infinite);
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-    static StswToaster()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the duration for which toasts are displayed before being automatically removed.
+    /// </summary>
+    public TimeSpan DisplayDuration
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToaster), new FrameworkPropertyMetadata(typeof(StswToaster)));
+        get => (TimeSpan)GetValue(DisplayDurationProperty);
+        set => SetValue(DisplayDurationProperty, value);
     }
+    public static readonly DependencyProperty DisplayDurationProperty
+        = DependencyProperty.Register(
+            nameof(DisplayDuration),
+            typeof(TimeSpan),
+            typeof(StswToaster)
+        );
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswToastItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswToastItem;
+    /// <summary>
+    /// Gets or sets a value indicating whether toasts are generated at the bottom of the toast list.
+    /// If <see langword="true"/>, new toasts are added to the bottom; otherwise, they are added to the top.
+    /// </summary>
+    public bool GenerateAtBottom
+    {
+        get => (bool)GetValue(GenerateAtBottomProperty);
+        set => SetValue(GenerateAtBottomProperty, value);
+    }
+    public static readonly DependencyProperty GenerateAtBottomProperty
+        = DependencyProperty.Register(
+            nameof(GenerateAtBottom),
+            typeof(bool),
+            typeof(StswToaster)
+        );
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the identifier that allows static access to a specific <see cref="StswToaster"/> instance.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswToaster)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether toasts are closable, providing a close button for each alert.
+    /// </summary>
+    public bool IsClosable
+    {
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
+    public static readonly DependencyProperty IsClosableProperty
+        = DependencyProperty.Register(
+            nameof(IsClosable),
+            typeof(bool),
+            typeof(StswToaster)
+        );
+
+    /// <summary>
+    /// Gets or sets the text trimming behavior for the toast items.
+    /// Defines how the text is trimmed when it overflows the available space.
+    /// </summary>
+    public TextTrimming TextTrimming
+    {
+        get => (TextTrimming)GetValue(TextTrimmingProperty);
+        set => SetValue(TextTrimmingProperty, value);
+    }
+    public static readonly DependencyProperty TextTrimmingProperty
+        = DependencyProperty.Register(
+            nameof(TextTrimming),
+            typeof(TextTrimming),
+            typeof(StswToaster)
+        );
+
+    /// <summary>
+    /// Gets or sets the text wrapping behavior for the toast items.
+    /// Defines how the text is wrapped when it overflows the available space.
+    /// </summary>
+    public TextWrapping TextWrapping
+    {
+        get => (TextWrapping)GetValue(TextWrappingProperty);
+        set => SetValue(TextWrappingProperty, value);
+    }
+    public static readonly DependencyProperty TextWrappingProperty
+        = DependencyProperty.Register(
+            nameof(TextWrapping),
+            typeof(TextWrapping),
+            typeof(StswToaster)
+        );
+    #endregion
+
+    #region Template
+    private static readonly HashSet<WeakReference<StswToaster>> _loadedInstances = [];
+
     /// <summary>
     /// Registers the toaster instance for identifier-based lookups.
     /// </summary>
@@ -73,6 +162,13 @@ public class StswToaster : ItemsControl
                 break;
             }
     }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswToastItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswToastItem;
 
     /// <inheritdoc/>
     protected override void OnMouseEnter(MouseEventArgs e)
@@ -89,6 +185,12 @@ public class StswToaster : ItemsControl
         if (!_timerStarted)
             StartTimer();
     }
+    #endregion
+
+    #region Logic
+    private readonly Timer? _timer;
+    private bool _fastRemoving;
+    private bool _timerStarted;
 
     /// <summary>
     /// Removes an item from the toaster control.
@@ -269,102 +371,5 @@ public class StswToaster : ItemsControl
         else if (!toaster.IsMouseOver)
             toaster._timer?.Change(toaster.DisplayDuration, toaster.DisplayDuration);
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the duration for which toasts are displayed before being automatically removed.
-    /// </summary>
-    public TimeSpan DisplayDuration
-    {
-        get => (TimeSpan)GetValue(DisplayDurationProperty);
-        set => SetValue(DisplayDurationProperty, value);
-    }
-    public static readonly DependencyProperty DisplayDurationProperty
-        = DependencyProperty.Register(
-            nameof(DisplayDuration),
-            typeof(TimeSpan),
-            typeof(StswToaster)
-        );
-
-    /// <summary>
-    /// Gets or sets the identifier that allows static access to a specific <see cref="StswToaster"/> instance.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswToaster)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether toasts are closable, providing a close button for each alert.
-    /// </summary>
-    public bool IsClosable
-    {
-        get => (bool)GetValue(IsClosableProperty);
-        set => SetValue(IsClosableProperty, value);
-    }
-    public static readonly DependencyProperty IsClosableProperty
-        = DependencyProperty.Register(
-            nameof(IsClosable),
-            typeof(bool),
-            typeof(StswToaster)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether toasts are generated at the bottom of the toast list.
-    /// If <see langword="true"/>, new toasts are added to the bottom; otherwise, they are added to the top.
-    /// </summary>
-    public bool GenerateAtBottom
-    {
-        get => (bool)GetValue(GenerateAtBottomProperty);
-        set => SetValue(GenerateAtBottomProperty, value);
-    }
-    public static readonly DependencyProperty GenerateAtBottomProperty
-        = DependencyProperty.Register(
-            nameof(GenerateAtBottom),
-            typeof(bool),
-            typeof(StswToaster)
-        );
-
-    /// <summary>
-    /// Gets or sets the text trimming behavior for the toast items.
-    /// Defines how the text is trimmed when it overflows the available space.
-    /// </summary>
-    public TextTrimming TextTrimming
-    {
-        get => (TextTrimming)GetValue(TextTrimmingProperty);
-        set => SetValue(TextTrimmingProperty, value);
-    }
-    public static readonly DependencyProperty TextTrimmingProperty
-        = DependencyProperty.Register(
-            nameof(TextTrimming),
-            typeof(TextTrimming),
-            typeof(StswToaster)
-        );
-
-    /// <summary>
-    /// Gets or sets the text wrapping behavior for the toast items.
-    /// Defines how the text is wrapped when it overflows the available space.
-    /// </summary>
-    public TextWrapping TextWrapping
-    {
-        get => (TextWrapping)GetValue(TextWrappingProperty);
-        set => SetValue(TextWrappingProperty, value);
-    }
-    public static readonly DependencyProperty TextWrappingProperty
-        = DependencyProperty.Register(
-            nameof(TextWrapping),
-            typeof(TextWrapping),
-            typeof(StswToaster)
-        );
     #endregion
 }

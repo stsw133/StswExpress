@@ -24,19 +24,251 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : Control, IStswCornerControl
 {
-    private ContentControl? _buttonClear, _buttonToday;
-    private Selector? _selector;
-
-    public StswCalendar()
-    {
-        SetValue(ItemsProperty, new ObservableCollection<StswCalendarEntry>());
-    }
     static StswCalendar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCalendar), new FrameworkPropertyMetadata(typeof(StswCalendar)));
     }
+    public StswCalendar()
+    {
+        SetValue(ItemsProperty, new ObservableCollection<StswCalendarEntry>());
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswCalendar)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswCalendar)
+        );
+
+    /// <summary>
+    /// Gets or sets the current view mode of the calendar (days or months).
+    /// Controls how the calendar displays and interacts with date selection.
+    /// </summary>
+    public StswCalendarUnit CurrentUnit
+    {
+        get => (StswCalendarUnit)GetValue(CurrentUnitProperty);
+        set => SetValue(CurrentUnitProperty, value);
+    }
+    public static readonly DependencyProperty CurrentUnitProperty
+        = DependencyProperty.Register(
+            nameof(CurrentUnit),
+            typeof(StswCalendarUnit),
+            typeof(StswCalendar),
+            new PropertyMetadata(default(StswCalendarUnit), OnCurrentUnitChanged)
+        );
+    public static void OnCurrentUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswCalendar)d;
+        stsw.UpdateCalendarViewName();
+        stsw.UpdateCalendarView();
+    }
+
+    /// <summary>
+    /// Gets or sets the collection of days or months displayed in the control.
+    /// </summary>
+    internal ObservableCollection<StswCalendarEntry> Items
+    {
+        get => (ObservableCollection<StswCalendarEntry>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
+    public static readonly DependencyProperty ItemsProperty
+        = DependencyProperty.Register(
+            nameof(Items),
+            typeof(ObservableCollection<StswCalendarEntry>),
+            typeof(StswCalendar)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable date in the control.
+    /// </summary>
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(DateTime?),
+            typeof(StswCalendar),
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum allowable date in the control.
+    /// </summary>
+    public DateTime? Minimum
+    {
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(DateTime?),
+            typeof(StswCalendar),
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
+        );
+    private static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswCalendar)d;
+
+        var min = stsw.Minimum ?? DateTime.MinValue;
+        var max = stsw.Maximum ?? DateTime.MaxValue;
+        var selectionUnit = stsw.SelectionUnit;
+
+        /// check if selected date is allowed
+        if (stsw.SelectedDate.HasValue)
+        {
+            var adjustedMin = selectionUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
+            var adjustedMax = selectionUnit == StswCalendarUnit.Months ? max.ToFirstDayOfMonth() : max;
+            var clamped = Clamp(stsw.SelectedDate.Value, adjustedMin, adjustedMax);
+            if (clamped != stsw.SelectedDate.Value)
+                stsw.SelectedDate = clamped;
+        }
+
+        stsw.UpdateTodayButtonState();
+
+        /// to update buttons (days or months based on current unit) visibilities
+        if (stsw.Items is { } items)
+        {
+            var rangeMin = stsw.CurrentUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
+            var rangeMax = stsw.CurrentUnit == StswCalendarUnit.Months ? max.ToLastDayOfMonth() : max;
+
+            foreach (var item in items)
+                item.InMinMaxRange = item.Date.Between(rangeMin, rangeMax);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the currently selected date in the control.
+    /// </summary>
+    public DateTime? SelectedDate
+    {
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
+    }
+    public static readonly DependencyProperty SelectedDateProperty
+        = DependencyProperty.Register(
+            nameof(SelectedDate),
+            typeof(DateTime?),
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(DateTime?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswCalendar)d;
+        stsw.SyncSelectedMonthToDate(stsw.SelectedDate);
+        stsw.UpdateItemSelection(stsw.SelectedDate);
+    }
+
+    /// <summary>
+    /// Gets or sets the currently displayed month in the control.
+    /// </summary>
+    public DateTime SelectedMonth
+    {
+        get => (DateTime)GetValue(SelectedMonthProperty);
+        internal set => SetValue(SelectedMonthProperty, value);
+    }
+    public static readonly DependencyProperty SelectedMonthProperty
+        = DependencyProperty.Register(
+            nameof(SelectedMonth),
+            typeof(DateTime),
+            typeof(StswCalendar),
+            new FrameworkPropertyMetadata(default(DateTime),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedMonthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswCalendar)d;
+
+        var oldValue = (DateTime)e.OldValue;
+        var newValue = (DateTime)e.NewValue;
+
+        if ((stsw.CurrentUnit == StswCalendarUnit.Days && (oldValue.Year != newValue.Year || oldValue.Month != newValue.Month))
+         || (stsw.CurrentUnit == StswCalendarUnit.Months && oldValue.Year != newValue.Year))
+        {
+            stsw.UpdateCalendarViewName();
+            stsw.UpdateCalendarView();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the currently displayed year and month name in the control.
+    /// </summary>
+    public string SelectedMonthName
+    {
+        get => (string)GetValue(SelectedMonthNameProperty);
+        internal set => SetValue(SelectedMonthNameProperty, value);
+    }
+    public static readonly DependencyProperty SelectedMonthNameProperty
+        = DependencyProperty.Register(
+            nameof(SelectedMonthName),
+            typeof(string),
+            typeof(StswCalendar)
+        );
+
+    /// <summary>
+    /// Gets or sets the unit used for date selection.
+    /// Determines whether the calendar selects individual days or whole months.
+    /// </summary>
+    public StswCalendarUnit SelectionUnit
+    {
+        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
+    }
+    public static readonly DependencyProperty SelectionUnitProperty
+        = DependencyProperty.Register(
+            nameof(SelectionUnit),
+            typeof(StswCalendarUnit),
+            typeof(StswCalendar),
+            new PropertyMetadata(StswCalendarUnit.Days, OnSelectionUnitChanged)
+        );
+    private static void OnSelectionUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswCalendar)d;
+        /// for Months selection unit, only Months view is available
+        if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
+            stsw.CurrentUnit = stswCalendarUnit;
+    }
+
+    /// Names for days of week
+    public static string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek).Capitalize();
+    public static string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(1)).Capitalize();
+    public static string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(2)).Capitalize();
+    public static string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(3)).Capitalize();
+    public static string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(4)).Capitalize();
+    public static string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(5)).Capitalize();
+    public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(6)).Capitalize();
+    #endregion
+
+    #region Template
+    private ContentControl? _buttonClear, _buttonToday;
+    private Selector? _selector;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -121,7 +353,9 @@ public class StswCalendar : Control, IStswCornerControl
             _buttonClear = button;
         }
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Updates the enabled state of the "Today" button based on the current date and the defined minimum and maximum date range.
     /// </summary>
@@ -500,247 +734,5 @@ public class StswCalendar : Control, IStswCornerControl
             return max;
         return value;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the current view mode of the calendar (days or months).
-    /// Controls how the calendar displays and interacts with date selection.
-    /// </summary>
-    public StswCalendarUnit CurrentUnit
-    {
-        get => (StswCalendarUnit)GetValue(CurrentUnitProperty);
-        set => SetValue(CurrentUnitProperty, value);
-    }
-    public static readonly DependencyProperty CurrentUnitProperty
-        = DependencyProperty.Register(
-            nameof(CurrentUnit),
-            typeof(StswCalendarUnit),
-            typeof(StswCalendar),
-            new PropertyMetadata(default(StswCalendarUnit), OnCurrentUnitChanged)
-        );
-    public static void OnCurrentUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswCalendar stsw)
-            return;
-
-        stsw.UpdateCalendarViewName();
-        stsw.UpdateCalendarView();
-    }
-
-    /// <summary>
-    /// Gets or sets the collection of days or months displayed in the control.
-    /// </summary>
-    internal ObservableCollection<StswCalendarEntry> Items
-    {
-        get => (ObservableCollection<StswCalendarEntry>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-    public static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<StswCalendarEntry>),
-            typeof(StswCalendar)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum allowable date in the control.
-    /// </summary>
-    public DateTime? Maximum
-    {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(DateTime?),
-            typeof(StswCalendar),
-            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the minimum allowable date in the control.
-    /// </summary>
-    public DateTime? Minimum
-    {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(DateTime?),
-            typeof(StswCalendar),
-            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
-        );
-    private static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswCalendar stsw)
-            return;
-
-        var min = stsw.Minimum ?? DateTime.MinValue;
-        var max = stsw.Maximum ?? DateTime.MaxValue;
-        var selectionUnit = stsw.SelectionUnit;
-
-        /// check if selected date is allowed
-        if (stsw.SelectedDate.HasValue)
-        {
-            var adjustedMin = selectionUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
-            var adjustedMax = selectionUnit == StswCalendarUnit.Months ? max.ToFirstDayOfMonth() : max;
-            var clamped = Clamp(stsw.SelectedDate.Value, adjustedMin, adjustedMax);
-            if (clamped != stsw.SelectedDate.Value)
-                stsw.SelectedDate = clamped;
-        }
-
-        stsw.UpdateTodayButtonState();
-
-        /// to update buttons (days or months based on current unit) visibilities
-        if (stsw.Items is { } items)
-        {
-            var rangeMin = stsw.CurrentUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
-            var rangeMax = stsw.CurrentUnit == StswCalendarUnit.Months ? max.ToLastDayOfMonth() : max;
-
-            foreach (var item in items)
-                item.InMinMaxRange = item.Date.Between(rangeMin, rangeMax);
-        }
-    }
-    
-    /// <summary>
-    /// Gets or sets the currently selected date in the control.
-    /// </summary>
-    public DateTime? SelectedDate
-    {
-        get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, value);
-    }
-    public static readonly DependencyProperty SelectedDateProperty
-        = DependencyProperty.Register(
-            nameof(SelectedDate),
-            typeof(DateTime?),
-            typeof(StswCalendar),
-            new FrameworkPropertyMetadata(default(DateTime?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswCalendar stsw)
-            return;
-
-        stsw.SyncSelectedMonthToDate(stsw.SelectedDate);
-        stsw.UpdateItemSelection(stsw.SelectedDate);
-    }
-
-    /// <summary>
-    /// Gets or sets the currently displayed month in the control.
-    /// </summary>
-    public DateTime SelectedMonth
-    {
-        get => (DateTime)GetValue(SelectedMonthProperty);
-        internal set => SetValue(SelectedMonthProperty, value);
-    }
-    public static readonly DependencyProperty SelectedMonthProperty
-        = DependencyProperty.Register(
-            nameof(SelectedMonth),
-            typeof(DateTime),
-            typeof(StswCalendar),
-            new FrameworkPropertyMetadata(default(DateTime),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedMonthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswCalendar stsw)
-            return;
-
-        var oldValue = (DateTime)e.OldValue;
-        var newValue = (DateTime)e.NewValue;
-
-        if ((stsw.CurrentUnit == StswCalendarUnit.Days && (oldValue.Year != newValue.Year || oldValue.Month != newValue.Month))
-         || (stsw.CurrentUnit == StswCalendarUnit.Months && oldValue.Year != newValue.Year))
-        {
-            stsw.UpdateCalendarViewName();
-            stsw.UpdateCalendarView();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the currently displayed year and month name in the control.
-    /// </summary>
-    public string SelectedMonthName
-    {
-        get => (string)GetValue(SelectedMonthNameProperty);
-        internal set => SetValue(SelectedMonthNameProperty, value);
-    }
-    public static readonly DependencyProperty SelectedMonthNameProperty
-        = DependencyProperty.Register(
-            nameof(SelectedMonthName),
-            typeof(string),
-            typeof(StswCalendar)
-        );
-
-    /// <summary>
-    /// Gets or sets the unit used for date selection.
-    /// Determines whether the calendar selects individual days or whole months.
-    /// </summary>
-    public StswCalendarUnit SelectionUnit
-    {
-        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
-        set => SetValue(SelectionUnitProperty, value);
-    }
-    public static readonly DependencyProperty SelectionUnitProperty
-        = DependencyProperty.Register(
-            nameof(SelectionUnit),
-            typeof(StswCalendarUnit),
-            typeof(StswCalendar),
-            new PropertyMetadata(StswCalendarUnit.Days, OnSelectionUnitChanged)
-        );
-    private static void OnSelectionUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswCalendar stsw)
-            return;
-
-        /// for Months selection unit, only Months view is available
-        if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
-            stsw.CurrentUnit = stswCalendarUnit;
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswCalendar)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswCalendar)
-        );
-
-    /// Names for days of week
-    public static string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek).Capitalize();
-    public static string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(1)).Capitalize();
-    public static string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(2)).Capitalize();
-    public static string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(3)).Capitalize();
-    public static string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(4)).Capitalize();
-    public static string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(5)).Capitalize();
-    public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek.GetNextValue(6)).Capitalize();
     #endregion
 }

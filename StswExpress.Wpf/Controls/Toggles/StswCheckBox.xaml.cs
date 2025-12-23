@@ -19,77 +19,12 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswCheckBox : CheckBox, IStswCornerControl
 {
-    private Border? _mainBorder;
-
     static StswCheckBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnToggle()
-    {
-        if (!IsReadOnly)
-            base.OnToggle();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnChecked(RoutedEventArgs e)
-    {
-        base.OnChecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnUnchecked(RoutedEventArgs e)
-    {
-        base.OnUnchecked(e);
-        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the scale of the icon inside the checkbox.
-    /// </summary>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswCheckBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the checkbox is in read-only mode.
-    /// When set to <see langword="true"/>, the checkbox cannot be toggled.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswCheckBox)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -165,6 +100,21 @@ public class StswCheckBox : CheckBox, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the scale of the icon inside the checkbox.
+    /// </summary>
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswCheckBox)
+        );
+
+    /// <summary>
     /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
     /// </summary>
     public Geometry? IconUnchecked
@@ -179,5 +129,55 @@ public class StswCheckBox : CheckBox, IStswCornerControl
             typeof(StswCheckBox),
             new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the checkbox is in read-only mode.
+    /// When set to <see langword="true"/>, the checkbox cannot be toggled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswCheckBox)
+        );
+    #endregion
+
+    #region Template
+    private Border? _mainBorder;
+
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, true);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+        StswSharedAnimations.AnimateClick(this, _mainBorder, false);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnToggle()
+    {
+        if (!IsReadOnly)
+            base.OnToggle();
+    }
     #endregion
 }

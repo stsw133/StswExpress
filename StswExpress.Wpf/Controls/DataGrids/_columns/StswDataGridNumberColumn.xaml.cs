@@ -18,76 +18,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         ForegroundProperty.OverrideMetadata(typeof(StswDataGridNumberColumnBase<T, TControl>), new FrameworkPropertyMetadata(null));
     }
 
-    private static readonly Style StswEditingElementStyle = new(typeof(TControl), (Style)Application.Current.FindResource(typeof(TControl)))
-    {
-        Setters =
-        {
-            new Setter(StswNumberBoxBase<T>.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswNumberBoxBase<T>.CornerClippingProperty, false),
-            new Setter(StswNumberBoxBase<T>.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswNumberBoxBase<T>.FocusVisualStyleProperty, null),
-            new Setter(StswNumberBoxBase<T>.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswNumberBoxBase<T>.VerticalAlignmentProperty, VerticalAlignment.Stretch)
-        }
-    };
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-    {
-        var displayElement = new StswText()
-        {
-            Margin = new Thickness(2, 0, 2, 0)
-        };
-        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
-        StswDataGridTextColumn.BindFontProperties(this, displayElement);
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
-
-        return displayElement;
-    }
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-    {
-        return GenerateEditingElement<TControl>();
-    }
-
-    /// <summary>
-    /// Generates an editable numeric input element for entering values within the <see cref="DataGrid"/> column.
-    /// Uses a generic numeric input control that extends <see cref="StswNumberBoxBase{T}"/>.
-    /// </summary>
-    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
-    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
-    /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
-#pragma warning disable CS0693 // Type parameter has the same name as the type parameter from outer type
-    private TControl GenerateEditingElement<TControl>() where TControl : StswNumberBoxBase<T>, new()
-#pragma warning restore CS0693 // Type parameter has the same name as the type parameter from outer type
-    {
-        var editingElement = new TControl
-        {
-            Style = StswEditingElementStyle
-        };
-        editingElement.SetBinding(StswNumberBoxBase<T>.FormatProperty, this.CreateColumnBinding(nameof(Format)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.IncrementProperty, this.CreateColumnBinding(nameof(Increment)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswNumberBoxBase<T>.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
-
-        if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswNumberBoxBase<T>.ValueProperty, Binding);
-
-        return editingElement;
-    }
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the numeric format used for displaying values (e.g., "N2" for two decimal places, "C2" for currency).
     /// </summary>
@@ -151,23 +82,6 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text displayed in the numeric input when no value is entered.
-    /// </summary>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswDataGridNumberColumnBase<T, TControl>)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
     /// Gets or sets the padding around the numeric input inside the column's cells.
     /// </summary>
     public Thickness Padding
@@ -179,6 +93,21 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
+            typeof(StswDataGridNumberColumnBase<T, TControl>)
+        );
+
+    /// <summary>
+    /// Gets or sets the placeholder text displayed in the numeric input when no value is entered.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
             typeof(StswDataGridNumberColumnBase<T, TControl>)
         );
 
@@ -259,6 +188,77 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
             typeof(StswDataGridNumberColumnBase<T, TControl>),
             new PropertyMetadata(VerticalAlignment.Top)
         );
+    #endregion
+
+    #region Overrides
+    private static readonly Style StswEditingElementStyle = new(typeof(TControl), (Style)Application.Current.FindResource(typeof(TControl)))
+    {
+        Setters =
+        {
+            new Setter(StswNumberBoxBase<T>.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswNumberBoxBase<T>.CornerClippingProperty, false),
+            new Setter(StswNumberBoxBase<T>.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswNumberBoxBase<T>.FocusVisualStyleProperty, null),
+            new Setter(StswNumberBoxBase<T>.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswNumberBoxBase<T>.VerticalAlignmentProperty, VerticalAlignment.Stretch)
+        }
+    };
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+    {
+        var displayElement = new StswText()
+        {
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
+
+        return displayElement;
+    }
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+    {
+        return GenerateEditingElement<TControl>();
+    }
+
+    /// <summary>
+    /// Generates an editable numeric input element for entering values within the <see cref="DataGrid"/> column.
+    /// Uses a generic numeric input control that extends <see cref="StswNumberBoxBase{T}"/>.
+    /// </summary>
+    /// <param name="cell">The <see cref="DataGridCell"/> that will contain the element.</param>
+    /// <param name="dataItem">The data item represented by the row containing the cell.</param>
+    /// <returns>An input control of type <typeparamref name="TControl"/> bound to the column's numeric value.</returns>
+#pragma warning disable CS0693 // Type parameter has the same name as the type parameter from outer type
+    private TControl GenerateEditingElement<TControl>() where TControl : StswNumberBoxBase<T>, new()
+#pragma warning restore CS0693 // Type parameter has the same name as the type parameter from outer type
+    {
+        var editingElement = new TControl
+        {
+            Style = StswEditingElementStyle
+        };
+        editingElement.SetBinding(StswNumberBoxBase<T>.FormatProperty, this.CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.IncrementProperty, this.CreateColumnBinding(nameof(Increment)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswNumberBoxBase<T>.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+
+        if (Binding != null)
+            BindingOperations.SetBinding(editingElement, StswNumberBoxBase<T>.ValueProperty, Binding);
+
+        return editingElement;
+    }
     #endregion
 }
 

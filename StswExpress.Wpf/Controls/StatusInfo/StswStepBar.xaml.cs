@@ -14,19 +14,97 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Finish)]
 public class StswStepBar : Control
 {
-    private Canvas? _canvas;
-    private List<StswStepBarLine> _lines = [];
-
-    public StswStepBar()
-    {
-        SetValue(StepsProperty, new ObservableCollection<StswStepBarItem>());
-    }
     static StswStepBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStepBar), new FrameworkPropertyMetadata(typeof(StswStepBar)));
     }
+    public StswStepBar()
+    {
+        SetValue(StepsProperty, new ObservableCollection<StswStepBarItem>());
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the collection of steps to be displayed in the step bar.
+    /// </summary>
+    public ObservableCollection<StswStepBarItem> Steps
+    {
+        get => (ObservableCollection<StswStepBarItem>)GetValue(StepsProperty);
+        set => SetValue(StepsProperty, value);
+    }
+    public static readonly DependencyProperty StepsProperty
+        = DependencyProperty.Register(
+            nameof(Steps),
+            typeof(ObservableCollection<StswStepBarItem>),
+            typeof(StswStepBar)
+        );
+
+    /// <summary>
+    /// Gets or sets the current step number (0-based index).
+    /// </summary>
+    public int StepNumber
+    {
+        get => (int)GetValue(StepNumberProperty);
+        set => SetValue(StepNumberProperty, value);
+    }
+    public static readonly DependencyProperty StepNumberProperty
+        = DependencyProperty.Register(
+            nameof(StepNumber),
+            typeof(int),
+            typeof(StswStepBar),
+            new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsRender, OnStepNumberChanged)
+        );
+    private static void OnStepNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswStepBar)d;
+
+        var index = (int)e.NewValue;
+
+        for (var i = 0; i < stsw.Steps.Count; i++)
+        {
+            var step = stsw.Steps[i];
+
+            if (i < index)
+                step.SetStatus(StepBarItemStatus.Completed);
+            else if (i == index)
+                step.SetStatus(StepBarItemStatus.NextStep);
+            else
+                step.SetStatus(StepBarItemStatus.Normal);
+        }
+
+        for (var i = 0; i < stsw._lines.Count; i++)
+        {
+            var line = stsw._lines[i];
+
+            if (i < index)
+                line.SetStatus(StepBarItemStatus.Completed);
+            else if (i == index)
+                line.SetStatus(StepBarItemStatus.NextStep);
+            else
+                line.SetStatus(StepBarItemStatus.Normal);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the size of each step in the step bar.
+    /// </summary>
+    public double StepsSize
+    {
+        get => (double)GetValue(StepsSizeProperty);
+        set => SetValue(StepsSizeProperty, value);
+    }
+    public static readonly DependencyProperty StepsSizeProperty
+        = DependencyProperty.Register(
+            nameof(StepsSize),
+            typeof(double),
+            typeof(StswStepBar), 
+            new PropertyMetadata(40.0)
+        );
+    #endregion
+
+    #region Template
+    private Canvas? _canvas;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -34,6 +112,10 @@ public class StswStepBar : Control
         _canvas = GetTemplateChild("PART_Canvas") as Canvas;
         CreateSteps();
     }
+    #endregion
+
+    #region Logic
+    private List<StswStepBarLine> _lines = [];
 
     /// <summary>
     /// Creates and positions the steps and connecting lines on the canvas.
@@ -119,88 +201,6 @@ public class StswStepBar : Control
             //CheckLine(_lines[i - 1]);
         }
     }
-    #endregion
-
-    #region Login properties
-    /// <summary>
-    /// Gets or sets the collection of steps to be displayed in the step bar.
-    /// </summary>
-    public ObservableCollection<StswStepBarItem> Steps
-    {
-        get => (ObservableCollection<StswStepBarItem>)GetValue(StepsProperty);
-        set => SetValue(StepsProperty, value);
-    }
-    public static readonly DependencyProperty StepsProperty
-        = DependencyProperty.Register(
-            nameof(Steps),
-            typeof(ObservableCollection<StswStepBarItem>),
-            typeof(StswStepBar)
-        );
-
-    /// <summary>
-    /// Gets or sets the current step number (0-based index).
-    /// </summary>
-    public int StepNumber
-    {
-        get => (int)GetValue(StepNumberProperty);
-        set => SetValue(StepNumberProperty, value);
-    }
-    public static readonly DependencyProperty StepNumberProperty
-        = DependencyProperty.Register(
-            nameof(StepNumber),
-            typeof(int),
-            typeof(StswStepBar),
-            new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.AffectsRender, OnStepNumberChanged)
-        );
-    private static void OnStepNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswStepBar stsw)
-            return;
-
-        var index = (int)e.NewValue;
-
-        for (var i = 0; i < stsw.Steps.Count; i++)
-        {
-            var step = stsw.Steps[i];
-
-            if (i < index)
-                step.SetStatus(StepBarItemStatus.Completed);
-            else if (i == index)
-                step.SetStatus(StepBarItemStatus.NextStep);
-            else
-                step.SetStatus(StepBarItemStatus.Normal);
-        }
-
-        for (var i = 0; i < stsw._lines.Count; i++)
-        {
-            var line = stsw._lines[i];
-
-            if (i < index)
-                line.SetStatus(StepBarItemStatus.Completed);
-            else if (i == index)
-                line.SetStatus(StepBarItemStatus.NextStep);
-            else
-                line.SetStatus(StepBarItemStatus.Normal);
-        }
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the size of each step in the step bar.
-    /// </summary>
-    public double StepsSize
-    {
-        get => (double)GetValue(StepsSizeProperty);
-        set => SetValue(StepsSizeProperty, value);
-    }
-    public static readonly DependencyProperty StepsSizeProperty
-        = DependencyProperty.Register(
-            nameof(StepsSize),
-            typeof(double),
-            typeof(StswStepBar), 
-            new PropertyMetadata(40.0)
-        );
     #endregion
 }
 
@@ -289,9 +289,7 @@ public class StswStepBarItem : Control
         );
     private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswStepBarItem stsw)
-            return;
-
+        var stsw = (StswStepBarItem)d;
         //stsw.AnimateStatusChange((StepBarItemStatus)e.OldValue, (StepBarItemStatus)e.NewValue);
         //stsw.ChangeState(((StepBarItemStatus)e.NewValue).ToString());
         stsw.ChangeState(((StepBarItemStatus)e.NewValue).ToString());

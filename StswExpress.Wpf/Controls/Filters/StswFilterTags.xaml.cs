@@ -23,37 +23,7 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterTags), new FrameworkPropertyMetadata(typeof(StswFilterTags)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswFilterTagsItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswFilterTagsItem;
-
-    #region Events & methods
-    /// <summary>
-    /// Sets the selected tag as included or excluded based on the provided item.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    public string? GetTagDisplayValue(object? item)
-    {
-        if (item == null)
-            return null;
-
-        if (item is string str)
-            return str;
-
-        if (!string.IsNullOrWhiteSpace(DisplayMemberPath))
-            if (item.GetPropertyValue(DisplayMemberPath) is string value)
-                return value;
-
-        return null;
-    }
-
-    /// <summary>
-    /// Updates the string representation of the selected tags based on the included and excluded tags.
-    /// </summary>
-    public void UpdateSelectedTagsString() => SelectedTags = string.Join(" ", IncludedTags.Concat(ExcludedTags.Select(t => "-" + t)));
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Determines whether the user is allowed to enter custom tags that are not part of the ItemsSource.
     /// </summary>
@@ -66,6 +36,32 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         DependencyProperty.Register(
             nameof(AllowCustomTags),
             typeof(bool),
+            typeof(StswFilterTags)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswFilterTags)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswFilterTags)
         );
 
@@ -88,9 +84,7 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
         );
     private static void OnSelectedTagsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswFilterTags stsw)
-            return;
-
+        var stsw = (StswFilterTags)d;
         if (e.NewValue is not string str)
             return;
 
@@ -144,31 +138,37 @@ public class StswFilterTags : ItemsControl, IStswCornerControl
     public IList<string> ExcludedTags { get; } = [];
     #endregion
 
-    #region Style properties
+    #region Overrides
     /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswFilterTags)
-        );
+    protected override DependencyObject GetContainerForItemOverride() => new StswFilterTagsItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswFilterTagsItem;
+    #endregion
 
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    #region Logic
+    /// <summary>
+    /// Sets the selected tag as included or excluded based on the provided item.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public string? GetTagDisplayValue(object? item)
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        if (item == null)
+            return null;
+
+        if (item is string str)
+            return str;
+
+        if (!string.IsNullOrWhiteSpace(DisplayMemberPath))
+            if (item.GetPropertyValue(DisplayMemberPath) is string value)
+                return value;
+
+        return null;
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswFilterTags)
-        );
+
+    /// <summary>
+    /// Updates the string representation of the selected tags based on the included and excluded tags.
+    /// </summary>
+    public void UpdateSelectedTagsString() => SelectedTags = string.Join(" ", IncludedTags.Concat(ExcludedTags.Select(t => "-" + t)));
     #endregion
 }

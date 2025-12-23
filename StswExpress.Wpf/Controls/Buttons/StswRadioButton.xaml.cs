@@ -19,21 +19,66 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswRadioButton : RadioButton, IStswCornerControl
 {
-    private Border? _mainBorder;
-
     static StswRadioButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioButton), new FrameworkPropertyMetadata(typeof(StswRadioButton)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
+    /// </summary>
+    public bool AllowUncheck
+    {
+        get => (bool)GetValue(AllowUncheckProperty);
+        set => SetValue(AllowUncheckProperty, value);
+    }
+    public static readonly DependencyProperty AllowUncheckProperty
+        = DependencyProperty.Register(
+            nameof(AllowUncheck),
+            typeof(bool),
+            typeof(StswRadioButton)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswRadioButton)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswRadioButton)
+        );
+    #endregion
+
+    #region Template
+    private Border? _mainBorder;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         _mainBorder = GetTemplateChild("OPT_MainBorder") as Border;
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
@@ -74,50 +119,5 @@ public class StswRadioButton : RadioButton, IStswCornerControl
 
         base.OnKeyDown(e);
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the radio button can be unchecked by clicking it again when it is already checked.
-    /// </summary>
-    public bool AllowUncheck
-    {
-        get => (bool)GetValue(AllowUncheckProperty);
-        set => SetValue(AllowUncheckProperty, value);
-    }
-    public static readonly DependencyProperty AllowUncheckProperty
-        = DependencyProperty.Register(
-            nameof(AllowUncheck),
-            typeof(bool),
-            typeof(StswRadioButton)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswRadioButton)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswRadioButton)
-        );
     #endregion
 }

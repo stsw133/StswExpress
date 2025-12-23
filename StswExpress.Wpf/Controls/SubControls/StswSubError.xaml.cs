@@ -28,7 +28,7 @@ public class StswSubError : StswSubLabel
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(typeof(StswSubError)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a read-only collection of validation errors displayed in the control's tooltip.
     /// </summary>

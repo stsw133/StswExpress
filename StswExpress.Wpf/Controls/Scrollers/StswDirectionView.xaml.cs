@@ -29,19 +29,87 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswDirectionView : ScrollViewer
 {
-    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
-    private DispatcherTimer? _autoScrollTimer;
-    private Action? _currentScrollAction;
-    private bool _isLeftMouseDown;
-    private readonly Dictionary<ButtonBase, double> _expandedLengths = [];
-    private bool _templateApplied;
-
     static StswDirectionView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(typeof(StswDirectionView)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the thickness of the back (up and left) buttons.
+    /// </summary>
+    public Thickness BBtnThickness
+    {
+        get => (Thickness)GetValue(BBtnThicknessProperty);
+        set => SetValue(BBtnThicknessProperty, value);
+    }
+    public static readonly DependencyProperty BBtnThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BBtnThickness),
+            typeof(Thickness),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the dynamic visibility mode for the directional buttons.
+    /// </summary>
+    public StswDynamicVisibilityMode DynamicMode
+    {
+        get => (StswDynamicVisibilityMode)GetValue(DynamicModeProperty);
+        set => SetValue(DynamicModeProperty, value);
+    }
+    public static readonly DependencyProperty DynamicModeProperty
+        = DependencyProperty.Register(
+            nameof(DynamicMode),
+            typeof(StswDynamicVisibilityMode),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
+        );
+    private static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDirectionView)d;
+        stsw.ApplyDynamicMode();
+    }
+
+    /// <summary>
+    /// Gets or sets the thickness of the forward (down and right) buttons.
+    /// </summary>
+    public Thickness FBtnThickness
+    {
+        get => (Thickness)GetValue(FBtnThicknessProperty);
+        set => SetValue(FBtnThicknessProperty, value);
+    }
+    public static readonly DependencyProperty FBtnThicknessProperty
+        = DependencyProperty.Register(
+            nameof(FBtnThickness),
+            typeof(Thickness),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the orientation of the control (horizontal or vertical).
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswDirectionView),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+    #endregion
+
+    #region Template
+    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
+    private readonly Dictionary<ButtonBase, double> _expandedLengths = [];
+    private bool _templateApplied;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -100,6 +168,10 @@ public class StswDirectionView : ScrollViewer
             ApplyDynamicMode();
         }), DispatcherPriority.Loaded);
     }
+    #endregion
+
+    #region Overrides
+    private bool _isLeftMouseDown;
 
     /// <inheritdoc/>
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -185,6 +257,11 @@ public class StswDirectionView : ScrollViewer
                 _btnDown.IsEnabled = e.VerticalOffset + e.ViewportHeight < e.ExtentHeight;
         }
     }
+    #endregion
+
+    #region Logic
+    private DispatcherTimer? _autoScrollTimer;
+    private Action? _currentScrollAction;
 
     /// <summary>
     /// Handles changes in horizontal offset.
@@ -292,7 +369,9 @@ public class StswDirectionView : ScrollViewer
 
         StopAutoScrollTimer();
     }
+    #endregion
 
+    #region Auto scroll logic
     /// <summary>
     /// Starts a timer to repeatedly invoke the current scroll action using the specified interval.
     /// The action will be invoked at regular intervals while the mouse is over the button and the left mouse button is pressed.
@@ -335,129 +414,6 @@ public class StswDirectionView : ScrollViewer
             _autoScrollTimer = null;
         }
         _currentScrollAction = null;
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    ///
-    /// </summary>
-    public StswDynamicVisibilityMode DynamicMode
-    {
-        get => (StswDynamicVisibilityMode)GetValue(DynamicModeProperty);
-        set => SetValue(DynamicModeProperty, value);
-    }
-    public static readonly DependencyProperty DynamicModeProperty
-        = DependencyProperty.Register(
-            nameof(DynamicMode),
-            typeof(StswDynamicVisibilityMode),
-            typeof(StswDirectionView),
-            new FrameworkPropertyMetadata(default(StswDynamicVisibilityMode), OnDynamicModeChanged)
-        );
-    private static void OnDynamicModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDirectionView stsw)
-            return;
-
-        stsw.ApplyDynamicMode();
-    }
-
-    /// <summary>
-    /// Gets or sets the orientation of the control (horizontal or vertical).
-    /// </summary>
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
-            typeof(StswDirectionView),
-            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the back (up and left) buttons.
-    /// </summary>
-    public Thickness BBtnThickness
-    {
-        get => (Thickness)GetValue(BBtnThicknessProperty);
-        set => SetValue(BBtnThicknessProperty, value);
-    }
-    public static readonly DependencyProperty BBtnThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BBtnThickness),
-            typeof(Thickness),
-            typeof(StswDirectionView),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the forward (down and right) buttons.
-    /// </summary>
-    public Thickness FBtnThickness
-    {
-        get => (Thickness)GetValue(FBtnThicknessProperty);
-        set => SetValue(FBtnThicknessProperty, value);
-    }
-    public static readonly DependencyProperty FBtnThicknessProperty
-        = DependencyProperty.Register(
-            nameof(FBtnThickness),
-            typeof(Thickness),
-            typeof(StswDirectionView),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-    #endregion
-
-    #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.")]
-    protected new Brush? BorderBrush
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.")]
-    protected new Thickness? BorderThicknessProperty
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(Padding)} is not supported in {nameof(StswDirectionView)}.")]
-    protected new HorizontalAlignment HorizontalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
-    }
-
-    [Bindable(false)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.")]
-    protected new VerticalAlignment VerticalContentAlignment
-    {
-        get => default;
-        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
     }
     #endregion
 
@@ -861,6 +817,54 @@ public class StswDirectionView : ScrollViewer
         button.MouseLeave -= HandleMouseLeaveFromButton;
         button.IsVisibleChanged -= Button_IsVisibleChanged;
         button = null;
+    }
+    #endregion
+
+    #region Excluded properties
+    /// The following properties are hidden from the designer and serialization:
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new Brush? BorderBrush
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderBrush)} is not supported in {nameof(StswDirectionView)}.");
+    }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new Thickness? BorderThicknessProperty
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(BorderThickness)} is not supported in {nameof(StswDirectionView)}.");
+    }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(Padding)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new HorizontalAlignment HorizontalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(HorizontalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
+    }
+
+    [Bindable(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.")]
+    protected new VerticalAlignment VerticalContentAlignment
+    {
+        get => default;
+        set => throw new NotSupportedException($"{nameof(VerticalContentAlignment)} is not supported in {nameof(StswDirectionView)}.");
     }
     #endregion
 }

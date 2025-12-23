@@ -28,15 +28,87 @@ public class StswPieChart : ItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPieChart), new FrameworkPropertyMetadata(typeof(StswPieChart)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswPieChartItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswPieChartItem;
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the minimum percentage threshold below which percentage labels are hidden.
+    /// Segments with a percentage value lower than this threshold will not display their labels.
+    /// </summary>
+    public double MinPercentageRender
+    {
+        get => (double)GetValue(MinPercentageRenderProperty);
+        set => SetValue(MinPercentageRenderProperty, value);
+    }
+    public static readonly DependencyProperty MinPercentageRenderProperty
+        = DependencyProperty.Register(
+            nameof(MinPercentageRender),
+            typeof(double),
+            typeof(StswPieChart),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is not StswPieChart stsw)
+            return;
 
-    #region Events & methods
+        stsw.RequestChartUpdate();
+    }
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the pie chart's segments.
+    /// Valid values range between 1 and 500, affecting the width of the pie slices.
+    /// </summary>
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty StrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(StrokeThickness),
+            typeof(double),
+            typeof(StswPieChart),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is not StswPieChart stsw)
+            return;
+
+        stsw.RequestChartUpdate();
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         RequestChartUpdate();
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswPieChartItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswPieChartItem;
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswPieChartItem c)
+            c.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswPieChartItem c)
+            c.ValueChanged += OnItemValueChanged;
     }
 
     /// <inheritdoc/>
@@ -45,21 +117,15 @@ public class StswPieChart : ItemsControl
         base.OnItemsChanged(e);
         RequestChartUpdate();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Handles the ValueChanged event of an item and triggers chart regeneration.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The event data.</param>
     private void OnItemValueChanged(object? sender, EventArgs e) => RequestChartUpdate();
-
-    /// <inheritdoc/>
-    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-    {
-        if (element is StswPieChartItem c)
-            c.ValueChanged -= OnItemValueChanged;
-        base.ClearContainerForItemOverride(element, item);
-    }
 
     /// <summary>
     /// Retrieves all the pie chart item containers.
@@ -70,14 +136,6 @@ public class StswPieChart : ItemsControl
         for (var i = 0; i < Items.Count; i++)
             if (ItemContainerGenerator.ContainerFromIndex(i) is StswPieChartItem c)
                 yield return c;
-    }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswPieChartItem c)
-            c.ValueChanged += OnItemValueChanged;
     }
 
     /// <summary>
@@ -172,60 +230,6 @@ public class StswPieChart : ItemsControl
 
             item.StrokeDashArray = new DoubleCollection([dash, 100.0]);
         }
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the minimum percentage threshold below which percentage labels are hidden.
-    /// Segments with a percentage value lower than this threshold will not display their labels.
-    /// </summary>
-    public double MinPercentageRender
-    {
-        get => (double)GetValue(MinPercentageRenderProperty);
-        set => SetValue(MinPercentageRenderProperty, value);
-    }
-    public static readonly DependencyProperty MinPercentageRenderProperty
-        = DependencyProperty.Register(
-            nameof(MinPercentageRender),
-            typeof(double),
-            typeof(StswPieChart),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswPieChart stsw)
-            return;
-
-        stsw.RequestChartUpdate();
-    }
-
-    /// <summary>
-    /// Gets or sets the stroke thickness of the pie chart's segments.
-    /// Valid values range between 1 and 500, affecting the width of the pie slices.
-    /// </summary>
-    public double StrokeThickness
-    {
-        get => (double)GetValue(StrokeThicknessProperty);
-        set => SetValue(StrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty StrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(StrokeThickness),
-            typeof(double),
-            typeof(StswPieChart),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswPieChart stsw)
-            return;
-
-        stsw.RequestChartUpdate();
     }
     #endregion
 }

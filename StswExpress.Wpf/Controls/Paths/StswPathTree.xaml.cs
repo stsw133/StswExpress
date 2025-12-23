@@ -26,25 +26,187 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures | StswPlannedChanges.Refactor, "Currently there are many bugs. Needs improvements and fixes.")]
 public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
 {
-    public StswPathTree()
-    {
-        AddHandler(TreeViewItem.ExpandedEvent, new RoutedEventHandler(OnTreeViewItemExpanded));
-    }
     static StswPathTree()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathTree), new FrameworkPropertyMetadata(typeof(StswPathTree)));
     }
+    public StswPathTree()
+    {
+        AddHandler(TreeViewItem.ExpandedEvent, new RoutedEventHandler(OnTreeViewItemExpanded));
+    }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPathTree)
+        );
 
-    #region Events & methods
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswPathTree)
+        );
+
+    /// <summary>
+    /// Gets or sets the file filter used to limit visible files in the tree.
+    /// Matches the format used by file dialogs (e.g., "Text Files|*.txt;*.md").
+    /// </summary>
+    public string Filter
+    {
+        get => (string)GetValue(FilterProperty);
+        set => SetValue(FilterProperty, value);
+    }
+    public static readonly DependencyProperty FilterProperty
+        = DependencyProperty.Register(
+            nameof(Filter),
+            typeof(string),
+            typeof(StswPathTree),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilterChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswPathTree)d;
+        if (stsw.ShowFiles)
+            stsw.ReloadInitialPath();
+    }
+
+    /// <summary>
+    /// Gets or sets the initial path to be loaded into the file tree.
+    /// If not set, logical drives will be displayed as the root items.
+    /// This property defines the starting point for loading directories or files in the control.
+    /// </summary>
+    public string? InitialPath
+    {
+        get => (string?)GetValue(InitialPathProperty);
+        set => SetValue(InitialPathProperty, value);
+    }
+    public static readonly DependencyProperty InitialPathProperty
+        = DependencyProperty.Register(
+            nameof(InitialPath),
+            typeof(string),
+            typeof(StswPathTree),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnInitialPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnInitialPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswPathTree)d;
+        stsw.ReloadInitialPath();
+        stsw.SetCurrentValue(SelectedPathProperty, null);
+    }
+
+    /// <inheritdoc/>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswPathTree)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected path in the control.
+    /// This property represents the file or directory that is currently selected by the user.
+    /// </summary>
+    public string? SelectedPath
+    {
+        get => (string?)GetValue(SelectedPathProperty);
+        set => SetValue(SelectedPathProperty, value);
+    }
+    public static readonly DependencyProperty SelectedPathProperty
+        = DependencyProperty.Register(
+            nameof(SelectedPath),
+            typeof(string),
+            typeof(StswPathTree),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static async void OnSelectedPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswPathTree)d;
+
+        if (e.NewValue is string newPath && !string.IsNullOrWhiteSpace(newPath))
+            await stsw.SelectPathAsync(newPath);
+        else
+            stsw.ResetTreeSelection();
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether files should be shown in addition to folders in the tree.
+    /// If true, both files and directories are shown in the control. If false, only directories are shown.
+    /// </summary>
+    public bool ShowFiles
+    {
+        get => (bool)GetValue(ShowFilesProperty);
+        set => SetValue(ShowFilesProperty, value);
+    }
+    public static readonly DependencyProperty ShowFilesProperty
+        = DependencyProperty.Register(
+            nameof(ShowFiles),
+            typeof(bool),
+            typeof(StswPathTree),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnShowFilesChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnShowFilesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswPathTree)d;
+        stsw.ReloadInitialPath();
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
         OnInitialPathChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswTreeViewItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTreeViewItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswTreeViewItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
     }
 
     /// <inheritdoc/>
@@ -78,22 +240,9 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             SelectedPath = e.NewValue is StswPathTreeItem fileItem ? fileItem.FullPath : null;
     }
     private bool _isSelectingPath = false;
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is StswTreeViewItem listBoxItem)
-        {
-            listBoxItem.SetBinding(StswTreeViewItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
-            {
-                Source = this,
-                Mode = BindingMode.OneWay
-            });
-        }
-    }
-
+    #region Logic
     /// <summary>
     /// Recursively removes selection from all <see cref="TreeViewItem"/> instances within the provided container.
     /// </summary>
@@ -320,158 +469,5 @@ public class StswPathTree : TreeView, IStswCornerControl, IStswSelectionControl
             _isSelectingPath = false;
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the file filter used to limit visible files in the tree.
-    /// Matches the format used by file dialogs (e.g., "Text Files|*.txt;*.md").
-    /// </summary>
-    public string Filter
-    {
-        get => (string)GetValue(FilterProperty);
-        set => SetValue(FilterProperty, value);
-    }
-    public static readonly DependencyProperty FilterProperty
-        = DependencyProperty.Register(
-            nameof(Filter),
-            typeof(string),
-            typeof(StswPathTree),
-            new FrameworkPropertyMetadata(default(string),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFilterChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswPathTree stsw)
-            return;
-
-        if (stsw.ShowFiles)
-            stsw.ReloadInitialPath();
-    }
-
-    /// <summary>
-    /// Gets or sets the initial path to be loaded into the file tree.
-    /// If not set, logical drives will be displayed as the root items.
-    /// This property defines the starting point for loading directories or files in the control.
-    /// </summary>
-    public string? InitialPath
-    {
-        get => (string?)GetValue(InitialPathProperty);
-        set => SetValue(InitialPathProperty, value);
-    }
-    public static readonly DependencyProperty InitialPathProperty
-        = DependencyProperty.Register(
-            nameof(InitialPath),
-            typeof(string),
-            typeof(StswPathTree),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnInitialPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnInitialPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswPathTree stsw)
-            return;
-
-        stsw.ReloadInitialPath();
-        stsw.SetCurrentValue(SelectedPathProperty, null);
-    }
-
-    /// <inheritdoc/>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswPathTree)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected path in the control.
-    /// This property represents the file or directory that is currently selected by the user.
-    /// </summary>
-    public string? SelectedPath
-    {
-        get => (string?)GetValue(SelectedPathProperty);
-        set => SetValue(SelectedPathProperty, value);
-    }
-    public static readonly DependencyProperty SelectedPathProperty
-        = DependencyProperty.Register(
-            nameof(SelectedPath),
-            typeof(string),
-            typeof(StswPathTree),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static async void OnSelectedPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswPathTree stsw)
-            return;
-
-        if (e.NewValue is string newPath && !string.IsNullOrWhiteSpace(newPath))
-            await stsw.SelectPathAsync(newPath);
-        else
-            stsw.ResetTreeSelection();
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether files should be shown in addition to folders in the tree.
-    /// If true, both files and directories are shown in the control. If false, only directories are shown.
-    /// </summary>
-    public bool ShowFiles
-    {
-        get => (bool)GetValue(ShowFilesProperty);
-        set => SetValue(ShowFilesProperty, value);
-    }
-    public static readonly DependencyProperty ShowFilesProperty
-        = DependencyProperty.Register(
-            nameof(ShowFiles),
-            typeof(bool),
-            typeof(StswPathTree),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnShowFilesChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnShowFilesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswPathTree stsw)
-            return;
-
-        stsw.ReloadInitialPath();
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswPathTree)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswPathTree)
-        );
     #endregion
 }

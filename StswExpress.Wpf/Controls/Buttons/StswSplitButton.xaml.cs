@@ -29,7 +29,7 @@ public class StswSplitButton : StswDropButton
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
     }
 
-    #region Style properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the thickness of the separator between the main button and the drop-down arrow.
     /// </summary>

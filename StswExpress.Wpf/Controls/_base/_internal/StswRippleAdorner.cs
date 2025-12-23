@@ -76,7 +76,6 @@ internal class StswRippleAdorner : Adorner
     /// <inheritdoc/>
     protected override int VisualChildrenCount => 1;
 
-    #region Animations
     /// <summary>
     /// Starts the animation of the ripple effect, scaling the ellipse from a small size to its full size
     /// while fading out its opacity.
@@ -110,5 +109,4 @@ internal class StswRippleAdorner : Adorner
 
         sb.Begin(_ellipse);
     }
-    #endregion
 }

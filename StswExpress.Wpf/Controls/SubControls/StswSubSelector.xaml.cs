@@ -26,50 +26,42 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Items))]
 public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
-    private Popup? _popup;
-
-    bool IStswDropControl.SuppressNextOpen { get; set; }
-
-    public StswSubSelector()
-    {
-        SetValue(ItemsProperty, new ObservableCollection<IStswSubControl>());
-    }
     static StswSubSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(typeof(StswSubSelector)));
     }
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public StswSubSelector()
     {
-        base.OnApplyTemplate();
-
-        if (_popup?.Child != null)
-            _popup.Child.MouseLeave -= PopupChild_MouseLeave;
-
-        /// StswPopup: popup
-        _popup = GetTemplateChild("PART_Popup") as Popup;
-        if (_popup?.Child != null)
-            _popup.Child.MouseLeave += PopupChild_MouseLeave;
+        SetValue(ItemsProperty, new ObservableCollection<IStswSubControl>());
     }
 
+    #region Dependency properties
     /// <inheritdoc/>
-    protected override void OnMouseEnter(MouseEventArgs e)
+    public bool CornerClipping
     {
-        base.OnMouseEnter(e);
-        IsDropDownOpen = true;
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswSubSelector)
+        );
 
-    /// <summary>
-    /// Handles the MouseLeave event of the popup child to close the drop-down.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-    private void PopupChild_MouseLeave(object sender, MouseEventArgs e) => IsDropDownOpen = false;
-    #endregion
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSubSelector)
+        );
 
-    #region Logic properties
     /// <inheritdoc/>
     public Geometry? IconData
     {
@@ -84,6 +76,20 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <inheritdoc/>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -94,6 +100,34 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             nameof(IconScale),
             typeof(GridLength),
             typeof(StswSubSelector)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <inheritdoc/>
@@ -151,90 +185,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         );
 
     /// <inheritdoc/>
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswSubSelector)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswSubSelector)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
-    public static readonly DependencyProperty IconFillProperty
-        = DependencyProperty.Register(
-            nameof(IconFill),
-            typeof(Brush),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconStroke
-    {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeProperty
-        = DependencyProperty.Register(
-            nameof(IconStroke),
-            typeof(Brush),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public double IconStrokeThickness
-    {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswSubSelector),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
     public double MaxDropDownHeight
     {
         get => (double)GetValue(MaxDropDownHeightProperty);
@@ -261,5 +211,71 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(StswSubSelector),
             new PropertyMetadata(double.NaN)
         );
+
+    /// <inheritdoc/>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswSubSelector),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
+        );
+    #endregion
+
+    #region Template
+    private Popup? _popup;
+
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        DetachTemplateEvents();
+        _popup = GetTemplateChild("PART_Popup") as Popup;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_popup?.Child != null)
+            _popup.Child.MouseLeave += PopupChild_MouseLeave;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_popup?.Child != null)
+            _popup.Child.MouseLeave -= PopupChild_MouseLeave;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnMouseEnter(MouseEventArgs e)
+    {
+        base.OnMouseEnter(e);
+        IsDropDownOpen = true;
+    }
+    #endregion
+
+    #region Logic
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
+    /// <summary>
+    /// Handles the MouseLeave event of the popup child to close the drop-down.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+    private void PopupChild_MouseLeave(object sender, MouseEventArgs e) => IsDropDownOpen = false;
     #endregion
 }

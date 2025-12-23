@@ -25,25 +25,245 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Refactor)]
 public class StswContentDialog : ContentControl
 {
-    private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
-    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
-    private ContentControl? _popupContentElement;
-    private UIElement? _backdropElement;
-    private IInputElement? _restoreFocusDialogClose;
-    private bool _isClosingFromSession;
     public StswDialogSession? CurrentSession { get; private set; }
 
+    static StswContentDialog()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContentDialog), new FrameworkPropertyMetadata(typeof(StswContentDialog)));
+    }
     public StswContentDialog()
     {
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-    static StswContentDialog()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether clicking the dialog backdrop closes the dialog.
+    /// </summary>
+    public bool CloseOnBackdropClick
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContentDialog), new FrameworkPropertyMetadata(typeof(StswContentDialog)));
+        get => (bool)GetValue(CloseOnBackdropClickProperty);
+        set => SetValue(CloseOnBackdropClickProperty, value);
+    }
+    public static readonly DependencyProperty CloseOnBackdropClickProperty
+        = DependencyProperty.Register(
+            nameof(CloseOnBackdropClick),
+            typeof(bool),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the background brush of the dialog.
+    /// </summary>
+    public Brush DialogBackground
+    {
+        get => (Brush)GetValue(DialogBackgroundProperty);
+        set => SetValue(DialogBackgroundProperty, value);
+    }
+    public static readonly DependencyProperty DialogBackgroundProperty
+        = DependencyProperty.Register(
+            nameof(DialogBackground),
+            typeof(Brush),
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the content displayed within the dialog.
+    /// </summary>
+    public object? DialogContent
+    {
+        get => GetValue(DialogContentProperty);
+        set => SetValue(DialogContentProperty, value);
+    }
+    public static readonly DependencyProperty DialogContentProperty
+        = DependencyProperty.Register(
+            nameof(DialogContent),
+            typeof(object),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the string format applied to the dialog content.
+    /// </summary>
+    public string? DialogContentStringFormat
+    {
+        get => (string?)GetValue(DialogContentStringFormatProperty);
+        set => SetValue(DialogContentStringFormatProperty, value);
+    }
+    public static readonly DependencyProperty DialogContentStringFormatProperty
+        = DependencyProperty.Register(
+            nameof(DialogContentStringFormat),
+            typeof(string),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the data template used to display the dialog content.
+    /// </summary>
+    public DataTemplate? DialogContentTemplate
+    {
+        get => (DataTemplate?)GetValue(DialogContentTemplateProperty);
+        set => SetValue(DialogContentTemplateProperty, value);
+    }
+    public static readonly DependencyProperty DialogContentTemplateProperty
+        = DependencyProperty.Register(
+            nameof(DialogContentTemplate),
+            typeof(DataTemplate),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the template selector used to determine the appropriate data template for the dialog content.
+    /// </summary>
+    public DataTemplateSelector? DialogContentTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(DialogContentTemplateSelectorProperty);
+        set => SetValue(DialogContentTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty DialogContentTemplateSelectorProperty
+        = DependencyProperty.Register(
+            nameof(DialogContentTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets the margin applied to the dialog.
+    /// </summary>
+    public Thickness DialogMargin
+    {
+        get => (Thickness)GetValue(DialogMarginProperty);
+        set => SetValue(DialogMarginProperty, value);
+    }
+    public static readonly DependencyProperty DialogMarginProperty
+        = DependencyProperty.Register(
+            nameof(DialogMargin),
+            typeof(Thickness),
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets the identifier used to determine where a dialog should be displayed.
+    /// </summary>
+    public object? Identifier
+    {
+        get => GetValue(IdentifierProperty);
+        set => SetValue(IdentifierProperty, value);
+    }
+    public static readonly DependencyProperty IdentifierProperty
+        = DependencyProperty.Register(
+            nameof(Identifier),
+            typeof(object),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the content dialog is currently open.
+    /// </summary>
+    public bool IsOpen
+    {
+        get => (bool)GetValue(IsOpenProperty);
+        set => SetValue(IsOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsOpen),
+            typeof(bool),
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswContentDialog)d;
+
+        VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
+
+        if (!stsw.IsOpen)
+        {
+            object? closeParameter = stsw._isClosingFromSession
+                ? stsw.CloseModalSession()
+                : stsw.CloseViaIsOpen();
+
+            stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
+            stsw._dialogTaskCompletionSource = null;
+            stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
+
+            return;
+        }
+
+        stsw.CurrentSession = new StswDialogSession(stsw);
+        var window = Window.GetWindow(stsw);
+        if (!stsw.IsRestoreFocusDisabled)
+        {
+            stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
+            if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
+                stsw._restoreFocusDialogClose = focusOverride;
+        }
+
+        stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            CommandManager.InvalidateRequerySuggested();
+            var child = stsw.FocusPopup();
+            if (child != null)
+                Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
+        }));
     }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets a value indicating whether the focus restoration after the dialog is closed is disabled.
+    /// </summary>
+    public bool IsRestoreFocusDisabled
+    {
+        get => (bool)GetValue(IsRestoreFocusDisabledProperty);
+        set => SetValue(IsRestoreFocusDisabledProperty, value);
+    }
+    public static readonly DependencyProperty IsRestoreFocusDisabledProperty
+        = DependencyProperty.Register(
+            nameof(IsRestoreFocusDisabled),
+            typeof(bool),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// Identifies the RestoreFocusElement attached property.
+    /// </summary>
+    public static readonly DependencyProperty RestoreFocusElementProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(RestoreFocusElementProperty)[..^8],
+            typeof(IInputElement),
+            typeof(StswContentDialog)
+        );
+    public static IInputElement GetRestoreFocusElement(DependencyObject element) => (IInputElement)element.GetValue(RestoreFocusElementProperty);
+    public static void SetRestoreFocusElement(DependencyObject element, IInputElement value) => element.SetValue(RestoreFocusElementProperty, value);
+    #endregion
+
+    #region Template
+    private static readonly HashSet<WeakReference<StswContentDialog>> _loadedInstances = [];
+    private ContentControl? _popupContentElement;
+    private UIElement? _backdropElement;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -86,6 +306,12 @@ public class StswContentDialog : ContentControl
                 break;
             }
     }
+    #endregion
+
+    #region Logic
+    private TaskCompletionSource<object?>? _dialogTaskCompletionSource;
+    private IInputElement? _restoreFocusDialogClose;
+    private bool _isClosingFromSession;
 
     /// <summary>
     /// Handles mouse click events on the backdrop to close the dialog if configured to do so.
@@ -305,231 +531,6 @@ public class StswContentDialog : ContentControl
         }
         //throw new InvalidOperationException("DialogHost is not open.");
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether clicking the dialog backdrop closes the dialog.
-    /// </summary>
-    public bool CloseOnBackdropClick
-    {
-        get => (bool)GetValue(CloseOnBackdropClickProperty);
-        set => SetValue(CloseOnBackdropClickProperty, value);
-    }
-    public static readonly DependencyProperty CloseOnBackdropClickProperty
-        = DependencyProperty.Register(
-            nameof(CloseOnBackdropClick),
-            typeof(bool),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the content displayed within the dialog.
-    /// </summary>
-    public object? DialogContent
-    {
-        get => GetValue(DialogContentProperty);
-        set => SetValue(DialogContentProperty, value);
-    }
-    public static readonly DependencyProperty DialogContentProperty
-        = DependencyProperty.Register(
-            nameof(DialogContent),
-            typeof(object),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the string format applied to the dialog content.
-    /// </summary>
-    public string? DialogContentStringFormat
-    {
-        get => (string?)GetValue(DialogContentStringFormatProperty);
-        set => SetValue(DialogContentStringFormatProperty, value);
-    }
-    public static readonly DependencyProperty DialogContentStringFormatProperty
-        = DependencyProperty.Register(
-            nameof(DialogContentStringFormat),
-            typeof(string),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the data template used to display the dialog content.
-    /// </summary>
-    public DataTemplate? DialogContentTemplate
-    {
-        get => (DataTemplate?)GetValue(DialogContentTemplateProperty);
-        set => SetValue(DialogContentTemplateProperty, value);
-    }
-    public static readonly DependencyProperty DialogContentTemplateProperty
-        = DependencyProperty.Register(
-            nameof(DialogContentTemplate),
-            typeof(DataTemplate),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the template selector used to determine the appropriate data template for the dialog content.
-    /// </summary>
-    public DataTemplateSelector? DialogContentTemplateSelector
-    {
-        get => (DataTemplateSelector?)GetValue(DialogContentTemplateSelectorProperty);
-        set => SetValue(DialogContentTemplateSelectorProperty, value);
-    }
-    public static readonly DependencyProperty DialogContentTemplateSelectorProperty
-        = DependencyProperty.Register(
-            nameof(DialogContentTemplateSelector),
-            typeof(DataTemplateSelector),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the margin applied to the dialog.
-    /// </summary>
-    public Thickness DialogMargin
-    {
-        get => (Thickness)GetValue(DialogMarginProperty);
-        set => SetValue(DialogMarginProperty, value);
-    }
-    public static readonly DependencyProperty DialogMarginProperty
-        = DependencyProperty.Register(
-            nameof(DialogMargin),
-            typeof(Thickness),
-            typeof(StswContentDialog),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
-
-    /// <summary>
-    /// Gets or sets the identifier used to determine where a dialog should be displayed.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the content dialog is currently open.
-    /// </summary>
-    public bool IsOpen
-    {
-        get => (bool)GetValue(IsOpenProperty);
-        set => SetValue(IsOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsOpen),
-            typeof(bool),
-            typeof(StswContentDialog),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnIsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswContentDialog stsw)
-            return;
-
-        VisualStateManager.GoToState(stsw, stsw.GetStateName(), true);
-
-        if (!stsw.IsOpen)
-        {
-            object? closeParameter = stsw._isClosingFromSession
-                ? stsw.CloseModalSession()
-                : stsw.CloseViaIsOpen();
-
-            stsw._dialogTaskCompletionSource?.TrySetResult(closeParameter);
-            stsw._dialogTaskCompletionSource = null;
-            stsw.Dispatcher.InvokeAsync(() => stsw._restoreFocusDialogClose?.Focus(), DispatcherPriority.Input);
-
-            return;
-        }
-
-        stsw.CurrentSession = new StswDialogSession(stsw);
-        var window = Window.GetWindow(stsw);
-        if (!stsw.IsRestoreFocusDisabled)
-        {
-            stsw._restoreFocusDialogClose = window != null ? FocusManager.GetFocusedElement(window) : null;
-            if (stsw._restoreFocusDialogClose is DependencyObject dependencyObj && GetRestoreFocusElement(dependencyObj) is { } focusOverride)
-                stsw._restoreFocusDialogClose = focusOverride;
-        }
-
-        stsw.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-        {
-            CommandManager.InvalidateRequerySuggested();
-            var child = stsw.FocusPopup();
-            if (child != null)
-                Task.Delay(300).ContinueWith(t => child.Dispatcher.BeginInvoke(new Action(() => child.InvalidateVisual())));
-        }));
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the focus restoration after the dialog is closed is disabled.
-    /// </summary>
-    public bool IsRestoreFocusDisabled
-    {
-        get => (bool)GetValue(IsRestoreFocusDisabledProperty);
-        set => SetValue(IsRestoreFocusDisabledProperty, value);
-    }
-    public static readonly DependencyProperty IsRestoreFocusDisabledProperty
-        = DependencyProperty.Register(
-            nameof(IsRestoreFocusDisabled),
-            typeof(bool),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Identifies the RestoreFocusElement attached property.
-    /// </summary>
-    public static readonly DependencyProperty RestoreFocusElementProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(RestoreFocusElementProperty)[..^8],
-            typeof(IInputElement),
-            typeof(StswContentDialog)
-        );
-    public static IInputElement GetRestoreFocusElement(DependencyObject element) => (IInputElement)element.GetValue(RestoreFocusElementProperty);
-    public static void SetRestoreFocusElement(DependencyObject element, IInputElement value) => element.SetValue(RestoreFocusElementProperty, value);
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// Gets or sets the background brush of the dialog.
-    /// </summary>
-    public Brush DialogBackground
-    {
-        get => (Brush)GetValue(DialogBackgroundProperty);
-        set => SetValue(DialogBackgroundProperty, value);
-    }
-    public static readonly DependencyProperty DialogBackgroundProperty
-        = DependencyProperty.Register(
-            nameof(DialogBackground),
-            typeof(Brush),
-            typeof(StswContentDialog),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }
 

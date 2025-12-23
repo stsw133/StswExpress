@@ -18,26 +18,42 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Text))]
 public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
-    public StswTextBox()
-    {
-        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
-    }
     static StswTextBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
-
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override void OnKeyDown(KeyEventArgs e)
+    public StswTextBox()
     {
-        base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            GetBindingExpression(TextProperty)?.UpdateSource();
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
-    #endregion
 
-    #region Logic properties
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTextBox)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswTextBox)
+        );
+
     /// <inheritdoc/>
     public ReadOnlyObservableCollection<ValidationError> Errors
     {
@@ -104,31 +120,13 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
     #endregion
 
-    #region Style properties
+    #region Overrides
     /// <inheritdoc/>
-    public bool CornerClipping
+    protected override void OnKeyDown(KeyEventArgs e)
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        base.OnKeyDown(e);
+        if (!AcceptsReturn && e.Key == Key.Enter)
+            GetBindingExpression(TextProperty)?.UpdateSource();
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswTextBox)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswTextBox)
-        );
     #endregion
 }

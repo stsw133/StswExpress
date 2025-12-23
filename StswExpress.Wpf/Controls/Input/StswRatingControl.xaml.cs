@@ -22,16 +22,298 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswRatingControl : Control, IStswIconControl
 {
-    public StswRatingControl()
-    {
-        SetValue(ItemsProperty, new ObservableCollection<StswRatingItem>());
-    }
     static StswRatingControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRatingControl), new FrameworkPropertyMetadata(typeof(StswRatingControl)));
     }
+    public StswRatingControl()
+    {
+        SetValue(ItemsProperty, new ObservableCollection<StswRatingItem>());
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the expansion direction of the rating items.
+    /// Determines how rating items are laid out (Left, Right, Up, or Down).
+    /// </summary>
+    public ExpandDirection Direction
+    {
+        get => (ExpandDirection)GetValue(DirectionProperty);
+        set => SetValue(DirectionProperty, value);
+    }
+    public static readonly DependencyProperty DirectionProperty
+        = DependencyProperty.Register(
+            nameof(Direction),
+            typeof(ExpandDirection),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(ExpandDirection), OnDirectionChanged)
+        );
+    private static void OnDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRatingControl)d;
+        stsw.Items = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up)
+            ? [.. stsw.Items.OrderByDescending(x => x.Value)]
+            : [.. stsw.Items.OrderBy(x => x.Value)];
+    }
+
+    /// <inheritdoc/>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
+    public static readonly DependencyProperty IconDataProperty
+        = DependencyProperty.Register(
+            nameof(IconData),
+            typeof(Geometry),
+            typeof(StswRatingControl)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswRatingControl)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the rating control is read-only.
+    /// When set to <see langword="true"/>, user input (mouse and keyboard) is disabled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets whether the rating control allows resetting to zero.
+    /// If enabled, users can clear the rating by pressing the Backspace key.
+    /// </summary>
+    public bool IsResetEnabled
+    {
+        get => (bool)GetValue(IsResetEnabledProperty);
+        set => SetValue(IsResetEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsResetEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsResetEnabled),
+            typeof(bool),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of rating items.
+    /// Each item represents a selectable rating level.
+    /// </summary>
+    internal ObservableCollection<StswRatingItem> Items
+    {
+        get => (ObservableCollection<StswRatingItem>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
+    internal static readonly DependencyProperty ItemsProperty
+        = DependencyProperty.Register(
+            nameof(Items),
+            typeof(ObservableCollection<StswRatingItem>),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the number of rating items (icons).
+    /// Defines how many selectable levels exist within the control.
+    /// </summary>
+    public int ItemsNumber
+    {
+        get => (int)GetValue(ItemsNumberProperty);
+        set => SetValue(ItemsNumberProperty, value);
+    }
+    public static readonly DependencyProperty ItemsNumberProperty
+        = DependencyProperty.Register(
+            nameof(ItemsNumber),
+            typeof(int),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(int),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsNumberChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnItemsNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRatingControl)d;
+
+        var val = (int)e.NewValue;
+        if (val < 0)
+            val = 0;
+
+        if (val > stsw.Items.Count)
+        {
+            for (var i = stsw.Items.Count + 1; i <= val; i++)
+            {
+                var newItem = new StswRatingItem { Value = i };
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                    stsw.Items.Insert(0, newItem);
+                else
+                    stsw.Items.Add(newItem);
+            }
+        }
+        else if (val < stsw.Items.Count)
+        {
+            for (var i = stsw.Items.Count - 1; i >= val; i--)
+            {
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                    stsw.Items.RemoveAt(0);
+                else
+                    stsw.Items.RemoveAt(stsw.Items.Count - 1);
+            }
+        }
+
+        if (stsw.Value.HasValue && stsw.Value.Value > val)
+            stsw.Value = val;
+        else
+            stsw.UpdateFillFractions();
+    }
+
+    /// <summary>
+    /// Gets or sets the visibility of the rating item count.
+    /// This property controls whether the number of rating levels is displayed.
+    /// </summary>
+    public Visibility ItemsNumberVisibility
+    {
+        get => (Visibility)GetValue(ItemsNumberVisibilityProperty);
+        set => SetValue(ItemsNumberVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty ItemsNumberVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ItemsNumberVisibility),
+            typeof(Visibility),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets a temporary rating value based on mouse hover.
+    /// Provides a visual preview of the rating before selection.
+    /// </summary>
+    public double? Placeholder
+    {
+        get => (double?)GetValue(PlaceholderProperty);
+        internal set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(double?),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(double?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnPlaceholderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnPlaceholderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRatingControl)d;
+        if (stsw.Placeholder.HasValue)
+            stsw.UpdateFillFractions(stsw.Placeholder.Value, isPlaceholder: true);
+        else
+            stsw.UpdateFillFractions();
+    }
+
+    /// <summary>
+    /// Gets or sets the step value for the rating control.
+    /// </summary>
+    public double Step
+    {
+        get => (double)GetValue(StepProperty);
+        set => SetValue(StepProperty, value);
+    }
+    public static readonly DependencyProperty StepProperty
+        = DependencyProperty.Register(
+            nameof(Step),
+            typeof(double),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected rating value.
+    /// Represents the user's chosen rating level within the control.
+    /// </summary>
+    public double? Value
+    {
+        get => (double?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    public static readonly DependencyProperty ValueProperty
+        = DependencyProperty.Register(
+            nameof(Value),
+            typeof(double?),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(double?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRatingControl)d;
+        if (stsw.Value is < 0 && stsw.IsResetEnabled)
+            stsw.Value = 0;
+        if (stsw.Value > stsw.Items.Count)
+            stsw.Value = stsw.Items.Count;
+        stsw.UpdateFillFractions();
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
@@ -147,7 +429,9 @@ public class StswRatingControl : Control, IStswIconControl
         base.OnMouseLeave(e);
         Placeholder = null;
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Increments the current rating value by the specified direction.
     /// </summary>
@@ -213,299 +497,6 @@ public class StswRatingControl : Control, IStswIconControl
                 item.IsMouseOver = item.FillFraction > 0;
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the expansion direction of the rating items.
-    /// Determines how rating items are laid out (Left, Right, Up, or Down).
-    /// </summary>
-    public ExpandDirection Direction
-    {
-        get => (ExpandDirection)GetValue(DirectionProperty);
-        set => SetValue(DirectionProperty, value);
-    }
-    public static readonly DependencyProperty DirectionProperty
-        = DependencyProperty.Register(
-            nameof(Direction),
-            typeof(ExpandDirection),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(ExpandDirection), OnDirectionChanged)
-        );
-    private static void OnDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRatingControl stsw)
-            return;
-
-        if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-            stsw.Items = [.. stsw.Items.OrderByDescending(x => x.Value)];
-        else
-            stsw.Items = [.. stsw.Items.OrderBy(x => x.Value)];
-    }
-
-    /// <inheritdoc/>
-    public Geometry? IconData
-    {
-        get => (Geometry?)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
-    }
-    public static readonly DependencyProperty IconDataProperty
-        = DependencyProperty.Register(
-            nameof(IconData),
-            typeof(Geometry),
-            typeof(StswRatingControl)
-        );
-
-    /// <inheritdoc/>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the rating control is read-only.
-    /// When set to <see langword="true"/>, user input (mouse and keyboard) is disabled.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets whether the rating control allows resetting to zero.
-    /// If enabled, users can clear the rating by pressing the Backspace key.
-    /// </summary>
-    public bool IsResetEnabled
-    {
-        get => (bool)GetValue(IsResetEnabledProperty);
-        set => SetValue(IsResetEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsResetEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsResetEnabled),
-            typeof(bool),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of rating items.
-    /// Each item represents a selectable rating level.
-    /// </summary>
-    internal ObservableCollection<StswRatingItem> Items
-    {
-        get => (ObservableCollection<StswRatingItem>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-    internal static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<StswRatingItem>),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the number of rating items (icons).
-    /// Defines how many selectable levels exist within the control.
-    /// </summary>
-    public int ItemsNumber
-    {
-        get => (int)GetValue(ItemsNumberProperty);
-        set => SetValue(ItemsNumberProperty, value);
-    }
-    public static readonly DependencyProperty ItemsNumberProperty
-        = DependencyProperty.Register(
-            nameof(ItemsNumber),
-            typeof(int),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(int),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsNumberChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnItemsNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRatingControl stsw)
-            return;
-
-        var val = (int)e.NewValue;
-        if (val < 0)
-            val = 0;
-
-        if (val > stsw.Items.Count)
-        {
-            for (var i = stsw.Items.Count + 1; i <= val; i++)
-            {
-                var newItem = new StswRatingItem { Value = i };
-                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                    stsw.Items.Insert(0, newItem);
-                else
-                    stsw.Items.Add(newItem);
-            }
-        }
-        else if (val < stsw.Items.Count)
-        {
-            for (var i = stsw.Items.Count - 1; i >= val; i--)
-            {
-                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
-                    stsw.Items.RemoveAt(0);
-                else
-                    stsw.Items.RemoveAt(stsw.Items.Count - 1);
-            }
-        }
-
-        if (stsw.Value.HasValue && stsw.Value.Value > val)
-            stsw.Value = val;
-        else
-            stsw.UpdateFillFractions();
-    }
-
-    /// <summary>
-    /// Gets or sets the visibility of the rating item count.
-    /// This property controls whether the number of rating levels is displayed.
-    /// </summary>
-    public Visibility ItemsNumberVisibility
-    {
-        get => (Visibility)GetValue(ItemsNumberVisibilityProperty);
-        set => SetValue(ItemsNumberVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ItemsNumberVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ItemsNumberVisibility),
-            typeof(Visibility),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets a temporary rating value based on mouse hover.
-    /// Provides a visual preview of the rating before selection.
-    /// </summary>
-    public double? Placeholder
-    {
-        get => (double?)GetValue(PlaceholderProperty);
-        internal set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(double?),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(double?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnPlaceholderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnPlaceholderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRatingControl stsw)
-            return;
-
-        if (stsw.Placeholder.HasValue)
-            stsw.UpdateFillFractions(stsw.Placeholder.Value, isPlaceholder: true);
-        else
-            stsw.UpdateFillFractions();
-    }
-
-    /// <summary>
-    /// Gets or sets the step value for the rating control.
-    /// </summary>
-    public double Step
-    {
-        get => (double)GetValue(StepProperty);
-        set => SetValue(StepProperty, value);
-    }
-    public static readonly DependencyProperty StepProperty
-        = DependencyProperty.Register(
-            nameof(Step),
-            typeof(double),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected rating value.
-    /// Represents the user's chosen rating level within the control.
-    /// </summary>
-    public double? Value
-    {
-        get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
-    public static readonly DependencyProperty ValueProperty
-        = DependencyProperty.Register(
-            nameof(Value),
-            typeof(double?),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(double?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRatingControl stsw)
-            return;
-
-        if (stsw.Value is < 0 && stsw.IsResetEnabled)
-            stsw.Value = 0;
-        if (stsw.Value > stsw.Items.Count)
-            stsw.Value = stsw.Items.Count;
-
-        stsw.UpdateFillFractions();
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
-    public static readonly DependencyProperty IconFillProperty
-        = DependencyProperty.Register(
-            nameof(IconFill),
-            typeof(Brush),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconStroke
-    {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeProperty
-        = DependencyProperty.Register(
-            nameof(IconStroke),
-            typeof(Brush),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public double IconStrokeThickness
-    {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 
     #region Excluded properties

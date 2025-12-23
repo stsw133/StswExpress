@@ -25,10 +25,7 @@ public class StswColumnChart : ItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnChart), new FrameworkPropertyMetadata(typeof(StswColumnChart)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswColumnChartItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswColumnChartItem;
-
-    #region Events & methods
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -41,6 +38,31 @@ public class StswColumnChart : ItemsControl
     {
         base.OnInitialized(e);
         RequestChartUpdate();
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswColumnChartItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswColumnChartItem;
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswColumnChartItem c)
+            c.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswColumnChartItem c)
+        {
+            c.ValueChanged += OnItemValueChanged;
+            if (!double.IsNaN(c.ColumnWidth))
+                c.ColumnWidth = double.NaN;
+        }
     }
 
     /// <inheritdoc/>
@@ -56,15 +78,9 @@ public class StswColumnChart : ItemsControl
         base.OnRenderSizeChanged(sizeInfo);
         RequestChartUpdate();
     }
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-    {
-        if (element is StswColumnChartItem c)
-            c.ValueChanged -= OnItemValueChanged;
-        base.ClearContainerForItemOverride(element, item);
-    }
-
+    #region Logic
     /// <summary>
     /// Gets the containers for all items in the chart.
     /// </summary>
@@ -74,18 +90,6 @@ public class StswColumnChart : ItemsControl
         for (var i = 0; i < Items.Count; i++)
             if (ItemContainerGenerator.ContainerFromIndex(i) is StswColumnChartItem c)
                 yield return c;
-    }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswColumnChartItem c)
-        {
-            c.ValueChanged += OnItemValueChanged;
-            if (!double.IsNaN(c.ColumnWidth))
-                c.ColumnWidth = double.NaN;
-        }
     }
 
     /// <summary>

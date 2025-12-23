@@ -20,22 +20,13 @@ namespace StswExpress.Wpf;
 /// &lt;se:StswMediaPlayer Source="C:\Videos\sample.mp4" IsPlaying="True"/&gt;
 /// </code>
 /// </example>
-[StswPlannedChanges(StswPlannedChanges.Fix | StswPlannedChanges.NewFeatures, "Fix track changing its position while dragging the timeline slider.")]
+[StswPlannedChanges(StswPlannedChanges.NewFeatures)]
 public class StswMediaPlayer : ItemsControl
 {
-    private readonly Timer _timer = new() { AutoReset = true };
-    private readonly DragStartedEventHandler _timelineDragStartedHandler;
-    private readonly DragCompletedEventHandler _timelineDragCompletedHandler;
-
-    private ButtonBase? _btnNext;
-    private CheckBox? _btnPlay;
-    private ButtonBase? _btnPrevious;
-    private ButtonBase? _btnStop;
-    private CheckBox? _btnMute;
-    private MediaElement? _mediaElement;
-    private Slider? _timelineSlider;
-    private bool _isUserChangingTimeline;
-
+    static StswMediaPlayer()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
+    }
     public StswMediaPlayer()
     {
         _timelineDragStartedHandler = TimelineThumbDragStarted;
@@ -47,51 +38,189 @@ public class StswMediaPlayer : ItemsControl
         Loaded += (_, _) => OnIsPlayingChanged(this, new DependencyPropertyChangedEventArgs(IsPlayingProperty, null, IsPlaying));
         Unloaded += (_, _) => _timer.Stop();
     }
-    static StswMediaPlayer()
+
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMediaPlayer), new FrameworkPropertyMetadata(typeof(StswMediaPlayer)));
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswMediaPlayer)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswMediaPlayer)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the media is muted.
+    /// </summary>
+    public bool IsMuted
+    {
+        get => (bool)GetValue(IsMutedProperty);
+        internal set => SetValue(IsMutedProperty, value);
+    }
+    public static readonly DependencyProperty IsMutedProperty
+        = DependencyProperty.Register(
+            nameof(IsMuted),
+            typeof(bool),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsMutedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsMutedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswMediaPlayer)d;
+        if (stsw._mediaElement != null)
+            stsw._mediaElement.IsMuted = stsw.IsMuted;
     }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets a value indicating whether the media is currently playing.
+    /// <see langword="null"/> represents a stopped state.
+    /// </summary>
+    public bool? IsPlaying
+    {
+        get => (bool?)GetValue(IsPlayingProperty);
+        internal set => SetValue(IsPlayingProperty, value);
+    }
+    public static readonly DependencyProperty IsPlayingProperty
+        = DependencyProperty.Register(
+            nameof(IsPlaying),
+            typeof(bool?),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(bool?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsPlayingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswMediaPlayer)d;
+        if (stsw._mediaElement == null)
+            return;
+
+        if (stsw.IsPlaying == true)
+        {
+            stsw._timer.Start();
+            stsw._mediaElement.Play();
+        }
+        else if (stsw.IsPlaying == false)
+        {
+            stsw._timer.Stop();
+            stsw._mediaElement.Pause();
+        }
+        else
+        {
+            stsw._mediaElement.Position = new TimeSpan(0);
+            stsw._timer.Stop();
+            stsw._mediaElement.Stop();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the source URI of the media file being played.
+    /// </summary>
+    public Uri Source
+    {
+        get => (Uri)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+    public static readonly DependencyProperty SourceProperty
+        = DependencyProperty.Register(
+            nameof(Source),
+            typeof(Uri),
+            typeof(StswMediaPlayer)
+        );
+
+    /// <summary>
+    /// Gets or sets the current playback time of the media.
+    /// </summary>
+    public TimeSpan TimeCurrent
+    {
+        get => (TimeSpan)GetValue(TimeCurrentProperty);
+        internal set => SetValue(TimeCurrentProperty, value);
+    }
+    public static readonly DependencyProperty TimeCurrentProperty
+        = DependencyProperty.Register(
+            nameof(TimeCurrent),
+            typeof(TimeSpan),
+            typeof(StswMediaPlayer)
+        );
+
+    /// <summary>
+    /// Gets or sets the total duration of the media file.
+    /// </summary>
+    public TimeSpan TimeMax
+    {
+        get => (TimeSpan)GetValue(TimeMaxProperty);
+        internal set => SetValue(TimeMaxProperty, value);
+    }
+    public static readonly DependencyProperty TimeMaxProperty
+        = DependencyProperty.Register(
+            nameof(TimeMax),
+            typeof(TimeSpan),
+            typeof(StswMediaPlayer)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the media element and the control panel.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+    #endregion
+
+    #region Template
+    private readonly Timer _timer = new() { AutoReset = true };
+    private readonly DragStartedEventHandler _timelineDragStartedHandler;
+    private readonly DragCompletedEventHandler _timelineDragCompletedHandler;
+
+    private ButtonBase? _btnNext;
+    private CheckBox? _btnPlay;
+    private ButtonBase? _btnPrevious;
+    private ButtonBase? _btnStop;
+    private CheckBox? _btnMute;
+    private MediaElement? _mediaElement;
+    private Slider? _timelineSlider;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        DetachButtonEvents();
-
-        /// Button: shuffle
-        //if (GetTemplateChild("PART_ButtonShuffle") is CheckBox btnShuffle)
-        //    btnShuffle.Click += ButtonShuffle_Click;
-
-        /// Button: stop
+        DetachTemplateEvents();
+        //_btnShuffle = GetTemplateChild("PART_ButtonShuffle") as ButtonBase;
         _btnStop = GetTemplateChild("PART_ButtonStop") as ButtonBase;
-        if (_btnStop != null)
-            _btnStop.Click += BtnStop_Click;
-
-        /// Button: previous
         _btnPrevious = GetTemplateChild("PART_ButtonPrevious") as ButtonBase;
-        if (_btnPrevious != null)
-            _btnPrevious.Click += BtnPrevious_Click;
-
-        /// Button: play
         _btnPlay = GetTemplateChild("PART_ButtonPlay") as CheckBox;
-        if (_btnPlay != null)
-            _btnPlay.Click += BtnPlay_Click;
-
-        /// Button: next
         _btnNext = GetTemplateChild("PART_ButtonNext") as ButtonBase;
-        if (_btnNext != null)
-            _btnNext.Click += BtnNext_Click;
-
-        /// Button: repeat
-        //if (GetTemplateChild("PART_ButtonRepeat") is CheckBox btnRepeat)
-        //    btnRepeat.Click += BtnRepeat_Click;
-
-        /// Button: mute
+        //_btnRepeat = GetTemplateChild("PART_ButtonRepeat") as ButtonBase;
         _btnMute = GetTemplateChild("PART_ButtonMute") as CheckBox;
-        if (_btnMute != null)
-            _btnMute.Click += BtnMute_Click;
+        AttachTemplateEvents();
 
         /// Slider: timeline
         if (_timelineSlider != null)
@@ -138,6 +267,48 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        //if (GetTemplateChild("PART_ButtonShuffle") is CheckBox btnShuffle)
+        //    btnShuffle.Click += ButtonShuffle_Click;
+        if (_btnStop != null)
+            _btnStop.Click += BtnStop_Click;
+        if (_btnPrevious != null)
+            _btnPrevious.Click += BtnPrevious_Click;
+        if (_btnPlay != null)
+            _btnPlay.Click += BtnPlay_Click;
+        if (_btnNext != null)
+            _btnNext.Click += BtnNext_Click;
+        //if (GetTemplateChild("PART_ButtonRepeat") is CheckBox btnRepeat)
+        //    btnRepeat.Click += BtnRepeat_Click;
+        if (_btnMute != null)
+            _btnMute.Click += BtnMute_Click;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_btnStop != null)
+            _btnStop.Click -= BtnStop_Click;
+        if (_btnPrevious != null)
+            _btnPrevious.Click -= BtnPrevious_Click;
+        if (_btnPlay != null)
+            _btnPlay.Click -= BtnPlay_Click;
+        if (_btnNext != null)
+            _btnNext.Click -= BtnNext_Click;
+        if (_btnMute != null)
+            _btnMute.Click -= BtnMute_Click;
+    }
+    #endregion
+
+    #region Logic
+    private bool _isUserChangingTimeline;
+
+    /// <summary>
     /// Handles the click event of the mute button.
     /// </summary>
     /// <param name="sender">The sender object (button)</param>
@@ -171,23 +342,6 @@ public class StswMediaPlayer : ItemsControl
     /// <param name="sender">The sender object (button)</param>
     /// <param name="e">The event arguments</param>
     private void BtnStop_Click(object sender, RoutedEventArgs e) => IsPlaying = null;
-
-    /// <summary>
-    /// Detaches event handlers from the control buttons.
-    /// </summary>
-    private void DetachButtonEvents()
-    {
-        if (_btnStop != null)
-            _btnStop.Click -= BtnStop_Click;
-        if (_btnPrevious != null)
-            _btnPrevious.Click -= BtnPrevious_Click;
-        if (_btnPlay != null)
-            _btnPlay.Click -= BtnPlay_Click;
-        if (_btnNext != null)
-            _btnNext.Click -= BtnNext_Click;
-        if (_btnMute != null)
-            _btnMute.Click -= BtnMute_Click;
-    }
 
     /// <summary>
     /// Handles the mouse down event on the timeline slider.
@@ -357,167 +511,6 @@ public class StswMediaPlayer : ItemsControl
                 TimeCurrent = _mediaElement.Position;
         }, DispatcherPriority.Background);
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the media is muted.
-    /// </summary>
-    public bool IsMuted
-    {
-        get => (bool)GetValue(IsMutedProperty);
-        internal set => SetValue(IsMutedProperty, value);
-    }
-    public static readonly DependencyProperty IsMutedProperty
-        = DependencyProperty.Register(
-            nameof(IsMuted),
-            typeof(bool),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsMutedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsMutedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswMediaPlayer stsw)
-            return;
-
-        if (stsw._mediaElement != null)
-            stsw._mediaElement.IsMuted = stsw.IsMuted;
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the media is currently playing.
-    /// <see langword="null"/> represents a stopped state.
-    /// </summary>
-    public bool? IsPlaying
-    {
-        get => (bool?)GetValue(IsPlayingProperty);
-        internal set => SetValue(IsPlayingProperty, value);
-    }
-    public static readonly DependencyProperty IsPlayingProperty
-        = DependencyProperty.Register(
-            nameof(IsPlaying),
-            typeof(bool?),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(bool?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsPlayingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswMediaPlayer stsw)
-            return;
-
-        if (stsw._mediaElement != null)
-        {
-            if (stsw.IsPlaying == true)
-            {
-                stsw._timer.Start();
-                stsw._mediaElement.Play();
-            }
-            else if (stsw.IsPlaying == false)
-            {
-                stsw._timer.Stop();
-                stsw._mediaElement.Pause();
-            }
-            else
-            {
-                stsw._mediaElement.Position = new TimeSpan(0);
-                stsw._timer.Stop();
-                stsw._mediaElement.Stop();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the source URI of the media file being played.
-    /// </summary>
-    public Uri Source
-    {
-        get => (Uri)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-    public static readonly DependencyProperty SourceProperty
-        = DependencyProperty.Register(
-            nameof(Source),
-            typeof(Uri),
-            typeof(StswMediaPlayer)
-        );
-
-    /// <summary>
-    /// Gets or sets the current playback time of the media.
-    /// </summary>
-    public TimeSpan TimeCurrent
-    {
-        get => (TimeSpan)GetValue(TimeCurrentProperty);
-        internal set => SetValue(TimeCurrentProperty, value);
-    }
-    public static readonly DependencyProperty TimeCurrentProperty
-        = DependencyProperty.Register(
-            nameof(TimeCurrent),
-            typeof(TimeSpan),
-            typeof(StswMediaPlayer)
-        );
-
-    /// <summary>
-    /// Gets or sets the total duration of the media file.
-    /// </summary>
-    public TimeSpan TimeMax
-    {
-        get => (TimeSpan)GetValue(TimeMaxProperty);
-        internal set => SetValue(TimeMaxProperty, value);
-    }
-    public static readonly DependencyProperty TimeMaxProperty
-        = DependencyProperty.Register(
-            nameof(TimeMax),
-            typeof(TimeSpan),
-            typeof(StswMediaPlayer)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswMediaPlayer)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswMediaPlayer)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the media element and the control panel.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }
 

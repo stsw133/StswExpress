@@ -29,23 +29,74 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 {
-    private readonly StswScrollActionScheduler _scrollActionScheduler;
-    private object? _dragDropItem;
-    private IList? _sourceList;
-
-    public StswDragBox()
-    {
-        _scrollActionScheduler = new StswScrollActionScheduler(this);
-    }
     static StswDragBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBox), new FrameworkPropertyMetadata(typeof(StswDragBox)));
     }
+    public StswDragBox()
+    {
+        _scrollActionScheduler = new StswScrollActionScheduler(this);
+    }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswDragBoxItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDragBoxItem;
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDragBox)
+        );
 
-    #region Events & methods
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDragBox)
+        );
+
+    /// <inheritdoc/>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswDragBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
+    /// </summary>
+    public StswScrollToItemBehavior ScrollToItemBehavior
+    {
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
+            typeof(StswDragBox)
+        );
+    #endregion
+
+    #region Template
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -59,6 +110,67 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Loaded);
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswDragBoxItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDragBoxItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswDragBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswDragBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnDragOver(DragEventArgs e)
+    {
+        base.OnDragOver(e);
+        e.Effects = DragDropEffects.Move;
+        e.Handled = true;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnDrop(DragEventArgs e)
+    {
+        base.OnDrop(e);
+
+        if (IsReadOnly)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        if (ItemsSource is not IList targetList)
+            return;
+
+        var draggedItem = e.Data.GetData("StswDraggedItem");
+        if (draggedItem == null || e.Data.GetData("StswSourceList") is not IList sourceList)
+            return;
+
+        if (!ReferenceEquals(sourceList, targetList))
+        {
+            if (sourceList.Contains(draggedItem))
+                sourceList.Remove(draggedItem);
+
+            var insertIndex = GetIndexFromPoint(e.GetPosition(this));
+            if (insertIndex < 0 || insertIndex > targetList.Count)
+                insertIndex = targetList.Count;
+
+            if (!targetList.Contains(draggedItem))
+                targetList.Insert(insertIndex, draggedItem);
+        }
     }
 
     /// <inheritdoc/>
@@ -104,72 +216,37 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is StswDragBoxItem listBoxItem)
-        {
-            listBoxItem.SetBinding(StswDragBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
-            {
-                Source = this,
-                Mode = BindingMode.OneWay
-            });
-        }
-    }
     #endregion
 
-    #region Drag & Drop logic
-    /// <summary>
-    /// Handles the drag-over event on the empty space of the list.
-    /// Ensures the correct cursor appearance and move effect during the operation.
-    /// </summary>
-    /// <param name="sender">The drag box receiving the event.</param>
-    /// <param name="e">Drag event arguments.</param>
-    protected override void OnDragOver(DragEventArgs e)
-    {
-        base.OnDragOver(e);
-        e.Effects = DragDropEffects.Move;
-        e.Handled = true;
-    }
+    #region Logic
+    private object? _dragDropItem;
+    private IList? _sourceList;
 
     /// <summary>
-    /// Handles the drop event, moving items between lists.
-    /// Removes the dragged item from the source list and inserts it into the target list at the correct position.
+    /// Determines the index at which to insert a dropped item based on the cursor position.
+    /// Returns the appropriate index or the end of the list if the mouse is outside any item.
     /// </summary>
-    /// <param name="sender">The drop target list box.</param>
-    /// <param name="e">Drag event arguments.</param>
-    protected override void OnDrop(DragEventArgs e)
+    /// <param name="point">The point where the drop occurs.</param>
+    /// <returns>The index for inserting the dropped item.</returns>
+    private int GetIndexFromPoint(Point point)
     {
-        base.OnDrop(e);
+        var hitResult = VisualTreeHelper.HitTest(this, point);
+        if (hitResult == null)
+            return Items.Count;
 
-        if (IsReadOnly)
+        DependencyObject obj = hitResult.VisualHit;
+        while (obj != null)
         {
-            e.Handled = true;
-            return;
+            if (obj is ListBoxItem item)
+            {
+                var index = ItemContainerGenerator.IndexFromContainer(item);
+                if (index >= 0)
+                    return index;
+            }
+            obj = VisualTreeHelper.GetParent(obj);
         }
 
-        if (ItemsSource is not IList targetList)
-            return;
-
-        var draggedItem = e.Data.GetData("StswDraggedItem");
-        if (draggedItem == null || e.Data.GetData("StswSourceList") is not IList sourceList)
-            return;
-
-        if (!ReferenceEquals(sourceList, targetList))
-        {
-            if (sourceList.Contains(draggedItem))
-                sourceList.Remove(draggedItem);
-
-            var insertIndex = GetIndexFromPoint(e.GetPosition(this));
-            if (insertIndex < 0 || insertIndex > targetList.Count)
-                insertIndex = targetList.Count;
-
-            if (!targetList.Contains(draggedItem))
-                targetList.Insert(insertIndex, draggedItem);
-        }
+        return Items.Count;
     }
 
     /// <summary>
@@ -223,39 +300,12 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
     }
 
     /// <summary>
-    /// Determines the index at which to insert a dropped item based on the cursor position.
-    /// Returns the appropriate index or the end of the list if the mouse is outside any item.
-    /// </summary>
-    /// <param name="point">The point where the drop occurs.</param>
-    /// <returns>The index for inserting the dropped item.</returns>
-    private int GetIndexFromPoint(Point point)
-    {
-        var hitResult = VisualTreeHelper.HitTest(this, point);
-        if (hitResult == null)
-            return Items.Count;
-
-        DependencyObject obj = hitResult.VisualHit;
-        while (obj != null)
-        {
-            if (obj is ListBoxItem item)
-            {
-                var index = ItemContainerGenerator.IndexFromContainer(item);
-                if (index >= 0)
-                    return index;
-            }
-            obj = VisualTreeHelper.GetParent(obj);
-        }
-
-        return Items.Count;
-    }
-
-    /// <summary>
     /// Swaps the positions of two objects in a list, used for reordering items within the same list.
     /// </summary>
     /// <param name="list">The list containing the items.</param>
     /// <param name="obj1">The first item to swap.</param>
     /// <param name="obj2">The second item to swap.</param>
-    private void SwapInList(IList list, object obj1, object obj2)
+    private static void SwapInList(IList list, object obj1, object obj2)
     {
         var index1 = list.IndexOf(obj1);
         var index2 = list.IndexOf(obj2);
@@ -265,63 +315,5 @@ public class StswDragBox : ListBox, IStswCornerControl, IStswSelectionControl
 
         (list[index2], list[index1]) = (list[index1], list[index2]);
     }
-    #endregion
-
-    #region Logic properties
-    /// <inheritdoc/>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswDragBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
-    /// </summary>
-    public StswScrollToItemBehavior ScrollToItemBehavior
-    {
-        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
-        set => SetValue(ScrollToItemBehaviorProperty, value);
-    }
-    public static readonly DependencyProperty ScrollToItemBehaviorProperty
-        = DependencyProperty.Register(
-            nameof(ScrollToItemBehavior),
-            typeof(StswScrollToItemBehavior),
-            typeof(StswDragBox)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswDragBox)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDragBox)
-        );
     #endregion
 }

@@ -24,65 +24,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         ForegroundProperty.OverrideMetadata(typeof(StswDataGridDateColumn), new FrameworkPropertyMetadata(null));
     }
 
-    private static readonly Style StswEditingElementStyle = new(typeof(StswDatePicker), (Style)Application.Current.FindResource(typeof(StswDatePicker)))
-    {
-        Setters =
-        {
-            new Setter(StswDatePicker.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswDatePicker.CornerClippingProperty, false),
-            new Setter(StswDatePicker.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswDatePicker.FocusVisualStyleProperty, null),
-            new Setter(StswDatePicker.PaddingProperty, new Thickness(0)),
-            new Setter(StswDatePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswDatePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
-        }
-    };
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-    {
-        var displayElement = new StswText()
-        {
-            Margin = new Thickness(2, 0, 2, 0)
-        };
-        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
-        StswDataGridTextColumn.BindFontProperties(this, displayElement);
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
-
-        return displayElement;
-    }
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-    {
-        var editingElement = new StswDatePicker()
-        {
-            Style = StswEditingElementStyle
-        };
-        editingElement.SetBinding(StswDatePicker.FormatProperty, this.CreateColumnBinding(nameof(Format)));
-        editingElement.SetBinding(StswDatePicker.IncrementTypeProperty, this.CreateColumnBinding(nameof(IncrementType)));
-        editingElement.SetBinding(StswDatePicker.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
-        editingElement.SetBinding(StswDatePicker.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
-        editingElement.SetBinding(StswDatePicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswDatePicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswDatePicker.SelectionUnitProperty, this.CreateColumnBinding(nameof(SelectionUnit)));
-        editingElement.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswDatePicker.SelectedDateProperty, Binding);
-
-        return editingElement;
-    }
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the date format displayed in the column.
     /// Example: "dd/MM/yyyy".
@@ -145,6 +87,21 @@ public class StswDataGridDateColumn : DataGridTextColumn
         );
 
     /// <summary>
+    /// Gets or sets the padding around the content inside the column's cells.
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
+            typeof(StswDataGridDateColumn)
+        );
+
+    /// <summary>
     /// Gets or sets the placeholder text displayed in the date picker when no value is selected.
     /// </summary>
     public string? Placeholder
@@ -174,23 +131,6 @@ public class StswDataGridDateColumn : DataGridTextColumn
             typeof(StswCalendarUnit),
             typeof(StswDataGridDateColumn),
             new PropertyMetadata(StswCalendarUnit.Days)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the padding around the content inside the column's cells.
-    /// </summary>
-    public Thickness Padding
-    {
-        get => (Thickness)GetValue(PaddingProperty);
-        set => SetValue(PaddingProperty, value);
-    }
-    public static readonly DependencyProperty PaddingProperty
-        = DependencyProperty.Register(
-            nameof(Padding),
-            typeof(Thickness),
-            typeof(StswDataGridDateColumn)
         );
 
     /// <summary>
@@ -270,5 +210,65 @@ public class StswDataGridDateColumn : DataGridTextColumn
             typeof(StswDataGridDateColumn),
             new PropertyMetadata(VerticalAlignment.Top)
         );
+    #endregion
+
+    #region Overrides
+    private static readonly Style StswEditingElementStyle = new(typeof(StswDatePicker), (Style)Application.Current.FindResource(typeof(StswDatePicker)))
+    {
+        Setters =
+        {
+            new Setter(StswDatePicker.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswDatePicker.CornerClippingProperty, false),
+            new Setter(StswDatePicker.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswDatePicker.FocusVisualStyleProperty, null),
+            new Setter(StswDatePicker.PaddingProperty, new Thickness(0)),
+            new Setter(StswDatePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswDatePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch)
+        }
+    };
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+    {
+        var displayElement = new StswText()
+        {
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
+
+        return displayElement;
+    }
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+    {
+        var editingElement = new StswDatePicker()
+        {
+            Style = StswEditingElementStyle
+        };
+        editingElement.SetBinding(StswDatePicker.FormatProperty, this.CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswDatePicker.IncrementTypeProperty, this.CreateColumnBinding(nameof(IncrementType)));
+        editingElement.SetBinding(StswDatePicker.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswDatePicker.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswDatePicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswDatePicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswDatePicker.SelectionUnitProperty, this.CreateColumnBinding(nameof(SelectionUnit)));
+        editingElement.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(editingElement, StswDatePicker.SelectedDateProperty, Binding);
+
+        return editingElement;
+    }
     #endregion
 }

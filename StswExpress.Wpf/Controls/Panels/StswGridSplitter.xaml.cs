@@ -25,21 +25,19 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswGridSplitter : GridSplitter
 {
-    private Grid? _parentGrid;
-    private readonly Dictionary<int, GridLength> _originalColumnLengths = [];
-    private readonly Dictionary<int, GridLength> _originalRowLengths = [];
-    private bool _isVertical;
-
-    public StswGridSplitter()
-    {
-        Loaded += OnLoaded;
-    }
     static StswGridSplitter()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGridSplitter), new FrameworkPropertyMetadata(typeof(StswGridSplitter)));
     }
+    public StswGridSplitter()
+    {
+        Loaded += OnLoaded;
+    }
 
-    #region Events & methods
+    #region Template
+    private Grid? _parentGrid;
+    private bool _isVertical;
+
     /// <summary>
     /// Handles the Loaded event for the splitter. It retrieves the parent grid and the index of the splitter within the grid.
     /// </summary>
@@ -54,7 +52,9 @@ public class StswGridSplitter : GridSplitter
             InitOriginalLength();
         }, DispatcherPriority.Loaded);
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
     {
@@ -76,6 +76,11 @@ public class StswGridSplitter : GridSplitter
                     _parentGrid.RowDefinitions[index].Height = length;
         }
     }
+    #endregion
+
+    #region Logic
+    private readonly Dictionary<int, GridLength> _originalColumnLengths = [];
+    private readonly Dictionary<int, GridLength> _originalRowLengths = [];
 
     /// <summary>
     /// Handles the MouseMove event for the splitter. It resizes the adjacent column or row based on the mouse position.

@@ -23,20 +23,452 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Header))]
 public class StswDataGridFilterBox : Control, IStswCornerControl
 {
-    private ButtonBase? _filterModeButton;
-    private StswDataGrid? _dataGrid;
-    public ICommand SelectModeCommand { get; }
-
-    public StswDataGridFilterBox()
-    {
-        SelectModeCommand = new StswCommand<StswFilterMode>(x => FilterMode = x);
-    }
     static StswDataGridFilterBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGridFilterBox), new FrameworkPropertyMetadata(typeof(StswDataGridFilterBox)));
     }
+    public StswDataGridFilterBox()
+    {
+        SelectModeCommand = new StswCommand<StswFilterMode>(x => FilterMode = x);
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets whether to apply case transformation to the filter values.
+    /// </summary>
+    public bool ApplyCaseTransform
+    {
+        get => (bool)GetValue(ApplyCaseTransformProperty);
+        set => SetValue(ApplyCaseTransformProperty, value);
+    }
+    public static readonly DependencyProperty ApplyCaseTransformProperty
+        = DependencyProperty.Register(
+            nameof(ApplyCaseTransform),
+            typeof(bool),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets whether to apply a null replacement for the filter values.
+    /// </summary>
+    public bool ApplyNullReplacement
+    {
+        get => (bool)GetValue(ApplyNullReplacementProperty);
+        set => SetValue(ApplyNullReplacementProperty, value);
+    }
+    public static readonly DependencyProperty ApplyNullReplacementProperty
+        = DependencyProperty.Register(
+            nameof(ApplyNullReplacement),
+            typeof(bool),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
+    /// </summary>
+    public string DisplayMemberPath
+    {
+        get => (string)GetValue(DisplayMemberPathProperty);
+        set => SetValue(DisplayMemberPathProperty, value);
+    }
+    public static readonly DependencyProperty DisplayMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(DisplayMemberPath),
+            typeof(string),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
+    /// </summary>
+    public event RoutedEventHandler FilterChanged
+    {
+        add => AddHandler(FilterChangedEvent, value);
+        remove => RemoveHandler(FilterChangedEvent, value);
+    }
+    public static readonly RoutedEvent FilterChangedEvent
+        = EventManager.RegisterRoutedEvent(
+            nameof(FilterChanged),
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the menu mode for the filter mode button.
+    /// </summary>
+    public StswMenuMode FilterMenuMode
+    {
+        get => (StswMenuMode)GetValue(FilterMenuModeProperty);
+        set => SetValue(FilterMenuModeProperty, value);
+    }
+    public static readonly DependencyProperty FilterMenuModeProperty
+        = DependencyProperty.Register(
+            nameof(FilterMenuMode),
+            typeof(StswMenuMode),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the current filtering mode (e.g., Equals, Contains, Between).
+    /// </summary>
+    public StswFilterMode? FilterMode
+    {
+        get => (StswFilterMode?)GetValue(FilterModeProperty);
+        set => SetValue(FilterModeProperty, value);
+    }
+    public static readonly DependencyProperty FilterModeProperty
+        = DependencyProperty.Register(
+            nameof(FilterMode),
+            typeof(StswFilterMode?),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default(StswFilterMode?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnFilterModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGridFilterBox)d;
+
+        /// update visual symbol if found
+        if (stsw.FilterMode != null
+         && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
+         && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
+        {
+            symbolBlock.Fill = newSymbolBlock.Fill;
+            symbolBlock.Text = newSymbolBlock.Text;
+            symbolBlock.UpdateLayout();
+        }
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+    }
+    internal StswFilterMode? DefaultFilterMode { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the data type of the filtered column (Text, Number, Date, etc.).
+    /// Determines the appropriate filtering behavior.
+    /// </summary>
+    public StswAdaptiveType FilterType
+    {
+        get => (StswAdaptiveType)GetValue(FilterTypeProperty);
+        set => SetValue(FilterTypeProperty, value);
+    }
+    public static readonly DependencyProperty FilterTypeProperty
+        = DependencyProperty.Register(
+            nameof(FilterType),
+            typeof(StswAdaptiveType),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(StswAdaptiveType.Auto)
+        );
+
+    /// <summary>
+    /// Gets or sets the database column name or object property used for filtering.
+    /// </summary>
+    public string FilterValuePath
+    {
+        get => (string)GetValue(FilterValuePathProperty);
+        set => SetValue(FilterValuePathProperty, value);
+    }
+    public static readonly DependencyProperty FilterValuePathProperty
+        = DependencyProperty.Register(
+            nameof(FilterValuePath),
+            typeof(string),
+            typeof(StswDataGridFilterBox),
+            new PropertyMetadata(default(string), OnFilterValuePathChanged)
+        );
+    public static void OnFilterValuePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGridFilterBox)d;
+
+        /// create param name by removing non-alphanumeric characters
+        stsw.SqlParam = "@" + new string([.. ((string)e.NewValue).Where(char.IsLetterOrDigit)]);
+        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <summary>
+    /// Gets or sets the visibility of the filter part.
+    /// </summary>
+    public Visibility FilterVisibility
+    {
+        get => (Visibility)GetValue(FilterVisibilityProperty);
+        set => SetValue(FilterVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty FilterVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(FilterVisibility),
+            typeof(Visibility),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the custom format string used to display the value in the control.
+    /// When set, the value is formatted according to the provided format string.
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
+
+    /// <summary>
+    /// Gets or sets the header of the control.
+    /// </summary>
+    public object? Header
+    {
+        get => (object?)GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
+    public static readonly DependencyProperty HeaderProperty
+        = DependencyProperty.Register(
+            nameof(Header),
+            typeof(object),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Indicates whether the control is inside a StswDataGrid.
+    /// </summary>
+    internal bool IsInDataGrid
+    {
+        get => (bool)GetValue(IsInDataGridProperty);
+        set => SetValue(IsInDataGridProperty, value);
+    }
+    internal static readonly DependencyProperty IsInDataGridProperty
+        = DependencyProperty.Register(
+            nameof(IsInDataGrid),
+            typeof(bool),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
+    /// </summary>
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
+    public static readonly DependencyProperty ItemsSourceProperty
+        = DependencyProperty.Register(
+            nameof(ItemsSource),
+            typeof(IList),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGridFilterBox)d;
+
+        if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
+        {
+            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+            /// short usage for StswComboItem
+            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            {
+                if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
+                    stsw.DisplayMemberPath = nameof(StswComboItem.Display);
+                if (string.IsNullOrEmpty(stsw.SelectedValuePath))
+                    stsw.SelectedValuePath = nameof(StswComboItem.Value);
+            }
+        }
+    }
+    internal IList? DefaultItemsSource { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the path to the value property of the selected items in the ItemsSource (for <see cref="StswSelectionBox"/>).
+    /// </summary>
+    public string SelectedValuePath
+    {
+        get => (string)GetValue(SelectedValuePathProperty);
+        set => SetValue(SelectedValuePathProperty, value);
+    }
+    public static readonly DependencyProperty SelectedValuePathProperty
+        = DependencyProperty.Register(
+            nameof(SelectedValuePath),
+            typeof(string),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the selection unit of the control.
+    /// </summary>
+    public StswCalendarUnit SelectionUnit
+    {
+        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
+        set => SetValue(SelectionUnitProperty, value);
+    }
+    public static readonly DependencyProperty SelectionUnitProperty
+        = DependencyProperty.Register(
+            nameof(SelectionUnit),
+            typeof(StswCalendarUnit),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the filter box and dropdown button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets the parameter name used in the generated SQL filter query.
+    /// </summary>
+    public string SqlParam
+    {
+        get => (string)GetValue(SqlParamProperty);
+        private set => SetValue(SqlParamProperty, value);
+    }
+    public static readonly DependencyProperty SqlParamProperty
+        = DependencyProperty.Register(
+            nameof(SqlParam),
+            typeof(string),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets the generated SQL WHERE clause used for filtering data.
+    /// </summary>
+    public string? SqlString
+    {
+        get => (string?)GetValue(SqlStringProperty);
+        private set => SetValue(SqlStringProperty, value);
+    }
+    public static readonly DependencyProperty SqlStringProperty
+        = DependencyProperty.Register(
+            nameof(SqlString),
+            typeof(string),
+            typeof(StswDataGridFilterBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the first filter value (used for most conditions like Equals, GreaterThan).
+    /// </summary>
+    public object? Value1
+    {
+        get => (object?)GetValue(Value1Property);
+        set => SetValue(Value1Property, value);
+    }
+    public static readonly DependencyProperty Value1Property
+        = DependencyProperty.Register(
+            nameof(Value1),
+            typeof(object),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGridFilterBox)d;
+
+        var filtersType = stsw._dataGrid?.FiltersType;
+        if (filtersType == StswDataGridFiltersType.CollectionView)
+        {
+            stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
+        }
+        else if (filtersType == StswDataGridFiltersType.SQL)
+        {
+            var needsTwo = stsw.FilterMode == StswFilterMode.Between;
+            var hasList = stsw.FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
+
+            if ((needsTwo && (stsw.Value1 == null || stsw.Value2 == null))
+             || (!needsTwo && !hasList && stsw.Value1 == null)
+             || (hasList && (stsw.ItemsSource?.OfType<IStswSelectionItem>().Any(x => x.IsSelected) != true)))
+                stsw.SqlString = null;
+            else
+                stsw.GenerateSqlString();
+        }
+
+        stsw.RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
+    }
+    internal object? DefaultValue1 { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the second filter value (used in range-based conditions like Between).
+    /// </summary>
+    public object? Value2
+    {
+        get => (object?)GetValue(Value2Property);
+        set => SetValue(Value2Property, value);
+    }
+    public static readonly DependencyProperty Value2Property
+        = DependencyProperty.Register(
+            nameof(Value2),
+            typeof(object),
+            typeof(StswDataGridFilterBox),
+            new FrameworkPropertyMetadata(default,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    internal object? DefaultValue2 { get; set; } = null;
+    #endregion
+
+    #region Template
+    private ButtonBase? _filterModeButton;
+    private StswDataGrid? _dataGrid;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -76,7 +508,9 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         OnFilterModeChanged(this, new DependencyPropertyChangedEventArgs());
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e)
     {
@@ -84,6 +518,10 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         if (e.Key == Key.Enter)
             _dataGrid?.RefreshCommand?.Execute(null);
     }
+    #endregion
+
+    #region Logic
+    public ICommand SelectModeCommand { get; }
 
     /// <summary>
     /// Determines the filter type based on the associated DataGrid column type.
@@ -447,448 +885,5 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
 
         return null;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets whether to apply case transformation to the filter values.
-    /// </summary>
-    public bool ApplyCaseTransform
-    {
-        get => (bool)GetValue(ApplyCaseTransformProperty);
-        set => SetValue(ApplyCaseTransformProperty, value);
-    }
-    public static readonly DependencyProperty ApplyCaseTransformProperty
-        = DependencyProperty.Register(
-            nameof(ApplyCaseTransform),
-            typeof(bool),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets whether to apply a null replacement for the filter values.
-    /// </summary>
-    public bool ApplyNullReplacement
-    {
-        get => (bool)GetValue(ApplyNullReplacementProperty);
-        set => SetValue(ApplyNullReplacementProperty, value);
-    }
-    public static readonly DependencyProperty ApplyNullReplacementProperty
-        = DependencyProperty.Register(
-            nameof(ApplyNullReplacement),
-            typeof(bool),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
-    /// </summary>
-    public string DisplayMemberPath
-    {
-        get => (string)GetValue(DisplayMemberPathProperty);
-        set => SetValue(DisplayMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty DisplayMemberPathProperty
-        = DependencyProperty.Register(
-            nameof(DisplayMemberPath),
-            typeof(string),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Raises the <see cref="FilterChanged"/> event to notify that the filter has changed.
-    /// </summary>
-    public event RoutedEventHandler FilterChanged
-    {
-        add => AddHandler(FilterChangedEvent, value);
-        remove => RemoveHandler(FilterChangedEvent, value);
-    }
-    public static readonly RoutedEvent FilterChangedEvent
-        = EventManager.RegisterRoutedEvent(
-            nameof(FilterChanged),
-            RoutingStrategy.Bubble,
-            typeof(RoutedEventHandler),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the menu mode for the filter mode button.
-    /// </summary>
-    public StswMenuMode FilterMenuMode
-    {
-        get => (StswMenuMode)GetValue(FilterMenuModeProperty);
-        set => SetValue(FilterMenuModeProperty, value);
-    }
-    public static readonly DependencyProperty FilterMenuModeProperty
-        = DependencyProperty.Register(
-            nameof(FilterMenuMode),
-            typeof(StswMenuMode),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the current filtering mode (e.g., Equals, Contains, Between).
-    /// </summary>
-    public StswFilterMode? FilterMode
-    {
-        get => (StswFilterMode?)GetValue(FilterModeProperty);
-        set => SetValue(FilterModeProperty, value);
-    }
-    public static readonly DependencyProperty FilterModeProperty
-        = DependencyProperty.Register(
-            nameof(FilterMode),
-            typeof(StswFilterMode?),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default(StswFilterMode?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnFilterModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGridFilterBox stsw)
-            return;
-
-        /// update visual symbol if found
-        if (stsw.FilterMode != null
-         && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
-         && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
-        {
-            symbolBlock.Fill = newSymbolBlock.Fill;
-            symbolBlock.Text = newSymbolBlock.Text;
-            symbolBlock.UpdateLayout();
-        }
-        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
-    }
-    internal StswFilterMode? DefaultFilterMode { get; set; } = null;
-
-    /// <summary>
-    /// Gets or sets the data type of the filtered column (Text, Number, Date, etc.).
-    /// Determines the appropriate filtering behavior.
-    /// </summary>
-    public StswAdaptiveType FilterType
-    {
-        get => (StswAdaptiveType)GetValue(FilterTypeProperty);
-        set => SetValue(FilterTypeProperty, value);
-    }
-    public static readonly DependencyProperty FilterTypeProperty
-        = DependencyProperty.Register(
-            nameof(FilterType),
-            typeof(StswAdaptiveType),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(StswAdaptiveType.Auto)
-        );
-
-    /// <summary>
-    /// Gets or sets the database column name or object property used for filtering.
-    /// </summary>
-    public string FilterValuePath
-    {
-        get => (string)GetValue(FilterValuePathProperty);
-        set => SetValue(FilterValuePathProperty, value);
-    }
-    public static readonly DependencyProperty FilterValuePathProperty
-        = DependencyProperty.Register(
-            nameof(FilterValuePath),
-            typeof(string),
-            typeof(StswDataGridFilterBox),
-            new PropertyMetadata(default(string), OnFilterValuePathChanged)
-        );
-    public static void OnFilterValuePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGridFilterBox stsw)
-            return;
-
-        /// create param name by removing non-alphanumeric characters
-        stsw.SqlParam = "@" + new string([.. ((string)e.NewValue).Where(char.IsLetterOrDigit)]);
-        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
-    }
-
-    /// <summary>
-    /// Gets or sets the visibility of the filter part.
-    /// </summary>
-    public Visibility FilterVisibility
-    {
-        get => (Visibility)GetValue(FilterVisibilityProperty);
-        set => SetValue(FilterVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty FilterVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(FilterVisibility),
-            typeof(Visibility),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the custom format string used to display the value in the control.
-    /// When set, the value is formatted according to the provided format string.
-    /// </summary>
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
-    public static readonly DependencyProperty FormatProperty
-        = DependencyProperty.Register(
-            nameof(Format),
-            typeof(string),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
-        );
-
-    /// <summary>
-    /// Gets or sets the header of the control.
-    /// </summary>
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
-    public static readonly DependencyProperty HeaderProperty
-        = DependencyProperty.Register(
-            nameof(Header),
-            typeof(object),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down menu is currently open.
-    /// </summary>
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Indicates whether the control is inside a StswDataGrid.
-    /// </summary>
-    internal bool IsInDataGrid
-    {
-        get => (bool)GetValue(IsInDataGridProperty);
-        set => SetValue(IsInDataGridProperty, value);
-    }
-    internal static readonly DependencyProperty IsInDataGridProperty
-        = DependencyProperty.Register(
-            nameof(IsInDataGrid),
-            typeof(bool),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
-    /// </summary>
-    public IList ItemsSource
-    {
-        get => (IList)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
-    public static readonly DependencyProperty ItemsSourceProperty
-        = DependencyProperty.Register(
-            nameof(ItemsSource),
-            typeof(IList),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGridFilterBox stsw)
-            return;
-
-        if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
-        {
-            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
-
-            /// short usage for StswComboItem
-            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
-            {
-                if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
-                    stsw.DisplayMemberPath = nameof(StswComboItem.Display);
-                if (string.IsNullOrEmpty(stsw.SelectedValuePath))
-                    stsw.SelectedValuePath = nameof(StswComboItem.Value);
-            }
-        }
-    }
-    internal IList? DefaultItemsSource { get; set; } = null;
-
-    /// <summary>
-    /// Gets or sets the path to the value property of the selected items in the ItemsSource (for <see cref="StswSelectionBox"/>).
-    /// </summary>
-    public string SelectedValuePath
-    {
-        get => (string)GetValue(SelectedValuePathProperty);
-        set => SetValue(SelectedValuePathProperty, value);
-    }
-    public static readonly DependencyProperty SelectedValuePathProperty
-        = DependencyProperty.Register(
-            nameof(SelectedValuePath),
-            typeof(string),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the selection unit of the control.
-    /// </summary>
-    public StswCalendarUnit SelectionUnit
-    {
-        get => (StswCalendarUnit)GetValue(SelectionUnitProperty);
-        set => SetValue(SelectionUnitProperty, value);
-    }
-    public static readonly DependencyProperty SelectionUnitProperty
-        = DependencyProperty.Register(
-            nameof(SelectionUnit),
-            typeof(StswCalendarUnit),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets the parameter name used in the generated SQL filter query.
-    /// </summary>
-    public string SqlParam
-    {
-        get => (string)GetValue(SqlParamProperty);
-        private set => SetValue(SqlParamProperty, value);
-    }
-    public static readonly DependencyProperty SqlParamProperty
-        = DependencyProperty.Register(
-            nameof(SqlParam),
-            typeof(string),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets the generated SQL WHERE clause used for filtering data.
-    /// </summary>
-    public string? SqlString
-    {
-        get => (string?)GetValue(SqlStringProperty);
-        private set => SetValue(SqlStringProperty, value);
-    }
-    public static readonly DependencyProperty SqlStringProperty
-        = DependencyProperty.Register(
-            nameof(SqlString),
-            typeof(string),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the first filter value (used for most conditions like Equals, GreaterThan).
-    /// </summary>
-    public object? Value1
-    {
-        get => (object?)GetValue(Value1Property);
-        set => SetValue(Value1Property, value);
-    }
-    public static readonly DependencyProperty Value1Property
-        = DependencyProperty.Register(
-            nameof(Value1),
-            typeof(object),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGridFilterBox stsw)
-            return;
-
-        var filtersType = stsw._dataGrid?.FiltersType;
-        if (filtersType == StswDataGridFiltersType.CollectionView)
-        {
-            stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
-        }
-        else if (filtersType == StswDataGridFiltersType.SQL)
-        {
-            var needsTwo = stsw.FilterMode == StswFilterMode.Between;
-            var hasList = stsw.FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
-
-            if ((needsTwo && (stsw.Value1 == null || stsw.Value2 == null)) ||
-                (!needsTwo && !hasList && stsw.Value1 == null) ||
-                (hasList && (stsw.ItemsSource?.OfType<IStswSelectionItem>().Any(x => x.IsSelected) != true)))
-            {
-                stsw.SqlString = null;
-            }
-            else
-            {
-                stsw.GenerateSqlString();
-            }
-        }
-
-        stsw.RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
-    }
-    internal object? DefaultValue1 { get; set; } = null;
-
-    /// <summary>
-    /// Gets or sets the second filter value (used in range-based conditions like Between).
-    /// </summary>
-    public object? Value2
-    {
-        get => (object?)GetValue(Value2Property);
-        set => SetValue(Value2Property, value);
-    }
-    public static readonly DependencyProperty Value2Property
-        = DependencyProperty.Register(
-            nameof(Value2),
-            typeof(object),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    internal object? DefaultValue2 { get; set; } = null;
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDataGridFilterBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the filter box and dropdown button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswDataGridFilterBox),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

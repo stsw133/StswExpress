@@ -26,21 +26,145 @@ public class StswGrid : Grid
         SetValue(RowHeightsProperty, new List<GridLength>());
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.
+    /// Defines how the grid layout should adjust based on its children (e.g., Auto, Increment Rows, Increment Columns).
+    /// </summary>
+    public StswAutoLayoutMode AutoLayoutMode
+    {
+        get => (StswAutoLayoutMode)GetValue(AutoLayoutModeProperty);
+        set => SetValue(AutoLayoutModeProperty, value);
+    }
+    public static readonly DependencyProperty AutoLayoutModeProperty
+        = DependencyProperty.Register(
+            nameof(AutoLayoutMode),
+            typeof(StswAutoLayoutMode),
+            typeof(StswGrid),
+            new PropertyMetadata(default(StswAutoLayoutMode), OnAutoLayoutModeChanged)
+        );
+    public static void OnAutoLayoutModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswGrid)d;
+        stsw.InvalidateMeasure();
+    }
+
+    /// <summary>
+    /// Gets or sets the column definitions as a comma-separated string (e.g., "Auto,*,2*").
+    /// </summary>
+    public static readonly DependencyProperty ColumnDefinitionsProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(ColumnDefinitionsProperty)[..^8],
+            typeof(string),
+            typeof(StswGrid),
+            new PropertyMetadata(null, OnColumnDefinitionsChanged));
+    public static string GetColumnDefinitions(DependencyObject d) => (string)d.GetValue(ColumnDefinitionsProperty);
+    public static void SetColumnDefinitions(DependencyObject d, string value) => d.SetValue(ColumnDefinitionsProperty, value);
+    private static void OnColumnDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Grid grid && e.NewValue is string definitions)
+        {
+            grid.ColumnDefinitions.Clear();
+            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
+            {
+                var columnDef = new ColumnDefinition();
+                var width = def.Trim();
+                if (!string.IsNullOrEmpty(width))
+                {
+                    var gridLength = new GridLengthConverter().ConvertFromString(width) as GridLength?;
+                    if (gridLength.HasValue)
+                        columnDef.Width = gridLength.Value;
+                }
+                grid.ColumnDefinitions.Add(columnDef);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the widths of the columns.
+    /// This property controls the width of each column when <see cref="AutoLayoutMode"/> is enabled.
+    /// </summary>
+    public List<GridLength> ColumnWidths
+    {
+        get => (List<GridLength>)GetValue(ColumnWidthsProperty);
+        set => SetValue(ColumnWidthsProperty, value);
+    }
+    public static readonly DependencyProperty ColumnWidthsProperty
+        = DependencyProperty.Register(
+            nameof(ColumnWidths),
+            typeof(List<GridLength>),
+            typeof(StswGrid),
+            new PropertyMetadata(default(List<GridLength>), OnAutoLayoutModeChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the row definitions as a comma-separated string (e.g., "Auto,*,2*").
+    /// </summary>
+    public static readonly DependencyProperty RowDefinitionsProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(RowDefinitionsProperty)[..^8],
+            typeof(string),
+            typeof(StswGrid),
+            new PropertyMetadata(null, OnRowDefinitionsChanged));
+    public static string GetRowDefinitions(DependencyObject d) => (string)d.GetValue(RowDefinitionsProperty);
+    public static void SetRowDefinitions(DependencyObject d, string value) => d.SetValue(RowDefinitionsProperty, value);
+    private static void OnRowDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Grid grid && e.NewValue is string definitions)
+        {
+            grid.RowDefinitions.Clear();
+            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
+            {
+                var rowDef = new RowDefinition();
+                var height = def.Trim();
+                if (!string.IsNullOrEmpty(height))
+                {
+                    var gridLength = new GridLengthConverter().ConvertFromString(height) as GridLength?;
+                    if (gridLength.HasValue)
+                        rowDef.Height = gridLength.Value;
+                }
+                grid.RowDefinitions.Add(rowDef);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the heights of the rows.
+    /// This property controls the height of each row when <see cref="AutoLayoutMode"/> is enabled.
+    /// </summary>
+    public List<GridLength> RowHeights
+    {
+        get => (List<GridLength>)GetValue(RowHeightsProperty);
+        set => SetValue(RowHeightsProperty, value);
+    }
+    public static readonly DependencyProperty RowHeightsProperty
+        = DependencyProperty.Register(
+            nameof(RowHeights),
+            typeof(List<GridLength>),
+            typeof(StswGrid),
+            new PropertyMetadata(default(List<GridLength>), OnAutoLayoutModeChanged)
+        );
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         EnsureDefinitions();
     }
+    #endregion
 
+    #region Overrides
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size constraint)
     {
         EnsureDefinitions();
         return base.MeasureOverride(constraint);
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Ensures the correct number of RowDefinitions and ColumnDefinitions based on the child elements.
     /// Updates layout based on the selected <see cref="AutoLayoutMode"/> (e.g., Auto, Increment Rows/Columns).
@@ -157,129 +281,5 @@ public class StswGrid : Grid
                 }
         }
     }
-    #endregion
-
-    #region Attached properties
-    /// <summary>
-    /// Gets or sets the column definitions as a comma-separated string (e.g., "Auto,*,2*").
-    /// </summary>
-    public static readonly DependencyProperty ColumnDefinitionsProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(ColumnDefinitionsProperty)[..^8],
-            typeof(string),
-            typeof(StswGrid),
-            new PropertyMetadata(null, OnColumnDefinitionsChanged));
-    public static string GetColumnDefinitions(DependencyObject d) => (string)d.GetValue(ColumnDefinitionsProperty);
-    public static void SetColumnDefinitions(DependencyObject d, string value) => d.SetValue(ColumnDefinitionsProperty, value);
-    private static void OnColumnDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is Grid grid && e.NewValue is string definitions)
-        {
-            grid.ColumnDefinitions.Clear();
-            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
-            {
-                var columnDef = new ColumnDefinition();
-                var width = def.Trim();
-                if (!string.IsNullOrEmpty(width))
-                {
-                    var gridLength = new GridLengthConverter().ConvertFromString(width) as GridLength?;
-                    if (gridLength.HasValue)
-                        columnDef.Width = gridLength.Value;
-                }
-                grid.ColumnDefinitions.Add(columnDef);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the row definitions as a comma-separated string (e.g., "Auto,*,2*").
-    /// </summary>
-    public static readonly DependencyProperty RowDefinitionsProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(RowDefinitionsProperty)[..^8],
-            typeof(string),
-            typeof(StswGrid),
-            new PropertyMetadata(null, OnRowDefinitionsChanged));
-    public static string GetRowDefinitions(DependencyObject d) => (string)d.GetValue(RowDefinitionsProperty);
-    public static void SetRowDefinitions(DependencyObject d, string value) => d.SetValue(RowDefinitionsProperty, value);
-    private static void OnRowDefinitionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is Grid grid && e.NewValue is string definitions)
-        {
-            grid.RowDefinitions.Clear();
-            foreach (var def in definitions.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries))
-            {
-                var rowDef = new RowDefinition();
-                var height = def.Trim();
-                if (!string.IsNullOrEmpty(height))
-                {
-                    var gridLength = new GridLengthConverter().ConvertFromString(height) as GridLength?;
-                    if (gridLength.HasValue)
-                        rowDef.Height = gridLength.Value;
-                }
-                grid.RowDefinitions.Add(rowDef);
-            }
-        }
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether RowDefinitions and ColumnDefinitions are automatically managed.
-    /// Defines how the grid layout should adjust based on its children (e.g., Auto, Increment Rows, Increment Columns).
-    /// </summary>
-    public StswAutoLayoutMode AutoLayoutMode
-    {
-        get => (StswAutoLayoutMode)GetValue(AutoLayoutModeProperty);
-        set => SetValue(AutoLayoutModeProperty, value);
-    }
-    public static readonly DependencyProperty AutoLayoutModeProperty
-        = DependencyProperty.Register(
-            nameof(AutoLayoutMode),
-            typeof(StswAutoLayoutMode),
-            typeof(StswGrid),
-            new PropertyMetadata(default(StswAutoLayoutMode), OnAutoLayoutModeChanged)
-        );
-    public static void OnAutoLayoutModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswGrid stsw)
-            return;
-
-        stsw.InvalidateMeasure();
-    }
-
-    /// <summary>
-    /// Gets or sets the widths of the columns.
-    /// This property controls the width of each column when <see cref="AutoLayoutMode"/> is enabled.
-    /// </summary>
-    public List<GridLength> ColumnWidths
-    {
-        get => (List<GridLength>)GetValue(ColumnWidthsProperty);
-        set => SetValue(ColumnWidthsProperty, value);
-    }
-    public static readonly DependencyProperty ColumnWidthsProperty
-        = DependencyProperty.Register(
-            nameof(ColumnWidths),
-            typeof(List<GridLength>),
-            typeof(StswGrid),
-            new PropertyMetadata(default(List<GridLength>), OnAutoLayoutModeChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the heights of the rows.
-    /// This property controls the height of each row when <see cref="AutoLayoutMode"/> is enabled.
-    /// </summary>
-    public List<GridLength> RowHeights
-    {
-        get => (List<GridLength>)GetValue(RowHeightsProperty);
-        set => SetValue(RowHeightsProperty, value);
-    }
-    public static readonly DependencyProperty RowHeightsProperty
-        = DependencyProperty.Register(
-            nameof(RowHeights),
-            typeof(List<GridLength>),
-            typeof(StswGrid),
-            new PropertyMetadata(default(List<GridLength>), OnAutoLayoutModeChanged)
-        );
     #endregion
 }

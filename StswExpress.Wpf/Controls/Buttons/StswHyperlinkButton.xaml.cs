@@ -21,38 +21,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(typeof(StswHyperlinkButton)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override void OnClick()
-    {
-        base.OnClick();
-        if (NavigateUri is { IsAbsoluteUri: true } uri && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
-        {
-            StswFn.OpenPath(NavigateUri.AbsoluteUri);
-            IsVisited = true;
-        }
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the URI to which the hyperlink button navigates when clicked. 
-    /// If the URI is valid, it is opened in the default web browser.
-    /// </summary>
-    public Uri NavigateUri
-    {
-        get => (Uri)GetValue(NavigateUriProperty);
-        set => SetValue(NavigateUriProperty, value);
-    }
-    public static readonly DependencyProperty NavigateUriProperty
-        = DependencyProperty.Register(
-            nameof(NavigateUri),
-            typeof(Uri),
-            typeof(StswHyperlinkButton)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -95,5 +64,34 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
             new FrameworkPropertyMetadata(false)
         );
     public static readonly DependencyProperty IsVisitedProperty = IsVisitedPropertyKey.DependencyProperty;
+
+    /// <summary>
+    /// Gets or sets the URI to which the hyperlink button navigates when clicked. 
+    /// If the URI is valid, it is opened in the default web browser.
+    /// </summary>
+    public Uri NavigateUri
+    {
+        get => (Uri)GetValue(NavigateUriProperty);
+        set => SetValue(NavigateUriProperty, value);
+    }
+    public static readonly DependencyProperty NavigateUriProperty
+        = DependencyProperty.Register(
+            nameof(NavigateUri),
+            typeof(Uri),
+            typeof(StswHyperlinkButton)
+        );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnClick()
+    {
+        base.OnClick();
+        if (NavigateUri is { IsAbsoluteUri: true } uri && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            StswFn.OpenPath(NavigateUri.AbsoluteUri);
+            IsVisited = true;
+        }
+    }
     #endregion
 }

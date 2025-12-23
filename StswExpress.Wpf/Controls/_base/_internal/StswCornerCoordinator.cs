@@ -86,10 +86,15 @@ internal static class StswCornerCoordinator
     /// <param name="d">The dependency object.</param>
     private static void OnBorderChanged(DependencyObject d)
     {
-        if (d is not IStswCornerControl c) return;
-        if (!_subs.TryGetValue(d, out var sub)) return;
+        if (d is not IStswCornerControl c)
+            return;
 
-        if (System.Threading.Interlocked.Exchange(ref sub.ReentrancyGuard, 1) == 1) return;
+        if (!_subs.TryGetValue(d, out var sub))
+            return;
+
+        if (System.Threading.Interlocked.Exchange(ref sub.ReentrancyGuard, 1) == 1)
+            return;
+
         try
         {
             var t = c.BorderThickness;
@@ -112,10 +117,15 @@ internal static class StswCornerCoordinator
     /// <param name="d">The dependency object.</param>
     private static void OnRadiusChanged(DependencyObject d)
     {
-        if (d is not IStswCornerControl c) return;
-        if (!_subs.TryGetValue(d, out var sub)) return;
+        if (d is not IStswCornerControl c)
+            return;
 
-        if (System.Threading.Interlocked.Exchange(ref sub.ReentrancyGuard, 1) == 1) return;
+        if (!_subs.TryGetValue(d, out var sub))
+            return;
+
+        if (System.Threading.Interlocked.Exchange(ref sub.ReentrancyGuard, 1) == 1)
+            return;
+
         try
         {
             var r = c.CornerRadius;

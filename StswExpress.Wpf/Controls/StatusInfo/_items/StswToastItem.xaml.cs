@@ -15,55 +15,12 @@ namespace StswExpress.Wpf;
 /// </remarks>
 public class StswToastItem : ContentControl, IStswCornerControl
 {
-    private ButtonBase? _btnClose;
-
     static StswToastItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToastItem), new FrameworkPropertyMetadata(typeof(StswToastItem)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (_btnClose != null)
-            _btnClose.Click -= BtnClose_Click;
-
-        /// Button: close
-        _btnClose = GetTemplateChild("PART_ButtonClose") as ButtonBase;
-        if (_btnClose != null)
-            _btnClose.Click += BtnClose_Click;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnMouseUp(MouseButtonEventArgs e)
-    {
-        base.OnMouseUp(e);
-
-        if (e.Handled)
-            return;
-
-        if (e.OriginalSource is DependencyObject originalSource && StswFnUI.FindVisualAncestor<ButtonBase>(originalSource) is not null)
-            return;
-
-        ClickAction?.Invoke();
-
-        StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
-
-        e.Handled = true;
-    }
-
-    /// <summary>
-    /// Handles the Click event of the close button, removing the toast item from its parent ItemsControl.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void BtnClose_Click(object sender, RoutedEventArgs e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the action executed when the toast is clicked.
     /// If the action is not provided, clicking the toast only dismisses it.
@@ -77,6 +34,32 @@ public class StswToastItem : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ClickAction),
             typeof(Action),
+            typeof(StswToastItem)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswToastItem)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswToastItem)
         );
 
@@ -112,31 +95,64 @@ public class StswToastItem : ContentControl, IStswCornerControl
         );
     #endregion
 
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswToastItem)
-        );
+    #region Template
+    private ButtonBase? _btnClose;
 
     /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    public override void OnApplyTemplate()
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnApplyTemplate();
+
+        DetachTemplateEvents();
+        _btnClose = GetTemplateChild("PART_ButtonClose") as ButtonBase;
+        AttachTemplateEvents();
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswToastItem)
-        );
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_btnClose != null)
+            _btnClose.Click += BtnClose_Click;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_btnClose != null)
+            _btnClose.Click -= BtnClose_Click;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnMouseUp(MouseButtonEventArgs e)
+    {
+        base.OnMouseUp(e);
+
+        if (e.Handled)
+            return;
+
+        if (e.OriginalSource is DependencyObject originalSource && StswFnUI.FindVisualAncestor<ButtonBase>(originalSource) is not null)
+            return;
+
+        ClickAction?.Invoke();
+
+        StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
+
+        e.Handled = true;
+    }
+    #endregion
+
+    #region Logic
+    /// <summary>
+    /// Handles the Click event of the close button, removing the toast item from its parent ItemsControl.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void BtnClose_Click(object sender, RoutedEventArgs e) => StswToaster.RemoveItemFromItemsControl(StswFnUI.FindVisualAncestor<ItemsControl>(this), this);
     #endregion
 }

@@ -20,7 +20,7 @@ public class StswRepeatButton : RepeatButton, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(typeof(StswRepeatButton)));
     }
 
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {

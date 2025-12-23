@@ -20,16 +20,74 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswProgressRing : StswProgressBar
 {
-    public StswProgressRing()
-    {
-        UpdateProgressGeometry();
-    }
     static StswProgressRing()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(typeof(StswProgressRing)));
     }
+    public StswProgressRing()
+    {
+        UpdateProgressGeometry();
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the geometry representing the progress arc.
+    /// </summary>
+    internal Geometry ProgressGeometry
+    {
+        get => (Geometry)GetValue(ProgressGeometryProperty);
+        set => SetValue(ProgressGeometryProperty, value);
+    }
+    public static readonly DependencyProperty ProgressGeometryProperty
+        = DependencyProperty.Register(
+            nameof(ProgressGeometry),
+            typeof(Geometry),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(Geometry.Empty, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the progress ring stroke.
+    /// </summary>
+    public double RingThickness
+    {
+        get => (double)GetValue(RingThicknessProperty);
+        set => SetValue(RingThicknessProperty, value);
+    }
+    public static readonly DependencyProperty RingThicknessProperty
+        = DependencyProperty.Register(
+            nameof(RingThickness),
+            typeof(double),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the scale of the progress ring.
+    /// Determines the size of the ring in proportion to its default dimensions.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswProgressRing),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
+        );
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswProgressRing)d;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
@@ -50,7 +108,9 @@ public class StswProgressRing : StswProgressBar
         base.OnValueChanged(oldValue, newValue);
         UpdateProgressGeometry();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Updates the geometry of the progress arc based on current Value/Minimum/Maximum.
     /// </summary>
@@ -183,66 +243,6 @@ public class StswProgressRing : StswProgressBar
         var x = center.X + radius * Math.Cos(angleRadians);
         var y = center.Y + radius * Math.Sin(angleRadians);
         return new Point(x, y);
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the geometry representing the progress arc.
-    /// </summary>
-    internal Geometry ProgressGeometry
-    {
-        get => (Geometry)GetValue(ProgressGeometryProperty);
-        set => SetValue(ProgressGeometryProperty, value);
-    }
-    public static readonly DependencyProperty ProgressGeometryProperty
-        = DependencyProperty.Register(
-            nameof(ProgressGeometry),
-            typeof(Geometry),
-            typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(Geometry.Empty, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the progress ring stroke.
-    /// </summary>
-    public double RingThickness
-    {
-        get => (double)GetValue(RingThicknessProperty);
-        set => SetValue(RingThicknessProperty, value);
-    }
-    public static readonly DependencyProperty RingThicknessProperty
-        = DependencyProperty.Register(
-            nameof(RingThickness),
-            typeof(double),
-            typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the scale of the progress ring.
-    /// Determines the size of the ring in proportion to its default dimensions.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(default(GridLength),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                OnScaleChanged)
-        );
-    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswProgressRing stsw)
-            return;
-
-        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
     }
     #endregion
 }

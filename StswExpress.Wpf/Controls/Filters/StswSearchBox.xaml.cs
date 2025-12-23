@@ -10,92 +10,12 @@ namespace StswExpress.Wpf;
 /// </summary>
 public class StswSearchBox : StswTextBox, IStswCornerControl
 {
-    private ICollectionView? _itemsView;
-
     static StswSearchBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSearchBox), new FrameworkPropertyMetadata(typeof(StswSearchBox)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override void OnTextChanged(TextChangedEventArgs e)
-    {
-        base.OnTextChanged(e);
-
-        if (FilterText != Text)
-            FilterText = Text;
-    }
-
-    /// <summary>
-    /// Filters the collection based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
-    /// </summary>
-    /// <param name="obj">The object to evaluate.</param>
-    /// <returns><see langword="true"/> when the object should be included.</returns>
-    private bool CollectionViewFilter(object obj)
-    {
-        return MatchesFilter(obj);
-    }
-
-    /// <summary>
-    /// Determines if the given object matches the current filter criteria.
-    /// </summary>
-    /// <param name="obj">The object to check against the filter.</param>
-    /// <returns><see langword="true"/> if the object matches the filter; otherwise, <see langword="false"/>.</returns>
-    private bool MatchesFilter(object obj)
-    {
-        var filterText = FilterText?.Trim();
-        if (string.IsNullOrEmpty(filterText))
-            return true;
-
-        var candidate = string.IsNullOrEmpty(FilterMemberPath)
-            ? obj?.ToString()
-            : obj.GetPropertyValue(FilterMemberPath)?.ToString();
-
-        return candidate?.IndexOf(filterText, System.StringComparison.CurrentCultureIgnoreCase) >= 0;
-    }
-
-    /// <summary>
-    /// Re-applies the filter to the collection view.
-    /// </summary>
-    private void RefreshFilter()
-    {
-        if (_itemsView is null)
-            return;
-
-        DetachFilter();
-
-        if (_itemsView.CanFilter)
-            _itemsView.Filter += CollectionViewFilter;
-
-        _itemsView.Refresh();
-    }
-
-    /// <summary>
-    /// Detaches the filter from the collection view.
-    /// </summary>
-    private void DetachFilter()
-    {
-        if (_itemsView is null || !_itemsView.CanFilter)
-            return;
-
-        _itemsView.Filter -= CollectionViewFilter;
-    }
-
-    /// <summary>
-    /// Called when <see cref="ItemsSource"/> changes.
-    /// </summary>
-    /// <param name="oldValue">The old collection.</param>
-    /// <param name="newValue">The new collection.</param>
-    protected virtual void OnItemsSourceChanged(IEnumerable? oldValue, IEnumerable? newValue)
-    {
-        DetachFilter();
-        _itemsView = newValue != null ? CollectionViewSource.GetDefaultView(newValue) : null;
-        RefreshFilter();
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// The path to the property used for filtering when the object is not a string.
     /// </summary>
@@ -159,6 +79,84 @@ public class StswSearchBox : StswTextBox, IStswCornerControl
     {
         var stsw = (StswSearchBox)d;
         stsw.OnItemsSourceChanged(e.OldValue as IEnumerable, e.NewValue as IEnumerable);
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnTextChanged(TextChangedEventArgs e)
+    {
+        base.OnTextChanged(e);
+        if (FilterText != Text)
+            FilterText = Text;
+    }
+    #endregion
+
+    #region Logic
+    private ICollectionView? _itemsView;
+
+    /// <summary>
+    /// Filters the collection based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
+    /// </summary>
+    /// <param name="obj">The object to evaluate.</param>
+    /// <returns><see langword="true"/> when the object should be included.</returns>
+    private bool CollectionViewFilter(object obj) => MatchesFilter(obj);
+
+    /// <summary>
+    /// Determines if the given object matches the current filter criteria.
+    /// </summary>
+    /// <param name="obj">The object to check against the filter.</param>
+    /// <returns><see langword="true"/> if the object matches the filter; otherwise, <see langword="false"/>.</returns>
+    private bool MatchesFilter(object obj)
+    {
+        var filterText = FilterText?.Trim();
+        if (string.IsNullOrEmpty(filterText))
+            return true;
+
+        var candidate = string.IsNullOrEmpty(FilterMemberPath)
+            ? obj?.ToString()
+            : obj.GetPropertyValue(FilterMemberPath)?.ToString();
+
+        return candidate?.IndexOf(filterText, System.StringComparison.CurrentCultureIgnoreCase) >= 0;
+    }
+
+    /// <summary>
+    /// Re-applies the filter to the collection view.
+    /// </summary>
+    private void RefreshFilter()
+    {
+        if (_itemsView is null)
+            return;
+
+        DetachFilter();
+
+        if (_itemsView.CanFilter)
+            _itemsView.Filter += CollectionViewFilter;
+
+        _itemsView.Refresh();
+    }
+
+    /// <summary>
+    /// Detaches the filter from the collection view.
+    /// </summary>
+    private void DetachFilter()
+    {
+        if (_itemsView is null || !_itemsView.CanFilter)
+            return;
+
+        _itemsView.Filter -= CollectionViewFilter;
+    }
+
+    /// <summary>
+    /// Called when <see cref="ItemsSource"/> changes.
+    /// </summary>
+    /// <param name="oldValue">The old collection.</param>
+    /// <param name="newValue">The new collection.</param>
+    protected virtual void OnItemsSourceChanged(IEnumerable? oldValue, IEnumerable? newValue)
+    {
+        DetachFilter();
+        _itemsView = newValue != null ? CollectionViewSource.GetDefaultView(newValue) : null;
+        RefreshFilter();
     }
     #endregion
 }

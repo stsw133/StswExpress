@@ -24,7 +24,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(typeof(StswSubRadio)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <inheritdoc/>
     public Geometry? IconData
     {
@@ -39,6 +39,20 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswSubRadio),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -49,6 +63,34 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             nameof(IconScale),
             typeof(GridLength),
             typeof(StswSubRadio)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswSubRadio),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswSubRadio),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <inheritdoc/>
@@ -89,50 +131,6 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
             typeof(Orientation),
             typeof(StswSubRadio),
             new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
-    public static readonly DependencyProperty IconFillProperty
-        = DependencyProperty.Register(
-            nameof(IconFill),
-            typeof(Brush),
-            typeof(StswSubRadio),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconStroke
-    {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeProperty
-        = DependencyProperty.Register(
-            nameof(IconStroke),
-            typeof(Brush),
-            typeof(StswSubRadio),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public double IconStrokeThickness
-    {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswSubRadio),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

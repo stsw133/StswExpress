@@ -26,7 +26,7 @@ public class StswStatusBarItem : StatusBarItem, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswStatusBarItem), new FrameworkPropertyMetadata(typeof(StswStatusBarItem)));
     }
 
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {

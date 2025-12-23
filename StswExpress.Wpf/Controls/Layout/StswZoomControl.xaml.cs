@@ -20,15 +20,92 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Fix, "Prevent moving content out of bounds when zoomed and panned.")]
 public class StswZoomControl : Border
 {
-    private UIElement? _child;
-    private Point _origin, _start;
-
     static StswZoomControl()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswZoomControl), new FrameworkPropertyMetadata(typeof(StswZoomControl)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the maximum zoom scale.
+    /// This prevents the content from being scaled above the specified value.
+    /// </summary>
+    public double? MaxScale
+    {
+        get => (double?)GetValue(MaxScaleProperty);
+        set => SetValue(MaxScaleProperty, value);
+    }
+    public static readonly DependencyProperty MaxScaleProperty
+        = DependencyProperty.Register(
+            nameof(MaxScale),
+            typeof(double?),
+            typeof(StswZoomControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the minimum zoom scale.
+    /// This prevents the content from being scaled below the specified value.
+    /// </summary>
+    public double? MinScale
+    {
+        get => (double?)GetValue(MinScaleProperty);
+        set => SetValue(MinScaleProperty, value);
+    }
+    public static readonly DependencyProperty MinScaleProperty
+        = DependencyProperty.Register(
+            nameof(MinScale),
+            typeof(double?),
+            typeof(StswZoomControl)
+        );
+
+    /// <summary>
+    /// Gets the current zoom percentage of the content.
+    /// </summary>
+    public double ZoomPercentage
+    {
+        get => (double)GetValue(ZoomPercentageProperty);
+        private set => SetValue(ZoomPercentagePropertyKey, value);
+    }
+    private static readonly DependencyPropertyKey ZoomPercentagePropertyKey
+        = DependencyProperty.RegisterReadOnly(
+            nameof(ZoomPercentage),
+            typeof(double),
+            typeof(StswZoomControl),
+            new PropertyMetadata(100.0)
+        );
+    public static readonly DependencyProperty ZoomPercentageProperty = ZoomPercentagePropertyKey!.DependencyProperty;
+
+    /// <summary>
+    /// Gets or sets the zoom step factor.
+    /// </summary>
+    public double ZoomStep
+    {
+        get => (double)GetValue(ZoomStepProperty);
+        set => SetValue(ZoomStepProperty, value);
+    }
+    public static readonly DependencyProperty ZoomStepProperty
+        = DependencyProperty.Register(
+            nameof(ZoomStep),
+            typeof(double),
+            typeof(StswZoomControl)
+        );
+    #endregion
+
+    #region Overrides
+    private UIElement? _child;
+
+    /// <inheritdoc/>
+    public override UIElement Child
+    {
+        get => base.Child;
+        set
+        {
+            if (value != null && value != Child)
+                Initialize(value);
+            base.Child = value;
+        }
+    }
+
     /// <summary>
     /// Initializes the zoom control with the specified UI element,
     /// setting up necessary transformations for scaling and translation.
@@ -61,6 +138,10 @@ public class StswZoomControl : Border
         MouseWheel += Child_MouseWheel;
         PreviewMouseRightButtonDown += Child_PreviewMouseRightButtonDown;
     }
+    #endregion
+
+    #region Logic
+    private Point _origin, _start;
 
     /// <summary>
     /// Handles the left mouse button down event to initiate panning.
@@ -185,85 +266,5 @@ public class StswZoomControl : Border
 
         ZoomPercentage = 100.0;
     }
-    #endregion
-
-    #region Logic properties
-    /// <inheritdoc/>
-    public override UIElement Child
-    {
-        get => base.Child;
-        set
-        {
-            if (value != null && value != Child)
-                Initialize(value);
-            base.Child = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the maximum zoom scale.
-    /// This prevents the content from being scaled above the specified value.
-    /// </summary>
-    public double? MaxScale
-    {
-        get => (double?)GetValue(MaxScaleProperty);
-        set => SetValue(MaxScaleProperty, value);
-    }
-    public static readonly DependencyProperty MaxScaleProperty
-        = DependencyProperty.Register(
-            nameof(MaxScale),
-            typeof(double?),
-            typeof(StswZoomControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the minimum zoom scale.
-    /// This prevents the content from being scaled below the specified value.
-    /// </summary>
-    public double? MinScale
-    {
-        get => (double?)GetValue(MinScaleProperty);
-        set => SetValue(MinScaleProperty, value);
-    }
-    public static readonly DependencyProperty MinScaleProperty
-        = DependencyProperty.Register(
-            nameof(MinScale),
-            typeof(double?),
-            typeof(StswZoomControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the zoom step factor.
-    /// </summary>
-    public double ZoomStep
-    {
-        get => (double)GetValue(ZoomStepProperty);
-        set => SetValue(ZoomStepProperty, value);
-    }
-    public static readonly DependencyProperty ZoomStepProperty
-        = DependencyProperty.Register(
-            nameof(ZoomStep),
-            typeof(double),
-            typeof(StswZoomControl)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets the current zoom percentage of the content.
-    /// </summary>
-    public double ZoomPercentage
-    {
-        get => (double)GetValue(ZoomPercentageProperty);
-        private set => SetValue(ZoomPercentagePropertyKey, value);
-    }
-    private static readonly DependencyPropertyKey ZoomPercentagePropertyKey
-        = DependencyProperty.RegisterReadOnly(
-            nameof(ZoomPercentage),
-            typeof(double),
-            typeof(StswZoomControl),
-            new PropertyMetadata(100.0)
-        );
-    public static readonly DependencyProperty ZoomPercentageProperty = ZoomPercentagePropertyKey!.DependencyProperty;
     #endregion
 }

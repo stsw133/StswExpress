@@ -22,6 +22,27 @@ namespace StswExpress.Wpf;
 /// </remarks>
 public class StswApp : Application
 {
+    #region Public properties
+    /// <summary>
+    /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
+    /// When set to <see langword="false"/>, a second instance will attempt to bring the first instance to the foreground and then shut down.
+    /// </summary>
+    public bool AllowMultipleInstances
+    {
+        get => _allowMultipleInstances;
+        set
+        {
+            VerifyAccess();
+            _allowMultipleInstances = value;
+        }
+    }
+    private bool _allowMultipleInstances = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether automatic registration of data templates is enabled.
+    /// </summary>
+    public bool IsRegisterDataTemplatesEnabled { get; set; } = true;
+
     /// <summary>
     /// Gets or sets the application's <see cref="IServiceProvider"/> used for dependency injection.
     /// </summary>
@@ -32,7 +53,26 @@ public class StswApp : Application
     /// </summary>
     public static StswSettingsModel Settings { get; set; } = new();
 
-    #region Events & methods
+    /// <summary>
+    /// Gets the current application's main <see cref="StswWindow"/> instance.
+    /// Throws an exception if the main window is not of the expected type.
+    /// </summary>
+    public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
+
+    /// <summary>
+    /// Gets or sets the suffix used to identify context types when registering data templates.
+    /// Defaults to "Context".
+    /// </summary>
+    public string ContextSuffix { get; set; } = "Context";
+
+    /// <summary>
+    /// Gets or sets the suffix used to identify view types when registering data templates.
+    /// Defaults to "View".
+    /// </summary>
+    public string ViewSuffix { get; set; } = "View";
+    #endregion
+
+    #region Start & exit
     /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -67,7 +107,9 @@ public class StswApp : Application
         /// Cleanup
         base.OnExit(e);
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Attempts to find and activate a system tray window if the main window is hidden or not directly accessible.
     /// </summary>
@@ -174,48 +216,9 @@ public class StswApp : Application
             ActivateTrayWindow(process);
         }
     }
-
-    /// <summary>
-    /// Gets the current application's main <see cref="StswWindow"/> instance.
-    /// Throws an exception if the main window is not of the expected type.
-    /// </summary>
-    public static StswWindow StswWindow => Current.MainWindow as StswWindow ?? throw new InvalidOperationException($"Main window is not of type {nameof(StswWindow)}.");
     #endregion
 
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether running multiple instances of the application is allowed.
-    /// When set to <see langword="false"/>, a second instance will attempt to bring the first instance to the foreground and then shut down.
-    /// </summary>
-    public bool AllowMultipleInstances
-    {
-        get => _allowMultipleInstances;
-        set
-        {
-            VerifyAccess();
-            _allowMultipleInstances = value;
-        }
-    }
-    private bool _allowMultipleInstances = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether automatic registration of data templates is enabled.
-    /// </summary>
-    public bool IsRegisterDataTemplatesEnabled { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets the suffix used to identify context types when registering data templates.
-    /// Defaults to "Context".
-    /// </summary>
-    public string ContextSuffix { get; set; } = "Context";
-
-    /// <summary>
-    /// Gets or sets the suffix used to identify view types when registering data templates.
-    /// Defaults to "View".
-    /// </summary>
-    public string ViewSuffix { get; set; } = "View";
-    #endregion
-
+    #region Helpers
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool EnumThreadWindows(int dwThreadId, EnumThreadWndProc lpfn, IntPtr lParam);
 
@@ -233,4 +236,5 @@ public class StswApp : Application
 
     private const int SW_RESTORE = 9;
     private delegate bool EnumThreadWndProc(IntPtr hWnd, IntPtr lParam);
+    #endregion
 }

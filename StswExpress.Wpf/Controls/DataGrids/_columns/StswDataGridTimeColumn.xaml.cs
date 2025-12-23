@@ -24,64 +24,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         ForegroundProperty.OverrideMetadata(typeof(StswDataGridTimeColumn), new FrameworkPropertyMetadata(null));
     }
 
-    private static readonly Style StswEditingElementStyle = new(typeof(StswTimePicker), (Style)Application.Current.FindResource(typeof(StswTimePicker)))
-    {
-        Setters =
-        {
-            new Setter(StswTimePicker.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswTimePicker.CornerClippingProperty, false),
-            new Setter(StswTimePicker.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswTimePicker.FocusVisualStyleProperty, null),
-            new Setter(StswTimePicker.PaddingProperty, new Thickness(0)),
-            new Setter(StswTimePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswTimePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch),
-        }
-    };
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-    {
-        var displayElement = new StswText()
-        {
-            Margin = new Thickness(2, 0, 2, 0)
-        };
-        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
-        StswDataGridTextColumn.BindFontProperties(this, displayElement);
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
-
-        return displayElement;
-    }
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-    {
-        var editingElement = new StswTimePicker()
-        {
-            Style = StswEditingElementStyle
-        };
-        editingElement.SetBinding(StswTimePicker.FormatProperty, this.CreateColumnBinding(nameof(Format)));
-        editingElement.SetBinding(StswTimePicker.IncrementTypeProperty, this.CreateColumnBinding(nameof(IncrementType)));
-        editingElement.SetBinding(StswTimePicker.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
-        editingElement.SetBinding(StswTimePicker.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
-        editingElement.SetBinding(StswTimePicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswTimePicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswTimePicker.SelectedTimeProperty, Binding);
-
-        return editingElement;
-    }
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the format used for displaying the time value.
     /// The format follows standard time formatting conventions, such as "HH:mm".
@@ -144,23 +87,6 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text displayed in the editing element when no time value is selected.
-    /// </summary>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswDataGridTimeColumn)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
     /// Gets or sets the padding around the text inside the column's cells.
     /// </summary>
     public Thickness Padding
@@ -172,6 +98,21 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
+            typeof(StswDataGridTimeColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the placeholder text displayed in the editing element when no time value is selected.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
             typeof(StswDataGridTimeColumn)
         );
 
@@ -252,5 +193,64 @@ public class StswDataGridTimeColumn : DataGridTextColumn
             typeof(StswDataGridTimeColumn),
             new PropertyMetadata(VerticalAlignment.Top)
         );
+    #endregion
+
+    #region Overrides
+    private static readonly Style StswEditingElementStyle = new(typeof(StswTimePicker), (Style)Application.Current.FindResource(typeof(StswTimePicker)))
+    {
+        Setters =
+        {
+            new Setter(StswTimePicker.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswTimePicker.CornerClippingProperty, false),
+            new Setter(StswTimePicker.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswTimePicker.FocusVisualStyleProperty, null),
+            new Setter(StswTimePicker.PaddingProperty, new Thickness(0)),
+            new Setter(StswTimePicker.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswTimePicker.VerticalAlignmentProperty, VerticalAlignment.Stretch),
+        }
+    };
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+    {
+        var displayElement = new StswText()
+        {
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
+
+        return displayElement;
+    }
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+    {
+        var editingElement = new StswTimePicker()
+        {
+            Style = StswEditingElementStyle
+        };
+        editingElement.SetBinding(StswTimePicker.FormatProperty, this.CreateColumnBinding(nameof(Format)));
+        editingElement.SetBinding(StswTimePicker.IncrementTypeProperty, this.CreateColumnBinding(nameof(IncrementType)));
+        editingElement.SetBinding(StswTimePicker.MaximumProperty, this.CreateColumnBinding(nameof(Maximum)));
+        editingElement.SetBinding(StswTimePicker.MinimumProperty, this.CreateColumnBinding(nameof(Minimum)));
+        editingElement.SetBinding(StswTimePicker.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswTimePicker.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(editingElement, StswTimePicker.SelectedTimeProperty, Binding);
+
+        return editingElement;
+    }
     #endregion
 }

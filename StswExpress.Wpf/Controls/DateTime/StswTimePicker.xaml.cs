@@ -24,14 +24,282 @@ public class StswTimePicker : StswBoxBase
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimePicker), new FrameworkPropertyMetadata(typeof(StswTimePicker)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the format used for displaying the time value.
+    /// The format follows standard time formatting conventions, such as "HH:mm".
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(string),
+            typeof(StswTimePicker),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged)
+        );
+    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        stsw.UpdateVisibilityBasedOnFormat();
+        stsw.FormatChanged(stsw.Format);
+    }
+
+    /// <summary>
+    /// Gets or sets the increment type that determines how the time changes when scrolling with the mouse wheel.
+    /// </summary>
+    public StswTimeSpanIncrementType IncrementType
+    {
+        get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+            nameof(IncrementType),
+            typeof(StswTimeSpanIncrementType),
+            typeof(StswTimePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswTimePicker)
+        );
+
+    /// <summary>
+    /// Gets a value indicating whether the hours input field is visible based on the selected <see cref="Format"/>.
+    /// </summary>
+    public bool IsHoursVisible
+    {
+        get => (bool)GetValue(IsHoursVisibleProperty);
+        private set => SetValue(IsHoursVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsHoursVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsHoursVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Gets a value indicating whether the minutes input field is visible based on the selected <see cref="Format"/>.
+    /// </summary>
+    public bool IsMinutesVisible
+    {
+        get => (bool)GetValue(IsMinutesVisibleProperty);
+        private set => SetValue(IsMinutesVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsMinutesVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsMinutesVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Gets a value indicating whether the seconds input field is visible based on the selected <see cref="Format"/>.
+    /// </summary>
+    public bool IsSecondsVisible
+    {
+        get => (bool)GetValue(IsSecondsVisibleProperty);
+        private set => SetValue(IsSecondsVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsSecondsVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsSecondsVisible),
+            typeof(bool),
+            typeof(StswTimePicker),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum allowable time in the control.
+    /// </summary>
+    public TimeSpan? Maximum
+    {
+        get => (TimeSpan?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+    public static readonly DependencyProperty MaximumProperty
+        = DependencyProperty.Register(
+            nameof(Maximum),
+            typeof(TimeSpan?),
+            typeof(StswTimePicker),
+            new PropertyMetadata(default(TimeSpan?), OnMinMaxChanged)
+        );
+    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
+            stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum allowable time in the control.
+    /// </summary>
+    public TimeSpan? Minimum
+    {
+        get => (TimeSpan?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
+    public static readonly DependencyProperty MinimumProperty
+        = DependencyProperty.Register(
+            nameof(Minimum),
+            typeof(TimeSpan?),
+            typeof(StswTimePicker),
+            new PropertyMetadata(default(TimeSpan?), OnMinMaxChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected time in the control.
+    /// </summary>
+    public TimeSpan? SelectedTime
+    {
+        get => (TimeSpan?)GetValue(SelectedTimeProperty);
+        set => SetValue(SelectedTimeProperty, value);
+    }
+    public static readonly DependencyProperty SelectedTimeProperty
+        = DependencyProperty.Register(
+            nameof(SelectedTime),
+            typeof(TimeSpan?),
+            typeof(StswTimePicker),
+            new FrameworkPropertyMetadata(default(TimeSpan?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedTimeChanged, OnSelectedTimeChanging, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        if (!stsw._isTimeChanging)
+        {
+            stsw._isTimeChanging = true;
+            if (stsw.SelectedTime.HasValue)
+            {
+                stsw.SelectedTimeH = stsw.SelectedTime.Value.Hours;
+                stsw.SelectedTimeM = stsw.SelectedTime.Value.Minutes;
+                stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
+            }
+            stsw._isTimeChanging = false;
+        }
+    }
+    private static object? OnSelectedTimeChanging(DependencyObject d, object? baseValue)
+    {
+        var stsw = (StswTimePicker)d;
+        return stsw.MinMaxValidate((TimeSpan?)baseValue);
+    }
+    private bool _isTimeChanging;
+
+    /// <summary>
+    /// Gets or sets the currently selected hour for the selected time.
+    /// </summary>
+    internal int SelectedTimeH
+    {
+        get => (int)GetValue(SelectedTimeHProperty);
+        set => SetValue(SelectedTimeHProperty, value);
+    }
+    internal static readonly DependencyProperty SelectedTimeHProperty
+        = DependencyProperty.Register(
+            nameof(SelectedTimeH),
+            typeof(int),
+            typeof(StswTimePicker),
+            new FrameworkPropertyMetadata(default(int),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedTimeHChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedTimeHChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        if (stsw.SelectedTime.HasValue)
+        {
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, stsw.SelectedTimeH, t.Minutes, t.Seconds, t.Milliseconds);
+        }
+        else stsw.SelectedTime = new TimeSpan(stsw.SelectedTimeH, 0, 0);
+    }
+
+    /// <summary>
+    /// Gets or sets the currently selected minute for the selected time.
+    /// </summary>
+    internal int SelectedTimeM
+    {
+        get => (int)GetValue(SelectedTimeMProperty);
+        set => SetValue(SelectedTimeMProperty, value);
+    }
+    internal static readonly DependencyProperty SelectedTimeMProperty
+        = DependencyProperty.Register(
+            nameof(SelectedTimeM),
+            typeof(int),
+            typeof(StswTimePicker),
+            new FrameworkPropertyMetadata(default(int),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedTimeMChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedTimeMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        if (stsw.SelectedTime.HasValue)
+        {
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, stsw.SelectedTimeM, t.Seconds, t.Milliseconds);
+        }
+        else stsw.SelectedTime = new TimeSpan(0, stsw.SelectedTimeM, 0);
+    }
+
+    /// <summary>
+    /// Gets or sets the currently selected second for the selected time.
+    /// </summary>
+    internal int SelectedTimeS
+    {
+        get => (int)GetValue(SelectedTimeSProperty);
+        set => SetValue(SelectedTimeSProperty, value);
+    }
+    internal static readonly DependencyProperty SelectedTimeSProperty
+        = DependencyProperty.Register(
+            nameof(SelectedTimeS),
+            typeof(int),
+            typeof(StswTimePicker),
+            new FrameworkPropertyMetadata(default(int),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedTimeSChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedTimeSChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswTimePicker)d;
+        if (stsw.SelectedTime.HasValue)
+        {
+            var t = stsw.SelectedTime.Value;
+            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, t.Minutes, stsw.SelectedTimeS, t.Milliseconds);
+        }
+        else stsw.SelectedTime = new TimeSpan(0, 0, stsw.SelectedTimeS);
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
+    #endregion
+
+    #region Overrides
     /*
     /// <inheritdoc/>
     protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -75,7 +343,9 @@ public class StswTimePicker : StswBoxBase
             e.Handled = true;
         }
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Ensures that the provided time value is within the defined minimum and maximum limits.
     /// If the value is outside the allowed range, it is adjusted accordingly.
@@ -178,286 +448,6 @@ public class StswTimePicker : StswBoxBase
         IsHoursVisible = Format.Contains('h');
         IsMinutesVisible = Format.Contains('m');
         IsSecondsVisible = Format.Contains('s');
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the format used for displaying the time value.
-    /// The format follows standard time formatting conventions, such as "HH:mm".
-    /// </summary>
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
-    public static readonly DependencyProperty FormatProperty
-        = DependencyProperty.Register(
-            nameof(Format),
-            typeof(string),
-            typeof(StswTimePicker),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged)
-        );
-    public static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        stsw.UpdateVisibilityBasedOnFormat();
-        stsw.FormatChanged(stsw.Format);
-    }
-
-    /// <summary>
-    /// Gets or sets the increment type that determines how the time changes when scrolling with the mouse wheel.
-    /// </summary>
-    public StswTimeSpanIncrementType IncrementType
-    {
-        get => (StswTimeSpanIncrementType)GetValue(IncrementTypeProperty);
-        set => SetValue(IncrementTypeProperty, value);
-    }
-    public static readonly DependencyProperty IncrementTypeProperty
-        = DependencyProperty.Register(
-            nameof(IncrementType),
-            typeof(StswTimeSpanIncrementType),
-            typeof(StswTimePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down menu is currently open.
-    /// </summary>
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswTimePicker)
-        );
-
-    /// <summary>
-    /// Gets a value indicating whether the hours input field is visible based on the selected <see cref="Format"/>.
-    /// </summary>
-    public bool IsHoursVisible
-    {
-        get => (bool)GetValue(IsHoursVisibleProperty);
-        private set => SetValue(IsHoursVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsHoursVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsHoursVisible),
-            typeof(bool),
-            typeof(StswTimePicker),
-            new PropertyMetadata(true)
-        );
-
-    /// <summary>
-    /// Gets a value indicating whether the minutes input field is visible based on the selected <see cref="Format"/>.
-    /// </summary>
-    public bool IsMinutesVisible
-    {
-        get => (bool)GetValue(IsMinutesVisibleProperty);
-        private set => SetValue(IsMinutesVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsMinutesVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsMinutesVisible),
-            typeof(bool),
-            typeof(StswTimePicker),
-            new PropertyMetadata(true)
-        );
-
-    /// <summary>
-    /// Gets a value indicating whether the seconds input field is visible based on the selected <see cref="Format"/>.
-    /// </summary>
-    public bool IsSecondsVisible
-    {
-        get => (bool)GetValue(IsSecondsVisibleProperty);
-        private set => SetValue(IsSecondsVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsSecondsVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsSecondsVisible),
-            typeof(bool),
-            typeof(StswTimePicker),
-            new PropertyMetadata(true)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum allowable time in the control.
-    /// </summary>
-    public TimeSpan? Maximum
-    {
-        get => (TimeSpan?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(TimeSpan?),
-            typeof(StswTimePicker),
-            new PropertyMetadata(default(TimeSpan?), OnMinMaxChanged)
-        );
-    public static void OnMinMaxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        if (stsw.SelectedTime != null && !stsw.SelectedTime.Between(stsw.Minimum, stsw.Maximum))
-            stsw.SelectedTime = stsw.MinMaxValidate(stsw.SelectedTime);
-    }
-
-    /// <summary>
-    /// Gets or sets the minimum allowable time in the control.
-    /// </summary>
-    public TimeSpan? Minimum
-    {
-        get => (TimeSpan?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(TimeSpan?),
-            typeof(StswTimePicker),
-            new PropertyMetadata(default(TimeSpan?), OnMinMaxChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected time in the control.
-    /// </summary>
-    public TimeSpan? SelectedTime
-    {
-        get => (TimeSpan?)GetValue(SelectedTimeProperty);
-        set => SetValue(SelectedTimeProperty, value);
-    }
-    public static readonly DependencyProperty SelectedTimeProperty
-        = DependencyProperty.Register(
-            nameof(SelectedTime),
-            typeof(TimeSpan?),
-            typeof(StswTimePicker),
-            new FrameworkPropertyMetadata(default(TimeSpan?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedTimeChanged, OnSelectedTimeChanging, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        if (!stsw._isTimeChanging)
-        {
-            stsw._isTimeChanging = true;
-            if (stsw.SelectedTime.HasValue)
-            {
-                stsw.SelectedTimeH = stsw.SelectedTime.Value.Hours;
-                stsw.SelectedTimeM = stsw.SelectedTime.Value.Minutes;
-                stsw.SelectedTimeS = stsw.SelectedTime.Value.Seconds;
-            }
-            stsw._isTimeChanging = false;
-        }
-    }
-    private static object? OnSelectedTimeChanging(DependencyObject d, object? baseValue)
-    {
-        if (d is not StswTimePicker stsw)
-            return baseValue;
-
-        return stsw.MinMaxValidate((TimeSpan?)baseValue);
-    }
-    private bool _isTimeChanging;
-
-    /// <summary>
-    /// Gets or sets the currently selected hour for the selected time.
-    /// </summary>
-    internal int SelectedTimeH
-    {
-        get => (int)GetValue(SelectedTimeHProperty);
-        set => SetValue(SelectedTimeHProperty, value);
-    }
-    internal static readonly DependencyProperty SelectedTimeHProperty
-        = DependencyProperty.Register(
-            nameof(SelectedTimeH),
-            typeof(int),
-            typeof(StswTimePicker),
-            new FrameworkPropertyMetadata(default(int),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedTimeHChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedTimeHChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        if (stsw.SelectedTime.HasValue)
-        {
-            var t = stsw.SelectedTime.Value;
-            stsw.SelectedTime = new TimeSpan(t.Days, stsw.SelectedTimeH, t.Minutes, t.Seconds, t.Milliseconds);
-        }
-        else stsw.SelectedTime = new TimeSpan(stsw.SelectedTimeH, 0, 0);
-    }
-
-    /// <summary>
-    /// Gets or sets the currently selected minute for the selected time.
-    /// </summary>
-    internal int SelectedTimeM
-    {
-        get => (int)GetValue(SelectedTimeMProperty);
-        set => SetValue(SelectedTimeMProperty, value);
-    }
-    internal static readonly DependencyProperty SelectedTimeMProperty
-        = DependencyProperty.Register(
-            nameof(SelectedTimeM),
-            typeof(int),
-            typeof(StswTimePicker),
-            new FrameworkPropertyMetadata(default(int),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedTimeMChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedTimeMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        if (stsw.SelectedTime.HasValue)
-        {
-            var t = stsw.SelectedTime.Value;
-            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, stsw.SelectedTimeM, t.Seconds, t.Milliseconds);
-        }
-        else stsw.SelectedTime = new TimeSpan(0, stsw.SelectedTimeM, 0);
-    }
-
-    /// <summary>
-    /// Gets or sets the currently selected second for the selected time.
-    /// </summary>
-    internal int SelectedTimeS
-    {
-        get => (int)GetValue(SelectedTimeSProperty);
-        set => SetValue(SelectedTimeSProperty, value);
-    }
-    internal static readonly DependencyProperty SelectedTimeSProperty
-        = DependencyProperty.Register(
-            nameof(SelectedTimeS),
-            typeof(int),
-            typeof(StswTimePicker),
-            new FrameworkPropertyMetadata(default(int),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedTimeSChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedTimeSChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswTimePicker stsw)
-            return;
-
-        if (stsw.SelectedTime.HasValue)
-        {
-            var t = stsw.SelectedTime.Value;
-            stsw.SelectedTime = new TimeSpan(t.Days, t.Hours, t.Minutes, stsw.SelectedTimeS, t.Milliseconds);
-        }
-        else stsw.SelectedTime = new TimeSpan(0, 0, stsw.SelectedTimeS);
     }
     #endregion
 }

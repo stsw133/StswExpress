@@ -22,65 +22,286 @@ namespace StswExpress.Wpf;/// <summary>
 /// </example>
 public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswSelectionControl
 {
-    private TextBoxBase? _filter;
-    private Popup? _popup;
-    private ICollectionView? _itemsView;
-    private object? _hiddenSelectedItem;
-
-    bool IStswDropControl.SuppressNextOpen { get; set; }
-
+    static StswComboBox()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
+    }
     public StswComboBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
         DependencyPropertyDescriptor.FromProperty(IsDropDownOpenProperty, typeof(ComboBox)).AddValueChanged(this, OnIsDropDownOpenChanged);
     }
-    static StswComboBox()
+
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswComboBox)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswComboBox)
+        );
+
+    /// <inheritdoc/>
+    public ReadOnlyObservableCollection<ValidationError> Errors
+    {
+        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+    public static readonly DependencyProperty ErrorsProperty
+        = DependencyProperty.Register(
+            nameof(Errors),
+            typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the member path used for filtering.
+    /// </summary>
+    public string FilterMemberPath
+    {
+        get => (string)GetValue(FilterMemberPathProperty);
+        set => SetValue(FilterMemberPathProperty, value);
+    }
+    public static readonly DependencyProperty FilterMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(FilterMemberPath),
+            typeof(string),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the text used for filtering the items in list.
+    /// </summary>
+    public string FilterText
+    {
+        get => (string)GetValue(FilterTextProperty);
+        set => SetValue(FilterTextProperty, value);
+    }
+    public static readonly DependencyProperty FilterTextProperty
+        = DependencyProperty.Register(
+            nameof(FilterText),
+            typeof(string),
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilterTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnFilterTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswComboBox)d;
+        if (stsw.IsFilterEnabled)
+            stsw._itemsView?.Refresh();
+        stsw.UpdateSelectedItemVisibility();
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswComboBoxItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswComboBoxItem;
+    /// <inheritdoc/>
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public static readonly DependencyProperty HasErrorProperty
+        = DependencyProperty.Register(
+            nameof(HasError),
+            typeof(bool),
+            typeof(StswComboBox)
+        );
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets a value indicating whether the selected item should be hidden from the filtered list when it does not match the filter criteria.
+    /// When enabled, the selected item remains selected even if it is not shown.
+    /// </summary>
+    public bool HideSelectedItemWhenFiltered
+    {
+        get => (bool)GetValue(HideSelectedItemWhenFilteredProperty);
+        set => SetValue(HideSelectedItemWhenFilteredProperty, value);
+    }
+    public static readonly DependencyProperty HideSelectedItemWhenFilteredProperty
+        = DependencyProperty.Register(
+            nameof(HideSelectedItemWhenFiltered),
+            typeof(bool),
+            typeof(StswComboBox),
+            new PropertyMetadata(true, OnHideSelectedItemWhenFilteredChanged)
+        );
+    private static void OnHideSelectedItemWhenFilteredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswComboBox)d;
+        stsw.UpdateSelectedItemVisibility();
+    }
+
+    /// <inheritdoc/>
+    public object? Icon
+    {
+        get => (object?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(object),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets whether filtering is enabled.
+    /// When enabled, the control will filter items based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
+    /// </summary>
+    public bool IsFilterEnabled
+    {
+        get => (bool)GetValue(IsFilterEnabledProperty);
+        set => SetValue(IsFilterEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsFilterEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsFilterEnabled),
+            typeof(bool),
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsFilterEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsFilterEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswComboBox)d;
+        stsw.DetachFilter();
+
+        if (stsw.IsFilterEnabled)
+            stsw.AttachFilter();
+        else
+            stsw._itemsView?.Refresh();
+
+        stsw.UpdateSelectedItemVisibility();
+    }
+
+    /// <inheritdoc/>
+    public double MaxDropDownWidth
+    {
+        get => (double)GetValue(MaxDropDownWidthProperty);
+        set => SetValue(MaxDropDownWidthProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownWidthProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownWidth),
+            typeof(double),
+            typeof(StswComboBox),
+            new PropertyMetadata(double.NaN)
+        );
+
+    /// <inheritdoc/>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswComboBox),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
+            typeof(StswComboBox)
+        );
+    #endregion
+
+    #region Template
+    private TextBoxBase? _filter;
+    private Popup? _popup;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        /// filter textbox
+        DetachTemplateEvents();
         _filter = GetTemplateChild("PART_Filter") as TextBoxBase;
-
-        /// popup
-        if (_popup != null)
-            _popup.Opened -= OnIsDropDownOpenChanged;
-
         _popup = GetTemplateChild("PART_Popup") as Popup;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_popup != null)
             _popup.Opened += OnIsDropDownOpenChanged;
     }
 
     /// <summary>
-    /// Handles the event when the drop-down opens or closes. 
-    /// If filtering is enabled, focuses the filter input field.
+    /// Detaches event handlers from the template parts.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
-    private void OnIsDropDownOpenChanged(object? sender, EventArgs e)
+    private void DetachTemplateEvents()
     {
-        if (IsDropDownOpen && IsFilterEnabled && _filter != null)
-            _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
-            {
-                if (_filter.IsVisible)
-                    _filter.Focus();
-            });
-        else if (IsDropDownOpen && IsEditable)
-            Dispatcher.BeginInvoke(DispatcherPriority.Input, () => Keyboard.Focus(this));
-
-        if (IsDropDownOpen)
-            UpdateSelectedItemVisibility();
+        if (_popup != null)
+            _popup.Opened -= OnIsDropDownOpenChanged;
     }
-    
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswComboBoxItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswComboBoxItem;
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+
+        if (element is StswComboBoxItem listBoxItem)
+        {
+            listBoxItem.SetBinding(StswComboBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
@@ -135,24 +356,37 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
         UpdateSelectedItemVisibility();
     }
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    #region Logic
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
+    /// <summary>
+    /// Handles the event when the drop-down opens or closes. 
+    /// If filtering is enabled, focuses the filter input field.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void OnIsDropDownOpenChanged(object? sender, EventArgs e)
     {
-        base.PrepareContainerForItemOverride(element, item);
-
-        if (element is StswComboBoxItem listBoxItem)
-        {
-            listBoxItem.SetBinding(StswComboBoxItem.IsReadOnlyProperty, new Binding(nameof(IsReadOnly))
+        if (IsDropDownOpen && IsFilterEnabled && _filter != null)
+            _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
             {
-                Source = this,
-                Mode = BindingMode.OneWay
+                if (_filter.IsVisible)
+                    _filter.Focus();
             });
-        }
+        else if (IsDropDownOpen && IsEditable)
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, () => Keyboard.Focus(this));
+
+        if (IsDropDownOpen)
+            UpdateSelectedItemVisibility();
     }
     #endregion
 
     #region Filter logic
+    private object? _hiddenSelectedItem;
+    private ICollectionView? _itemsView;
+
     /// <summary>
     /// Filters the collection based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
     /// Returns <see langword="true"/> if the item matches, otherwise <see langword="false"/>.
@@ -310,230 +544,5 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
 
         ItemContainerGenerator.StatusChanged += OnStatusChanged;
     }
-    #endregion
-
-    #region Logic properties
-    /// <inheritdoc/>
-    public ReadOnlyObservableCollection<ValidationError> Errors
-    {
-        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
-        set => SetValue(ErrorsProperty, value);
-    }
-    public static readonly DependencyProperty ErrorsProperty
-        = DependencyProperty.Register(
-            nameof(Errors),
-            typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the member path used for filtering.
-    /// </summary>
-    public string FilterMemberPath
-    {
-        get => (string)GetValue(FilterMemberPathProperty);
-        set => SetValue(FilterMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty FilterMemberPathProperty
-        = DependencyProperty.Register(
-            nameof(FilterMemberPath),
-            typeof(string),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the text used for filtering the items in list.
-    /// </summary>
-    public string FilterText
-    {
-        get => (string)GetValue(FilterTextProperty);
-        set => SetValue(FilterTextProperty, value);
-    }
-    public static readonly DependencyProperty FilterTextProperty
-        = DependencyProperty.Register(
-            nameof(FilterText),
-            typeof(string),
-            typeof(StswComboBox),
-            new FrameworkPropertyMetadata(default(string),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFilterTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnFilterTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswComboBox stsw)
-            return;
-
-        if (stsw.IsFilterEnabled)
-            stsw._itemsView?.Refresh();
-
-        stsw.UpdateSelectedItemVisibility();
-    }
-
-    /// <inheritdoc/>
-    public bool HasError
-    {
-        get => (bool)GetValue(HasErrorProperty);
-        set => SetValue(HasErrorProperty, value);
-    }
-    public static readonly DependencyProperty HasErrorProperty
-        = DependencyProperty.Register(
-            nameof(HasError),
-            typeof(bool),
-            typeof(StswComboBox)
-        );
-
-    /// <inheritdoc/>
-    public object? Icon
-    {
-        get => (object?)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
-    public static readonly DependencyProperty IconProperty
-        = DependencyProperty.Register(
-            nameof(Icon),
-            typeof(object),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets whether filtering is enabled.
-    /// When enabled, the control will filter items based on <see cref="FilterText"/> and <see cref="FilterMemberPath"/>.
-    /// </summary>
-    public bool IsFilterEnabled
-    {
-        get => (bool)GetValue(IsFilterEnabledProperty);
-        set => SetValue(IsFilterEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsFilterEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsFilterEnabled),
-            typeof(bool),
-            typeof(StswComboBox),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsFilterEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsFilterEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswComboBox stsw)
-            return;
-
-        stsw.DetachFilter();
-
-        if (stsw.IsFilterEnabled)
-            stsw.AttachFilter();
-        else
-            stsw._itemsView?.Refresh();
-
-        stsw.UpdateSelectedItemVisibility();
-    }
-
-    /// <inheritdoc/>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswComboBox)
-        );
-
-    /// <inheritdoc/>
-    public ObservableCollection<IStswSubControl> SubControls
-    {
-        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
-        set => SetValue(SubControlsProperty, value);
-    }
-    public static readonly DependencyProperty SubControlsProperty
-        = DependencyProperty.Register(
-            nameof(SubControls),
-            typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswComboBox)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswComboBox)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the selected item should be hidden from the filtered list when it does not match the filter criteria.
-    /// When enabled, the selected item remains selected even if it is not shown.
-    /// </summary>
-    public bool HideSelectedItemWhenFiltered
-    {
-        get => (bool)GetValue(HideSelectedItemWhenFilteredProperty);
-        set => SetValue(HideSelectedItemWhenFilteredProperty, value);
-    }
-    public static readonly DependencyProperty HideSelectedItemWhenFilteredProperty
-        = DependencyProperty.Register(
-            nameof(HideSelectedItemWhenFiltered),
-            typeof(bool),
-            typeof(StswComboBox),
-            new PropertyMetadata(true, OnHideSelectedItemWhenFilteredChanged)
-        );
-    private static void OnHideSelectedItemWhenFilteredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswComboBox stsw)
-            return;
-
-        stsw.UpdateSelectedItemVisibility();
-    }
-
-    /// <inheritdoc/>
-    public double MaxDropDownWidth
-    {
-        get => (double)GetValue(MaxDropDownWidthProperty);
-        set => SetValue(MaxDropDownWidthProperty, value);
-    }
-    public static readonly DependencyProperty MaxDropDownWidthProperty
-        = DependencyProperty.Register(
-            nameof(MaxDropDownWidth),
-            typeof(double),
-            typeof(StswComboBox),
-            new PropertyMetadata(double.NaN)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the arrow icon and main button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswComboBox),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

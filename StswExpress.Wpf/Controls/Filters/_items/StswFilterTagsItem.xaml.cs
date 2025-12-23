@@ -17,44 +17,100 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswFilterTagsItem : ContentControl, IStswCornerControl
 {
-    private Button? _btnAdd;
-    private Button? _btnRemove;
-    private Button? _btnSelect;
-
     static StswFilterTagsItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilterTagsItem), new FrameworkPropertyMetadata(typeof(StswFilterTagsItem)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswFilterTagsItem)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswFilterTagsItem)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item is in read-only mode.
+    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswFilterTagsItem)
+        );
+    #endregion
+
+    #region Template
+    private Button? _btnAdd;
+    private Button? _btnRemove;
+    private Button? _btnSelect;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
+        DetachTemplateEvents();
+        _btnAdd = GetTemplateChild("PART_Add") as Button;
+        _btnRemove = GetTemplateChild("PART_Remove") as Button;
+        _btnSelect = GetTemplateChild("PART_Select") as Button;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_btnAdd != null)
+            _btnAdd.Click += BtnAdd_Click;
+        if (_btnRemove != null)
+            _btnRemove.Click += BtnRemove_Click;
+        if (_btnSelect != null)
+            _btnSelect.Click += BtnSelect_Click;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
         if (_btnAdd != null)
             _btnAdd.Click -= BtnAdd_Click;
         if (_btnRemove != null)
             _btnRemove.Click -= BtnRemove_Click;
         if (_btnSelect != null)
             _btnSelect.Click -= BtnSelect_Click;
-
-        /// Add
-        _btnAdd = GetTemplateChild("PART_Add") as Button;
-        if (_btnAdd != null)
-            _btnAdd.Click += BtnAdd_Click;
-
-        /// Remove
-        _btnRemove = GetTemplateChild("PART_Remove") as Button;
-        if (_btnRemove != null)
-            _btnRemove.Click += BtnRemove_Click;
-
-        /// Select
-        _btnSelect = GetTemplateChild("PART_Select") as Button;
-        if (_btnSelect != null)
-            _btnSelect.Click += BtnSelect_Click;
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Sets the current item as included.
     /// </summary>
@@ -127,51 +183,5 @@ public class StswFilterTagsItem : ContentControl, IStswCornerControl
             parent.UpdateSelectedTagsString();
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the item is in read-only mode.
-    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswFilterTagsItem)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswFilterTagsItem)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswFilterTagsItem)
-        );
     #endregion
 }

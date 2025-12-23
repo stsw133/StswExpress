@@ -20,20 +20,199 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswDataPager : ContentControl, IStswCornerControl
 {
-    private INotifyCollectionChanged? _observableItemsSource;
-
+    static StswDataPager()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(typeof(StswDataPager)));
+    }
     public StswDataPager()
     {
         _pageChangeCommand = new StswCommand<int>(OnPageChangeRequested);
         SetValue(PagesProperty, new ObservableCollection<StswDataPagerPage>());
         Loaded += OnLoaded;
     }
-    static StswDataPager()
+
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(typeof(StswDataPager)));
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDataPager)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDataPager)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected page number.
+    /// Changing this property updates the displayed items accordingly.
+    /// </summary>
+    public int CurrentPage
+    {
+        get => (int)GetValue(CurrentPageProperty);
+        set => SetValue(CurrentPageProperty, value);
+    }
+    public static readonly DependencyProperty CurrentPageProperty
+        = DependencyProperty.Register(
+            nameof(CurrentPage),
+            typeof(int),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(default(int),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnCurrentPageChanged, CoerceCurrentPage, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnCurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataPager)d;
+        stsw.RefreshPagination(false);
+    }
+    private static object CoerceCurrentPage(DependencyObject d, object baseValue)
+    {
+        var stsw = (StswDataPager)d;
+        var value = (int)baseValue;
+        var maximum = Math.Max(1, stsw.TotalPages);
+        return Math.Clamp(value, 1, maximum);
     }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the collection of items currently displayed on the selected page.
+    /// This property updates automatically when the page changes.
+    /// </summary>
+    public IList ItemsOnPage
+    {
+        get => (IList)GetValue(ItemsOnPageProperty);
+        set => SetValue(ItemsOnPageProperty, value);
+    }
+    public static readonly DependencyProperty ItemsOnPageProperty
+        = DependencyProperty.Register(
+            nameof(ItemsOnPage),
+            typeof(IList),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(Array.Empty<object?>())
+        );
+
+    /// <summary>
+    /// Gets or sets the number of items displayed per page.
+    /// Changing this property triggers a recalculation of pagination.
+    /// </summary>
+    public int ItemsPerPage
+    {
+        get => (int)GetValue(ItemsPerPageProperty);
+        set => SetValue(ItemsPerPageProperty, value);
+    }
+    public static readonly DependencyProperty ItemsPerPageProperty
+        = DependencyProperty.Register(
+            nameof(ItemsPerPage),
+            typeof(int),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(10, OnItemsPerPageChanged, CoerceItemsPerPage)
+        );
+    private static void OnItemsPerPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataPager)d;
+        stsw.RefreshPagination(true);
+    }
+    private static object CoerceItemsPerPage(DependencyObject d, object baseValue)
+    {
+        var value = (int)baseValue;
+        return Math.Max(1, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the full collection of items to be paginated.
+    /// The data pager divides this collection into multiple pages.
+    /// </summary>
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
+    public static readonly DependencyProperty ItemsSourceProperty
+        = DependencyProperty.Register(
+            nameof(ItemsSource),
+            typeof(IList),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(default(IList),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataPager)d;
+        stsw.UpdateItemsSourceSubscription(e.NewValue as IList);
+        stsw.RefreshPagination(true);
+    }
+
+    /// <summary>
+    /// Gets the collection of navigation buttons used for paging.
+    /// Includes numbered buttons, previous/next controls, and optional "..." buttons for large datasets.
+    /// </summary>
+    internal ObservableCollection<StswDataPagerPage> Pages
+    {
+        get => (ObservableCollection<StswDataPagerPage>)GetValue(PagesProperty);
+        set => SetValue(PagesProperty, value);
+    }
+    internal static readonly DependencyProperty PagesProperty
+        = DependencyProperty.Register(
+            nameof(Pages),
+            typeof(ObservableCollection<StswDataPagerPage>),
+            typeof(StswDataPager)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the page panel and the items section.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the total number of available pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
+    /// </summary>
+    internal int TotalPages
+    {
+        get => (int)GetValue(TotalPagesProperty);
+        set => SetValue(TotalPagesProperty, value);
+    }
+    public static readonly DependencyProperty TotalPagesProperty
+        = DependencyProperty.Register(
+            nameof(TotalPages),
+            typeof(int),
+            typeof(StswDataPager),
+            new FrameworkPropertyMetadata(1, null, CoerceTotalPages)
+        );
+    private static object CoerceTotalPages(DependencyObject d, object baseValue)
+    {
+        var value = (int)baseValue;
+        return Math.Max(1, value);
+    }
+    #endregion
+
+    #region Template
     /// <summary>
     /// Handles the Loaded event to initialize pagination when the control is first loaded.
     /// </summary>
@@ -44,7 +223,9 @@ public class StswDataPager : ContentControl, IStswCornerControl
         Loaded -= OnLoaded;
         RefreshPagination(true);
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Gets the command that changes the current page.
     /// The command parameter is the target page number.
@@ -230,6 +411,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
         if (_observableItemsSource is not null)
             CollectionChangedEventManager.AddHandler(_observableItemsSource, ItemsSourceCollectionChanged);
     }
+    private INotifyCollectionChanged? _observableItemsSource;
 
     /// <summary>
     /// Handles changes in the items source collection by refreshing the pagination.
@@ -237,196 +419,5 @@ public class StswDataPager : ContentControl, IStswCornerControl
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The event data.</param>
     private void ItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RefreshPagination(true);
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the currently selected page number.
-    /// Changing this property updates the displayed items accordingly.
-    /// </summary>
-    public int CurrentPage
-    {
-        get => (int)GetValue(CurrentPageProperty);
-        set => SetValue(CurrentPageProperty, value);
-    }
-    public static readonly DependencyProperty CurrentPageProperty
-        = DependencyProperty.Register(
-            nameof(CurrentPage),
-            typeof(int),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(default(int),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnCurrentPageChanged, CoerceCurrentPage, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnCurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataPager stsw)
-            return;
-
-        stsw.RefreshPagination(false);
-    }
-    private static object CoerceCurrentPage(DependencyObject d, object baseValue)
-    {
-        if (d is not StswDataPager pager)
-            return baseValue;
-
-        var value = (int)baseValue;
-        var maximum = Math.Max(1, pager.TotalPages);
-        return Math.Clamp(value, 1, maximum);
-    }
-
-    /// <summary>
-    /// Gets or sets the collection of items currently displayed on the selected page.
-    /// This property updates automatically when the page changes.
-    /// </summary>
-    public IList ItemsOnPage
-    {
-        get => (IList)GetValue(ItemsOnPageProperty);
-        set => SetValue(ItemsOnPageProperty, value);
-    }
-    public static readonly DependencyProperty ItemsOnPageProperty
-        = DependencyProperty.Register(
-            nameof(ItemsOnPage),
-            typeof(IList),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(Array.Empty<object?>())
-        );
-
-    /// <summary>
-    /// Gets or sets the number of items displayed per page.
-    /// Changing this property triggers a recalculation of pagination.
-    /// </summary>
-    public int ItemsPerPage
-    {
-        get => (int)GetValue(ItemsPerPageProperty);
-        set => SetValue(ItemsPerPageProperty, value);
-    }
-    public static readonly DependencyProperty ItemsPerPageProperty
-        = DependencyProperty.Register(
-            nameof(ItemsPerPage),
-            typeof(int),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(10, OnItemsPerPageChanged, CoerceItemsPerPage)
-        );
-    private static void OnItemsPerPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataPager stsw)
-            return;
-
-        stsw.RefreshPagination(true);
-    }
-    private static object CoerceItemsPerPage(DependencyObject d, object baseValue)
-    {
-        var value = (int)baseValue;
-        return Math.Max(1, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the full collection of items to be paginated.
-    /// The data pager divides this collection into multiple pages.
-    /// </summary>
-    public IList ItemsSource
-    {
-        get => (IList)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
-    public static readonly DependencyProperty ItemsSourceProperty
-        = DependencyProperty.Register(
-            nameof(ItemsSource),
-            typeof(IList),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(default(IList),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataPager stsw)
-            return;
-
-        stsw.UpdateItemsSourceSubscription(e.NewValue as IList);
-        stsw.RefreshPagination(true);
-    }
-
-    /// <summary>
-    /// Gets the collection of navigation buttons used for paging.
-    /// Includes numbered buttons, previous/next controls, and optional "..." buttons for large datasets.
-    /// </summary>
-    internal ObservableCollection<StswDataPagerPage> Pages
-    {
-        get => (ObservableCollection<StswDataPagerPage>)GetValue(PagesProperty);
-        set => SetValue(PagesProperty, value);
-    }
-    internal static readonly DependencyProperty PagesProperty
-        = DependencyProperty.Register(
-            nameof(Pages),
-            typeof(ObservableCollection<StswDataPagerPage>),
-            typeof(StswDataPager)
-        );
-
-    /// <summary>
-    /// Gets or sets the total number of available pages based on <see cref="ItemsSource"/> and <see cref="ItemsPerPage"/>.
-    /// </summary>
-    internal int TotalPages
-    {
-        get => (int)GetValue(TotalPagesProperty);
-        set => SetValue(TotalPagesProperty, value);
-    }
-    public static readonly DependencyProperty TotalPagesProperty
-        = DependencyProperty.Register(
-            nameof(TotalPages),
-            typeof(int),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(1, null, CoerceTotalPages)
-        );
-    private static object CoerceTotalPages(DependencyObject d, object baseValue)
-    {
-        var value = (int)baseValue;
-        return Math.Max(1, value);
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswDataPager)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDataPager)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the page panel and the items section.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswDataPager),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

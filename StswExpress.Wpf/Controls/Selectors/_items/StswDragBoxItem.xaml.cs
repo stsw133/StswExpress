@@ -24,36 +24,7 @@ public class StswDragBoxItem : ListBoxItem, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDragBoxItem), new FrameworkPropertyMetadata(typeof(StswDragBoxItem)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the item is in read-only mode.
-    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswDragBoxItem)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -79,5 +50,32 @@ public class StswDragBoxItem : ListBoxItem, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswDragBoxItem)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item is in read-only mode.
+    /// When set to <see langword="true"/>, the item becomes unselectable and unclickable.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswDragBoxItem)
+        );
+    #endregion
+
+    #region Template
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+    }
     #endregion
 }

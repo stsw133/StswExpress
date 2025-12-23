@@ -13,24 +13,105 @@ namespace StswExpress.Wpf;
 /// </summary>
 public class StswGifImage : Image
 {
-    private BitmapDecoder? _decoder;
-    private readonly List<TimeSpan> _delays = [];
-    private int _frameIndex;
-    private DispatcherTimer? _timer;
-    private int _loopCount;     // 0 = infinite loops
-    private int _loopsPlayed;
-
+    static StswGifImage()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGifImage), new FrameworkPropertyMetadata(typeof(StswGifImage)));
+    }
     public StswGifImage()
     {
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-    static StswGifImage()
+
+    #region Dependency properties
+    /// <summary>
+    /// Indicates whether the GIF animation should start automatically when loaded.
+    /// </summary>
+    public bool AutoStart
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGifImage), new FrameworkPropertyMetadata(typeof(StswGifImage)));
+        get => (bool)GetValue(AutoStartProperty);
+        set => SetValue(AutoStartProperty, value);
+    }
+    public static readonly DependencyProperty AutoStartProperty
+        = DependencyProperty.Register(
+            nameof(AutoStart),
+            typeof(bool),
+            typeof(StswGifImage),
+            new PropertyMetadata(true)
+        );
+
+    /// <summary>
+    /// Indicates whether the GIF animation is currently playing.
+    /// </summary>
+    public bool IsPlaying
+    {
+        get => (bool)GetValue(IsPlayingProperty);
+        set => SetValue(IsPlayingProperty, value);
+    }
+    public static readonly DependencyProperty IsPlayingProperty
+        = DependencyProperty.Register(
+            nameof(IsPlaying),
+            typeof(bool),
+            typeof(StswGifImage),
+            new PropertyMetadata(false, OnIsPlayingChanged)
+        );
+    private static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswGifImage)d;
+        if ((bool)e.NewValue)
+            stsw.StartInternal();
+        else
+            stsw.StopInternal();
     }
 
-    #region Events & commands
+    /// <summary>
+    /// The source URI of the GIF image.
+    /// </summary>
+    public new Uri Source
+    {
+        get => (Uri)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+    public static new readonly DependencyProperty SourceProperty
+        = DependencyProperty.Register(
+            nameof(Source),
+            typeof(Uri),
+            typeof(StswGifImage),
+            new PropertyMetadata(null, OnSourceChanged)
+        );
+    private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswGifImage)d;
+        stsw.StopInternal();
+        stsw.LoadGif();
+        if (stsw.AutoStart)
+            stsw.Start();
+    }
+
+    /// <summary>
+    /// The speed ratio of the GIF animation. 1.0 = normal speed, 2.0 = double speed, 0.5 = half speed.
+    /// </summary>
+    public double SpeedRatio
+    {
+        get => (double)GetValue(SpeedRatioProperty);
+        set => SetValue(SpeedRatioProperty, value);
+    }
+    public static readonly DependencyProperty SpeedRatioProperty
+        = DependencyProperty.Register(
+            nameof(SpeedRatio),
+            typeof(double),
+            typeof(StswGifImage),
+            new PropertyMetadata(1.0, OnSpeedRatioChanged)
+        );
+    private static void OnSpeedRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswGifImage)d;
+        if (stsw._timer != null)
+            stsw.ScheduleNextTick();
+    }
+    #endregion
+
+    #region Template
     /// <summary>
     /// Handles the Loaded event to start the animation if AutoStart is true.
     /// </summary>
@@ -51,6 +132,15 @@ public class StswGifImage : Image
     {
         StopInternal();
     }
+    #endregion
+
+    #region Logic
+    private BitmapDecoder? _decoder;
+    private readonly List<TimeSpan> _delays = [];
+    private int _frameIndex;
+    private DispatcherTimer? _timer;
+    private int _loopCount;     // 0 = infinite loops
+    private int _loopsPlayed;
 
     /// <summary>
     /// Starts the GIF animation.
@@ -229,100 +319,6 @@ public class StswGifImage : Image
         var delay = _delays.Count > 0 ? _delays[_frameIndex % _delays.Count] : TimeSpan.FromMilliseconds(100);
         if (SpeedRatio <= 0) SpeedRatio = 0.0001; // avoid division by zero
         _timer.Interval = TimeSpan.FromMilliseconds(delay.TotalMilliseconds / SpeedRatio);
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Indicates whether the GIF animation should start automatically when loaded.
-    /// </summary>
-    public bool AutoStart
-    {
-        get => (bool)GetValue(AutoStartProperty);
-        set => SetValue(AutoStartProperty, value);
-    }
-    public static readonly DependencyProperty AutoStartProperty
-        = DependencyProperty.Register(
-            nameof(AutoStart),
-            typeof(bool),
-            typeof(StswGifImage),
-            new PropertyMetadata(true)
-        );
-
-    /// <summary>
-    /// Indicates whether the GIF animation is currently playing.
-    /// </summary>
-    public bool IsPlaying
-    {
-        get => (bool)GetValue(IsPlayingProperty);
-        set => SetValue(IsPlayingProperty, value);
-    }
-    public static readonly DependencyProperty IsPlayingProperty
-        = DependencyProperty.Register(
-            nameof(IsPlaying),
-            typeof(bool),
-            typeof(StswGifImage),
-            new PropertyMetadata(false, OnIsPlayingChanged)
-        );
-    private static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswGifImage stsw)
-            return;
-
-        if ((bool)e.NewValue)
-            stsw.StartInternal();
-        else
-            stsw.StopInternal();
-    }
-
-    /// <summary>
-    /// The source URI of the GIF image.
-    /// </summary>
-    public new Uri Source
-    {
-        get => (Uri)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-    public static new readonly DependencyProperty SourceProperty
-        = DependencyProperty.Register(
-            nameof(Source),
-            typeof(Uri),
-            typeof(StswGifImage),
-            new PropertyMetadata(null, OnSourceChanged)
-        );
-    private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswGifImage stsw)
-            return;
-
-        stsw.StopInternal();
-        stsw.LoadGif();
-        if (stsw.AutoStart)
-            stsw.Start();
-    }
-
-    /// <summary>
-    /// The speed ratio of the GIF animation. 1.0 = normal speed, 2.0 = double speed, 0.5 = half speed.
-    /// </summary>
-    public double SpeedRatio
-    {
-        get => (double)GetValue(SpeedRatioProperty);
-        set => SetValue(SpeedRatioProperty, value);
-    }
-    public static readonly DependencyProperty SpeedRatioProperty
-        = DependencyProperty.Register(
-            nameof(SpeedRatio),
-            typeof(double),
-            typeof(StswGifImage),
-            new PropertyMetadata(1.0, OnSpeedRatioChanged)
-        );
-    private static void OnSpeedRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswGifImage stsw)
-            return;
-
-        if (stsw._timer != null)
-            stsw.ScheduleNextTick();
     }
     #endregion
 }

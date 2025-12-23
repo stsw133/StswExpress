@@ -30,12 +30,11 @@ namespace StswExpress.Wpf;
 /// </example>
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
-    private readonly List<StswDataGridFilterBox> _attachedFilterBoxes = [];
-    private readonly StswScrollActionScheduler _scrollActionScheduler;
-
-    private static Type? SqlParameterType { get; set; }
-    private static bool SqlClientAvailable { get; set; }
-
+    static StswDataGrid()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
+        DetectSqlClient();
+    }
     public StswDataGrid()
     {
         _scrollActionScheduler = new StswScrollActionScheduler(this);
@@ -49,16 +48,195 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
                 Clear = ClearFilters,
             };
     }
-    static StswDataGrid()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the filters are visible.
+    /// When set to <see langword="true"/>, filtering controls are displayed inside the data grid headers.
+    /// </summary>
+    public bool? AreFiltersVisible
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
-        DetectSqlClient();
+        get => (bool?)GetValue(AreFiltersVisibleProperty);
+        set => SetValue(AreFiltersVisibleProperty, value);
+    }
+    public static readonly DependencyProperty AreFiltersVisibleProperty
+        = DependencyProperty.Register(
+            nameof(AreFiltersVisible),
+            typeof(bool?),
+            typeof(StswDataGrid)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDataGrid)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the filters data model that stores filter criteria, SQL filters, and related parameters.
+    /// </summary>
+    public StswDataGridFiltersDataModel FiltersData
+    {
+        get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
+        set => SetValue(FiltersDataProperty, value);
+    }
+    public static readonly DependencyProperty FiltersDataProperty
+        = DependencyProperty.Register(
+            nameof(FiltersData),
+            typeof(StswDataGridFiltersDataModel),
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(
+                default(StswDataGridFiltersDataModel),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFiltersDataChanged)
+        );
+    private static void OnFiltersDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGrid)d;
+        if (e.NewValue is StswDataGridFiltersDataModel filtersData)
+        {
+            filtersData.Clear = stsw.ClearFilters;
+            filtersData.Apply = stsw.ApplyFilters;
+        }
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
+    /// <summary>
+    /// Gets or sets the filtering mode for the data grid.
+    /// Supports either collection-based filtering or SQL-based filtering.
+    /// </summary>
+    public StswDataGridFiltersType FiltersType
+    {
+        get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
+        set => SetValue(FiltersTypeProperty, value);
+    }
+    public static readonly DependencyProperty FiltersTypeProperty
+        = DependencyProperty.Register(
+            nameof(FiltersType),
+            typeof(StswDataGridFiltersType),
+            typeof(StswDataGrid)
+        );
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets a value indicating whether the background grid is visible.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public bool HasVisibleBackgroundGrid
+    {
+        get => (bool)GetValue(HasVisibleBackgroundGridProperty);
+        set => SetValue(HasVisibleBackgroundGridProperty, value);
+    }
+    public static readonly DependencyProperty HasVisibleBackgroundGridProperty
+        = DependencyProperty.Register(
+            nameof(HasVisibleBackgroundGrid),
+            typeof(bool),
+            typeof(StswDataGrid),
+            new PropertyMetadata(false)
+        );
+
+    /// <summary>
+    /// Gets or sets the background brush for the data grid's column headers.
+    /// </summary>
+    public Brush HeaderBackground
+    {
+        get => (Brush)GetValue(HeaderBackgroundProperty);
+        set => SetValue(HeaderBackgroundProperty, value);
+    }
+    public static readonly DependencyProperty HeaderBackgroundProperty
+        = DependencyProperty.Register(
+            nameof(HeaderBackground),
+            typeof(Brush),
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the border brush applied to the column headers.
+    /// </summary>
+    public SolidColorBrush HeaderBorderBrush
+    {
+        get => (SolidColorBrush)GetValue(HeaderBorderBrushProperty);
+        set => SetValue(HeaderBorderBrushProperty, value);
+    }
+    public static readonly DependencyProperty HeaderBorderBrushProperty
+        = DependencyProperty.Register(
+            nameof(HeaderBorderBrush),
+            typeof(SolidColorBrush),
+            typeof(StswDataGrid),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the command that refreshes the data grid.
+    /// This command is typically executed when the Enter key is pressed inside a filter box.
+    /// </summary>
+    public ICommand RefreshCommand
+    {
+        get => (ICommand)GetValue(RefreshCommandProperty);
+        set => SetValue(RefreshCommandProperty, value);
+    }
+    public static readonly DependencyProperty RefreshCommandProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommand),
+            typeof(ICommand),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the parameter to be passed to the <see cref="RefreshCommand"/> when executed.
+    /// </summary>
+    public object? RefreshCommandParameter
+    {
+        get => (object?)GetValue(RefreshCommandParameterProperty);
+        set => SetValue(RefreshCommandParameterProperty, value);
+    }
+    public static readonly DependencyProperty RefreshCommandParameterProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommandParameter),
+            typeof(object),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
+    /// </summary>
+    public StswScrollToItemBehavior ScrollToItemBehavior
+    {
+        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
+        set => SetValue(ScrollToItemBehaviorProperty, value);
+    }
+    public static readonly DependencyProperty ScrollToItemBehaviorProperty
+        = DependencyProperty.Register(
+            nameof(ScrollToItemBehavior),
+            typeof(StswScrollToItemBehavior),
+            typeof(StswDataGrid)
+        );
+    #endregion
+
+    #region Template
+    private readonly List<StswDataGridFilterBox> _attachedFilterBoxes = [];
+    private readonly StswScrollActionScheduler _scrollActionScheduler;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -93,6 +271,13 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
     }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
 
     /// <inheritdoc/>
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
@@ -176,6 +361,11 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
+    #endregion
+
+    #region Detect SqlClient
+    private static Type? SqlParameterType;
+    private static bool SqlClientAvailable;
 
     /// <summary>
     /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
@@ -208,13 +398,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             SqlParameterType = null;
         }
     }
-
-    /// <summary>
-    /// Handles the FilterChanged event from filter boxes and applies the current filters to the data grid.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
     #endregion
 
     #region Filters
@@ -243,6 +426,13 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         private set => _sqlParameters = value;
     }
     private IList<object> _sqlParameters = [];
+
+    /// <summary>
+    /// Handles the FilterChanged event from filter boxes and applies the current filters to the data grid.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
 
     /// <summary>
     /// Applies the current filtering criteria to the data grid.
@@ -352,193 +542,5 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
             FiltersData.SqlFilter = "1=1";
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the filters are visible.
-    /// When set to <see langword="true"/>, filtering controls are displayed inside the data grid headers.
-    /// </summary>
-    public bool? AreFiltersVisible
-    {
-        get => (bool?)GetValue(AreFiltersVisibleProperty);
-        set => SetValue(AreFiltersVisibleProperty, value);
-    }
-    public static readonly DependencyProperty AreFiltersVisibleProperty
-        = DependencyProperty.Register(
-            nameof(AreFiltersVisible),
-            typeof(bool?),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the filters data model that stores filter criteria, SQL filters, and related parameters.
-    /// </summary>
-    public StswDataGridFiltersDataModel FiltersData
-    {
-        get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
-        set => SetValue(FiltersDataProperty, value);
-    }
-    public static readonly DependencyProperty FiltersDataProperty
-        = DependencyProperty.Register(
-            nameof(FiltersData),
-            typeof(StswDataGridFiltersDataModel),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(
-                default(StswDataGridFiltersDataModel),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFiltersDataChanged)
-        );
-    private static void OnFiltersDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswDataGrid stsw)
-            return;
-
-        if (e.NewValue is StswDataGridFiltersDataModel filtersData)
-        {
-            filtersData.Clear = stsw.ClearFilters;
-            filtersData.Apply = stsw.ApplyFilters;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the filtering mode for the data grid.
-    /// Supports either collection-based filtering or SQL-based filtering.
-    /// </summary>
-    public StswDataGridFiltersType FiltersType
-    {
-        get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
-        set => SetValue(FiltersTypeProperty, value);
-    }
-    public static readonly DependencyProperty FiltersTypeProperty
-        = DependencyProperty.Register(
-            nameof(FiltersType),
-            typeof(StswDataGridFiltersType),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the background grid is visible.
-    /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public bool HasVisibleBackgroundGrid
-    {
-        get => (bool)GetValue(HasVisibleBackgroundGridProperty);
-        set => SetValue(HasVisibleBackgroundGridProperty, value);
-    }
-    public static readonly DependencyProperty HasVisibleBackgroundGridProperty
-        = DependencyProperty.Register(
-            nameof(HasVisibleBackgroundGrid),
-            typeof(bool),
-            typeof(StswDataGrid),
-            new PropertyMetadata(false)
-        );
-
-    /// <summary>
-    /// Gets or sets the command that refreshes the data grid.
-    /// This command is typically executed when the Enter key is pressed inside a filter box.
-    /// </summary>
-    public ICommand RefreshCommand
-    {
-        get => (ICommand)GetValue(RefreshCommandProperty);
-        set => SetValue(RefreshCommandProperty, value);
-    }
-    public static readonly DependencyProperty RefreshCommandProperty
-        = DependencyProperty.Register(
-            nameof(RefreshCommand),
-            typeof(ICommand),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the parameter to be passed to the <see cref="RefreshCommand"/> when executed.
-    /// </summary>
-    public object? RefreshCommandParameter
-    {
-        get => (object?)GetValue(RefreshCommandParameterProperty);
-        set => SetValue(RefreshCommandParameterProperty, value);
-    }
-    public static readonly DependencyProperty RefreshCommandParameterProperty
-        = DependencyProperty.Register(
-            nameof(RefreshCommandParameter),
-            typeof(object),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the behavior for scrolling to an item when it is selected or inserted.
-    /// </summary>
-    public StswScrollToItemBehavior ScrollToItemBehavior
-    {
-        get => (StswScrollToItemBehavior)GetValue(ScrollToItemBehaviorProperty);
-        set => SetValue(ScrollToItemBehaviorProperty, value);
-    }
-    public static readonly DependencyProperty ScrollToItemBehaviorProperty
-        = DependencyProperty.Register(
-            nameof(ScrollToItemBehavior),
-            typeof(StswScrollToItemBehavior),
-            typeof(StswDataGrid)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswDataGrid)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the background brush for the data grid's column headers.
-    /// </summary>
-    public Brush HeaderBackground
-    {
-        get => (Brush)GetValue(HeaderBackgroundProperty);
-        set => SetValue(HeaderBackgroundProperty, value);
-    }
-    public static readonly DependencyProperty HeaderBackgroundProperty
-        = DependencyProperty.Register(
-            nameof(HeaderBackground),
-            typeof(Brush),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the border brush applied to the column headers.
-    /// </summary>
-    public SolidColorBrush HeaderBorderBrush
-    {
-        get => (SolidColorBrush)GetValue(HeaderBorderBrushProperty);
-        set => SetValue(HeaderBorderBrushProperty, value);
-    }
-    public static readonly DependencyProperty HeaderBorderBrushProperty
-        = DependencyProperty.Register(
-            nameof(HeaderBorderBrush),
-            typeof(SolidColorBrush),
-            typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

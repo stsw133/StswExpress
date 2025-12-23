@@ -24,7 +24,7 @@ public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IS
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubButton), new FrameworkPropertyMetadata(typeof(StswSubButton)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <inheritdoc/>
     public Geometry? IconData
     {
@@ -39,6 +39,20 @@ public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IS
         );
 
     /// <inheritdoc/>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswSubButton),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
     public GridLength IconScale
     {
         get => (GridLength)GetValue(IconScaleProperty);
@@ -49,6 +63,34 @@ public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IS
             nameof(IconScale),
             typeof(GridLength),
             typeof(StswSubButton)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswSubButton),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswSubButton),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
     /// <inheritdoc/>
@@ -89,50 +131,6 @@ public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IS
             typeof(Orientation),
             typeof(StswSubButton),
             new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
-    public static readonly DependencyProperty IconFillProperty
-        = DependencyProperty.Register(
-            nameof(IconFill),
-            typeof(Brush),
-            typeof(StswSubButton),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconStroke
-    {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeProperty
-        = DependencyProperty.Register(
-            nameof(IconStroke),
-            typeof(Brush),
-            typeof(StswSubButton),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public double IconStrokeThickness
-    {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswSubButton),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 }

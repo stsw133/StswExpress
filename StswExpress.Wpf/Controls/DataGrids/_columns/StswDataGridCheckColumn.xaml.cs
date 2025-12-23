@@ -16,6 +16,125 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswDataGridCheckColumn : DataGridCheckBoxColumn
 {
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the checked state.
+    /// </summary>
+    public Geometry? IconChecked
+    {
+        get => (Geometry?)GetValue(IconCheckedProperty);
+        set => SetValue(IconCheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconCheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconChecked),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the indeterminate state.
+    /// </summary>
+    public Geometry? IconIndeterminate
+    {
+        get => (Geometry?)GetValue(IconIndeterminateProperty);
+        set => SetValue(IconIndeterminateProperty, value);
+    }
+    public static readonly DependencyProperty IconIndeterminateProperty
+        = DependencyProperty.Register(
+            nameof(IconIndeterminate),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the scale of the icon inside the checkbox.
+    /// </summary>
+    public GridLength? IconScale
+    {
+        get => (GridLength?)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength?),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
+        );
+    private static void OnIconSettingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswDataGridCheckColumn)d;
+        stsw.NotifyPropertyChanged(e.Property.Name);
+    }
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
+    /// </summary>
+    public Geometry? IconUnchecked
+    {
+        get => (Geometry?)GetValue(IconUncheckedProperty);
+        set => SetValue(IconUncheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconUncheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconUnchecked),
+            typeof(Geometry),
+            typeof(StswDataGridCheckColumn),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the padding around the checkbox inside the column's cells.
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
+            typeof(StswDataGridCheckColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the horizontal alignment of the checkbox inside the column's cells.
+    /// </summary>
+    public HorizontalAlignment HorizontalContentAlignment
+    {
+        get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
+        set => SetValue(HorizontalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty HorizontalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(HorizontalContentAlignment),
+            typeof(HorizontalAlignment),
+            typeof(StswDataGridCheckColumn),
+            new PropertyMetadata(HorizontalAlignment.Center)
+        );
+
+    /// <summary>
+    /// Gets or sets the vertical alignment of the checkbox inside the column's cells.
+    /// </summary>
+    public VerticalAlignment VerticalContentAlignment
+    {
+        get => (VerticalAlignment)GetValue(VerticalContentAlignmentProperty);
+        set => SetValue(VerticalContentAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty VerticalContentAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(VerticalContentAlignment),
+            typeof(VerticalAlignment),
+            typeof(StswDataGridCheckColumn),
+            new PropertyMetadata(VerticalAlignment.Center)
+        );
+    #endregion
+
+    #region Overrides
     private static readonly Style StswDisplayElementStyle = new(typeof(StswCheckBox), (Style)Application.Current.FindResource(typeof(StswCheckBox)))
     {
         Setters =
@@ -99,23 +218,12 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
     }
 
     /// <summary>
-    /// 
+    /// Applies a conditional binding to the specified element based on whether the column property has a local value set.
     /// </summary>
-    /// <param name="d"></param>
-    /// <param name="e"></param>
-    private static void OnIconSettingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswDataGridCheckColumn column)
-            column.NotifyPropertyChanged(e.Property.Name);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="element"></param>
-    /// <param name="propertyName"></param>
-    /// <param name="columnProperty"></param>
-    /// <param name="targetProperty"></param>
+    /// <param name="element">The element to apply the binding to.</param>
+    /// <param name="propertyName">The name of the property to bind.</param>
+    /// <param name="columnProperty">The dependency property of the column to check for a local value.</param>
+    /// <param name="targetProperty">The dependency property of the element to bind to.</param>
     private void ApplyConditionalBinding(DependencyObject element, string propertyName, DependencyProperty columnProperty, DependencyProperty targetProperty)
     {
         if (ReadLocalValue(columnProperty) == DependencyProperty.UnsetValue)
@@ -125,119 +233,5 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         else
             BindingOperations.SetBinding(element, targetProperty, this.CreateColumnBinding(propertyName));
     }
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the scale of the icon inside the checkbox.
-    /// </summary>
-    public GridLength? IconScale
-    {
-        get => (GridLength?)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength?),
-            typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon when the checkbox is in the checked state.
-    /// </summary>
-    public Geometry? IconChecked
-    {
-        get => (Geometry?)GetValue(IconCheckedProperty);
-        set => SetValue(IconCheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconCheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconChecked),
-            typeof(Geometry),
-            typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon when the checkbox is in the indeterminate state.
-    /// </summary>
-    public Geometry? IconIndeterminate
-    {
-        get => (Geometry?)GetValue(IconIndeterminateProperty);
-        set => SetValue(IconIndeterminateProperty, value);
-    }
-    public static readonly DependencyProperty IconIndeterminateProperty
-        = DependencyProperty.Register(
-            nameof(IconIndeterminate),
-            typeof(Geometry),
-            typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon when the checkbox is in the unchecked state.
-    /// </summary>
-    public Geometry? IconUnchecked
-    {
-        get => (Geometry?)GetValue(IconUncheckedProperty);
-        set => SetValue(IconUncheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconUncheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconUnchecked),
-            typeof(Geometry),
-            typeof(StswDataGridCheckColumn),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnIconSettingsChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the padding around the checkbox inside the column's cells.
-    /// </summary>
-    public Thickness Padding
-    {
-        get => (Thickness)GetValue(PaddingProperty);
-        set => SetValue(PaddingProperty, value);
-    }
-    public static readonly DependencyProperty PaddingProperty
-        = DependencyProperty.Register(
-            nameof(Padding),
-            typeof(Thickness),
-            typeof(StswDataGridCheckColumn)
-        );
-
-    /// <summary>
-    /// Gets or sets the horizontal alignment of the checkbox inside the column's cells.
-    /// </summary>
-    public HorizontalAlignment HorizontalContentAlignment
-    {
-        get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
-        set => SetValue(HorizontalContentAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty HorizontalContentAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(HorizontalContentAlignment),
-            typeof(HorizontalAlignment),
-            typeof(StswDataGridCheckColumn),
-            new PropertyMetadata(HorizontalAlignment.Center)
-        );
-
-    /// <summary>
-    /// Gets or sets the vertical alignment of the checkbox inside the column's cells.
-    /// </summary>
-    public VerticalAlignment VerticalContentAlignment
-    {
-        get => (VerticalAlignment)GetValue(VerticalContentAlignmentProperty);
-        set => SetValue(VerticalContentAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty VerticalContentAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(VerticalContentAlignment),
-            typeof(VerticalAlignment),
-            typeof(StswDataGridCheckColumn),
-            new PropertyMetadata(VerticalAlignment.Center)
-        );
     #endregion
 }

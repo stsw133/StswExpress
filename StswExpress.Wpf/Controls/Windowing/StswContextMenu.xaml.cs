@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace StswExpress.Wpf;
@@ -24,42 +25,14 @@ namespace StswExpress.Wpf;
 /// &lt;/Button&gt;
 /// </code>
 /// </example>
-public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerControl
+public class StswContextMenu : ContextMenu, IStswCornerControl
 {
     static StswContextMenu()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContextMenu), new FrameworkPropertyMetadata(typeof(StswContextMenu)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    protected override void OnOpened(RoutedEventArgs e)
-    {
-        base.OnOpened(e);
-
-        foreach (var item in Items)
-        {
-            if (item is FrameworkElement frameworkElement)
-            {
-                frameworkElement.ClearValue(BackgroundProperty);
-                frameworkElement.ClearValue(BorderBrushProperty);
-                frameworkElement.ClearValue(ForegroundProperty);
-                if (frameworkElement.ReadLocalValue(ForegroundProperty) == DependencyProperty.UnsetValue)
-                    frameworkElement.SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
-                frameworkElement.UpdateLayout();
-            }
-        }
-
-        ClearValue(BackgroundProperty);
-        ClearValue(BorderBrushProperty);
-        ClearValue(ForegroundProperty);
-        if (ReadLocalValue(ForegroundProperty) == DependencyProperty.UnsetValue)
-            SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
-        UpdateLayout();
-    }
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -85,5 +58,33 @@ public class StswContextMenu : System.Windows.Controls.ContextMenu, IStswCornerC
             typeof(CornerRadius),
             typeof(StswContextMenu)
         );
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnOpened(RoutedEventArgs e)
+    {
+        base.OnOpened(e);
+
+        foreach (var item in Items)
+        {
+            if (item is FrameworkElement frameworkElement)
+            {
+                frameworkElement.ClearValue(BackgroundProperty);
+                frameworkElement.ClearValue(BorderBrushProperty);
+                frameworkElement.ClearValue(ForegroundProperty);
+                if (frameworkElement.ReadLocalValue(ForegroundProperty) == DependencyProperty.UnsetValue)
+                    frameworkElement.SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
+                frameworkElement.UpdateLayout();
+            }
+        }
+
+        ClearValue(BackgroundProperty);
+        ClearValue(BorderBrushProperty);
+        ClearValue(ForegroundProperty);
+        if (ReadLocalValue(ForegroundProperty) == DependencyProperty.UnsetValue)
+            SetCurrentValue(ForegroundProperty, FindResource("StswText.Static.Foreground") as Brush);
+        UpdateLayout();
+    }
     #endregion
 }

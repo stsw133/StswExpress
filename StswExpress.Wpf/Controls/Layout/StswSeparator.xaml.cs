@@ -25,7 +25,24 @@ public class StswSeparator : Separator
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
     }
 
-    #region Logic properties
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the thickness of the separator line.
+    /// A higher value results in a thicker visual divider.
+    /// </summary>
+    public new double BorderThickness
+    {
+        get => (double)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public new static readonly DependencyProperty BorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BorderThickness),
+            typeof(double),
+            typeof(StswSeparator),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
     /// <summary>
     /// Gets or sets the orientation of the separator.
     /// When set to <see cref="Orientation.Horizontal"/>, the separator spans horizontally across the layout.
@@ -42,25 +59,6 @@ public class StswSeparator : Separator
             typeof(Orientation),
             typeof(StswSeparator),
             new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the separator line.
-    /// A higher value results in a thicker visual divider.
-    /// </summary>
-    public new double BorderThickness
-    {
-        get => (double)GetValue(BorderThicknessProperty);
-        set => SetValue(BorderThicknessProperty, value);
-    }
-    public new static readonly DependencyProperty BorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(BorderThickness),
-            typeof(double),
-            typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 

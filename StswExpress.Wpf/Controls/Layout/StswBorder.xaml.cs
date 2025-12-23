@@ -21,23 +21,29 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswBorder : Border, IStswCornerControl
 {
-    private readonly RectangleGeometry _clipRect = new();
-    private object? _oldClip;
-
     static StswBorder()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
     }
 
-    #region Events & methods
+    #region Dependency properties
     /// <inheritdoc/>
-    protected override void OnRender(DrawingContext dc)
+    public bool CornerClipping
     {
-        if (CornerClipping && Child is UIElement child)
-            OnApplyChildClip(child);
-
-        base.OnRender(dc);
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswBorder)
+        );
+    #endregion
+
+    #region Overrides
+    private readonly RectangleGeometry _clipRect = new();
+    private object? _oldClip;
 
     /// <inheritdoc/>
     public override UIElement Child
@@ -64,20 +70,14 @@ public class StswBorder : Border, IStswCornerControl
         _clipRect.Rect = new Rect(0, 0, child.RenderSize.Width, child.RenderSize.Height);
         child.Clip = _clipRect;
     }
-    #endregion
 
-    #region Style properties
     /// <inheritdoc/>
-    public bool CornerClipping
+    protected override void OnRender(DrawingContext dc)
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        if (CornerClipping && Child is UIElement child)
+            OnApplyChildClip(child);
+
+        base.OnRender(dc);
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswBorder)
-        );
     #endregion
 }

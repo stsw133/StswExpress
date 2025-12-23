@@ -12,7 +12,7 @@ public class StswColumnChartItem : StswChartItem
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnChartItem), new FrameworkPropertyMetadata(typeof(StswColumnChartItem)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the height of the column in the chart.
     /// </summary>

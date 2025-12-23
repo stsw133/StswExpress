@@ -22,14 +22,10 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Data))]
 public class StswIcon : FrameworkElement
 {
-    private readonly RotateTransform _rotateTransform;
-    private readonly Storyboard _collapseStoryboard;
-    private readonly Storyboard _expandStoryboard;
-
-    private Pen? _cachedPen;
-    private Brush? _cachedStroke;
-    private double _cachedStrokeThickness;
-
+    static StswIcon()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
+    }
     public StswIcon()
     {
         _rotateTransform = new RotateTransform(0);
@@ -40,7 +36,174 @@ public class StswIcon : FrameworkElement
         ApplyRotation(IsRotated, animate: false);
     }
 
-    #region Events & methods
+    private readonly RotateTransform _rotateTransform;
+    private readonly Storyboard _collapseStoryboard;
+    private readonly Storyboard _expandStoryboard;
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the canvas size of the icon.
+    /// This determines the width and height of the drawing area for the icon.
+    /// </summary>
+    public double CanvasSize
+    {
+        get => (double)GetValue(CanvasSizeProperty);
+        set => SetValue(CanvasSizeProperty, value);
+    }
+    public static readonly DependencyProperty CanvasSizeProperty
+        = DependencyProperty.Register(
+            nameof(CanvasSize),
+            typeof(double),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(24.0,
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry data of the icon.
+    /// This defines the vector path used to render the icon.
+    /// </summary>
+    public Geometry? Data
+    {
+        get => (Geometry?)GetValue(DataProperty);
+        set => SetValue(DataProperty, value);
+    }
+    public static readonly DependencyProperty DataProperty
+        = DependencyProperty.Register(
+            nameof(Data),
+            typeof(Geometry),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Geometry?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// This brush is used to paint the interior of the icon's geometry.
+    /// </summary>
+    public Brush Fill
+    {
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
+    public static readonly DependencyProperty FillProperty
+        = DependencyProperty.Register(
+            nameof(Fill),
+            typeof(Brush),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the foreground brush of the icon.
+    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
+    /// </summary>
+    public Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+    public static readonly DependencyProperty ForegroundProperty
+        = Control.ForegroundProperty.AddOwner(
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the icon is rotated.
+    /// When set to <see langword="true"/>, the icon rotates <c>180</c> degrees; otherwise, it resets to <c>0</c> degrees.
+    /// </summary>
+    public bool IsRotated
+    {
+        get => (bool)GetValue(IsRotatedProperty);
+        set => SetValue(IsRotatedProperty, value);
+    }
+    public static readonly DependencyProperty IsRotatedProperty
+        = DependencyProperty.Register(
+            nameof(IsRotated),
+            typeof(bool),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnIsRotatedChanged)
+        );
+    private static void OnIsRotatedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswIcon)d;
+        stsw.ApplyRotation((bool)e.NewValue, animate: true);
+    }
+
+    /// <summary>
+    /// Gets or sets the scale of the icon.
+    /// The scale adjusts the icon's dimensions relative to its default size.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+                OnScaleChanged)
+        );
+    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswIcon)d;
+        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
+    }
+
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// This brush is used to paint the outline of the icon's geometry.
+    /// </summary>
+    public Brush Stroke
+    {
+        get => (Brush)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+    public static readonly DependencyProperty StrokeProperty
+        = DependencyProperty.Register(
+            nameof(Stroke),
+            typeof(Brush),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnPenRelevantPropertyChanged)
+        );
+    private static void OnPenRelevantPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswIcon)d;
+        stsw.InvalidatePenCache();
+    }
+
+    /// <summary>
+    /// Gets or sets the thickness of the icon's stroke.
+    /// Determines the width of the outline drawn around the icon.
+    /// </summary>
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty StrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(StrokeThickness),
+            typeof(double),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                OnPenRelevantPropertyChanged)
+        );
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize) => finalSize;
 
@@ -99,6 +262,12 @@ public class StswIcon : FrameworkElement
         drawingContext.Pop();
         drawingContext.Pop();
     }
+    #endregion
+
+    #region Logic
+    private Pen? _cachedPen;
+    private Brush? _cachedStroke;
+    private double _cachedStrokeThickness;
 
     /// <summary>
     /// Gets the cached pen or creates a new one if necessary.
@@ -134,171 +303,6 @@ public class StswIcon : FrameworkElement
         _cachedStroke = null;
         _cachedStrokeThickness = 0;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the canvas size of the icon.
-    /// This determines the width and height of the drawing area for the icon.
-    /// </summary>
-    public double CanvasSize
-    {
-        get => (double)GetValue(CanvasSizeProperty);
-        set => SetValue(CanvasSizeProperty, value);
-    }
-    public static readonly DependencyProperty CanvasSizeProperty
-        = DependencyProperty.Register(
-            nameof(CanvasSize),
-            typeof(double),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(24.0,
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry data of the icon.
-    /// This defines the vector path used to render the icon.
-    /// </summary>
-    public Geometry? Data
-    {
-        get => (Geometry?)GetValue(DataProperty);
-        set => SetValue(DataProperty, value);
-    }
-    public static readonly DependencyProperty DataProperty
-        = DependencyProperty.Register(
-            nameof(Data),
-            typeof(Geometry),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(Geometry?),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the icon is rotated.
-    /// When set to <see langword="true"/>, the icon rotates <c>180</c> degrees; otherwise, it resets to <c>0</c> degrees.
-    /// </summary>
-    public bool IsRotated
-    {
-        get => (bool)GetValue(IsRotatedProperty);
-        set => SetValue(IsRotatedProperty, value);
-    }
-    public static readonly DependencyProperty IsRotatedProperty
-        = DependencyProperty.Register(
-            nameof(IsRotated),
-            typeof(bool),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnIsRotatedChanged)
-        );
-    private static void OnIsRotatedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswIcon)d;
-        stsw.ApplyRotation((bool)e.NewValue, animate: true);
-    }
-
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// The scale adjusts the icon's dimensions relative to its default size.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(GridLength),
-                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
-                OnScaleChanged)
-        );
-    public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswIcon)d;
-        IStswIconControl.ScaleChanged(stsw, stsw.Scale);
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the fill brush of the icon.
-    /// This brush is used to paint the interior of the icon's geometry.
-    /// </summary>
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
-    public static readonly DependencyProperty FillProperty
-        = DependencyProperty.Register(
-            nameof(Fill),
-            typeof(Brush),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the foreground brush of the icon.
-    /// This value is inherited from parent controls and used as a fallback for <see cref="Fill"/>.
-    /// </summary>
-    public Brush Foreground
-    {
-        get => (Brush)GetValue(ForegroundProperty);
-        set => SetValue(ForegroundProperty, value);
-    }
-    public static readonly DependencyProperty ForegroundProperty
-        = Control.ForegroundProperty.AddOwner(
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
-                FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the stroke brush of the icon.
-    /// This brush is used to paint the outline of the icon's geometry.
-    /// </summary>
-    public Brush Stroke
-    {
-        get => (Brush)GetValue(StrokeProperty);
-        set => SetValue(StrokeProperty, value);
-    }
-    public static readonly DependencyProperty StrokeProperty
-        = DependencyProperty.Register(
-            nameof(Stroke),
-            typeof(Brush),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnPenRelevantPropertyChanged)
-        );
-    private static void OnPenRelevantPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswIcon)d;
-        stsw.InvalidatePenCache();
-    }
-
-    /// <summary>
-    /// Gets or sets the thickness of the icon's stroke.
-    /// Determines the width of the outline drawn around the icon.
-    /// </summary>
-    public double StrokeThickness
-    {
-        get => (double)GetValue(StrokeThicknessProperty);
-        set => SetValue(StrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty StrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(StrokeThickness),
-            typeof(double),
-            typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnPenRelevantPropertyChanged)
-        );
     #endregion
 
     #region Animations

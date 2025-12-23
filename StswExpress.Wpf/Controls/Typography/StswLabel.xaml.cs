@@ -26,36 +26,7 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLabel), new FrameworkPropertyMetadata(typeof(StswLabel)));
     }
 
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        Loaded -= OnLoaded;
-        Loaded += OnLoaded;
-    }
-
-    /// <summary>
-    /// Handles the <see cref="FrameworkElement.Loaded"/> event.
-    /// Ensures that the <see cref="IsBusy"/> property is bound to the <see cref="IsBusy"/> state of an associated command, if available.
-    /// </summary>
-    /// <param name="sender">The source of the event, typically the control itself.</param>
-    /// <param name="e">The event data.</param>
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        Loaded -= OnLoaded;
-
-        if (GetValue(IsBusyProperty) == null)
-        {
-            var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
-            if (commandSource?.Command is StswAsyncCommandBase cmd)
-                SetBinding(IsBusyProperty, new Binding(nameof(StswAsyncCommandBase.IsBusy)) { Source = cmd });
-        }
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the asynchronous command associated with the label.
     /// </summary>
@@ -72,6 +43,36 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
         );
 
     /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
     public Geometry? IconData
     {
         get => (Geometry?)GetValue(IconDataProperty);
@@ -83,6 +84,21 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             typeof(Geometry),
             typeof(StswLabel),
             new FrameworkPropertyMetadata(default(Geometry?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Brush),
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -115,6 +131,36 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             typeof(ImageSource),
             typeof(StswLabel),
             new FrameworkPropertyMetadata(default(ImageSource?),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswLabel),
+            new FrameworkPropertyMetadata(default(double),
                 FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
@@ -171,83 +217,6 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(Orientation),
                 FrameworkPropertyMetadataOptions.AffectsArrange)
         );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
-    public static readonly DependencyProperty IconFillProperty
-        = DependencyProperty.Register(
-            nameof(IconFill),
-            typeof(Brush),
-            typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public Brush IconStroke
-    {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeProperty
-        = DependencyProperty.Register(
-            nameof(IconStroke),
-            typeof(Brush),
-            typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <inheritdoc/>
-    public double IconStrokeThickness
-    {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
-    }
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswLabel),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.AffectsRender)
-        );
 
     /// <summary>
     /// Gets or sets the text trimming behavior for the label.
@@ -266,5 +235,34 @@ public class StswLabel : Label, IStswCornerControl, IStswIconControl
             new FrameworkPropertyMetadata(default(TextTrimming),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+
+    #region Template
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        Loaded -= OnLoaded;
+        Loaded += OnLoaded;
+    }
+
+    /// <summary>
+    /// Handles the <see cref="FrameworkElement.Loaded"/> event.
+    /// Ensures that the <see cref="IsBusy"/> property is bound to the <see cref="IsBusy"/> state of an associated command, if available.
+    /// </summary>
+    /// <param name="sender">The source of the event, typically the control itself.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= OnLoaded;
+
+        if (GetValue(IsBusyProperty) == null)
+        {
+            var commandSource = Parent as ICommandSource ?? TemplatedParent as ICommandSource;
+            if (commandSource?.Command is StswAsyncCommandBase cmd)
+                SetBinding(IsBusyProperty, new Binding(nameof(StswAsyncCommandBase.IsBusy)) { Source = cmd });
+        }
+    }
     #endregion
 }

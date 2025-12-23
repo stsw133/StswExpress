@@ -17,13 +17,10 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswTimerControl : TextBlock, ICommandSource
 {
-    private readonly DispatcherTimer _timer = new();
-    private bool _isTimerTickSubscribed;
-
-    private DateTime _runStartedUtc;
-    private TimeSpan _baseTime;
-    private TimeSpan _effectiveEndTime;
-
+    static StswTimerControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(typeof(StswTimerControl)));
+    }
     public StswTimerControl()
     {
         Loaded += OnLoaded;
@@ -32,179 +29,8 @@ public class StswTimerControl : TextBlock, ICommandSource
         UpdateTimerInterval();
         UpdateDisplayText();
     }
-    static StswTimerControl()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimerControl), new FrameworkPropertyMetadata(typeof(StswTimerControl)));
-    }
 
-    #region Events & methods
-    /// <summary>
-    /// Handles the Loaded event of the control, starting the timer if it is set to run.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        if (_isTimerTickSubscribed)
-            return;
-
-        _timer.Tick += Timer_Tick;
-        _isTimerTickSubscribed = true;
-    }
-
-    /// <summary>
-    /// Subscribes to the timer's tick event if not already subscribed.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        _timer.Stop();
-
-        if (!_isTimerTickSubscribed)
-            return;
-
-        _timer.Tick -= Timer_Tick;
-        _isTimerTickSubscribed = false;
-    }
-
-    /// <summary>
-    /// Handles the Tick event of the timer, updating the current time and checking for completion.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void Timer_Tick(object? sender, EventArgs e)
-    {
-        if (!IsRunning)
-            return;
-
-        var elapsed = DateTime.UtcNow - _runStartedUtc;
-
-        TimeSpan next;
-        bool finished;
-
-        if (IsCountingDown)
-        {
-            next = _baseTime - elapsed;
-            if (next <= _effectiveEndTime)
-            {
-                next = _effectiveEndTime;
-                finished = true;
-            }
-            else finished = false;
-        }
-        else
-        {
-            next = _baseTime + elapsed;
-            if (next >= _effectiveEndTime)
-            {
-                next = _effectiveEndTime;
-                finished = true;
-            }
-            else finished = false;
-        }
-
-        CurrentTime = next;
-
-        if (finished)
-            Finish();
-    }
-
-    /// <summary>
-    /// Determines whether the timer can run based on the start and end times.
-    /// </summary>
-    /// <param name="effectiveEnd">The effective end time for the timer.</param>
-    /// <returns><see langword="true"/> if the timer can run; otherwise, <see langword="false"/>.</returns>
-    private bool CanRun(out TimeSpan effectiveEnd)
-    {
-        effectiveEnd = EndTime;
-        return IsCountingDown ? StartTime > effectiveEnd : effectiveEnd > StartTime;
-    }
-
-    /// <summary>
-    /// Updates the display text of the timer based on the current time and format.
-    /// </summary>
-    private void Finish()
-    {
-        SetCurrentValue(IsRunningProperty, false);
-        _timer.Stop();
-
-        switch (Command)
-        {
-            case RoutedCommand routed when routed.CanExecute(CommandParameter, CommandTarget ?? this):
-                routed.Execute(CommandParameter, CommandTarget ?? this);
-                break;
-            case ICommand cmd when cmd.CanExecute(CommandParameter):
-                cmd.Execute(CommandParameter);
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Restarts the timer if it is currently running.
-    /// </summary>
-    private void RestartTimerIfRunning()
-    {
-        if (!IsRunning)
-            return;
-
-        _timer.Stop();
-        _timer.Start();
-    }
-
-    /// <summary>
-    /// Starts the timer internally, initializing the base time and effective end time.
-    /// </summary>
-    private void StartInternal()
-    {
-        if (!CanRun(out var effEnd))
-        {
-            SetCurrentValue(IsRunningProperty, false);
-            return;
-        }
-
-        _baseTime = StartTime;
-        _effectiveEndTime = effEnd;
-
-        if (ResetOnStart)
-            CurrentTime = StartTime;
-
-        _runStartedUtc = DateTime.UtcNow;
-        _timer.Start();
-    }
-
-    /// <summary>
-    /// Updates the display text of the timer based on the current time and format.
-    /// </summary>
-    private void UpdateDisplayText()
-    {
-        var fmt = Format;
-        Text = string.IsNullOrWhiteSpace(fmt)
-            ? CurrentTime.ToString()
-            : CurrentTime.ToString(fmt);
-    }
-
-    /// <summary>
-    /// Adjusts the timer's interval based on the <see cref="Format"/>.
-    /// The interval is dynamically set to match the required precision, such as milliseconds, seconds, or minutes.
-    /// </summary>
-    private void UpdateTimerInterval()
-    {
-        var fmt = Format ?? string.Empty;
-        _timer.Interval = fmt switch
-        {
-            _ when fmt.Contains("fff", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(16),
-            _ when fmt.Contains("ff", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(20),
-            _ when fmt.Contains('f') => TimeSpan.FromMilliseconds(100),
-            _ when fmt.Contains("ss", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(250),
-            _ when fmt.Contains("mm", StringComparison.Ordinal) => TimeSpan.FromSeconds(1),
-            _ when fmt.Contains("hh", StringComparison.Ordinal) => TimeSpan.FromSeconds(1),
-            _ => TimeSpan.FromMilliseconds(250),
-        };
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the command to be executed when the timer reaches the end time.
     /// </summary>
@@ -387,5 +213,181 @@ public class StswTimerControl : TextBlock, ICommandSource
             typeof(TimeSpan),
             typeof(StswTimerControl)
         );
+    #endregion
+
+    #region Template
+    private readonly DispatcherTimer _timer = new();
+    private bool _isTimerTickSubscribed;
+
+    /// <summary>
+    /// Handles the Loaded event of the control, starting the timer if it is set to run.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick += Timer_Tick;
+        _isTimerTickSubscribed = true;
+    }
+
+    /// <summary>
+    /// Subscribes to the timer's tick event if not already subscribed.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _timer.Stop();
+
+        if (!_isTimerTickSubscribed)
+            return;
+
+        _timer.Tick -= Timer_Tick;
+        _isTimerTickSubscribed = false;
+    }
+    #endregion
+
+    #region Logic
+    private DateTime _runStartedUtc;
+    private TimeSpan _baseTime;
+    private TimeSpan _effectiveEndTime;
+
+    /// <summary>
+    /// Handles the Tick event of the timer, updating the current time and checking for completion.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+        if (!IsRunning)
+            return;
+
+        var elapsed = DateTime.UtcNow - _runStartedUtc;
+
+        TimeSpan next;
+        bool finished;
+
+        if (IsCountingDown)
+        {
+            next = _baseTime - elapsed;
+            if (next <= _effectiveEndTime)
+            {
+                next = _effectiveEndTime;
+                finished = true;
+            }
+            else finished = false;
+        }
+        else
+        {
+            next = _baseTime + elapsed;
+            if (next >= _effectiveEndTime)
+            {
+                next = _effectiveEndTime;
+                finished = true;
+            }
+            else finished = false;
+        }
+
+        CurrentTime = next;
+
+        if (finished)
+            Finish();
+    }
+
+    /// <summary>
+    /// Determines whether the timer can run based on the start and end times.
+    /// </summary>
+    /// <param name="effectiveEnd">The effective end time for the timer.</param>
+    /// <returns><see langword="true"/> if the timer can run; otherwise, <see langword="false"/>.</returns>
+    private bool CanRun(out TimeSpan effectiveEnd)
+    {
+        effectiveEnd = EndTime;
+        return IsCountingDown ? StartTime > effectiveEnd : effectiveEnd > StartTime;
+    }
+
+    /// <summary>
+    /// Updates the display text of the timer based on the current time and format.
+    /// </summary>
+    private void Finish()
+    {
+        SetCurrentValue(IsRunningProperty, false);
+        _timer.Stop();
+
+        switch (Command)
+        {
+            case RoutedCommand routed when routed.CanExecute(CommandParameter, CommandTarget ?? this):
+                routed.Execute(CommandParameter, CommandTarget ?? this);
+                break;
+            case ICommand cmd when cmd.CanExecute(CommandParameter):
+                cmd.Execute(CommandParameter);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Restarts the timer if it is currently running.
+    /// </summary>
+    private void RestartTimerIfRunning()
+    {
+        if (!IsRunning)
+            return;
+
+        _timer.Stop();
+        _timer.Start();
+    }
+
+    /// <summary>
+    /// Starts the timer internally, initializing the base time and effective end time.
+    /// </summary>
+    private void StartInternal()
+    {
+        if (!CanRun(out var effEnd))
+        {
+            SetCurrentValue(IsRunningProperty, false);
+            return;
+        }
+
+        _baseTime = StartTime;
+        _effectiveEndTime = effEnd;
+
+        if (ResetOnStart)
+            CurrentTime = StartTime;
+
+        _runStartedUtc = DateTime.UtcNow;
+        _timer.Start();
+    }
+
+    /// <summary>
+    /// Updates the display text of the timer based on the current time and format.
+    /// </summary>
+    private void UpdateDisplayText()
+    {
+        var fmt = Format;
+        Text = string.IsNullOrWhiteSpace(fmt)
+            ? CurrentTime.ToString()
+            : CurrentTime.ToString(fmt);
+    }
+
+    /// <summary>
+    /// Adjusts the timer's interval based on the <see cref="Format"/>.
+    /// The interval is dynamically set to match the required precision, such as milliseconds, seconds, or minutes.
+    /// </summary>
+    private void UpdateTimerInterval()
+    {
+        var fmt = Format ?? string.Empty;
+        _timer.Interval = fmt switch
+        {
+            _ when fmt.Contains("fff", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(16),
+            _ when fmt.Contains("ff", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(20),
+            _ when fmt.Contains('f') => TimeSpan.FromMilliseconds(100),
+            _ when fmt.Contains("ss", StringComparison.Ordinal) => TimeSpan.FromMilliseconds(250),
+            _ when fmt.Contains("mm", StringComparison.Ordinal) => TimeSpan.FromSeconds(1),
+            _ when fmt.Contains("hh", StringComparison.Ordinal) => TimeSpan.FromSeconds(1),
+            _ => TimeSpan.FromMilliseconds(250),
+        };
+    }
     #endregion
 }

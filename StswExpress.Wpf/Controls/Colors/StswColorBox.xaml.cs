@@ -25,7 +25,66 @@ public class StswColorBox : StswBoxBase
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(typeof(StswColorBox)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
+    /// When disabled, the selected color will always have full opacity.
+    /// </summary>
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsAlphaEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsAlphaEnabled),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down menu is currently open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding for seamless color selection and updates.
+    /// </summary>
+    public Color? SelectedColor
+    {
+        get => (Color?)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColor),
+            typeof(Color?),
+            typeof(StswColorBox),
+            new FrameworkPropertyMetadata(default(Color?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, OnSelectedColorChanging, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static object OnSelectedColorChanging(DependencyObject d, object baseValue)
+    {
+        if (baseValue == null)
+            return default(Color);
+
+        return baseValue;
+    }
+    #endregion
+
+    #region Logic
     /// <inheritdoc/>
     protected override void UpdateMainProperty(bool alwaysUpdate)
     {
@@ -96,65 +155,6 @@ public class StswColorBox : StswBoxBase
                     textBE.UpdateSource();
             }
         }
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
-    /// When disabled, the selected color will always have full opacity.
-    /// </summary>
-    public bool IsAlphaEnabled
-    {
-        get => (bool)GetValue(IsAlphaEnabledProperty);
-        set => SetValue(IsAlphaEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsAlphaEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsAlphaEnabled),
-            typeof(bool),
-            typeof(StswColorBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down menu is currently open.
-    /// </summary>
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswColorBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the currently selected color in the control.
-    /// Supports two-way binding for seamless color selection and updates.
-    /// </summary>
-    public Color? SelectedColor
-    {
-        get => (Color?)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColor),
-            typeof(Color?),
-            typeof(StswColorBox),
-            new FrameworkPropertyMetadata(default(Color?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, OnSelectedColorChanging, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static object OnSelectedColorChanging(DependencyObject d, object baseValue)
-    {
-        if (baseValue == null)
-            return default(Color);
-
-        return baseValue;
     }
     #endregion
 }

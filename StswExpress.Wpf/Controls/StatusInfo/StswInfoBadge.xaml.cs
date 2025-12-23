@@ -24,42 +24,33 @@ public class StswInfoBadge : Control, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(typeof(StswInfoBadge)));
     }
 
-    #region Events & methods
+    #region Dependency properties
     /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public bool CornerClipping
     {
-        base.OnApplyTemplate();
-        UpdateValue();
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswInfoBadge)
+        );
 
-    /// <summary>
-    /// Converts a numerical value into a shortened string representation.
-    /// Uses 'k' for thousands, 'M' for millions, and 'B' for billions if applicable.
-    /// </summary>
-    /// <param name="number">The integer value to convert.</param>
-    /// <returns>
-    /// A formatted string representing the number with 'k' (thousands), 'M' (millions),
-    /// or 'B' (billions), or the number itself if it is less than 1000.
-    /// </returns>
-    public static string SeparateByThousands(int number) => Math.Abs(number) switch
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
     {
-        < 1000 => $"{number}",
-        < 1_000_000 => $"{number / 1_000}k",
-        < 1_000_000_000 => $"{number / 1_000_000}M",
-        _ => $"{number / 1_000_000_000}B"
-    };
-
-    /// <summary>
-    /// Updates the displayed value based on the <see cref="Value"/> and <see cref="Limit"/> properties.
-    /// If the value exceeds the limit, it is truncated and appended with a '+'.
-    /// </summary>
-    public void UpdateValue()
-    {
-        DisplayedValue = Value > Limit ? $"{SeparateByThousands(Limit.Value)}+" : $"{SeparateByThousands(Value)}";
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-    #endregion
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswInfoBadge)
+        );
 
-    #region Logic properties
     /// <summary>
     /// Gets or sets the formatted string representation of the displayed value.
     /// Updates dynamically based on the <see cref="Value"/> and <see cref="Limit"/> properties.
@@ -158,38 +149,45 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
     public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswInfoBadge stsw)
-            return;
-
+        var stsw = (StswInfoBadge)d;
         stsw.UpdateValue();
     }
     #endregion
 
-    #region Style properties
+    #region Template
     /// <inheritdoc/>
-    public bool CornerClipping
+    public override void OnApplyTemplate()
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        base.OnApplyTemplate();
+        UpdateValue();
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswInfoBadge)
-        );
+    #endregion
 
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    #region Logic
+    /// <summary>
+    /// Converts a numerical value into a shortened string representation.
+    /// Uses 'k' for thousands, 'M' for millions, and 'B' for billions if applicable.
+    /// </summary>
+    /// <param name="number">The integer value to convert.</param>
+    /// <returns>
+    /// A formatted string representing the number with 'k' (thousands), 'M' (millions),
+    /// or 'B' (billions), or the number itself if it is less than 1000.
+    /// </returns>
+    public static string SeparateByThousands(int number) => Math.Abs(number) switch
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        < 1000 => $"{number}",
+        < 1_000_000 => $"{number / 1_000}k",
+        < 1_000_000_000 => $"{number / 1_000_000}M",
+        _ => $"{number / 1_000_000_000}B"
+    };
+
+    /// <summary>
+    /// Updates the displayed value based on the <see cref="Value"/> and <see cref="Limit"/> properties.
+    /// If the value exceeds the limit, it is truncated and appended with a '+'.
+    /// </summary>
+    public void UpdateValue()
+    {
+        DisplayedValue = Value > Limit ? $"{SeparateByThousands(Limit.Value)}+" : $"{SeparateByThousands(Value)}";
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswInfoBadge)
-        );
     #endregion
 }

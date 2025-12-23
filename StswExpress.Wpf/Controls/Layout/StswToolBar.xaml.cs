@@ -22,7 +22,7 @@ public class StswToolBar : ToolBar, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolBar), new FrameworkPropertyMetadata(typeof(StswToolBar)));
     }
 
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {

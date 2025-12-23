@@ -18,28 +18,63 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswTabItem : TabItem
 {
-    private ButtonBase? _closeTabButton;
-    private bool _isResolvingContent;
-
     static StswTabItem()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabItem), new FrameworkPropertyMetadata(typeof(StswTabItem)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the tab item can be closed by the user. 
+    /// When set to <see langword="true"/>, a close button is displayed in the tab.
+    /// </summary>
+    public bool IsClosable
+    {
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
+    public static readonly DependencyProperty IsClosableProperty
+        = DependencyProperty.Register(
+            nameof(IsClosable),
+            typeof(bool),
+            typeof(StswTabItem)
+        );
+    #endregion
+
+    #region Template
+    private ButtonBase? _closeTabButton;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        /// CloseTabButton
-        if (_closeTabButton != null)
-            _closeTabButton.Click -= PART_CloseTabButton_Click;
-
+        DetachTemplateEvents();
         _closeTabButton = GetTemplateChild("PART_CloseTabButton") as ButtonBase;
+        AttachTemplateEvents();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_closeTabButton != null)
             _closeTabButton.Click += PART_CloseTabButton_Click;
     }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_closeTabButton != null)
+            _closeTabButton.Click -= PART_CloseTabButton_Click;
+    }
+    #endregion
+
+    #region Overrides
+    private bool _isResolvingContent;
 
     /// <inheritdoc/>
     protected override void OnContentChanged(object oldContent, object newContent)
@@ -79,7 +114,9 @@ public class StswTabItem : TabItem
             _isResolvingContent = false;
         }
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Handles the click event of the close tab button.
     /// Removes the current tab item from its parent <see cref="StswTabControl"/>.
@@ -96,23 +133,5 @@ public class StswTabItem : TabItem
                 tabControl.Items?.Remove(this);
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the tab item can be closed by the user. 
-    /// When set to <see langword="true"/>, a close button is displayed in the tab.
-    /// </summary>
-    public bool IsClosable
-    {
-        get => (bool)GetValue(IsClosableProperty);
-        set => SetValue(IsClosableProperty, value);
-    }
-    public static readonly DependencyProperty IsClosableProperty
-        = DependencyProperty.Register(
-            nameof(IsClosable),
-            typeof(bool),
-            typeof(StswTabItem)
-        );
     #endregion
 }

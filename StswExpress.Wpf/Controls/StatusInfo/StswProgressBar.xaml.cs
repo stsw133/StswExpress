@@ -22,69 +22,58 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswProgressBar : ProgressBar, IStswCornerControl
 {
-    public StswProgressBar()
-    {
-        UpdateProgressText();
-    }
     static StswProgressBar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(typeof(StswProgressBar)));
     }
-
-    #region Events & methods
-    /// <inheritdoc />
-    protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
+    public StswProgressBar()
     {
-        base.OnMaximumChanged(oldMaximum, newMaximum);
         UpdateProgressText();
     }
 
-    /// <inheritdoc />
-    protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
     {
-        base.OnMinimumChanged(oldMinimum, newMinimum);
-        UpdateProgressText();
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswProgressBar)
+        );
 
-    /// <inheritdoc />
-    protected override void OnValueChanged(double oldValue, double newValue)
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
     {
-        base.OnValueChanged(oldValue, newValue);
-        UpdateProgressText();
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswProgressBar)
+        );
 
     /// <summary>
-    /// Updates the progress text based on the current value, minimum, maximum, and selected text mode.
+    /// Gets or sets the fill brush used for the progress bar's visual representation.
     /// </summary>
-    private void UpdateProgressText()
+    public Brush Fill
     {
-        if (TextMode == StswProgressTextMode.Custom)
-            return;
-
-        if (Maximum <= Minimum)
-        {
-            SetCurrentValue(TextProperty, string.Empty);
-            return;
-        }
-
-        var range = Maximum - Minimum;
-        var current = Value - Minimum;
-        var progress = Math.Clamp(current / range, 0d, 1d);
-
-        var text = TextMode switch
-        {
-            StswProgressTextMode.None => string.Empty,
-            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
-            StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
-            StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
-            _ => null
-        };
-
-        SetCurrentValue(TextProperty, text);
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
     }
-    #endregion
+    public static readonly DependencyProperty FillProperty
+        = DependencyProperty.Register(
+            nameof(Fill),
+            typeof(Brush),
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
 
-    #region Logic properties
     /// <summary>
     /// Gets or sets the current state of the progress bar, which can be used for styling purposes.
     /// </summary>
@@ -136,8 +125,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
     public static void OnTextModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswProgressBar stsw)
-            return;
+        var stsw = (StswProgressBar)d;
 
         if (stsw.TextMode == StswProgressTextMode.Custom)
             stsw.SetCurrentValue(TextProperty, string.Empty);
@@ -146,47 +134,58 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     }
     #endregion
 
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
+    #region Overrides
+    /// <inheritdoc />
+    protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
+        base.OnMaximumChanged(oldMaximum, newMaximum);
+        UpdateProgressText();
     }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswProgressBar)
-        );
 
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
+    /// <inheritdoc />
+    protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        base.OnMinimumChanged(oldMinimum, newMinimum);
+        UpdateProgressText();
     }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswProgressBar)
-        );
 
+    /// <inheritdoc />
+    protected override void OnValueChanged(double oldValue, double newValue)
+    {
+        base.OnValueChanged(oldValue, newValue);
+        UpdateProgressText();
+    }
+    #endregion
+
+    #region Logic
     /// <summary>
-    /// Gets or sets the fill brush used for the progress bar's visual representation.
+    /// Updates the progress text based on the current value, minimum, maximum, and selected text mode.
     /// </summary>
-    public Brush Fill
+    private void UpdateProgressText()
     {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
+        if (TextMode == StswProgressTextMode.Custom)
+            return;
+
+        if (Maximum <= Minimum)
+        {
+            SetCurrentValue(TextProperty, string.Empty);
+            return;
+        }
+
+        var range = Maximum - Minimum;
+        var current = Value - Minimum;
+        var progress = Math.Clamp(current / range, 0d, 1d);
+
+        var text = TextMode switch
+        {
+            StswProgressTextMode.None => string.Empty,
+            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
+            StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
+            StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
+            _ => null
+        };
+
+        SetCurrentValue(TextProperty, text);
     }
-    public static readonly DependencyProperty FillProperty
-        = DependencyProperty.Register(
-            nameof(Fill),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

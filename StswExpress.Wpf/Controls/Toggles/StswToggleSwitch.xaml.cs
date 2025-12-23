@@ -22,30 +22,115 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
-    private Border? _mainBorder, _backgroundBorder, _circleBorder;
-    private double _height = 0, _width = 0, _switchSize = 0;
-    private bool _isLoaded = false;
-
     static StswToggleSwitch()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(typeof(StswToggleSwitch)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the scale of the switch's toggle button.
+    /// </summary>
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the toggle switch is in read-only mode.
+    /// When set to <see langword="true"/>, the switch cannot be toggled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the brush used to render the toggle button.
+    /// </summary>
+    public Brush? ToggleBrush
+    {
+        get => (Brush?)GetValue(ToggleBrushProperty);
+        set => SetValue(ToggleBrushProperty, value);
+    }
+    public static readonly DependencyProperty ToggleBrushProperty
+        = DependencyProperty.Register(
+            nameof(ToggleBrush),
+            typeof(Brush),
+            typeof(StswToggleSwitch),
+            new FrameworkPropertyMetadata(default(Brush?), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+    #endregion
+
+    #region Template
+    private Border? _mainBorder, _backgroundBorder, _circleBorder;
+    private double _height = 0, _width = 0, _switchSize = 0;
+    private bool _isLoaded = false;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
+        Loaded -= OnLoaded;
+
         _mainBorder = GetTemplateChild("PART_MainBorder") as Border;
         _backgroundBorder = GetTemplateChild("PART_BackgroundBorder") as Border;
         _circleBorder = GetTemplateChild("PART_CircleBorder") as Border;
 
-        Loaded -= OnLoaded;
         Loaded += OnLoaded;
         _isLoaded = true;
     }
 
+    /// <summary>
+    /// Handles the Loaded event to initialize the switch.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnLoaded(object sender, RoutedEventArgs e) => SetSwitch();
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnChecked(RoutedEventArgs e)
     {
@@ -71,13 +156,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <inheritdoc/>
-    protected override void OnToggle()
-    {
-        if (!IsReadOnly)
-            base.OnToggle();
-    }
-
-    /// <inheritdoc/>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -92,13 +170,15 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         SetSwitch();
     }
 
-    /// <summary>
-    /// Handles the Loaded event to initialize the switch.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OnLoaded(object sender, RoutedEventArgs e) => SetSwitch();
+    /// <inheritdoc/>
+    protected override void OnToggle()
+    {
+        if (!IsReadOnly)
+            base.OnToggle();
+    }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Initializes and updates the visual properties of the toggle switch.
     /// This method ensures correct positioning, padding, and styling of elements
@@ -140,83 +220,6 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         true => new Thickness(_width - _mainBorder!.BorderThickness.Left - _mainBorder.BorderThickness.Right - Padding.Left - Padding.Right - _switchSize, 0, 0, 0),
         _ => new Thickness((_width - _mainBorder!.BorderThickness.Left - _mainBorder.BorderThickness.Right - Padding.Left - Padding.Right - _switchSize) / 2, 0, 0, 0),
     };
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the scale of the switch's toggle button.
-    /// </summary>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the toggle switch is in read-only mode.
-    /// When set to <see langword="true"/>, the switch cannot be toggled.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswToggleSwitch)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the brush used to render the toggle button.
-    /// </summary>
-    public Brush? ToggleBrush
-    {
-        get => (Brush?)GetValue(ToggleBrushProperty);
-        set => SetValue(ToggleBrushProperty, value);
-    }
-    public static readonly DependencyProperty ToggleBrushProperty
-        = DependencyProperty.Register(
-            nameof(ToggleBrush),
-            typeof(Brush),
-            typeof(StswToggleSwitch),
-            new FrameworkPropertyMetadata(default(Brush?), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 
     #region Animations

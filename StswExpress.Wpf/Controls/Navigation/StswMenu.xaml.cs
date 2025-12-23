@@ -28,7 +28,7 @@ public class StswMenu : Menu, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMenu), new FrameworkPropertyMetadata(typeof(StswMenu)));
     }
 
-    #region Style properties
+    #region Dependency properties
     /// <inheritdoc/>
     public bool CornerClipping
     {

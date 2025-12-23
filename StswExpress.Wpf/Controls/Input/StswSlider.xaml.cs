@@ -21,48 +21,172 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswSlider : Slider
 {
-    private Thumb? _rangeStartThumb, _rangeEndThumb, _valueThumb;
-    private Track? _track;
-    private Canvas? _canvas;
-    private Rectangle? _selectionRangeElement;
-    private bool? _storedSelectionRangeEnabled;
-
     static StswSlider()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(typeof(StswSlider)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSlider)
+        );
+
+    /// <summary>
+    /// Gets or sets the mode of the slider, determining whether it operates in single value mode or range selection mode.
+    /// </summary>
+    public StswSliderMode SliderMode
+    {
+        get => (StswSliderMode)GetValue(SliderModeProperty);
+        set => SetValue(SliderModeProperty, value);
+    }
+    public static readonly DependencyProperty SliderModeProperty
+        = DependencyProperty.Register(
+            nameof(SliderMode),
+            typeof(StswSliderMode),
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(StswSliderMode.Value, OnSliderModeChanged)
+        );
+    private static void OnSliderModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswSlider)d;
+        stsw.UpdateMode((StswSliderMode)e.NewValue);
+        stsw.UpdateRangeThumbs();
+    }
+
+    /// <summary>
+    /// Gets or sets the thickness of the border around the slider's thumb.
+    /// Controls the outline width of the draggable element.
+    /// </summary>
+    public double ThumbBorderThickness
+    {
+        get => (double)GetValue(ThumbBorderThicknessProperty);
+        set => SetValue(ThumbBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ThumbBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(ThumbBorderThickness),
+            typeof(double),
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the icon displayed inside the slider thumb.
+    /// Allows adding a visual representation, such as a symbol or indicator, within the draggable element.
+    /// </summary>
+    public Geometry? ThumbIcon
+    {
+        get => (Geometry?)GetValue(ThumbIconProperty);
+        set => SetValue(ThumbIconProperty, value);
+    }
+    public static readonly DependencyProperty ThumbIconProperty
+        = DependencyProperty.Register(
+            nameof(ThumbIcon),
+            typeof(Geometry),
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the size of the slider thumb.
+    /// Defines the dimensions of the draggable element, affecting usability and visual prominence.
+    /// </summary>
+    public double ThumbSize
+    {
+        get => (double)GetValue(ThumbSizeProperty);
+        set => SetValue(ThumbSizeProperty, value);
+    }
+    public static readonly DependencyProperty ThumbSizeProperty
+        = DependencyProperty.Register(
+            nameof(ThumbSize),
+            typeof(double),
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the size (height or width) of the slider track.
+    /// Adjusts the thickness of the track where the thumb moves.
+    /// </summary>
+    public double TrackSize
+    {
+        get => (double)GetValue(TrackSizeProperty);
+        set => SetValue(TrackSizeProperty, value);
+    }
+    public static readonly DependencyProperty TrackSizeProperty
+        = DependencyProperty.Register(
+            nameof(TrackSize),
+            typeof(double),
+            typeof(StswSlider),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+    #endregion
+
+    #region Template
+    private Thumb? _rangeStartThumb, _rangeEndThumb, _valueThumb;
+    private Track? _track;
+    private Canvas? _canvas;
+    private Rectangle? _selectionRangeElement;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (_track != null)
-            _track.SizeChanged -= Track_SizeChanged;
-        if (_rangeStartThumb != null)
-            _rangeStartThumb.DragDelta -= RangeStartThumb_DragDelta;
-        if (_rangeEndThumb != null)
-            _rangeEndThumb.DragDelta -= RangeEndThumb_DragDelta;
-
+        DetachTemplateEvents();
         _track = GetTemplateChild("PART_Track") as Track;
         _valueThumb = GetTemplateChild("OPT_Thumb") as Thumb;
         _rangeStartThumb = GetTemplateChild("PART_StartThumb") as Thumb;
         _rangeEndThumb = GetTemplateChild("PART_EndThumb") as Thumb;
         _canvas = GetTemplateChild("OPT_Canvas") as Canvas;
         _selectionRangeElement = GetTemplateChild("PART_SelectionRange") as Rectangle;
+        AttachTemplateEvents();
 
+        UpdateMode(SliderMode);
+        UpdateRangeThumbs();
+    }
+
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
         if (_track != null)
             _track.SizeChanged += Track_SizeChanged;
         if (_rangeStartThumb != null)
             _rangeStartThumb.DragDelta += RangeStartThumb_DragDelta;
         if (_rangeEndThumb != null)
             _rangeEndThumb.DragDelta += RangeEndThumb_DragDelta;
-
-        UpdateMode(SliderMode);
-        UpdateRangeThumbs();
     }
 
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_track != null)
+            _track.SizeChanged -= Track_SizeChanged;
+        if (_rangeStartThumb != null)
+            _rangeStartThumb.DragDelta -= RangeStartThumb_DragDelta;
+        if (_rangeEndThumb != null)
+            _rangeEndThumb.DragDelta -= RangeEndThumb_DragDelta;
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
@@ -210,7 +334,9 @@ public class StswSlider : Slider
          || e.Property == MaximumProperty)
             UpdateRangeThumbs();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Resets Value to the default position (middle of the range, snapped to tick).
     /// </summary>
@@ -401,6 +527,8 @@ public class StswSlider : Slider
     #endregion
 
     #region Range handling methods
+    private bool? _storedSelectionRangeEnabled;
+
     /// <summary>
     /// Handles the DragDelta event of the range start thumb to update the SelectionStart property.
     /// </summary>
@@ -855,118 +983,5 @@ public class StswSlider : Slider
         var steps = Math.Round(delta / TickFrequency);
         return steps * TickFrequency;
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the mode of the slider, determining whether it operates in single value mode or range selection mode.
-    /// </summary>
-    public StswSliderMode SliderMode
-    {
-        get => (StswSliderMode)GetValue(SliderModeProperty);
-        set => SetValue(SliderModeProperty, value);
-    }
-    public static readonly DependencyProperty SliderModeProperty
-        = DependencyProperty.Register(
-            nameof(SliderMode),
-            typeof(StswSliderMode),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(StswSliderMode.Value, OnSliderModeChanged)
-        );
-    private static void OnSliderModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswSlider stsw)
-            return;
-
-        stsw.UpdateMode((StswSliderMode)e.NewValue);
-        stsw.UpdateRangeThumbs();
-    }
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswSlider)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the border around the slider's thumb.
-    /// Controls the outline width of the draggable element.
-    /// </summary>
-    public double ThumbBorderThickness
-    {
-        get => (double)GetValue(ThumbBorderThicknessProperty);
-        set => SetValue(ThumbBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty ThumbBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(ThumbBorderThickness),
-            typeof(double),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the icon displayed inside the slider thumb.
-    /// Allows adding a visual representation, such as a symbol or indicator, within the draggable element.
-    /// </summary>
-    public Geometry? ThumbIcon
-    {
-        get => (Geometry?)GetValue(ThumbIconProperty);
-        set => SetValue(ThumbIconProperty, value);
-    }
-    public static readonly DependencyProperty ThumbIconProperty
-        = DependencyProperty.Register(
-            nameof(ThumbIcon),
-            typeof(Geometry),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(default(Geometry?), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the size of the slider thumb.
-    /// Defines the dimensions of the draggable element, affecting usability and visual prominence.
-    /// </summary>
-    public double ThumbSize
-    {
-        get => (double)GetValue(ThumbSizeProperty);
-        set => SetValue(ThumbSizeProperty, value);
-    }
-    public static readonly DependencyProperty ThumbSizeProperty
-        = DependencyProperty.Register(
-            nameof(ThumbSize),
-            typeof(double),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the size (height or width) of the slider track.
-    /// Adjusts the thickness of the track where the thumb moves.
-    /// </summary>
-    public double TrackSize
-    {
-        get => (double)GetValue(TrackSizeProperty);
-        set => SetValue(TrackSizeProperty, value);
-    }
-    public static readonly DependencyProperty TrackSizeProperty
-        = DependencyProperty.Register(
-            nameof(TrackSize),
-            typeof(double),
-            typeof(StswSlider),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
     #endregion
 }

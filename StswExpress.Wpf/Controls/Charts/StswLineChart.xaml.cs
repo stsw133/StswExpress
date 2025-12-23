@@ -23,10 +23,51 @@ public class StswLineChart : ItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLineChart), new FrameworkPropertyMetadata(typeof(StswLineChart)));
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new StswLineChartItem();
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswLineChartItem;
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the thickness of the line connecting the data points in the chart.
+    /// </summary>
+    public double LineThickness
+    {
+        get => (double)GetValue(LineThicknessProperty);
+        set => SetValue(LineThicknessProperty, value);
+    }
+    public static readonly DependencyProperty LineThicknessProperty
+        = DependencyProperty.Register(
+            nameof(LineThickness),
+            typeof(double),
+            typeof(StswLineChart),
+            new FrameworkPropertyMetadata(2d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnLineThicknessChanged)
+        );
+    private static void OnLineThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswLineChart)d;
+        stsw.RequestChartUpdate();
+    }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the size of the points representing each data item in the chart.
+    /// </summary>
+    public double PointSize
+    {
+        get => (double)GetValue(PointSizeProperty);
+        set => SetValue(PointSizeProperty, value);
+    }
+    public static readonly DependencyProperty PointSizeProperty
+        = DependencyProperty.Register(
+            nameof(PointSize),
+            typeof(double),
+            typeof(StswLineChart),
+            new FrameworkPropertyMetadata(12d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPointSizeChanged)
+        );
+    private static void OnPointSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswLineChart)d;
+        stsw.RequestChartUpdate();
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -39,6 +80,27 @@ public class StswLineChart : ItemsControl
     {
         base.OnInitialized(e);
         RequestChartUpdate();
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new StswLineChartItem();
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswLineChartItem;
+    /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswLineChartItem container)
+            container.ValueChanged -= OnItemValueChanged;
+        base.ClearContainerForItemOverride(element, item);
+    }
+    /// <inheritdoc/>
+    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+    {
+        base.PrepareContainerForItemOverride(element, item);
+        if (element is StswLineChartItem container)
+            container.ValueChanged += OnItemValueChanged;
     }
 
     /// <inheritdoc/>
@@ -54,23 +116,9 @@ public class StswLineChart : ItemsControl
         base.OnRenderSizeChanged(sizeInfo);
         RequestChartUpdate();
     }
+    #endregion
 
-    /// <inheritdoc/>
-    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-    {
-        if (element is StswLineChartItem container)
-            container.ValueChanged -= OnItemValueChanged;
-        base.ClearContainerForItemOverride(element, item);
-    }
-
-    /// <inheritdoc/>
-    protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-    {
-        base.PrepareContainerForItemOverride(element, item);
-        if (element is StswLineChartItem container)
-            container.ValueChanged += OnItemValueChanged;
-    }
-
+    #region Logic
     /// <summary>
     /// Handles the ValueChanged event of an item and triggers chart regeneration.
     /// </summary>
@@ -204,43 +252,5 @@ public class StswLineChart : ItemsControl
         }));
     }
     private DispatcherOperation? _chartUpdateOperation;
-    #endregion
-
-    #region Style properties
-    public double LineThickness
-    {
-        get => (double)GetValue(LineThicknessProperty);
-        set => SetValue(LineThicknessProperty, value);
-    }
-    public static readonly DependencyProperty LineThicknessProperty
-        = DependencyProperty.Register(
-            nameof(LineThickness),
-            typeof(double),
-            typeof(StswLineChart),
-            new FrameworkPropertyMetadata(2d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnLineThicknessChanged)
-        );
-    private static void OnLineThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswLineChart chart)
-            chart.RequestChartUpdate();
-    }
-
-    public double PointSize
-    {
-        get => (double)GetValue(PointSizeProperty);
-        set => SetValue(PointSizeProperty, value);
-    }
-    public static readonly DependencyProperty PointSizeProperty
-        = DependencyProperty.Register(
-            nameof(PointSize),
-            typeof(double),
-            typeof(StswLineChart),
-            new FrameworkPropertyMetadata(12d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPointSizeChanged)
-        );
-    private static void OnPointSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is StswLineChart chart)
-            chart.RequestChartUpdate();
-    }
     #endregion
 }

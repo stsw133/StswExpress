@@ -36,7 +36,7 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         Dispatcher.CurrentDispatcher.InvokeAsync(TryExtendRowStyle, DispatcherPriority.Background);
     }
 
-    #region Events & methods
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
@@ -45,7 +45,9 @@ public class StswDataGridStatusColumn : DataGridTemplateColumn
         if (e.Property == CellTemplateProperty && e.NewValue is null)
             CellTemplate = GetDefaultCellTemplate();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Retrieves the parent <see cref="StswDataGrid"/> instance that owns this column.
     /// Uses reflection to access the internal `DataGridOwner` property.

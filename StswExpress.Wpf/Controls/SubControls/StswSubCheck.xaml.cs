@@ -24,49 +24,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubCheck), new FrameworkPropertyMetadata(typeof(StswSubCheck)));
     }
 
-    #region Logic properties
-    /// <inheritdoc/>
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
-    public static readonly DependencyProperty IsBusyProperty
-        = DependencyProperty.Register(
-            nameof(IsBusy),
-            typeof(bool?),
-            typeof(StswSubCheck)
-        );
-
-    /// <inheritdoc/>
-    public bool IsContentVisible
-    {
-        get => (bool)GetValue(IsContentVisibleProperty);
-        set => SetValue(IsContentVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsContentVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsContentVisible),
-            typeof(bool),
-            typeof(StswSubCheck)
-        );
-
-    /// <inheritdoc/>
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
-            typeof(StswSubCheck),
-            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
-        );
-    #endregion
-
-    #region Style properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the brush used to fill the checkbox's icon.
     /// </summary>
@@ -113,6 +71,46 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
             typeof(double),
             typeof(StswSubCheck),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <inheritdoc/>
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
+    public static readonly DependencyProperty IsBusyProperty
+        = DependencyProperty.Register(
+            nameof(IsBusy),
+            typeof(bool?),
+            typeof(StswSubCheck)
+        );
+
+    /// <inheritdoc/>
+    public bool IsContentVisible
+    {
+        get => (bool)GetValue(IsContentVisibleProperty);
+        set => SetValue(IsContentVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsContentVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsContentVisible),
+            typeof(bool),
+            typeof(StswSubCheck)
+        );
+
+    /// <inheritdoc/>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+    public static readonly DependencyProperty OrientationProperty
+        = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswSubCheck),
+            new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.AffectsArrange)
         );
     #endregion
 }

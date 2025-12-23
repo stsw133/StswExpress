@@ -309,9 +309,7 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNotifyIcon stsw)
-            return;
-
+        var stsw = (StswNotifyIcon)d;
         if (stsw._tray != null)
             stsw._tray.Icon = stsw.Icon;
     }
@@ -333,9 +331,7 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIconPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNotifyIcon stsw)
-            return;
-
+        var stsw = (StswNotifyIcon)d;
         if (stsw._tray != null)
             stsw._tray.Icon = stsw.Icon ?? LoadIcon(stsw.IconPath);
     }
@@ -372,9 +368,7 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnIsAlwaysVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNotifyIcon stsw)
-            return;
-
+        var stsw = (StswNotifyIcon)d;
         if (stsw._tray != null)
             stsw.UpdateIconVisibility();
     }
@@ -396,9 +390,7 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNotifyIcon stsw)
-            return;
-
+        var stsw = (StswNotifyIcon)d;
         if (stsw._tray != null)
             stsw._tray.Text = stsw.Text;
     }
@@ -420,9 +412,7 @@ public class StswNotifyIcon : FrameworkElement
         );
     private static void OnTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StswNotifyIcon stsw)
-            return;
-
+        var stsw = (StswNotifyIcon)d;
         stsw.Notify(stsw.Tip.TipTitle, stsw.Tip.TipText, stsw.Tip.TipIcon);
     }
     #endregion

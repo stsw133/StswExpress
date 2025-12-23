@@ -23,60 +23,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         ForegroundProperty.OverrideMetadata(typeof(StswDataGridColorColumn), new FrameworkPropertyMetadata(null));
     }
 
-    private static readonly Style StswEditingElementStyle = new(typeof(StswColorBox), (Style)Application.Current.FindResource(typeof(StswColorBox)))
-    {
-        Setters =
-        {
-            new Setter(StswColorBox.BorderThicknessProperty, new Thickness(0)),
-            new Setter(StswColorBox.CornerClippingProperty, false),
-            new Setter(StswColorBox.CornerRadiusProperty, new CornerRadius(0)),
-            new Setter(StswColorBox.FocusVisualStyleProperty, null),
-            new Setter(StswColorBox.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
-            new Setter(StswColorBox.VerticalAlignmentProperty, VerticalAlignment.Stretch)
-        }
-    };
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-    {
-        var displayElement = new StswText()
-        {
-            Margin = new Thickness(2, 0, 2, 0)
-        };
-        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
-        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
-        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
-        StswDataGridTextColumn.BindFontProperties(this, displayElement);
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
-
-        return displayElement;
-    }
-
-    /// <inheritdoc/>
-    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-    {
-        var editingElement = new StswColorBox()
-        {
-            Style = StswEditingElementStyle
-        };
-        editingElement.SetBinding(StswColorBox.IsAlphaEnabledProperty, this.CreateColumnBinding(nameof(IsAlphaEnabled)));
-        editingElement.SetBinding(StswColorBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
-        editingElement.SetBinding(StswColorBox.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
-        editingElement.SetBinding(StswColorBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
-        editingElement.SetBinding(StswColorBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
-
-        /// bindings
-        if (Binding != null)
-            BindingOperations.SetBinding(editingElement, StswColorBox.SelectedColorProperty, Binding);
-
-        return editingElement;
-    }
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a value indicating whether the alpha channel (transparency) is enabled for color selection.
     /// When disabled, the selected color will always have full opacity.
@@ -94,23 +41,6 @@ public class StswDataGridColorColumn : DataGridTextColumn
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text displayed in the editing element when no color is selected.
-    /// </summary>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswDataGridColorColumn)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
     /// Gets or sets the padding around the color box inside the column's cells.
     /// </summary>
     public Thickness Padding
@@ -122,6 +52,21 @@ public class StswDataGridColorColumn : DataGridTextColumn
         = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
+            typeof(StswDataGridColorColumn)
+        );
+
+    /// <summary>
+    /// Gets or sets the placeholder text displayed in the editing element when no color is selected.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
             typeof(StswDataGridColorColumn)
         );
 
@@ -202,5 +147,60 @@ public class StswDataGridColorColumn : DataGridTextColumn
             typeof(StswDataGridColorColumn),
             new PropertyMetadata(VerticalAlignment.Top)
         );
+    #endregion
+
+    #region Overrides
+    private static readonly Style StswEditingElementStyle = new(typeof(StswColorBox), (Style)Application.Current.FindResource(typeof(StswColorBox)))
+    {
+        Setters =
+        {
+            new Setter(StswColorBox.BorderThicknessProperty, new Thickness(0)),
+            new Setter(StswColorBox.CornerClippingProperty, false),
+            new Setter(StswColorBox.CornerRadiusProperty, new CornerRadius(0)),
+            new Setter(StswColorBox.FocusVisualStyleProperty, null),
+            new Setter(StswColorBox.HorizontalAlignmentProperty, HorizontalAlignment.Stretch),
+            new Setter(StswColorBox.VerticalAlignmentProperty, VerticalAlignment.Stretch)
+        }
+    };
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+    {
+        var displayElement = new StswText()
+        {
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        displayElement.SetBinding(TextBlock.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        displayElement.SetBinding(TextBlock.TextAlignmentProperty, this.CreateColumnBinding(nameof(TextAlignment)));
+        displayElement.SetBinding(TextBlock.TextTrimmingProperty, this.CreateColumnBinding(nameof(TextTrimming)));
+        displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
+        StswDataGridTextColumn.BindFontProperties(this, displayElement);
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
+
+        return displayElement;
+    }
+
+    /// <inheritdoc/>
+    protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+    {
+        var editingElement = new StswColorBox()
+        {
+            Style = StswEditingElementStyle
+        };
+        editingElement.SetBinding(StswColorBox.IsAlphaEnabledProperty, this.CreateColumnBinding(nameof(IsAlphaEnabled)));
+        editingElement.SetBinding(StswColorBox.PaddingProperty, this.CreateColumnBinding(nameof(Padding)));
+        editingElement.SetBinding(StswColorBox.PlaceholderProperty, this.CreateColumnBinding(nameof(Placeholder)));
+        editingElement.SetBinding(StswColorBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
+        editingElement.SetBinding(StswColorBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
+
+        /// bindings
+        if (Binding != null)
+            BindingOperations.SetBinding(editingElement, StswColorBox.SelectedColorProperty, Binding);
+
+        return editingElement;
+    }
     #endregion
 }

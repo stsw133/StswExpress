@@ -26,59 +26,16 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(Items))]
 public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDropControl
 {
-    bool IStswDropControl.SuppressNextOpen { get; set; }
-
-    public StswDropButton()
-    {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
-    }
     static StswDropButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
     }
-
-    #region Events & methods
-    /// <inheritdoc/>
-    public override void OnApplyTemplate()
+    public StswDropButton()
     {
-        base.OnApplyTemplate();
-        ApplyAutoCloseToItems();
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, IStswDropControl.PreviewMouseDownOutsideCapturedElement);
     }
 
-    /// <inheritdoc/>
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
-    {
-        base.OnItemsSourceChanged(oldValue, newValue);
-        UpdateAutoCloseHandlers(oldValue, detachOnly: true);
-        UpdateAutoCloseHandlers(newValue);
-    }
-
-    /// <summary>
-    /// Applies the AutoClose behavior to the items in the drop-down.
-    /// </summary>
-    private void ApplyAutoCloseToItems() => UpdateAutoCloseHandlers(Items);
-
-    /// <summary>
-    /// Updates the AutoClose event handlers for the provided items.
-    /// </summary>
-    /// <param name="items">The collection of items to update.</param>
-    /// <param name="detachOnly">If set to <see langword="true"/>, only detaches existing handlers without adding new ones.</param>
-    private void UpdateAutoCloseHandlers(IEnumerable? items, bool detachOnly = false)
-    {
-        if (items is null)
-            return;
-
-        foreach (var btn in items.OfType<ButtonBase>())
-        {
-            btn.Click -= OnDropItemClick;
-
-            if (!detachOnly && AutoClose)
-                btn.Click += OnDropItemClick;
-        }
-    }
-    #endregion
-
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets a value indicating whether the drop-down should automatically close after an item inside it is clicked.
     /// </summary>
@@ -99,9 +56,35 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     private static void OnAutoCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var stsw = (StswDropButton)d;
-        stsw.ApplyAutoCloseToItems();
+        stsw.UpdateAutoCloseHandlers(stsw.Items);
     }
     private void OnDropItemClick(object sender, RoutedEventArgs e) => IsDropDownOpen = false;
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDropButton)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDropButton)
+        );
 
     /// <inheritdoc/>
     public bool IsDropDownOpen
@@ -135,34 +118,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             typeof(bool),
             typeof(StswDropButton)
         );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswDropButton)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDropButton)
-        );
 
     /// <inheritdoc/>
     public double MaxDropDownHeight
@@ -191,5 +146,47 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             typeof(StswDropButton),
             new PropertyMetadata(double.NaN)
         );
+    #endregion
+
+    #region Template
+    /// <inheritdoc/>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        UpdateAutoCloseHandlers(Items);
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+        UpdateAutoCloseHandlers(oldValue, detachOnly: true);
+        UpdateAutoCloseHandlers(newValue);
+    }
+    #endregion
+
+    #region Logic
+    bool IStswDropControl.SuppressNextOpen { get; set; }
+
+    /// <summary>
+    /// Updates the click event handlers for items to manage automatic drop-down closure.
+    /// </summary>
+    /// <param name="items">The collection of items to update.</param>
+    /// <param name="detachOnly">If set to <see langword="true"/>, only detaches existing handlers without adding new ones.</param>
+    private void UpdateAutoCloseHandlers(IEnumerable? items, bool detachOnly = false)
+    {
+        if (items is null)
+            return;
+
+        foreach (var btn in items.OfType<ButtonBase>())
+        {
+            btn.Click -= OnDropItemClick;
+
+            if (!detachOnly && AutoClose)
+                btn.Click += OnDropItemClick;
+        }
+    }
     #endregion
 }

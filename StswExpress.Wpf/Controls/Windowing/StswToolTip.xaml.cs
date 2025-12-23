@@ -24,20 +24,96 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswToolTip : ToolTip, IStswCornerControl
 {
-    private UIElement? _parent;
-
     static StswToolTip()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolTip), new FrameworkPropertyMetadata(typeof(StswToolTip)));
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswToolTip)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswToolTip)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the tooltip is moveable.
+    /// When enabled, the tooltip dynamically follows the cursor's movement.
+    /// </summary>
+    public bool IsMoveable
+    {
+        get => (bool)GetValue(IsMoveableProperty);
+        set => SetValue(IsMoveableProperty, value);
+    }
+    public static readonly DependencyProperty IsMoveableProperty
+        = DependencyProperty.Register(
+            nameof(IsMoveable),
+            typeof(bool),
+            typeof(StswToolTip),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsMoveableChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsMoveableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswToolTip)d;
+        stsw.UpdateMoveableState();
+    }
+
+    /// <summary>
+    /// Attached property that sets the tooltip text for a <see cref="FrameworkElement"/>.
+    /// </summary>
+    public static readonly DependencyProperty TextProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(TextProperty)[..^8],
+            typeof(string),
+            typeof(StswToolTip),
+            new PropertyMetadata(null, OnTextChanged)
+        );
+    public static string? GetText(DependencyObject d) => (string?)d.GetValue(TextProperty);
+    public static void SetText(DependencyObject d, string? value) => d.SetValue(TextProperty, value);
+    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (FrameworkElement)d;
+
+        if (e.NewValue is string text)
+            stsw.ToolTip = new StswToolTip { Content = text };
+        else
+            stsw.ClearValue(ToolTipProperty);
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         UpdateMoveableState();
     }
+    #endregion
+
+    #region Logic
+    private UIElement? _parent;
 
     /// <summary>
     /// Handles the MouseMove event for the parent element, dynamically updating the tooltip's position
@@ -109,84 +185,5 @@ public class StswToolTip : ToolTip, IStswCornerControl
             ResetMoveableState();
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Attached property that sets the tooltip text for a <see cref="FrameworkElement"/>.
-    /// </summary>
-    public static readonly DependencyProperty TextProperty
-        = DependencyProperty.RegisterAttached(
-            nameof(TextProperty)[..^8],
-            typeof(string),
-            typeof(StswToolTip),
-            new PropertyMetadata(null, OnTextChanged)
-        );
-    public static string? GetText(DependencyObject d) => (string?)d.GetValue(TextProperty);
-    public static void SetText(DependencyObject d, string? value) => d.SetValue(TextProperty, value);
-    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not FrameworkElement stsw)
-            return;
-
-        if (e.NewValue is string text)
-            stsw.ToolTip = new StswToolTip { Content = text };
-        else
-            stsw.ClearValue(ToolTipProperty);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the tooltip is moveable.
-    /// When enabled, the tooltip dynamically follows the cursor's movement.
-    /// </summary>
-    public bool IsMoveable
-    {
-        get => (bool)GetValue(IsMoveableProperty);
-        set => SetValue(IsMoveableProperty, value);
-    }
-    public static readonly DependencyProperty IsMoveableProperty
-        = DependencyProperty.Register(
-            nameof(IsMoveable),
-            typeof(bool),
-            typeof(StswToolTip),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsMoveableChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsMoveableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswToolTip stsw)
-            return;
-
-        stsw.UpdateMoveableState();
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswToolTip)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswToolTip)
-        );
     #endregion
 }

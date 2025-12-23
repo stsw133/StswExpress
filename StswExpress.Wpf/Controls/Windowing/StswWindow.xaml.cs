@@ -34,16 +34,115 @@ public class StswWindow : Window, IStswCornerControl
     private WindowState _preFullscreenState;
     private StswWindowBar? _windowBar;
 
-    public StswWindow()
-    {
-        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-    }
     static StswWindow()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
     }
+    public StswWindow()
+    {
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+    }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the collection of elements used in the window's title bar.
+    /// Allows adding custom UI components such as buttons or labels.
+    /// </summary>
+    public IList Components
+    {
+        get => (IList)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(IList),
+            typeof(StswWindow)
+        );
+
+    /// <summary>
+    /// Gets or sets the presentation mode for the config dialog, allowing customization of its appearance and behavior.
+    /// </summary>
+    public StswPresentationMode? ConfigPresentationMode
+    {
+        get => (StswPresentationMode?)GetValue(ConfigPresentationModeProperty);
+        set => SetValue(ConfigPresentationModeProperty, value);
+    }
+    public static readonly DependencyProperty ConfigPresentationModeProperty
+        = DependencyProperty.Register(
+            nameof(ConfigPresentationMode),
+            typeof(StswPresentationMode?),
+            typeof(StswWindow)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswWindow)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(CornerRadius), OnCornerRadiusChanged)
+        );
+    public static void OnCornerRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswWindow)d;
+        if (!stsw.IsLoaded)
+        {
+            var cr = stsw.CornerRadius;
+            stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the window is in fullscreen mode.
+    /// When enabled, the window takes up the entire screen, hiding the taskbar and borders.
+    /// </summary>
+    public bool Fullscreen
+    {
+        get => (bool)GetValue(FullscreenProperty);
+        set => SetValue(FullscreenProperty, value);
+    }
+    public static readonly DependencyProperty FullscreenProperty
+        = DependencyProperty.Register(
+            nameof(Fullscreen),
+            typeof(bool),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswWindow)d;
+        if (stsw._windowBar != null)
+        {
+            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
+                return;
+
+            stsw.HandleEnteringFullscreen(stsw.Fullscreen);
+        }
+    }
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
@@ -63,12 +162,31 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     /// <inheritdoc/>
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+
+        IntPtr handle = new WindowInteropHelper(this).Handle;
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
+            hwndSource.AddHook(new HwndSourceHook(WndProc));
+
+        if (_defaultHeight == 0)
+            _defaultHeight = Height;
+        if (_defaultWidth == 0)
+            _defaultWidth = Width;
+    }
+    #endregion
+
+    #region Overrides
+    /// <inheritdoc/>
     protected override void OnStateChanged(EventArgs e)
     {
         base.OnStateChanged(e);
         UpdateChrome();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Handles size changes of the window bar to update the custom window chrome accordingly.
     /// </summary>
@@ -168,128 +286,6 @@ public class StswWindow : Window, IStswCornerControl
             WindowChrome.SetWindowChrome(this, chrome);
         }
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the collection of elements used in the window's title bar.
-    /// Allows adding custom UI components such as buttons or labels.
-    /// </summary>
-    public IList Components
-    {
-        get => (IList)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(IList),
-            typeof(StswWindow)
-        );
-
-    /// <summary>
-    /// Gets or sets the presentation mode for the config dialog, allowing customization of its appearance and behavior.
-    /// </summary>
-    public StswPresentationMode? ConfigPresentationMode
-    {
-        get => (StswPresentationMode?)GetValue(ConfigPresentationModeProperty);
-        set => SetValue(ConfigPresentationModeProperty, value);
-    }
-    public static readonly DependencyProperty ConfigPresentationModeProperty
-        = DependencyProperty.Register(
-            nameof(ConfigPresentationMode),
-            typeof(StswPresentationMode?),
-            typeof(StswWindow)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the window is in fullscreen mode.
-    /// When enabled, the window takes up the entire screen, hiding the taskbar and borders.
-    /// </summary>
-    public bool Fullscreen
-    {
-        get => (bool)GetValue(FullscreenProperty);
-        set => SetValue(FullscreenProperty, value);
-    }
-    public static readonly DependencyProperty FullscreenProperty
-        = DependencyProperty.Register(
-            nameof(Fullscreen),
-            typeof(bool),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswWindow stsw)
-            return;
-
-        if (stsw._windowBar != null)
-        {
-            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
-                return;
-
-            stsw.HandleEnteringFullscreen(stsw.Fullscreen);
-        }
-    }
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswWindow)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(CornerRadius), OnCornerRadiusChanged)
-        );
-    public static void OnCornerRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswWindow stsw)
-            return;
-
-        if (!stsw.IsLoaded)
-        {
-            var cr = stsw.CornerRadius;
-            stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
-        }
-    }
-    #endregion
-
-    #region Advanced logic
-    /// <inheritdoc/>
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-        base.OnSourceInitialized(e);
-
-        IntPtr handle = new WindowInteropHelper(this).Handle;
-        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
-            hwndSource.AddHook(new HwndSourceHook(WndProc));
-
-        if (_defaultHeight == 0)
-            _defaultHeight = Height;
-        if (_defaultWidth == 0)
-            _defaultWidth = Width;
-    }
 
     /// <summary>
     /// Processes window messages, including handling fullscreen and maximization behavior.
@@ -311,7 +307,9 @@ public class StswWindow : Window, IStswCornerControl
 
         return IntPtr.Zero;
     }
+    #endregion
 
+    #region Helpers
     /// <summary>
     /// Updates the window's maximized size to prevent covering the taskbar.
     /// Adjusts positioning and dimensions based on the monitor's work area.
@@ -399,11 +397,11 @@ public class StswWindow : Window, IStswCornerControl
         public static bool operator ==(RECT rect1, RECT rect2) => rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
         public static bool operator !=(RECT rect1, RECT rect2) => !(rect1 == rect2);
     }
-    #endregion
 
     [DllImport("user32")]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
 
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+    #endregion
 }

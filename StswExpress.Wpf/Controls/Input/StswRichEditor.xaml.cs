@@ -26,22 +26,10 @@ namespace StswExpress.Wpf;
 [StswPlannedChanges(StswPlannedChanges.Rework, "Current implementation is obsolete and will be reworked in future versions.")]
 public class StswRichEditor : StswRichBox
 {
-    private StswComboBox? _fontFamily;
-    private StswDecimalBox? _fontSize;
-
-    public ICommand FileNewCommand { get; }
-    public ICommand FileOpenCommand { get; }
-    public ICommand FileSaveCommand { get; }
-    public ICommand FileSaveAsCommand { get; }
-    public ICommand FileReloadCommand { get; }
-    public ICommand FilePrintCommand { get; }
-    public ICommand FileMailCommand { get; }
-    public ICommand FileInfoCommand { get; }
-    public ICommand FontStrikethroughCommand { get; }
-    public ICommand FontColorTextCommand { get; }
-    public ICommand FontColorHighlightCommand { get; }
-    public ICommand SectionInterlineCommand { get; }
-
+    static StswRichEditor()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRichEditor), new FrameworkPropertyMetadata(typeof(StswRichEditor)));
+    }
     public StswRichEditor()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -59,39 +47,180 @@ public class StswRichEditor : StswRichBox
         FontColorHighlightCommand = new StswCommand(FontColorHighlight);
         SectionInterlineCommand = new StswCommand<object?>(SectionInterline);
     }
-    static StswRichEditor()
+
+    #region Dependency properties
+    /// <summary>
+    /// Gets or sets the currently selected text color in the editor.
+    /// Changing this property applies the color to the selected text.
+    /// </summary>
+    public Color SelectedColorText
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRichEditor), new FrameworkPropertyMetadata(typeof(StswRichEditor)));
+        get => (Color)GetValue(SelectedColorTextProperty);
+        internal set => SetValue(SelectedColorTextProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorTextProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorText),
+            typeof(Color),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedColorTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRichEditor)d;
+        stsw.FontColorText();
     }
 
-    #region Events & methods
+    /// <summary>
+    /// Gets or sets the currently selected highlight color in the editor.
+    /// Changing this property applies the highlight to the selected text.
+    /// </summary>
+    public Color SelectedColorHighlight
+    {
+        get => (Color)GetValue(SelectedColorHighlightProperty);
+        internal set => SetValue(SelectedColorHighlightProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorHighlightProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorHighlight),
+            typeof(Color),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorHighlightChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnSelectedColorHighlightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswRichEditor)d;
+        stsw.FontColorHighlight();
+    }
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the border thickness of buttons and controls within the editor.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the corner radius for buttons and additional UI elements in the editor.
+    /// </summary>
+    public CornerRadius SubCornerRadius
+    {
+        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
+        set => SetValue(SubCornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty SubCornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(SubCornerRadius),
+            typeof(CornerRadius),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets the padding applied to buttons and other UI elements inside the editor.
+    /// </summary>
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
+    public static readonly DependencyProperty SubPaddingProperty
+        = DependencyProperty.Register(
+            nameof(SubPadding),
+            typeof(Thickness),
+            typeof(StswRichEditor),
+            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
+        );
+
+    /// <summary>
+    /// Gets or sets the visibility and number of options displayed in the toolbar.
+    /// </summary>
+    public StswCompactibility ToolbarMode
+    {
+        get => (StswCompactibility)GetValue(ToolbarModeProperty);
+        set => SetValue(ToolbarModeProperty, value);
+    }
+    public static readonly DependencyProperty ToolbarModeProperty
+        = DependencyProperty.Register(
+            nameof(ToolbarMode),
+            typeof(StswCompactibility),
+            typeof(StswRichEditor)
+        );
+    #endregion
+
+    #region Template
+    private StswComboBox? _fontFamily;
+    private StswDecimalBox? _fontSize;
+
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (_fontFamily != null)
-            _fontFamily.SelectionChanged -= PART_FontFamily_SelectionChanged;
-        //if (_fontSize != null)
-        //    _fontSize.ValueChanged -= PART_FontSize_ValueChanged;
-
-        /// Box: font families
+        DetachTemplateEvents();
         _fontFamily = GetTemplateChild("PART_FontFamily") as StswComboBox;
         if (_fontFamily != null)
-        {
             _fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
-            _fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
-        }
-
-        /// Box: font size
         _fontSize = GetTemplateChild("PART_FontSize") as StswDecimalBox;
-        //if (_fontSize != null)
-        //    _fontSize.ValueChanged += PART_FontSize_ValueChanged;
+        AttachTemplateEvents();
 
         LoadFilePath();
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
     }
 
+    /// <summary>
+    /// Attaches event handlers to the template parts.
+    /// </summary>
+    private void AttachTemplateEvents()
+    {
+        if (_fontFamily != null)
+            _fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
+        //if (_fontSize != null)
+        //    _fontSize.ValueChanged += PART_FontSize_ValueChanged;
+    }
+
+    /// <summary>
+    /// Detaches event handlers from the template parts.
+    /// </summary>
+    private void DetachTemplateEvents()
+    {
+        if (_fontFamily != null)
+            _fontFamily.SelectionChanged -= PART_FontFamily_SelectionChanged;
+        //if (_fontSize != null)
+        //    _fontSize.ValueChanged -= PART_FontSize_ValueChanged;
+    }
+    #endregion
+
+    #region Overrides
     /// <inheritdoc/>
     protected override void OnSelectionChanged(RoutedEventArgs e)
     {
@@ -119,6 +248,21 @@ public class StswRichEditor : StswRichBox
         if (_fontSize != null)
             _fontSize.Value = temp != DependencyProperty.UnsetValue ? Convert.ToDecimal(temp) : null;
     }
+    #endregion
+
+    #region Logic
+    public ICommand FileNewCommand { get; }
+    public ICommand FileOpenCommand { get; }
+    public ICommand FileSaveCommand { get; }
+    public ICommand FileSaveAsCommand { get; }
+    public ICommand FileReloadCommand { get; }
+    public ICommand FilePrintCommand { get; }
+    public ICommand FileMailCommand { get; }
+    public ICommand FileInfoCommand { get; }
+    public ICommand FontStrikethroughCommand { get; }
+    public ICommand FontColorTextCommand { get; }
+    public ICommand FontColorHighlightCommand { get; }
+    public ICommand SectionInterlineCommand { get; }
 
     /// <summary>
     /// Determines whether the content of the editor has been modified
@@ -358,141 +502,6 @@ public class StswRichEditor : StswRichBox
         foreach (var curBlock in curBlocks)
             curBlock.Margin = new Thickness(0, 0, 0, Convert.ToDouble(parameter));
     }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets or sets the currently selected text color in the editor.
-    /// Changing this property applies the color to the selected text.
-    /// </summary>
-    public Color SelectedColorText
-    {
-        get => (Color)GetValue(SelectedColorTextProperty);
-        internal set => SetValue(SelectedColorTextProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorTextProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorText),
-            typeof(Color),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(Color),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedColorTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRichEditor stsw)
-            return;
-
-        stsw.FontColorText();
-    }
-
-    /// <summary>
-    /// Gets or sets the currently selected highlight color in the editor.
-    /// Changing this property applies the highlight to the selected text.
-    /// </summary>
-    public Color SelectedColorHighlight
-    {
-        get => (Color)GetValue(SelectedColorHighlightProperty);
-        internal set => SetValue(SelectedColorHighlightProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorHighlightProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColorHighlight),
-            typeof(Color),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(Color),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorHighlightChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnSelectedColorHighlightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswRichEditor stsw)
-            return;
-
-        stsw.FontColorHighlight();
-    }
-
-    /// <summary>
-    /// Gets or sets the visibility and number of options displayed in the toolbar.
-    /// </summary>
-    public StswCompactibility ToolbarMode
-    {
-        get => (StswCompactibility)GetValue(ToolbarModeProperty);
-        set => SetValue(ToolbarModeProperty, value);
-    }
-    public static readonly DependencyProperty ToolbarModeProperty
-        = DependencyProperty.Register(
-            nameof(ToolbarMode),
-            typeof(StswCompactibility),
-            typeof(StswRichEditor)
-        );
-    #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the main editor and its sub-controls.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the border thickness of buttons and controls within the editor.
-    /// </summary>
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the corner radius for buttons and additional UI elements in the editor.
-    /// </summary>
-    public CornerRadius SubCornerRadius
-    {
-        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
-        set => SetValue(SubCornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty SubCornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(SubCornerRadius),
-            typeof(CornerRadius),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(CornerRadius), FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-    /// <summary>
-    /// Gets or sets the padding applied to buttons and other UI elements inside the editor.
-    /// </summary>
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
-    public static readonly DependencyProperty SubPaddingProperty
-        = DependencyProperty.Register(
-            nameof(SubPadding),
-            typeof(Thickness),
-            typeof(StswRichEditor),
-            new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsMeasure)
-        );
     #endregion
 
     #region Excluded properties

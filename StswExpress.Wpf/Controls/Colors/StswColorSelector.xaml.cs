@@ -19,31 +19,16 @@ namespace StswExpress.Wpf;
 [ContentProperty(nameof(ColorPaletteStandard))]
 public class StswColorSelector : Control, IStswCornerControl
 {
-    public ICommand SelectColorCommand { get; }
-
-    public StswColorSelector()
-    {
-        SelectColorCommand = new StswCommand<SolidColorBrush?>(SelectColor);
-    }
     static StswColorSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorSelector), new FrameworkPropertyMetadata(typeof(StswColorSelector)));
     }
-
-    #region Events & methods
-    /// <summary>
-    /// Executes the command to select a color in the color selector.
-    /// Updates the <see cref="SelectedColor"/> property when a new color is chosen.
-    /// </summary>
-    /// <param name="brush">The selected color as a <see cref="SolidColorBrush"/>.</param>
-    private void SelectColor(SolidColorBrush? brush)
+    public StswColorSelector()
     {
-        if (brush != null)
-            SelectedColor = brush.Color;
+        SelectColorCommand = new StswCommand<SolidColorBrush?>(SelectColor);
     }
-    #endregion
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the automatic color option used in the color selector.
     /// This color is typically used as a default or fallback selection.
@@ -91,27 +76,6 @@ public class StswColorSelector : Control, IStswCornerControl
             typeof(StswColorSelector)
         );
 
-    /// <summary>
-    /// Gets or sets the currently selected color in the control.
-    /// Supports two-way binding to allow dynamic updates.
-    /// </summary>
-    public Color SelectedColor
-    {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
-    public static readonly DependencyProperty SelectedColorProperty
-        = DependencyProperty.Register(
-            nameof(SelectedColor),
-            typeof(Color),
-            typeof(StswColorSelector),
-            new FrameworkPropertyMetadata(default(Color),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    #endregion
-
-    #region Style properties
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -139,6 +103,25 @@ public class StswColorSelector : Control, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the currently selected color in the control.
+    /// Supports two-way binding to allow dynamic updates.
+    /// </summary>
+    public Color SelectedColor
+    {
+        get => (Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
+    public static readonly DependencyProperty SelectedColorProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColor),
+            typeof(Color),
+            typeof(StswColorSelector),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between the color selection areas.
     /// </summary>
     public double SeparatorThickness
@@ -153,5 +136,20 @@ public class StswColorSelector : Control, IStswCornerControl
             typeof(StswColorSelector),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
+    #endregion
+
+    #region Logic
+    public ICommand SelectColorCommand { get; }
+
+    /// <summary>
+    /// Executes the command to select a color in the color selector.
+    /// Updates the <see cref="SelectedColor"/> property when a new color is chosen.
+    /// </summary>
+    /// <param name="brush">The selected color as a <see cref="SolidColorBrush"/>.</param>
+    private void SelectColor(SolidColorBrush? brush)
+    {
+        if (brush != null)
+            SelectedColor = brush.Color;
+    }
     #endregion
 }

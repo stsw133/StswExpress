@@ -16,24 +16,136 @@ public class StswBarcode : Control, IStswCornerControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBarcode), new FrameworkPropertyMetadata(typeof(StswBarcode)));
     }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswBarcode"/> class.
-    /// </summary>
     public StswBarcode()
     {
         Loaded += (_, _) => UpdateCodeImage();
         SizeChanged += (_, _) => UpdateCodeImage();
     }
 
-    #region Events & methods
+    #region Dependency properties
+    /// <summary>
+    /// Gets the generated image used by the template.
+    /// </summary>
+    public ImageSource? CodeImage
+    {
+        get => (ImageSource?)GetValue(CodeImageProperty);
+        private set => SetValue(CodeImagePropertyKey, value);
+    }
+    private static readonly DependencyPropertyKey CodeImagePropertyKey
+        = DependencyProperty.RegisterReadOnly(
+            nameof(CodeImage),
+            typeof(ImageSource),
+            typeof(StswBarcode),
+            new PropertyMetadata(null)
+        );
+    public static readonly DependencyProperty CodeImageProperty = CodeImagePropertyKey.DependencyProperty;
+    private static void OnParametersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var stsw = (StswBarcode)d;
+        stsw.UpdateCodeImage();
+    }
+
+    /// <summary>
+    /// Gets or sets the type of code that should be generated.
+    /// </summary>
+    public StswBarcodeType CodeType
+    {
+        get => (StswBarcodeType)GetValue(CodeTypeProperty);
+        set => SetValue(CodeTypeProperty, value);
+    }
+    public static readonly DependencyProperty CodeTypeProperty
+        = DependencyProperty.Register(
+            nameof(CodeType),
+            typeof(StswBarcodeType),
+            typeof(StswBarcode),
+            new PropertyMetadata(default(StswBarcodeType), OnParametersChanged)
+        );
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswBarcode)
+        );
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswBarcode)
+        );
+
+    /// <summary>
+    /// Gets or sets the brush used to paint the dark modules.
+    /// </summary>
+    public Brush? DarkBrush
+    {
+        get => (Brush?)GetValue(DarkBrushProperty);
+        set => SetValue(DarkBrushProperty, value);
+    }
+    public static readonly DependencyProperty DarkBrushProperty
+        = DependencyProperty.Register(
+            nameof(DarkBrush),
+            typeof(Brush),
+            typeof(StswBarcode),
+            new PropertyMetadata(default(Brush?), OnParametersChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the brush used to paint the light modules.
+    /// </summary>
+    public Brush? LightBrush
+    {
+        get => (Brush?)GetValue(LightBrushProperty);
+        set => SetValue(LightBrushProperty, value);
+    }
+    public static readonly DependencyProperty LightBrushProperty
+        = DependencyProperty.Register(
+            nameof(LightBrush),
+            typeof(Brush),
+            typeof(StswBarcode),
+            new PropertyMetadata(default(Brush?), OnParametersChanged)
+        );
+
+    /// <summary>
+    /// Gets or sets the text that will be encoded into the graphic representation.
+    /// </summary>
+    public string? Value
+    {
+        get => (string?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    public static readonly DependencyProperty ValueProperty
+        = DependencyProperty.Register(
+            nameof(Value),
+            typeof(string),
+            typeof(StswBarcode),
+            new PropertyMetadata(default(string?), OnParametersChanged)
+        );
+    #endregion
+
+    #region Template
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         UpdateCodeImage();
     }
+    #endregion
 
+    #region Logic
     /// <summary>
     /// Updates the generated code image based on the current properties.
     /// </summary>
@@ -168,138 +280,19 @@ public class StswBarcode : Control, IStswCornerControl
 
         return bitmap;
     }
+    #endregion
 
+    #region Helpers
     /// <summary>
     /// Gets the color from a given brush.
     /// </summary>
     /// <param name="brush">The brush to extract the color from.</param>
     /// <returns>The extracted color.</returns>
-    private Color GetColorFromBrush(Brush? brush)
+    private static Color GetColorFromBrush(Brush? brush) => brush switch
     {
-        return brush switch
-        {
-            SolidColorBrush solid => solid.Color,
-            null => Colors.Black,
-            _ => Colors.Black
-        };
-    }
-    #endregion
-
-    #region Logic properties
-    /// <summary>
-    /// Gets the generated image used by the template.
-    /// </summary>
-    public ImageSource? CodeImage
-    {
-        get => (ImageSource?)GetValue(CodeImageProperty);
-        private set => SetValue(CodeImagePropertyKey, value);
-    }
-    private static readonly DependencyPropertyKey CodeImagePropertyKey
-        = DependencyProperty.RegisterReadOnly(
-            nameof(CodeImage),
-            typeof(ImageSource),
-            typeof(StswBarcode),
-            new PropertyMetadata(null)
-        );
-    public static readonly DependencyProperty CodeImageProperty = CodeImagePropertyKey.DependencyProperty;
-    private static void OnParametersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not StswBarcode stsw)
-            return;
-
-        stsw.UpdateCodeImage();
-    }
-
-    /// <summary>
-    /// Gets or sets the type of code that should be generated.
-    /// </summary>
-    public StswBarcodeType CodeType
-    {
-        get => (StswBarcodeType)GetValue(CodeTypeProperty);
-        set => SetValue(CodeTypeProperty, value);
-    }
-    public static readonly DependencyProperty CodeTypeProperty
-        = DependencyProperty.Register(
-            nameof(CodeType),
-            typeof(StswBarcodeType),
-            typeof(StswBarcode),
-            new PropertyMetadata(default(StswBarcodeType), OnParametersChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the text that will be encoded into the graphic representation.
-    /// </summary>
-    public string? Value
-    {
-        get => (string?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
-    public static readonly DependencyProperty ValueProperty
-        = DependencyProperty.Register(
-            nameof(Value),
-            typeof(string),
-            typeof(StswBarcode),
-            new PropertyMetadata(default(string?), OnParametersChanged)
-        );
-    #endregion
-
-    #region Style properties
-    /// <inheritdoc/>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswBarcode)
-        );
-
-    /// <inheritdoc/>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswBarcode)
-        );
-
-    /// <summary>
-    /// Gets or sets the brush used to paint the dark modules.
-    /// </summary>
-    public Brush? DarkBrush
-    {
-        get => (Brush?)GetValue(DarkBrushProperty);
-        set => SetValue(DarkBrushProperty, value);
-    }
-    public static readonly DependencyProperty DarkBrushProperty
-        = DependencyProperty.Register(
-            nameof(DarkBrush),
-            typeof(Brush),
-            typeof(StswBarcode),
-            new PropertyMetadata(default(Brush?), OnParametersChanged)
-        );
-
-    /// <summary>
-    /// Gets or sets the brush used to paint the light modules.
-    /// </summary>
-    public Brush? LightBrush
-    {
-        get => (Brush?)GetValue(LightBrushProperty);
-        set => SetValue(LightBrushProperty, value);
-    }
-    public static readonly DependencyProperty LightBrushProperty
-        = DependencyProperty.Register(
-            nameof(LightBrush),
-            typeof(Brush),
-            typeof(StswBarcode),
-            new PropertyMetadata(default(Brush?), OnParametersChanged)
-        );
+        SolidColorBrush solid => solid.Color,
+        null => Colors.Black,
+        _ => Colors.Black
+    };
     #endregion
 }
