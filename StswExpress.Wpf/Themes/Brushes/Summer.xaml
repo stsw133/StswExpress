@@ -289,6 +289,10 @@
     <SolidColorBrush x:Key="StswProgressBar.Running.Background" Color="#75d775"/>
     <SolidColorBrush x:Key="StswProgressBar.Paused.Background" Color="#dddd3c"/>
     <SolidColorBrush x:Key="StswProgressBar.Error.Background" Color="#d77575"/>
+    <SolidColorBrush x:Key="StswStepBar.Background" Color="#FFFFF5"/>
+    <SolidColorBrush x:Key="StswStepBar.Foreground" Color="#3A3000"/>
+    <Color x:Key="StswStepBar.CompletedColor">#FF75D775</Color>
+    <Color x:Key="StswStepBar.UncompletedColor">#FFB2A654</Color>
 
     <!-- Toggles -->
     <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="{Binding Mode=OneTime, Source={x:Static se:StswIcons.Minus}, Converter={x:Static se:StswGeometryToPathFiguresConverter.Instance}}"/>

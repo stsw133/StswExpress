@@ -33,6 +33,7 @@ public class StswNavigation : TreeView, IStswCornerControl
     public StswNavigation()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ContentHistoryProperty, new ObservableCollection<StswNavigationHistoryItem>());
         SetValue(ContextsProperty, new StswObservableDictionary<string, object?>());
         SetValue(ItemsCompactProperty, new ObservableCollection<StswNavigationItem>());
         SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationItem>());
@@ -80,6 +81,22 @@ public class StswNavigation : TreeView, IStswCornerControl
         set => SetValue(ContentProperty, value);
     }
     public static readonly DependencyProperty ContentProperty = ContentControl.ContentProperty.AddOwner(typeof(StswNavigation));
+
+    /// <summary>
+    /// Gets the history of assigned contents along with their navigation paths.
+    /// Useful for creating breadcrumbs based on previous selections.
+    /// </summary>
+    public ObservableCollection<StswNavigationHistoryItem> ContentHistory
+    {
+        get => (ObservableCollection<StswNavigationHistoryItem>)GetValue(ContentHistoryProperty);
+        internal set => SetValue(ContentHistoryProperty, value);
+    }
+    public static readonly DependencyProperty ContentHistoryProperty
+        = DependencyProperty.Register(
+            nameof(ContentHistory),
+            typeof(ObservableCollection<StswNavigationHistoryItem>),
+            typeof(StswNavigation)
+        );
 
     /// <summary>
     /// Gets or sets a string format applied to the <see cref="Content"/>.
@@ -167,6 +184,21 @@ public class StswNavigation : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Identifier),
             typeof(object),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether content assignments should be recorded in history.
+    /// </summary>
+    public bool IsContentHistoryEnabled
+    {
+        get => (bool)GetValue(IsContentHistoryEnabledProperty);
+        set => SetValue(IsContentHistoryEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsContentHistoryEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsContentHistoryEnabled),
+            typeof(bool),
             typeof(StswNavigation)
         );
 
@@ -452,6 +484,31 @@ public class StswNavigation : TreeView, IStswCornerControl
             throw new InvalidOperationException($"Multiple viable {nameof(StswNavigation)}s. Specify a unique Identifier on each {nameof(StswNavigation)}, especially where multiple Windows are a concern.");
 
         return targets[0];
+    }
+
+    /// <summary>
+    /// Records a navigation history entry for the given navigation item.
+    /// </summary>
+    /// <param name="item">The navigation item used to build the breadcrumb path.</param>
+    internal void RegisterHistory(StswNavigationItem item)
+    {
+        if (!IsContentHistoryEnabled)
+            return;
+
+        var pathStack = new Stack<StswNavigationItem>();
+        var current = item;
+
+        while (current != null)
+        {
+            pathStack.Push(current);
+            current = StswFnUI.FindVisualAncestor<StswNavigationItem>(current);
+        }
+
+        ContentHistory.Add(new StswNavigationHistoryItem
+        {
+            Path = [.. pathStack],
+            Content = Content
+        });
     }
 
     /// <summary>

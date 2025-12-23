@@ -33,21 +33,21 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswTextBox}">
+                <ControlTemplate TargetType="{x:Type se:StswSearchBox}">
                     <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
-                               Background="{TemplateBinding Background}"
-                               BorderBrush="{TemplateBinding BorderBrush}"
-                               BorderThickness="{TemplateBinding BorderThickness}"
-                               CornerClipping="{TemplateBinding CornerClipping}"
-                               CornerRadius="{TemplateBinding CornerRadius}">
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- icon section -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
                             <!-- sub controls -->
                             <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
-                                      IsTabStop="False"
-                                      ItemsSource="{TemplateBinding SubControls}">
+                                          IsTabStop="False"
+                                          ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -59,19 +59,19 @@
                             <!-- content -->
                             <Grid>
                                 <se:StswText x:Name="OPT_Placeholder"
-                                         Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                         IsHitTestVisible="False"
-                                         Margin="{TemplateBinding Padding}"
-                                         Padding="2 0 0 0"
-                                         Text="{TemplateBinding Placeholder}"
-                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                         Visibility="Collapsed"/>
+                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
+                                             IsHitTestVisible="False"
+                                             Margin="{TemplateBinding Padding}"
+                                             Padding="2 0 0 0"
+                                             Text="{TemplateBinding Placeholder}"
+                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             Visibility="Collapsed"/>
                                 <se:StswScrollView x:Name="PART_ContentHost"
-                                               DynamicMode="Partial"
-                                               Focusable="False"
-                                               HorizontalScrollBarVisibility="Hidden"
-                                               VerticalScrollBarVisibility="Hidden"/>
+                                                   DynamicMode="Partial"
+                                                   Focusable="False"
+                                                   HorizontalScrollBarVisibility="Hidden"
+                                                   VerticalScrollBarVisibility="Hidden"/>
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>

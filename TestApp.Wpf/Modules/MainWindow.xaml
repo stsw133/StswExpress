@@ -69,6 +69,7 @@
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Dialogs" IconData="{x:Static se:StswIcons.MessageTextOutline}">
                 <se:StswNavigationItem Header="StswContentDialog" TargetType="{x:Type local:StswContentDialogContext}"/>
+                <se:StswNavigationItem Header="StswFileDialog" TargetType="{x:Type local:StswFileDialogContext}"/>
                 <se:StswNavigationItem Header="StswMessageDialog" TargetType="{x:Type local:StswMessageDialogContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Filters" IconData="{x:Static se:StswIcons.FilterOutline}">
@@ -77,6 +78,7 @@
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationItem Header="StswAdaptiveBox" TargetType="{x:Type local:StswAdaptiveBoxContext}"/>
+                <se:StswNavigationItem Header="StswCalculator" TargetType="{x:Type local:StswCalculatorContext}"/>
                 <se:StswNavigationItem Header="StswDecimalBox" TargetType="{x:Type local:StswDecimalBoxContext}"/>
                 <se:StswNavigationItem Header="StswPasswordBox" TargetType="{x:Type local:StswPasswordBoxContext}"/>
                 <se:StswNavigationItem Header="StswRatingControl" TargetType="{x:Type local:StswRatingControlContext}"/>

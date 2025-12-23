@@ -262,6 +262,16 @@ public enum StswSpinnerType
 }
 
 /// <summary>
+/// Defines the status of a step bar item.
+/// </summary>
+public enum StswStepBarItemStatus
+{
+    Normal,
+    NextStep,
+    Completed
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswTimePicker.IncrementType"/>.
 /// </summary>
 public enum StswTimeSpanIncrementType

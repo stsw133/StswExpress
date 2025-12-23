@@ -48,10 +48,16 @@
     <Compile Update="Modules\Controls\DateTime\StswTimeline\StswTimelineView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Dialogs\StswFileDialog\StswFileDialogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Filters\StswSearchBox\StswSearchBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Filters\StswFilterTags\StswFilterTagsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Input\StswCalculator\StswCalculatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Input\StswRichBox\StswRichBoxView.xaml.cs">

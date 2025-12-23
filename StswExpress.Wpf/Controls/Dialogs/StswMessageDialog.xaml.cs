@@ -20,8 +20,6 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswMessageDialog : ContentControl, IStswCornerControl
 {
-    public ICommand CloseCommand { get; }
-
     static StswMessageDialog()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswMessageDialog), new FrameworkPropertyMetadata(typeof(StswMessageDialog)));
@@ -227,7 +225,7 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
         );
     #endregion
 
-    #region Events & methods
+    #region Template
     private ButtonBase? _buttonCopyToClipboard, _buttonSendMail;
 
     /// <inheritdoc/>
@@ -265,6 +263,8 @@ public class StswMessageDialog : ContentControl, IStswCornerControl
     #endregion
 
     #region Logic
+    public ICommand CloseCommand { get; }
+
     /// <summary>
     /// Handles the copy-to-clipboard button click event.
     /// Copies the dialog's message and details (if available) to the clipboard.

@@ -39,13 +39,15 @@
         <ResourceDictionary Source="DateTime/StswTimerControl.xaml"/>
 
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
+        <ResourceDictionary Source="Dialogs/StswFileDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
         <ResourceDictionary Source="Filters/_items/StswFilterTagsItem.xaml"/>
         <ResourceDictionary Source="Filters/StswFilterTags.xaml"/>
         <ResourceDictionary Source="Filters/StswSearchBox.xaml"/>
-        
+
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
+        <ResourceDictionary Source="Input/StswCalculator.xaml"/>
         <ResourceDictionary Source="Input/StswNumberBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="Input/StswRatingControl.xaml"/>
@@ -99,6 +101,8 @@
         <ResourceDictionary Source="Selectors/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/_items/StswStatusBarItem.xaml"/>
+        <ResourceDictionary Source="StatusInfo/_items/StswStepBarItem.xaml"/>
+        <ResourceDictionary Source="StatusInfo/_items/StswStepBarLine.xaml"/>
         <ResourceDictionary Source="StatusInfo/_items/StswToastItem.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>

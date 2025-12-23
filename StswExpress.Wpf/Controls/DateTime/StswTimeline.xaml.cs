@@ -20,7 +20,7 @@ public class StswTimeline : ItemsControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimeline), new FrameworkPropertyMetadata(typeof(StswTimeline)));
     }
 
-    #region Logic properties
+    #region Dependency properties
     /// <summary>
     /// Gets or sets the path to the property that provides the date for each item.
     /// </summary>
@@ -169,16 +169,30 @@ public class StswTimeline : ItemsControl
     #endregion
 
     #region Overrides
+    private static readonly DependencyPropertyDescriptor? _timelineItemDateDescriptor = DependencyPropertyDescriptor.FromProperty(StswTimelineItem.DateProperty, typeof(StswTimelineItem));
+
     /// <inheritdoc/>
     protected override DependencyObject GetContainerForItemOverride() => new StswTimelineItem();
     /// <inheritdoc/>
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswTimelineItem;
     /// <inheritdoc/>
+    protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+    {
+        if (element is StswTimelineItem timelineItem)
+            DetachContainerHandlers(timelineItem);
+
+        DetachItemHandlers(item);
+        base.ClearContainerForItemOverride(element, item);
+    }
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
         if (element is StswTimelineItem timelineItem)
+        {
             ConfigureContainer(timelineItem, item);
+            AttachContainerHandlers(timelineItem);
+        }
     }
 
     /// <inheritdoc/>
@@ -186,9 +200,16 @@ public class StswTimeline : ItemsControl
     {
         base.OnItemsChanged(e);
 
+        if (e?.OldItems != null)
+            foreach (var item in e.OldItems)
+                DetachItemHandlers(item);
+
         if (e?.NewItems != null)
             foreach (var item in e.NewItems)
+            {
+                AttachItemHandlers(item);
                 ApplyContainerBindings(item);
+            }
 
         UpdateAutomaticRange();
         InvalidateArrange();
@@ -198,6 +219,14 @@ public class StswTimeline : ItemsControl
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
+
+        if (oldValue != null)
+            foreach (var item in oldValue)
+                DetachItemHandlers(item);
+
+        foreach (var item in Items)
+            AttachItemHandlers(item);
+
         UpdateAutomaticRange();
         InvalidateArrange();
     }
@@ -205,6 +234,39 @@ public class StswTimeline : ItemsControl
 
     #region Logic
     private DateTime? _itemsMinimum, _itemsMaximum;
+
+    /// <summary>
+    /// Attaches handlers to the container to respond to date changes.
+    /// </summary>
+    /// <param name="container">The container to attach handlers to.</param>
+    private void AttachContainerHandlers(StswTimelineItem container) => _timelineItemDateDescriptor?.AddValueChanged(container, OnContainerDateChanged);
+
+    /// <summary>
+    /// Detaches handlers from the container when it's no longer in use.
+    /// </summary>
+    /// <param name="container">The container to detach handlers from.</param>
+    private void DetachContainerHandlers(StswTimelineItem container) => _timelineItemDateDescriptor?.RemoveValueChanged(container, OnContainerDateChanged);
+
+    /// <summary>
+    /// Attaches handlers to an item to monitor changes affecting layout and range.
+    /// </summary>
+    /// <param name="item">The item to attach handlers for.</param>
+    private void AttachItemHandlers(object item)
+    {
+        if (item is INotifyPropertyChanged notifyItem)
+            notifyItem.PropertyChanged += OnItemPropertyChanged;
+    }
+
+    /// <summary>
+    /// Detaches handlers from an item when it's removed.
+    /// </summary>
+    /// <param name="item">The item to detach handlers from.</param>
+    private void DetachItemHandlers(object item)
+    {
+        if (item is INotifyPropertyChanged notifyItem)
+            notifyItem.PropertyChanged -= OnItemPropertyChanged;
+    }
+
 
     /// <summary>
     /// Applies necessary bindings to the container for the given item.
@@ -364,6 +426,32 @@ public class StswTimeline : ItemsControl
 
         return (minimum, maximum);
     }
+
+    /// <summary>
+    /// Handles changes to item properties and updates the layout when the date changes.
+    /// </summary>
+    private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (string.Equals(e.PropertyName, GetDatePropertyName(), StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(e.PropertyName))
+        {
+            UpdateAutomaticRange();
+            InvalidateArrange();
+        }
+    }
+
+    /// <summary>
+    /// Handles changes to the container's date property to keep the layout in sync.
+    /// </summary>
+    private void OnContainerDateChanged(object? sender, EventArgs e)
+    {
+        UpdateAutomaticRange();
+        InvalidateArrange();
+    }
+
+    /// <summary>
+    /// Returns the date property name based on the configured <see cref="DateMemberPath"/>.
+    /// </summary>
+    private string GetDatePropertyName() => string.IsNullOrWhiteSpace(DateMemberPath) ? "Date" : DateMemberPath;
     #endregion
 }
 

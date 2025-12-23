@@ -260,6 +260,7 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
             {
                 stsw.IsBusy = true;
                 stsw._stswNavigation.SetContent(stsw.TargetType, stsw.CreateNewInstance);
+                stsw._stswNavigation.RegisterHistory(stsw);
                 stsw.IsBusy = false;
             }
         }
