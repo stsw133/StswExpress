@@ -15,7 +15,7 @@ namespace StswExpress.Wpf;
 public static class StswFocusVisual
 {
     /// <summary>
-    /// Enables or disables the automatic assignment of a custom <see cref="Control.FocusVisualStyle"/> to the control.
+    /// Enables or disables the automatic assignment of a custom <see cref="FrameworkElement.FocusVisualStyle"/> to the control.
     /// </summary>
     public static readonly DependencyProperty AssignProperty
         = DependencyProperty.RegisterAttached(
@@ -38,12 +38,12 @@ public static class StswFocusVisual
     }
 
     /// <summary>
-    /// Creates a custom <see cref="Style"/> for <see cref="Control.FocusVisualStyle"/>, dynamically generating a visual template
+    /// Creates a custom <see cref="Style"/> for <see cref="FrameworkElement.FocusVisualStyle"/>, dynamically generating a visual template
     /// with a <see cref="Rectangle"/> that reflects the control's visual properties such as <see cref="Control.BorderThickness"/>
     /// and (optionally) <c>CornerRadius</c> if present.
     /// </summary>
     /// <param name="owner">The control for which the focus visual style is being created. Used as binding source for properties.</param>
-    /// <returns>A <see cref="Style"/> instance configured to be used as <see cref="Control.FocusVisualStyle"/>.</returns>
+    /// <returns>A <see cref="Style"/> instance configured to be used as <see cref="FrameworkElement.FocusVisualStyle"/>.</returns>
     public static Style CreateFocusVisualStyle(Control owner)
     {
         var style = new Style(typeof(Control));

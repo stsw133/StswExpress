@@ -73,6 +73,7 @@
 - Added animated tab strip mode transitions in `StswNavigation` using `DoubleAnimation` for smooth width changes.
 - Added `Bars` spinner type to `StswSpinner` with animated bar rendering.
 - Added `ClearFilterOnDropDownOpen` property to `StswComboBox` and `StswSelectionBox` for clearing filter text when dropdown opens.
+- Added `MouseWheelBubble` attached property to `StswScrollViewer` to control mouse wheel event bubbling.
 - Added navigation history tracking to `StswNavigation`.
 - New `StswBoolToVisibilityTypeConverter ` for converting boolean values to `Visibility`. This option is applied by default in `StswApp`.
 - New `StswCalculator` control for evaluating mathematical expressions.
