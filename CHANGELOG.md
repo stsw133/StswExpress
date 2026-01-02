@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.23.0](#0-23-0)
 - [Version 0.22.0](#0-22-0)
 - [Version 0.21.1](#0-21-1)
 - [Version 0.21.0](#0-21-0)
@@ -45,6 +46,57 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-23-0">0.23.0</h1>
+
+**Release Date**: 2025-01-02
+
+## StswExpress.Analyzers
+
+### Changes
+- Adjusted to new version of `StswExpress.Wpf` namespace, meaning previous versions of `StswExpress.Analyzers` are not fully compatible with `StswExpress.Wpf` 0.23.0 and later.
+
+## StswExpress.Commons
+
+### Additions
+- New `StswTreeItem` class for representing hierarchical data structures.
+
+### Changes
+- `IStswSelectionItem` interface renamed to `IStswSelectableItem` for clarity. `StswSelectionItem` class updated accordingly.
+- `StswSettings` changed to use JSON format for storing settings instead of XML.
+
+## StswExpress.Wpf
+
+### Additions
+- Added animated tab strip mode transitions in `StswNavigation` using `DoubleAnimation` for smooth width changes.
+- Added `Bars` spinner type to `StswSpinner` with animated bar rendering.
+- Added `ClearFilterOnDropDownOpen` property to `StswComboBox` and `StswSelectionBox` for clearing filter text when dropdown opens.
+- Added navigation history tracking to `StswNavigation`.
+- New `StswBoolToVisibilityTypeConverter ` for converting boolean values to `Visibility`. This option is applied by default in `StswApp`.
+- New `StswCalculator` control for evaluating mathematical expressions.
+- New `StswFileDialog` control for selecting files and folders (early version).
+- New `StswInvertConverter` for inverting boolean values, numeric values, and order of characters in strings.
+- New `StswSearchBox` control for searching through collections with built-in filtering.
+- New `ToFilterItems` extension method in `StswExtensions` for converting enum values to a list of selectable items.
+- `StswNavigation` and `StswTabControl` gained DependencyInjection support.
+
+### Changes
+- Improved `StswDropButton` and `StswSplitButton` autoclose logic; `StswSplitButton` now inherits from `StswDropButton`.
+- Refactored `StswIcon` to inherit from `FrameworkElement` with drawing and rotation handled in C# (no XAML templates or Storyboards).
+- Refactored `StswSpinner` to inherit from `FrameworkElement` with all animation and drawing handled in C# (no XAML templates or Storyboards). Removed `StswSpinnerHelixAnimation` and all spinner DataTemplates; spinner is now fully self-contained and more efficient.
+- Refactored `StswStepBar`: split item/line, improved layout, added theming.
+- Refactored `StswTimerControl` to inherit from `TextBlock`, eliminating the need for a control template and related style properties. Improved timer accuracy and display logic, and updated property change handling.
+- `StswFilterBox` control has been renamed to `StswDataGridFilterBox` to better reflect its intended use with `StswDataGrid`.
+- `StswHyperlinkButton`'s `WasClicked` property has been renamed to `IsVisited` for clarity.
+- `StswNavigationElement` control has been renamed to `StswNavigationItem` for consistency, including names of related dynamic resources.
+
+### Fixes
+- Fixed focus issues in `StswComboBox` and `StswSelectionBox` when using filtering.
+- Fixed `StswNavigation`'s compact mode to no longer remove items when switching modes.
+- `IStswSelectionControl` now properly overrides `DisplayMemberPath` and `SelectedValuePath` (if KeyValuePair or `StswComboItem` are used as item types) only when those properties are not explicitly set.
+- `StswCollectionViewWrapper` no longer requires items to implement `IStswTrackableItem`.
 
 ---
 

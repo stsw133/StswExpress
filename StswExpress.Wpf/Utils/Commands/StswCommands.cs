@@ -126,7 +126,7 @@ public static class StswCommands
                 selector.SelectedIndex = -1;
                 break;
             case StswSelectionBox box when box.ItemsSource is IEnumerable src:
-                foreach (var item in src.Cast<object>().OfType<IStswSelectionItem>())
+                foreach (var item in src.Cast<object>().OfType<IStswSelectableItem>())
                     item.IsSelected = false;
                 box.UpdateTextCommand?.Execute(null);
                 break;
@@ -144,7 +144,7 @@ public static class StswCommands
         {
             Selector selector => selector.SelectedIndex >= 0,
             StswSelectionBox stswSelectionBox when stswSelectionBox.ItemsSource is IEnumerable src
-                => src.Cast<object>().OfType<IStswSelectionItem>().Any(i => i.IsSelected),
+                => src.Cast<object>().OfType<IStswSelectableItem>().Any(i => i.IsSelected),
             _ => false,
         };
     }
@@ -267,7 +267,7 @@ public static class StswCommands
             return;
 
         PropertyInfo? prop = null;
-        foreach (var obj in src.Cast<object>().OfType<IStswSelectionItem>().Where(x => x.IsSelected))
+        foreach (var obj in src.Cast<object>().OfType<IStswSelectableItem>().Where(x => x.IsSelected))
         {
             prop ??= obj.GetType().GetProperty(propName);
             prop?.SetValue(obj, toggle.IsChecked == true);
@@ -289,16 +289,16 @@ public static class StswCommands
     /// <param name="param">An optional parameter that may contain a collection of items.</param>
     /// <param name="items">The retrieved selection items, if found.</param>
     /// <returns><see langword="true"/> if selection items were found; otherwise, <see langword="false"/>.</returns>
-    private static bool TryGetSelectionItems(object sender, object? param, out IEnumerable<IStswSelectionItem> items)
+    private static bool TryGetSelectionItems(object sender, object? param, out IEnumerable<IStswSelectableItem> items)
     {
         if (param is IEnumerable p)
         {
-            items = p.Cast<object>().OfType<IStswSelectionItem>();
+            items = p.Cast<object>().OfType<IStswSelectableItem>();
             return true;
         }
         if (sender is ItemsControl { ItemsSource: IEnumerable src })
         {
-            items = src.Cast<object>().OfType<IStswSelectionItem>();
+            items = src.Cast<object>().OfType<IStswSelectableItem>();
             return true;
         }
         items = [];

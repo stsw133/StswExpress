@@ -2,8 +2,7 @@
 /// <summary>
 /// Defines an interface for items that can be selected.
 /// </summary>
-[StswPlannedChanges(StswPlannedChanges.ChangeName, "Will be renamed to IStswSelectableItem in future versions.")]
-public interface IStswSelectionItem
+public interface IStswSelectableItem
 {
     /// <summary>
     /// Gets or sets the selection associated with the item.

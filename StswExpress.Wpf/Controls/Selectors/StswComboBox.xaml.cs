@@ -33,6 +33,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the filter should be cleared when the drop-down opens.
+    /// </summary>
+    public bool ClearFilterOnDropDownOpen
+    {
+        get => (bool)GetValue(ClearFilterOnDropDownOpenProperty);
+        set => SetValue(ClearFilterOnDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty ClearFilterOnDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(ClearFilterOnDropDownOpen),
+            typeof(bool),
+            typeof(StswComboBox)
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -350,8 +365,8 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         if (IsDropDownOpen && IsFilterEnabled)
             Keyboard.Focus(_filter);
 
-        /// moved here from StswComboItem, cause was bugged with multiple instances binded to same ItemsSource
-        if (SelectedItem is IStswSelectionItem item)
+        /// moved here from StswSelectableItem, cause was bugged with multiple instances binded to same ItemsSource
+        if (SelectedItem is IStswSelectableItem item)
             item.IsSelected = true;
 
         UpdateSelectedItemVisibility();
@@ -379,7 +394,12 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             Dispatcher.BeginInvoke(DispatcherPriority.Input, () => Keyboard.Focus(this));
 
         if (IsDropDownOpen)
+        {
+            if (ClearFilterOnDropDownOpen && IsFilterEnabled && !string.IsNullOrEmpty(FilterText))
+                FilterText = string.Empty;
+
             UpdateSelectedItemVisibility();
+        }
     }
     #endregion
 

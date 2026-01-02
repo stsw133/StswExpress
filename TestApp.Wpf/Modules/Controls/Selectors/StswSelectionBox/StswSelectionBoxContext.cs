@@ -11,15 +11,17 @@ public partial class StswSelectionBoxContext : ControlsContext
     public override void SetDefaults()
     {
         base.SetDefaults();
-
-        HideSelectedItemWhenFiltered = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.HideSelectedItemWhenFilteredProperty)?.Value ?? default;
-        IsFilterEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.IsFilterEnabledProperty)?.Value ?? default;
+        
+        ClearFilterOnDropDownOpen = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSelectionBox.ClearFilterOnDropDownOpenProperty)?.Value ?? default;
+        HideSelectedItemWhenFiltered = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSelectionBox.HideSelectedItemWhenFilteredProperty)?.Value ?? default;
+        IsFilterEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSelectionBox.IsFilterEnabledProperty)?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswSelectionBox.IsReadOnlyProperty)?.Value ?? default;
         DropArrowVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property == StswDropArrow.VisibilityProperty)?.Value ?? default;
     }
 
     [StswCommand] void Randomize() => Items.Where(x => new Random().NextDouble() > 0.6).ForEach(x => x.IsSelected = !x.IsSelected);
 
+    [StswObservableProperty] bool _clearFilterOnDropDownOpen;
     [StswObservableProperty] bool _hideSelectedItemWhenFiltered;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isFilterEnabled;

@@ -72,8 +72,8 @@ public class StswComboBoxItem : ComboBoxItem, IStswCornerControl
         base.OnApplyTemplate();
 
         /// moved to StswComboBox, cause it causes bugs that opening second instance changes selection to selection of first instance
-        //if (DataContext is IStswSelectionItem)
-        //    SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+        //if (DataContext is IStswSelectableItem)
+        //    SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectableItem.IsSelected)));
     }
     #endregion
 }

@@ -7,7 +7,7 @@ namespace StswExpress.Wpf;/// <summary>
 /// Supports selection state binding, hierarchical data, read-only mode, and corner customization.
 /// </summary>
 /// <remarks>
-/// When <see cref="DataContext"/> implements <see cref="IStswSelectionItem"/>, selection binding is automatically applied.
+/// When <see cref="DataContext"/> implements <see cref="IStswSelectableItem"/>, selection binding is automatically applied.
 /// </remarks>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -77,8 +77,8 @@ public class StswTreeViewItem : TreeViewItem
     {
         base.OnApplyTemplate();
 
-        if (DataContext is IStswSelectionItem)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+        if (DataContext is IStswSelectableItem)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectableItem.IsSelected)));
     }
     #endregion
 

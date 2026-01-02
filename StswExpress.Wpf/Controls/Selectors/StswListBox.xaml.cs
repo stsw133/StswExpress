@@ -12,7 +12,7 @@ namespace StswExpress.Wpf;
 /// Supports selection binding, corner radius customization, and read-only mode.
 /// </summary>
 /// <remarks>
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
+/// ItemsSource with items of <see cref="IStswSelectableItem"/> type automatically bind selected items.
 /// </remarks>
 /// <example>
 /// The following example demonstrates how to use the class:

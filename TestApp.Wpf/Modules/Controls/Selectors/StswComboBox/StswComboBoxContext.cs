@@ -10,7 +10,8 @@ public partial class StswComboBoxContext : ControlsContext
     {
         base.SetDefaults();
         SelectedItem = Items[new Random().Next(Items.Count)];
-        
+
+        ClearFilterOnDropDownOpen = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.ClearFilterOnDropDownOpenProperty)?.Value ?? default;
         HideSelectedItemWhenFiltered = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.HideSelectedItemWhenFilteredProperty)?.Value ?? default;
         IsEditable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.IsEditableProperty)?.Value ?? default;
         IsFilterEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property == StswComboBox.IsFilterEnabledProperty)?.Value ?? default;
@@ -20,6 +21,7 @@ public partial class StswComboBoxContext : ControlsContext
     
     [StswCommand] void Randomize() => SelectedItem = Items[new Random().Next(Items.Count)];
 
+    [StswObservableProperty] bool _clearFilterOnDropDownOpen;
     [StswObservableProperty] bool _hideSelectedItemWhenFiltered;
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isEditable;

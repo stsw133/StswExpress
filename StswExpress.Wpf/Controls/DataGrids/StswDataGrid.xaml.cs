@@ -471,8 +471,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             filterBox.Value1 = filterBox.DefaultValue1;
             filterBox.Value2 = filterBox.DefaultValue2;
 
-            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectableItem>()?.ToList();
+            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectableItem>()?.ToList();
             itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
         }
 

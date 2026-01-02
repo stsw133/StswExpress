@@ -311,8 +311,8 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
 
         if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
         {
-            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+            if (innerType?.IsAssignableTo(typeof(IStswSelectableItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectableItem)} interface!");
 
             /// short usage for StswComboItem
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
@@ -435,7 +435,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
 
             if ((needsTwo && (stsw.Value1 == null || stsw.Value2 == null))
              || (!needsTwo && !hasList && stsw.Value1 == null)
-             || (hasList && (stsw.ItemsSource?.OfType<IStswSelectionItem>().Any(x => x.IsSelected) != true)))
+             || (hasList && (stsw.ItemsSource?.OfType<IStswSelectableItem>().Any(x => x.IsSelected) != true)))
                 stsw.SqlString = null;
             else
                 stsw.GenerateSqlString();
@@ -562,7 +562,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return null;
 
         /// build selection list if applicable
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
+        var selectedItems = ItemsSource?.OfType<IStswSelectableItem>().Where(x => x.IsSelected).ToList();
         var listValues = selectedItems ?
             .Select(item => SelectedValuePath != null
                 ? item.GetPropertyValue(SelectedValuePath) ?? item
@@ -805,7 +805,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         IEnumerable<string> EnumerateValues()
         {
             if (ItemsSource == null) yield break;
-            foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+            foreach (var it in ItemsSource.OfType<IStswSelectableItem>())
             {
                 if (!it.IsSelected) continue;
 
@@ -864,7 +864,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return null;
 
         int seen = 0;
-        foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+        foreach (var it in ItemsSource.OfType<IStswSelectableItem>())
         {
             if (!it.IsSelected)
                 continue;
