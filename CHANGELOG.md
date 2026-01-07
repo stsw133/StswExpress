@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.23.1](#0-23-1)
 - [Version 0.23.0](#0-23-0)
 - [Version 0.22.0](#0-22-0)
 - [Version 0.21.1](#0-21-1)
@@ -49,9 +50,20 @@
 
 ---
 
+<h1 id="0-23-1">0.23.1</h1>
+
+**Release Date**: 2026-01-07
+
+## StswExpress.Wpf
+
+### Fixes
+- `StswApp` will load `StswSettings` synchronously during startup to fix problems with registering data templates, translations, and themes.
+
+---
+
 <h1 id="0-23-0">0.23.0</h1>
 
-**Release Date**: 2025-01-02
+**Release Date**: 2026-01-02
 
 ## StswExpress.Analyzers
 

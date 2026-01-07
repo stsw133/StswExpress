@@ -5,7 +5,7 @@
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
-    <Version>0.23.0</Version>
+    <Version>0.23.1</Version>
     <Authors>Karol Staszewski</Authors>
     <Copyright>© 2025 Karol Staszewski</Copyright>
     <Description>This package offers:
