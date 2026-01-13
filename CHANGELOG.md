@@ -1,4 +1,5 @@
 **Table of contents**:
+- [Version 0.24.0](#0-24-0)
 - [Version 0.23.1](#0-23-1)
 - [Version 0.23.0](#0-23-0)
 - [Version 0.22.0](#0-22-0)
@@ -47,6 +48,34 @@
 - [Version 0.1.1](#0-1-1)
 - [Version 0.1.0](#0-1-0)
 - [Re-edition](#re-edition)
+
+---
+
+<h1 id="0-24-0">0.24.0</h1>
+
+**Release Date**: 2026-02-XX
+
+## StswExpress.Commons
+
+### Additions
+- 
+
+### Changes
+- 
+
+### Fixes
+- 
+
+## StswExpress.Wpf
+
+### Additions
+- 
+
+### Changes
+- 
+
+### Fixes
+- 
 
 ---
 

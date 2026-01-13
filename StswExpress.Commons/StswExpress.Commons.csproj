@@ -4,9 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.23.0</Version>
+    <Version>0.24.0</Version>
     <Authors>Karol Staszewski</Authors>
-    <Copyright>© 2025 Karol Staszewski</Copyright>
+    <Copyright>© 2026 Karol Staszewski</Copyright>
     <Description>This package offers utilities such as:
 • extended observable collections and objects
 • database query tools

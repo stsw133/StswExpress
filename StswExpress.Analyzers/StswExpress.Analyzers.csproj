@@ -5,14 +5,14 @@
     <LangVersion>Latest</LangVersion>
 	<ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>0.23.0.$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 2))</Version>
+	<Version>0.24.0.$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 2))</Version>
     <Authors>Karol Staszewski</Authors>
 	<Description>This package offers analyzers such as:
 • observable property generator
 • sync and async command generators
 • stsw func info analyzer
 	</Description>
-	<Copyright>© 2025 Karol Staszewski</Copyright>
+	<Copyright>© 2026 Karol Staszewski</Copyright>
 	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

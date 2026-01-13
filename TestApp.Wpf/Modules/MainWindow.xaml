@@ -157,6 +157,7 @@
                 <se:StswNavigationItem Header="StswToggleSwitch" TargetType="{x:Type local:StswToggleSwitchContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Typography" IconData="{x:Static se:StswIcons.Text}">
+                <se:StswNavigationItem Header="StswHighlightText" TargetType="{x:Type local:StswHighlightTextContext}"/>
                 <se:StswNavigationItem Header="StswIcon" TargetType="{x:Type local:StswIconContext}"/>
                 <se:StswNavigationItem Header="StswLabel" TargetType="{x:Type local:StswLabelContext}"/>
                 <se:StswNavigationItem Header="StswOutlinedText" TargetType="{x:Type local:StswOutlinedTextContext}"/>

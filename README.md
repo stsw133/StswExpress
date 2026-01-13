@@ -26,7 +26,7 @@ Here's a breakdown:
 - **Status & Info**: `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`, `StswStatusBar`, `StswToaster`
 - **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
 - **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
-- **Typography**: `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
+- **Typography**: `StswHighlightText`, `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
 - **Windowing**: `StswContextMenu`, `StswNotifyIcon`, `StswPopup`, `StswToolTip`, `StswWindow`, `StswWindowBar`
 
 ### Utilities & Enhancements
