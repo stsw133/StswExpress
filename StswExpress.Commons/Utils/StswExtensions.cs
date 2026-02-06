@@ -1011,6 +1011,54 @@ public static partial class StswExtensions
     }
 
     /// <summary>
+    /// Returns a substring of the specified string without throwing when the requested range exceeds the available characters.
+    /// Negative indexes count from the end, and a negative length takes characters from the end backwards.
+    /// </summary>
+    /// <param name="text">The string to extract the substring from.</param>
+    /// <param name="startIndex">The zero-based starting character position. If negative, it is counted from the end (e.g. -1 is the last index).</param>
+    /// <param name="length">The number of characters in the substring. If negative, the substring is taken backwards from the end (e.g. length -4 with startIndex 0 returns the last 4 characters).</param>
+    /// <returns>A string that is equivalent to the requested substring, or an empty string if the computed range is empty.</returns>
+    public static string? SafeSubstring(this string? text, int startIndex, int length)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        var textLength = text.Length;
+
+        if (length == 0)
+            return string.Empty;
+
+        if (length > 0)
+        {
+            var normalizedStartIndex = startIndex < 0 ? textLength + startIndex : startIndex;
+            if (normalizedStartIndex < 0 || normalizedStartIndex >= textLength)
+                return string.Empty;
+
+            var safeLength = Math.Min(length, textLength - normalizedStartIndex);
+            return text.Substring(normalizedStartIndex, safeLength);
+        }
+
+        var endExclusive = startIndex >= 0
+            ? textLength - startIndex
+            : textLength + startIndex + 1;
+
+        if (endExclusive <= 0)
+            return string.Empty;
+
+        if (endExclusive > textLength)
+            endExclusive = textLength;
+
+        var start = endExclusive + length;
+        if (start < 0)
+            start = 0;
+
+        if (start >= endExclusive)
+            return string.Empty;
+
+        return text[start..endExclusive];
+    }
+
+    /// <summary>
     /// Removes the specified string from the end of the current string instance.
     /// </summary>
     /// <param name="source">The string to trim.</param>
