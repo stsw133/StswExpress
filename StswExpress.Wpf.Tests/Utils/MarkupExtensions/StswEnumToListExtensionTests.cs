@@ -21,8 +21,8 @@ public class StswEnumToListExtensionTests
         return attr?.Description ?? value.ToString();
     }
 
-    // Patch StswSelectionItem for test
-    private class StswSelectionItem
+    // Patch StswSelectableItem for test
+    private class StswSelectableItem
     {
         public object? Display { get; set; }
         public object? Value { get; set; }
@@ -43,7 +43,7 @@ public class StswEnumToListExtensionTests
         {
             return Enum.GetValues(_enumType)
                 .Cast<Enum>()
-                .Select(value => new StswSelectionItem
+                .Select(value => new StswSelectableItem
                 {
                     Display = GetDescription(value),
                     Value = value
@@ -68,7 +68,7 @@ public class StswEnumToListExtensionTests
     public void ProvideValue_ReturnsListOfSelectionItems_WithCorrectDisplayAndValue()
     {
         var ext = new StswEnumToListExtension(typeof(TestEnum));
-        var result = ext.ProvideValue(null) as List<StswSelectionItem>;
+        var result = ext.ProvideValue(null) as List<StswSelectableItem>;
         Assert.NotNull(result);
         Assert.Equal(3, result.Count);
 

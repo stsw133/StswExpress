@@ -11,7 +11,7 @@ using StswExpress.Commons;
 namespace StswExpress.Tests.Utils.Commands;
 public class StswCommandsTests
 {
-    private class SelectionItem : IStswSelectionItem
+    private class SelectionItem : IStswSelectableItem
     {
         public bool IsSelected { get; set; }
         public bool CustomProperty { get; set; }
@@ -147,7 +147,7 @@ public class StswCommandsTests
         var method = typeof(StswCommands).GetMethod("TryGetSelectionItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         var parameters = new object[] { null, items, null! };
         var result = (bool)method.Invoke(null, parameters);
-        var outItems = (IEnumerable<IStswSelectionItem>)parameters[2];
+        var outItems = (IEnumerable<IStswSelectableItem>)parameters[2];
         Assert.True(result);
         Assert.Equal(items, outItems.ToArray());
     }
@@ -160,7 +160,7 @@ public class StswCommandsTests
         var method = typeof(StswCommands).GetMethod("TryGetSelectionItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         var parameters = new object[] { control, null, null! };
         var result = (bool)method.Invoke(null, parameters);
-        var outItems = (IEnumerable<IStswSelectionItem>)parameters[2];
+        var outItems = (IEnumerable<IStswSelectableItem>)parameters[2];
         Assert.True(result);
         Assert.Equal(items, outItems.ToArray());
     }

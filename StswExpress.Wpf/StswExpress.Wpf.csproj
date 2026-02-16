@@ -5,9 +5,9 @@
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
-    <Version>0.23.0</Version>
+    <Version>0.24.0</Version>
     <Authors>Karol Staszewski</Authors>
-    <Copyright>© 2025 Karol Staszewski</Copyright>
+    <Copyright>© 2026 Karol Staszewski</Copyright>
     <Description>This package offers:
 • A variety of modern controls (inspired by WinUI 3) with enhanced styling and functionalities.
 • Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.

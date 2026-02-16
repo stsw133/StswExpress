@@ -73,8 +73,8 @@ public class StswListViewItem : ListViewItem, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (DataContext is IStswSelectionItem)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+        if (DataContext is IStswSelectableItem)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectableItem.IsSelected)));
     }
     #endregion
 }

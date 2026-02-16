@@ -259,9 +259,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         /// if we are using CollectionView filters, set aggregator now
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {
-            var collectionView = CollectionViewSource.GetDefaultView(ItemsSource);
-            if (collectionView != null)
-                collectionView.Filter = _filterAggregator.CombinedFilter;
+            if (Items.CanFilter)
+                Items.Filter = _filterAggregator.CombinedFilter;
         }
 
         ApplyFilters();
@@ -444,11 +443,14 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
         if (FiltersType == StswDataGridFiltersType.CollectionView)
         {
-            var cv = CollectionViewSource.GetDefaultView(ItemsSource);
-            if (cv != null)
+            if (Items.CanFilter)
             {
-                cv.Filter = _filterAggregator.CombinedFilter;
-                cv.Refresh();
+                Items.Filter = _filterAggregator.CombinedFilter;
+                Items.Refresh();
+            }
+            else
+            {
+                // RefreshCommand?.Execute(RefreshCommandParameter);
             }
         }
         else if (FiltersType == StswDataGridFiltersType.SQL)
@@ -471,8 +473,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             filterBox.Value1 = filterBox.DefaultValue1;
             filterBox.Value2 = filterBox.DefaultValue2;
 
-            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectableItem>()?.ToList();
+            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectableItem>()?.ToList();
             itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
         }
 

@@ -10,6 +10,9 @@
     <local:ControlsBase>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- ClearFilterOnDropDownOpen -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ClearFilterOnDropDownOpen, Type={x:Type se:StswComboBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ClearFilterOnDropDownOpen}"/>
             <!-- HideSelectedItemWhenFiltered -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HideSelectedItemWhenFiltered, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HideSelectedItemWhenFiltered}"/>
@@ -33,7 +36,8 @@
             <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding DropArrowVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswComboBox HideSelectedItemWhenFiltered="{Binding HideSelectedItemWhenFiltered}"
+        <se:StswComboBox ClearFilterOnDropDownOpen="{Binding ClearFilterOnDropDownOpen}"
+                         HideSelectedItemWhenFiltered="{Binding HideSelectedItemWhenFiltered}"
                          IsEditable="{Binding IsEditable}"
                          IsEnabled="{Binding IsEnabled}"
                          IsFilterEnabled="{Binding IsFilterEnabled}"

@@ -126,6 +126,7 @@
         <ResourceDictionary Source="Toggles/StswRadioBox.xaml"/>
         <ResourceDictionary Source="Toggles/StswToggleSwitch.xaml"/>
 
+        <ResourceDictionary Source="Typography/StswHighlightText.xaml"/>
         <ResourceDictionary Source="Typography/StswIcon.xaml"/>
         <ResourceDictionary Source="Typography/StswLabel.xaml"/>
         <ResourceDictionary Source="Typography/StswOutlinedText.xaml"/>

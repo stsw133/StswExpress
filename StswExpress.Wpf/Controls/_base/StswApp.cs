@@ -1,5 +1,4 @@
 ﻿global using StswExpress.Commons;
-using StswExpress.Wpf.Settings;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -86,8 +85,8 @@ public class StswApp : Application
         /// Initialization
         base.OnStartup(e);
 
-        /// Resources, Translations, Settings
-        Settings = await StswSettings.LoadAsync(perMachine: false);
+        /// Settings, Translations, Resources
+        Settings = StswSettings.Load(perMachine: false);
         await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         StswResources.InitializeResources(Resources);
 

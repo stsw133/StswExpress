@@ -75,8 +75,11 @@ public interface IStswSelectionControl
             var actualSource = ResolveActualSource();
             if (actualSource?.GetType()?.IsListType(out var innerType) == true)
             {
+                if (innerType is null)
+                    return;
+
                 /// KeyValuePair usage
-                if (innerType?.IsGenericType == true && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+                if (innerType.IsGenericType && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
                 {
                     if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
                         selectionControl.DisplayMemberPath = nameof(KeyValuePair<object, object>.Key);
@@ -84,7 +87,7 @@ public interface IStswSelectionControl
                         selectionControl.SelectedValuePath = nameof(KeyValuePair<object, object>.Value);
                 }
                 /// StswComboItem short usage
-                else if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+                else if (innerType.IsAssignableTo(typeof(StswComboItem)))
                 {
                     if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
                         selectionControl.DisplayMemberPath = nameof(StswComboItem.Display);

@@ -74,8 +74,8 @@ public class StswDragBoxItem : ListBoxItem, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectionItem)) == true)
-            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectionItem.IsSelected)));
+        if (DataContext?.GetType()?.IsAssignableTo(typeof(IStswSelectableItem)) == true)
+            SetBinding(IsSelectedProperty, new Binding(nameof(IStswSelectableItem.IsSelected)));
     }
     #endregion
 }

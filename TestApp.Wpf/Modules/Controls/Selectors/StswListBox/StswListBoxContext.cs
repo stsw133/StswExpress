@@ -27,7 +27,7 @@ public partial class StswListBoxContext : ControlsContext
     [StswObservableProperty] SelectionMode _selectionMode;
 }
 
-public partial class StswListBoxTestModel : StswObservableObject, IStswSelectionItem
+public partial class StswListBoxTestModel : StswObservableObject, IStswSelectableItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] string? _name;

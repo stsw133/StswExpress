@@ -1,5 +1,4 @@
-﻿using StswExpress.Wpf.Settings;
-using System;
+﻿using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -35,32 +34,47 @@ internal static class StswSettings
     }
 
     /// <summary>
-    /// Load global settings
+    /// Loads the shared settings from file.
     /// </summary>
     /// <param name="perMachine">If <see langword="true"/>, use machine-wide location, otherwise user-specific</param>
+    /// <param name="readText">Function to read text from file</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns>Loaded settings</returns>
-    public static async Task<StswSettingsModel> LoadAsync(bool perMachine = false)
+    private static async ValueTask<StswSettingsModel> LoadCoreAsync(bool perMachine, Func<string, CancellationToken, ValueTask<string>> readText, CancellationToken ct = default)
     {
         var path = GetSharedPath(perMachine);
         if (!File.Exists(path))
             return new StswSettingsModel();
 
-        await Gate.WaitAsync().ConfigureAwait(false);
+        await Gate.WaitAsync(ct).ConfigureAwait(false);
         try
         {
-            var json = await File.ReadAllTextAsync(path).ConfigureAwait(false);
-            return JsonSerializer.Deserialize<StswSettingsModel>(json, JsonOpts)
-                   ?? new StswSettingsModel();
+            var json = await readText(path, ct).ConfigureAwait(false);
+            return JsonSerializer.Deserialize<StswSettingsModel>(json, JsonOpts) ?? new StswSettingsModel();
         }
         finally { Gate.Release(); }
     }
 
     /// <summary>
-    /// Save global settings
+    /// Loads the shared settings from file.
+    /// </summary>
+    /// <param name="perMachine">If <see langword="true"/>, use machine-wide location, otherwise user-specific</param>
+    /// <returns>Loaded settings</returns>
+    public static StswSettingsModel Load(bool perMachine = false) => LoadCoreAsync(perMachine, static (p, _) => new ValueTask<string>(File.ReadAllText(p))).GetAwaiter().GetResult();
+
+    /// <summary>
+    /// Loads the shared settings from file.
+    /// </summary>
+    /// <param name="perMachine">If <see langword="true"/>, use machine-wide location, otherwise user-specific</param>
+    /// <returns>Loaded settings</returns>
+    public static Task<StswSettingsModel> LoadAsync(bool perMachine = false) => LoadCoreAsync(perMachine, static (p, c) => new ValueTask<string>(File.ReadAllTextAsync(p, c))).AsTask();
+
+    /// <summary>
+    /// Saves the specified settings to the shared settings file.
     /// </summary>
     /// <param name="settings">Settings to save</param>
     /// <param name="perMachine">If <see langword="true"/>, use machine-wide location, otherwise user-specific</param>
-    /// <returns>Asynchronous task</returns>
+    /// <returns>Awaitable task</returns>
     public static async Task SaveAsync(StswSettingsModel settings, bool perMachine = false)
     {
         var path = GetSharedPath(perMachine);

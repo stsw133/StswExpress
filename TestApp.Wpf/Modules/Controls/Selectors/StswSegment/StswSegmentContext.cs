@@ -30,7 +30,7 @@ public partial class StswSegmentContext : ControlsContext
     [StswObservableProperty] SelectionMode _selectionMode;
 }
 
-public partial class StswSegmentTestModel : StswObservableObject, IStswSelectionItem
+public partial class StswSegmentTestModel : StswObservableObject, IStswSelectableItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] string? _name;

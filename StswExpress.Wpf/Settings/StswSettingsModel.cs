@@ -1,4 +1,4 @@
-﻿namespace StswExpress.Wpf.Settings;
+﻿namespace StswExpress.Wpf;
 
 /// <summary>
 /// Global application settings

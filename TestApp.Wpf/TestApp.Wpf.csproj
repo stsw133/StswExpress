@@ -141,6 +141,9 @@
     <Compile Update="Modules\Controls\Typography\StswLabel\StswLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Typography\StswHighlightText\StswHighlightTextView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Windowing\StswContextMenu\StswContextMenuView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

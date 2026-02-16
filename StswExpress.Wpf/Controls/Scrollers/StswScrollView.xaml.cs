@@ -142,6 +142,50 @@ public class StswScrollView : ScrollViewer
         );
     public static bool GetIsBusy(DependencyObject d) => (bool)d.GetValue(IsBusyProperty);
     public static void SetIsBusy(DependencyObject d, bool value) => d.SetValue(IsBusyProperty, value);
+
+    /// <summary>
+    /// Enables or disables mouse wheel event bubbling to parent controls.
+    /// </summary>
+    public static readonly DependencyProperty MouseWheelBubbleProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(MouseWheelBubbleProperty)[..^8],
+            typeof(bool),
+            typeof(StswScrollView),
+            new PropertyMetadata(false, OnMouseWheelBubbleChanged)
+        );
+    public static bool GetMouseWheelBubble(DependencyObject obj) => (bool)obj.GetValue(MouseWheelBubbleProperty);
+    public static void SetMouseWheelBubble(DependencyObject obj, bool value) => obj.SetValue(MouseWheelBubbleProperty, value);
+    private static void OnMouseWheelBubbleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not UIElement stsw)
+            return;
+
+        if ((bool)e.NewValue)
+            stsw.PreviewMouseWheel += OnPreviewMouseWheel;
+        else
+            stsw.PreviewMouseWheel -= OnPreviewMouseWheel;
+    }
+    private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (e.Handled)
+            return;
+
+        var current = sender as DependencyObject;
+        while (current != null && current is not ScrollViewer)
+            current = VisualTreeHelper.GetParent(current);
+
+        if (current is UIElement parent)
+        {
+            e.Handled = true;
+
+            var args = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = MouseWheelEvent,
+                Source = sender
+            };
+            parent.RaiseEvent(args);
+        }
+    }
     #endregion
 
     #region Overrides

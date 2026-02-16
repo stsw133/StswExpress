@@ -165,7 +165,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             symbolBlock.Text = newSymbolBlock.Text;
             symbolBlock.UpdateLayout();
         }
-        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+        stsw.RefreshFilter();
     }
     internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
@@ -206,8 +206,13 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         var stsw = (StswDataGridFilterBox)d;
 
         /// create param name by removing non-alphanumeric characters
-        stsw.SqlParam = "@" + new string([.. ((string)e.NewValue).Where(char.IsLetterOrDigit)]);
-        OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
+        var rawValue = e.NewValue as string ?? string.Empty;
+        var sanitized = new string([.. rawValue.Where(char.IsLetterOrDigit)]);
+        if (sanitized.Length > 126)
+            sanitized = sanitized[..126]; //128 - 2 for '@' and possible suffix ('1' or '2')
+
+        stsw.SqlParam = "@" + sanitized;
+        stsw.RefreshFilter();
     }
 
     /// <summary>
@@ -311,8 +316,8 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
 
         if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
         {
-            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+            if (innerType?.IsAssignableTo(typeof(IStswSelectableItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectableItem)} interface!");
 
             /// short usage for StswComboItem
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
@@ -422,26 +427,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
     public static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var stsw = (StswDataGridFilterBox)d;
-
-        var filtersType = stsw._dataGrid?.FiltersType;
-        if (filtersType == StswDataGridFiltersType.CollectionView)
-        {
-            stsw._dataGrid?.RegisterExternalFilter(stsw, stsw.GenerateFilterPredicate());
-        }
-        else if (filtersType == StswDataGridFiltersType.SQL)
-        {
-            var needsTwo = stsw.FilterMode == StswFilterMode.Between;
-            var hasList = stsw.FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
-
-            if ((needsTwo && (stsw.Value1 == null || stsw.Value2 == null))
-             || (!needsTwo && !hasList && stsw.Value1 == null)
-             || (hasList && (stsw.ItemsSource?.OfType<IStswSelectionItem>().Any(x => x.IsSelected) != true)))
-                stsw.SqlString = null;
-            else
-                stsw.GenerateSqlString();
-        }
-
-        stsw.RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
+        stsw.RefreshFilter();
     }
     internal object? DefaultValue1 { get; set; } = null;
 
@@ -546,6 +532,32 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             _ => StswAdaptiveType.Auto
         };
     }
+
+    /// <summary>
+    /// Refreshes the filter by updating the CollectionView filter or regenerating the SQL string.
+    /// </summary>
+    private void RefreshFilter()
+    {
+        var filtersType = _dataGrid?.FiltersType;
+        if (filtersType == StswDataGridFiltersType.CollectionView)
+        {
+            _dataGrid?.RegisterExternalFilter(this, GenerateFilterPredicate());
+        }
+        else if (filtersType == StswDataGridFiltersType.SQL)
+        {
+            var needsTwo = FilterMode == StswFilterMode.Between;
+            var hasList = FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
+
+            if ((needsTwo && (Value1 == null || Value2 == null))
+             || (!needsTwo && !hasList && Value1 == null)
+             || (hasList && (ItemsSource?.OfType<IStswSelectableItem>().Any(x => x.IsSelected) != true)))
+                SqlString = null;
+            else
+                GenerateSqlString();
+        }
+
+        RaiseEvent(new RoutedEventArgs(FilterChangedEvent));
+    }
     #endregion
 
     #region ICollectionView filtering
@@ -562,7 +574,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return null;
 
         /// build selection list if applicable
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
+        var selectedItems = ItemsSource?.OfType<IStswSelectableItem>().Where(x => x.IsSelected).ToList();
         var listValues = selectedItems ?
             .Select(item => SelectedValuePath != null
                 ? item.GetPropertyValue(SelectedValuePath) ?? item
@@ -805,7 +817,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         IEnumerable<string> EnumerateValues()
         {
             if (ItemsSource == null) yield break;
-            foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+            foreach (var it in ItemsSource.OfType<IStswSelectableItem>())
             {
                 if (!it.IsSelected) continue;
 
@@ -864,7 +876,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return null;
 
         int seen = 0;
-        foreach (var it in ItemsSource.OfType<IStswSelectionItem>())
+        foreach (var it in ItemsSource.OfType<IStswSelectableItem>())
         {
             if (!it.IsSelected)
                 continue;

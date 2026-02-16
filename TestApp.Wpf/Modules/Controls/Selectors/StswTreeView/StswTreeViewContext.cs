@@ -27,7 +27,7 @@ public partial class StswTreeViewContext : ControlsContext
     [StswObservableProperty] bool _isReadOnly;
 }
 
-public partial class StswTreeViewTestModel : StswObservableObject, IStswSelectionItem
+public partial class StswTreeViewTestModel : StswObservableObject, IStswSelectableItem
 {
     [StswObservableProperty] int _id;
     [StswObservableProperty] string? _name;

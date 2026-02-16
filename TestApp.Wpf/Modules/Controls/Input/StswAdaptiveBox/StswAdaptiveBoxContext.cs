@@ -17,7 +17,7 @@ public partial class StswAdaptiveBoxContext : ControlsContext
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;
-    [StswObservableProperty] List<StswSelectionItem> _itemsSource = [new() { Value = "test1" }, new() { Value = "test2" }];
+    [StswObservableProperty] List<StswSelectableItem> _itemsSource = [new() { Value = "test1" }, new() { Value = "test2" }];
     [StswObservableProperty] object? _selectedValue;
     [StswObservableProperty] bool _subControls = false;
     [StswObservableProperty] StswAdaptiveType? _type;

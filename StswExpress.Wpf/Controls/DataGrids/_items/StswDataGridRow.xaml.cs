@@ -19,7 +19,7 @@ public class StswDataGridRow : DataGridRow
     {
         base.OnSelected(e);
 
-        if (DataContext is IStswSelectionItem item)
+        if (DataContext is IStswSelectableItem item)
             item.IsSelected = true;
     }
 
@@ -28,7 +28,7 @@ public class StswDataGridRow : DataGridRow
     {
         base.OnUnselected(e);
 
-        if (DataContext is IStswSelectionItem item)
+        if (DataContext is IStswSelectableItem item)
             item.IsSelected = false;
     }
     #endregion

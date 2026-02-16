@@ -16,7 +16,7 @@ namespace StswExpress.Wpf;
 /// and transferring items between different lists. Also supports selection binding and read-only mode.
 /// </summary>
 /// <remarks>
-/// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectionItem"/>, selection is automatically bound.
+/// When <see cref="ItemsSource"/> contains items of type <see cref="IStswSelectableItem"/>, selection is automatically bound.
 /// </remarks>
 /// <example>
 /// The following example demonstrates how to use the class:

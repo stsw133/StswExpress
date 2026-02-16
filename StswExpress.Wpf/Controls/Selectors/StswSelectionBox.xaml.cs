@@ -16,7 +16,7 @@ namespace StswExpress.Wpf;/// <summary>
 /// Supports item binding, selection tracking, drop-down customization, and error indication.
 /// </summary>
 /// <remarks>
-/// The <see cref="ItemsControl.ItemsSource"/> must contain elements implementing <see cref="IStswSelectionItem"/>.
+/// The <see cref="ItemsControl.ItemsSource"/> must contain elements implementing <see cref="IStswSelectableItem"/>.
 /// </remarks>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -45,6 +45,21 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     #region Dependency properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the filter should be cleared when the drop-down opens.
+    /// </summary>
+    public bool ClearFilterOnDropDownOpen
+    {
+        get => (bool)GetValue(ClearFilterOnDropDownOpenProperty);
+        set => SetValue(ClearFilterOnDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty ClearFilterOnDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(ClearFilterOnDropDownOpen),
+            typeof(bool),
+            typeof(StswSelectionBox)
+        );
+
     /// <inheritdoc/>
     public bool CornerClipping
     {
@@ -435,14 +450,22 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <param name="e">The event arguments.</param>
     private void OnDropDownOpened(object? sender, EventArgs e)
     {
-        if (!IsDropDownOpen || !IsFilterEnabled || _filter is null)
-            return;
+        if (IsDropDownOpen && IsFilterEnabled && _filter != null)
+            _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
+            {
+                if (_filter.IsVisible)
+                    _filter.Focus();
+            });
+        //else if (IsDropDownOpen && IsEditable)
+        //    Dispatcher.BeginInvoke(DispatcherPriority.Input, () => Keyboard.Focus(this));
 
-        _filter.Dispatcher.BeginInvoke(DispatcherPriority.Input, () =>
+        if (IsDropDownOpen)
         {
-            if (_filter.IsVisible)
-                _filter.Focus();
-        });
+            if (ClearFilterOnDropDownOpen && IsFilterEnabled && !string.IsNullOrEmpty(FilterText))
+                FilterText = string.Empty;
+
+            //UpdateSelectedItemVisibility();
+        }
     }
 
     /// <summary>
@@ -474,7 +497,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         if (_popup?.IsLoaded == true && _listBox?.IsLoaded == false)
             return;
 
-        var selectedItems = ItemsSource.OfType<IStswSelectionItem>().Where(x => x.IsSelected).ToList();
+        var selectedItems = ItemsSource.OfType<IStswSelectableItem>().Where(x => x.IsSelected).ToList();
         var displayValues = selectedItems
             .Select(GetDisplayValue)
             .Where(value => !string.IsNullOrEmpty(value))
@@ -485,17 +508,17 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     /// <summary>
-    /// Validates the provided ItemsSource to ensure it contains items implementing IStswSelectionItem.
+    /// Validates the provided ItemsSource to ensure it contains items implementing <see cref="IStswSelectableItem"/>.
     /// </summary>
-    /// <param name="newValue"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <param name="newValue">The new ItemsSource to validate.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the ItemsSource does not contain valid items.</exception>
     private void ValidateItemsSource(IEnumerable? newValue)
     {
         if (newValue?.GetType()?.IsListType(out var innerType) != true)
             return;
 
-        if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-            throw new InvalidOperationException($"{nameof(StswSelectionBox)} ItemsSource must contain objects implementing {nameof(IStswSelectionItem)}!");
+        if (innerType?.IsAssignableTo(typeof(IStswSelectableItem)) != true)
+            throw new InvalidOperationException($"{nameof(StswSelectionBox)} ItemsSource must contain objects implementing {nameof(IStswSelectableItem)}!");
 
         if (innerType.IsAssignableTo(typeof(StswComboItem)))
         {
@@ -519,7 +542,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// <returns><see langword="true"/> if the object should be included, otherwise <see langword="false"/>.</returns>
     private bool CollectionViewFilter(object obj)
     {
-        if (obj is IStswSelectionItem selectionItem && selectionItem.IsSelected && !HideSelectedItemWhenFiltered)
+        if (obj is IStswSelectableItem selectionItem && selectionItem.IsSelected && !HideSelectedItemWhenFiltered)
             return true;
 
         return MatchesFilter(obj);
@@ -548,7 +571,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     /// </summary>
     /// <param name="selectedItem">The selected item.</param>
     /// <returns>The display value as a string, or <see langword="null"/> if none is found.</returns>
-    private string? GetDisplayValue(IStswSelectionItem selectedItem)
+    private string? GetDisplayValue(IStswSelectableItem selectedItem)
     {
         if (!string.IsNullOrEmpty(DisplayMemberPath))
             return selectedItem.GetPropertyValue(DisplayMemberPath)?.ToString();
@@ -610,7 +633,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             return;
         }
 
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>().Where(x => x.IsSelected).Cast<object>().ToList();
+        var selectedItems = ItemsSource?.OfType<IStswSelectableItem>().Where(x => x.IsSelected).Cast<object>().ToList();
         if (selectedItems is null)
         {
             ShowHiddenSelectedItems();

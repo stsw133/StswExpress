@@ -355,8 +355,8 @@ public class StswObservableCollection<T> : ObservableCollection<T>
     {
         if (typeof(IStswDetailedItem).IsAssignableFrom(typeof(T)))
             IgnoredPropertyNames.Add(nameof(IStswDetailedItem.ShowDetails));
-        if (typeof(IStswSelectionItem).IsAssignableFrom(typeof(T)))
-            IgnoredPropertyNames.Add(nameof(IStswSelectionItem.IsSelected));
+        if (typeof(IStswSelectableItem).IsAssignableFrom(typeof(T)))
+            IgnoredPropertyNames.Add(nameof(IStswSelectableItem.IsSelected));
     }
 
     /// <summary>
