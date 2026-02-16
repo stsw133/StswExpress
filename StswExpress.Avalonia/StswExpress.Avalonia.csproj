@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Authors>Karol Staszewski</Authors>
+	<Version>0.23.0</Version>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<RepositoryType></RepositoryType>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+	<PackageIcon>logo.png</PackageIcon>
+	<Description>This package offers:
+• A variety of modern controls (inspired by WinUI 3) with enhanced styling and functionalities.
+• Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.
+• Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+	<PackageTags>Controls; Themes; Utils</PackageTags>
+	<Copyright>© 2025 Karol Staszewski</Copyright>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Link="README.md">
+      <PackagePath>\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.9" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StswExpress.Analyzers" Version="*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	  <None Include="..\logo.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Themes\Resources\*.webp" />
+		<Resource Include="Utils\Translator\Translations\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Controls\_base\_interfaces\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="**\*.axaml.cs">
+			<DependentUpon>%(Filename).axaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+</Project>

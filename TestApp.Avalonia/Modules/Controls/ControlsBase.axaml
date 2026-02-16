@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="TestApp.Ava.ControlsBase"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:se="using:StswExpress.Avalonia"
+			 xmlns:local="using:TestApp.Ava"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="750" x:DataType="local:ControlsContext">
+	<UserControl.Template>
+		<ControlTemplate TargetType="UserControl">
+			<Grid d:Background="White" ColumnDefinitions="200,5,*">
+				<!-- name and description -->
+				<ScrollViewer Grid.Column="0">
+					<StackPanel Margin="5">
+						<se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+							<Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName}"/>
+							<LineBreak/>
+							<Run Text="{Binding Description, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"/>
+						</se:StswText>
+						<StackPanel Margin="5">
+							<se:StswText FontWeight="Medium" HorizontalAlignment="Center" Text="Properties:"/>
+							<!-- HorizontalAlignment -->
+							<se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
+							<ListBox BorderThickness="2 2 2 0"
+									 ItemsSource="{Binding HorizontalAlignmentSource}"
+									 SelectedItem="{Binding HorizontalAlignment}">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<se:StswIcon Data="{Binding Display}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<se:StswSeparator BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
+							<ListBox BorderThickness="2 0 2 2"
+									 ItemsSource="{Binding HorizontalAlignmentSource}"
+									 SelectedItem="{Binding HorizontalContentAlignment}"
+                                     IsVisible="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<se:StswIcon Data="{Binding Display}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<!-- VerticalAlignment -->
+							<se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
+							<ListBox BorderThickness="2 2 2 0"
+									 ItemsSource="{Binding VerticalAlignmentSource}"
+									 SelectedItem="{Binding VerticalAlignment}">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<se:StswIcon Data="{Binding Display}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<se:StswSeparator BorderThickness="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
+                            <ListBox BorderThickness="2 0 2 2"
+									 ItemsSource="{Binding VerticalAlignmentSource}"
+									 SelectedItem="{Binding VerticalContentAlignment}"
+                                     IsVisible="{Binding IsContentAlignmentVisible, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<se:StswIcon Data="{Binding Display}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+							<!-- IsEnabled -->
+							<se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
+							<!-- <ToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEnabled}"/> -->
+							<!-- other properties -->
+							<ItemsControl Focusable="False" ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"/>
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+				<!-- splitter -->
+				<se:StswGridSplitter Grid.Column="1"
+                                     Focusable="False"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"/>
+				<!-- control -->
+				<ScrollViewer Grid.Column="2">
+					<Grid RowDefinitions="500,5,auto">
+						<!-- content -->
+						<ContentPresenter Grid.Row="0"
+										  Content="{Binding Content, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"
+										  Margin="5"/>
+						<!-- splitter -->
+						<se:StswGridSplitter Grid.Row="1"
+                                             Focusable="False"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"/>
+						<!-- status panel -->
+						<ContentControl Grid.Row="2"
+										Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType=local:ControlsBase}}"
+										Focusable="False"
+										Margin="5"/>
+					</Grid>
+				</ScrollViewer>
+			</Grid>
+		</ControlTemplate>
+	</UserControl.Template>
+</UserControl>

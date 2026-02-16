@@ -1,0 +1,33 @@
+THIRD-PARTY NOTICES
+
+This product includes third-party components subject to their respective licenses.
+
+------------------------------------------------------------
+Microsoft.Data.SqlClient
+License: MIT License
+Copyright (c) Microsoft Corporation
+https://github.com/dotnet/SqlClient
+------------------------------------------------------------
+
+MimeKit
+License: MIT License
+Copyright (c) Jeffrey Stedfast
+https://github.com/jstedfast/MimeKit
+------------------------------------------------------------
+
+MailKit
+License: MIT License
+Copyright (c) Jeffrey Stedfast
+https://github.com/jstedfast/MailKit
+------------------------------------------------------------
+
+Pictogrammers Icons
+License: Apache License 2.0
+https://www.apache.org/licenses/LICENSE-2.0
+
+Some icons and fonts distributed with this product are provided by Pictogrammers.
+https://pictogrammers.com/
+
+------------------------------------------------------------
+
+All third-party components remain the property of their respective copyright holders.

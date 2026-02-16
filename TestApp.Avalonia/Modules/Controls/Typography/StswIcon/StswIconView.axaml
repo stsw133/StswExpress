@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="TestApp.Ava.StswIconView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:se="using:StswExpress.Avalonia"
+             xmlns:local="using:TestApp.Ava"
+			 mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="750"
+			 x:DataType="local:StswIconContext">
+	
+    <local:ControlsBase IsContentAlignmentVisible="False">
+        <local:ControlsBase.Description>
+            Represents a control displaying vector icon.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Icons -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Icons"/>
+            <ComboBox IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedItem="{Binding SelectedIcon}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <se:StswIcon Data="{Binding Value}" Width="24" Height="24"/>
+                            <se:StswText VerticalAlignment="Center" Text="{Binding Display}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <!-- Scale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Scale, Type={x:Type se:StswIcon}}"/>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0 0 0 3">
+                <se:StswText Width="150" Text="{Binding Scale}"/>
+				<!--
+                <se:StswButton Command="{Binding SetGridLengthFillCommand}" Padding="6 2">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Star}"/>
+                </se:StswButton>
+                <se:StswButton Command="{Binding SetGridLengthAutoCommand}" Padding="6 2">
+                    <se:StswIcon Data="{x:Static se:StswIcons.AlphaA}" Scale="2" Margin="-2"/>
+                </se:StswButton>
+				-->
+            </StackPanel>
+		</local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswIcon Data="{Binding Data}"
+                     IsEnabled="{Binding IsEnabled}"
+                     Scale="{Binding Scale}"
+                     HorizontalAlignment="{Binding HorizontalAlignment}"
+                     VerticalAlignment="{Binding VerticalAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>
