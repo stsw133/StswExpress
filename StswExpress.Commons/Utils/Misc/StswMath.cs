@@ -69,14 +69,15 @@ public static class StswMath
     /// <returns>The result of the division, or zero if the denominator is zero.</returns>
     public static T Div0<T>(T num, T den) where T : INumber<T> => den == T.Zero ? T.Zero : num / den;
 
-    /// <summary>
-    /// Performs a division and returns a default value if the denominator is zero.
-    /// </summary>
-    /// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
-    /// <param name="num">The numerator.</param>
-    /// <param name="den">The denominator.</param>
-    /// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
-    public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
+	/// <summary>
+	/// Performs a division and returns a default value if the denominator is zero.
+	/// </summary>
+	/// <typeparam name="T">A numeric type that implements <see cref="INumber{T}"/>.</typeparam>
+	/// <param name="num">The numerator.</param>
+	/// <param name="den">The denominator.</param>
+	/// <param name="defaultValue">The value to return if the denominator is zero.</param>
+	/// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
+	public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
 
     /// <summary>
     /// Computes the Euclidean modulo of a given long integer value with respect to a specified modulus.

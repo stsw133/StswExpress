@@ -7,7 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Collection of extension methods for various types and objects. These methods simplify common tasks and provide additional functionality beyond what is available in the standard WPF API.
 /// </summary>
@@ -127,12 +128,12 @@ public static partial class StswExtensions
             var itemType = firstNonNull.GetType();
             var castMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.Cast), BindingFlags.Public | BindingFlags.Static)!
                 .MakeGenericMethod(itemType);
-            var typedEnumerable = castMethod.Invoke(null, new object[] { objectItems })!;
+            var typedEnumerable = castMethod.Invoke(null, [objectItems])!;
 
             var toDataTableMethod = typeof(StswExtensions).GetMethod(nameof(StswExtensions.ToDataTable), BindingFlags.Public | BindingFlags.Static)!
                 .MakeGenericMethod(itemType);
 
-            return (DataTable)toDataTableMethod.Invoke(null, new[] { typedEnumerable })!;
+            return (DataTable)toDataTableMethod.Invoke(null, [typedEnumerable])!;
         }
 
         var columnTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
@@ -387,16 +388,15 @@ public static partial class StswExtensions
         return memberInfo[0].GetCustomAttribute<T>(false);
     }
 
-    /// <summary>
-    /// Retrieves the description attribute from an enum value, if present.
-    /// </summary>
-    /// <typeparam name="T">The type of the enum.</typeparam>
-    /// <param name="value">The enum value.</param>
-    /// <returns>The description attribute of the enum value, or the enum value's name if no description is found.</returns>
-    /// <remarks>
-    /// This method is useful when you want to display user-friendly descriptions of enum values in the UI or logs.
-    /// </remarks>
-    public static string GetDescription(this Enum enumVal)
+	/// <summary>
+	/// Retrieves the description attribute from an enum value, if present.
+	/// </summary>
+	/// <param name="enumVal">The enum value to retrieve the description for.</param>
+	/// <returns>The description attribute of the enum value, or the enum value's name if no description is found.</returns>
+	/// <remarks>
+	/// This method is useful when you want to display user-friendly descriptions of enum values in the UI or logs.
+	/// </remarks>
+	public static string GetDescription(this Enum enumVal)
     {
         var field = enumVal.GetType().GetField(enumVal.ToString());
         if (field == null)
@@ -510,10 +510,10 @@ public static partial class StswExtensions
     }
 
     /// <summary>
-    /// Performs the specified action on each element of the <see cref="IEnumerable{}"/>.
+    /// Performs the specified action on each element of the <see cref="IEnumerable{T}"/>.
     /// </summary>
-    /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{}"/>.</typeparam>
-    /// <param name="source">The <see cref="IEnumerable{}"/> to iterate over.</param>
+    /// <typeparam name="T">The type of the elements in the <see cref="IEnumerable{T}"/>.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{T}"/> to iterate over.</param>
     /// <param name="action">The action to perform on each element.</param>
     /// <exception cref="ArgumentNullException">Thrown when source or action is <see langword="null"/>.</exception>
     public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)

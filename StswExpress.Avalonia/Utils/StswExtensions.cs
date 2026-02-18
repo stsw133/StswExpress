@@ -106,7 +106,7 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="enumType">The enum type to convert.</param>
     /// <returns>A list of <see cref="StswSelectionItem"/> items with <see cref="StswSelectionItem.Value"/> set to the enum value and <see cref="StswSelectionItem.Display"/> set to its description.</returns>
-    public static IList<StswSelectionItem> ToFilterItems(this Type enumType)
+    public static IList<StswSelectableItem> ToFilterItems(this Type enumType)
     {
         ArgumentNullException.ThrowIfNull(enumType);
 
@@ -118,8 +118,8 @@ public static partial class StswExtensions
             // 2 lines below can be uncommented to remove duplicate enum values
             //.GroupBy(value => value)
             //.Select(group => group.Key)
-            .Select(value => new StswSelectionItem
-            {
+            .Select(value => new StswSelectableItem
+			{
                 Value = value,
                 Display = value.GetDescription()
             })];

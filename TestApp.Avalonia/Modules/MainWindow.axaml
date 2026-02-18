@@ -6,25 +6,30 @@
         Height="600" Width="1000" WindowStartupLocation="CenterScreen"
         Title="Test" Icon="/Assets/icon.ico"
 	    x:DataType="local:MainContext">
-	
-    <StackPanel>
-		<se:StswIcon Data="{x:Static se:StswIcons.Seal}" Margin="5" Scale="2.5"/>
-		<se:StswSeparator/>
-		<se:StswButton Command="{Binding IncrementCountCommand}" Content="TEST" Margin="5"/>
-        <se:StswText FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}"/>
-		<se:StswCheckBox Content="Check me!" Margin="5"/>
-		<se:StswCheckBox Content="Check me!" Margin="5"/>
-		<se:StswRadioBox Content="Check me!" Margin="5"/>
-		<se:StswRadioBox Content="Check me!" Margin="5"/>
-		<se:StswDirectionView Width="200" Height="100" Margin="5">
-			<StackPanel Orientation="Horizontal">
-				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
-				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
-				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
-				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
-				<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+
+	<ScrollViewer>
+		<DockPanel>
+			<StackPanel DockPanel.Dock="Top">
+				<se:StswIcon Data="{x:Static se:StswIcons.Seal}" Margin="5" Scale="2.5"/>
+				<se:StswSeparator/>
+				<se:StswButton Command="{Binding IncrementCountCommand}" Content="TEST" Margin="5"/>
+				<se:StswText FontSize="20" HorizontalAlignment="Center" Text="{Binding CountText}"/>
+				<se:StswCheckBox Content="Check me!" Margin="5"/>
+				<se:StswCheckBox Content="Check me!" Margin="5"/>
+				<se:StswRadioBox Content="Check me!" Margin="5"/>
+				<se:StswRadioBox Content="Check me!" Margin="5"/>
+				<se:StswDirectionView Width="200" Height="100" Margin="5">
+					<StackPanel Orientation="Horizontal">
+						<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+						<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+						<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+						<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+						<se:StswIcon Data="{x:Static se:StswIcons.Refresh}" Margin="5" Scale="10"/>
+					</StackPanel>
+				</se:StswDirectionView>
 			</StackPanel>
-		</se:StswDirectionView>
-        <local:StswIconView/>
-    </StackPanel>
+			<se:StswSeparator DockPanel.Dock="Top"/>
+			<local:StswIconView DockPanel.Dock="Top" Height="500"/>
+		</DockPanel>
+	</ScrollViewer>
 </Window>

@@ -55,7 +55,7 @@ public class StswApp : Application
 
         /// Resources, Translations, Settings
         Settings = await StswSettings.LoadAsync(perMachine: false);
-        await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
+        //await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         //StswResources.InitializeResources(Resources);
 
 

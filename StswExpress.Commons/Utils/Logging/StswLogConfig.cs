@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Configuration settings for the <see cref="StswLog"/> class, including options for archiving and log types.
 /// </summary>
@@ -84,13 +85,13 @@ public class StswLogConfig()
         /// If set, automatically delete archive files whose date range 
         /// is completely older than this many days.
         /// E.g. 365 means remove all archives older than a year.
-        /// If null or <= 0, no deletion is performed.
+        /// If null or &lt;= 0, no deletion is performed.
         /// </summary>
         public int? DeleteArchivesOlderThanDays { get; set; } = null;
 
-        /// <summary>
-        /// Specifies whether archiving is currently disabled.
-        /// </summary>
-        //public bool IsArchivingDisabled { get; set; } = false;
+        // /// <summary>
+        // /// Specifies whether archiving is currently disabled.
+        // /// </summary>
+        // public bool IsArchivingDisabled { get; set; } = false;
     }
 }

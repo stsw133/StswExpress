@@ -5,22 +5,23 @@
     <Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Authors>Karol Staszewski</Authors>
-	<Version>0.23.0</Version>
-	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
-	<RepositoryType></RepositoryType>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+	<Version>1.0.0</Version>
 	<PackageIcon>logo.png</PackageIcon>
+	<Copyright>© 2026 Karol Staszewski</Copyright>
 	<Description>This package offers:
 • A variety of modern controls (inspired by WinUI 3) with enhanced styling and functionalities.
 • Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.
 • Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
+	<RepositoryUrl>https://github.com/Karol-Staszewski/StswExpress-docs</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/Karol-Staszewski/StswExpress-docs</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<GenerateDocumentationFile>False</GenerateDocumentationFile>
-	<PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageTags>Controls; Themes; Utils</PackageTags>
-	<Copyright>© 2025 Karol Staszewski</Copyright>
+	<PackageReleaseNotes>For more details, see the changelog: https://github.com/Karol-Staszewski/StswExpress-docs/blob/main/articles/changelog/index.md</PackageReleaseNotes>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Avalonia.xml</DocumentationFile>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -40,7 +41,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\LICENSE" Pack="true" PackagePath="\" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
 	  <None Include="..\logo.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 

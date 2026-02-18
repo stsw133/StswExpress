@@ -49,7 +49,7 @@ public class StswInvokeMethodExtension : MarkupExtension
     }
 
     /// <inheritdoc/>
-    public override object? ProvideValue(IServiceProvider serviceProvider)
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var multiBinding = new MultiBinding
         {

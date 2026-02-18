@@ -3,7 +3,8 @@ using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Provides a simple way to write and manage log messages, including support for automatic archiving and error handling.
 /// </summary>
@@ -190,7 +191,7 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="Config.ArchiveWhenSizeOver"/>.
+    /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="StswLogConfig.StswLogArchiveConfig.ArchiveWhenSizeOver"/>.
     /// </summary>
     private static void ForceSizeArchiveIfNeeded()
     {
@@ -437,17 +438,17 @@ public static class StswLog
         return line.Length >= 19 && DateTime.TryParse(line[..19], out date);
     }
 
-    /// <summary>
-    /// Parses a single line from the log file and converts it into a <see cref="StswLogItem"/> object.
-    /// </summary>
-    /// <param name="line">The log entry line as a string.</param>
-    /// <returns>
-    /// A <see cref="StswLogItem"/> object if the line is valid; otherwise, <see langword="null"/> if the line is invalid or cannot be parsed.
-    /// </returns>
-    /// <remarks>
-    /// This method assumes that the log line is formatted as "yyyy-MM-dd HH:mm:ss | T | Log text", where 'T' represents the first character of the log type.
-    /// </remarks>
-    private static StswLogItem? ParseLogEntry(List<string> logEntryLines)
+	/// <summary>
+	/// Parses a single line from the log file and converts it into a <see cref="StswLogItem"/> object.
+	/// </summary>
+	/// <param name="logEntryLines">The lines that make up a single log entry, where the first line contains the timestamp and log type, and subsequent lines contain the log text.</param>
+	/// <returns>
+	/// A <see cref="StswLogItem"/> object if the line is valid; otherwise, <see langword="null"/> if the line is invalid or cannot be parsed.
+	/// </returns>
+	/// <remarks>
+	/// This method assumes that the log line is formatted as "yyyy-MM-dd HH:mm:ss | T | Log text", where 'T' represents the first character of the log type.
+	/// </remarks>
+	private static StswLogItem? ParseLogEntry(List<string> logEntryLines)
     {
         if (logEntryLines.Count == 0 || !IsNewLogEntryLine(logEntryLines[0], out var date))
             return null;
@@ -487,7 +488,7 @@ public static class StswLog
 
     #region Write
     /// <summary>
-    /// Writes a log entry to a file synchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// Writes a log entry to a file synchronously in the directory specified by <see cref="StswLogConfig.LogDirectoryPath"/>.
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
@@ -509,7 +510,7 @@ public static class StswLog
     public static void Write(string text) => Write(null, text);
 
     /// <summary>
-    /// Writes a log entry to a file asynchronously in the directory specified by <see cref="Config.LogDirectoryPath"/>.
+    /// Writes a log entry to a file asynchronously in the directory specified by <see cref="StswLogConfig.LogDirectoryPath"/>.
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
@@ -521,7 +522,7 @@ public static class StswLog
         if (!ShouldLog(type))
             return Task.CompletedTask;
 
-        /// CREATE LOG
+        // CREATE LOG
         return WriteInternal(type, text);
     }
 
@@ -545,7 +546,7 @@ public static class StswLog
         if (!ShouldLog(type))
             return;
 
-        /// CREATE LOG
+        // CREATE LOG
         try
         {
             var msg = new StringBuilder();

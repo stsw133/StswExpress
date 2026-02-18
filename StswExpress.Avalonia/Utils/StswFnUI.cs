@@ -160,7 +160,7 @@ public static class StswFnUI
     /// <returns>A <see cref="Color"/> object representing the specified HSV values.</returns>
     public static Color ColorFromHsv(byte alpha, double hue, double saturation, double value)
     {
-        hue = hue % 360;
+        hue %= 360;
         var h = (int)(hue / 60) % 6;
         var f = hue / 60 - Math.Floor(hue / 60);
 

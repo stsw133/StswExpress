@@ -10,7 +10,6 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Model for interacting with a Web API, providing methods for GET and POST requests.
 /// </summary>
-/// <param name="httpClient">Instance of <see cref="HttpClient"/> to use for making requests.</param>
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>

@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <AssemblyName>TestApp</AssemblyName>
-	<Version>0.23.0</Version>
+	<Version>1.0.0</Version>
     <Authors>Karol Staszewski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>

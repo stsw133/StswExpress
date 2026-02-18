@@ -6,9 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93ABFEA9-69A9-413A-A434-E69BFE39DA1D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		CHANGELOG.md = CHANGELOG.md
 		logo.png = logo.png
 		README.md = README.md
+		THIRD-PARTY-NOTICES.txt = THIRD-PARTY-NOTICES.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Commons", "StswExpress.Commons\StswExpress.Commons.csproj", "{BBAF886D-3350-4730-82B9-ABBAC1073293}"
@@ -22,6 +22,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Commons.Tests", "StswExpress.Commons.Tests\StswExpress.Commons.Tests.csproj", "{9AE7CCEA-BC45-0B90-CA31-4D4D308E59D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Wpf.Tests", "StswExpress.Wpf.Tests\StswExpress.Wpf.Tests.csproj", "{8BEC32FE-ABB0-8D18-7208-F9E5E96CD308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Avalonia", "StswExpress.Avalonia\StswExpress.Avalonia.csproj", "{7832DB3C-6860-50AD-51AF-5446D60A4D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Avalonia.Tests", "StswExpress.Avalonia.Tests\StswExpress.Avalonia.Tests.csproj", "{C68004D2-7D48-613A-AEE4-A70F9B014674}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Avalonia", "TestApp.Avalonia\TestApp.Avalonia.csproj", "{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +59,18 @@ Global
 		{8BEC32FE-ABB0-8D18-7208-F9E5E96CD308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BEC32FE-ABB0-8D18-7208-F9E5E96CD308}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BEC32FE-ABB0-8D18-7208-F9E5E96CD308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7832DB3C-6860-50AD-51AF-5446D60A4D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7832DB3C-6860-50AD-51AF-5446D60A4D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7832DB3C-6860-50AD-51AF-5446D60A4D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7832DB3C-6860-50AD-51AF-5446D60A4D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68004D2-7D48-613A-AEE4-A70F9B014674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68004D2-7D48-613A-AEE4-A70F9B014674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68004D2-7D48-613A-AEE4-A70F9B014674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68004D2-7D48-613A-AEE4-A70F9B014674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

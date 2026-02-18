@@ -11,6 +11,7 @@
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Layout/StswSeparator.axaml"/>
 	
 	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Panels/StswGridSplitter.axaml"/>
+	<StyleInclude Source="avares://StswExpress.Avalonia/Controls/Panels/StswSidePanel.axaml"/>
 	
     <StyleInclude Source="avares://StswExpress.Avalonia/Controls/Scrollers/StswDirectionView.axaml"/>
 	

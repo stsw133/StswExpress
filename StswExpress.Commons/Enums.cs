@@ -126,7 +126,7 @@ public enum StswPlannedChanges
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswTask.Status"/>.
+/// Enumeration for <see cref="StswTaskBase.Status"/>.
 /// </summary>
 public enum StswTaskStatus
 {

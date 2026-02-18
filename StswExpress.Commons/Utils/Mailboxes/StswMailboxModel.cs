@@ -2,7 +2,8 @@
 using MailKit.Security;
 using MimeKit;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Represents an email account and provides methods for sending emails using the account's SMTP settings.
 /// </summary>
@@ -127,16 +128,18 @@ public partial class StswMailboxModel : StswObservableObject
     }
     private SecureSocketOptions _securityOption = SecureSocketOptions.Auto;
 
-    /// <summary>
-    /// Sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
-    /// Automatically redirects emails to the configured debug recipient if the application is running in DEBUG mode.
-    /// </summary>
-    /// <param name="to">The collection of recipient email addresses.</param>
-    /// <param name="subject">The subject of the email.</param>
-    /// <param name="body">The body content of the email.</param>
-    /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
-    /// <param name="bcc">An optional collection of BCC recipients.</param>
-    public void Send(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
+	/// <summary>
+	/// Sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
+	/// Automatically redirects emails to the configured debug recipient if the application is running in DEBUG mode.
+	/// </summary>
+	/// <param name="to">The collection of recipient email addresses.</param>
+	/// <param name="subject">The subject of the email.</param>
+	/// <param name="body">The body content of the email.</param>
+	/// <param name="isBodyHtml">Indicates whether the body content is in HTML format.</param>
+	/// <param name="attachments">An optional collection of file paths to attach to the email.</param>
+	/// <param name="cc">An optional collection of CC recipients.</param>
+	/// <param name="bcc">An optional collection of BCC recipients.</param>
+	public void Send(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
     {
         if (!StswMailboxes.Config.IsEnabled)
             return;
@@ -180,16 +183,18 @@ public partial class StswMailboxModel : StswObservableObject
     public void Send(IEnumerable<string> to, string subject, string body)
         => Send(to, subject, body, null, null, null);
 
-    /// <summary>
-    /// Asynchronously sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
-    /// Automatically redirects emails to the configured debug recipient if the application is running in DEBUG mode.
-    /// </summary>
-    /// <param name="to">The collection of recipient email addresses.</param>
-    /// <param name="subject">The subject of the email.</param>
-    /// <param name="body">The body content of the email.</param>
-    /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
-    /// <param name="bcc">An optional collection of BCC recipients.</param>
-    public async Task SendAsync(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
+	/// <summary>
+	/// Asynchronously sends an email using the SMTP protocol with optional attachments, BCC recipients, and reply-to addresses.
+	/// Automatically redirects emails to the configured debug recipient if the application is running in DEBUG mode.
+	/// </summary>
+	/// <param name="to">The collection of recipient email addresses.</param>
+	/// <param name="subject">The subject of the email.</param>
+	/// <param name="body">The body content of the email.</param>
+	/// <param name="isBodyHtml">Indicates whether the body content is in HTML format.</param>
+	/// <param name="attachments">An optional collection of file paths to attach to the email.</param>
+	/// <param name="cc">An optional collection of CC recipients.</param>
+	/// <param name="bcc">An optional collection of BCC recipients.</param>
+	public async Task SendAsync(IEnumerable<string> to, string subject, string body, bool? isBodyHtml = null, IEnumerable<string>? attachments = null, IEnumerable<string>? cc = null, IEnumerable<string>? bcc = null)
     {
         if (!StswMailboxes.Config.IsEnabled)
             return;

@@ -5,9 +5,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
-/// A collapsible side panel that expands on mouse hover and hides when the cursor leaves.
+/// A collapsible side panel that expands on pointer hover and hides when the pointer leaves.
 /// Supports always-visible mode.
 /// </summary>
 /// <example>
@@ -28,12 +29,12 @@ public class StswSidePanel : ContentControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSidePanel), new FrameworkPropertyMetadata(typeof(StswSidePanel)));
     }
 
-    #region Dependency properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the side panel is always visible.
-    /// If true, the panel remains expanded and doesn't collapse, overriding mouse hover behavior.
-    /// </summary>
-    public bool IsAlwaysVisible
+	#region Dependency properties
+	/// <summary>
+	/// Gets or sets a value indicating whether the side panel is always visible.
+	/// If <see langword="true"/>, the panel remains expanded and doesn't collapse.
+	/// </summary>
+	public bool IsAlwaysVisible
     {
         get => (bool)GetValue(IsAlwaysVisibleProperty);
         set => SetValue(IsAlwaysVisibleProperty, value);
@@ -55,7 +56,7 @@ public class StswSidePanel : ContentControl
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is collapsed.
-    /// When collapsed, the side panel is hidden until the mouse hovers over it, unless it is in always-visible mode.
+    /// When collapsed, the side panel is hidden until the pointer hovers over it, unless it is in always-visible mode.
     /// </summary>
     internal bool IsCollapsed
     {

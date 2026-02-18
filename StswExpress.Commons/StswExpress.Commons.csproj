@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.24.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Karol Staszewski</Authors>
+    <Version>1.0.0</Version>
+	<PackageIcon>logo.png</PackageIcon>
     <Copyright>© 2026 Karol Staszewski</Copyright>
     <Description>This package offers utilities such as:
 • extended observable collections and objects
@@ -15,22 +16,25 @@
 • messangers and stores
 • data hashing methods
 • code extensions and helpers</Description>
-	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
-	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageIcon>logo.png</PackageIcon>
+	<RepositoryUrl>https://github.com/Karol-Staszewski/StswExpress-docs</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/Karol-Staszewski/StswExpress-docs</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageTags>Utils</PackageTags>
-	<PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+	<PackageReleaseNotes>For more details, see the changelog: https://github.com/Karol-Staszewski/StswExpress-docs/blob/main/articles/changelog/index.md</PackageReleaseNotes>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Wpf.xml</DocumentationFile>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Commons.xml</DocumentationFile>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
+	  <None Include="..\LICENSE" Pack="true" PackagePath="\" />
 	  <None Include="..\README.md" Pack="true" PackagePath="\" />
+	  <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
 	  <None Include="..\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   

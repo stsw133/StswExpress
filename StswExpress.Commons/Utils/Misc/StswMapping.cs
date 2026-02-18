@@ -414,7 +414,7 @@ public static class StswMapping
     /// <param name="delimiter">The delimiter used to separate nested property names in the column names.</param>
     /// <param name="parentPath">The parent path for nested properties, used for recursive calls.</param>
     /// <param name="visitedTypes">A set of visited types to avoid infinite recursion in case of circular references.</param>
-    /// <returns><see langword="true""/> if the type has nested properties that match any of the column names; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the type has nested properties that match any of the column names; otherwise, <see langword="false"/>.</returns>
     private static bool HasNestedPropertiesInColumns(Type type, string[] normalizedColumnNames, char delimiter, string parentPath, HashSet<Type>? visitedTypes = null)
     {
         if (!type.IsClass || type == typeof(string))

@@ -9,7 +9,7 @@ namespace StswExpress.Commons;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// List<string> items = new()
+/// List&lt;string&gt; items = new()
 /// {
 ///     "Item1", "Item20", "Item3", "Item10", "Item2"
 /// };

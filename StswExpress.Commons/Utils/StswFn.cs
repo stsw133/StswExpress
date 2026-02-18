@@ -10,7 +10,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
@@ -223,12 +224,13 @@ public static partial class StswFn
     /// </returns>
     public static dynamic MergeObjects(params object?[] parameters) => MergeObjects(StswMergePriority.Last, parameters);
 
-    /// <summary>
-    /// Merges properties of a source object into a target dictionary.
-    /// </summary>
-    /// <param name="target">The target dictionary to merge properties into.</param>
-    /// <param name="source">The source object whose properties will be merged into the target dictionary.</param>
-    private static void MergeInto(IDictionary<string, object?> target, object? source, StswMergePriority mergePriority)
+	/// <summary>
+	/// Merges properties of a source object into a target dictionary.
+	/// </summary>
+	/// <param name="target">The target dictionary to merge properties into.</param>
+	/// <param name="source">The source object whose properties will be merged into the target dictionary.</param>
+	/// <param name="mergePriority">The priority for merging properties when there are conflicts.</param>
+	private static void MergeInto(IDictionary<string, object?> target, object? source, StswMergePriority mergePriority)
     {
         if (source == null)
             return;
@@ -412,19 +414,20 @@ public static partial class StswFn
         var formatted = length.ToString(format, CultureInfo.InvariantCulture);
         return $"{prefix}{formatted} {sizes[order]}".Trim();
     }
-    #endregion
+	#endregion
 
-    #region Text functions
-    /// <summary>
-    /// Splits a string by a specified separator into chunks of size n.
-    /// </summary>
-    /// <param name="input"> The input string to be split.</param>
-    /// <param name="separator"> The separator used to split the string.</param>
-    /// <param name="n"> The maximum number of parts in each chunk.</param>
-    /// <returns>A list of strings, each containing up to n parts from the original string.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="n"/> is less than or equal to 0.</exception>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="separator"/> is <see langword="null"/> or empty.</exception>
-    public static List<string> ChunkBySeparator(string input, string separator, int n, StringComparison cmp = StringComparison.Ordinal)
+	#region Text functions
+	/// <summary>
+	/// Splits a string by a specified separator into chunks of size n.
+	/// </summary>
+	/// <param name="input"> The input string to be split.</param>
+	/// <param name="separator"> The separator used to split the string.</param>
+	/// <param name="n"> The maximum number of parts in each chunk.</param>
+	/// <param name="cmp"> The string comparison option to use when searching for the separator.</param>
+	/// <returns>A list of strings, each containing up to n parts from the original string.</returns>
+	/// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="n"/> is less than or equal to 0.</exception>
+	/// <exception cref="ArgumentNullException">Thrown when <paramref name="separator"/> is <see langword="null"/> or empty.</exception>
+	public static List<string> ChunkBySeparator(string input, string separator, int n, StringComparison cmp = StringComparison.Ordinal)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(n);
         if (string.IsNullOrEmpty(separator))

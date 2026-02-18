@@ -3,7 +3,8 @@ using Avalonia.Markup.Xaml;
 using System.Collections;
 using System.ComponentModel;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A XAML markup extension that creates a list of values from a comma-separated string.
 /// </summary>
@@ -27,7 +28,7 @@ public class StswMakeListExtension(string values) : MarkupExtension
     private readonly string _values = values ?? throw new ArgumentNullException(nameof(values));
 
     /// <inheritdoc/>
-    public override object? ProvideValue(IServiceProvider serviceProvider)
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget targetProvider)
             throw new InvalidOperationException("Cannot obtain target object information.");
@@ -46,9 +47,9 @@ public class StswMakeListExtension(string values) : MarkupExtension
         if (converter == null || !converter.CanConvertFrom(typeof(string)))
             throw new InvalidOperationException($"Cannot convert values to '{listType.Name}' type.");
 
-        var result = (IList?)Activator.CreateInstance(targetType);
+        var result = (IList?)Activator.CreateInstance(targetType) ?? throw new InvalidOperationException($"Cannot create instance of type '{targetType.Name}'.");
         foreach (var valueString in _values.Split(',', StringSplitOptions.TrimEntries))
-            result?.Add(converter.ConvertFromString(valueString));
+            result.Add(converter.ConvertFromString(valueString));
 
         return result;
     }

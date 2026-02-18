@@ -21,24 +21,24 @@ public class StswObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public bool AutoAddOnGet { get; set; } = true;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class.
+    /// Initializes a new instance of the <see cref="StswObservableDictionary{TKey, TValue}"/> class.
     /// </summary>
     public StswObservableDictionary() => _dictionary = [];
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class with a specified comparer.
-    /// </summary>
-    public StswObservableDictionary(IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(comparer);
+	/// <summary>
+	/// Initializes a new instance of the <see cref="StswObservableDictionary{TKey, TValue}"/> class with a specified comparer.
+	/// </summary>
+	public StswObservableDictionary(IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(comparer);
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class with a specified capacity and comparer.
-    /// </summary>
-    public StswObservableDictionary(int capacity, IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
-    
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class with an existing dictionary.
-    /// </summary>
-    public StswObservableDictionary(IDictionary<TKey, TValue> dictionary) => _dictionary = new Dictionary<TKey, TValue>(dictionary);
+	/// <summary>
+	/// Initializes a new instance of the <see cref="StswObservableDictionary{TKey, TValue}"/> class with a specified capacity and comparer.
+	/// </summary>
+	public StswObservableDictionary(int capacity, IEqualityComparer<TKey> comparer) => _dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="StswObservableDictionary{TKey, TValue}"/> class with an existing dictionary.
+	/// </summary>
+	public StswObservableDictionary(IDictionary<TKey, TValue> dictionary) => _dictionary = new Dictionary<TKey, TValue>(dictionary);
 
     /// <inheritdoc/>
     public TValue this[TKey key]
