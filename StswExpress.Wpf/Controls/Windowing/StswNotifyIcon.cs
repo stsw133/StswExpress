@@ -9,7 +9,8 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A system tray icon control that supports context menus, notifications, and custom icons.
 /// Allows minimizing the application to the system tray and displaying balloon tooltips.
@@ -36,7 +37,8 @@ public class StswNotifyIcon : FrameworkElement
         Loaded += Initialize;
         Unloaded += OnUnloaded;
         Unloaded += Cleanup;
-    }
+		DataContextChanged += OnDataContextChanged;
+	}
 
     #region Events & methods
     /// <summary>
@@ -75,8 +77,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <param name="e">The event arguments.</param>
     private void Initialize(object? sender, RoutedEventArgs e)
     {
-        _window = ContextControl as Window ?? Window.GetWindow(this);
-        if (_window == null)
+        _window = Window.GetWindow(this) ?? System.Windows.Application.Current.MainWindow;
+		if (_window == null)
             return;
 
         _window.StateChanged += HandleWindowStateChange;
@@ -123,12 +125,21 @@ public class StswNotifyIcon : FrameworkElement
     /// <param name="e">The event arguments.</param>
     private void OnApplicationExit(object? sender, ExitEventArgs e) => _tray?.Dispose();
 
-    /// <summary>
-    /// Retrieves a notify icon instance based on the provided identifier.
-    /// </summary>
-    /// <param name="notifyIconIdentifier">The identifier of the notify icon.</param>
-    /// <returns>A matching <see cref="StswNotifyIcon"/> instance.</returns>
-    internal static StswNotifyIcon GetInstance(object? notifyIconIdentifier)
+	/// <summary>
+	/// Synchronizes the context menu data context with the current control data context.
+	/// </summary>
+	private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+	{
+		if (ContextMenu != null)
+			ContextMenu.DataContext = e.NewValue;
+	}
+
+	/// <summary>
+	/// Retrieves a notify icon instance based on the provided identifier.
+	/// </summary>
+	/// <param name="notifyIconIdentifier">The identifier of the notify icon.</param>
+	/// <returns>A matching <see cref="StswNotifyIcon"/> instance.</returns>
+	internal static StswNotifyIcon GetInstance(object? notifyIconIdentifier)
     {
         if (_loadedInstances.Count == 0)
             throw new InvalidOperationException($"No loaded {nameof(StswNotifyIcon)} instances.");
@@ -206,7 +217,7 @@ public class StswNotifyIcon : FrameworkElement
     private void UpdateIconVisibility() => _tray!.Visible = IsAlwaysVisible || _window?.IsVisible != true;
 
     /// <summary>
-    /// Displays a balloon notification for the <see cref="StswNotifyIcon"/> identified by <paramref name="notifyIconIdentifier"/>.
+    /// Displays a balloon notification for the <see cref="StswNotifyIcon"/> identified by <paramref name="identifier"/>.
     /// </summary>
     /// <param name="title">Title of the notification.</param>
     /// <param name="text">Content text of the notification.</param>
@@ -255,8 +266,9 @@ public class StswNotifyIcon : FrameworkElement
         if (PresentationSource.FromVisual(ContextMenu) is HwndSource hwndSource)
             _ = SetForegroundWindow(hwndSource.Handle);
 
-        ContextMenu.DataContext = ContextControl is FrameworkElement fe ? fe.DataContext : null;
-        ContextMenu.IsOpen = true;
+		ContextMenu.PlacementTarget = this;
+		ContextMenu.DataContext = DataContext ?? _window?.DataContext;
+		ContextMenu.IsOpen = true;
     }
 
     /// <summary>
@@ -277,21 +289,6 @@ public class StswNotifyIcon : FrameworkElement
     #endregion
 
     #region Logic properties
-    /// <summary>
-    /// Gets or sets the parent UI element that acts as the data context source for the <see cref="NotifyIcon"/>.
-    /// </summary>
-    public UIElement ContextControl
-    {
-        get => (UIElement)GetValue(ContextControlProperty);
-        set => SetValue(ContextControlProperty, value);
-    }
-    public static readonly DependencyProperty ContextControlProperty
-        = DependencyProperty.Register(
-            nameof(ContextControl),
-            typeof(UIElement),
-            typeof(StswNotifyIcon)
-        );
-
     /// <summary>
     /// Gets or sets the <see cref="Icon"/> to be displayed in the <see cref="NotifyIcon"/> control.
     /// </summary>

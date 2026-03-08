@@ -1089,18 +1089,18 @@ public static partial class StswExtensions
             ? source[value.Length..]
             : source;
     }
-    #endregion
+	#endregion
 
-    #region Universal extensions
-    /// <summary>
-    /// Gets the value of a property by name from an object.
-    /// Supports nested paths separated by dots (e.g., "Contractor.Id").
-    /// </summary>
-    /// <param name="obj">The object from which to get the property value.</param>
-    /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
-    /// <param name="ignoreCase">Specifies whether the property name comparison should be case-insensitive.</param>
-    /// <returns>The value of the property if it exists; otherwise, <see langword="null"/>.</returns>
-    public static object? GetPropertyValue(this object obj, string propertyName, bool ignoreCase = false)
+	#region Universal extensions
+	/// <summary>
+	/// Gets the value of a property by name from an object.
+	/// Supports nested paths separated by dots or slashes (e.g., "Contractor.Id" or "Contractor/Id").
+	/// </summary>
+	/// <param name="obj">The object from which to get the property value.</param>
+	/// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
+	/// <param name="ignoreCase">Specifies whether the property name comparison should be case-insensitive.</param>
+	/// <returns>The value of the property if it exists; otherwise, <see langword="null"/>.</returns>
+	public static object? GetPropertyValue(this object obj, string propertyName, bool ignoreCase = false)
     {
         if (obj is null || string.IsNullOrWhiteSpace(propertyName))
             return null;
@@ -1111,9 +1111,9 @@ public static partial class StswExtensions
 
 
         object? current = obj;
-        foreach (var part in propertyName.Split(['.'], StringSplitOptions.RemoveEmptyEntries))
-        {
-            if (current is null)
+		foreach (var part in propertyName.Split(['.', '/'], StringSplitOptions.RemoveEmptyEntries))
+		{
+			if (current is null)
                 return null;
 
             var property = current.GetType().GetProperty(part, flags);

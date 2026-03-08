@@ -370,17 +370,29 @@ public class StswExtensionsTests
         Assert.Equal("xyz", "abcxyz".TrimStart("abc"));
         Assert.Equal("abcxyz", "abcxyz".TrimStart("zzz"));
     }
-    #endregion
+	#endregion
 
-    #region Universal extensions
-    private class PropObj { public int Id { get; set; } = 42; }
+	#region Universal extensions
+	private class PropAddressObj { public string City { get; set; } = "Warsaw"; public string Street { get; set; } = "Main"; }
+	private class PropContractorObj { public PropAddressObj Address { get; set; } = new(); }
+	private class PropObj { public int Id { get; set; } = 42; public PropContractorObj Contractor { get; set; } = new(); }
 
-    [Fact]
+	[Fact]
     public void GetPropertyValue_ReturnsValue()
     {
         var obj = new PropObj();
         Assert.Equal(42, obj.GetPropertyValue("Id"));
         Assert.Null(obj.GetPropertyValue("Unknown"));
-    }
-    #endregion
+	}
+
+	[Fact]
+	public void GetPropertyValue_ReturnsNestedValue_ForDotAndSlashPaths()
+	{
+		var obj = new PropObj();
+
+		Assert.Equal("Warsaw", obj.GetPropertyValue("Contractor.Address.City"));
+		Assert.Equal("Main", obj.GetPropertyValue("Contractor/Address/Street"));
+		Assert.Equal("Warsaw", obj.GetPropertyValue("Contractor/Address.City"));
+	}
+	#endregion
 }
