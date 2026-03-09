@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Remove="Assets\help_en.pdf" />
     <None Remove="Assets\icon.ico" />
+    <None Remove="Assets\Translations\pt.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,10 +36,14 @@
 
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
+    <Resource Include="Assets\Translations\pt.json" />
 	  <None Include="..\logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\Buttons\StswHoldButton\StswHoldButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -142,6 +147,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Typography\StswHighlightText\StswHighlightTextView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Typography\StswEmojiText\StswEmojiTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Windowing\StswContextMenu\StswContextMenuView.xaml.cs">

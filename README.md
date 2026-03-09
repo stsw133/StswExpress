@@ -20,7 +20,7 @@ Professional Edition starts from 1.0.0.
 StswExpress provides a wide range of controls, many inspired by **WinUI 3**, as well as WPF controls with enhanced styling and functionalities.
 Here's a breakdown:
 
-- **Buttons**: `StswButton`, `StswDropButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
+- **Buttons**: `StswButton`, `StswDropButton`, `StswHoldButton`, `StswHyperlinkButton`, `StswRadioButton`, `StswRepeatButton`, `StswSplitButton`, `StswToggleButton`
 - **Charts**: `StswChartLegend`, `StswColumnChart`, `StswLineChart`, `StswPieChart`
 - **Colors**: `StswColorBox`, `StswColorPicker`, `StswColorSelector`
 - **DataGrids**: `StswDataGrid`, `StswDataGridFilterBox`, `StswDataPager`
@@ -38,7 +38,7 @@ Here's a breakdown:
 - **Status & Info**: `StswInfoBadge`, `StswInfoBar`, `StswInfoPanel`, `StswProgressBar`, `StswProgressRing`, `StswStatusBar`, `StswToaster`
 - **Sub-controls**: `StswSubButton`, `StswSubCheck`, `StswSubDrop`, `StswSubError`, `StswSubLabel`, `StswSubRadio`, `StswSubRepeater`, `StswSubSelector`
 - **Toggles**: `StswCheckBox`, `StswRadioBox`, `StswToggleSwitch`
-- **Typography**: `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
+- **Typography**: `StswEmojiText`, `StswHighlightText`, `StswIcon`, `StswLabel`, `StswOutlinedText`, `StswSpinner`, `StswText`
 - **Windowing**: `StswContextMenu`, `StswNotifyIcon`, `StswPopup`, `StswToolTip`, `StswWindow`, `StswWindowBar`
 
 ### Utilities & Enhancements

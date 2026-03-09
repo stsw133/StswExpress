@@ -179,7 +179,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         var text = TextMode switch
         {
             StswProgressTextMode.None => string.Empty,
-            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0} %", (int)(progress * 100)),
+            StswProgressTextMode.Percentage => string.Format(CultureInfo.CurrentCulture, "{0}%", (int)(progress * 100)),
             StswProgressTextMode.Progress => string.Format(CultureInfo.CurrentCulture, "{0} / {1}", current.ToString(CultureInfo.CurrentCulture), range.ToString(CultureInfo.CurrentCulture)),
             StswProgressTextMode.Value => ((int)Value).ToString(CultureInfo.CurrentCulture),
             _ => null

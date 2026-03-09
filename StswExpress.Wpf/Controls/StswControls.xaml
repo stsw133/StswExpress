@@ -5,6 +5,7 @@
 
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswHoldButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswHyperlinkButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRadioButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRepeatButton.xaml"/>
@@ -126,6 +127,7 @@
         <ResourceDictionary Source="Toggles/StswRadioBox.xaml"/>
         <ResourceDictionary Source="Toggles/StswToggleSwitch.xaml"/>
 
+        <ResourceDictionary Source="Typography/StswEmojiText.xaml"/>
         <ResourceDictionary Source="Typography/StswHighlightText.xaml"/>
         <ResourceDictionary Source="Typography/StswIcon.xaml"/>
         <ResourceDictionary Source="Typography/StswLabel.xaml"/>

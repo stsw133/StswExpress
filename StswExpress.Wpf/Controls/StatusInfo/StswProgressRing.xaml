@@ -11,8 +11,7 @@
         <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="FontSize" Value="6"/>
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="5"/>
         <Setter Property="RingThickness" Value="1"/>
         <Setter Property="Scale" Value="1.66"/>
 
@@ -43,7 +42,7 @@
                                       Stroke="{TemplateBinding BorderBrush}"
                                       StrokeThickness="{TemplateBinding RingThickness}">
                                     <Path.Data>
-                                        <EllipseGeometry Center="5 5" RadiusX="4" RadiusY="4"/>
+                                        <EllipseGeometry Center="5 5" RadiusX="4.5" RadiusY="4.5"/>
                                     </Path.Data>
                                 </Path>
                                 <!-- determinate progress -->
@@ -61,7 +60,7 @@
                                       StrokeThickness="{TemplateBinding RingThickness}"
                                       StrokeDashArray="6">
                                     <Path.Data>
-                                        <EllipseGeometry Center="5 5" RadiusX="4" RadiusY="4"/>
+                                        <EllipseGeometry Center="5 5" RadiusX="4.5" RadiusY="4.5"/>
                                     </Path.Data>
                                     <Path.RenderTransform>
                                         <RotateTransform x:Name="OPT_Rotation" Angle="0" CenterX="5" CenterY="5"/>

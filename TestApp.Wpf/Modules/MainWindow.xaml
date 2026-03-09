@@ -37,6 +37,7 @@
             <se:StswNavigationItem Header="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">
                 <se:StswNavigationItem Header="StswButton" TargetType="{x:Type local:StswButtonContext}"/>
                 <se:StswNavigationItem Header="StswDropButton" TargetType="{x:Type local:StswDropButtonContext}"/>
+                <se:StswNavigationItem Header="StswHoldButton" TargetType="{x:Type local:StswHoldButtonContext}"/>
                 <se:StswNavigationItem Header="StswHyperlinkButton" TargetType="{x:Type local:StswHyperlinkButtonContext}"/>
                 <se:StswNavigationItem Header="StswRadioButton" TargetType="{x:Type local:StswRadioButtonContext}"/>
                 <se:StswNavigationItem Header="StswRepeatButton" TargetType="{x:Type local:StswRepeatButtonContext}"/>
@@ -157,6 +158,7 @@
                 <se:StswNavigationItem Header="StswToggleSwitch" TargetType="{x:Type local:StswToggleSwitchContext}"/>
             </se:StswNavigationItem>
             <se:StswNavigationItem Header="Typography" IconData="{x:Static se:StswIcons.Text}">
+                <se:StswNavigationItem Header="StswEmojiText" TargetType="{x:Type local:StswEmojiTextContext}"/>
                 <se:StswNavigationItem Header="StswHighlightText" TargetType="{x:Type local:StswHighlightTextContext}"/>
                 <se:StswNavigationItem Header="StswIcon" TargetType="{x:Type local:StswIconContext}"/>
                 <se:StswNavigationItem Header="StswLabel" TargetType="{x:Type local:StswLabelContext}"/>

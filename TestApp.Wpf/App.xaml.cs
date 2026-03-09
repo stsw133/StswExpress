@@ -23,9 +23,12 @@ public partial class App : StswApp
 
         /// example for overriding security key:
         //StswSecurity.Key = "myOwnStswHashKey";
+
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages = new() { { "en", "English" } };
         //StswTranslator.CurrentLanguage = "en"; //or `string.Empty` to get default language
+        StswTranslator.RegisterCustomLanguage(name: "pt", source: new Uri("/TestApp;component/Assets/Translations/pt.json", UriKind.Relative), fallbackTranslation: "es");
+
         /// example for removing theme from config:
         //StswResources.AvailableThemes = ["Light", "Dark"];
         //StswResources.CurrentTheme = "Light"; //or `string.Empty` to get default theme

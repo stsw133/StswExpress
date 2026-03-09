@@ -71,17 +71,17 @@ public class StswImage : Control, IStswCornerControl
     /// <summary>
     /// Gets or sets the scale factor for the image, adjusting its width and height accordingly.
     /// </summary>
-    public GridLength Scale
+    public GridLength? Scale
     {
-        get => (GridLength)GetValue(ScaleProperty);
+        get => (GridLength?)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswImage),
-            new PropertyMetadata(default(GridLength), OnScaleChanged)
+            new PropertyMetadata(default(GridLength?), OnScaleChanged)
         );
     public static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

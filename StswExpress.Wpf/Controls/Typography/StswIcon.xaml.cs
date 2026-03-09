@@ -139,17 +139,17 @@ public class StswIcon : FrameworkElement
     /// Gets or sets the scale of the icon.
     /// The scale adjusts the icon's dimensions relative to its default size.
     /// </summary>
-    public GridLength Scale
+    public GridLength? Scale
     {
-        get => (GridLength)GetValue(ScaleProperty);
+        get => (GridLength?)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswIcon),
-            new FrameworkPropertyMetadata(default(GridLength),
+            new FrameworkPropertyMetadata(default(GridLength?),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnScaleChanged)
         );

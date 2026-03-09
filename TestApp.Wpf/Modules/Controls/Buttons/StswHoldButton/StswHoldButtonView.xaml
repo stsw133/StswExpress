@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="TestApp.Wpf.StswHoldButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:StswHoldButtonContext}">
+
+    <local:ControlsBase>
+        <!-- properties -->
+        
+        <!-- content -->
+        <se:StswHoldButton Command="{Binding OnClickCommand}"
+                           IsEnabled="{Binding IsEnabled}"
+                           HorizontalAlignment="{Binding HorizontalAlignment}"
+                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                           VerticalAlignment="{Binding VerticalAlignment}"
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswIcon Data="{x:Static se:StswIcons.TrashCan}"/>
+        </se:StswHoldButton>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Padding="5">
+                <Run Text="You clicked "/>
+                <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                <Run Text=" time(s)"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

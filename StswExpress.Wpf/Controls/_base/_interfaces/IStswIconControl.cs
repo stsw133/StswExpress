@@ -43,9 +43,23 @@ public interface IStswIconControl
     /// </summary>
     /// <param name="elem">The element whose scale has changed.</param>
     /// <param name="scale">The new scale value.</param>
-    public static void ScaleChanged(FrameworkElement elem, GridLength scale)
+    public static void ScaleChanged(FrameworkElement elem, GridLength? scale)
     {
-        elem.Height = scale.IsStar ? double.NaN : scale!.Value * 12;
-        elem.Width = scale.IsStar ? double.NaN : scale!.Value * 12;
+        if (!scale.HasValue)
+        {
+            elem.ClearValue(FrameworkElement.HeightProperty);
+            elem.ClearValue(FrameworkElement.WidthProperty);
+        }
+        else if (scale.Value.IsStar)
+        {
+            elem.Height = double.NaN;
+            elem.Width = double.NaN;
+        }
+        else
+        {
+            var size = scale.Value.Value * 12;
+            elem.Height = size;
+            elem.Width = size;
+        }
     }
 }

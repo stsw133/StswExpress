@@ -69,12 +69,16 @@
                                     </DockPanel>
                                     <!-- language -->
                                     <se:StswLabel Content="{se:StswTranslate StswConfig.Language, Suffix=':'}" IconData="{x:Static se:StswIcons.Translate}" Margin="0 5 0 0"/>
-                                    <se:StswComboBox DisplayMemberPath="Value"
-                                                     HorizontalContentAlignment="Left"
+                                    <se:StswComboBox HorizontalContentAlignment="Left"
                                                      ItemsSource="{Binding Source={x:Static se:StswTranslator.AvailableLanguages}}"
                                                      Placeholder="{se:StswTranslate StswConfig.Language.Auto}"
                                                      SelectedValue="{Binding Language, Source={x:Static se:StswApp.Settings}}"
                                                      SelectedValuePath="Key">
+                                        <se:StswComboBox.ItemTemplate>
+                                            <ItemContainerTemplate>
+                                                <se:StswEmojiText EmojiText="{Binding Value}"/>
+                                            </ItemContainerTemplate>
+                                        </se:StswComboBox.ItemTemplate>
                                         <se:StswComboBox.SubControls>
                                             <se:StswSubButton Command="{x:Static se:StswCommands.ClearSelection}" IconData="{x:Static se:StswIcons.Close}"/>
                                         </se:StswComboBox.SubControls>

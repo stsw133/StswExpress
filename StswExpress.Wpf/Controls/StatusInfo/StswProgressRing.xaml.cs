@@ -20,6 +20,9 @@ namespace StswExpress.Wpf;
 /// </example>
 public class StswProgressRing : StswProgressBar
 {
+    private const double GeometryCenter = 5d;
+    private const double GeometryRadius = 4.5d;
+
     static StswProgressRing()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressRing), new FrameworkPropertyMetadata(typeof(StswProgressRing)));
@@ -66,17 +69,17 @@ public class StswProgressRing : StswProgressBar
     /// Gets or sets the scale of the progress ring.
     /// Determines the size of the ring in proportion to its default dimensions.
     /// </summary>
-    public GridLength Scale
+    public GridLength? Scale
     {
-        get => (GridLength)GetValue(ScaleProperty);
+        get => (GridLength?)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswProgressRing),
-            new FrameworkPropertyMetadata(default(GridLength),
+            new FrameworkPropertyMetadata(default(GridLength?),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnScaleChanged)
         );
@@ -155,17 +158,10 @@ public class StswProgressRing : StswProgressBar
         if (normalized >= 1d - 0.0001d)
             return FullCircleGeometry;
 
-        const double radius = 4d;
-        const double centerCoord = 5d;
-        var center = new Point(centerCoord, centerCoord);
-
-        const double startAngle = 0d;
+        var center = new Point(GeometryCenter, GeometryCenter);
         var sweepAngle = 360d * normalized;
-        var endAngle = startAngle + sweepAngle;
-
-        var startPoint = PointOnCircle(center, radius, startAngle);
-        var endPoint = PointOnCircle(center, radius, endAngle);
-
+        var startPoint = PointOnCircle(center, GeometryRadius, 0d);
+        var endPoint = PointOnCircle(center, GeometryRadius, sweepAngle);
         var geometry = new StreamGeometry();
 
         using (var ctx = geometry.Open())
@@ -173,7 +169,7 @@ public class StswProgressRing : StswProgressBar
             ctx.BeginFigure(startPoint, isFilled: false, isClosed: false);
             ctx.ArcTo(
                 endPoint,
-                new Size(radius, radius),
+                new Size(GeometryRadius, GeometryRadius),
                 rotationAngle: 0,
                 isLargeArc: sweepAngle > 180d,
                 sweepDirection: SweepDirection.Clockwise,
@@ -191,16 +187,9 @@ public class StswProgressRing : StswProgressBar
     /// <returns>Geometry representing a full circle.</returns>
     private static StreamGeometry CreateFullCircleGeometry()
     {
-        const double radius = 4d;
-        const double centerCoord = 5d;
-        var center = new Point(centerCoord, centerCoord);
-
-        const double startAngle = 0d;
-        const double midAngle = 180d;
-
-        var startPoint = PointOnCircle(center, radius, startAngle);
-        var midPoint = PointOnCircle(center, radius, midAngle);
-
+        var center = new Point(GeometryCenter, GeometryCenter);
+        var startPoint = PointOnCircle(center, GeometryRadius, 0d);
+        var midPoint = PointOnCircle(center, GeometryRadius, 180d);
         var geometry = new StreamGeometry();
 
         using (var ctx = geometry.Open())
@@ -208,7 +197,7 @@ public class StswProgressRing : StswProgressBar
             ctx.BeginFigure(startPoint, isFilled: false, isClosed: false);
             ctx.ArcTo(
                 midPoint,
-                new Size(radius, radius),
+                new Size(GeometryRadius, GeometryRadius),
                 rotationAngle: 0,
                 isLargeArc: false,
                 sweepDirection: SweepDirection.Clockwise,
@@ -217,7 +206,7 @@ public class StswProgressRing : StswProgressBar
 
             ctx.ArcTo(
                 startPoint,
-                new Size(radius, radius),
+                new Size(GeometryRadius, GeometryRadius),
                 rotationAngle: 0,
                 isLargeArc: false,
                 sweepDirection: SweepDirection.Clockwise,

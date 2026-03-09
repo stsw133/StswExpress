@@ -68,17 +68,17 @@ public class StswSpinner : FrameworkElement
     /// Gets or sets the scale of the loading circle.
     /// Determines the overall size of the spinner.
     /// </summary>
-    public GridLength Scale
+    public GridLength? Scale
     {
-        get => (GridLength)GetValue(ScaleProperty);
+        get => (GridLength?)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswSpinner),
-            new FrameworkPropertyMetadata(default(GridLength),
+            new FrameworkPropertyMetadata(default(GridLength?),
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
                 OnScaleChanged)
         );
@@ -255,7 +255,7 @@ public class StswSpinner : FrameworkElement
     /// Gets the scale factor based on the Scale property.
     /// </summary>
     /// <returns>Scale factor as a double.</returns>
-    private double GetScaleFactor() => Scale.IsStar ? 1 : Scale.Value;
+    private double GetScaleFactor() => Scale.HasValue && !Scale.Value.IsStar ? Scale.Value.Value : 1;
 
     /// <summary>
     /// Updates animation subscription depending on control visibility and global settings.
