@@ -5,15 +5,6 @@ A modern WPF library for .NET 8.0, offering enhanced controls, tools, and custom
 📖 Documentation:  
 https://karol-staszewski.github.io/StswExpress-docs/
 
-💰 Licensing & Pricing:  
-https://karol-staszewski.github.io/StswExpress-docs/articles/pricing.html
-
-## Legacy Versions
-All versions up to 0.23.1 are permanently available under the MIT License.
-These versions will not receive further updates.
-
-Professional Edition starts from 1.0.0.
-
 ## Features
 
 ### Controls
