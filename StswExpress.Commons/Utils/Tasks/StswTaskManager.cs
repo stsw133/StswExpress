@@ -207,7 +207,7 @@ public sealed class StswTaskManager<T> : StswTaskManager
     /// <summary>
     /// Gets a read-only list of results from all tasks managed by this manager. If a task has not completed or has failed, its result will be <see langword="null"/>.
     /// </summary>
-    public IReadOnlyList<T?> Results => [.. Tasks.OfType<StswTask<T>>().Select(t => t.Result)];
+    public IReadOnlyList<T?> Results => Tasks.OfType<StswTask<T>>().Select(t => t.Result).ToList();
 
     /// <summary>
     /// Internal helper method to add a task to the manager and return it for further configuration if needed.

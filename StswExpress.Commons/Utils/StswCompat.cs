@@ -211,6 +211,37 @@ internal static class StswCompat
 #endif
     }
 
+    public static long NextInt64(Random random, long minValue, long maxValue)
+    {
+#if NET8_0_OR_GREATER
+        return random.NextInt64(minValue, maxValue);
+#else
+        if (random is null)
+            throw new ArgumentNullException(nameof(random));
+        if (minValue > maxValue)
+            throw new ArgumentOutOfRangeException(nameof(minValue));
+        if (minValue == maxValue)
+            return minValue;
+
+        var range = (decimal)maxValue - minValue;
+        return minValue + (long)Math.Floor((decimal)random.NextDouble() * range);
+#endif
+    }
+
+    public static Random SharedRandom { get; } = new Random();
+
+    public static bool IsWindows()
+    {
+#if NET8_0_OR_GREATER
+        return OperatingSystem.IsWindows();
+#else
+        return Environment.OSVersion.Platform == PlatformID.Win32NT;
+#endif
+    }
+
+    public static bool PathExists(string path)
+        => File.Exists(path) || Directory.Exists(path);
+
     public static Task<string> ReadAsStringAsync(HttpContent content, CancellationToken cancellationToken)
     {
 #if NET8_0_OR_GREATER

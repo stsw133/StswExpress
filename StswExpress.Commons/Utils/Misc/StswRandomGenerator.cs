@@ -49,7 +49,7 @@ public static class StswRandomGenerator
         {
             var guidStr = Guid.NewGuid().ToString("N");
             var length = _random.Next(4, Math.Min(12, guidStr.Length + 1));
-            return guidStr[..length];
+            return guidStr.Substring(0, length);
         }
 
         if (type == typeof(bool))
@@ -65,7 +65,7 @@ public static class StswRandomGenerator
             return _random.Next(int.MinValue, int.MaxValue);
 
         if (type == typeof(long))
-            return _random.NextInt64(long.MinValue, long.MaxValue);
+            return StswCompat.NextInt64(_random, long.MinValue, long.MaxValue);
 
         if (type == typeof(float))
             return (float)_random.NextDouble();
@@ -77,13 +77,13 @@ public static class StswRandomGenerator
             return new decimal(_random.Next(), _random.Next(), _random.Next(), _random.Next(2) == 1, (byte)_random.Next(0, 29));
 
         if (type == typeof(DateTime))
-            return new DateTime(_random.NextInt64(DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks));
+            return new DateTime(StswCompat.NextInt64(_random, DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks));
         
         if (type == typeof(DateTimeOffset))
-            return new DateTimeOffset(_random.NextInt64(DateTimeOffset.MinValue.Ticks, DateTimeOffset.MaxValue.Ticks), TimeSpan.Zero);
+            return new DateTimeOffset(StswCompat.NextInt64(_random, DateTimeOffset.MinValue.Ticks, DateTimeOffset.MaxValue.Ticks), TimeSpan.Zero);
         
         if (type == typeof(TimeSpan))
-            return new TimeSpan(_random.NextInt64(TimeSpan.MinValue.Ticks, TimeSpan.MaxValue.Ticks));
+            return new TimeSpan(StswCompat.NextInt64(_random, TimeSpan.MinValue.Ticks, TimeSpan.MaxValue.Ticks));
         
         if (type.IsEnum)
         {
