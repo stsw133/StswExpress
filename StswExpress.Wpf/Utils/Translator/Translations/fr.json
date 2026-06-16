@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "Quitter le plein écran",
   "StswWindow.Maximize": "Maximiser",
   "StswWindow.Minimize": "Minimiser",
-  "StswWindow.Restore": "Restaurer"
+  "StswWindow.Restore": "Restaurer",
+  "StswMediaPlayer.PinControls": "Épingler les contrôles"
 }

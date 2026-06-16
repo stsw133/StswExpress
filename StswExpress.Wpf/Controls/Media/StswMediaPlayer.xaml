@@ -35,6 +35,19 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
+                        <se:StswBorder.ContextMenu>
+                            <se:StswContextMenu DataContext="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Self}}" Placement="MousePoint">
+                                <se:StswMenuItem x:Name="PART_MenuStop" Header="{se:StswTranslate StswMediaPlayer.Stop}" IconData="{x:Static se:StswIcons.Stop}"/>
+                                <se:StswMenuItem x:Name="PART_MenuPrevious" Header="{se:StswTranslate StswMediaPlayer.Previous}" IconData="{x:Static se:StswIcons.SkipPrevious}"/>
+                                <se:StswMenuItem x:Name="PART_MenuPlay" Header="{se:StswTranslate StswMediaPlayer.PausePlay}" IconData="{x:Static se:StswIcons.Play}"/>
+                                <se:StswMenuItem x:Name="PART_MenuNext" Header="{se:StswTranslate StswMediaPlayer.Next}" IconData="{x:Static se:StswIcons.SkipNext}"/>
+                                <Separator/>
+                                <se:StswMenuItem x:Name="PART_MenuRepeat" Header="{se:StswTranslate StswMediaPlayer.Repeat}" IconData="{x:Static se:StswIcons.Repeat}" IsCheckable="True"/>
+                                <se:StswMenuItem x:Name="PART_MenuMute" Header="{se:StswTranslate StswMediaPlayer.MuteUnmute}" IconData="{x:Static se:StswIcons.VolumeHigh}" IsCheckable="True" IsChecked="{Binding IsMuted, Mode=OneWay}"/>
+                                <Separator/>
+                                <se:StswMenuItem x:Name="PART_MenuPinControls" Header="{se:StswTranslate StswMediaPlayer.PinControls}" IconData="{x:Static se:StswIcons.Pin}" IsCheckable="True" IsChecked="{Binding IsControlsPinned, Mode=OneWay}"/>
+                            </se:StswContextMenu>
+                        </se:StswBorder.ContextMenu>
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Bottom" Margin="3 0 3 3">
                                 <!-- time current -->
@@ -58,74 +71,46 @@
                                                se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Timeline}"/>
                             </DockPanel>
                             <!-- options -->
-                            <Grid DockPanel.Dock="Bottom" Margin="{DynamicResource StswMedia.Thickness.Padding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <se:StswSubCheck x:Name="PART_ButtonShuffle"
-                                                     IconChecked="{x:Static se:StswIcons.ShuffleDisabled}"
-                                                     IconUnchecked="{x:Static se:StswIcons.Shuffle}"
-                                                     IconFill="{DynamicResource StswColor.Neutral}"
-                                                     Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                     Visibility="Collapsed"
-                                                     se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Shuffle}"/>
-                                    <se:StswSubButton x:Name="PART_ButtonStop"
-                                                      IconData="{x:Static se:StswIcons.Stop}"
-                                                      IconFill="{DynamicResource StswColor.Neutral}"
-                                                      Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                      se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Stop}"/>
-                                    <se:StswSubButton x:Name="PART_ButtonPrevious"
-                                                      BorderThickness="1 1 0 1"
-                                                      IconData="{x:Static se:StswIcons.SkipPrevious}"
-                                                      IconFill="{DynamicResource StswColor.Neutral}"
-                                                      Padding="{DynamicResource StswMedia.Thickness.Padding}"
-                                                      se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Previous}"/>
-                                    <se:StswSubCheck x:Name="PART_ButtonPlay"
-                                                     Background="{DynamicResource StswColor.Neutral}"
-                                                     BorderThickness="1"
-                                                     IconChecked="{x:Static se:StswIcons.Pause}"
-                                                     IconIndeterminate="{x:Static se:StswIcons.Play}"
-                                                     IconUnchecked="{x:Static se:StswIcons.Play}"
-                                                     IconFill="{DynamicResource StswWindow.Static.Background}"
-                                                     IconScale="2"
-                                                     IsChecked="{Binding IsPlaying, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Padding="{DynamicResource StswMedia.Thickness.Padding}"
-                                                     se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.PausePlay}"/>
-                                    <se:StswSubButton x:Name="PART_ButtonNext"
-                                                      BorderThickness="0 1 1 1"
-                                                      IconData="{x:Static se:StswIcons.SkipNext}"
-                                                      IconFill="{DynamicResource StswColor.Neutral}"
-                                                      Padding="{DynamicResource StswMedia.Thickness.Padding}"
-                                                      se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Next}"/>
-                                    <se:StswSubCheck x:Name="PART_ButtonRepeat"
-                                                     IconChecked="{x:Static se:StswIcons.RepeatOff}"
-                                                     IconUnchecked="{x:Static se:StswIcons.Repeat}"
-                                                     IconFill="{DynamicResource StswColor.Neutral}"
-                                                     Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                     se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Repeat}"/>
-                                </StackPanel>
-                                <DockPanel Grid.Column="2">
-                                    <se:StswSubCheck x:Name="PART_ButtonMute"
-                                                     IconChecked="{x:Static se:StswIcons.VolumeVariantOff}"
-                                                     IconUnchecked="{x:Static se:StswIcons.VolumeHigh}"
-                                                     IconFill="{DynamicResource StswColor.Neutral}"
-                                                     Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                     IsChecked="{TemplateBinding IsMuted}"
-                                                     se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.MuteUnmute}"/>
-                                    <se:StswSlider LargeChange="0.1"
-                                                   Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                   Maximum="1"
-                                                   IsSelectionRangeEnabled="True"
-                                                   SelectionStart="0"
-                                                   SelectionEnd="{Binding Value, RelativeSource={RelativeSource Self}}"
-                                                   Value="{Binding Volume, ElementName=PART_MediaElement}"
-                                                   VerticalAlignment="Center"
-                                                   se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Volume}"/>
-                                </DockPanel>
-                            </Grid>
+                            <se:StswSidePanel x:Name="PART_ControlsPanel"
+                                              DockPanel.Dock="Bottom"
+                                              MinHeight="5"
+                                              VerticalAlignment="Bottom"
+                                              IsAlwaysVisible="{Binding IsControlsPinned, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Grid Margin="{DynamicResource StswMedia.Thickness.Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <se:StswSubCheck x:Name="PART_ButtonPinControls"
+                                                         IconChecked="{x:Static se:StswIcons.Pin}"
+                                                         IconUnchecked="{x:Static se:StswIcons.PinOff}"
+                                                         IconFill="{DynamicResource StswColor.Neutral}"
+                                                         IsChecked="{Binding IsControlsPinned, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         Margin="{DynamicResource StswMedia.Thickness.Padding}"
+                                                         se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.PinControls}"/>
+                                        <se:StswSubCheck x:Name="PART_ButtonShuffle"
+                                                         IconChecked="{x:Static se:StswIcons.ShuffleDisabled}"
+                                                         IconUnchecked="{x:Static se:StswIcons.Shuffle}"
+                                                         IconFill="{DynamicResource StswColor.Neutral}"
+                                                         Margin="{DynamicResource StswMedia.Thickness.Padding}"
+                                                         Visibility="Collapsed"
+                                                         se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Shuffle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <se:StswSubButton x:Name="PART_ButtonStop" IconData="{x:Static se:StswIcons.Stop}" IconFill="{DynamicResource StswColor.Neutral}" Margin="{DynamicResource StswMedia.Thickness.Padding}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Stop}"/>
+                                        <se:StswSubButton x:Name="PART_ButtonPrevious" BorderThickness="1 1 0 1" IconData="{x:Static se:StswIcons.SkipPrevious}" IconFill="{DynamicResource StswColor.Neutral}" Padding="{DynamicResource StswMedia.Thickness.Padding}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Previous}"/>
+                                        <se:StswSubCheck x:Name="PART_ButtonPlay" Background="{DynamicResource StswColor.Neutral}" BorderThickness="1" IconChecked="{x:Static se:StswIcons.Pause}" IconIndeterminate="{x:Static se:StswIcons.Play}" IconUnchecked="{x:Static se:StswIcons.Play}" IconFill="{DynamicResource StswWindow.Static.Background}" IconScale="2" IsChecked="{Binding IsPlaying, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Padding="{DynamicResource StswMedia.Thickness.Padding}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.PausePlay}"/>
+                                        <se:StswSubButton x:Name="PART_ButtonNext" BorderThickness="0 1 1 1" IconData="{x:Static se:StswIcons.SkipNext}" IconFill="{DynamicResource StswColor.Neutral}" Padding="{DynamicResource StswMedia.Thickness.Padding}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Next}"/>
+                                        <se:StswSubCheck x:Name="PART_ButtonRepeat" IconChecked="{x:Static se:StswIcons.RepeatOff}" IconUnchecked="{x:Static se:StswIcons.Repeat}" IconFill="{DynamicResource StswColor.Neutral}" Margin="{DynamicResource StswMedia.Thickness.Padding}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Repeat}"/>
+                                    </StackPanel>
+                                    <DockPanel Grid.Column="2">
+                                        <se:StswSubCheck x:Name="PART_ButtonMute" IconChecked="{x:Static se:StswIcons.VolumeVariantOff}" IconUnchecked="{x:Static se:StswIcons.VolumeHigh}" IconFill="{DynamicResource StswColor.Neutral}" Margin="{DynamicResource StswMedia.Thickness.Padding}" IsChecked="{TemplateBinding IsMuted}" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.MuteUnmute}"/>
+                                        <se:StswSlider LargeChange="0.1" Margin="{DynamicResource StswMedia.Thickness.Padding}" Maximum="1" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="{Binding Value, RelativeSource={RelativeSource Self}}" Value="{Binding Volume, ElementName=PART_MediaElement}" VerticalAlignment="Center" se:StswToolTip.Text="{se:StswTranslate StswMediaPlayer.Volume}"/>
+                                    </DockPanel>
+                                </Grid>
+                            </se:StswSidePanel>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
@@ -150,6 +135,10 @@
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsControlsVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ControlsPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuPinControls"/>
+                        </Trigger>
                         <Trigger Property="TimeMax" Value="0">
                             <Setter Property="ThumbIcon" Value="M0 0" TargetName="PART_Timeline"/>
                         </Trigger>

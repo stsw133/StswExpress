@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "全画面を終了",
   "StswWindow.Maximize": "最大化",
   "StswWindow.Minimize": "最小化",
-  "StswWindow.Restore": "復元"
+  "StswWindow.Restore": "復元",
+  "StswMediaPlayer.PinControls": "コントロールを固定"
 }

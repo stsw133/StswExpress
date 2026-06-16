@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "Выйти из полноэкранного режима",
   "StswWindow.Maximize": "Развернуть",
   "StswWindow.Minimize": "Свернуть",
-  "StswWindow.Restore": "Восстановить"
+  "StswWindow.Restore": "Восстановить",
+  "StswMediaPlayer.PinControls": "Закрепить элементы управления"
 }
