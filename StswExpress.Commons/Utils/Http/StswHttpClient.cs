@@ -153,7 +153,7 @@ public class StswHttpClient
                     where v is not null
                     select $"{WebUtility.UrlEncode(p.Name)}={WebUtility.UrlEncode(v.ToString())}";
 
-        var qs = string.Join('&', props);
+        var qs = string.Join("&", props);
         return string.IsNullOrWhiteSpace(qs) ? path : $"{path}?{qs}";
     }
 

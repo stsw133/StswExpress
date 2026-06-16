@@ -832,7 +832,7 @@ public static partial class StswDatabaseHelper
 
         using var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, true, disposeConnection);
 
-        var insertQuery = $"insert into {tableName} ({string.Join(',', setColumns)}) values ({string.Join(',', setColumns.Select(x => "@" + x))})";
+        var insertQuery = $"insert into {tableName} ({string.Join(",", setColumns)}) values ({string.Join(",", setColumns.Select(x => "@" + x))})";
         using (var sqlCmd = new SqlCommand(PrepareQuery(insertQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
@@ -840,7 +840,7 @@ public static partial class StswDatabaseHelper
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
-        var updateQuery = $"update {tableName} set {string.Join(',', setColumns.Select(x => x + "=@" + x))} where {string.Join(',', idColumns.Select(x => x + "=@" + x))}";
+        var updateQuery = $"update {tableName} set {string.Join(",", setColumns.Select(x => x + "=@" + x))} where {string.Join(",", idColumns.Select(x => x + "=@" + x))}";
         using (var sqlCmd = new SqlCommand(PrepareQuery(updateQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
@@ -848,7 +848,7 @@ public static partial class StswDatabaseHelper
                 sqlCmd.PrepareCommand(GenerateSqlParameters(item, setColumns, idColumns, item.ItemState)).ExecuteNonQuery();
         }
         
-        var deleteQuery = $"delete from {tableName} where {string.Join(',', idColumns.Select(x => x + "=@" + x))}";
+        var deleteQuery = $"delete from {tableName} where {string.Join(",", idColumns.Select(x => x + "=@" + x))}";
         using (var sqlCmd = new SqlCommand(PrepareQuery(deleteQuery), factory.Connection, factory.Transaction))
         {
             sqlCmd.CommandTimeout = timeout ?? sqlCmd.CommandTimeout;
@@ -957,7 +957,7 @@ public static partial class StswDatabaseHelper
     [StswPlannedChanges(StswPlannedChanges.Remove, "This method is no longer needed with the removal of GetDivided methods.")]
     private static Dictionary<string, string> GetColumnRenameMap(DataTable fullTable, Type itemType)
     {
-        var itemProperties = itemType.GetProperties().Select(p => p.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var itemProperties = new HashSet<string>(itemType.GetProperties().Select(p => p.Name), StringComparer.OrdinalIgnoreCase);
         var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (DataColumn col in fullTable.Columns)
@@ -1144,7 +1144,7 @@ public static partial class StswDatabaseHelper
         else
         {
             var sqlDbType = innerType.InferSqlDbType();
-            replacementValue = string.Join(',', Enumerable.Range(0, list.Count).Select(i =>
+            replacementValue = string.Join(",", Enumerable.Range(0, list.Count).Select(i =>
             {
                 var paramName = $"{parameterName}{i}";
                 sqlCommand.Parameters.Add(paramName, sqlDbType).Value = list[i] ?? DBNull.Value;
@@ -1336,6 +1336,6 @@ public static partial class StswDatabaseHelper
     {
         var i = name.Length - 1;
         while (i >= 0 && char.IsDigit(name[i])) i--;
-        return name[..(i + 1)];
+        return name.Substring(0, i + 1);
     }
 }

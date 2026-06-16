@@ -63,7 +63,7 @@ public static class StswFormatParser
                 {
                     row.Add(field.ToString());
                     field.Clear();
-                    records.Add([.. row]);
+                    records.Add(row.ToArray());
                     row.Clear();
 
                     if (c == '\r' && i + 1 < input.Length && input[i + 1] == '\n')
@@ -78,7 +78,7 @@ public static class StswFormatParser
             row.Add(field.ToString());
             var hasData = row.Count > 1 || (row.Count == 1 && row[0].Length > 0);
             if (hasData)
-                records.Add([.. row]);
+                records.Add(row.ToArray());
 
             return records;
         }
@@ -188,7 +188,7 @@ public static class StswFormatParser
                 || input.Contains('"')
                 || input.Contains('\r')
                 || input.Contains('\n')
-                || (input.Length > 0 && (char.IsWhiteSpace(input[0]) || char.IsWhiteSpace(input[^1])));
+                || (input.Length > 0 && (char.IsWhiteSpace(input[0]) || char.IsWhiteSpace(input[input.Length - 1])));
 
             if (!mustQuote)
                 return input;
@@ -211,7 +211,7 @@ public static class StswFormatParser
                 return Escape(p.Name, separator);
             });
 
-            sb.AppendJoin(separator, headers);
+            sb.Append(string.Join(separator, headers));
             sb.AppendLine();
         }
 
@@ -230,7 +230,7 @@ public static class StswFormatParser
                 return Escape(str ?? string.Empty, separator);
             });
 
-            sb.AppendJoin(separator, cells);
+            sb.Append(string.Join(separator, cells));
             sb.AppendLine();
         }
 

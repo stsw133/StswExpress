@@ -244,9 +244,9 @@ public static class StswLog
         if (!archiveName.StartsWith("archive_"))
             return false;
 
-        var rest = archiveName["archive_".Length..];
+        var rest = archiveName.Substring("archive_".Length);
 
-        var parts = rest.Split('_', StringSplitOptions.RemoveEmptyEntries);
+        var parts = rest.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 1)
         {
             if (TryParseYearMonth(parts[0], out var ymFrom))
@@ -435,7 +435,7 @@ public static class StswLog
     private static bool IsNewLogEntryLine(string line, out DateTime date)
     {
         date = default;
-        return line.Length >= 19 && DateTime.TryParse(line[..19], out date);
+        return line.Length >= 19 && DateTime.TryParse(line.Substring(0, 19), out date);
     }
 
 	/// <summary>
@@ -462,7 +462,7 @@ public static class StswLog
 
         var textList = new List<string>
         {
-            logEntryLines[0].Length > 26 ? logEntryLines[0][26..] : string.Empty
+            logEntryLines[0].Length > 26 ? logEntryLines[0].Substring(26) : string.Empty
         };
         textList.AddRange(logEntryLines.Skip(1));
 

@@ -1,4 +1,3 @@
-using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -303,11 +302,10 @@ public static partial class StswFn
     {
         if (!File.Exists(path)) return false;
 
-        SafeFileHandle? handle = null;
         try
         {
-            handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.None);
-            return false;
+            using (File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+                return false;
         }
         catch (IOException)
         {
@@ -317,10 +315,6 @@ public static partial class StswFn
         {
             return false;
         }
-        finally
-        {
-            handle?.Dispose();
-        }
     }
 
     /// <summary>
@@ -329,8 +323,8 @@ public static partial class StswFn
     /// <param name="path"> The path to the file or directory to be moved to the recycle bin.</param>
     public static bool MoveToRecycleBin(string path)
     {
-        if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException();
-        if (!Path.Exists(path)) return false;
+        if (!StswCompat.IsWindows()) throw new PlatformNotSupportedException();
+        if (!StswCompat.PathExists(path)) return false;
 
         var shf = new SHFILEOPSTRUCT
         {
@@ -356,7 +350,7 @@ public static partial class StswFn
             return;
         }
 
-        if (!Path.Exists(path))
+        if (!StswCompat.PathExists(path))
             throw new FileNotFoundException($"Path '{path}' not found.", path);
 
         Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true, Verb = "open" });
@@ -388,7 +382,7 @@ public static partial class StswFn
     /// <param name="path">The path to the file to be selected in Windows Explorer.</param>
     public static void SelectPathInExplorer(string path)
     {
-        if (!Path.Exists(path))
+        if (!StswCompat.PathExists(path))
             throw new FileNotFoundException($"Path '{path}' not found.", path);
 
         Process.Start("explorer.exe", $"/select,\"{path}\"");
@@ -453,13 +447,13 @@ public static partial class StswFn
 
             if (count == n)
             {
-                result.Add(input[lastCut..index]);
+                result.Add(input.Substring(lastCut, index - lastCut));
                 lastCut = index;
                 count = 0;
             }
         }
         if (lastCut < input.Length)
-            result.Add(input[lastCut..]);
+            result.Add(input.Substring(lastCut));
 
         return result;
     }
@@ -516,9 +510,9 @@ public static partial class StswFn
 
         var ellipsisLength = string.IsNullOrEmpty(ellipsis) ? 0 : ellipsis.Length;
         if (ellipsisLength >= maxLength)
-            return ellipsisLength == 0 ? string.Empty : ellipsis[..maxLength];
+            return ellipsisLength == 0 ? string.Empty : ellipsis.Substring(0, maxLength);
 
-        return value[..(maxLength - ellipsisLength)] + ellipsis;
+        return value.Substring(0, maxLength - ellipsisLength) + ellipsis;
     }
     #endregion
 
@@ -536,7 +530,7 @@ public static partial class StswFn
         if (string.IsNullOrWhiteSpace(emails))
             return false;
 
-        var emailList = emails.Split(separator, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var emailList = emails.Split(separator, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => x.Length > 0).ToArray();
         return emailList.Length > 0 && emailList.All(EmailRegex().IsMatch);
     }
 
@@ -624,7 +618,7 @@ public static partial class StswFn
         }
 
         number = DigitsWithPlus(number);
-        if (number.StartsWith('+'))
+        if (number.StartsWith("+"))
             return number.Length >= 9 && number.Length <= 16;
 
         return (countryCode?.ToUpperInvariant()) switch

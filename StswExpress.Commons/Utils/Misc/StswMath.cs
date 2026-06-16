@@ -432,7 +432,7 @@ public static class StswMath
                 return true;
 
             var decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
-            if (!string.IsNullOrEmpty(decimalSeparator) && s[index..].StartsWith(decimalSeparator.AsSpan(), StringComparison.Ordinal))
+            if (!string.IsNullOrEmpty(decimalSeparator) && s.Slice(index).ToString().StartsWith(decimalSeparator, StringComparison.Ordinal))
                 return true;
 
             return false;
@@ -471,7 +471,7 @@ public static class StswMath
                 length++;
 
                 var candidate = s.Slice(start, length);
-                if (double.TryParse(candidate, NumberStyles.Float | NumberStyles.AllowThousands, numberFormatInfo, out var parsed))
+                if (double.TryParse(candidate.ToString(), NumberStyles.Float | NumberStyles.AllowThousands, numberFormatInfo, out var parsed))
                 {
                     bestLength = length;
                     bestValue = parsed;

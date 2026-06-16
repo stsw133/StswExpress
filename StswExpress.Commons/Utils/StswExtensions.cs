@@ -327,8 +327,10 @@ public static partial class StswExtensions
         if (dict.ContainsKey(newKey) && !overwriteExisting)
             throw new ArgumentException($"The key '{newKey}' already exists in the dictionary.", nameof(newKey));
 
-        if (!dict.Remove(oldKey, out var value))
+        if (!dict.TryGetValue(oldKey, out var value))
             return false;
+
+        dict.Remove(oldKey);
 
         dict[newKey] = value;
         return true;
@@ -365,7 +367,11 @@ public static partial class StswExtensions
         var dictionary = new Dictionary<TKey, TValue>();
 
         foreach (var item in source)
-            dictionary.TryAdd(keySelector(item), valueSelector(item));
+        {
+            var key = keySelector(item);
+            if (!dictionary.ContainsKey(key))
+                dictionary.Add(key, valueSelector(item));
+        }
 
         return dictionary;
     }
@@ -416,7 +422,7 @@ public static partial class StswExtensions
     /// <returns>The next enum value. If wrapAround is <see langword="false"/> and the end is reached, returns the last enum value.</returns>
     public static T GetNextValue<T>(this T value, int count = 1, bool wrapAround = true) where T : struct, Enum
     {
-        var values = Enum.GetValues<T>();
+        var values = Enum.GetValues(typeof(T)).Cast<T>().ToArray();
         var length = values.Length;
         var index = Array.IndexOf(values, value);
 
@@ -589,7 +595,7 @@ public static partial class StswExtensions
     public static void Shuffle<T>(this IList<T> list)
     {
         StswGuard.ThrowIfNull(list);
-        var rng = Random.Shared;
+        var rng = StswCompat.SharedRandom;
         for (var n = list.Count - 1; n > 0; n--)
         {
             var k = rng.Next(n + 1);
@@ -966,7 +972,7 @@ public static partial class StswExtensions
         if (text.Length == 1)
             return char.ToUpper(text[0], culture).ToString();
 
-        return string.Concat(char.ToUpper(text[0], culture), text[1..].ToLower(culture));
+        return string.Concat(char.ToUpper(text[0], culture), text.Substring(1).ToLower(culture));
     }
 
     /// <summary>
@@ -1069,7 +1075,7 @@ public static partial class StswExtensions
         if (start >= endExclusive)
             return string.Empty;
 
-        return text[start..endExclusive];
+        return text.Substring(start, endExclusive - start);
     }
 
     /// <summary>
@@ -1084,7 +1090,7 @@ public static partial class StswExtensions
             return source;
 
         return source.EndsWith(value, StringComparison.Ordinal)
-            ? source[..(source.Length - value.Length)]
+            ? source.Substring(0, source.Length - value.Length)
             : source;
     }
 
@@ -1100,7 +1106,7 @@ public static partial class StswExtensions
             return source;
 
         return source.StartsWith(value, StringComparison.Ordinal)
-            ? source[value.Length..]
+            ? source.Substring(value.Length)
             : source;
     }
 	#endregion

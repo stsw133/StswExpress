@@ -76,7 +76,7 @@ public static class StswDatabases
         if (!File.Exists(Config.FilePath))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
-            await File.Create(Config.FilePath).DisposeAsync();
+            File.Create(Config.FilePath).Dispose();
             return [];
         }
 
