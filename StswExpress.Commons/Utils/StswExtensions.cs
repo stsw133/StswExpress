@@ -434,7 +434,7 @@ public static partial class StswExtensions
         }
         else
         {
-            var nextIndex = Math.Clamp(index + count, 0, length - 1);
+            var nextIndex = StswCompat.Clamp(index + count, 0, length - 1);
             return values[nextIndex];
         }
     }
@@ -691,7 +691,11 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to check.</param>
     /// <returns><see langword="true"/> if the value is null or its default value; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrDefault<T>([NotNullWhen(false)] this T? value) where T : struct => !value.HasValue || EqualityComparer<T>.Default.Equals(value.Value, default);
+    public static bool IsNullOrDefault<T>(
+#if NET8_0_OR_GREATER
+        [NotNullWhen(false)]
+#endif
+        this T? value) where T : struct => !value.HasValue || EqualityComparer<T>.Default.Equals(value.Value, default);
 
     /// <summary>
     /// Checks if the given <see cref="IEnumerable{T}"/> is null or empty.
@@ -699,14 +703,20 @@ public static partial class StswExtensions
     /// <typeparam name="T">The type of elements in the enumerable.</typeparam>
     /// <param name="source">The source <see cref="IEnumerable{T}"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this IEnumerable<T>? source)
+    public static bool IsNullOrEmpty<T>(
+#if NET8_0_OR_GREATER
+        [NotNullWhen(false)]
+#endif
+        this IEnumerable<T>? source)
     {
         if (source is null)
             return true;
 
+#if NET8_0_OR_GREATER
         if (Enumerable.TryGetNonEnumeratedCount(source, out var count))
             return count == 0;
 
+#endif
         if (source is IReadOnlyCollection<T> roc)
             return roc.Count == 0;
         if (source is ICollection<T> c)
@@ -721,7 +731,11 @@ public static partial class StswExtensions
     /// </summary>
     /// <param name="source">The source <see cref="IEnumerable"/> to check.</param>
     /// <returns><see langword="true"/> if the source is null or empty; otherwise, <see langword="false"/>.</returns>
-    public static bool IsNullOrEmpty([NotNullWhen(false)] this IEnumerable? source)
+    public static bool IsNullOrEmpty(
+#if NET8_0_OR_GREATER
+        [NotNullWhen(false)]
+#endif
+        this IEnumerable? source)
     {
         if (source is null)
             return true;

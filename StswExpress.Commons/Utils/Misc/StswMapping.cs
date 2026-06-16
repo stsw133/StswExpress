@@ -364,7 +364,21 @@ public static class StswMapping
     /// <param name="PropPath">The path to the property in the object, represented as an array of strings.</param>
     /// <param name="FullPath">The full path to the property, including any nested properties, represented as a string.</param>
     /// <param name="PropInfo">The <see cref="PropertyInfo"/> of the property in the object.</param>
-    internal record PropColumnMapping(int ColumnIndex, string[] PropPath, string FullPath, PropertyInfo PropInfo);
+    internal sealed class PropColumnMapping
+    {
+        public PropColumnMapping(int columnIndex, string[] propPath, string fullPath, PropertyInfo propInfo)
+        {
+            ColumnIndex = columnIndex;
+            PropPath = propPath;
+            FullPath = fullPath;
+            PropInfo = propInfo;
+        }
+
+        public int ColumnIndex { get; }
+        public string[] PropPath { get; }
+        public string FullPath { get; }
+        public PropertyInfo PropInfo { get; }
+    }
 
     /// <summary>
     /// Caches the properties of a type that match the specified column names from a <see cref="DataTable"/>.

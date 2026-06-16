@@ -18,9 +18,13 @@ namespace StswExpress.Commons;
 /// </example>
 public partial class StswNaturalStringComparer : IComparer<string>
 {
+#if NET8_0_OR_GREATER
     [GeneratedRegex(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
     private static partial Regex TokenRegex();
     private static readonly Regex _tokenRegex = TokenRegex();
+#else
+    private static readonly Regex _tokenRegex = new(@"\d+|\D+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+#endif
 
     /// <summary>
     /// Compares two strings using natural sorting, where numerical values are considered as whole numbers

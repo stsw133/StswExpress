@@ -13,6 +13,7 @@ namespace StswExpress.Commons;
 /// </summary>
 public static partial class StswDatabaseHelper
 {
+#if NET8_0_OR_GREATER
     [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
     private static partial Regex BlockCommentsRegex();
 
@@ -27,6 +28,19 @@ public static partial class StswDatabaseHelper
 
     [GeneratedRegex(@"'[^']*'")]
     private static partial Regex SingleQuotesRegex();
+#else
+    private static readonly Regex _blockCommentsRegex = new(@"/\*.*?\*/", RegexOptions.Singleline);
+    private static readonly Regex _lessSpaceRegex = new(@"('([^']*)')|([^']+)");
+    private static readonly Regex _lineCommentsRegex = new(@"--.*?$", RegexOptions.Multiline);
+    private static readonly Regex _parameterRegex = new(@"@(\w+)");
+    private static readonly Regex _singleQuotesRegex = new(@"'[^']*'");
+
+    private static Regex BlockCommentsRegex() => _blockCommentsRegex;
+    private static Regex LessSpaceRegex() => _lessSpaceRegex;
+    private static Regex LineCommentsRegex() => _lineCommentsRegex;
+    private static Regex ParameterRegex() => _parameterRegex;
+    private static Regex SingleQuotesRegex() => _singleQuotesRegex;
+#endif
 
     /// <summary>
     /// Opens a new SQL connection using the connection string.

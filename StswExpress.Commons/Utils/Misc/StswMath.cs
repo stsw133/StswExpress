@@ -1,5 +1,7 @@
 using System.Globalization;
+#if NET8_0_OR_GREATER
 using System.Numerics;
+#endif
 
 namespace StswExpress.Commons;
 
@@ -29,7 +31,7 @@ public static class StswMath
         else
         {
             var sum = (long)index + step;
-            return (int)Math.Clamp(sum, 0, count - 1);
+            return (int)StswCompat.Clamp(sum, 0, count - 1);
         }
     }
 
@@ -56,7 +58,7 @@ public static class StswMath
         else
         {
             var sum = (long)value + step;
-            return (int)Math.Clamp(sum, min, maxExclusive - 1);
+            return (int)StswCompat.Clamp(sum, min, maxExclusive - 1);
         }
     }
 
@@ -67,7 +69,11 @@ public static class StswMath
     /// <param name="num">The numerator.</param>
     /// <param name="den">The denominator.</param>
     /// <returns>The result of the division, or zero if the denominator is zero.</returns>
+#if NET8_0_OR_GREATER
     public static T Div0<T>(T num, T den) where T : INumber<T> => den == T.Zero ? T.Zero : num / den;
+#else
+    public static T Div0<T>(T num, T den) => EqualityComparer<T>.Default.Equals(den, default!) ? default! : (T)((dynamic)num! / (dynamic)den!);
+#endif
 
 	/// <summary>
 	/// Performs a division and returns a default value if the denominator is zero.
@@ -77,7 +83,11 @@ public static class StswMath
 	/// <param name="den">The denominator.</param>
 	/// <param name="defaultValue">The value to return if the denominator is zero.</param>
 	/// <returns>The result of the division, or the specified default value if the denominator is zero.</returns>
+#if NET8_0_OR_GREATER
 	public static T Div0<T>(T num, T den, T defaultValue) where T : INumber<T> => den == T.Zero ? defaultValue : num / den;
+#else
+	public static T Div0<T>(T num, T den, T defaultValue) => EqualityComparer<T>.Default.Equals(den, default!) ? defaultValue : (T)((dynamic)num! / (dynamic)den!);
+#endif
 
     /// <summary>
     /// Computes the Euclidean modulo of a given long integer value with respect to a specified modulus.
