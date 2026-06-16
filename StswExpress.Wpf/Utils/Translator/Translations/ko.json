@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "전체 화면 종료",
   "StswWindow.Maximize": "최대화",
   "StswWindow.Minimize": "최소화",
-  "StswWindow.Restore": "복원"
+  "StswWindow.Restore": "복원",
+  "StswMediaPlayer.PinControls": "컨트롤 고정"
 }

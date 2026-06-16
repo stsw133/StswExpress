@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "退出全屏",
   "StswWindow.Maximize": "最大化",
   "StswWindow.Minimize": "最小化",
-  "StswWindow.Restore": "恢复"
+  "StswWindow.Restore": "恢复",
+  "StswMediaPlayer.PinControls": "固定控件"
 }

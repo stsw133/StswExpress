@@ -9,10 +9,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;
-/// <summary>
-/// A media player control that supports playing audio and video files.
-/// Includes playback controls, timeline slider, and mute option.
+namespace StswExpress.Wpf;
+
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -66,9 +64,39 @@ public class StswMediaPlayer : ItemsControl
             typeof(StswMediaPlayer)
         );
 
+
     /// <summary>
-    /// Gets or sets a value indicating whether the media is muted.
+    /// Gets or sets a value indicating whether the controls panel is visible.
     /// </summary>
+    public bool IsControlsVisible
+    {
+        get => (bool)GetValue(IsControlsVisibleProperty);
+        set => SetValue(IsControlsVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsControlsVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsControlsVisible),
+            typeof(bool),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the controls panel remains visible instead of expanding on pointer hover.
+    /// </summary>
+    public bool IsControlsPinned
+    {
+        get => (bool)GetValue(IsControlsPinnedProperty);
+        set => SetValue(IsControlsPinnedProperty, value);
+    }
+    public static readonly DependencyProperty IsControlsPinnedProperty
+        = DependencyProperty.Register(
+            nameof(IsControlsPinned),
+            typeof(bool),
+            typeof(StswMediaPlayer),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
+
     public bool IsMuted
     {
         get => (bool)GetValue(IsMutedProperty);
@@ -90,10 +118,6 @@ public class StswMediaPlayer : ItemsControl
             stsw._mediaElement.IsMuted = stsw.IsMuted;
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the media is currently playing.
-    /// <see langword="null"/> represents a stopped state.
-    /// </summary>
     public bool? IsPlaying
     {
         get => (bool?)GetValue(IsPlayingProperty);
@@ -132,9 +156,6 @@ public class StswMediaPlayer : ItemsControl
         }
     }
 
-    /// <summary>
-    /// Gets or sets the source URI of the media file being played.
-    /// </summary>
     public Uri Source
     {
         get => (Uri)GetValue(SourceProperty);
@@ -147,9 +168,6 @@ public class StswMediaPlayer : ItemsControl
             typeof(StswMediaPlayer)
         );
 
-    /// <summary>
-    /// Gets or sets the current playback time of the media.
-    /// </summary>
     public TimeSpan TimeCurrent
     {
         get => (TimeSpan)GetValue(TimeCurrentProperty);
@@ -162,9 +180,6 @@ public class StswMediaPlayer : ItemsControl
             typeof(StswMediaPlayer)
         );
 
-    /// <summary>
-    /// Gets or sets the total duration of the media file.
-    /// </summary>
     public TimeSpan TimeMax
     {
         get => (TimeSpan)GetValue(TimeMaxProperty);
@@ -204,6 +219,14 @@ public class StswMediaPlayer : ItemsControl
     private ButtonBase? _btnPrevious;
     private ButtonBase? _btnStop;
     private CheckBox? _btnMute;
+    private CheckBox? _btnPinControls;
+    private MenuItem? _menuMute;
+    private MenuItem? _menuNext;
+    private MenuItem? _menuPinControls;
+    private MenuItem? _menuPlay;
+    private MenuItem? _menuPrevious;
+    private MenuItem? _menuStop;
+    private FrameworkElement? _mainBorder;
     private MediaElement? _mediaElement;
     private Slider? _timelineSlider;
 
@@ -220,6 +243,14 @@ public class StswMediaPlayer : ItemsControl
         _btnNext = GetTemplateChild("PART_ButtonNext") as ButtonBase;
         //_btnRepeat = GetTemplateChild("PART_ButtonRepeat") as ButtonBase;
         _btnMute = GetTemplateChild("PART_ButtonMute") as CheckBox;
+        _btnPinControls = GetTemplateChild("PART_ButtonPinControls") as CheckBox;
+        _mainBorder = GetTemplateChild("OPT_MainBorder") as FrameworkElement;
+        _menuStop = GetMenuItem("PART_MenuStop");
+        _menuPrevious = GetMenuItem("PART_MenuPrevious");
+        _menuPlay = GetMenuItem("PART_MenuPlay");
+        _menuNext = GetMenuItem("PART_MenuNext");
+        _menuMute = GetMenuItem("PART_MenuMute");
+        _menuPinControls = GetMenuItem("PART_MenuPinControls");
         AttachTemplateEvents();
 
         /// Slider: timeline
@@ -267,6 +298,13 @@ public class StswMediaPlayer : ItemsControl
     }
 
     /// <summary>
+    /// Gets a context menu item from the template by its name.
+    /// </summary>
+    /// <param name="name">The menu item name.</param>
+    /// <returns>The matching menu item, if found.</returns>
+    private MenuItem? GetMenuItem(string name) => _mainBorder?.ContextMenu?.Items.OfType<MenuItem>().FirstOrDefault(x => x.Name == name);
+
+    /// <summary>
     /// Attaches event handlers to the template parts.
     /// </summary>
     private void AttachTemplateEvents()
@@ -285,6 +323,20 @@ public class StswMediaPlayer : ItemsControl
         //    btnRepeat.Click += BtnRepeat_Click;
         if (_btnMute != null)
             _btnMute.Click += BtnMute_Click;
+        if (_btnPinControls != null)
+            _btnPinControls.Click += BtnPinControls_Click;
+        if (_menuStop != null)
+            _menuStop.Click += BtnStop_Click;
+        if (_menuPrevious != null)
+            _menuPrevious.Click += BtnPrevious_Click;
+        if (_menuPlay != null)
+            _menuPlay.Click += BtnPlay_Click;
+        if (_menuNext != null)
+            _menuNext.Click += BtnNext_Click;
+        if (_menuMute != null)
+            _menuMute.Click += BtnMute_Click;
+        if (_menuPinControls != null)
+            _menuPinControls.Click += BtnPinControls_Click;
     }
 
     /// <summary>
@@ -302,6 +354,20 @@ public class StswMediaPlayer : ItemsControl
             _btnNext.Click -= BtnNext_Click;
         if (_btnMute != null)
             _btnMute.Click -= BtnMute_Click;
+        if (_btnPinControls != null)
+            _btnPinControls.Click -= BtnPinControls_Click;
+        if (_menuStop != null)
+            _menuStop.Click -= BtnStop_Click;
+        if (_menuPrevious != null)
+            _menuPrevious.Click -= BtnPrevious_Click;
+        if (_menuPlay != null)
+            _menuPlay.Click -= BtnPlay_Click;
+        if (_menuNext != null)
+            _menuNext.Click -= BtnNext_Click;
+        if (_menuMute != null)
+            _menuMute.Click -= BtnMute_Click;
+        if (_menuPinControls != null)
+            _menuPinControls.Click -= BtnPinControls_Click;
     }
     #endregion
 
@@ -313,7 +379,23 @@ public class StswMediaPlayer : ItemsControl
     /// </summary>
     /// <param name="sender">The sender object (button)</param>
     /// <param name="e">The event arguments</param>
-    private void BtnMute_Click(object sender, RoutedEventArgs e) => IsMuted = _btnMute?.IsChecked == true;
+    private void BtnMute_Click(object sender, RoutedEventArgs e) => IsMuted = sender switch
+    {
+        MenuItem menuItem => menuItem.IsChecked,
+        _ => _btnMute?.IsChecked == true,
+    };
+
+    /// <summary>
+    /// Handles the click event of the controls pin button.
+    /// </summary>
+    /// <param name="sender">The sender object (button or menu item)</param>
+    /// <param name="e">The event arguments</param>
+    private void BtnPinControls_Click(object sender, RoutedEventArgs e) => IsControlsPinned = sender switch
+    {
+        MenuItem menuItem => menuItem.IsChecked,
+        CheckBox checkBox => checkBox.IsChecked == true,
+        _ => !IsControlsPinned,
+    };
 
     /// <summary>
     /// Handles the click event of the next button.
@@ -449,11 +531,6 @@ public class StswMediaPlayer : ItemsControl
         OnIsPlayingChanged(this, new DependencyPropertyChangedEventArgs(IsPlayingProperty, null, IsPlaying));
     }
 
-    /// <summary>
-    /// Determines whether the media source can be shifted forward or backward in the playlist.
-    /// </summary>
-    /// <param name="step">The step value for shifting through items</param>
-    /// <returns>True if shifting is possible, otherwise false.</returns>
     private bool CanShiftBy(int step)
     {
         if (HasItems)
@@ -470,16 +547,41 @@ public class StswMediaPlayer : ItemsControl
         return false;
     }
 
-    /// <summary>
-    /// Changes the currently playing media to the next or previous item in the playlist.
-    /// </summary>
-    /// <param name="step">The step value for shifting through items</param>
     private void ShiftBy(int step)
     {
         if (_mediaElement != null)
         {
             if (HasItems)
             {
+                if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
+                {
+                    Source = new Uri(Items[index + step].ToString()!);
+                    _mediaElement.Play();
+                }
+            }
+            else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
+            {
+                var files = Directory.GetFiles(info.FullName).ToList();
+                if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, files.Count - 1))
+                {
+                    Source = new Uri(files[index + step]);
+                    _mediaElement.Play();
+                }
+            }
+        }
+    }
+
+    private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+    {
+        Dispatcher.InvokeAsync(() =>
+        {
+            if (_mediaElement != null && !_isUserChangingTimeline)
+                TimeCurrent = _mediaElement.Position;
+        }, DispatcherPriority.Background);
+    }
+    #endregion
+}
+
                 if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
                 {
                     Source = new Uri(Items[index + step].ToString()!);

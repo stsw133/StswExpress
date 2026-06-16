@@ -133,5 +133,6 @@
   "StswWindow.FullscreenExit": "Vollbild beenden",
   "StswWindow.Maximize": "Maximieren",
   "StswWindow.Minimize": "Minimieren",
-  "StswWindow.Restore": "Wiederherstellen"
+  "StswWindow.Restore": "Wiederherstellen",
+  "StswMediaPlayer.PinControls": "Steuerleiste anheften"
 }
