@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Numerics;
 
 namespace StswExpress.Commons;
@@ -140,8 +140,8 @@ public static class StswMath
     /// <exception cref="ArgumentException">Thrown if the expression is invalid.</exception>
     public static double Compute(string expression, NumberFormatInfo numberFormatInfo)
     {
-        ArgumentNullException.ThrowIfNull(expression);
-        ArgumentNullException.ThrowIfNull(numberFormatInfo);
+        StswGuard.ThrowIfNull(expression);
+        StswGuard.ThrowIfNull(numberFormatInfo);
 
         try
         {
@@ -280,7 +280,7 @@ public static class StswMath
         /// <exception cref="FormatException">Thrown if the expression is invalid.</exception>
         internal static double EvaluateInfix(ReadOnlySpan<char> s, NumberFormatInfo numberFormatInfo)
         {
-            ArgumentNullException.ThrowIfNull(numberFormatInfo);
+            StswGuard.ThrowIfNull(numberFormatInfo);
 
             var values = new Stack<double>(16);
             var ops = new Stack<Op>(16);

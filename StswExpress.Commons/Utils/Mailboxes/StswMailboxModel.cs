@@ -1,4 +1,4 @@
-﻿using MailKit.Net.Smtp;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
@@ -147,9 +147,9 @@ public partial class StswMailboxModel : StswObservableObject
         // if (!CanSendEmail())
         //     return;
 
-        ArgumentException.ThrowIfNullOrEmpty(Host);
-        ArgumentException.ThrowIfNullOrEmpty(From);
-        ArgumentNullException.ThrowIfNull(Port);
+        StswGuard.ThrowIfNullOrEmpty(Host);
+        StswGuard.ThrowIfNullOrEmpty(From);
+        StswGuard.ThrowIfNull(Port);
 
         var message = BuildMessage(to, subject, body, isBodyHtml ?? false, attachments, cc, bcc);
 
@@ -202,9 +202,9 @@ public partial class StswMailboxModel : StswObservableObject
         // if (!CanSendEmail())
         //     return;
 
-        ArgumentException.ThrowIfNullOrEmpty(Host);
-        ArgumentException.ThrowIfNullOrEmpty(From);
-        ArgumentNullException.ThrowIfNull(Port);
+        StswGuard.ThrowIfNullOrEmpty(Host);
+        StswGuard.ThrowIfNullOrEmpty(From);
+        StswGuard.ThrowIfNull(Port);
 
         var message = BuildMessage(to, subject, body, isBodyHtml ?? false, attachments, cc, bcc);
 

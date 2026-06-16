@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
+using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -31,9 +31,9 @@ public static partial class StswFn
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
     public static void TryMultipleTimes(Action action, int maxTries = 5, int msInterval = 200)
     {
-        ArgumentNullException.ThrowIfNull(action);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxTries);
-        ArgumentOutOfRangeException.ThrowIfNegative(msInterval);
+        StswGuard.ThrowIfNull(action);
+        StswGuard.ThrowIfNegativeOrZero(maxTries);
+        StswGuard.ThrowIfNegative(msInterval);
 
         for (var attempt = 1; attempt <= maxTries; attempt++)
         {
@@ -65,9 +65,9 @@ public static partial class StswFn
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxTries"/> is less than or equal to 0, or <paramref name="msInterval"/> is negative.</exception>
     public static async Task TryMultipleTimesAsync(Func<Task> action, int maxTries = 5, int msInterval = 200, CancellationToken ct = default)
     {
-        ArgumentNullException.ThrowIfNull(action);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxTries);
-        ArgumentOutOfRangeException.ThrowIfNegative(msInterval);
+        StswGuard.ThrowIfNull(action);
+        StswGuard.ThrowIfNegativeOrZero(maxTries);
+        StswGuard.ThrowIfNegative(msInterval);
 
         for (var attempt = 1; attempt <= maxTries; attempt++)
         {
@@ -397,7 +397,7 @@ public static partial class StswFn
     /// <returns>A human-readable string representing the size.</returns>
     public static string FormatByteSize(long bytes, int decimalPlaces = 1)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(decimalPlaces);
+        StswGuard.ThrowIfNegative(decimalPlaces);
 
         string[] sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
         double length = Math.Abs(bytes);
@@ -429,7 +429,7 @@ public static partial class StswFn
 	/// <exception cref="ArgumentNullException">Thrown when <paramref name="separator"/> is <see langword="null"/> or empty.</exception>
 	public static List<string> ChunkBySeparator(string input, string separator, int n, StringComparison cmp = StringComparison.Ordinal)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(n);
+        StswGuard.ThrowIfNegativeOrZero(n);
         if (string.IsNullOrEmpty(separator))
             throw new ArgumentNullException(nameof(separator));
 
@@ -502,7 +502,7 @@ public static partial class StswFn
     /// <returns>The truncated string if necessary; otherwise, the original text.</returns>
     public static string TruncateWithEllipsis(string? value, int maxLength, string ellipsis = "…")
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxLength);
+        StswGuard.ThrowIfNegativeOrZero(maxLength);
 
         if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
             return value ?? string.Empty;

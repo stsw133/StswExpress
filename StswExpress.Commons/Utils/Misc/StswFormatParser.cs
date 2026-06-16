@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -23,7 +23,7 @@ public static class StswFormatParser
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="csv"/> is <see langword="null"/>.</exception>
     public static IEnumerable<T> FromCsv<T>(string csv, char separator = ';', bool hasHeaders = true, bool useDescriptionAttribute = true, CultureInfo? culture = null) where T : new()
     {
-        ArgumentNullException.ThrowIfNull(csv);
+        StswGuard.ThrowIfNull(csv);
         culture ??= CultureInfo.CurrentCulture;
 
         var props = typeof(T)
@@ -173,7 +173,7 @@ public static class StswFormatParser
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="source"/> is <see langword="null"/>.</exception>
     public static string ToCsv<T>(IEnumerable<T> source, char separator = ';', bool includeHeaders = true, bool useDescriptionAttribute = true, CultureInfo? culture = null)
     {
-        ArgumentNullException.ThrowIfNull(source);
+        StswGuard.ThrowIfNull(source);
         culture ??= CultureInfo.CurrentCulture;
 
         var props = typeof(T)

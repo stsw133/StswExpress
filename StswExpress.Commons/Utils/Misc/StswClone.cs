@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace StswExpress.Commons;
 
@@ -17,7 +17,7 @@ public static class StswClone
     /// <returns>A deep clone of the original object, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
     public static object DeepCopy(this object original)
     {
-        ArgumentNullException.ThrowIfNull(original);
+        StswGuard.ThrowIfNull(original);
         var visited = new Dictionary<object, object?>(new ReferenceEqualityComparer());
         return InternalCopy(original, visited)!;
     }
@@ -31,7 +31,7 @@ public static class StswClone
     /// <returns>A deep clone of the original object, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
     public static T DeepCopy<T>(this T original)
     {
-        ArgumentNullException.ThrowIfNull(original);
+        StswGuard.ThrowIfNull(original);
         var visited = new Dictionary<object, object?>(new ReferenceEqualityComparer());
         return (T)InternalCopy(original, visited)!;
     }

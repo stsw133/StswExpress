@@ -180,12 +180,12 @@ public class StswHttpClient
         try
         {
             var problem = await resp.Content.ReadFromJsonAsync<StswHttpErrorResponse>(cancellationToken: ct)
-                ?? new StswHttpErrorResponse { Detail = await resp.Content.ReadAsStringAsync(ct) };
+                ?? new StswHttpErrorResponse { Detail = await StswCompat.ReadAsStringAsync(resp.Content, ct) };
             return problem.Detail ?? problem.Title ?? "Unknown error";
         }
         catch
         {
-            return await resp.Content.ReadAsStringAsync(ct);
+            return await StswCompat.ReadAsStringAsync(resp.Content, ct);
         }
     }
     #endregion

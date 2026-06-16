@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Collections;
 using System.Data;
 using System.Linq.Expressions;
@@ -1114,7 +1114,7 @@ public static partial class StswDatabaseHelper
     /// <exception cref="ArgumentException">Thrown when the list contains more than 20 elements.</exception>
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
-        ArgumentNullException.ThrowIfNull(sqlCommand);
+        StswGuard.ThrowIfNull(sqlCommand);
         if (string.IsNullOrEmpty(parameterName))
             throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
 
@@ -1259,7 +1259,7 @@ public static partial class StswDatabaseHelper
 	/// <returns>The prepared UPDATE SQL query string.</returns>
 	public static string PrepareUpdateQuery<TModel>(IEnumerable<TModel> items, string tableName, string whereClause, params string[] excludedPropertyNames)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(whereClause);
+        StswGuard.ThrowIfNullOrWhiteSpace(whereClause);
 
         var modelType = ResolveModelType(items);
         var allCols = GetWritableScalarPropertyNames(modelType);
