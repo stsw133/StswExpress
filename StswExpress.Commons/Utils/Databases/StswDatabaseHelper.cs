@@ -1188,9 +1188,9 @@ public static partial class StswDatabaseHelper
 
         bool ShouldPass(string paramNameNoAt) => passAllParametersAnyway || usedParameters.Contains(paramNameNoAt);
         static string TrimAt(string n) => n?.TrimStart('@') ?? string.Empty;
-        static string EnsureAt(string n) => n.StartsWith('@') ? n : "@" + n;
+		static string EnsureAt(string n) => n.StartsWith("@", StringComparison.Ordinal) ? n : "@" + n;
 
-        switch (parameterModel)
+		switch (parameterModel)
         {
             case IEnumerable<SqlParameter> paramList:
                 {

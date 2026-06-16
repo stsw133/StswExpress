@@ -1,7 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -33,14 +32,29 @@ public static partial class StswExtensions
             return o;
 
         if (targetType.IsEnum)
-        {
-            if (Enum.TryParse(targetType, o.ToString(), out var result))
-                return result;
+		{
+			var value = o.ToString();
+			if (value is null)
+				return null;
 
-            return null;
-        }
-        
-        try
+#if NET8_0_OR_GREATER
+			if (Enum.TryParse(targetType, value, out var result))
+				return result;
+
+			return null;
+#else
+            try
+            {
+                return Enum.Parse(targetType, value);
+            }
+            catch
+            {
+                return null;
+            }
+#endif
+		}
+
+		try
         {
             return Convert.ChangeType(o, targetType, CultureInfo.InvariantCulture);
         }

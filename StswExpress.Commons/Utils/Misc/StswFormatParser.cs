@@ -211,8 +211,8 @@ public static class StswFormatParser
                 return Escape(p.Name, separator);
             });
 
-            sb.Append(string.Join(separator, headers));
-            sb.AppendLine();
+			sb.Append(string.Join(separator.ToString(), headers));
+			sb.AppendLine();
         }
 
         foreach (var item in source)
@@ -230,8 +230,8 @@ public static class StswFormatParser
                 return Escape(str ?? string.Empty, separator);
             });
 
-            sb.Append(string.Join(separator, cells));
-            sb.AppendLine();
+			sb.Append(string.Join(separator.ToString(), cells));
+			sb.AppendLine();
         }
 
         return sb.ToString();
