@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Provides functionality for managing email configurations, including methods for importing and exporting these configurations with encryption.
 /// </summary>
@@ -35,7 +36,7 @@ public static class StswMailboxes
     {
         var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
         var encryptedData = StswSecurity.Encrypt(serializedData);
-        await File.WriteAllTextAsync(Config.FilePath, encryptedData);
+        await StswCompat.WriteAllTextAsync(Config.FilePath, encryptedData);
     }
 
     /// <summary>
@@ -72,11 +73,12 @@ public static class StswMailboxes
             return [];
         }
 
-        var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
+        var encryptedData = await StswCompat.ReadAllTextAsync(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
         if (string.IsNullOrEmpty(decryptedData))
             return [];
 
         return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
     }
+}
 }

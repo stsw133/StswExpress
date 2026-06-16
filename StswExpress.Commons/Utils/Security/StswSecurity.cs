@@ -1,25 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace StswExpress.Commons;
+namespace StswExpress.Commons;
+
 /// <summary>
 /// Provides methods for encryption and decryption of text as well as hashing and secure string conversions.
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// var password = "SuperSecretPassword123!";
 /// var hashedPassword = StswSecurity.GetHashString(password);
-/// 
-/// StswSecurity.Key = "MySecureEncryptionKey";
-/// string secretMessage = "This is secret message";
-/// string encryptedMessage = StswSecurity.Encrypt(secretMessage);
+///
 /// string decryptedMessage = StswSecurity.Decrypt(encryptedMessage);
-/// 
-/// var password = "WeakPass1!";
+///
 /// var isStrong = StswSecurity.ValidatePasswordStrength(password);
-/// 
+///
 /// var token = StswSecurity.GenerateRandomToken(32);
 /// </code>
 /// </example>
@@ -53,7 +49,7 @@ public static class StswSecurity
                 return _manualKey;
 
             var appName = StswFn.AppName ?? "DefaultAppName";
-            return SHA256.HashData(Encoding.UTF8.GetBytes(appName));
+            return StswCompat.Sha256HashData(Encoding.UTF8.GetBytes(appName));
         }
     }
 
@@ -68,7 +64,7 @@ public static class StswSecurity
                 return _manualSalt;
 
             var appName = StswFn.AppName ?? "DefaultAppName";
-            return SHA256.HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
+            return StswCompat.Sha256HashData(Encoding.UTF8.GetBytes("Salt_" + appName));
         }
     }
 
@@ -93,8 +89,8 @@ public static class StswSecurity
     /// <returns>The hash of the data.</returns>
     public static byte[] ComputeHash(byte[] source, Func<HashAlgorithm> algorithmFactory)
     {
-        ArgumentNullException.ThrowIfNull(algorithmFactory);
-        ArgumentNullException.ThrowIfNull(source);
+        StswGuard.ThrowIfNull(algorithmFactory);
+        StswGuard.ThrowIfNull(source);
 
         using var algorithm = algorithmFactory();
         return algorithm.ComputeHash(source);
@@ -115,7 +111,7 @@ public static class StswSecurity
     /// <returns>A byte array containing the hashed text.</returns>
     public static byte[] GetHash(string text, Func<HashAlgorithm> algorithmFactory)
     {
-        ArgumentNullException.ThrowIfNull(text);
+        StswGuard.ThrowIfNull(text);
         return ComputeHash(Encoding.UTF8.GetBytes(text), algorithmFactory);
     }
 
@@ -132,14 +128,14 @@ public static class StswSecurity
     /// <param name="text">The text to hash.</param>
     /// <param name="algorithmFactory">A factory function to create the hashing algorithm instance.</param>
     /// <returns>A string containing the hashed text.</returns>
-    public static string GetHashString(string text, Func<HashAlgorithm> algorithmFactory) => Convert.ToHexString(GetHash(text, algorithmFactory));
+    public static string GetHashString(string text, Func<HashAlgorithm> algorithmFactory) => StswCompat.ToHexString(GetHash(text, algorithmFactory));
 
     /// <summary>
     /// Gets a hashed string using the SHA256 algorithm.
     /// </summary>
     /// <param name="text">The text to hash.</param>
     /// <returns>A byte array containing the hashed text.</returns>
-    public static string GetHashString(string text) => Convert.ToHexString(GetHash(text));
+    public static string GetHashString(string text) => StswCompat.ToHexString(GetHash(text));
 
     /// <summary>
     /// Hashes a password using PBKDF2 with a static salt and 100,000 iterations.
@@ -164,13 +160,13 @@ public static class StswSecurity
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the salt size is less than 16 bytes.</exception>
     public static string HashPassword(string password, int iterations = 310_000, int saltSize = 16, int keySize = 32)
     {
-        ArgumentNullException.ThrowIfNull(password);
-        ArgumentOutOfRangeException.ThrowIfLessThan(saltSize, 16);
+        StswGuard.ThrowIfNull(password);
+        StswGuard.ThrowIfLessThan(saltSize, 16);
 
         Span<byte> salt = stackalloc byte[saltSize];
-        RandomNumberGenerator.Fill(salt);
+        StswCompat.FillRandom(salt);
 
-        var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, keySize);
+        var hash = StswCompat.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, keySize);
         return $"pbkdf2-sha256${iterations}${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
     }
 
@@ -183,8 +179,8 @@ public static class StswSecurity
     /// <exception cref="ArgumentNullException">Thrown when the password or stored hash is <see langword="null"/>.</exception>
     public static bool VerifyPassword(string password, string stored)
     {
-        ArgumentNullException.ThrowIfNull(password);
-        ArgumentNullException.ThrowIfNull(stored);
+        StswGuard.ThrowIfNull(password);
+        StswGuard.ThrowIfNull(stored);
 
         var parts = stored.Split('$');
         if (parts.Length != 4 || !parts[0].Equals("pbkdf2-sha256", StringComparison.Ordinal))
@@ -201,8 +197,8 @@ public static class StswSecurity
         }
         catch { return false; }
 
-        var actual = Rfc2898DeriveBytes.Pbkdf2(password, salt, iter, HashAlgorithmName.SHA256, expected.Length);
-        return CryptographicOperations.FixedTimeEquals(actual, expected);
+        var actual = StswCompat.Pbkdf2(password, salt, iter, HashAlgorithmName.SHA256, expected.Length);
+        return StswCompat.FixedTimeEquals(actual, expected);
     }
     #endregion
 
@@ -271,18 +267,22 @@ public static class StswSecurity
     /// <exception cref="ArgumentNullException">Thrown when the plaintext is null.</exception>
     public static string EncryptGcm(string plaintext)
     {
-        ArgumentNullException.ThrowIfNull(plaintext);
+        StswGuard.ThrowIfNull(plaintext);
         var key = AesKey;
 
         Span<byte> nonce = stackalloc byte[NonceSize];
-        RandomNumberGenerator.Fill(nonce);
+        StswCompat.FillRandom(nonce);
 
         var plainBytes = Encoding.UTF8.GetBytes(plaintext);
         var cipher = new byte[plainBytes.Length];
         Span<byte> tag = stackalloc byte[TagSize];
 
+#if NET8_0_OR_GREATER
         using var gcm = new AesGcm(key, TagSize);
         gcm.Encrypt(nonce, plainBytes, cipher, tag);
+#else
+        throw new PlatformNotSupportedException("AES-GCM requires .NET 8. Use Encrypt/Decrypt on .NET Standard 2.0.");
+#endif
 
         var output = new byte[nonce.Length + cipher.Length + tag.Length];
         Buffer.BlockCopy(nonce.ToArray(), 0, output, 0, nonce.Length);
@@ -314,8 +314,12 @@ public static class StswSecurity
         var cipher = new ReadOnlySpan<byte>(data, NonceSize, data.Length - NonceSize - TagSize);
 
         var plain = new byte[cipher.Length];
+#if NET8_0_OR_GREATER
         using var gcm = new AesGcm(key, TagSize);
         gcm.Decrypt(nonce, cipher, tag, plain);
+#else
+        throw new PlatformNotSupportedException("AES-GCM requires .NET 8. Use Encrypt/Decrypt on .NET Standard 2.0.");
+#endif
 
         return Encoding.UTF8.GetString(plain);
     }
@@ -329,7 +333,7 @@ public static class StswSecurity
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the length is less than or equal to zero.</exception>
     public static string GenerateRandomToken(int length)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);
+        StswGuard.ThrowIfNegativeOrZero(length);
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^*()-_=+[]{};:,.?/";
         var result = new char[length];
@@ -376,6 +380,12 @@ public static class StswSecurity
         if (requireDigit && !password.Any(char.IsDigit))
             return false;
 
+        if (requireSpecialChar && !password.Any(ch => !char.IsLetterOrDigit(ch)))
+            return false;
+
+        return true;
+    }
+}
         if (requireSpecialChar && !password.Any(ch => !char.IsLetterOrDigit(ch)))
             return false;
 

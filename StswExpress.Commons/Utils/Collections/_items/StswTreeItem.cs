@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -102,7 +102,7 @@ public class StswTreeItem<T> : INotifyPropertyChanged, IEnumerable<StswTreeItem<
     /// </summary>
     public void AddChild(StswTreeItem<T> child)
     {
-        ArgumentNullException.ThrowIfNull(child);
+        StswGuard.ThrowIfNull(child);
 
         // If the child already had a parent, detach from previous parent.
         if (child.Parent is not null && !ReferenceEquals(child.Parent, this))
@@ -149,7 +149,7 @@ public class StswTreeItem<T> : INotifyPropertyChanged, IEnumerable<StswTreeItem<
     /// <returns>The first matching node, or <see langword="null"/> if none found.</returns>
     public StswTreeItem<T>? Find(Predicate<StswTreeItem<T>> match)
     {
-        ArgumentNullException.ThrowIfNull(match);
+        StswGuard.ThrowIfNull(match);
 
         foreach (var node in Traverse())
             if (match(node))

@@ -36,7 +36,7 @@ public static class StswDatabases
     {
         var serializedData = JsonSerializer.Serialize(collection, new JsonSerializerOptions { WriteIndented = true });
         var encryptedData = StswSecurity.Encrypt(serializedData);
-        await File.WriteAllTextAsync(Config.FilePath, encryptedData);
+        await StswCompat.WriteAllTextAsync(Config.FilePath, encryptedData);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public static class StswDatabases
             return [];
         }
 
-        var encryptedData = await File.ReadAllTextAsync(Config.FilePath);
+        var encryptedData = await StswCompat.ReadAllTextAsync(Config.FilePath);
         var decryptedData = StswSecurity.Decrypt(encryptedData);
         if (string.IsNullOrEmpty(decryptedData))
             return [];

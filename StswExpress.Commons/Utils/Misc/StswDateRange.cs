@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace StswExpress.Commons;
@@ -213,7 +213,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if the <paramref name="other"/> range lies within the current range; otherwise, <see langword="false"/>.</returns>
     public bool Contains(StswDateRange other, bool inclusive = true)
     {
-        ArgumentNullException.ThrowIfNull(other);
+        StswGuard.ThrowIfNull(other);
         return Contains(other.Start, other.End, inclusive);
     }
 
@@ -242,7 +242,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if the ranges overlap; otherwise, <see langword="false"/>.</returns>
     public bool Overlaps(StswDateRange other, bool inclusive = true)
     {
-        ArgumentNullException.ThrowIfNull(other);
+        StswGuard.ThrowIfNull(other);
         return Overlaps(other.Start, other.End, inclusive);
     }
 
@@ -254,7 +254,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if any ranges overlap; otherwise, <see langword="false"/>.</returns>
     public static bool AnyOverlap(IEnumerable<(DateTime Start, DateTime End)> ranges, bool inclusive = true)
     {
-        ArgumentNullException.ThrowIfNull(ranges);
+        StswGuard.ThrowIfNull(ranges);
 
         var normalized = new List<(DateTime Start, DateTime End)>();
         foreach (var (start, end) in ranges)
@@ -274,7 +274,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if any ranges overlap; otherwise, <see langword="false"/>.</returns>
     public static bool AnyOverlap(IEnumerable<StswDateRange> ranges, bool inclusive = true)
     {
-        ArgumentNullException.ThrowIfNull(ranges);
+        StswGuard.ThrowIfNull(ranges);
 
         var projected = ranges.Select(r =>
         {
@@ -502,7 +502,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if the ranges intersect; otherwise, <see langword="false"/>.</returns>
     public bool TryIntersect(StswDateRange other, bool inclusive, out StswDateRange? intersection)
     {
-        ArgumentNullException.ThrowIfNull(other);
+        StswGuard.ThrowIfNull(other);
 
         var (firstStart, firstEnd) = OrderRange(Start, End);
         var (secondStart, secondEnd) = OrderRange(other.Start, other.End);
@@ -590,7 +590,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     /// <returns><see langword="true"/> if a single-range union is possible; otherwise, <see langword="false"/>.</returns>
     public bool TryUnion(StswDateRange other, bool inclusive, bool allowTouching, out StswDateRange? union)
     {
-        ArgumentNullException.ThrowIfNull(other);
+        StswGuard.ThrowIfNull(other);
 
         var (a0, a1) = OrderRange(Start, End);
         var (b0, b1) = OrderRange(other.Start, other.End);
@@ -784,7 +784,7 @@ public class StswDateRange : StswObservableObject, IComparable<StswDateRange>, I
     public override int GetHashCode()
     {
         var (s, e) = OrderRange(Start, End);
-        return HashCode.Combine(s, e);
+        return StswCompat.CombineHashCodes(s, e);
     }
 
     /// <summary>

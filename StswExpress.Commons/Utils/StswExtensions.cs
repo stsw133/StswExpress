@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -68,7 +68,7 @@ public static partial class StswExtensions
     [StswPlannedChanges(StswPlannedChanges.Move, "It will propably be better to move this method to StswDatabaseHelper class.")]
     public static SqlDbType InferSqlDbType(this Type type)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        StswGuard.ThrowIfNull(type);
 
         var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
         if (underlyingType.IsEnum)
@@ -108,7 +108,7 @@ public static partial class StswExtensions
     /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
     public static DataTable ToDataTable(this IEnumerable items)
     {
-        ArgumentNullException.ThrowIfNull(items);
+        StswGuard.ThrowIfNull(items);
 
         var objectItems = items.Cast<object?>().ToList();
         if (objectItems.Count == 0)
@@ -209,7 +209,7 @@ public static partial class StswExtensions
     /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
     public static DataTable ToDataTable<T>(this IEnumerable<T> items)
     {
-        ArgumentNullException.ThrowIfNull(items);
+        StswGuard.ThrowIfNull(items);
 
         var type = typeof(T);
         var properties = typeof(T)
@@ -319,7 +319,7 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentException">Thrown if newKey already exists and overwriteExisting is <see langword="false"/>.</exception>
     public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey oldKey, TKey newKey, bool overwriteExisting = false)
     {
-        ArgumentNullException.ThrowIfNull(dict);
+        StswGuard.ThrowIfNull(dict);
 
         if (EqualityComparer<TKey>.Default.Equals(oldKey, newKey))
             return false;
@@ -462,8 +462,8 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="list"/> or <paramref name="items"/> is <see langword="null"/>.</exception>
     public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> items)
     {
-        ArgumentNullException.ThrowIfNull(list);
-        ArgumentNullException.ThrowIfNull(items);
+        StswGuard.ThrowIfNull(list);
+        StswGuard.ThrowIfNull(items);
 
         if (list is List<T> l)
         {
@@ -491,8 +491,8 @@ public static partial class StswExtensions
     /// </remarks>
     public static IEnumerable<IList<T>> Batch<T>(this IEnumerable<T> source, int size)
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(size);
+        StswGuard.ThrowIfNull(source);
+        StswGuard.ThrowIfNegativeOrZero(size);
 
         var batch = new List<T>(size);
         foreach (var item in source)
@@ -518,8 +518,8 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentNullException">Thrown when source or action is <see langword="null"/>.</exception>
     public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentNullException.ThrowIfNull(action);
+        StswGuard.ThrowIfNull(source);
+        StswGuard.ThrowIfNull(action);
 
         foreach (var item in source)
             action(item);
@@ -533,8 +533,8 @@ public static partial class StswExtensions
     /// <param name="items">The collection containing the elements to remove.</param>
     public static void RemoveRange<T>(this IList<T> list, IEnumerable<T> items)
     {
-        ArgumentNullException.ThrowIfNull(list, nameof(list));
-        ArgumentNullException.ThrowIfNull(items, nameof(items));
+        StswGuard.ThrowIfNull(list, nameof(list));
+        StswGuard.ThrowIfNull(items, nameof(items));
 
         var set = new HashSet<T>(items);
         if (set.Count == 0)
@@ -562,7 +562,7 @@ public static partial class StswExtensions
     /// <exception cref="ArgumentNullException">Thrown when the source collection is <see langword="null"/>.</exception>
     public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
     {
-        ArgumentNullException.ThrowIfNull(source);
+        StswGuard.ThrowIfNull(source);
 
         if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
             return;
@@ -588,7 +588,7 @@ public static partial class StswExtensions
     /// </remarks>
     public static void Shuffle<T>(this IList<T> list)
     {
-        ArgumentNullException.ThrowIfNull(list);
+        StswGuard.ThrowIfNull(list);
         var rng = Random.Shared;
         for (var n = list.Count - 1; n > 0; n--)
         {
@@ -657,7 +657,7 @@ public static partial class StswExtensions
     /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
     public static bool IsListType(this Type type, out Type? innerType)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        StswGuard.ThrowIfNull(type);
         innerType = null;
 
         if (type == typeof(string))
@@ -747,7 +747,7 @@ public static partial class StswExtensions
     /// <returns><see langword="true"/> if the type is numeric; otherwise, <see langword="false"/>.</returns>
     public static bool IsNumericType(this Type type)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        StswGuard.ThrowIfNull(type);
 
         if (Nullable.GetUnderlyingType(type) is Type underlyingType)
             type = underlyingType;
