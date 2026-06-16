@@ -153,6 +153,32 @@ internal static class StswCompat
 #endif
     }
 
+    public static int Clamp(int value, int min, int max)
+    {
+#if NET8_0_OR_GREATER
+        return Math.Clamp(value, min, max);
+#else
+        if (value < min)
+            return min;
+        if (value > max)
+            return max;
+        return value;
+#endif
+    }
+
+    public static long Clamp(long value, long min, long max)
+    {
+#if NET8_0_OR_GREATER
+        return Math.Clamp(value, min, max);
+#else
+        if (value < min)
+            return min;
+        if (value > max)
+            return max;
+        return value;
+#endif
+    }
+
     public static int CombineHashCodes<T1, T2>(T1 value1, T2 value2)
     {
 #if NET8_0_OR_GREATER
