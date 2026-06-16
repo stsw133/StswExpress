@@ -581,38 +581,3 @@ public class StswMediaPlayer : ItemsControl
     }
     #endregion
 }
-
-                if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
-                {
-                    Source = new Uri(Items[index + step].ToString()!);
-                    _mediaElement.Play();
-                }
-            }
-            else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
-            {
-                var files = Directory.GetFiles(info.FullName).ToList();
-                if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, files.Count - 1))
-                {
-                    Source = new Uri(files[index + step]);
-                    _mediaElement.Play();
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Updates the current playback position of the media periodically.
-    /// </summary>
-    /// <param name="sender">The timer triggering the update</param>
-    /// <param name="e">The event arguments</param>
-    private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
-    {
-        Dispatcher.InvokeAsync(() =>
-        {
-            if (_mediaElement != null && !_isUserChangingTimeline)
-                TimeCurrent = _mediaElement.Position;
-        }, DispatcherPriority.Background);
-    }
-    #endregion
-}
-

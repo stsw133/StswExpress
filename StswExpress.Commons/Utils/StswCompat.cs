@@ -54,12 +54,88 @@ internal static class StswCompat
 #if NET8_0_OR_GREATER
         return Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, outputLength);
 #else
-        using var deriveBytes = new Rfc2898DeriveBytes(password, salt, iterations, hashAlgorithm);
-        return deriveBytes.GetBytes(outputLength);
+        if (hashAlgorithm == HashAlgorithmName.SHA1)
+        {
+            using var deriveBytes = new Rfc2898DeriveBytes(password, salt, iterations);
+            return deriveBytes.GetBytes(outputLength);
+        }
+
+        return Pbkdf2Compat(password, salt, iterations, hashAlgorithm, outputLength);
 #endif
+	}
+
+#if !NET8_0_OR_GREATER
+    private static byte[] Pbkdf2Compat(string password, byte[] salt, int iterations, HashAlgorithmName hashAlgorithm, int outputLength)
+    {
+        if (password is null)
+            throw new ArgumentNullException(nameof(password));
+        if (salt is null)
+            throw new ArgumentNullException(nameof(salt));
+        if (iterations <= 0)
+            throw new ArgumentOutOfRangeException(nameof(iterations));
+        if (outputLength < 0)
+            throw new ArgumentOutOfRangeException(nameof(outputLength));
+
+        var passwordBytes = Encoding.UTF8.GetBytes(password);
+        using var hmac = CreateHmac(hashAlgorithm, passwordBytes);
+        var hashLength = hmac.HashSize / 8;
+        var blockCount = (int)Math.Ceiling((double)outputLength / hashLength);
+        var output = new byte[outputLength];
+        var offset = 0;
+
+        for (var blockIndex = 1; blockIndex <= blockCount; blockIndex++)
+        {
+            var block = Pbkdf2Block(hmac, salt, iterations, blockIndex);
+            var count = Math.Min(hashLength, outputLength - offset);
+            Buffer.BlockCopy(block, 0, output, offset, count);
+            offset += count;
+        }
+
+        return output;
     }
 
-    public static byte[] Pbkdf2(string password, ReadOnlySpan<byte> salt, int iterations, HashAlgorithmName hashAlgorithm, int outputLength)
+    private static byte[] Pbkdf2Block(HMAC hmac, byte[] salt, int iterations, int blockIndex)
+    {
+        var blockIndexBytes = new[]
+        {
+            (byte)(blockIndex >> 24),
+            (byte)(blockIndex >> 16),
+            (byte)(blockIndex >> 8),
+            (byte)blockIndex
+        };
+        var input = new byte[salt.Length + blockIndexBytes.Length];
+        Buffer.BlockCopy(salt, 0, input, 0, salt.Length);
+        Buffer.BlockCopy(blockIndexBytes, 0, input, salt.Length, blockIndexBytes.Length);
+
+        var u = hmac.ComputeHash(input);
+        var result = (byte[])u.Clone();
+
+        for (var i = 1; i < iterations; i++)
+        {
+            u = hmac.ComputeHash(u);
+            for (var j = 0; j < result.Length; j++)
+                result[j] ^= u[j];
+        }
+
+        return result;
+    }
+
+    private static HMAC CreateHmac(HashAlgorithmName hashAlgorithm, byte[] key)
+    {
+        if (hashAlgorithm == HashAlgorithmName.SHA256)
+            return new HMACSHA256(key);
+        if (hashAlgorithm == HashAlgorithmName.SHA384)
+            return new HMACSHA384(key);
+        if (hashAlgorithm == HashAlgorithmName.SHA512)
+            return new HMACSHA512(key);
+        if (hashAlgorithm == HashAlgorithmName.SHA1)
+            return new HMACSHA1(key);
+
+        throw new CryptographicException($"Unsupported PBKDF2 hash algorithm: {hashAlgorithm.Name}.");
+    }
+#endif
+
+	public static byte[] Pbkdf2(string password, ReadOnlySpan<byte> salt, int iterations, HashAlgorithmName hashAlgorithm, int outputLength)
         => Pbkdf2(password, salt.ToArray(), iterations, hashAlgorithm, outputLength);
 
     public static bool FixedTimeEquals(byte[] left, byte[] right)

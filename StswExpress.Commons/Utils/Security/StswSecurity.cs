@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -27,16 +26,15 @@ public static class StswSecurity
     /// <summary>
     /// Optional: manually set the key (must be at least 16 characters). Overrides the default derived from AppName.
     /// </summary>
-    [MinLength(16)]
     public static string Key
     {
         set
         {
             if (value.Length < 16)
                 throw new ArgumentException("The key must be at least 16 characters long.", nameof(value));
-            _manualKey = Encoding.UTF8.GetBytes(value.PadRight(32)[..32]);
-        }
-    }
+			_manualKey = Encoding.UTF8.GetBytes(value.PadRight(32).Substring(0, 32));
+		}
+	}
 
     /// <summary>
     /// Returns the encryption key, derived from AppName or manually set.
@@ -143,22 +141,22 @@ public static class StswSecurity
     /// <param name="password">The password to hash.</param>
     /// <returns>A Base64-encoded string representing the hashed password.</returns>
     public static string HashPassword(string password)
-    {
-        var pbkdf2 = new Rfc2898DeriveBytes(password, Salt, 100_000, HashAlgorithmName.SHA256);
-        return Convert.ToBase64String(pbkdf2.GetBytes(32));
-    }
+	{
+		var hash = StswCompat.Pbkdf2(password, Salt, 100_000, HashAlgorithmName.SHA256, 32);
+		return Convert.ToBase64String(hash);
+	}
 
-    /// <summary>
-    /// Hashes a password using PBKDF2 with a specified number of iterations, salt size, and key size.
-    /// </summary>
-    /// <param name="password">The password to hash.</param>
-    /// <param name="iterations">The number of iterations for the PBKDF2 algorithm.</param>
-    /// <param name="saltSize">The size of the salt in bytes.</param>
-    /// <param name="keySize">The size of the key in bytes.</param>
-    /// <returns>A string containing the hashed password in the format "pbkdf2-sha256$iterations$salt$hash".</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the password is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the salt size is less than 16 bytes.</exception>
-    public static string HashPassword(string password, int iterations = 310_000, int saltSize = 16, int keySize = 32)
+	/// <summary>
+	/// Hashes a password using PBKDF2 with a specified number of iterations, salt size, and key size.
+	/// </summary>
+	/// <param name="password">The password to hash.</param>
+	/// <param name="iterations">The number of iterations for the PBKDF2 algorithm.</param>
+	/// <param name="saltSize">The size of the salt in bytes.</param>
+	/// <param name="keySize">The size of the key in bytes.</param>
+	/// <returns>A string containing the hashed password in the format "pbkdf2-sha256$iterations$salt$hash".</returns>
+	/// <exception cref="ArgumentNullException">Thrown when the password is null.</exception>
+	/// <exception cref="ArgumentOutOfRangeException">Thrown when the salt size is less than 16 bytes.</exception>
+	public static string HashPassword(string password, int iterations = 310_000, int saltSize = 16, int keySize = 32)
     {
         StswGuard.ThrowIfNull(password);
         StswGuard.ThrowIfLessThan(saltSize, 16);
@@ -167,17 +165,17 @@ public static class StswSecurity
         StswCompat.FillRandom(salt);
 
         var hash = StswCompat.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, keySize);
-        return $"pbkdf2-sha256${iterations}${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
-    }
+		return $"pbkdf2-sha256${iterations}${Convert.ToBase64String(salt.ToArray())}${Convert.ToBase64String(hash)}";
+	}
 
-    /// <summary>
-    /// Verifies a password against a stored hash.
-    /// </summary>
-    /// <param name="password">The password to verify.</param>
-    /// <param name="stored">The stored hash to verify against.</param>
-    /// <returns><see langword="true"/> if the password matches the stored hash; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the password or stored hash is <see langword="null"/>.</exception>
-    public static bool VerifyPassword(string password, string stored)
+	/// <summary>
+	/// Verifies a password against a stored hash.
+	/// </summary>
+	/// <param name="password">The password to verify.</param>
+	/// <param name="stored">The stored hash to verify against.</param>
+	/// <returns><see langword="true"/> if the password matches the stored hash; otherwise, <see langword="false"/>.</returns>
+	/// <exception cref="ArgumentNullException">Thrown when the password or stored hash is <see langword="null"/>.</exception>
+	public static bool VerifyPassword(string password, string stored)
     {
         StswGuard.ThrowIfNull(password);
         StswGuard.ThrowIfNull(stored);
@@ -341,8 +339,8 @@ public static class StswSecurity
         var n = chars.Length;
         var threshold = 256 / n * n;
 
-        Span<byte> buffer = stackalloc byte[1];
-        var i = 0;
+		var buffer = new byte[1];
+		var i = 0;
         using var rng = RandomNumberGenerator.Create();
 
         while (i < length)
@@ -380,12 +378,6 @@ public static class StswSecurity
         if (requireDigit && !password.Any(char.IsDigit))
             return false;
 
-        if (requireSpecialChar && !password.Any(ch => !char.IsLetterOrDigit(ch)))
-            return false;
-
-        return true;
-    }
-}
         if (requireSpecialChar && !password.Any(ch => !char.IsLetterOrDigit(ch)))
             return false;
 

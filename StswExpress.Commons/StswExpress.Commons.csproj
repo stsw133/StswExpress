@@ -43,12 +43,12 @@
     <PackageReference Include="MailKit" Version="4.16.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="10.0.0" />
-    <PackageReference Include="System.Text.Json" Version="10.0.0" />
+    <PackageReference Include="System.Text.Json" Version="10.0.3" />
   </ItemGroup>
 
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.3" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.6.1" />
   </ItemGroup>

@@ -69,8 +69,8 @@ public static class StswMailboxes
         if (!File.Exists(Config.FilePath))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Config.FilePath)!);
-            await File.Create(Config.FilePath).DisposeAsync();
-            return [];
+			File.Create(Config.FilePath).Dispose();
+			return [];
         }
 
         var encryptedData = await StswCompat.ReadAllTextAsync(Config.FilePath);
@@ -80,5 +80,4 @@ public static class StswMailboxes
 
         return JsonSerializer.Deserialize<List<StswMailboxModel>>(decryptedData) ?? [];
     }
-}
 }
