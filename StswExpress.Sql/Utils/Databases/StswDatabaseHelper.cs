@@ -13,6 +13,45 @@ namespace StswExpress.Commons;
 /// </summary>
 public static partial class StswDatabaseHelper
 {
+    /// <summary>
+    /// Infers the corresponding <see cref="SqlDbType"/> for a given .NET <see cref="Type"/>.
+    /// Defaults to <see cref="SqlDbType.NVarChar"/> if no matching type is found.
+    /// </summary>
+    /// <param name="type">The type to convert.</param>
+    /// <returns>The corresponding <see cref="SqlDbType"/>.</returns>
+    public static SqlDbType InferSqlDbType(this Type type)
+    {
+        StswGuard.ThrowIfNull(type);
+
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        if (underlyingType.IsEnum)
+            underlyingType = Enum.GetUnderlyingType(underlyingType);
+
+        return new Dictionary<Type, SqlDbType?>()
+        {
+            { typeof(byte), SqlDbType.TinyInt },
+            { typeof(sbyte), SqlDbType.TinyInt },
+            { typeof(short), SqlDbType.SmallInt },
+            { typeof(ushort), SqlDbType.SmallInt },
+            { typeof(int), SqlDbType.Int },
+            { typeof(uint), SqlDbType.Int },
+            { typeof(long), SqlDbType.BigInt },
+            { typeof(ulong), SqlDbType.BigInt },
+            { typeof(float), SqlDbType.Real },
+            { typeof(double), SqlDbType.Float },
+            { typeof(decimal), SqlDbType.Decimal },
+            { typeof(bool), SqlDbType.Bit },
+            { typeof(string), SqlDbType.NVarChar },
+            { typeof(char), SqlDbType.NChar },
+            { typeof(Guid), SqlDbType.UniqueIdentifier },
+            { typeof(DateTime), SqlDbType.DateTime },
+            { typeof(DateTimeOffset), SqlDbType.DateTimeOffset },
+            { typeof(TimeSpan), SqlDbType.Time },
+            { typeof(byte[]), SqlDbType.VarBinary },
+        }
+        .GetValueOrDefault(underlyingType) ?? SqlDbType.NVarChar;
+    }
+
 #if NET8_0_OR_GREATER
     [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
     private static partial Regex BlockCommentsRegex();

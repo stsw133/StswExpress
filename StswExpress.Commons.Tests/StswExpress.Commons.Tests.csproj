@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+    <ProjectReference Include="..\StswExpress.Mail\StswExpress.Mail.csproj" />
+    <ProjectReference Include="..\StswExpress.Sql\StswExpress.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

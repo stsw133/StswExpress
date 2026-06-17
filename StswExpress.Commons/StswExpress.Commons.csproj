@@ -11,9 +11,7 @@
     <Copyright>© 2026 Karol Staszewski</Copyright>
     <Description>This package offers utilities such as:
 • extended observable collections and objects
-• database query tools
 • simple logging system
-• mail sending and configuration
 • messangers and stores
 • data hashing methods
 • code extensions and helpers</Description>
@@ -40,8 +38,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.16.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="10.0.0" />
     <PackageReference Include="System.Text.Json" Version="10.0.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
