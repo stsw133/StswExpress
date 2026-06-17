@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <Version>0.24.0</Version>
+    <Authors>Karol Staszewski</Authors>
+    <PackageIcon>logo.png</PackageIcon>
+    <Copyright>© 2026 Karol Staszewski</Copyright>
+    <Description>Additional themes for StswExpress.Wpf controls.</Description>
+    <RepositoryUrl>https://github.com/Karol-Staszewski/StswExpress-docs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Karol-Staszewski/StswExpress-docs</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>Controls; Themes; WPF</PackageTags>
+    <PackageReleaseNotes>For more details, see the changelog: https://github.com/Karol-Staszewski/StswExpress-docs/blob/main/articles/changelog/index.md</PackageReleaseNotes>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Wpf.Themes.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
+    <None Include="..\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StswExpress.Analyzers" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StswExpress.Wpf\StswExpress.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\Resources\*.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="**/*.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
+</Project>
