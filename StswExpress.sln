@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Analyzers", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Wpf", "StswExpress.Wpf\StswExpress.Wpf.csproj", "{53946B09-6D22-CEDB-4A7C-23B04D271EA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Wpf.Themes", "StswExpress.Wpf.Themes\StswExpress.Wpf.Themes.csproj", "{6F650D95-714C-41F6-A9C3-04B2D541CA1E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Wpf", "TestApp.Wpf\TestApp.Wpf.csproj", "{D391293A-4534-ECBA-D54F-685F81C927D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Commons.Tests", "StswExpress.Commons.Tests\StswExpress.Commons.Tests.csproj", "{9AE7CCEA-BC45-0B90-CA31-4D4D308E59D2}"
@@ -51,6 +53,10 @@ Global
 		{53946B09-6D22-CEDB-4A7C-23B04D271EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53946B09-6D22-CEDB-4A7C-23B04D271EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53946B09-6D22-CEDB-4A7C-23B04D271EA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F650D95-714C-41F6-A9C3-04B2D541CA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F650D95-714C-41F6-A9C3-04B2D541CA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F650D95-714C-41F6-A9C3-04B2D541CA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F650D95-714C-41F6-A9C3-04B2D541CA1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D391293A-4534-ECBA-D54F-685F81C927D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

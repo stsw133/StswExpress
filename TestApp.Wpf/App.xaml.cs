@@ -1,5 +1,6 @@
 ﻿global using StswExpress.Commons;
 global using StswExpress.Wpf;
+global using StswExpress.Wpf.Themes;
 using System;
 using System.IO;
 using System.Windows;
@@ -17,6 +18,9 @@ public partial class App : StswApp
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        /// register additional themes from StswExpress.Wpf.Themes for StswConfig:
+        StswThemeResources.Register();
+
         base.OnStartup(e);
 
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));

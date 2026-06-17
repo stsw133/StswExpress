@@ -38,7 +38,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <Resource Include="Themes\Resources\*.webp" />
     <Resource Include="Utils\Translator\Translations\*.json" />
   </ItemGroup>
 
