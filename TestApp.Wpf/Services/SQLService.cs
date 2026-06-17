@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TestApp.Wpf;
@@ -50,7 +51,7 @@ internal static class SQLService
              , a.CreateDT [{nameof(ContractorModel.CreateDT)}]
         from dbo.StswExpressTEST_Contractors a with(nolock)
         where {filter?.SqlFilter ?? "1=1"}
-        order by a.Name", filter?.SqlParameters ?? [])!;
+        order by a.Name", filter?.SqlParameters ?? Array.Empty<object>())!;
 
     /// SetContractors
     internal static void SetContractors(StswObservableCollection<ContractorModel> list) => DbCurrent.Set(list,
