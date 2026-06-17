@@ -393,8 +393,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
         catch
         {
-            SqlClientAvailable = false;
-            SqlParameterType = null;
+    public IList SqlParameters
+    private IList _sqlParameters = Array.Empty<object>();
         }
     }
     #endregion

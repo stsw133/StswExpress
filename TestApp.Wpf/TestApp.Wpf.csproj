@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StswExpress.Wpf\StswExpress.Wpf.csproj" />
+    <ProjectReference Include="..\StswExpress.Sql\StswExpress.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

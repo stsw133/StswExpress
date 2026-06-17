@@ -50,6 +50,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\StswExpress.Commons\StswExpress.Commons.csproj" />
+	  <ProjectReference Include="..\StswExpress.Sql\StswExpress.Sql.csproj" />
 	  <ProjectReference Include="..\StswExpress.Avalonia\StswExpress.Avalonia.csproj" />
 	</ItemGroup>
 

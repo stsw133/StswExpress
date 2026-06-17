@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,10 +28,24 @@ public class StswDataGridFiltersDataModel
     /// <summary>
     /// Gets or sets the list of SQL parameters.
     /// </summary>
-    public IList<SqlParameter> SqlParameters { get; internal set; } = [];
+    public IList SqlParameters { get; internal set; } = Array.Empty<object>();
 
     /// <summary>
     /// Gets or sets the list of SQL parameters.
     /// </summary>
-    internal void MakeSqlParameters(IList<object> parameters) => SqlParameters = [.. parameters.Cast<SqlParameter>()];
+    internal void MakeSqlParameters(IList<object> parameters)
+    {
+        var parameterType = parameters.FirstOrDefault()?.GetType();
+        if (parameterType == null)
+        {
+            SqlParameters = Array.Empty<object>();
+            return;
+        }
+
+        var typedList = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(parameterType))!;
+        foreach (var parameter in parameters.Where(x => x is not null))
+            typedList.Add(parameter);
+
+        SqlParameters = typedList;
+    }
 }

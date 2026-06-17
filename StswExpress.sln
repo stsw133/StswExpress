@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Avalonia.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Avalonia", "TestApp.Avalonia\TestApp.Avalonia.csproj", "{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Sql", "StswExpress.Sql\StswExpress.Sql.csproj", "{1B3D1BC4-A547-4E7E-9396-8E8B74E5DDB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StswExpress.Mail", "StswExpress.Mail\StswExpress.Mail.csproj", "{B5502C5D-341E-4C74-8AD4-3B8C9147C394}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F14DE7CC-0FA2-D39B-E44B-F45FB3DD810D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3D1BC4-A547-4E7E-9396-8E8B74E5DDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3D1BC4-A547-4E7E-9396-8E8B74E5DDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3D1BC4-A547-4E7E-9396-8E8B74E5DDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3D1BC4-A547-4E7E-9396-8E8B74E5DDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5502C5D-341E-4C74-8AD4-3B8C9147C394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5502C5D-341E-4C74-8AD4-3B8C9147C394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5502C5D-341E-4C74-8AD4-3B8C9147C394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5502C5D-341E-4C74-8AD4-3B8C9147C394}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

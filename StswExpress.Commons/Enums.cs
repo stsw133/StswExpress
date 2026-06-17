@@ -3,16 +3,6 @@
 namespace StswExpress.Commons;
 
 /// <summary>
-/// Enumeration for <see cref="StswDatabaseModel.Type"/>.
-/// </summary>
-public enum StswDatabaseType
-{
-    MSSQL,
-    MySQL,
-    PostgreSQL
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswLogItem.Type"/>.
 /// </summary>
 public enum StswInfoType
