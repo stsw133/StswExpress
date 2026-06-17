@@ -366,10 +366,10 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     private static Type? SqlParameterType;
     private static bool SqlClientAvailable;
 
-    /// <summary>
-    /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
-    /// </summary>
-    private static void DetectSqlClient()
+        catch
+        {
+            SqlParameterType = null;
+            SqlClientAvailable = false;
     {
         try
         {

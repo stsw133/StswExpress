@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace StswExpress.Commons;
 
@@ -33,7 +34,9 @@ internal class StswSqlConnectionFactory : IDisposable
         }
         else
         {
-            Connection = sqlConn.GetOpened();
+            Connection = sqlConn;
+            if (Connection.State != ConnectionState.Open)
+                Connection.Open();
             if (useTransaction)
                 Transaction = Connection.BeginTransaction();
         }

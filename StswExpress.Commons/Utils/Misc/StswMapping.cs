@@ -22,7 +22,7 @@ public static class StswMapping
 
         if (IsSimpleType(type))
         {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+            foreach (var value in dt.Rows.Cast<DataRow>().Select(x => x[0]))
                 yield return value.ConvertTo<T>()!;
         }
         else if (IsKeyValuePairType(type))
@@ -52,7 +52,7 @@ public static class StswMapping
     {
         if (IsSimpleType(type))
         {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+            foreach (var value in dt.Rows.Cast<DataRow>().Select(x => x[0]))
                 yield return value.ConvertTo(type)!;
         }
         else if (IsKeyValuePairType(type))
@@ -85,7 +85,7 @@ public static class StswMapping
 
         if (IsSimpleType(type))
         {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+            foreach (var value in dt.Rows.Cast<DataRow>().Select(x => x[0]))
                 yield return value.ConvertTo<T>()!;
         }
         else if (IsKeyValuePairType(type))
@@ -116,7 +116,7 @@ public static class StswMapping
     {
         if (IsSimpleType(type))
         {
-            foreach (var value in dt.AsEnumerable().Select(x => x[0]))
+            foreach (var value in dt.Rows.Cast<DataRow>().Select(x => x[0]))
                 yield return value.ConvertTo(type)!;
         }
         else if (IsKeyValuePairType(type))
@@ -556,7 +556,7 @@ public static class StswMapping
 
         var factory = CreateInstanceFactory(type);
 
-        foreach (var row in dt.AsEnumerable())
+        foreach (DataRow row in dt.Rows)
         {
             var obj = factory();
             if (obj is null) continue;
@@ -596,7 +596,7 @@ public static class StswMapping
         var columnMappings = PrepareColumnMappings(normalizedColumnNames, propCache, delimiter);
         var factory = CreateInstanceFactory(type);
 
-        foreach (var row in dt.AsEnumerable())
+        foreach (DataRow row in dt.Rows)
         {
             var obj = factory();
             if (obj is null) continue;
