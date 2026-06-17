@@ -256,7 +256,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
@@ -281,7 +281,7 @@ public class StswDataGridPathColumn : DataGridTextColumn
         editingElement.SetBinding(StswPathPicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
         editingElement.SetBinding(StswPathPicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswPathPicker.SelectedPathProperty, Binding);
 

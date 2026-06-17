@@ -12,7 +12,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// Collection of extension methods for various types and objects. These methods simplify common tasks and provide additional functionality beyond what is available in the standard WPF API.
 /// </summary>
@@ -300,16 +301,16 @@ public static partial class StswExtensions
     /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>
     /// <returns>The converted <see cref="Color"/>.</returns>
     public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
-    #endregion
+	#endregion
 
-    #region Enum extensions
-    /// <summary>
-    /// Creates a list of <see cref="StswSelectableItem"/> entries for every value of the provided enum type.
-    /// This is useful for populating filter dropdowns or selection lists in UI components.
-    /// </summary>
-    /// <param name="enumType">The enum type to convert.</param>
-    /// <returns>A list of <see cref="StswSelectableItem"/> items with <see cref="StswSelectableItem.Value"/> set to the enum value and <see cref="StswSelectableItem.Display"/> set to its description.</returns>
-    public static IList<StswSelectableItem> ToFilterItems(this Type enumType)
+	#region Enum extensions
+	/// <summary>
+	/// Creates a list of <see cref="StswSelectableItem"/> entries for every value of the provided enum type.
+	/// This is useful for populating filter dropdowns or selection lists in UI components.
+	/// </summary>
+	/// <param name="enumType">The enum type to convert.</param>
+	/// <returns>A list of <see cref="StswSelectableItem"/> items with <see cref="StswComboItem.Value"/> set to the enum value and <see cref="StswComboItem.Display"/> set to its description.</returns>
+	public static IList<StswSelectableItem> ToFilterItems(this Type enumType)
     {
         ArgumentNullException.ThrowIfNull(enumType);
 

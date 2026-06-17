@@ -9,7 +9,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A filtering control designed for use with <see cref="StswDataGrid"/>.
 /// Supports multiple filter modes, SQL query generation, and case-sensitive or null-sensitive filtering.
@@ -156,7 +157,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
     {
         var stsw = (StswDataGridFilterBox)d;
 
-        /// update visual symbol if found
+        // update visual symbol if found
         if (stsw.FilterMode != null
          && stsw._filterModeButton?.Content is StswOutlinedText symbolBlock
          && stsw._filterModeButton?.ContextMenu?.Items?.OfType<StswMenuItem>()?.FirstOrDefault(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
@@ -205,7 +206,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
     {
         var stsw = (StswDataGridFilterBox)d;
 
-        /// create param name by removing non-alphanumeric characters
+        // create param name by removing non-alphanumeric characters
         var rawValue = e.NewValue as string ?? string.Empty;
         var sanitized = new string([.. rawValue.Where(char.IsLetterOrDigit)]);
         if (sanitized.Length > 126)
@@ -319,7 +320,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             if (innerType?.IsAssignableTo(typeof(IStswSelectableItem)) != true)
                 throw new Exception($"{nameof(ItemsSource)} of {nameof(StswDataGridFilterBox)} has to implement {nameof(IStswSelectableItem)} interface!");
 
-            /// short usage for StswComboItem
+            // short usage for StswComboItem
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
                 if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
@@ -460,14 +461,14 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// find if the control is placed in StswDataGrid
+        // find if the control is placed in StswDataGrid
         _dataGrid = StswFnUI.FindVisualAncestor<StswDataGrid>(this);
         IsInDataGrid = _dataGrid != null;
 
-        /// ToggleButton: filter mode
+        // ToggleButton: filter mode
         _filterModeButton = GetTemplateChild("PART_FilterMode") as ButtonBase;
 
-        /// default FilterType
+        // default FilterType
         if (FilterType == StswAdaptiveType.Auto)
         {
             var inferredType = DetermineFilterTypeFromColumn();
@@ -476,7 +477,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             FilterType = inferredType;
         }
 
-        /// default FilterMode
+        // default FilterMode
         FilterMode ??= FilterType switch
         {
             StswAdaptiveType.Check or StswAdaptiveType.Date or StswAdaptiveType.Number or StswAdaptiveType.Time => StswFilterMode.Equal,
@@ -485,12 +486,12 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             _ => null
         };
 
-        /// assign default values
+        // assign default values
         DefaultFilterMode = FilterMode;
         DefaultValue1 = Value1;
         DefaultValue2 = Value2;
 
-        /// force first evaluation
+        // force first evaluation
         OnFilterModeChanged(this, new DependencyPropertyChangedEventArgs());
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -573,7 +574,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
         if (Value1 == null && !FilterMode.In(StswFilterMode.Null, StswFilterMode.NotNull))
             return null;
 
-        /// build selection list if applicable
+        // build selection list if applicable
         var selectedItems = ItemsSource?.OfType<IStswSelectableItem>().Where(x => x.IsSelected).ToList();
         var listValues = selectedItems ?
             .Select(item => SelectedValuePath != null
@@ -582,7 +583,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             .ToList()
             ?? [];
 
-        /// helper method to get value
+        // helper method to get value
         object? GetValueForFilter(object rowItem)
         {
             var rawValue = rowItem.GetPropertyValue(FilterValuePath);
@@ -602,7 +603,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return rawValue;
         }
 
-        /// result
+        // result
         return item =>
         {
             var rowValue = GetValueForFilter(item);
@@ -783,7 +784,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             return;
         }
 
-        /// check if list values are selected
+        // check if list values are selected
         var isListFilter = FilterMode is StswFilterMode.In or StswFilterMode.NotIn;
         var valueType = isListFilter ? ResolveListValueType() : null;
         var listIsNumeric = valueType != null && (valueType.IsEnum || valueType.IsNumericType());
@@ -791,12 +792,12 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             ? (listIsNumeric ? StswAdaptiveType.Number : StswAdaptiveType.Text)
             : FilterType;
 
-        /// separator
+        // separator
         string s = effType is StswAdaptiveType.Date or StswAdaptiveType.Text or StswAdaptiveType.Time ? "'" : string.Empty;
-        /// case sensitive
+        // case sensitive
         string cs1 = effType is StswAdaptiveType.Text && ApplyCaseTransform ? "lower(" : string.Empty;
         string cs2 = cs1.Length > 0 ? ")" : string.Empty;
-        /// null sensitive
+        // null sensitive
         string ns1 = ApplyNullReplacement ? "coalesce(" : string.Empty;
         string ns2 = ApplyNullReplacement ? effType switch
         {
@@ -808,7 +809,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
             _ => string.Empty
         } : string.Empty;
 
-        /// helper method to escape text values
+        // helper method to escape text values
         string EscapeIfText(object? v) =>
             v == null ? string.Empty
               : (s.Length > 0 ? v.ToString()?.Replace("'", "''") ?? string.Empty
@@ -834,7 +835,7 @@ public class StswDataGridFilterBox : Control, IStswCornerControl
 
         var listString = string.Join($"{s}{cs2},{cs1}{s}", EnumerateValues());
 
-        /// build final SQL
+        // build final SQL
         SqlString = FilterMode switch
         {
             StswFilterMode.Equal        => $"{cs1}{ns1}{FilterValuePath}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",

@@ -10,7 +10,8 @@ using System.Windows.Data;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A navigation control that manages multiple contexts and navigation elements.
 /// Supports pinned items, compact/full modes, and dynamic content switching.
@@ -315,7 +316,7 @@ public class StswNavigation : TreeView, IStswCornerControl
     {
         var stsw = (StswNavigation)d;
 
-        /// get back all items from compact panel into original expander
+        // get back all items from compact panel into original expander
         if (stsw.TabStripMode != StswCompactibility.Compact)
         {
             stsw.RestoreCompactItems();

@@ -4,7 +4,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// Compares a numeric, string, or enum value against a condition specified via parameter.
 /// Supported operator prefixes: "&gt;", "&gt;=", "&lt;", "&lt;=", "=", "!", "&amp;" (bitwise AND), "@" (case-insensitive equals).
@@ -35,7 +36,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// <inheritdoc/>
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        /// Fast path: enum parameter passed via {x:Static ...}
+        // Fast path: enum parameter passed via {x:Static ...}
         if (parameter is Enum enumParam)
         {
             bool eq;
@@ -66,7 +67,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
                 : eq.ConvertTo(targetType);
         }
 
-        /// Slow path: string parameter
+        // Slow path: string parameter
         if (parameter is not string raw || raw.Length == 0)
             return Binding.DoNothing;
 
@@ -100,7 +101,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
         var result = false;
         var inputStr = value?.ToString() ?? string.Empty;
 
-        /// Enum comparison (=, !, &)
+        // Enum comparison (=, !, &)
         if (value is Enum enumValStr)
         {
             var et = enumValStr.GetType();
@@ -135,8 +136,8 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
                 }
             }
         }
-        /// Number comparison (>, >=, <, <=, =, !, &)
-        else if (double.TryParse(inputStr, NumberStyles.Number, culture, out var valNum))
+		// Number comparison (>, >=, <, <=, =, !, &)
+		else if (double.TryParse(inputStr, NumberStyles.Number, culture, out var valNum))
         {
             if (op == '&')
             {
@@ -161,7 +162,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
                 };
             }
         }
-        /// String comparison (=, !, @) or default equality
+        // String comparison (=, !, @) or default equality
         else
         {
             var rhsStr = rhsSpan.ToString();

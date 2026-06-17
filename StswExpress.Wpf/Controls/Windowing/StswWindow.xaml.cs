@@ -7,7 +7,8 @@ using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Shell;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A custom window control with extended functionality, including fullscreen toggle,
 /// window state management, and support for custom window chrome.
@@ -151,7 +152,7 @@ public class StswWindow : Window, IStswCornerControl
         if (_windowBar != null)
             _windowBar.SizeChanged -= WindowBar_SizeChanged;
 
-        /// chrome change
+        // chrome change
         _windowBar = GetTemplateChild("PART_WindowBar") as StswWindowBar;
         if (_windowBar != null)
         {
@@ -301,7 +302,7 @@ public class StswWindow : Window, IStswCornerControl
             _ => handled
         };
 
-        /// avoid hiding task bar upon maximization
+        // avoid hiding task bar upon maximization
         if (msg == 0x24 && !Fullscreen)
             WmGetMinMaxInfo(hwnd, lParam);
 

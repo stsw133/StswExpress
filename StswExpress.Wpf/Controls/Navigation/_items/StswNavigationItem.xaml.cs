@@ -6,7 +6,8 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A navigation element that can contain sub-elements and interact with a parent navigation control.
 /// Supports icons, busy states, and dynamic context loading.
@@ -211,10 +212,10 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
         if (stsw._stswNavigation == null)
             return;
 
-        /// when expanding expander in compact mode
+        // when expanding expander in compact mode
         if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Compact)
         {
-            /// move compact panel items back to previous expander
+            // move compact panel items back to previous expander
             if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
             {
                 stsw._stswNavigation.CompactedExpander.Items.Clear();
@@ -225,12 +226,12 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
                 }
             }
 
-            /// when clicking the same expander
+            // when clicking the same expander
             if (stsw._stswNavigation.CompactedExpander == stsw && stsw._stswNavigation.ItemsCompact.Count > 0)
                 stsw._stswNavigation.ItemsCompact = [];
-            else /// when clicking different expander
+            else // when clicking different expander
             {
-                /// load new items to compact panel
+                // load new items to compact panel
                 stsw._stswNavigation.CompactedExpander = stsw;
                 stsw._stswNavigation.ItemsCompact = [.. stsw.Items.TryClone().Cast<StswNavigationItem>()];
                 foreach (var item in stsw._stswNavigation.ItemsCompact)
@@ -239,23 +240,23 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
 
             stsw.IsChecked = false;
         }
-        /// when expanding expander in full mode
+        // when expanding expander in full mode
         else if (stsw._stswNavigation.AutoScrollExpandedItemsIntoView && stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Full)
         {
             ScrollExpandedItemsIntoView(stsw);
         }
-        /// when clicking button
+        // when clicking button
         else if (!stsw.HasItems && stsw.IsChecked)
         {
-            /// uncheck last button, check new button
+            // uncheck last button, check new button
             if (stsw._stswNavigation.LastSelectedItem != stsw)
                 stsw._stswNavigation.LastSelectedItem = stsw;
 
-            /// hide compact panel
+            // hide compact panel
             if (stsw._stswNavigation.TabStripMode == StswCompactibility.Compact)
                 stsw._stswNavigation.RestoreCompactItems();
 
-            /// load context for content presenter
+            // load context for content presenter
             if (stsw.TargetType != null)
             {
                 stsw.IsBusy = true;
@@ -264,10 +265,10 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
                 stsw.IsBusy = false;
             }
         }
-        /// do not allow to uncheck checked button
+        // do not allow to uncheck checked button
         else if (!stsw.HasItems && stsw._stswNavigation.LastSelectedItem == stsw)
             stsw.IsChecked = true;
-        /// collapse expander so it is not needed to click it twice
+        // collapse expander so it is not needed to click it twice
         //else if (stsw.HasItems && stsw.stswNavigation.CurrentlyExpandedElement == stsw && stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
         //    stsw.IsChecked = false;
     }
@@ -389,7 +390,7 @@ public class StswNavigationItem : TreeViewItem, IStswCornerControl, IStswIconCon
     {
         base.OnApplyTemplate();
 
-        /// StswNavigation
+        // StswNavigation
         if (StswFnUI.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
             _stswNavigation = stswNavigation;
 

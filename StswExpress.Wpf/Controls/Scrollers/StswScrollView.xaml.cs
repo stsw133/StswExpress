@@ -5,7 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A <see cref="ScrollViewer"/> extension with dynamic scrolling behavior.
 /// Supports automatic scrolling to the bottom and dynamic visibility of scrollbars.
@@ -192,7 +193,7 @@ public class StswScrollView : ScrollViewer
     /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
-        /// horizontal scrolling
+        // horizontal scrolling
         if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
          && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
@@ -206,7 +207,7 @@ public class StswScrollView : ScrollViewer
 
         base.OnMouseWheel(e);
 
-        /// scrolling scroll in another scroll
+        // scrolling scroll in another scroll
         //if (Parent is UIElement parentElement)
         //{
         //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))

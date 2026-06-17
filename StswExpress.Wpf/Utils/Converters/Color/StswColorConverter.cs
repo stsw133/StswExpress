@@ -7,7 +7,8 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A powerful color converter that allows multiple transformations on a color value.
 /// <br/>
@@ -23,7 +24,7 @@ namespace StswExpress.Wpf;
 /// Example usages:
 /// - `"S40%"` → Adjust saturation to 40%
 /// - `"A20% B-10%"` → Reduce alpha to 20%, decrease brightness by 10%
-/// - `"G B15% S25%"` → Generate color from value (seed 0), then apply brightness & saturation
+/// - `"G B15% S25%"` → Generate color from value (seed 0), then apply brightness &amp; saturation
 /// - `"G15 B10%"` → Generate color with seed 15, then increase brightness by 10%
 /// - `"G-7 S30%"` → Generate color with seed -7, then set saturation to 30%
 /// </summary>

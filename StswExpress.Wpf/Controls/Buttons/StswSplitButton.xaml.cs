@@ -5,7 +5,7 @@ namespace StswExpress.Wpf;
 
 /// <summary>
 /// Represents a button control with an expandable drop-down area.
-/// The main button content is set using the <see cref="Header"/> property,
+/// The main button content is set using the <see cref="System.Windows.Controls.HeaderedContentControl.Header"/> property,
 /// while additional elements can be placed inside the drop-down menu.
 /// Supports optional auto-closing, customizable corner rounding, and styling enhancements.
 /// </summary>

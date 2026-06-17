@@ -8,7 +8,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// Represents a custom calendar control with date selection functionality.
 /// Supports navigation between months and years, selecting individual days or months, 
@@ -137,7 +138,7 @@ public class StswCalendar : Control, IStswCornerControl
         var max = stsw.Maximum ?? DateTime.MaxValue;
         var selectionUnit = stsw.SelectionUnit;
 
-        /// check if selected date is allowed
+        // check if selected date is allowed
         if (stsw.SelectedDate.HasValue)
         {
             var adjustedMin = selectionUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
@@ -149,7 +150,7 @@ public class StswCalendar : Control, IStswCornerControl
 
         stsw.UpdateTodayButtonState();
 
-        /// to update buttons (days or months based on current unit) visibilities
+        // to update buttons (days or months based on current unit) visibilities
         if (stsw.Items is { } items)
         {
             var rangeMin = stsw.CurrentUnit == StswCalendarUnit.Months ? min.ToFirstDayOfMonth() : min;
@@ -250,7 +251,7 @@ public class StswCalendar : Control, IStswCornerControl
     private static void OnSelectionUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var stsw = (StswCalendar)d;
-        /// for Months selection unit, only Months view is available
+        // for Months selection unit, only Months view is available
         if (e.NewValue is StswCalendarUnit stswCalendarUnit && stswCalendarUnit == StswCalendarUnit.Months)
             stsw.CurrentUnit = stswCalendarUnit;
     }
@@ -705,7 +706,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// </summary>
     /// <param name="date">The original date to which months will be added.</param>
     /// <param name="months">The number of months to add (can be negative to subtract).</param>
-    /// <returnsA <see cref="DateTime"/> that is the result of adding the specified number of months, clamped within valid date range.</returns>
+    /// <returns><see cref="DateTime"/> that is the result of adding the specified number of months, clamped within valid date range.</returns>
     private static DateTime AddMonthsSafely(DateTime date, int months)
     {
         if (months == 0)
@@ -725,7 +726,7 @@ public class StswCalendar : Control, IStswCornerControl
     /// <param name="value">The date to be clamped.</param>
     /// <param name="min">The minimum allowable date.</param>
     /// <param name="max">The maximum allowable date.</param>
-    /// <returnsA <see cref="DateTime"/> that is within the specified range.</returns>
+    /// <returns><see cref="DateTime"/> that is within the specified range.</returns>
     private static DateTime Clamp(DateTime value, DateTime min, DateTime max)
     {
         if (value < min)

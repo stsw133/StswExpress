@@ -5,7 +5,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A value converter that performs mathematical operations on the input value based on the provided parameter.
 /// <br/>
@@ -69,7 +70,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <summary>
     /// Applies a mathematical operation to a <see cref="CornerRadius"/> value.
     /// </summary>
-    /// <param name="value">The value to be converted. It must be of type <see cref="CornerRadius"/>.</param>
+    /// <param name="cr">The value to be converted. It must be of type <see cref="CornerRadius"/>.</param>
     /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
     /// <param name="parameters">An array of numbers used in the operation.</param>
     /// <returns>A new <see cref="CornerRadius"/> with the applied operation, or the original value if invalid.</returns>
@@ -90,14 +91,14 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
             _ => cr
         };
 
-    /// <summary>
-    /// Applies a mathematical operation to a <see cref="GridLength"/> value.
-    /// </summary>
-    /// <param name="value">The value to be converted. It must be of type <see cref="GridLength"/>.</param>
-    /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
-    /// <param name="parameter">The number used in the operation.</param>
-    /// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
-    private static GridLength ApplyGridLengthOperation(GridLength gl, string operation, double parameter)
+	/// <summary>
+	/// Applies a mathematical operation to a <see cref="GridLength"/> value.
+	/// </summary>
+	/// <param name="gl">The value to be converted. It must be of type <see cref="GridLength"/>.</param>
+	/// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
+	/// <param name="parameter">The number used in the operation.</param>
+	/// <returns>A new <see cref="GridLength"/> with the applied operation, or the original value if invalid.</returns>
+	private static GridLength ApplyGridLengthOperation(GridLength gl, string operation, double parameter)
     {
         if (gl.IsAuto || gl.IsStar)
             return gl;
@@ -108,7 +109,7 @@ public class StswCalculateConverter : MarkupExtension, IValueConverter
     /// <summary>
     /// Applies a mathematical operation to a <see cref="Thickness"/> value.
     /// </summary>
-    /// <param name="value">The value to be converted. It must be of type <see cref="Thickness"/>.</param>
+    /// <param name="th">The value to be converted. It must be of type <see cref="Thickness"/>.</param>
     /// <param name="operation">The mathematical operation to perform (e.g., "+", "-", "*", "/").</param>
     /// <param name="parameters">An array of numbers used in the operation.</param>
     /// <returns>A new <see cref="Thickness"/> with the applied operation, or the original value if invalid.</returns>

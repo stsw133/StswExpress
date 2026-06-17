@@ -54,14 +54,14 @@ public interface IStswSelectionControl
     /// <param name="newValue">The new ItemsSource value.</param>
     public static void ItemsSourceChanged(IStswSelectionControl selectionControl, IEnumerable? newValue)
     {
-        /// check if newValue is a CollectionView and get the SourceCollection
+        // check if newValue is a CollectionView and get the SourceCollection
         IEnumerable? ResolveActualSource() => newValue is ICollectionView collectionView
             ? collectionView.SourceCollection
             : newValue;
 
         void ApplyDefaultPaths()
         {
-            /// check if user has provided custom paths
+            // check if user has provided custom paths
             var hasDisplayMemberPath = !string.IsNullOrEmpty(selectionControl.DisplayMemberPath);
             var hasSelectedValuePath = !string.IsNullOrEmpty(selectionControl.SelectedValuePath);
 
@@ -71,14 +71,14 @@ public interface IStswSelectionControl
                 hasSelectedValuePath |= HasUserProvidedValue(dependencyObject, Selector.SelectedValuePathProperty);
             }
 
-            /// analyze the actual source type to determine default paths
+            // analyze the actual source type to determine default paths
             var actualSource = ResolveActualSource();
             if (actualSource?.GetType()?.IsListType(out var innerType) == true)
             {
                 if (innerType is null)
                     return;
 
-                /// KeyValuePair usage
+                // KeyValuePair usage
                 if (innerType.IsGenericType && innerType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
                 {
                     if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
@@ -86,7 +86,7 @@ public interface IStswSelectionControl
                     if (!hasSelectedValuePath)
                         selectionControl.SelectedValuePath = nameof(KeyValuePair<object, object>.Value);
                 }
-                /// StswComboItem short usage
+                // StswComboItem short usage
                 else if (innerType.IsAssignableTo(typeof(StswComboItem)))
                 {
                     if (!hasDisplayMemberPath && selectionControl.ItemTemplate == null)
@@ -97,7 +97,7 @@ public interface IStswSelectionControl
             }
         }
 
-        /// defer applying default paths to ensure ItemsSource is fully updated
+        // defer applying default paths to ensure ItemsSource is fully updated
         if (selectionControl is DispatcherObject dispatcherObject && dispatcherObject.Dispatcher != null)
             dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(ApplyDefaultPaths));
         else

@@ -3,7 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A custom border control that applies clipping to its child element with rounded corners.
 /// </summary>

@@ -183,7 +183,7 @@ public enum StswPresentationMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar.State"/> and <see cref="StswProgressRing.State"/>.
+/// Enumeration for <see cref="StswProgressBar.State"/>.
 /// </summary>
 public enum StswProgressState
 {
@@ -196,7 +196,7 @@ public enum StswProgressState
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar.TextMode"/> and <see cref="StswProgressRing.TextMode"/>.
+/// Enumeration for <see cref="StswProgressBar.TextMode"/>.
 /// </summary>
 public enum StswProgressTextMode
 {
@@ -227,7 +227,7 @@ public enum StswScrollType
 }
 
 /// <summary>
-/// Enumerator for <see cref="StswSidePanel"'s slide direction/>.
+/// Enumerator for <see cref="StswSidePanel"/>'s slide direction/>.
 /// </summary>
 public enum StswSlideDirection
 {

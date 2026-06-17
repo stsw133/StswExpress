@@ -217,7 +217,7 @@ public abstract class StswDataGridNumberColumnBase<T, TControl> : DataGridTextCo
         displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 

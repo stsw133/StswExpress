@@ -11,6 +11,9 @@ using System.Windows.Threading;
 
 namespace StswExpress.Wpf;
 
+/// <summary>
+/// A media player control that supports playing audio and video files.
+/// Includes playback controls, timeline slider, and mute option.
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -97,7 +100,10 @@ public class StswMediaPlayer : ItemsControl
             new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
-    public bool IsMuted
+	/// <summary>
+	/// Gets or sets a value indicating whether the media is muted.
+	/// </summary>
+	public bool IsMuted
     {
         get => (bool)GetValue(IsMutedProperty);
         internal set => SetValue(IsMutedProperty, value);
@@ -118,7 +124,11 @@ public class StswMediaPlayer : ItemsControl
             stsw._mediaElement.IsMuted = stsw.IsMuted;
     }
 
-    public bool? IsPlaying
+	/// <summary>
+	/// Gets or sets a value indicating whether the media is currently playing.
+	/// <see langword="null"/> represents a stopped state.
+	/// </summary>
+	public bool? IsPlaying
     {
         get => (bool?)GetValue(IsPlayingProperty);
         internal set => SetValue(IsPlayingProperty, value);
@@ -154,9 +164,28 @@ public class StswMediaPlayer : ItemsControl
             stsw._timer.Stop();
             stsw._mediaElement.Stop();
         }
-    }
+	}
 
-    public Uri Source
+	/// <summary>
+	/// Gets or sets the thickness of the separator between the media element and the control panel.
+	/// </summary>
+	public double SeparatorThickness
+	{
+		get => (double)GetValue(SeparatorThicknessProperty);
+		set => SetValue(SeparatorThicknessProperty, value);
+	}
+	public static readonly DependencyProperty SeparatorThicknessProperty
+		= DependencyProperty.Register(
+			nameof(SeparatorThickness),
+			typeof(double),
+			typeof(StswMediaPlayer),
+			new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
+		);
+
+	/// <summary>
+	/// Gets or sets the source URI of the media file being played.
+	/// </summary>
+	public Uri Source
     {
         get => (Uri)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
@@ -168,7 +197,10 @@ public class StswMediaPlayer : ItemsControl
             typeof(StswMediaPlayer)
         );
 
-    public TimeSpan TimeCurrent
+	/// <summary>
+	/// Gets or sets the current playback time of the media.
+	/// </summary>
+	public TimeSpan TimeCurrent
     {
         get => (TimeSpan)GetValue(TimeCurrentProperty);
         internal set => SetValue(TimeCurrentProperty, value);
@@ -180,7 +212,10 @@ public class StswMediaPlayer : ItemsControl
             typeof(StswMediaPlayer)
         );
 
-    public TimeSpan TimeMax
+	/// <summary>
+	/// Gets or sets the total duration of the media file.
+	/// </summary>
+	public TimeSpan TimeMax
     {
         get => (TimeSpan)GetValue(TimeMaxProperty);
         internal set => SetValue(TimeMaxProperty, value);
@@ -190,22 +225,6 @@ public class StswMediaPlayer : ItemsControl
             nameof(TimeMax),
             typeof(TimeSpan),
             typeof(StswMediaPlayer)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between the media element and the control panel.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswMediaPlayer),
-            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender)
         );
     #endregion
 
@@ -253,7 +272,7 @@ public class StswMediaPlayer : ItemsControl
         _menuPinControls = GetMenuItem("PART_MenuPinControls");
         AttachTemplateEvents();
 
-        /// Slider: timeline
+        // Slider: timeline
         if (_timelineSlider != null)
         {
             _timelineSlider.PreviewMouseDown -= Timeline_PreviewMouseDown;
@@ -277,7 +296,7 @@ public class StswMediaPlayer : ItemsControl
             _timelineSlider = null;
         }
 
-        /// MediaElement
+        // MediaElement
         if (_mediaElement != null)
         {
             _mediaElement.MediaEnded -= MediaElement_MediaEnded;

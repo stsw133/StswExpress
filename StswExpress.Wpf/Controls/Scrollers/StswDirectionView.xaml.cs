@@ -9,7 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A <see cref="ScrollViewer"/> extension with additional directional buttons for scrolling.
 /// Supports automatic scrolling when hovering over navigation buttons.
@@ -119,7 +120,7 @@ public class StswDirectionView : ScrollViewer
         _expandedLengths.Clear();
         _templateApplied = false;
 
-        /// Button: down
+        // Button: down
         if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
             btnDown.Click += DirectionButton_Click;
@@ -128,7 +129,7 @@ public class StswDirectionView : ScrollViewer
             btnDown.IsVisibleChanged += Button_IsVisibleChanged;
             _btnDown = btnDown;
         }
-        /// Button: left
+        // Button: left
         if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
             btnLeft.Click += DirectionButton_Click;
@@ -137,7 +138,7 @@ public class StswDirectionView : ScrollViewer
             btnLeft.IsVisibleChanged += Button_IsVisibleChanged;
             _btnLeft = btnLeft;
         }
-        /// Button: right
+        // Button: right
         if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
             btnRight.Click += DirectionButton_Click;
@@ -146,7 +147,7 @@ public class StswDirectionView : ScrollViewer
             btnRight.IsVisibleChanged += Button_IsVisibleChanged;
             _btnRight = btnRight;
         }
-        /// Button: up
+        // Button: up
         if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
             btnUp.Click += DirectionButton_Click;
@@ -209,7 +210,7 @@ public class StswDirectionView : ScrollViewer
     /// <inheritdoc/>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
-        /// horizontal scrolling
+        // horizontal scrolling
         if ((ComputedHorizontalScrollBarVisibility == Visibility.Visible)
          && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
@@ -223,7 +224,7 @@ public class StswDirectionView : ScrollViewer
 
         base.OnMouseWheel(e);
 
-        /// scrolling scroll in another scroll
+        // scrolling scroll in another scroll
         //if (Parent is UIElement parentElement)
         //{
         //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))

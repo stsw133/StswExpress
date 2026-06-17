@@ -173,7 +173,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         displayElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
         ApplyIconBindings(displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, StswCheckBox.IsCheckedProperty, Binding);
 
@@ -194,7 +194,7 @@ public class StswDataGridCheckColumn : DataGridCheckBoxColumn
         editingElement.SetBinding(StswCheckBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
         ApplyIconBindings(editingElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswCheckBox.IsCheckedProperty, Binding);
 

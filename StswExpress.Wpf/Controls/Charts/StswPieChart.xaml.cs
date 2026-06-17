@@ -142,15 +142,13 @@ public class StswPieChart : ItemsControl
     /// Generates and updates the pie chart based on the provided data source.
     /// Ensures that segment angles, percentage labels, and positioning are properly calculated.
     /// </summary>
-    /// <param name="itemsSource">The collection of data items used to generate the chart.</param>
-    /// <exception cref="Exception">Thrown if the provided <paramref name="itemsSource"/> does not derive from <see cref="StswChartElementModel"/>.</exception>
     public virtual void MakeChart()
     {
         var items = GetContainers().ToArray();
         if (items.Length == 0)
             return;
 
-        /// calculate values
+        // calculate values
         var totalValue = items.Sum(x => x.Value);
         var total = totalValue == 0 ? 1m : totalValue;
 
@@ -163,7 +161,7 @@ public class StswPieChart : ItemsControl
             item.Angle = -90 + totalPercent * 3.6;
             item.TextSize = FontSize + item.Percentage * 2.0;
 
-            /// calculate center for percentage text
+            // calculate center for percentage text
             var angleMid = (item.Angle + (item.Percentage * 3.6) / 2.0) * Math.PI / 180.0;
             var radius = (count == 1) ? 0.0 : (1000 - StrokeThickness) / 2.0 * (1.5 - item.Percentage / 125.0);
             var cx = Math.Cos(angleMid) * radius;

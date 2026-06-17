@@ -8,7 +8,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A numeric input control allowing users to enter a number manually or adjust the value using up/down buttons.
 /// Supports custom formats, increment steps, and min/max value validation.
@@ -138,12 +139,12 @@ public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumb
         if (_btnDown != null)
             _btnDown.Click -= PART_ButtonDown_Click;
 
-        /// Button: up
+        // Button: up
         _btnUp = GetTemplateChild("PART_ButtonUp") as ButtonBase;
         if (_btnUp != null)
             _btnUp.Click += PART_ButtonUp_Click;
 
-        /// Button: down
+        // Button: down
         _btnDown = GetTemplateChild("PART_ButtonDown") as ButtonBase;
         if (_btnDown != null)
             _btnDown.Click += PART_ButtonDown_Click;

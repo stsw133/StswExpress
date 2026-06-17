@@ -240,7 +240,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
@@ -264,7 +264,7 @@ public class StswDataGridDateColumn : DataGridTextColumn
         editingElement.SetBinding(StswDatePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
         editingElement.SetBinding(StswDatePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswDatePicker.SelectedDateProperty, Binding);
 

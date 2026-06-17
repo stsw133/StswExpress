@@ -176,7 +176,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
@@ -196,7 +196,7 @@ public class StswDataGridColorColumn : DataGridTextColumn
         editingElement.SetBinding(StswColorBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
         editingElement.SetBinding(StswColorBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswColorBox.SelectedColorProperty, Binding);
 

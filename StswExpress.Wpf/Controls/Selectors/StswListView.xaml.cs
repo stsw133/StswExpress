@@ -6,7 +6,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;/// <summary>
+namespace StswExpress.Wpf;
+
+/// <summary>
 /// A customizable list view control for displaying a collection of selectable items with optional details.
 /// Supports selection binding, corner radius customization, and read-only mode.
 /// </summary>

@@ -131,16 +131,16 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
                          .Sum(value => System.Convert.ToDouble(value, CultureInfo.InvariantCulture));
     }
 
-    /// <summary>
-    /// Filters the collection based on the given condition.
-    /// </summary>
-    /// <param name="collection">The collection to filter.</param>
-    /// <param name="condition">
-    /// A condition string in the format: `Property Operator Value`.
-    /// Example: `"Category == 'Electronics'"`, `"Price < 500"`.
-    /// </param>
-    /// <returns>A filtered collection containing only the elements that match the condition.</returns>
-    private static IEnumerable HandleWhere(IEnumerable collection, string condition)
+	/// <summary>
+	/// Filters the collection based on the given condition.
+	/// </summary>
+	/// <param name="collection">The collection to filter.</param>
+	/// <param name="condition">
+	/// A condition string in the format: `Property Operator Value`.
+	/// Example: `"Category == 'Electronics'"`, `"Price &lt; 500"`.
+	/// </param>
+	/// <returns>A filtered collection containing only the elements that match the condition.</returns>
+	private static IEnumerable HandleWhere(IEnumerable collection, string condition)
     {
         return collection.Cast<object>()
                          .Where(item => EvaluateCondition(item, condition));
@@ -168,20 +168,20 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
         return CompareValues(propValue, targetValue, op);
     }
 
-    /// <summary>
-    /// Parses a condition string into its components: the property name, operator, and target value.
-    /// </summary>
-    /// <param name="condition">
-    /// A condition string in the format: `Property Operator Value`.
-    /// Example: `"Status == Active"`, `"Age >= 18"`, `"IsEnabled != false"`.
-    /// </param>
-    /// <returns>
-    /// A tuple containing:
-    /// - `propertyName` → The name of the property.
-    /// - `op` → The comparison operator (`==`, `!=`, `>`, `<`, `>=`, `<=`).
-    /// - `targetValue` → The target value for comparison.
-    /// </returns>
-    private static (string? propertyName, string? op, string? targetValue) ParseCondition(string condition)
+	/// <summary>
+	/// Parses a condition string into its components: the property name, operator, and target value.
+	/// </summary>
+	/// <param name="condition">
+	/// A condition string in the format: `Property Operator Value`.
+	/// Example: `"Status == Active"`, `"Age >= 18"`, `"IsEnabled != false"`.
+	/// </param>
+	/// <returns>
+	/// A tuple containing:
+	/// - `propertyName` → The name of the property.
+	/// - `op` → The comparison operator (`==`, `!=`, `&gt;`, `&lt;`, `&gt;=`, `&lt;=`).
+	/// - `targetValue` → The target value for comparison.
+	/// </returns>
+	private static (string? propertyName, string? op, string? targetValue) ParseCondition(string condition)
     {
         var parts = condition.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length < 3)
@@ -196,7 +196,7 @@ public class StswLinqConverter : MarkupExtension, IValueConverter
     /// </summary>
     /// <param name="actualValue">The current value of the property.</param>
     /// <param name="targetValue">The target value as a string.</param>
-    /// <param name="op">The comparison operator (`==`, `!=`, `>`, `<`, `>=`, `<=`).</param>
+    /// <param name="op">The comparison operator (`==`, `!=`, `&gt;`, `&lt;`, `&gt;=`, `&lt;=`).</param>
     /// <returns>
     /// <see langword="true"/> if the comparison is valid based on the operator; otherwise, <see langword="false"/>.
     /// </returns>

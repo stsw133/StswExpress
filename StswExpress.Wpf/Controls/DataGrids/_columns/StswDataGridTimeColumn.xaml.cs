@@ -223,7 +223,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         displayElement.SetBinding(TextBlock.TextWrappingProperty, this.CreateColumnBinding(nameof(TextWrapping)));
         StswDataGridTextColumn.BindFontProperties(this, displayElement);
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(displayElement, TextBlock.TextProperty, Binding);
 
@@ -246,7 +246,7 @@ public class StswDataGridTimeColumn : DataGridTextColumn
         editingElement.SetBinding(StswTimePicker.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
         editingElement.SetBinding(StswTimePicker.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
-        /// bindings
+        // bindings
         if (Binding != null)
             BindingOperations.SetBinding(editingElement, StswTimePicker.SelectedTimeProperty, Binding);
 

@@ -75,22 +75,22 @@ public class StswApp : Application
     /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
     {
-        /// Single Instance Check
+        // Single Instance Check
         if (!AllowMultipleInstances && CheckForExistingInstance())
         {
             Current.Shutdown();
             return;
         }
 
-        /// Initialization
+        // Initialization
         base.OnStartup(e);
 
-        /// Settings, Translations, Resources
+        // Settings, Translations, Resources
         Settings = StswSettings.Load(perMachine: false);
         await StswTranslator.LoadTranslationsForCurrentLanguageAsync();
         StswResources.InitializeResources(Resources);
 
-        /// Custom TypeConverters, Event Handlers, DataTemplates
+        // Custom TypeConverters, Event Handlers, DataTemplates
         TypeDescriptor.AddAttributes(typeof(Visibility), new TypeConverterAttribute(typeof(StswBoolToVisibilityTypeConverter)));
         EventManager.RegisterClassHandler(typeof(StswWindow), Keyboard.PreviewKeyDownEvent, new KeyEventHandler(GlobalPreviewKeyDownHandler));
         if (IsRegisterDataTemplatesEnabled)
@@ -100,10 +100,10 @@ public class StswApp : Application
     /// <inheritdoc/>
     protected override async void OnExit(ExitEventArgs e)
     {
-        /// Save Global Settings
+        // Save Global Settings
         await StswSettings.SaveAsync(Settings);
 
-        /// Cleanup
+        // Cleanup
         base.OnExit(e);
     }
     #endregion

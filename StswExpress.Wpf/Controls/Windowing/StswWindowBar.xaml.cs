@@ -4,7 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A window bar control that provides integrated window management options.
 /// Supports minimize, maximize, restore, fullscreen toggle, and context menu actions.
@@ -101,11 +102,11 @@ public class StswWindowBar : Control, IStswCornerControl
         if (_window == null)
             return;
 
-        /// Button: minimize
+        // Button: minimize
         if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
             btnMinimize.Click += (_, _) => _window.WindowState = WindowState.Minimized;
 
-        /// Button: restate
+        // Button: restate
         if (GetTemplateChild("PART_ButtonRestate") is Button btnRestate)
             btnRestate.Click += (_, _) =>
             {
@@ -115,7 +116,7 @@ public class StswWindowBar : Control, IStswCornerControl
                     _window.WindowState = _window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
             };
 
-        /// Button: close
+        // Button: close
         if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
             btnClose.Click += (_, _) => _window.Close();
     }

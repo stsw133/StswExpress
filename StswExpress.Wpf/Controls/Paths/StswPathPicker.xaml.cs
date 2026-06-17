@@ -166,7 +166,7 @@ public class StswPathPicker : StswBoxBase
         stsw.FileSize = File.Exists(stsw.SelectedPath) ? StswFn.FormatByteSize(new FileInfo(stsw.SelectedPath).Length) : null;
         stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
 
-        /// load adjacent paths
+        // load adjacent paths
         if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
         {
             stsw.parentPath = parentPath;
@@ -464,22 +464,22 @@ public class StswPathPicker : StswBoxBase
                 _ => throw new NotImplementedException()
             };
 
-            /// filter
+            // filter
             try
             {
                 dialog.Filter = Filter;
             }
             catch { }
 
-            /// multiselect
+            // multiselect
             if (dialog is System.Windows.Forms.OpenFileDialog openFileDialog)
                 openFileDialog.Multiselect = Multiselect;
 
-            /// suggested file name
+            // suggested file name
             if (SuggestedFilename != null)
                 dialog.FileName = SuggestedFilename;
 
-            /// show
+            // show
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 SelectedPath = dialog.FileName;

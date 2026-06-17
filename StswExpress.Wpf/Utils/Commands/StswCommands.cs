@@ -53,7 +53,7 @@ public static class StswCommands
     /// </summary>
     static StswCommands()
     {
-        /// clear [items|selection|text] command
+        // clear [items|selection|text] command
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(ClearItems, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(ItemsControl), new CommandBinding(ClearItems, ClearText_Execute, ClearText_CanExecute));
 
@@ -65,14 +65,14 @@ public static class StswCommands
         CommandManager.RegisterClassCommandBinding(typeof(StswRichBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
 
-        /// close dialog command
+        // close dialog command
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(CloseDialog, CloseDialog_Execute, CloseDialog_CanExecute));
 
-        /// [select|deselect] all commands
+        // [select|deselect] all commands
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(SelectAll, SelectAll_Execute, SelectAll_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(DeselectAll, DeselectAll_Execute, DeselectAll_CanExecute));
 
-        /// set property for selected command
+        // set property for selected command
         CommandManager.RegisterClassCommandBinding(typeof(ToggleButton), new CommandBinding(SetPropertyForSelected, SetPropertyForSelected_Execute, SetPropertyForSelected_CanExecute));
     }
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// An async command implementation (with parameter) that can be used to bind to UI controls asynchronously with <see cref="Task"/> in order to execute a given action when triggered.
 /// </summary>
@@ -11,7 +12,7 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// public StswAsyncCommand<string> RefreshCommand { get; }
+/// public StswAsyncCommand&lt;string&gt; RefreshCommand { get; }
 /// 
 /// public MainViewModel()
 /// {

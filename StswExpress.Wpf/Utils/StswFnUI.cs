@@ -16,7 +16,8 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
@@ -319,16 +320,17 @@ public static class StswFnUI
 
         return result;
     }
-    #endregion
+	#endregion
 
-    #region File functions
-    /// <summary>
-    /// Extracts the associated icon of the specified file or directory path.
-    /// If the path points to a directory, attempts to retrieve the default folder icon.
-    /// </summary>
-    /// <param name="path">The file or directory path to extract the icon from.</param>
-    /// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
-    public static System.Drawing.Icon? ExtractAssociatedIcon(string? path, bool largeIcon = true)
+	#region File functions
+	/// <summary>
+	/// Extracts the associated icon of the specified file or directory path.
+	/// If the path points to a directory, attempts to retrieve the default folder icon.
+	/// </summary>
+	/// <param name="path">The file or directory path to extract the icon from.</param>
+	/// <param name="largeIcon">If set to <see langword="true"/>, the larger version of icon will be extracted.</param>
+	/// <returns>The associated icon as an <see cref="ImageSource"/> if found; otherwise, <see langword="null"/>.</returns>
+	public static System.Drawing.Icon? ExtractAssociatedIcon(string? path, bool largeIcon = true)
     {
         if (!Path.Exists(path))
             return null;

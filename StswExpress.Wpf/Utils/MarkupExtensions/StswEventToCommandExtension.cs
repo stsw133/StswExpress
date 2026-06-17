@@ -196,7 +196,6 @@ public class StswEventToCommandExtension : MarkupExtension
     /// </summary>
     /// <param name="target">The command instance.</param>
     /// <param name="e">The event arguments.</param>
-    /// <param name="cmd">The command to evaluate.</param>
     /// <returns>The preferred parameter type, or <see langword="null"/> if it cannot be determined.</returns>
     private object? ResolveParameter(DependencyObject target, EventArgs e)
     {

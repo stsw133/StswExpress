@@ -212,7 +212,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
             return displayElement;
         }
 
-        /// bindings
+        // bindings
         var itemsSourceBinding = GetClonedItemsSourceBinding();
 
         if (SelectedItemBinding is Binding selectedItemBinding && selectedItemBinding.Path?.Path is string selectedItemPath && !string.IsNullOrEmpty(DisplayMemberPath))
@@ -262,7 +262,7 @@ public class StswDataGridComboColumn : DataGridComboBoxColumn
         editingElement.SetBinding(StswComboBox.HorizontalContentAlignmentProperty, this.CreateColumnBinding(nameof(HorizontalContentAlignment)));
         editingElement.SetBinding(StswComboBox.VerticalContentAlignmentProperty, this.CreateColumnBinding(nameof(VerticalContentAlignment)));
 
-        /// bindings
+        // bindings
         if (SelectedItemBinding != null)
             BindingOperations.SetBinding(editingElement, StswComboBox.SelectedItemProperty, SelectedItemBinding);
         if (SelectedValueBinding != null)

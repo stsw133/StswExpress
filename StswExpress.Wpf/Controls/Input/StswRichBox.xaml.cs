@@ -8,7 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A base rich text container that can render content from a file path.
 /// Designed to be lightweight and optionally read-only without editor decorations.
