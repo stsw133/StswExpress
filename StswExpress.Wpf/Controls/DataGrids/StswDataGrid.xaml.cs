@@ -244,63 +244,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
     #region Overrides
     /// <inheritdoc/>
-    protected override DependencyObject GetContainerForItemOverride() => new StswDataGridRow();
-    /// <inheritdoc/>
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
-
-    protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
-    {
-        /// if a column with this same binding already exists, skip
-        if (Columns.OfType<DataGridBoundColumn>().Any(x => x.Binding is Binding binding && binding.Path.Path == e.PropertyName))
-        {
-            e.Cancel = true;
-            return;
-        }
-
-        /// skip generating column if StswIgnoreAutoGenerateColumnAttribute is present
-        if (e.PropertyDescriptor is PropertyDescriptor property && property.Attributes[typeof(StswIgnoreAutoGenerateColumnAttribute)] != null)
-        {
-            e.Cancel = true;
-            return;
-        }
-
-        /// must be a DataGridBoundColumn
-        if (e.Column is not DataGridBoundColumn boundColumn)
-        {
-            e.Cancel = true;
-            return;
-        }
-
-        if (boundColumn.Binding is not Binding binding)
-        {
-            e.Cancel = true;
-            return;
-        }
-
-        /// auto-generate columns based on property type
-        e.Column = e.PropertyType switch
-        {
-            Type t when t == typeof(bool) || t == typeof(bool?) => new StswDataGridCheckColumn { Header = e.Column.Header, Binding = binding },
-            Type t when t == typeof(Color) || t == typeof(Color?) => new StswDataGridColorColumn { Header = e.Column.Header, Binding = binding },
-            Type t when t == typeof(DateTime) || t == typeof(DateTime?) => new StswDataGridDateColumn { Header = e.Column.Header, Binding = binding },
-            Type t when t == typeof(decimal) || t == typeof(decimal?) => new StswDataGridDecimalColumn { Header = e.Column.Header, Binding = binding },
-            _ => new StswDataGridTextColumn { Header = e.Column.Header, Binding = binding }
-        };
-
-        base.OnAutoGeneratingColumn(e);
-    }
-
-    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-    {
-        base.OnItemsChanged(e);
-
-        if (ScrollToItemBehavior == StswScrollToItemBehavior.OnInsert && e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            _scrollActionScheduler.Schedule(() => ScrollIntoView(e.NewItems[^1]), DispatcherPriority.Background);
-
-        HasVisibleBackgroundGrid = !Columns.Any(col => col.Width.IsStar) || (Columns.Any(col => col.Width.IsStar) && !HasItems);
-    }
-
-    /// <inheritdoc/>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         IStswSelectionControl.ItemsSourceChanged(this, newValue);
@@ -333,6 +276,44 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     #region Detect SqlClient
     private static Type? SqlParameterType;
     private static bool SqlClientAvailable;
+
+        catch
+        {
+            SqlParameterType = null;
+            SqlClientAvailable = false;
+    {
+        try
+        {
+            var type = Type.GetType("Microsoft.Data.SqlClient.SqlParameter, Microsoft.Data.SqlClient");
+            if (type == null && AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Microsoft.Data.SqlClient") is { } asm)
+            {
+                type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+            }
+            if (type == null)
+            {
+                var dllPath = Path.Combine(AppContext.BaseDirectory, "Microsoft.Data.SqlClient.dll");
+                if (File.Exists(dllPath))
+                {
+                    asm = Assembly.LoadFrom(dllPath);
+                    type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+                }
+            }
+
+            SqlParameterType = type;
+            SqlClientAvailable = type != null;
+        }
+        catch
+        {
+    public IList SqlParameters
+    private IList _sqlParameters = Array.Empty<object>();
+        }
+    }
+    #endregion
+
+    #region Filters
+    private readonly StswFilterAggregator _filterAggregator = new();
+    public ICommand ApplyFiltersCommand { get; }
+    public ICommand ClearFiltersCommand { get; }
 
     /// <summary>
     /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
