@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,21 +13,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;
-/// <summary>
-/// Represents an advanced data grid control that provides a flexible and powerful way to display and edit data in a tabular format.
-/// Supports filtering, sorting, custom column types, SQL-based filtering, and collection-based filtering.
+namespace StswExpress.Wpf;
+
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswDataGrid ItemsSource="{Binding Products}"&gt;
-///     &lt;se:StswDataGridTextColumn Header="Name" Binding="{Binding Name}"/&gt;
-///     &lt;se:StswDataGridDecimalColumn Header="Price" Binding="{Binding Price}"/&gt;
-///     &lt;se:StswDataGridDateColumn Header="Added Date" Binding="{Binding AddedDate}"/&gt;
 /// &lt;/se:StswDataGrid&gt;
 /// </code>
-/// </example>
 public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelectionControl
 {
     static StswDataGrid()
@@ -50,10 +43,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
 
     #region Dependency properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the filters are visible.
-    /// When set to <see langword="true"/>, filtering controls are displayed inside the data grid headers.
-    /// </summary>
     public bool? AreFiltersVisible
     {
         get => (bool?)GetValue(AreFiltersVisibleProperty);
@@ -92,9 +81,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             typeof(StswDataGrid)
         );
 
-    /// <summary>
-    /// Gets or sets the filters data model that stores filter criteria, SQL filters, and related parameters.
-    /// </summary>
     public StswDataGridFiltersDataModel FiltersData
     {
         get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
@@ -120,10 +106,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
     }
 
-    /// <summary>
-    /// Gets or sets the filtering mode for the data grid.
-    /// Supports either collection-based filtering or SQL-based filtering.
-    /// </summary>
     public StswDataGridFiltersType FiltersType
     {
         get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
@@ -154,9 +136,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             new PropertyMetadata(false)
         );
 
-    /// <summary>
-    /// Gets or sets the background brush for the data grid's column headers.
-    /// </summary>
     public Brush HeaderBackground
     {
         get => (Brush)GetValue(HeaderBackgroundProperty);
@@ -170,9 +149,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the border brush applied to the column headers.
-    /// </summary>
     public SolidColorBrush HeaderBorderBrush
     {
         get => (SolidColorBrush)GetValue(HeaderBorderBrushProperty);
@@ -186,10 +162,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-    /// <summary>
-    /// Gets or sets the command that refreshes the data grid.
-    /// This command is typically executed when the Enter key is pressed inside a filter box.
-    /// </summary>
     public ICommand RefreshCommand
     {
         get => (ICommand)GetValue(RefreshCommandProperty);
@@ -202,8 +174,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
             typeof(StswDataGrid)
         );
 
-    /// <summary>
-    /// Gets or sets the parameter to be passed to the <see cref="RefreshCommand"/> when executed.
     /// </summary>
     public object? RefreshCommandParameter
     {
@@ -278,7 +248,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <inheritdoc/>
     protected override bool IsItemItsOwnContainerOverride(object item) => item is StswDataGridRow;
 
-    /// <inheritdoc/>
     protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
     {
         /// if a column with this same binding already exists, skip
@@ -321,7 +290,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         base.OnAutoGeneratingColumn(e);
     }
 
-    /// <inheritdoc/>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -393,8 +361,8 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
         catch
         {
-    public IList SqlParameters
-    private IList _sqlParameters = Array.Empty<object>();
+            SqlParameterType = null;
+            SqlClientAvailable = false;
         }
     }
     #endregion
@@ -404,10 +372,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     public ICommand ApplyFiltersCommand { get; }
     public ICommand ClearFiltersCommand { get; }
 
-    /// <summary>
-    /// Gets or sets the final SQL filter text used for querying the data source.
-    /// This property is updated dynamically based on the selected filters.
-    /// </summary>
     public string SqlFilter
     {
         get => _sqlFilter;
@@ -415,10 +379,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     }
     private string _sqlFilter = "1=1";
 
-    /// <summary>
-    /// Gets or sets the collection of SQL parameters associated with the SQL filter.
-    /// These parameters are applied dynamically based on user-selected filters.
-    /// </summary>
     public IList<object> SqlParameters
     {
         get => _sqlParameters;
@@ -433,10 +393,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
     /// <param name="e">The event data.</param>
     private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
 
-    /// <summary>
-    /// Applies the current filtering criteria to the data grid.
-    /// Updates either CollectionView-based or SQL-based filtering depending on the selected filter type.
-    /// </summary>
     private void ApplyFilters()
     {
         var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
@@ -459,10 +415,6 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         }
     }
 
-    /// <summary>
-    /// Clears all applied filters in the data grid.
-    /// Resets each filter box to its default state and applies the updated filtering logic.
-    /// </summary>
     private void ClearFilters()
     {
         var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
@@ -485,6 +437,56 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
 
     /// <summary>
     /// Creates a SQL parameter instance using the specified name and value.
+    /// </summary>
+    /// <param name="name">The name of the SQL parameter.</param>
+    /// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
+    /// <returns></returns>
+    private static object? CreateSqlParameter(string name, object? value)
+    {
+        if (SqlParameterType == null)
+            return null;
+
+        try
+        {
+            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public void RegisterExternalFilter(object key, Predicate<object>? filter)
+    {
+        _filterAggregator.RegisterFilter(key, filter);
+        ApplyFilters();
+    }
+
+    private void UpdateSqlFilters(IEnumerable<StswDataGridFilterBox> filterBoxes)
+    {
+        if (!SqlClientAvailable || SqlParameterType == null)
+            return;
+
+        FiltersData ??= new StswDataGridFiltersDataModel();
+
+        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes
+            .Select(x => x.SqlString)
+            .Where(x => !string.IsNullOrWhiteSpace(x)));
+
+        FiltersData.MakeSqlParameters(filterBoxes
+            .SelectMany(x => new[]
+            {
+                CreateSqlParameter($"{x.SqlParam}1", x.Value1),
+                CreateSqlParameter($"{x.SqlParam}2", x.Value2)
+            })
+            .Where(p => p is not null)
+            .ToList()!);
+
+        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
+            FiltersData.SqlFilter = "1=1";
+    }
+    #endregion
+}
     /// </summary>
     /// <param name="name">The name of the SQL parameter.</param>
     /// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>

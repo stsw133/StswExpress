@@ -6,7 +6,7 @@ namespace StswExpress.Commons;
 /// <summary>
 /// Small compatibility helpers used by target frameworks that do not expose newer BCL convenience APIs.
 /// </summary>
-internal static class StswCompat
+public static class StswCompat
 {
     public static string ToHexString(byte[] bytes)
     {
@@ -254,7 +254,7 @@ internal static class StswCompat
 
 }
 
-internal static class StswGuard
+public static class StswGuard
 {
     public static void ThrowIfNull(object? argument, string? paramName = null)
     {
