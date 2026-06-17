@@ -29,9 +29,9 @@ public partial class StswResources : ResourceDictionary
     public static StswResources? GetInstance() => Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) as StswResources;
 
     /// </summary>
-    public static ObservableCollection<string?> AvailableThemes { get; set; } =
-    ];
-
+    public static ObservableCollection<string?> AvailableThemes { get; set; } = new()
+    {
+    };
     private static readonly Dictionary<string, Uri> ThemeSources = new(StringComparer.OrdinalIgnoreCase)
     {
         ["Dark"] = new("/StswExpress.Wpf;component/Themes/Brushes/Dark.xaml", UriKind.Relative),
