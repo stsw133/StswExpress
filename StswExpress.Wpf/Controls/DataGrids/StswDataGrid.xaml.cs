@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -271,261 +269,189 @@ public partial class StswDataGrid : DataGrid, IStswCornerControl, IStswSelection
         if (ScrollToItemBehavior == StswScrollToItemBehavior.OnSelection && SelectedItem != null)
             _scrollActionScheduler.Schedule(() => ScrollIntoView(SelectedItem), DispatcherPriority.Background);
     }
-    #endregion
+	#endregion
 
-    #region Detect SqlClient
-    private static Type? SqlParameterType;
-    private static bool SqlClientAvailable;
+	#region Detect SqlClient
+	private static Type? SqlParameterType;
+	private static bool SqlClientAvailable;
 
-        catch
-        {
-            SqlParameterType = null;
-            SqlClientAvailable = false;
-    {
-        try
-        {
-            var type = Type.GetType("Microsoft.Data.SqlClient.SqlParameter, Microsoft.Data.SqlClient");
-            if (type == null && AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Microsoft.Data.SqlClient") is { } asm)
-            {
-                type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
-            }
-            if (type == null)
-            {
-                var dllPath = Path.Combine(AppContext.BaseDirectory, "Microsoft.Data.SqlClient.dll");
-                if (File.Exists(dllPath))
-                {
-                    asm = Assembly.LoadFrom(dllPath);
-                    type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
-                }
-            }
+	/// <summary>
+	/// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
+	/// </summary>
+	private static void DetectSqlClient()
+	{
+		try
+		{
+			var type = Type.GetType("Microsoft.Data.SqlClient.SqlParameter, Microsoft.Data.SqlClient");
+			if (type == null && AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Microsoft.Data.SqlClient") is { } asm)
+			{
+				type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+			}
+			if (type == null)
+			{
+				var dllPath = Path.Combine(AppContext.BaseDirectory, "Microsoft.Data.SqlClient.dll");
+				if (File.Exists(dllPath))
+				{
+					asm = Assembly.LoadFrom(dllPath);
+					type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
+				}
+			}
 
-            SqlParameterType = type;
-            SqlClientAvailable = type != null;
-        }
-        catch
-        {
-    public IList SqlParameters
-    private IList _sqlParameters = Array.Empty<object>();
-        }
-    }
-    #endregion
-
+			SqlParameterType = type;
+			SqlClientAvailable = type != null;
+		}
+		catch
+		{
+			SqlClientAvailable = false;
+			SqlParameterType = null;
+		}
+	}
+	#endregion
+	
     #region Filters
-    private readonly StswFilterAggregator _filterAggregator = new();
-    public ICommand ApplyFiltersCommand { get; }
-    public ICommand ClearFiltersCommand { get; }
+	private readonly StswFilterAggregator _filterAggregator = new();
+	public ICommand ApplyFiltersCommand { get; }
+	public ICommand ClearFiltersCommand { get; }
 
-    /// <summary>
-    /// Detects the presence of the Microsoft.Data.SqlClient assembly and retrieves the SqlParameter type.
-    /// </summary>
-    private static void DetectSqlClient()
-    {
-        try
-        {
-            var type = Type.GetType("Microsoft.Data.SqlClient.SqlParameter, Microsoft.Data.SqlClient");
-            if (type == null && AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Microsoft.Data.SqlClient") is { } asm)
-            {
-                type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
-            }
-            if (type == null)
-            {
-                var dllPath = Path.Combine(AppContext.BaseDirectory, "Microsoft.Data.SqlClient.dll");
-                if (File.Exists(dllPath))
-                {
-                    asm = Assembly.LoadFrom(dllPath);
-                    type = asm.GetType("Microsoft.Data.SqlClient.SqlParameter");
-                }
-            }
+	/// <summary>
+	/// Gets or sets the final SQL filter text used for querying the data source.
+	/// This property is updated dynamically based on the selected filters.
+	/// </summary>
+	public string SqlFilter
+	{
+		get => _sqlFilter;
+		private set => _sqlFilter = value;
+	}
+	private string _sqlFilter = "1=1";
 
-            SqlParameterType = type;
-            SqlClientAvailable = type != null;
-        }
-        catch
-        {
-            SqlParameterType = null;
-            SqlClientAvailable = false;
-        }
-    }
-    #endregion
+	/// <summary>
+	/// Gets or sets the collection of SQL parameters associated with the SQL filter.
+	/// These parameters are applied dynamically based on user-selected filters.
+	/// </summary>
+	public IList<object> SqlParameters
+	{
+		get => _sqlParameters;
+		private set => _sqlParameters = value;
+	}
+	private IList<object> _sqlParameters = [];
 
-    #region Filters
-    private readonly StswFilterAggregator _filterAggregator = new();
-    public ICommand ApplyFiltersCommand { get; }
-    public ICommand ClearFiltersCommand { get; }
+	/// <summary>
+	/// Handles the FilterChanged event from filter boxes and applies the current filters to the data grid.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The event data.</param>
+	private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
 
-    public string SqlFilter
-    {
-        get => _sqlFilter;
-        private set => _sqlFilter = value;
-    }
-    private string _sqlFilter = "1=1";
+	/// <summary>
+	/// Applies the current filtering criteria to the data grid.
+	/// Updates either CollectionView-based or SQL-based filtering depending on the selected filter type.
+	/// </summary>
+	private void ApplyFilters()
+	{
+		var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
 
-    public IList<object> SqlParameters
-    {
-        get => _sqlParameters;
-        private set => _sqlParameters = value;
-    }
-    private IList<object> _sqlParameters = [];
+		if (FiltersType == StswDataGridFiltersType.CollectionView)
+		{
+			if (Items.CanFilter)
+			{
+				Items.Filter = _filterAggregator.CombinedFilter;
+				Items.Refresh();
+			}
+			else
+			{
+				// RefreshCommand?.Execute(RefreshCommandParameter);
+			}
+		}
+		else if (FiltersType == StswDataGridFiltersType.SQL)
+		{
+			UpdateSqlFilters(filterBoxes);
+		}
+	}
 
-    /// <summary>
-    /// Handles the FilterChanged event from filter boxes and applies the current filters to the data grid.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void FilterBox_FilterChanged(object? sender, EventArgs e) => ApplyFilters();
+	/// <summary>
+	/// Clears all applied filters in the data grid.
+	/// Resets each filter box to its default state and applies the updated filtering logic.
+	/// </summary>
+	private void ClearFilters()
+	{
+		var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
 
-    private void ApplyFilters()
-    {
-        var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
+		foreach (var filterBox in filterBoxes)
+		{
+			filterBox.FilterMode = filterBox.DefaultFilterMode;
+			filterBox.Value1 = filterBox.DefaultValue1;
+			filterBox.Value2 = filterBox.DefaultValue2;
 
-        if (FiltersType == StswDataGridFiltersType.CollectionView)
-        {
-            if (Items.CanFilter)
-            {
-                Items.Filter = _filterAggregator.CombinedFilter;
-                Items.Refresh();
-            }
-            else
-            {
-                // RefreshCommand?.Execute(RefreshCommandParameter);
-            }
-        }
-        else if (FiltersType == StswDataGridFiltersType.SQL)
-        {
-            UpdateSqlFilters(filterBoxes);
-        }
-    }
+			var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectableItem>()?.ToList();
+			var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectableItem>()?.ToList();
+			itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
+		}
 
-    private void ClearFilters()
-    {
-        var filterBoxes = StswFnUI.FindVisualChildren<StswDataGridFilterBox>(this).ToList();
+		filterBoxes.FirstOrDefault()?.Focus();
 
-        foreach (var filterBox in filterBoxes)
-        {
-            filterBox.FilterMode = filterBox.DefaultFilterMode;
-            filterBox.Value1 = filterBox.DefaultValue1;
-            filterBox.Value2 = filterBox.DefaultValue2;
+		ApplyFilters();
+	}
 
-            var itemsSource = filterBox.ItemsSource?.OfType<IStswSelectableItem>()?.ToList();
-            var defaultItemsSource = filterBox.DefaultItemsSource?.OfType<IStswSelectableItem>()?.ToList();
-            itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
-        }
+	/// <summary>
+	/// Creates a SQL parameter instance using the specified name and value.
+	/// </summary>
+	/// <param name="name">The name of the SQL parameter.</param>
+	/// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
+	/// <returns></returns>
+	private static object? CreateSqlParameter(string name, object? value)
+	{
+		if (SqlParameterType == null)
+			return null;
 
-        filterBoxes.FirstOrDefault()?.Focus();
+		try
+		{
+			return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
+		}
+		catch
+		{
+			return null;
+		}
+	}
 
-        ApplyFilters();
-    }
+	/// <summary>
+	/// Registers an external filter predicate for the data grid.
+	/// Used to dynamically filter data based on external conditions (e.g., additional UI elements).
+	/// </summary>
+	/// <param name="key">The key representing the external filter.</param>
+	/// <param name="filter">The filtering predicate to apply.</param>
+	public void RegisterExternalFilter(object key, Predicate<object>? filter)
+	{
+		_filterAggregator.RegisterFilter(key, filter);
+		ApplyFilters();
+	}
 
-    /// <summary>
-    /// Creates a SQL parameter instance using the specified name and value.
-    /// </summary>
-    /// <param name="name">The name of the SQL parameter.</param>
-    /// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
-    /// <returns></returns>
-    private static object? CreateSqlParameter(string name, object? value)
-    {
-        if (SqlParameterType == null)
-            return null;
+	/// <summary>
+	/// Builds and updates the combined SQL filter from all filter boxes.
+	/// Generates the SQL condition string and assigns appropriate parameters for filtering.
+	/// </summary>
+	/// <param name="filterBoxes">The list of filter boxes used to construct the SQL filter.</param>
+	private void UpdateSqlFilters(IEnumerable<StswDataGridFilterBox> filterBoxes)
+	{
+		if (!SqlClientAvailable || SqlParameterType == null)
+			return;
 
-        try
-        {
-            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
-        }
-        catch
-        {
-            return null;
-        }
-    }
+		FiltersData ??= new StswDataGridFiltersDataModel();
 
-    public void RegisterExternalFilter(object key, Predicate<object>? filter)
-    {
-        _filterAggregator.RegisterFilter(key, filter);
-        ApplyFilters();
-    }
+		FiltersData.SqlFilter = string.Join(" AND ", filterBoxes
+			.Select(x => x.SqlString)
+			.Where(x => !string.IsNullOrWhiteSpace(x)));
 
-    private void UpdateSqlFilters(IEnumerable<StswDataGridFilterBox> filterBoxes)
-    {
-        if (!SqlClientAvailable || SqlParameterType == null)
-            return;
+		FiltersData.MakeSqlParameters(filterBoxes
+			.SelectMany(x => new[]
+			{
+				CreateSqlParameter($"{x.SqlParam}1", x.Value1),
+				CreateSqlParameter($"{x.SqlParam}2", x.Value2)
+			})
+			.Where(p => p is not null)
+			.ToList()!);
 
-        FiltersData ??= new StswDataGridFiltersDataModel();
-
-        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes
-            .Select(x => x.SqlString)
-            .Where(x => !string.IsNullOrWhiteSpace(x)));
-
-        FiltersData.MakeSqlParameters(filterBoxes
-            .SelectMany(x => new[]
-            {
-                CreateSqlParameter($"{x.SqlParam}1", x.Value1),
-                CreateSqlParameter($"{x.SqlParam}2", x.Value2)
-            })
-            .Where(p => p is not null)
-            .ToList()!);
-
-        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
-            FiltersData.SqlFilter = "1=1";
-    }
-    #endregion
-}
-    /// </summary>
-    /// <param name="name">The name of the SQL parameter.</param>
-    /// <param name="value">The value of the SQL parameter. If <see langword="null"/>, it will be set to <see cref="DBNull.Value"/>.</param>
-    /// <returns></returns>
-    private static object? CreateSqlParameter(string name, object? value)
-    {
-        if (SqlParameterType == null)
-            return null;
-
-        try
-        {
-            return Activator.CreateInstance(SqlParameterType, name, value ?? DBNull.Value);
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// Registers an external filter predicate for the data grid.
-    /// Used to dynamically filter data based on external conditions (e.g., additional UI elements).
-    /// </summary>
-    /// <param name="key">The key representing the external filter.</param>
-    /// <param name="filter">The filtering predicate to apply.</param>
-    public void RegisterExternalFilter(object key, Predicate<object>? filter)
-    {
-        _filterAggregator.RegisterFilter(key, filter);
-        ApplyFilters();
-    }
-
-    /// <summary>
-    /// Builds and updates the combined SQL filter from all filter boxes.
-    /// Generates the SQL condition string and assigns appropriate parameters for filtering.
-    /// </summary>
-    /// <param name="filterBoxes">The list of filter boxes used to construct the SQL filter.</param>
-    private void UpdateSqlFilters(IEnumerable<StswDataGridFilterBox> filterBoxes)
-    {
-        if (!SqlClientAvailable || SqlParameterType == null)
-            return;
-
-        FiltersData ??= new StswDataGridFiltersDataModel();
-
-        FiltersData.SqlFilter = string.Join(" AND ", filterBoxes
-            .Select(x => x.SqlString)
-            .Where(x => !string.IsNullOrWhiteSpace(x)));
-
-        FiltersData.MakeSqlParameters(filterBoxes
-            .SelectMany(x => new[]
-            {
-                CreateSqlParameter($"{x.SqlParam}1", x.Value1),
-                CreateSqlParameter($"{x.SqlParam}2", x.Value2)
-            })
-            .Where(p => p is not null)
-            .ToList()!);
-
-        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
-            FiltersData.SqlFilter = "1=1";
-    }
-    #endregion
+		if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
+			FiltersData.SqlFilter = "1=1";
+	}
+	#endregion
 }
