@@ -3,7 +3,7 @@
 namespace StswExpress.Commons;
 
 /// <summary>
-/// Configuration settings for the <see cref="StswLog"/> class, including options for archiving and log types.
+/// Configuration settings for the logging system, including options for <see cref="StswLog"/> and <see cref="StswLogArchiving"/>.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class StswLogConfig()
@@ -11,9 +11,24 @@ public class StswLogConfig()
     public StswLogArchiveConfig Archive { get; set; } = new();
 
     /// <summary>
+    /// Specifies the default output targets used by StswLog write methods when no per-call override is provided.
+    /// </summary>
+    public StswLogTarget Targets { get; set; } = StswLogTarget.File | StswLogTarget.Custom;
+
+    /// <summary>
     /// Specifies the path to the directory where active log files will be stored.
     /// </summary>
     public string LogDirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+
+    /// <summary>
+    /// Specifies the Windows Event Viewer source name used by the <see cref="StswLogTarget.EventViewer"/> target.
+    /// </summary>
+    public string EventViewerSourceName { get; set; } = AppDomain.CurrentDomain.FriendlyName;
+
+    /// <summary>
+    /// Specifies the Windows Event Viewer log name used by the <see cref="StswLogTarget.EventViewer"/> target.
+    /// </summary>
+    public string EventViewerLogName { get; set; } = "Application";
 
     /// <summary>
     /// Specifies the log types to include in DEBUG mode. Any log type not in this list will be skipped.
@@ -31,11 +46,6 @@ public class StswLogConfig()
     public bool IsLoggingDisabled { get; set; } = false;
 
     /// <summary>
-    /// Whether logging to SQL is disabled.
-    /// </summary>
-    public bool IsSqlLoggingDisabled { get; set; } = false;
-
-    /// <summary>
     /// Specifies the maximum number of consecutive logging failures before logging is disabled.
     /// </summary>
     public int? MaxFailures { get; set; } = 3;
@@ -46,9 +56,9 @@ public class StswLogConfig()
     public Action<Exception>? OnLogFailure { get; set; }
 
     /// <summary>
-    /// Optional delegate for custom SQL logging.
+    /// Optional delegate for custom logging.
     /// </summary>
-    public Action<StswLogItem>? SqlLogger { get; set; }
+    public Action<StswLogItem>? CustomLogger { get; set; }
 
     /// <summary>
     /// Configuration settings for log archiving, including options for automatic archiving, retention periods, and archive directory paths.
@@ -89,9 +99,9 @@ public class StswLogConfig()
         /// </summary>
         public int? DeleteArchivesOlderThanDays { get; set; } = null;
 
-        // /// <summary>
-        // /// Specifies whether archiving is currently disabled.
-        // /// </summary>
-        // public bool IsArchivingDisabled { get; set; } = false;
+        /// <summary>
+        /// Specifies whether archiving is currently disabled.
+        /// </summary>
+        public bool IsArchivingDisabled { get; set; } = false;
     }
 }

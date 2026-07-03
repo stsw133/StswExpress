@@ -1,12 +1,11 @@
-﻿using System.Globalization;
-using System.IO.Compression;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace StswExpress.Commons;
 
 /// <summary>
-/// Provides a simple way to write and manage log messages, including support for automatic archiving and error handling.
+/// Provides a simple way to write log messages and handle logging errors.
 /// </summary>
 public static class StswLog
 {
@@ -16,13 +15,8 @@ public static class StswLog
 
     static StswLog()
     {
-        if (!string.IsNullOrEmpty(Config.Archive.ArchiveDirectoryPath) && !Directory.Exists(Config.Archive.ArchiveDirectoryPath))
-            Directory.CreateDirectory(Config.Archive.ArchiveDirectoryPath);
-
-        if (!string.IsNullOrEmpty(Config.LogDirectoryPath) && !Directory.Exists(Config.LogDirectoryPath))
-            Directory.CreateDirectory(Config.LogDirectoryPath);
-
-        AutoArchive();
+        EnsureLogDirectoryExists();
+        StswLogArchiving.Initialize();
     }
 
     /// <summary>
@@ -30,305 +24,15 @@ public static class StswLog
     /// </summary>
     public static StswLogConfig Config { get; } = new();
 
-    #region Archive
     /// <summary>
-    /// Automatically archives log files based on the configuration settings.
+    /// Occurs when the <see cref="StswLogTarget.Custom"/> target is enabled and a log entry is written.
     /// </summary>
-    private static void AutoArchive()
-    {
-        var dir = new DirectoryInfo(Config.LogDirectoryPath);
-        var oldestFileInfo = dir.GetFileSystemInfos("log_*.log").OrderBy(x => x.CreationTime).FirstOrDefault();
-        if (oldestFileInfo == null)
-            return;
-
-        var oldestFileDT = oldestFileInfo.CreationTime;
-        var dateNow = DateTime.Now.Date;
-
-        if (Config.Archive.ArchiveFullMonth && !oldestFileDT.IsSameYearAndMonth(dateNow))
-            foreach (var month in new StswDateRange(oldestFileDT, dateNow.AddMonths(-1)).GetUniqueMonthDates())
-                Archive(month, month.ToLastDayOfMonth());
-        else if ((dateNow - oldestFileDT).TotalDays > Config.Archive.ArchiveWhenDaysOver)
-            Archive(oldestFileDT, dateNow.AddDays(-Config.Archive.ArchiveUpToLastDays));
-
-        DeleteOldArchives();
-    }
+    public static event Action<StswLogItem>? LogWritten;
 
     /// <summary>
-    /// Archives log files within the specified date range.
+    /// Shared file semaphore used by logging and archiving operations.
     /// </summary>
-    /// <param name="dateFrom">The start date of the range.</param>
-    /// <param name="dateTo">The end date of the range.</param>
-    public static void Archive(DateTime dateFrom, DateTime dateTo)
-    {
-        _logSemaphore.Wait();
-        try
-        {
-            string archiveName;
-            if (Config.Archive.ArchiveFullMonth && dateFrom.IsSameYearAndMonth(dateTo))
-                archiveName = $"archive_{dateFrom:yyyy-MM}.zip";
-            else if (dateFrom == dateTo)
-                archiveName = $"archive_{dateFrom:yyyy-MM-dd}.zip";
-            else
-                archiveName = $"archive_{dateFrom:yyyy-MM-dd}_{dateTo:yyyy-MM-dd}.zip";
-
-            var fullArchivePath = Path.Combine(Config.Archive.ArchiveDirectoryPath, archiveName);
-            //if (File.Exists(fullArchivePath))
-            //    return;
-
-            using var archive = ZipFile.Open(fullArchivePath, ZipArchiveMode.Update);
-            foreach (var filePath in Directory.GetFiles(Config.LogDirectoryPath, "log_*.log"))
-            {
-                if (!TryGetDateFromFilename(filePath, out var fileDate))
-                    continue;
-
-                if (fileDate.Date.Between(dateFrom.Date, dateTo.Date))
-                {
-                    AddFileToZipWithPossibleRename(archive, filePath);
-                    File.Delete(filePath);
-                }
-            }
-        }
-        finally
-        {
-            _logSemaphore.Release();
-        }
-    }
-
-    /// <summary>
-    /// Archives log files for a single specified date.
-    /// </summary>
-    /// <param name="date">The date to archive.</param>
-    public static void Archive(DateTime date) => Archive(date, date);
-
-    /// <summary>
-    /// Deletes log archives that are older than the specified number of days.
-    /// </summary>
-    private static void DeleteOldArchives()
-    {
-        _logSemaphore.Wait();
-        try
-        {
-            if (!Config.Archive.DeleteArchivesOlderThanDays.HasValue || Config.Archive.DeleteArchivesOlderThanDays.Value <= 0)
-                return;
-
-            int limitDays = Config.Archive.DeleteArchivesOlderThanDays.Value;
-            var thresholdDate = DateTime.Now.Date.AddDays(-limitDays);
-
-            foreach (var zipPath in Directory.GetFiles(Config.Archive.ArchiveDirectoryPath, "archive_*.zip"))
-            {
-                var fileName = Path.GetFileNameWithoutExtension(zipPath);
-
-                if (TryGetArchiveDateRange(fileName, out var df, out var dt))
-                {
-                    if (dt.Date < thresholdDate)
-                    {
-                        try
-                        {
-                            File.Delete(zipPath);
-                        }
-                        catch (Exception ex)
-                        {
-                            Config.OnLogFailure?.Invoke(ex);
-                        }
-                    }
-                }
-            }
-        }
-        finally
-        {
-            _logSemaphore.Release();
-        }
-    }
-
-    /// <summary>
-    /// Adds a file to a zip archive, renaming it if a file with the same name already exists in the archive.
-    /// </summary>
-    /// <param name="zip">The zip archive to add the file to.</param>
-    /// <param name="sourceFilePath">The path of the file to add to the archive.</param>
-    private static void AddFileToZipWithPossibleRename(ZipArchive zip, string sourceFilePath)
-    {
-        var baseFileName = Path.GetFileName(sourceFilePath); // log_2025-05-30.log
-        var datePart = baseFileName.Substring(4, 10);        // 2025-05-30
-        var extension = Path.GetExtension(baseFileName);     // .log
-        var baseEntryName = $"log_{datePart}.log";
-
-        var existingBaseEntry = zip.Entries.FirstOrDefault(e =>
-            e.FullName.Equals(baseEntryName, StringComparison.OrdinalIgnoreCase));
-
-        if (existingBaseEntry == null)
-        {
-            zip.CreateEntryFromFile(sourceFilePath, baseEntryName);
-        }
-        else
-        {
-            var timestamp = DateTime.Now.ToString("HH-mm-ss");
-            var renamedName = $"log_{datePart}_{timestamp}{extension}";
-            int counter = 1;
-
-            while (zip.Entries.Any(e => e.FullName.Equals(renamedName, StringComparison.OrdinalIgnoreCase)))
-                renamedName = $"log_{datePart}_{timestamp}_{counter++}{extension}";
-
-            RenameZipArchiveEntry(zip, existingBaseEntry, renamedName);
-            zip.CreateEntryFromFile(sourceFilePath, baseEntryName);
-        }
-    }
-
-    /// <summary>
-    /// Archives a single log file based on its size.
-    /// </summary>
-    /// <param name="logFile">The log file to archive.</param>
-    private static void ArchiveSingleLogBySize(FileInfo logFile)
-    {
-        string datePart = logFile.Name.Substring(4, 10);
-        string archiveFileName = $"archive_{datePart}.zip";
-
-        var archivePath = Path.Combine(Config.Archive.ArchiveDirectoryPath, archiveFileName);
-        using var zip = ZipFile.Open(archivePath, ZipArchiveMode.Update);
-
-        AddFileToZipWithPossibleRename(zip, logFile.FullName);
-
-        logFile.Delete();
-    }
-
-    /// <summary>
-    /// Forces the archiving of the current log file if the size exceeds the threshold specified in <see cref="StswLogConfig.StswLogArchiveConfig.ArchiveWhenSizeOver"/>.
-    /// </summary>
-    private static void ForceSizeArchiveIfNeeded()
-    {
-        if (Config.Archive.ArchiveWhenSizeOver == null)
-            return;
-
-        var path = GetDailyLogFilePath();
-        var fi = new FileInfo(path);
-        if (!fi.Exists)
-            return;
-
-        if (fi.Length > Config.Archive.ArchiveWhenSizeOver.Value)
-            ArchiveSingleLogBySize(fi);
-    }
-
-    /// <summary>
-    /// Renames a <see cref="ZipArchiveEntry"/> in a <see cref="ZipArchive"/> to a new name.
-    /// </summary>
-    /// <param name="zip">The zip archive containing the entry.</param>
-    /// <param name="entry">The entry to rename.</param>
-    /// <param name="newName">The new name for the entry.</param>
-    private static void RenameZipArchiveEntry(ZipArchive zip, ZipArchiveEntry entry, string newName)
-    {
-        if (zip.Entries.Any(e => e.FullName.Equals(newName, StringComparison.OrdinalIgnoreCase)))
-            newName = $"{Path.GetFileNameWithoutExtension(newName)}_{DateTime.Now:fff}.log";
-
-        var newEntry = zip.CreateEntry(newName, CompressionLevel.Optimal);
-
-        using (var oldStream = entry.Open())
-        using (var newStream = newEntry.Open())
-        {
-            oldStream.CopyTo(newStream);
-        }
-
-        entry.Delete();
-    }
-
-    /// <summary>
-    /// Tries to extract a date range from an archive name.
-    /// </summary>
-    /// <param name="archiveName">The name of the archive file (without path or extension).</param>
-    /// <param name="dateFrom">The extracted start date if successful.</param>
-    /// <param name="dateTo">The extracted end date if successful.</param>
-    /// <returns><see langword="true"/> if the date range was successfully extracted; otherwise, <see langword="false"/>.</returns>
-    private static bool TryGetArchiveDateRange(string archiveName, out DateTime dateFrom, out DateTime dateTo)
-    {
-        dateFrom = default;
-        dateTo = default;
-
-        if (!archiveName.StartsWith("archive_"))
-            return false;
-
-        var rest = archiveName.Substring("archive_".Length);
-
-        var parts = rest.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length == 1)
-        {
-            if (TryParseYearMonth(parts[0], out var ymFrom))
-            {
-                dateFrom = new DateTime(ymFrom.Year, ymFrom.Month, 1);
-                dateTo = dateFrom.AddMonths(1).AddDays(-1);
-                return true;
-            }
-            else if (DateTime.TryParseExact(parts[0], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var singleDate))
-            {
-                dateFrom = singleDate.Date;
-                dateTo = singleDate.Date;
-                return true;
-            }
-            return false;
-        }
-        else if (parts.Length == 2)
-        {
-            if (TryParseYearMonth(parts[0], out var ym1) && TryParseYearMonth(parts[1], out var ym2))
-            {
-                dateFrom = new DateTime(ym1.Year, ym1.Month, 1);
-                dateTo = new DateTime(ym2.Year, ym2.Month, 1).AddMonths(1).AddDays(-1);
-                return true;
-            }
-            else
-            {
-                var success1 = DateTime.TryParseExact(parts[0], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dd1);
-                var success2 = DateTime.TryParseExact(parts[1], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dd2);
-
-                if (success1 && success2)
-                {
-                    dateFrom = dd1.Date < dd2.Date ? dd1.Date : dd2.Date;
-                    dateTo = dd1.Date > dd2.Date ? dd1.Date : dd2.Date;
-                    return true;
-                }
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Tries to extract a date from a log file name.
-    /// </summary>
-    /// <param name="filePath">The path of the log file.</param>
-    /// <param name="dt">The extracted date if successful.</param>
-    /// <returns><see langword="true"/> if the date was successfully extracted; otherwise, <see langword="false"/>.</returns>
-    private static bool TryGetDateFromFilename(string filePath, out DateTime dt)
-    {
-        dt = default;
-        var fileName = Path.GetFileNameWithoutExtension(filePath);
-
-        if (!fileName.StartsWith("log_"))
-            return false;
-
-        if (fileName.Length < 14)
-            return false;
-
-        var datePart = fileName.Substring(4, 10);
-        return DateTime.TryParseExact(datePart, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
-    }
-
-    /// <summary>
-    /// Tries to parse a string in the format "yyyy-MM" into a <see cref="DateTime"/> object.
-    /// </summary>
-    /// <param name="s">The string to parse.</param>
-    /// <param name="yearMonth">The parsed <see cref="DateTime"/> representing the first day of the month.</param>
-    /// <returns><see langword="true"/> if the parsing was successful; otherwise, <see langword="false"/>.</returns>
-    private static bool TryParseYearMonth(string s, out DateTime yearMonth)
-    {
-        yearMonth = default;
-        if (DateTime.TryParseExact(s, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
-        {
-            yearMonth = new DateTime(dt.Year, dt.Month, 1);
-            return true;
-        }
-        return false;
-    }
-    #endregion
+    internal static SemaphoreSlim FileSemaphore => _logSemaphore;
 
     #region Import
     /// <summary>
@@ -421,9 +125,9 @@ public static class StswLog
     /// <returns>The list of file paths that match the date range.</returns>
     private static IEnumerable<string> GetFilesInRange(DateTime from, DateTime to)
         => Directory
-            .GetFiles(Config.LogDirectoryPath, "log_*.log")
+            .GetFiles(Config.LogDirectoryPath, StswLogArchiving.LogFilePattern)
             .Where(path =>
-                TryGetDateFromFilename(path, out var fileDate) &&
+                StswLogArchiving.TryGetLogDate(path, out var fileDate) &&
                 fileDate.Date >= from.Date && fileDate.Date <= to.Date);
 
     /// <summary>
@@ -438,17 +142,17 @@ public static class StswLog
         return line.Length >= 19 && DateTime.TryParse(line.Substring(0, 19), out date);
     }
 
-	/// <summary>
-	/// Parses a single line from the log file and converts it into a <see cref="StswLogItem"/> object.
-	/// </summary>
-	/// <param name="logEntryLines">The lines that make up a single log entry, where the first line contains the timestamp and log type, and subsequent lines contain the log text.</param>
-	/// <returns>
-	/// A <see cref="StswLogItem"/> object if the line is valid; otherwise, <see langword="null"/> if the line is invalid or cannot be parsed.
-	/// </returns>
-	/// <remarks>
-	/// This method assumes that the log line is formatted as "yyyy-MM-dd HH:mm:ss | T | Log text", where 'T' represents the first character of the log type.
-	/// </remarks>
-	private static StswLogItem? ParseLogEntry(List<string> logEntryLines)
+    /// <summary>
+    /// Parses a single line from the log file and converts it into a <see cref="StswLogItem"/> object.
+    /// </summary>
+    /// <param name="logEntryLines">The lines that make up a single log entry, where the first line contains the timestamp and log type, and subsequent lines contain the log text.</param>
+    /// <returns>
+    /// A <see cref="StswLogItem"/> object if the line is valid; otherwise, <see langword="null"/> if the line is invalid or cannot be parsed.
+    /// </returns>
+    /// <remarks>
+    /// This method assumes that the log line is formatted as "yyyy-MM-dd HH:mm:ss | T | Log text", where 'T' represents the first character of the log type.
+    /// </remarks>
+    private static StswLogItem? ParseLogEntry(List<string> logEntryLines)
     {
         if (logEntryLines.Count == 0 || !IsNewLogEntryLine(logEntryLines[0], out var date))
             return null;
@@ -488,65 +192,59 @@ public static class StswLog
 
     #region Write
     /// <summary>
-    /// Writes a log entry to a file synchronously in the directory specified by <see cref="StswLogConfig.LogDirectoryPath"/>.
+    /// Writes a log entry synchronously using configured log targets, or the specified target override.
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
-    public static void Write(StswInfoType? type, string text)
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    public static void Write(StswInfoType? type, string text, StswLogTarget? targets = null)
     {
-        if (Config.IsLoggingDisabled)
+        if (!CanLog(type, out var resolvedTargets, targets))
             return;
 
-        if (!ShouldLog(type))
-            return;
-
-        _ = WriteInternal(type, text);
+        _ = WriteInternal(type, text, resolvedTargets);
     }
 
     /// <summary>
-    /// Writes a log entry to a file synchronously without specifying a log type.
+    /// Writes a log entry synchronously without specifying a log type.
     /// </summary>
     /// <param name="text">The text to log.</param>
-    public static void Write(string text) => Write(null, text);
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    public static void Write(string text, StswLogTarget? targets = null) => Write(null, text, targets);
 
     /// <summary>
-    /// Writes a log entry to a file asynchronously in the directory specified by <see cref="StswLogConfig.LogDirectoryPath"/>.
+    /// Writes a log entry asynchronously using configured log targets, or the specified target override.
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
-    public static Task WriteAsync(StswInfoType? type, string text)
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    public static Task WriteAsync(StswInfoType? type, string text, StswLogTarget? targets = null)
     {
-        if (Config.IsLoggingDisabled)
+        if (!CanLog(type, out var resolvedTargets, targets))
             return Task.CompletedTask;
 
-        if (!ShouldLog(type))
-            return Task.CompletedTask;
-
-        // CREATE LOG
-        return WriteInternal(type, text);
+        return WriteInternal(type, text, resolvedTargets);
     }
 
     /// <summary>
-    /// Writes a log entry to a file asynchronously without specifying a log type.
+    /// Writes a log entry asynchronously without specifying a log type.
     /// </summary>
     /// <param name="text">The text to log.</param>
-    public static Task WriteAsync(string text) => WriteAsync(null, text);
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    public static Task WriteAsync(string text, StswLogTarget? targets = null) => WriteAsync(null, text, targets);
 
     /// <summary>
-    /// Writes an exception to the log file, including its type, message, stack trace, and any inner exceptions.
+    /// Writes an exception to enabled log targets, including its type, message, stack trace, and any inner exceptions.
     /// </summary>
-    /// <param name="ex">Exception to log</param>
+    /// <param name="ex">Exception to log.</param>
     /// <param name="type">Optional type of the log entry. If not specified, defaults to <see cref="StswInfoType.Error"/>.</param>
     /// <param name="context">Optional context for the log entry, which can provide additional information about where the exception occurred.</param>
-    public static void WriteException(Exception ex, StswInfoType? type = StswInfoType.Error, string? context = null)
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    public static void WriteException(Exception ex, StswInfoType? type = StswInfoType.Error, string? context = null, StswLogTarget? targets = null)
     {
-        if (Config.IsLoggingDisabled)
+        if (!CanLog(type, out _, targets))
             return;
 
-        if (!ShouldLog(type))
-            return;
-
-        // CREATE LOG
         try
         {
             var msg = new StringBuilder();
@@ -564,7 +262,7 @@ public static class StswLog
             }
 
             AppendException(ex, 0);
-            Write(type, msg.ToString());
+            Write(type, msg.ToString(), targets);
             _failureCount = 0;
         }
         catch (Exception ex2)
@@ -574,39 +272,36 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Writes a log entry to a file asynchronously, including the type of the log entry and the text to log.
+    /// Writes a log entry asynchronously, including the type of the log entry and the text to log.
     /// </summary>
     /// <param name="type">The type of the log entry.</param>
     /// <param name="text">The text to log.</param>
+    /// <param name="targets">The output targets to use.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private static async Task WriteInternal(StswInfoType? type, string text)
+    private static async Task WriteInternal(StswInfoType? type, string text, StswLogTarget targets)
     {
-        await _logSemaphore.WaitAsync();
-        try
-        {
-            ForceSizeArchiveIfNeeded();
+        var logItem = new StswLogItem(type, text);
+        var logLine = FormatLogLine(logItem);
+        var hasSuccess = false;
+        var hasFailure = false;
 
-            var logPath = GetDailyLogFilePath();
-            var logLine = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {(type ?? StswInfoType.None).ToString()[0]} | {text}";
+        if (targets.HasFlag(StswLogTarget.File))
+            hasSuccess |= await TryWriteToTargetAsync(() => WriteToFileAsync(logLine), () => hasFailure = true);
 
-            Console.WriteLine(logLine);
-            using var sw = new StreamWriter(logPath, true);
-            await sw.WriteLineAsync(logLine);
+        if (targets.HasFlag(StswLogTarget.EventViewer))
+            hasSuccess |= TryWriteToTarget(() => WriteToEventViewer(logItem, logLine), () => hasFailure = true);
 
-            if (!Config.IsLoggingDisabled && Config.SqlLogger is not null)
-                Config.SqlLogger.Invoke(new StswLogItem(type, text));
+        if (targets.HasFlag(StswLogTarget.MessageBox))
+            hasSuccess |= TryWriteToTarget(() => ShowMessageBox(logItem), () => hasFailure = true);
 
+        if (targets.HasFlag(StswLogTarget.Custom))
+            hasSuccess |= TryWriteToTarget(() => WriteToCustomTargets(logItem), () => hasFailure = true);
+
+        if (hasSuccess)
             CountLogToActiveCounters(type);
+
+        if (!hasFailure)
             _failureCount = 0;
-        }
-        catch (Exception ex)
-        {
-            HandleLoggingFailure(ex);
-        }
-        finally
-        {
-            _logSemaphore.Release();
-        }
     }
 
     /// <summary>
@@ -618,10 +313,356 @@ public static class StswLog
     /// <param name="filePath"></param>
     /// <param name="lineNumber"></param>
     public static void WriteWithCaller(StswInfoType? type, string text, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        => WriteWithCaller(type, text, null, memberName, filePath, lineNumber);
+
+    /// <summary>
+    /// Writes a log entry to a file synchronously, including caller information such as member name, file path, and line number.
+    /// </summary>
+    /// <param name="type">Type of the log entry.</param>
+    /// <param name="text">Text to log.</param>
+    /// <param name="targets">Optional target override. If not specified, <see cref="StswLogConfig.Targets"/> is used.</param>
+    /// <param name="memberName"></param>
+    /// <param name="filePath"></param>
+    /// <param name="lineNumber"></param>
+    public static void WriteWithCaller(StswInfoType? type, string text, StswLogTarget? targets, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         var fileName = Path.GetFileName(filePath);
         text = $"[{fileName}:{lineNumber} {memberName}] {text}";
-        Write(type, text);
+        Write(type, text, targets);
+    }
+
+    /// <summary>
+    /// Determines whether the log entry can be written based on the type of the log, the current configuration, and selected targets.
+    /// </summary>
+    /// <param name="type">The type of log entry.</param>
+    /// <param name="resolvedTargets">The resolved output targets.</param>
+    /// <param name="targetOverride">Optional target override.</param>
+    /// <returns><see langword="true"/> if the log entry should be written; otherwise, <see langword="false"/>.</returns>
+    private static bool CanLog(StswInfoType? type, out StswLogTarget resolvedTargets, StswLogTarget? targetOverride = null)
+    {
+        resolvedTargets = targetOverride ?? Config.Targets;
+
+        if (Config.IsLoggingDisabled)
+            return false;
+
+        if (resolvedTargets == StswLogTarget.None)
+            return false;
+
+        if (!ShouldLog(type))
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Formats a log item into the default log line format.
+    /// </summary>
+    /// <param name="item">The log item to format.</param>
+    /// <returns>The formatted log line.</returns>
+    private static string FormatLogLine(StswLogItem item)
+        => $"{item.DateTime:yyyy-MM-dd HH:mm:ss} | {(item.Type ?? StswInfoType.None).ToString()[0]} | {item.Text}";
+
+    /// <summary>
+    /// Writes a log line to the daily file.
+    /// </summary>
+    /// <param name="logLine">The formatted log line.</param>
+    private static async Task WriteToFileAsync(string logLine)
+    {
+        await _logSemaphore.WaitAsync();
+        try
+        {
+            StswLogArchiving.ForceSizeArchiveIfNeeded();
+            EnsureLogDirectoryExists();
+
+            Console.WriteLine(logLine);
+            using var sw = new StreamWriter(GetDailyLogFilePath(), true);
+            await sw.WriteLineAsync(logLine);
+        }
+        finally
+        {
+            _logSemaphore.Release();
+        }
+    }
+
+    /// <summary>
+    /// Writes a log entry to Windows Event Viewer using reflection to avoid a hard dependency on System.Diagnostics.EventLog.
+    /// </summary>
+    /// <param name="item">The log item to write.</param>
+    /// <param name="logLine">The formatted log line.</param>
+    private static void WriteToEventViewer(StswLogItem item, string logLine)
+    {
+        var eventLogType = GetTypeFromLoadedOrReferencedAssemblies("System.Diagnostics.EventLog", "System.Diagnostics.EventLog");
+        var eventLogEntryType = GetTypeFromLoadedOrReferencedAssemblies("System.Diagnostics.EventLogEntryType", "System.Diagnostics.EventLog");
+
+        if (eventLogType == null || eventLogEntryType == null)
+            throw new InvalidOperationException("System.Diagnostics.EventLog is not available. Add the System.Diagnostics.EventLog package/reference or disable the EventViewer log target.");
+
+        var sourceName = string.IsNullOrWhiteSpace(Config.EventViewerSourceName)
+            ? AppDomain.CurrentDomain.FriendlyName
+            : Config.EventViewerSourceName;
+        var logName = string.IsNullOrWhiteSpace(Config.EventViewerLogName)
+            ? "Application"
+            : Config.EventViewerLogName;
+
+        var sourceExists = eventLogType.GetMethod("SourceExists", [typeof(string)]);
+        var createEventSource = eventLogType.GetMethod("CreateEventSource", [typeof(string), typeof(string)]);
+        var writeEntry = eventLogType.GetMethod("WriteEntry", [typeof(string), typeof(string), eventLogEntryType]);
+
+        if (sourceExists == null || createEventSource == null || writeEntry == null)
+            throw new MissingMethodException(eventLogType.FullName, "SourceExists/CreateEventSource/WriteEntry");
+
+        if (sourceExists.Invoke(null, [sourceName]) is false)
+            createEventSource.Invoke(null, [sourceName, logName]);
+
+        var eventLogEntry = Enum.Parse(eventLogEntryType, GetEventViewerEntryTypeName(item.Type));
+        writeEntry.Invoke(null, [sourceName, logLine, eventLogEntry]);
+    }
+
+    /// <summary>
+    /// Shows a log entry through StswExpress.Wpf message dialog/message box if the type is available at runtime.
+    /// </summary>
+    /// <param name="item">The log item to show.</param>
+    private static void ShowMessageBox(StswLogItem item)
+    {
+        var messageBoxType = GetTypeFromLoadedOrReferencedAssemblies("StswExpress.Wpf.StswMessageBox", "StswExpress.Wpf")
+                          ?? GetTypeFromLoadedOrReferencedAssemblies("StswExpress.Wpf.StswMessageDialog", "StswExpress.Wpf");
+
+        if (messageBoxType == null)
+            throw new InvalidOperationException("StswExpress.Wpf.StswMessageBox/StswMessageDialog is not available. Reference StswExpress.Wpf or disable the MessageBox log target.");
+
+        var showMethod = messageBoxType
+            .GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .Where(IsSupportedMessageBoxShowMethod)
+            .OrderByDescending(x => x.GetParameters()[0].ParameterType == typeof(string))
+            .ThenByDescending(x => x.GetParameters().Length)
+            .FirstOrDefault();
+
+        if (showMethod == null)
+            throw new MissingMethodException(messageBoxType.FullName, "Show");
+
+        var parameters = showMethod.GetParameters();
+        var args = new object?[parameters.Length];
+        args[0] = item.Text ?? string.Empty;
+
+        for (var i = 1; i < parameters.Length; i++)
+            args[i] = CreateMessageBoxArgument(parameters[i], item);
+
+        var result = showMethod.Invoke(null, args);
+        ObserveFaultedTask(result);
+    }
+
+    /// <summary>
+    /// Writes a log entry to custom delegates and events.
+    /// </summary>
+    /// <param name="item">The log item to write.</param>
+    private static void WriteToCustomTargets(StswLogItem item)
+    {
+        Config.CustomLogger?.Invoke(item);
+        LogWritten?.Invoke(item);
+    }
+
+    /// <summary>
+    /// Executes a logging target and handles target-specific errors.
+    /// </summary>
+    /// <param name="action">The target action.</param>
+    /// <param name="onFailure">The failure callback.</param>
+    /// <returns><see langword="true"/> if the target completed successfully; otherwise, <see langword="false"/>.</returns>
+    private static bool TryWriteToTarget(Action action, Action onFailure)
+    {
+        try
+        {
+            action();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            onFailure();
+            HandleLoggingFailure(GetInnermostException(ex));
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Executes an asynchronous logging target and handles target-specific errors.
+    /// </summary>
+    /// <param name="action">The target action.</param>
+    /// <param name="onFailure">The failure callback.</param>
+    /// <returns><see langword="true"/> if the target completed successfully; otherwise, <see langword="false"/>.</returns>
+    private static async Task<bool> TryWriteToTargetAsync(Func<Task> action, Action onFailure)
+    {
+        try
+        {
+            await action();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            onFailure();
+            HandleLoggingFailure(GetInnermostException(ex));
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Checks whether a reflected Show method can be used for message box logging.
+    /// </summary>
+    /// <param name="method">The method to check.</param>
+    /// <returns><see langword="true"/> if the method is supported; otherwise, <see langword="false"/>.</returns>
+    private static bool IsSupportedMessageBoxShowMethod(MethodInfo method)
+    {
+        if (method.Name != "Show")
+            return false;
+
+        var parameters = method.GetParameters();
+        if (parameters.Length == 0)
+            return false;
+
+        return parameters[0].ParameterType == typeof(string) || parameters[0].ParameterType == typeof(object);
+    }
+
+    /// <summary>
+    /// Creates an argument for a reflected message box Show method.
+    /// </summary>
+    /// <param name="parameter">The target parameter.</param>
+    /// <param name="item">The log item.</param>
+    /// <returns>The argument value.</returns>
+    private static object? CreateMessageBoxArgument(ParameterInfo parameter, StswLogItem item)
+    {
+        if (parameter.Name?.Equals("title", StringComparison.OrdinalIgnoreCase) == true)
+            return GetMessageBoxTitle(item.Type);
+
+        if (parameter.Name?.Equals("details", StringComparison.OrdinalIgnoreCase) == true)
+            return null;
+
+        if (parameter.Name?.Equals("image", StringComparison.OrdinalIgnoreCase) == true && parameter.ParameterType.IsEnum)
+            return TryCreateEnumValue(parameter.ParameterType, (item.Type ?? StswInfoType.None).ToString()) ?? GetDefaultParameterValue(parameter);
+
+        return GetDefaultParameterValue(parameter);
+    }
+
+    /// <summary>
+    /// Gets a default argument value for a reflected method parameter.
+    /// </summary>
+    /// <param name="parameter">The reflected parameter.</param>
+    /// <returns>The default argument value.</returns>
+    private static object? GetDefaultParameterValue(ParameterInfo parameter)
+    {
+        if (parameter.HasDefaultValue && parameter.DefaultValue != DBNull.Value)
+        {
+            if (parameter.ParameterType.IsEnum && parameter.DefaultValue is not null)
+            {
+                if (parameter.DefaultValue.GetType() == parameter.ParameterType)
+                    return parameter.DefaultValue;
+
+                return Enum.ToObject(parameter.ParameterType, parameter.DefaultValue);
+            }
+
+            return parameter.DefaultValue;
+        }
+
+        var underlyingNullableType = Nullable.GetUnderlyingType(parameter.ParameterType);
+        if (!parameter.ParameterType.IsValueType || underlyingNullableType != null)
+            return null;
+
+        return Activator.CreateInstance(parameter.ParameterType);
+    }
+
+    /// <summary>
+    /// Tries to create an enum value from a string.
+    /// </summary>
+    /// <param name="enumType">The enum type.</param>
+    /// <param name="valueName">The enum value name.</param>
+    /// <returns>The enum value if successful; otherwise, <see langword="null"/>.</returns>
+    private static object? TryCreateEnumValue(Type enumType, string valueName)
+    {
+        if (Enum.GetNames(enumType).Any(x => x.Equals(valueName, StringComparison.OrdinalIgnoreCase)))
+            return Enum.Parse(enumType, valueName, true);
+
+        return null;
+    }
+
+    /// <summary>
+    /// Observes a reflected Task result to prevent unobserved exceptions.
+    /// </summary>
+    /// <param name="result">The reflected method result.</param>
+    private static void ObserveFaultedTask(object? result)
+    {
+        if (result is not Task task)
+            return;
+
+        _ = task.ContinueWith(x =>
+        {
+            if (x.Exception != null)
+                HandleLoggingFailure(GetInnermostException(x.Exception));
+        }, TaskContinuationOptions.OnlyOnFaulted);
+    }
+
+    /// <summary>
+    /// Gets a runtime type from loaded assemblies or attempts to load a known assembly.
+    /// </summary>
+    /// <param name="typeName">The full type name.</param>
+    /// <param name="assemblyName">The optional assembly name to load.</param>
+    /// <returns>The type if found; otherwise, <see langword="null"/>.</returns>
+    private static Type? GetTypeFromLoadedOrReferencedAssemblies(string typeName, string? assemblyName = null)
+    {
+        var type = Type.GetType(string.IsNullOrWhiteSpace(assemblyName) ? typeName : $"{typeName}, {assemblyName}", false);
+        if (type != null)
+            return type;
+
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            type = assembly.GetType(typeName, false);
+            if (type != null)
+                return type;
+        }
+
+        if (string.IsNullOrWhiteSpace(assemblyName))
+            return null;
+
+        try
+        {
+            var assembly = Assembly.Load(assemblyName);
+            return assembly.GetType(typeName, false);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the Windows Event Viewer entry type name for the specified log type.
+    /// </summary>
+    /// <param name="type">The log type.</param>
+    /// <returns>The Event Viewer entry type name.</returns>
+    private static string GetEventViewerEntryTypeName(StswInfoType? type) => type switch
+    {
+        StswInfoType.Error or StswInfoType.Fatal => "Error",
+        StswInfoType.Warning => "Warning",
+        _ => "Information",
+    };
+
+    /// <summary>
+    /// Gets the message box title for the specified log type.
+    /// </summary>
+    /// <param name="type">The log type.</param>
+    /// <returns>The message box title.</returns>
+    private static string GetMessageBoxTitle(StswInfoType? type) => type?.ToString() ?? nameof(StswInfoType.None);
+
+    /// <summary>
+    /// Gets the innermost exception from reflection and aggregate wrappers.
+    /// </summary>
+    /// <param name="ex">The exception to unwrap.</param>
+    /// <returns>The innermost exception.</returns>
+    private static Exception GetInnermostException(Exception ex)
+    {
+        if (ex is TargetInvocationException { InnerException: not null } targetInvocationException)
+            return GetInnermostException(targetInvocationException.InnerException);
+
+        if (ex is AggregateException aggregateException)
+            return GetInnermostException(aggregateException.GetBaseException());
+
+        return ex;
     }
 
     /// <summary>
@@ -650,10 +691,10 @@ public static class StswLog
     /// Also invokes a custom failure action if one is configured.
     /// </summary>
     /// <param name="ex">The exception that occurred during the logging process.</param>
-    private static void HandleLoggingFailure(Exception ex)
+    internal static void HandleLoggingFailure(Exception ex)
     {
         _failureCount++;
-        if (_failureCount >= Config.MaxFailures)
+        if (Config.MaxFailures.HasValue && _failureCount >= Config.MaxFailures.Value)
             Config.IsLoggingDisabled = true;
 
         Config.OnLogFailure?.Invoke(ex);
@@ -676,8 +717,17 @@ public static class StswLog
     #endregion
 
     /// <summary>
+    /// Ensures the active log directory exists.
+    /// </summary>
+    internal static void EnsureLogDirectoryExists()
+    {
+        if (!string.IsNullOrEmpty(Config.LogDirectoryPath) && !Directory.Exists(Config.LogDirectoryPath))
+            Directory.CreateDirectory(Config.LogDirectoryPath);
+    }
+
+    /// <summary>
     /// Gets the path to the log file for the current day.
     /// </summary>
     /// <returns>The full path to the log file for today.</returns>
-    private static string GetDailyLogFilePath() => Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log");
+    internal static string GetDailyLogFilePath() => Path.Combine(Config.LogDirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log");
 }

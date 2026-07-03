@@ -1,4 +1,5 @@
-﻿namespace StswExpress.Commons;
+﻿namespace StswExpress.Commons;
+
 /// <summary>
 /// Represents an immutable log entry with a type, text, and a timestamp.
 /// </summary>
