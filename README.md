@@ -3,10 +3,7 @@
 A modern WPF library for .NET 8.0, offering enhanced controls, tools, and customization options for building responsive and feature-rich desktop applications.
 
 📖 Documentation:  
-https://karol-staszewski.github.io/StswExpress-docs/
-
-📖 Screenshots:  
-https://github.com/Karol-Staszewski/StswExpress-docs/tree/main/screenshots
+https://stsw133.github.io/StswExpress/
 
 ## Features
 

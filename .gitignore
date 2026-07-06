@@ -362,3 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /StswExpress/nuget.config
+
+# DocFX
+/docs/_site/
+/docs/_api/
+/docs/api/

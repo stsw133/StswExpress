@@ -1,0 +1,24 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "_api",
+          "files": [ "StswExpress.*.dll" ],
+          "exclude": [ "*Tests*.dll" ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      { "files": [ "index.md", "toc.yml", "articles/**/*.md", "articles/toc.yml" ] },
+      { "files": [ "api/**.yml" ] }
+    ],
+    "resource": [
+      { "files": [ "assets/**" ] }
+    ],
+    "dest": "_site"
+  }
+}

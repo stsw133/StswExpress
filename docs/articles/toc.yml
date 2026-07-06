@@ -1,0 +1,22 @@
+- name: Getting started
+  href: getting-started.md
+- name: Installation
+  href: installation.md
+- name: Tutorials
+  items:
+    - name: Startup Guide
+      href: tutorials/startup.md
+    - name: StswDatabaseHelper Guide
+      href: tutorials/database-helpers.md
+    - name: StswDataGrid Guide
+      href: tutorials/data-grid.md
+    - name: Identifier Controls Guide
+      href: tutorials/identifier-controls.md
+- name: Changelog
+  items:
+    - name: Overview
+      href: changelog/index.md
+    - name: 1.0
+      href: changelog/1.0.md
+    - name: Legacy Free (≤ 0.23.1)
+      href: changelog/legacy-free.md

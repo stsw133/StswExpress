@@ -1,0 +1,136 @@
+name: Build & Deploy Versioned Docs
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "docs/**"
+      - "StswExpress.*/**"
+      - "StswExpress.sln"
+      - ".github/workflows/docs.yml"
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version folder name, e.g. 0.22.0. Empty = latest only."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "docs"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install DocFX
+        run: dotnet tool update -g docfx
+
+      - name: Build solution
+        run: dotnet build StswExpress.sln -c Release
+
+      - name: Collect API binaries and XML docs
+        shell: pwsh
+        run: |
+          $api = "docs/_api"
+
+          if (Test-Path $api) {
+            Remove-Item -Recurse -Force $api
+          }
+
+          New-Item -ItemType Directory -Force -Path $api | Out-Null
+
+          $assemblies = @(
+            "StswExpress.Commons",
+            "StswExpress.Wpf",
+            "StswExpress.Avalonia",
+            "StswExpress.Mail",
+            "StswExpress.Sql"
+          )
+
+          foreach ($a in $assemblies) {
+            $dll = Get-ChildItem -Path "." -Recurse -Filter "$a.dll" |
+              Where-Object { $_.FullName -match "\\bin\\Release\\" } |
+              Select-Object -First 1
+
+            $xml = Get-ChildItem -Path "." -Recurse -Filter "$a.xml" |
+              Where-Object { $_.FullName -match "\\bin\\Release\\" } |
+              Select-Object -First 1
+
+            if ($dll) {
+              Copy-Item $dll.FullName -Destination $api -Force
+            }
+
+            if ($xml) {
+              Copy-Item $xml.FullName -Destination $api -Force
+            }
+          }
+
+          Write-Host "Collected API files:"
+          Get-ChildItem $api | Format-Table Name, Length
+
+      - name: Build docs site
+        working-directory: docs
+        run: docfx docfx.json
+
+      - name: Prepare publish folders
+        shell: pwsh
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+
+          if (Test-Path "publish") {
+            Remove-Item -Recurse -Force "publish"
+          }
+
+          New-Item -ItemType Directory -Force -Path "publish" | Out-Null
+
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            New-Item -ItemType Directory -Force -Path "publish/latest" | Out-Null
+            Copy-Item -Recurse -Force "docs/_site/*" "publish/latest"
+          }
+          else {
+            $vPath = "publish/v/$version"
+
+            New-Item -ItemType Directory -Force -Path $vPath | Out-Null
+            Copy-Item -Recurse -Force "docs/_site/*" $vPath
+
+            if (Test-Path "publish/latest") {
+              Remove-Item -Recurse -Force "publish/latest"
+            }
+
+            New-Item -ItemType Directory -Force -Path "publish/latest" | Out-Null
+            Copy-Item -Recurse -Force "$vPath/*" "publish/latest"
+          }
+
+          @"
+          <!doctype html>
+          <meta http-equiv="refresh" content="0; url=latest/">
+          <title>Redirecting...</title>
+          <a href="latest/">Go to latest</a>
+          "@ | Out-File -Encoding utf8 "publish/index.html"
+
+          New-Item -ItemType File -Force -Path "publish/.nojekyll" | Out-Null
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: publish
+          keep_files: true
+          force_orphan: false
