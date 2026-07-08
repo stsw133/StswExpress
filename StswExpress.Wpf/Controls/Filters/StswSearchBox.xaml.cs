@@ -4,7 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A text-based search control that filters the provided <see cref="ItemsSource"/> collection based on the entered <see cref="FilterText"/>.
 /// </summary>

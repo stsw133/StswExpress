@@ -21,23 +21,23 @@
                                       IconScale="1.5"
                                       se:StswToolTip.Text="Move selected database down"/>
                     <se:StswSubButton Command="{Binding AddCommand}"
-                                      Foreground="{DynamicResource StswColor.Positive}"
                                       IconData="{x:Static se:StswIcons.Plus}"
+                                      IconFill="{DynamicResource StswColor.Positive}"
                                       IconScale="1.5"
                                       se:StswToolTip.Text="Add new database"/>
                     <se:StswSubButton Command="{Binding RemoveCommand}"
-                                      Foreground="{DynamicResource StswColor.Negative}"
                                       IconData="{x:Static se:StswIcons.Minus}"
+                                      IconFill="{DynamicResource StswColor.Negative}"
                                       IconScale="1.5"
                                       se:StswToolTip.Text="Remove selected database"/>
                     <se:StswSubButton Command="{Binding ImportCommand}"
-                                      Foreground="{DynamicResource StswColor.Neutral}"
                                       IconData="{x:Static se:StswIcons.Refresh}"
+                                      IconFill="{DynamicResource StswColor.Neutral}"
                                       IconScale="1.5"
                                       se:StswToolTip.Text="Import list of databases"/>
                     <se:StswSubButton Command="{Binding ExportCommand}"
-                                      Foreground="{DynamicResource StswColor.Modify}"
                                       IconData="{x:Static se:StswIcons.DatabaseExportOutline}"
+                                      IconFill="{DynamicResource StswColor.Modify}"
                                       IconScale="1.5"
                                       se:StswToolTip.Text="Export list of databases"/>
                 </StackPanel>
@@ -46,55 +46,64 @@
             <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding AllDatabases}" SelectedItem="{Binding SelectedDatabase}"/>
         </DockPanel>
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
+
         <!-- selected database model -->
         <se:StswScrollView IsEnabled="{Binding SelectedDatabase, Converter={x:Static se:StswExistenceConverter.Instance}}">
-            <StackPanel DataContext="{Binding SelectedDatabase}" Margin="3">
-                
-                <!-- name -->
-                <StackPanel Margin="3">
-                    <Label Content="Name:"/>
-                    <se:StswTextBox Text="{Binding Name}"/>
-                </StackPanel>
+			<Grid Margin="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" MinWidth="200"/>
+				</Grid.ColumnDefinitions>
 
-                <!-- server -->
-                <StackPanel Margin="3">
-                    <Label Content="Server:"/>
-                    <se:StswTextBox Text="{Binding Server}"/>
-                </StackPanel>
+				<!-- database model -->
+				<StackPanel Grid.Column="0" Margin="3">
+					<se:StswText FontSize="16" FontWeight="SemiBold" Margin="3 3 3 10" Text="Database settings"/>
 
-                <!-- port -->
-                <StackPanel Margin="3">
-                    <Label Content="Port:"/>
-                    <se:StswIntegerBox Value="{Binding Port}"/>
-                </StackPanel>
+					<!-- name -->
+					<StackPanel Margin="3">
+						<se:StswLabel Content="Name:"/>
+						<se:StswTextBox Text="{Binding SelectedDatabase.Name}"/>
+					</StackPanel>
 
-                <!-- database -->
-                <StackPanel Margin="3">
-                    <Label Content="Database:"/>
-                    <se:StswTextBox Text="{Binding Database}"/>
-                </StackPanel>
+					<!-- server -->
+					<StackPanel Margin="3">
+						<se:StswLabel Content="Server:"/>
+						<se:StswTextBox Text="{Binding SelectedDatabase.Server}"/>
+					</StackPanel>
 
-                <!-- use integrated security -->
-                <se:StswCheckBox Content="Use integrated security" IsChecked="{Binding UseIntegratedSecurity}" Margin="3 10 3 0"/>
+					<!-- port -->
+					<StackPanel Margin="3">
+						<se:StswLabel Content="Port:"/>
+						<se:StswIntegerBox Value="{Binding SelectedDatabase.Port}"/>
+					</StackPanel>
 
-                <!-- login -->
-                <StackPanel Margin="3" IsEnabled="{Binding UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-                    <Label Content="Login:"/>
-                    <se:StswTextBox Text="{Binding Login}"/>
-                </StackPanel>
+					<!-- database -->
+					<StackPanel Margin="3">
+						<se:StswLabel Content="Database:"/>
+						<se:StswTextBox Text="{Binding SelectedDatabase.Database}"/>
+					</StackPanel>
 
-                <!-- password -->
-                <StackPanel Margin="3" IsEnabled="{Binding UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-                    <Label Content="Password:"/>
-                    <se:StswPasswordBox Password="{Binding Password}">
-                        <se:StswPasswordBox.SubControls>
-                            <se:StswSubCheck Focusable="False" IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}" Margin="0 0 3 0"
-                                             IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
-                        </se:StswPasswordBox.SubControls>
-                    </se:StswPasswordBox>
-                </StackPanel>
-                
-            </StackPanel>
-        </se:StswScrollView>
+					<!-- use integrated security -->
+					<se:StswCheckBox Content="Use integrated security" IsChecked="{Binding SelectedDatabase.UseIntegratedSecurity}" Margin="3 10 3 0"/>
+
+					<!-- login -->
+					<StackPanel Margin="3" IsEnabled="{Binding SelectedDatabase.UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
+						<se:StswLabel Content="Login:"/>
+						<se:StswTextBox Text="{Binding SelectedDatabase.Login}"/>
+					</StackPanel>
+
+					<!-- password -->
+					<StackPanel Margin="3" IsEnabled="{Binding SelectedDatabase.UseIntegratedSecurity, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
+						<se:StswLabel Content="Password:"/>
+						<se:StswPasswordBox Password="{Binding SelectedDatabase.Password}">
+							<se:StswPasswordBox.SubControls>
+								<se:StswSubCheck Focusable="False" IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}" Margin="0 0 3 0"
+                                                 IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
+							</se:StswPasswordBox.SubControls>
+						</se:StswPasswordBox>
+					</StackPanel>
+				</StackPanel>
+
+			</Grid>
+		</se:StswScrollView>
     </DockPanel>
 </UserControl>

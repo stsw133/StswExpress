@@ -76,7 +76,7 @@ Examples: `StswCalculator`, `StswMapping`.
 An integrated logging system for debugging and monitoring, with configurable logging behavior.  
 Examples: `StswLog`, `StswLogConfig`.
 
-#### Mailboxes
+#### Mailing
 Email management tools for sending and handling emails directly from the application.  
 Examples: `StswMailboxes`, `StswMailboxModel`.
 

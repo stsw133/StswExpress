@@ -13,17 +13,17 @@ namespace StswExpress.Wpf;
 /// <example>
 /// The following example demonstrates how to use the class:
 /// <code>
-/// &lt;se:StswTextBox Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/&gt;
+/// &lt;se:StswInputBoxTest Text="{Binding Email}" Icon="{StaticResource MailIcon}" Placeholder="Enter your email"/&gt;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
+public class StswInputBoxTest : StswInputBoxBase, IStswBoxControl, IStswCornerControl
 {
-    static StswTextBox()
+    static StswInputBoxTest()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInputBoxTest), new FrameworkPropertyMetadata(typeof(StswInputBoxTest)));
     }
-    public StswTextBox()
+    public StswInputBoxTest()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
@@ -39,7 +39,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
 
     /// <inheritdoc/>
@@ -52,7 +52,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
 
     /// <inheritdoc/>
@@ -65,7 +65,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
 
     /// <inheritdoc/>
@@ -78,7 +78,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HasError),
             typeof(bool),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
 
     /// <inheritdoc/>
@@ -91,21 +91,21 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Icon),
             typeof(object),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
 
-    /// <inheritdoc/>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswTextBox)
-        );
+    ///// <inheritdoc/>
+    //public string? Placeholder
+    //{
+    //    get => (string?)GetValue(PlaceholderProperty);
+    //    set => SetValue(PlaceholderProperty, value);
+    //}
+    //public static readonly DependencyProperty PlaceholderProperty
+    //    = DependencyProperty.Register(
+    //        nameof(Placeholder),
+    //        typeof(string),
+    //        typeof(StswInputBoxTest)
+    //    );
 
     /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
@@ -117,7 +117,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswTextBox)
+            typeof(StswInputBoxTest)
         );
     #endregion
 
@@ -126,8 +126,8 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            GetBindingExpression(TextProperty)?.UpdateSource();
+        //if (!AcceptsReturn && e.Key == Key.Enter)
+        //    GetBindingExpression(TextProperty)?.UpdateSource();
     }
     #endregion
 }

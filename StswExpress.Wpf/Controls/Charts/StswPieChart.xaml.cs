@@ -47,12 +47,10 @@ public class StswPieChart : ItemsControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnMinPercentageRenderChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnMinPercentageRenderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnMinPercentageRenderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is not StswPieChart stsw)
-            return;
-
-        stsw.RequestChartUpdate();
+		var stsw = (StswPieChart)d;
+		stsw.RequestChartUpdate();
     }
 
     /// <summary>
@@ -73,12 +71,10 @@ public class StswPieChart : ItemsControl
                 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnStrokeThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnStrokeThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is not StswPieChart stsw)
-            return;
-
-        stsw.RequestChartUpdate();
+    public static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var stsw = (StswPieChart)d;
+		stsw.RequestChartUpdate();
     }
     #endregion
 

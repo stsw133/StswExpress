@@ -1,0 +1,225 @@
+﻿<UserControl x:Class="TestApp.Wpf.MailboxesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sec="clr-namespace:StswExpress.Commons;assembly=StswExpress.Commons"
+             xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+             xmlns:local="clr-namespace:TestApp.Wpf" d:DataContext="{d:DesignInstance local:MailboxesContext}"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="600" d:DesignWidth="950">
+
+    <DockPanel>
+        <DockPanel>
+            <!-- button panel -->
+            <se:StswDirectionView DockPanel.Dock="Top" Orientation="Horizontal" Padding="3">
+                <StackPanel Orientation="Horizontal">
+                    <se:StswSubButton Command="{Binding MoveUpCommand}"
+                                      IconData="{x:Static se:StswIcons.ArrowUp}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Move selected mailbox up"/>
+                    <se:StswSubButton Command="{Binding MoveDownCommand}"
+                                      IconData="{x:Static se:StswIcons.ArrowDown}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Move selected mailbox down"/>
+                    <se:StswSubButton Command="{Binding AddCommand}"
+                                      IconData="{x:Static se:StswIcons.Plus}"
+                                      IconFill="{DynamicResource StswColor.Positive}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Add new mailbox"/>
+                    <se:StswSubButton Command="{Binding RemoveCommand}"
+                                      IconData="{x:Static se:StswIcons.Minus}"
+                                      IconFill="{DynamicResource StswColor.Negative}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Remove selected mailbox"/>
+                    <se:StswSubButton Command="{Binding ImportCommand}"
+                                      IconData="{x:Static se:StswIcons.Refresh}"
+                                      IconFill="{DynamicResource StswColor.Neutral}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Import list of mailboxes"/>
+                    <se:StswSubButton Command="{Binding ExportCommand}"
+                                      IconData="{x:Static se:StswIcons.DatabaseExportOutline}"
+                                      IconFill="{DynamicResource StswColor.Modify}"
+                                      IconScale="1.5"
+                                      se:StswToolTip.Text="Export list of mailboxes"/>
+                </StackPanel>
+            </se:StswDirectionView>
+            <!-- list -->
+            <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding AllMailboxes}" SelectedItem="{Binding SelectedMailbox}"/>
+        </DockPanel>
+        <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
+
+        <!-- selected mailbox + test message -->
+        <se:StswScrollView IsEnabled="{Binding SelectedMailbox, Converter={x:Static se:StswExistenceConverter.Instance}}">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="200"/>
+                    <ColumnDefinition Width="*" MinWidth="200"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- mailbox model -->
+                <StackPanel Grid.Column="0" Margin="3">
+					<se:StswText FontSize="16" FontWeight="SemiBold" Margin="3 3 3 10" Text="Mailbox settings"/>
+
+                    <!-- name -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Name:"/>
+                        <se:StswTextBox Text="{Binding SelectedMailbox.Name}"/>
+                    </StackPanel>
+
+                    <!-- host -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="SMTP host:"/>
+                        <se:StswTextBox Text="{Binding SelectedMailbox.Host}"/>
+                    </StackPanel>
+
+                    <!-- port -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Port:"/>
+                        <se:StswIntegerBox Value="{Binding SelectedMailbox.Port}"/>
+                    </StackPanel>
+
+                    <!-- security option -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Security option:"/>
+                        <se:StswComboBox ItemsSource="{se:StswEnumToList sec:StswMailSecurityOption}" SelectedValue="{Binding SelectedMailbox.SecurityOption}"/>
+                    </StackPanel>
+
+                    <!-- from -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="From:"/>
+                        <se:StswTextBox Text="{Binding SelectedMailbox.From}"/>
+                    </StackPanel>
+
+                    <!-- username -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Username:"/>
+                        <se:StswTextBox Text="{Binding SelectedMailbox.Username}"/>
+                    </StackPanel>
+
+                    <!-- password -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Password:"/>
+                        <se:StswPasswordBox Password="{Binding SelectedMailbox.Password}">
+                            <se:StswPasswordBox.SubControls>
+                                <se:StswSubCheck Focusable="False" IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}" Margin="0 0 3 0"
+                                                 IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
+                            </se:StswPasswordBox.SubControls>
+                        </se:StswPasswordBox>
+                    </StackPanel>
+
+                    <!-- domain -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="EHLO/HELO domain:"/>
+                        <se:StswTextBox Text="{Binding SelectedMailbox.Domain}"/>
+                    </StackPanel>
+
+                    <!-- reply to -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Reply-To (semicolon separated):"/>
+                        <se:StswTextBox Text="{Binding ReplyToText}"/>
+                    </StackPanel>
+
+                    <!-- ignore certificate errors -->
+                    <se:StswCheckBox Content="Ignore certificate errors" IsChecked="{Binding SelectedMailbox.IgnoreCertificateErrors}" Margin="3 10 3 0"/>
+
+                    <!-- global config -->
+                    <se:StswSeparator Margin="3 14 3 8"/>
+                    <se:StswCheckBox Content="Mail sending enabled" IsChecked="{Binding IsMailingEnabled}" Margin="3"/>
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Debug recipients (DEBUG only, semicolon separated):"/>
+                        <se:StswTextBox Text="{Binding DebugRecipientsText}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- message test panel -->
+                <StackPanel Grid.Column="1" Margin="9 3 3 3">
+					<se:StswText FontSize="16" FontWeight="SemiBold" Margin="3 3 3 10" Text="Test message"/>
+
+                    <!-- to -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="To:"/>
+                        <se:StswTextBox Text="{Binding To}"/>
+                    </StackPanel>
+
+                    <!-- cc -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Cc:"/>
+                        <se:StswTextBox Text="{Binding Cc}"/>
+                    </StackPanel>
+
+                    <!-- bcc -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Bcc:"/>
+                        <se:StswTextBox Text="{Binding Bcc}"/>
+                    </StackPanel>
+
+                    <!-- subject -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Subject:"/>
+                        <se:StswTextBox Text="{Binding Subject}"/>
+                    </StackPanel>
+
+                    <!-- body -->
+                    <StackPanel Margin="3">
+						<se:StswLabel Content="Body:"/>
+                        <se:StswTextBox AcceptsReturn="True"
+                                        MinHeight="170"
+                                        Text="{Binding Body}"
+                                        TextWrapping="Wrap"
+                                        VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+
+                    <!-- html -->
+                    <se:StswCheckBox Content="Body is HTML" IsChecked="{Binding IsBodyHtml}" Margin="3 10 3 0"/>
+
+                    <!-- attachments -->
+                    <StackPanel Margin="3 10 3 3">
+                        <DockPanel>
+							<se:StswLabel Content="Attachments:" DockPanel.Dock="Left"/>
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <se:StswSubButton Command="{Binding AddAttachmentsCommand}"
+                                                  Foreground="{DynamicResource StswColor.Positive}"
+                                                  IconData="{x:Static se:StswIcons.AttachmentPlus}"
+                                                  IconScale="1.5"
+                                                  se:StswToolTip.Text="Add attachments"/>
+                                <se:StswSubButton Command="{Binding ClearAttachmentsCommand}"
+                                                  Foreground="{DynamicResource StswColor.Negative}"
+                                                  IconData="{x:Static se:StswIcons.AttachmentRemove}"
+                                                  IconScale="1.5"
+                                                  se:StswToolTip.Text="Clear attachments"/>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <se:StswListBox ItemsSource="{Binding Attachments}" MinHeight="80" MaxHeight="130">
+                            <se:StswListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <se:StswSubButton Command="{Binding DataContext.RemoveAttachmentCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                          CommandParameter="{Binding}"
+                                                          DockPanel.Dock="Right"
+                                                          Foreground="{DynamicResource StswColor.Negative}"
+                                                          IconData="{x:Static se:StswIcons.Minus}"
+                                                          IconScale="1.3"
+                                                          se:StswToolTip.Text="Remove attachment"/>
+										<se:StswText Text="{Binding}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </se:StswListBox.ItemTemplate>
+                        </se:StswListBox>
+                    </StackPanel>
+
+                    <!-- actions -->
+                    <StackPanel Margin="3 12 3 3" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <se:StswButton Command="{Binding ClearMessageCommand}" Content="Clear message" Margin="0 0 6 0" Padding="12 5"/>
+                        <se:StswButton Command="{Binding SendCommand}" Padding="12 5">
+                            <se:StswLabel Content="Send mail" IconData="{x:Static se:StswIcons.EmailArrowRight}" IconFill="{DynamicResource StswColor.Positive}"/>
+                        </se:StswButton>
+                    </StackPanel>
+
+                    <!-- status -->
+                    <se:StswText Margin="3 8 3 3" Text="{Binding LastStatus}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </se:StswScrollView>
+    </DockPanel>
+</UserControl>

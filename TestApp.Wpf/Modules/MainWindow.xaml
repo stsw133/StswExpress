@@ -81,6 +81,7 @@
                 <se:StswNavigationItem Header="StswAdaptiveBox" TargetType="{x:Type local:StswAdaptiveBoxContext}"/>
                 <se:StswNavigationItem Header="StswCalculator" TargetType="{x:Type local:StswCalculatorContext}"/>
                 <se:StswNavigationItem Header="StswDecimalBox" TargetType="{x:Type local:StswDecimalBoxContext}"/>
+				<se:StswNavigationItem Header="StswInputBoxTest" TargetType="{x:Type local:StswInputBoxTestContext}"/>
                 <se:StswNavigationItem Header="StswPasswordBox" TargetType="{x:Type local:StswPasswordBoxContext}"/>
                 <se:StswNavigationItem Header="StswRatingControl" TargetType="{x:Type local:StswRatingControlContext}"/>
                 <se:StswNavigationItem Header="StswRichBox" TargetType="{x:Type local:StswRichBoxContext}"/>
@@ -192,9 +193,10 @@
             <se:StswNavigationItem Header="Observables" IconData="{x:Static se:StswIcons.EyeOutline}" TargetType="{x:Null}" IsEnabled="False"/>
             <se:StswNavigationItem Header="Security" IconData="{x:Static se:StswIcons.LockOutline}" TargetType="{x:Type local:StswSecurityContext}"/>
         </se:StswNavigationItem>
-        <se:StswNavigationItem Header="Examples" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="False">
-            <se:StswNavigationItem Header="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" TargetType="{x:Type local:DatabasesContext}"/>
-            <se:StswNavigationItem Header="Account" IconData="{x:Static se:StswIcons.Account}" Visibility="Collapsed"/>
+		<se:StswNavigationItem Header="Examples" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="False">
+			<se:StswNavigationItem Header="Account" IconData="{x:Static se:StswIcons.Account}" Visibility="Collapsed"/>
+			<se:StswNavigationItem Header="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" TargetType="{x:Type local:DatabasesContext}"/>
+            <se:StswNavigationItem Header="Mailboxes" IconData="{x:Static se:StswIcons.EmailBox}" TargetType="{x:Type local:MailboxesContext}"/>
             <se:StswNavigationItem Header="Contractors" IconData="{x:Static se:StswIcons.AccountGroup}" TargetType="{x:Type local:ContractorsContext}"/>
             <se:StswNavigationItem Header="Articles" IconData="{x:Static se:StswIcons.Package}" Visibility="Collapsed"/>
             <se:StswNavigationItem Header="Documents" IconData="{x:Static se:StswIcons.FileDocument}" Visibility="Collapsed"/>

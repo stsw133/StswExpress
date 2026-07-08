@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace StswExpress.Commons.Tests.Utils.Mailboxes;
+namespace StswExpress.Commons.Tests.Utils.Mailing;
 public class StswMailboxesTests
 {
     private class DummySecurity

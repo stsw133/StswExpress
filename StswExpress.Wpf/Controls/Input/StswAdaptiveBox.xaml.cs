@@ -7,7 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Wpf;
+namespace StswExpress.Wpf;
+
 /// <summary>
 /// A dynamic input control that automatically selects the appropriate input box based on the value type.
 /// Supports text, number, date, checkbox, and selection inputs.
