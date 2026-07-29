@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace TestApp.Wpf;
@@ -12,92 +10,49 @@ public partial class DatabasesContext : StswObservableObject
         SelectedDatabase = AllDatabases.FirstOrDefault();
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task MoveUp()
     {
-        try
-        {
-            if (AllDatabases.IndexOf(SelectedDatabase!) is int i and > 0)
-                AllDatabases.Move(i, i - 1);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (AllDatabases.IndexOf(SelectedDatabase!) is int i and > 0)
+            AllDatabases.Move(i, i - 1);
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task MoveDown()
     {
-        try
-        {
-            if (AllDatabases.IndexOf(SelectedDatabase!) is int i and >= 0 && i < AllDatabases.Count - 1)
-                AllDatabases.Move(i, i + 1);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (AllDatabases.IndexOf(SelectedDatabase!) is int i and >= 0 && i < AllDatabases.Count - 1)
+            AllDatabases.Move(i, i + 1);
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Add()
     {
-        try
-        {
-            var newDatabase = new StswDatabaseModel();
-            AllDatabases.Add(newDatabase);
-            SelectedDatabase = newDatabase;
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        var newDatabase = new StswDatabaseModel();
+        AllDatabases.Add(newDatabase);
+        SelectedDatabase = newDatabase;
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Remove()
     {
-        try
-        {
-            if (SelectedDatabase != null)
-                AllDatabases.Remove(SelectedDatabase);
-            SelectedDatabase = null;
-
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (SelectedDatabase != null)
+            AllDatabases.Remove(SelectedDatabase);
+        SelectedDatabase = null;
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Import()
     {
-        try
-        {
-            AllDatabases = new(await Task.Run(StswDatabases.ImportList));
-            if (AllDatabases.FirstOrDefault() is StswDatabaseModel db)
-                SQLService.DbCurrent = db;
-            SelectedDatabase = SQLService.DbCurrent;
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        AllDatabases = new(await Task.Run(StswDatabases.ImportList));
+        if (AllDatabases.FirstOrDefault() is StswDatabaseModel db)
+            SQLService.DbCurrent = db;
+        SelectedDatabase = SQLService.DbCurrent;
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Export()
     {
-        try
-        {
-            await Task.Run(() => StswDatabases.ExportList(AllDatabases));
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        await Task.Run(() => StswDatabases.ExportList(AllDatabases));
     }
 
     [StswObservableProperty] ObservableCollection<StswDatabaseModel> _allDatabases = [.. StswDatabases.ImportList()];

@@ -11,17 +11,17 @@ namespace StswExpress.Analyzers;
 [Generator]
 public class StswCommandGenerator : IIncrementalGenerator
 {
-	private static readonly string[] AttributeFullNames =
-	[
-		"StswExpress.Avalonia.StswCommandAttribute",
-		"StswExpress.Wpf.StswCommandAttribute",
-	];
+    private static readonly string[] AttributeFullNames =
+    [
+        "StswExpress.Avalonia.StswCommandAttribute",
+        "StswExpress.Wpf.StswCommandAttribute",
+    ];
 
-	/// <summary>
-	/// Initializes the generator by registering a syntax provider to collect declarations.
-	/// </summary>
-	/// <param name="context">The generator initialization context.</param>
-	public void Initialize(IncrementalGeneratorInitializationContext context)
+    /// <summary>
+    /// Initializes the generator by registering a syntax provider to collect declarations.
+    /// </summary>
+    /// <param name="context">The generator initialization context.</param>
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var methodSymbols = context.SyntaxProvider
             .CreateSyntaxProvider(
@@ -37,8 +37,8 @@ public class StswCommandGenerator : IIncrementalGenerator
                 .Select(method => new
                 {
                     Method = method,
-					Attribute = Helpers.GetAttribute(method, AttributeFullNames)
-				})
+                    Attribute = Helpers.GetAttribute(method, AttributeFullNames)
+                })
                 .Where(m => m.Attribute is not null)
                 .GroupBy(m => m.Method.ContainingType, SymbolEqualityComparer.Default);
 
@@ -50,11 +50,11 @@ public class StswCommandGenerator : IIncrementalGenerator
                 var classCtx = Helpers.GetClassContext(namedTypeSymbol);
 
                 var sb = new StringBuilder();
-                sb.AppendLine($"#nullable enable");
+                sb.AppendLine("#nullable enable");
                 sb.AppendLine($"namespace {classCtx.Namespace}");
-                sb.AppendLine($"{{");
+                sb.AppendLine("{");
                 sb.AppendLine($"    public partial class {classCtx.ClassName}");
-                sb.AppendLine($"    {{");
+                sb.AppendLine("    {");
 
                 foreach (var item in group)
                 {
@@ -113,42 +113,76 @@ public class StswCommandGenerator : IIncrementalGenerator
                     }
 
                     var conditionMethod = conditionFromCtor ?? conditionFromProp;
-
-                    bool? reusableFromCtor = null;
-                    if (attrData.ConstructorArguments.Length >= 2)
-                    {
-                        var arg = attrData.ConstructorArguments[1];
-                        if (!arg.IsNull && arg.Value is bool b)
-                            reusableFromCtor = b;
-                    }
-
-                    bool? reusableFromProp = null;
-                    foreach (var kv in attrData.NamedArguments)
-                    {
-                        if (kv.Key == "IsReusable" && kv.Value.Value is bool b)
-                        {
-                            reusableFromProp = b;
-                            break;
-                        }
-                    }
-
                     var conditionArg = !string.IsNullOrWhiteSpace(conditionMethod) ? conditionMethod : "null";
                     var isReusable = isAsync && Helpers.GetNamedArgument<bool>(attrData, "IsReusable");
+                    var tryCatchTargets = GetTryCatchTargets(attrData);
 
                     sb.AppendLine($"        private {fullCommandType}? {fieldName};");
-                    sb.AppendLine($"        public {fullCommandType} {propertyName} => {fieldName} ??= new {fullCommandType}({methodName}, {conditionArg})");
-                    sb.AppendLine($"        {{");
+
+                    if (tryCatchTargets == 0)
+                    {
+                        sb.AppendLine($"        public {fullCommandType} {propertyName} => {fieldName} ??= new {fullCommandType}({methodName}, {conditionArg})");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"        public {fullCommandType} {propertyName} => {fieldName} ??= new {fullCommandType}(");
+                        AppendTryCatchDelegate(sb, item.Method, methodName, isAsync, hasToken, tryCatchTargets);
+                        sb.AppendLine($"            {conditionArg})");
+                    }
+
+                    sb.AppendLine("        {");
                     if (isReusable)
-                        sb.AppendLine($"            IsReusable = true");
-                    sb.AppendLine($"        }};");
+                        sb.AppendLine("            IsReusable = true");
+                    sb.AppendLine("        };");
                     sb.AppendLine();
                 }
 
-                sb.AppendLine($"    }}");
-                sb.AppendLine($"}}");
+                sb.AppendLine("    }");
+                sb.AppendLine("}");
 
                 spc.AddSource($"{classCtx.ClassName}_StswCommands.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
             }
         });
+    }
+
+    private static long GetTryCatchTargets(AttributeData attributeData)
+    {
+        foreach (var argument in attributeData.NamedArguments)
+        {
+            if (argument.Key != "TryCatch" || argument.Value.Value is null)
+                continue;
+
+            return Convert.ToInt64(argument.Value.Value);
+        }
+
+        return 0;
+    }
+
+    private static void AppendTryCatchDelegate(StringBuilder sb, IMethodSymbol method, string methodName, bool isAsync, bool hasToken, long tryCatchTargets)
+    {
+        var parameters = method.Parameters;
+        var lambdaParameters = hasToken
+            ? parameters.Length > 1 ? "(parameter, cancellationToken)" : "cancellationToken"
+            : parameters.Length == 1 ? "parameter" : "()";
+
+        var invocationArguments = hasToken
+            ? parameters.Length > 1 ? "parameter, cancellationToken" : "cancellationToken"
+            : parameters.Length == 1 ? "parameter" : string.Empty;
+
+        sb.AppendLine($"            {(isAsync ? "async " : string.Empty)}{lambdaParameters} =>");
+        sb.AppendLine("            {");
+        sb.AppendLine("                try");
+        sb.AppendLine("                {");
+        sb.AppendLine($"                    {(isAsync ? "await " : string.Empty)}{methodName}({invocationArguments});");
+        sb.AppendLine("                }");
+        sb.AppendLine("                catch (global::System.Exception ex)");
+        sb.AppendLine("                {");
+        sb.AppendLine("                    global::StswExpress.Commons.StswLog.WriteException(");
+        sb.AppendLine("                        ex,");
+        sb.AppendLine("                        global::StswExpress.Commons.StswInfoType.Error,");
+        sb.AppendLine($"                        nameof({methodName}),");
+        sb.AppendLine($"                        (global::StswExpress.Commons.StswLogTarget){tryCatchTargets});");
+        sb.AppendLine("                }");
+        sb.AppendLine("            },");
     }
 }

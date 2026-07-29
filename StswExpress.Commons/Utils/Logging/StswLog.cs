@@ -291,8 +291,8 @@ public static class StswLog
         if (targets.HasFlag(StswLogTarget.EventViewer))
             hasSuccess |= TryWriteToTarget(() => WriteToEventViewer(logItem, logLine), () => hasFailure = true);
 
-        if (targets.HasFlag(StswLogTarget.MessageBox))
-            hasSuccess |= TryWriteToTarget(() => ShowMessageBox(logItem), () => hasFailure = true);
+        if (targets.HasFlag(StswLogTarget.MessageDialog))
+            hasSuccess |= TryWriteToTarget(() => ShowMessageDialog(logItem), () => hasFailure = true);
 
         if (targets.HasFlag(StswLogTarget.Custom))
             hasSuccess |= TryWriteToTarget(() => WriteToCustomTargets(logItem), () => hasFailure = true);
@@ -419,33 +419,30 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Shows a log entry through StswExpress.Wpf message dialog/message box if the type is available at runtime.
+    /// Shows a log entry through StswExpress.Wpf message dialog if the type is available at runtime.
     /// </summary>
     /// <param name="item">The log item to show.</param>
-    private static void ShowMessageBox(StswLogItem item)
+    private static void ShowMessageDialog(StswLogItem item)
     {
-        var messageBoxType = GetTypeFromLoadedOrReferencedAssemblies("StswExpress.Wpf.StswMessageBox", "StswExpress.Wpf")
-                          ?? GetTypeFromLoadedOrReferencedAssemblies("StswExpress.Wpf.StswMessageDialog", "StswExpress.Wpf");
+		var messageDialogType = GetTypeFromLoadedOrReferencedAssemblies("StswExpress.Wpf.StswMessageDialog", "StswExpress.Wpf")
+            ?? throw new InvalidOperationException("StswExpress.Wpf.StswMessageDialog is not available. Reference StswExpress.Wpf or disable the MessageDialog log target.");
 
-        if (messageBoxType == null)
-            throw new InvalidOperationException("StswExpress.Wpf.StswMessageBox/StswMessageDialog is not available. Reference StswExpress.Wpf or disable the MessageBox log target.");
-
-        var showMethod = messageBoxType
+		var showMethod = messageDialogType
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
-            .Where(IsSupportedMessageBoxShowMethod)
+            .Where(IsSupportedMessageDialogShowMethod)
             .OrderByDescending(x => x.GetParameters()[0].ParameterType == typeof(string))
             .ThenByDescending(x => x.GetParameters().Length)
             .FirstOrDefault();
 
         if (showMethod == null)
-            throw new MissingMethodException(messageBoxType.FullName, "Show");
+            throw new MissingMethodException(messageDialogType.FullName, "Show");
 
         var parameters = showMethod.GetParameters();
         var args = new object?[parameters.Length];
         args[0] = item.Text ?? string.Empty;
 
         for (var i = 1; i < parameters.Length; i++)
-            args[i] = CreateMessageBoxArgument(parameters[i], item);
+            args[i] = CreateMessageDialogArgument(parameters[i], item);
 
         var result = showMethod.Invoke(null, args);
         ObserveFaultedTask(result);
@@ -504,11 +501,11 @@ public static class StswLog
     }
 
     /// <summary>
-    /// Checks whether a reflected Show method can be used for message box logging.
+    /// Checks whether a reflected Show method can be used for message dialog logging.
     /// </summary>
     /// <param name="method">The method to check.</param>
     /// <returns><see langword="true"/> if the method is supported; otherwise, <see langword="false"/>.</returns>
-    private static bool IsSupportedMessageBoxShowMethod(MethodInfo method)
+    private static bool IsSupportedMessageDialogShowMethod(MethodInfo method)
     {
         if (method.Name != "Show")
             return false;
@@ -520,16 +517,16 @@ public static class StswLog
         return parameters[0].ParameterType == typeof(string) || parameters[0].ParameterType == typeof(object);
     }
 
-    /// <summary>
-    /// Creates an argument for a reflected message box Show method.
-    /// </summary>
-    /// <param name="parameter">The target parameter.</param>
-    /// <param name="item">The log item.</param>
-    /// <returns>The argument value.</returns>
-    private static object? CreateMessageBoxArgument(ParameterInfo parameter, StswLogItem item)
+	/// <summary>
+	/// Creates an argument for a reflected message dialog Show method.
+	/// </summary>
+	/// <param name="parameter">The target parameter.</param>
+	/// <param name="item">The log item.</param>
+	/// <returns>The argument value.</returns>
+	private static object? CreateMessageDialogArgument(ParameterInfo parameter, StswLogItem item)
     {
         if (parameter.Name?.Equals("title", StringComparison.OrdinalIgnoreCase) == true)
-            return GetMessageBoxTitle(item.Type);
+            return GetMessageDialogTitle(item.Type);
 
         if (parameter.Name?.Equals("details", StringComparison.OrdinalIgnoreCase) == true)
             return null;
@@ -642,12 +639,12 @@ public static class StswLog
         _ => "Information",
     };
 
-    /// <summary>
-    /// Gets the message box title for the specified log type.
-    /// </summary>
-    /// <param name="type">The log type.</param>
-    /// <returns>The message box title.</returns>
-    private static string GetMessageBoxTitle(StswInfoType? type) => type?.ToString() ?? nameof(StswInfoType.None);
+	/// <summary>
+	/// Gets the message dialog title for the specified log type.
+	/// </summary>
+	/// <param name="type">The log type.</param>
+	/// <returns>The message dialog title.</returns>
+	private static string GetMessageDialogTitle(StswInfoType? type) => type?.ToString() ?? nameof(StswInfoType.None);
 
     /// <summary>
     /// Gets the innermost exception from reflection and aggregate wrappers.

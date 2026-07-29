@@ -28,122 +28,73 @@ public partial class MailboxesContext : StswObservableObject
         }
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task MoveUp()
     {
-        try
-        {
-            if (AllMailboxes.IndexOf(SelectedMailbox!) is int i and > 0)
-                AllMailboxes.Move(i, i - 1);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (AllMailboxes.IndexOf(SelectedMailbox!) is int i and > 0)
+            AllMailboxes.Move(i, i - 1);
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task MoveDown()
     {
-        try
-        {
-            if (AllMailboxes.IndexOf(SelectedMailbox!) is int i and >= 0 && i < AllMailboxes.Count - 1)
-                AllMailboxes.Move(i, i + 1);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (AllMailboxes.IndexOf(SelectedMailbox!) is int i and >= 0 && i < AllMailboxes.Count - 1)
+            AllMailboxes.Move(i, i + 1);
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Add()
     {
-        try
+        var newMailbox = new StswMailboxModel
         {
-            var newMailbox = new StswMailboxModel
-            {
-                Name = "New mailbox",
-                Port = 587,
-                SecurityOption = StswMailSecurityOption.Auto
-            };
+            Name = "New mailbox",
+            Port = 587,
+            SecurityOption = StswMailSecurityOption.Auto
+        };
 
-            AllMailboxes.Add(newMailbox);
-            SelectedMailbox = newMailbox;
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        AllMailboxes.Add(newMailbox);
+        SelectedMailbox = newMailbox;
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Remove()
     {
-        try
-        {
-            if (SelectedMailbox != null)
-                AllMailboxes.Remove(SelectedMailbox);
+        if (SelectedMailbox != null)
+            AllMailboxes.Remove(SelectedMailbox);
 
-            SelectedMailbox = AllMailboxes.FirstOrDefault();
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        SelectedMailbox = AllMailboxes.FirstOrDefault();
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Import()
     {
-        try
-        {
-            AllMailboxes = new(await Task.Run(StswMailboxes.ImportList));
-            SelectedMailbox = AllMailboxes.FirstOrDefault();
-            StswMailboxes.Default = SelectedMailbox;
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        AllMailboxes = new(await Task.Run(StswMailboxes.ImportList));
+        SelectedMailbox = AllMailboxes.FirstOrDefault();
+        StswMailboxes.Default = SelectedMailbox;
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task Export()
     {
-        try
-        {
-            ApplyReplyToToSelectedMailbox();
-            await Task.Run(() => StswMailboxes.ExportList(AllMailboxes));
-            await StswMessageDialog.Show("Mailboxes exported successfully.", nameof(TestApp.Wpf), null, StswDialogButtons.OK, StswDialogImage.Success);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        ApplyReplyToToSelectedMailbox();
+        await Task.Run(() => StswMailboxes.ExportList(AllMailboxes));
+        await StswMessageDialog.Show("Mailboxes exported successfully.", nameof(TestApp.Wpf), null, StswDialogButtons.OK, StswDialogImage.Success);
     }
 
-    [StswCommand]
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
     async Task AddAttachments()
     {
-        try
+        var dialog = new OpenFileDialog
         {
-            var dialog = new OpenFileDialog
-            {
-                Title = "Select mail attachments",
-                Filter = "All files (*.*)|*.*",
-                Multiselect = true
-            };
+            Title = "Select mail attachments",
+            Filter = "All files (*.*)|*.*",
+            Multiselect = true
+        };
 
-            if (dialog.ShowDialog() == true)
-                foreach (var fileName in dialog.FileNames.Where(File.Exists))
-                    if (!Attachments.Contains(fileName, StringComparer.OrdinalIgnoreCase))
-                        Attachments.Add(fileName);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, MethodBase.GetCurrentMethod()?.Name);
-        }
+        if (dialog.ShowDialog() == true)
+            foreach (var fileName in dialog.FileNames.Where(File.Exists))
+                if (!Attachments.Contains(fileName, StringComparer.OrdinalIgnoreCase))
+                    Attachments.Add(fileName);
     }
 
     [StswCommand]

@@ -10,6 +10,7 @@
 	<Description>This package offers analyzers such as:
 • observable property generator
 • sync and async command generators
+• try/catch logging code fix
 • stsw func info analyzer
 	</Description>
 	<Copyright>© 2026 Karol Staszewski</Copyright>

@@ -89,10 +89,9 @@ internal static class Helpers
     internal static T? GetNamedArgument<T>(AttributeData attributeData, string name)
     {
         foreach (var arg in attributeData.NamedArguments)
-        {
             if (arg.Key == name && arg.Value.Value is T value)
                 return value;
-        }
+
         return default;
     }
 

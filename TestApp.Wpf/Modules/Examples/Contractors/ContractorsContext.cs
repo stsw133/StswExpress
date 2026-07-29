@@ -1,164 +1,102 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 
 namespace TestApp.Wpf;
 public partial class ContractorsContext : StswObservableObject
 {
-    /// Init
-    [StswCommand] async Task Init()
+	[StswObservableProperty] StswDataGridFiltersDataModel _filtersContractors = new();
+	[StswObservableProperty] StswCollectionViewWrapper<ContractorModel> _listContractors = new();
+	[StswObservableProperty] object? _selectedContractor;
+
+	[StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Init()
     {
-        try
-        {
-            SQLService.InitializeContractorsTables();
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        SQLService.InitializeContractorsTables();
     }
 
-    /// Clear
-    [StswCommand] async Task Clear()
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Clear()
     {
-        try
-        {
-            ListContractors.ReplaceWith([]);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        ListContractors.ReplaceWith([]);
     }
 
-    /// Refresh
-    [StswCommand] async Task Refresh()
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Refresh()
     {
-        try
-        {
-            ListContractors.ReplaceWith(await Task.Run(() => SQLService.GetContractors(null)));
-            FiltersContractors.Apply?.Invoke(); // this is necessary to re-apply filters after refreshing the collection, otherwise collection is unfiltered at start
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        ListContractors.ReplaceWith(await Task.Run(() => SQLService.GetContractors(null)));
+        FiltersContractors.Apply?.Invoke(); // this is necessary to re-apply filters after refreshing the collection, otherwise collection is unfiltered at start
     }
 
-    /// Save
-    [StswCommand] async Task Save()
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Save()
     {
-        try
-        {
-            await Task.Run(() => SQLService.SetContractors(ListContractors.Items));
-            RefreshCommand.Execute(null);
-            await StswMessageDialog.Show("Data saved successfully.", nameof(TestApp.Wpf), null, StswDialogButtons.OK, StswDialogImage.Success);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        await Task.Run(() => SQLService.SetContractors(ListContractors.Items));
+        RefreshCommand.Execute(null);
+        await StswMessageDialog.Show("Data saved successfully.", nameof(TestApp.Wpf), null, StswDialogButtons.OK, StswDialogImage.Success);
     }
 
-    /// Export
-    [StswCommand] async Task Export()
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Export()
     {
-        try
-        {
-            //await Task.Run(() => StswExport.ExportToExcel("Sheet1", ListContractors, null, new() { OpenFile = true }));
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        //await Task.Run(() => StswExport.ExportToExcel("Sheet1", ListContractors, null, new() { OpenFile = true }));
     }
 
-    /// Add
-    [StswCommand] async Task Add()
+    [StswCommand(TryCatch = StswLogTarget.MessageDialog)]
+    async Task Add()
     {
-        try
-        {
-            _pendingTabAction = EditorAction.Add;
-            _pendingContractor = null;
-            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        _pendingTabAction = EditorAction.Add;
+        _pendingContractor = null;
+        await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
     }
 
     /// Clone
-    [StswCommand(nameof(CloneCondition))]
+    [StswCommand(nameof(CloneCondition), TryCatch = StswLogTarget.MessageDialog)]
     async Task Clone()
     {
         if (SelectedContractor is not ContractorModel m || m.Id <= 0)
             return;
 
-        try
-        {
-            _pendingTabAction = EditorAction.Clone;
-            _pendingContractor = m;
-            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        _pendingTabAction = EditorAction.Clone;
+        _pendingContractor = m;
+        await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
     /// Edit
-    [StswCommand(nameof(EditCondition))]
+    [StswCommand(nameof(EditCondition), TryCatch = StswLogTarget.MessageDialog)]
     async Task Edit()
     {
         if (SelectedContractor is not ContractorModel m || m.Id <= 0)
             return;
 
-        try
-        {
-            _pendingTabAction = EditorAction.Edit;
-            _pendingContractor = m;
-            await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+        _pendingTabAction = EditorAction.Edit;
+        _pendingContractor = m;
+        await App.Current.Dispatcher.InvokeAsync(CreateAndConfigureTab);
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.Id > 0;
 
     /// Delete
-    [StswCommand(nameof(DeleteCondition))]
+    [StswCommand(nameof(DeleteCondition), TryCatch = StswLogTarget.MessageDialog)]
     async Task Delete()
     {
         if (SelectedContractor is not ContractorModel m)
             return;
 
-        try
+        await Task.Run(() =>
         {
-            await Task.Run(() =>
+            if (m.Id == 0)
             {
-                if (m.Id == 0)
-                {
-                    ListContractors.Items.Remove(m);
-                }
-                else if (m.Id > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    SQLService.DeleteContractor(m.Id);
-                    ListContractors.Items.Remove(m);
-                }
-            });
-        }
-        catch (Exception ex)
-        {
-            await StswMessageDialog.Show(ex, $"Error occurred in: {MethodBase.GetCurrentMethod()?.Name}");
-        }
+                ListContractors.Items.Remove(m);
+            }
+            else if (m.Id > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                SQLService.DeleteContractor(m.Id);
+                ListContractors.Items.Remove(m);
+            }
+        });
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel;
 
-    /// ConfigureNewTab
     private void CreateAndConfigureTab()
     {
         var tab = StswTabControl.Add("ContractorsView");
@@ -201,10 +139,4 @@ public partial class ContractorsContext : StswObservableObject
     }
     private EditorAction _pendingTabAction = EditorAction.Add;
     private ContractorModel? _pendingContractor;
-
-
-
-    [StswObservableProperty] StswDataGridFiltersDataModel _filtersContractors = new();
-    [StswObservableProperty] StswCollectionViewWrapper<ContractorModel> _listContractors = new();
-    [StswObservableProperty] object? _selectedContractor;
 }

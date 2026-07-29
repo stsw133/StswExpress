@@ -9,7 +9,7 @@ namespace StswExpress.Analyzers;
 /// Analyzer to check the status of elements marked with StswChangelogAttribute.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class StswAnalyzer : DiagnosticAnalyzer
+public class StswPlannedChangesAnalyzer : DiagnosticAnalyzer
 {
     private const string InvokingAttribute = "StswExpress.Commons.StswPlannedChangesAttribute";
 

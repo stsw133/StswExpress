@@ -22,9 +22,9 @@ public enum StswLogTarget
 	EventViewer = 2,
 
 	/// <summary>
-	/// Shows logs through StswExpress.Wpf message dialog/message box when available at runtime.
+	/// Shows logs through StswExpress.Wpf message dialog when available at runtime.
 	/// </summary>
-	MessageBox = 4,
+	MessageDialog = 4,
 
 	/// <summary>
 	/// Runs custom logging delegates/events configured on <see cref="StswLog"/> or <see cref="StswLogConfig"/>.
