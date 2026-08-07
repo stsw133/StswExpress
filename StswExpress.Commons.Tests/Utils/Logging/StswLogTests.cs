@@ -103,7 +103,7 @@ public class StswLogTests
         Cleanup();
         StswLog.Write(StswInfoType.Debug, "Archive test entry");
         var today = DateTime.Now.Date;
-        StswLog.Archive(today, today);
+        StswLogArchiving.Archive(today, today);
         var archiveFile = Directory.GetFiles(_archiveDir, "archive_*.zip").FirstOrDefault();
         Assert.NotNull(archiveFile);
         using var zip = ZipFile.OpenRead(archiveFile!);
@@ -117,7 +117,7 @@ public class StswLogTests
         var logPath = Path.Combine(_logDir, $"log_{DateTime.Now:yyyy-MM-dd}.log");
         File.WriteAllText(logPath, new string('x', 1024 * 10));
         StswLog.Config.Archive.ArchiveWhenSizeOver = 1024;
-        typeof(StswLog).GetMethod("ForceSizeArchiveIfNeeded", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+        typeof(StswLogArchiving).GetMethod("ForceSizeArchiveIfNeeded", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .Invoke(null, null);
         var archiveFile = Directory.GetFiles(_archiveDir, "archive_*.zip").FirstOrDefault();
         Assert.NotNull(archiveFile);
@@ -136,7 +136,7 @@ public class StswLogTests
             stream.Write(new byte[] { 1, 2, 3 });
         }
         StswLog.Config.Archive.DeleteArchivesOlderThanDays = 1;
-        typeof(StswLog).GetMethod("DeleteOldArchives", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+        typeof(StswLogArchiving).GetMethod("DeleteOldArchives", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .Invoke(null, null);
         Assert.False(File.Exists(archivePath));
     }
@@ -163,13 +163,12 @@ public class StswLogTests
         StswLog.Config.MaxFailures = 2;
         int failCount = 0;
         StswLog.Config.OnLogFailure = _ => failCount++;
-        // Simulate failure by making log directory unwritable
-        var oldDir = StswLog.Config.LogDirectoryPath;
-        StswLog.Config.LogDirectoryPath = Path.Combine(_logDir, "nonexistent", "fail");
-        StswLog.Write(StswInfoType.Error, "Should fail");
-        StswLog.Write(StswInfoType.Error, "Should fail again");
+        var handleLoggingFailure = typeof(StswLog).GetMethod(
+            "HandleLoggingFailure",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        handleLoggingFailure.Invoke(null, [new IOException("First simulated failure")]);
+        handleLoggingFailure.Invoke(null, [new IOException("Second simulated failure")]);
         Assert.True(StswLog.Config.IsLoggingDisabled);
-        Assert.True(failCount >= 2);
-        StswLog.Config.LogDirectoryPath = oldDir;
+        Assert.Equal(2, failCount);
     }
 }

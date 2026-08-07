@@ -34,13 +34,6 @@ public class StswLogConfigTests
     }
 
     [Fact]
-    public void Default_IsSqlLoggingDisabled_IsFalse()
-    {
-        var config = new StswLogConfig();
-        Assert.False(config.IsSqlLoggingDisabled);
-    }
-
-    [Fact]
     public void Default_MaxFailures_IsThree()
     {
         var config = new StswLogConfig();
@@ -56,17 +49,6 @@ public class StswLogConfigTests
         var testEx = new InvalidOperationException();
         config.OnLogFailure?.Invoke(testEx);
         Assert.Equal(testEx, received);
-    }
-
-    [Fact]
-    public void SqlLogger_CanBeSetAndInvoked()
-    {
-        var config = new StswLogConfig();
-        StswLogItem? received = null;
-        config.SqlLogger = item => received = item;
-        var testItem = new StswLogItem(StswInfoType.Error, "Test", DateTime.Now);
-        config.SqlLogger?.Invoke(testItem);
-        Assert.Equal(testItem, received);
     }
 
     [Fact]

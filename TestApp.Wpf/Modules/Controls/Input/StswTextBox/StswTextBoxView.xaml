@@ -25,6 +25,7 @@
                         IsReadOnly="{Binding IsReadOnly}"
                         Placeholder="Enter the text..."
                         Text="{Binding Text}"
+                        AcceptsReturn="True"
                         HorizontalAlignment="{Binding HorizontalAlignment}"
                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                         VerticalAlignment="{Binding VerticalAlignment}"

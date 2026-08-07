@@ -48,8 +48,9 @@
         <ResourceDictionary Source="Filters/StswSearchBox.xaml"/>
 
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
-        <ResourceDictionary Source="Input/StswCalculator.xaml"/>
-        <ResourceDictionary Source="Input/StswNumberBox.xaml"/>
+		<ResourceDictionary Source="Input/StswCalculator.xaml"/>
+		<ResourceDictionary Source="Input/StswInputBoxTest.xaml"/>
+		<ResourceDictionary Source="Input/StswNumberBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="Input/StswRatingControl.xaml"/>
         <ResourceDictionary Source="Input/StswRichBox.xaml"/>

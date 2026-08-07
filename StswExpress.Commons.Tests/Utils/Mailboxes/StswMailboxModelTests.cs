@@ -1,33 +1,13 @@
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
-
 namespace StswExpress.Commons.Tests.Utils.Mailboxes;
 public class StswMailboxModelTests
 {
-    private class TestStswMailboxesConfig
-    {
-        public bool IsEnabled { get; set; } = true;
-        public List<string>? DebugEmailRecipients { get; set; }
-    }
-
-    private class TestStswMailboxes
-    {
-        public static TestStswMailboxesConfig Config { get; set; } = new TestStswMailboxesConfig();
-    }
-
-    private class TestStswFn
-    {
-        public static bool IsInDebug { get; set; }
-    }
-
     private StswMailboxModel CreateMailbox()
     {
         return new StswMailboxModel("smtp.test.com", 587, "from@test.com", "user", "pass")
         {
             Domain = "test.com",
             IgnoreCertificateErrors = true,
-            SecurityOption = SecureSocketOptions.StartTls
+            SecurityOption = StswMailSecurityOption.StartTls
         };
     }
 
@@ -66,7 +46,7 @@ public class StswMailboxModelTests
         mailbox.Domain = "domain";
         mailbox.ReplyTo = ["reply@test.com"];
         mailbox.IgnoreCertificateErrors = true;
-        mailbox.SecurityOption = SecureSocketOptions.SslOnConnect;
+        mailbox.SecurityOption = StswMailSecurityOption.SslOnConnect;
 
         Assert.Equal("TestName", mailbox.Name);
         Assert.Equal("host", mailbox.Host);
@@ -77,7 +57,7 @@ public class StswMailboxModelTests
         Assert.Equal("domain", mailbox.Domain);
         Assert.Contains("reply@test.com", mailbox.ReplyTo!);
         Assert.True(mailbox.IgnoreCertificateErrors);
-        Assert.Equal(SecureSocketOptions.SslOnConnect, mailbox.SecurityOption);
+        Assert.Equal(StswMailSecurityOption.SslOnConnect, mailbox.SecurityOption);
     }
 
     [Fact]
@@ -93,7 +73,7 @@ public class StswMailboxModelTests
     }
 
     [Fact]
-    public void BuildMessage_CreatesMimeMessage_WithCorrectFields()
+    public void BuildMessage_CreatesRawMimeMessageAndEnvelopeRecipients()
     {
         var mailbox = CreateMailbox();
         var to = new[] { "to@test.com" };
@@ -103,20 +83,26 @@ public class StswMailboxModelTests
         mailbox.ReplyTo = replyTo;
         var subject = "Test Subject";
         var body = "<b>Test Body</b>";
-        var attachments = new[] { "file.txt" };
-
-        var message = typeof(StswMailboxModel)
+        var preparedMessage = typeof(StswMailboxModel)
             .GetMethod("BuildMessage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-            .Invoke(mailbox, [to, subject, body, true, attachments, cc, bcc]) as MimeMessage;
+            .Invoke(mailbox, [to, subject, body, true, null, cc, bcc]);
 
-        Assert.NotNull(message);
-        Assert.Equal(subject, message!.Subject);
-        Assert.Contains("to@test.com", message.To.ToString());
-        Assert.Contains("cc@test.com", message.Cc.ToString());
-        Assert.Contains("bcc@test.com", message.Bcc.ToString());
-        Assert.Contains("reply@test.com", message.ReplyTo.ToString());
-        Assert.Equal("from@test.com", message.From.ToString());
-        Assert.NotNull(message.Body);
+        Assert.NotNull(preparedMessage);
+
+        var preparedMessageType = preparedMessage!.GetType();
+        var mimeMessage = Assert.IsType<string>(preparedMessageType.GetProperty("MimeMessage")!.GetValue(preparedMessage));
+        var envelopeRecipients = Assert.IsAssignableFrom<IReadOnlyList<string>>(
+            preparedMessageType.GetProperty("EnvelopeRecipients")!.GetValue(preparedMessage));
+
+        Assert.Contains("From: from@test.com\r\n", mimeMessage);
+        Assert.Contains("To: to@test.com\r\n", mimeMessage);
+        Assert.Contains("Cc: cc@test.com\r\n", mimeMessage);
+        Assert.Contains("Reply-To: reply@test.com\r\n", mimeMessage);
+        Assert.Contains($"Subject: {subject}\r\n", mimeMessage);
+        Assert.Contains("Content-Type: text/html; charset=utf-8\r\n", mimeMessage);
+        Assert.Contains(body, mimeMessage);
+        Assert.DoesNotContain("Bcc:", mimeMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(["to@test.com", "cc@test.com", "bcc@test.com"], envelopeRecipients);
     }
 
     [Fact]
@@ -125,7 +111,7 @@ public class StswMailboxModelTests
         var mailbox = CreateMailbox();
         var client = typeof(StswMailboxModel)
             .GetMethod("CreateConfiguredClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-            .Invoke(mailbox, []) as SmtpClient;
+            .Invoke(mailbox, []) as StswSmtpClient;
 
         Assert.NotNull(client);
         Assert.NotNull(client!.ServerCertificateValidationCallback);

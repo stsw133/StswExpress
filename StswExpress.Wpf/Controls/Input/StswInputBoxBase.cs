@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -19,12 +21,10 @@ namespace StswExpress.Wpf;
 /// whose bounds then define the editable viewport.
 /// </remarks>
 [TemplatePart(Name = PartContentHost, Type = typeof(FrameworkElement))]
-public abstract class StswInputBoxBase : Control
+public abstract partial class StswInputBoxBase : Control
 {
 	protected const string PartContentHost = "PART_ContentHost";
 
-	private const double CaretWidth = 1.0;
-	private const int CaretBlinkMilliseconds = 530;
 	private const int SelectionAutoScrollMilliseconds = 30;
 	private const double SelectionAutoScrollStep = 8.0;
 
@@ -37,7 +37,8 @@ public abstract class StswInputBoxBase : Control
 	private TextComposition? _activeTextComposition;
 	private TextState _imeBaseState;
 	private string _imeCompositionText = string.Empty;
-	private SingleLineTextMetrics? _textMetrics;
+	private int[]? _cachedTextElementBoundaries;
+	private string _cachedBoundaryText = string.Empty;
 	private InputBoxView? _contentView;
 	private bool _isContentViewAttached;
 	private bool _isImeCompositionPending;
@@ -69,7 +70,7 @@ public abstract class StswInputBoxBase : Control
 
 		_caretTimer = new DispatcherTimer
 		{
-			Interval = TimeSpan.FromMilliseconds(CaretBlinkMilliseconds)
+			Interval = TimeSpan.FromMilliseconds(530)
 		};
 		_caretTimer.Tick += (_, _) =>
 		{
@@ -94,6 +95,8 @@ public abstract class StswInputBoxBase : Control
 
 		TextCompositionManager.AddPreviewTextInputStartHandler(this, OnPreviewTextInputStart);
 		TextCompositionManager.AddPreviewTextInputUpdateHandler(this, OnPreviewTextInputUpdate);
+		InitializeMultilineSupport();
+		ConfigureCaretTimer();
 	}
 
 	#region Routed events
@@ -156,7 +159,7 @@ public abstract class StswInputBoxBase : Control
 	private static object CoerceText(DependencyObject d, object baseValue)
 	{
 		var input = (StswInputBoxBase)d;
-		var text = baseValue as string ?? string.Empty;
+		var text = NormalizeLineEndings(baseValue as string ?? string.Empty);
 
 		return input._isInternalTextChange
 			? text
@@ -177,10 +180,10 @@ public abstract class StswInputBoxBase : Control
 		input.InvalidateTextLayout();
 		input.CoerceCaretAndSelection();
 		input.EnsureCaretVisible();
-		input.InvalidateMeasure();
 		input.InvalidateEditorVisual();
 		input.RaiseEvent(new RoutedEventArgs(TextChangedEvent, input));
 		input.OnTextChanged((string?)e.OldValue ?? string.Empty, (string?)e.NewValue ?? string.Empty);
+		input.RaiseAutomationTextChanged((string?)e.OldValue ?? string.Empty, (string?)e.NewValue ?? string.Empty);
 	}
 
 	/// <summary>
@@ -308,6 +311,7 @@ public abstract class StswInputBoxBase : Control
 		InvalidateEditorVisual();
 		RaiseEvent(new RoutedEventArgs(SelectionChangedEvent, this));
 		OnSelectionChanged();
+		RaiseAutomationSelectionChanged();
 	}
 
 	private void BeginSelectionUpdate()
@@ -754,8 +758,19 @@ public abstract class StswInputBoxBase : Control
 	/// </summary>
 	protected void InvalidateTextLayout()
 	{
-		_textMetrics = null;
-		InvalidateMeasure();
+		_cachedTextElementBoundaries = null;
+		_cachedBoundaryText = string.Empty;
+		InvalidateMultilineLayout();
+
+		// Text participates in the natural height only while MinLines/MaxLines allow
+		// the viewport to grow. A fixed line range (for example 1..1) does not need
+		// a new WPF measure pass for every edit.
+		if (MaxLines == 0 || MaxLines > MinLines)
+		{
+			_contentView?.InvalidateMeasure();
+			InvalidateMeasure();
+		}
+
 		InvalidateEditorVisual();
 	}
 
@@ -774,20 +789,27 @@ public abstract class StswInputBoxBase : Control
 		_contentHost = GetTemplateChild(PartContentHost) as FrameworkElement;
 		if (_contentHost is not null)
 		{
+			_contentHost.SizeChanged += OnContentHostSizeChanged;
 			_contentView ??= new InputBoxView(this);
 			_isContentViewAttached = AttachContentView(_contentHost, _contentView);
 		}
 
 		EnsureDefaultContextMenu();
 		EnsureCaretVisible();
-		InvalidateMeasure();
-		InvalidateEditorVisual();
+		InvalidateTextLayout();
 	}
 
 	private static bool AttachContentView(FrameworkElement host, InputBoxView view)
 	{
 		switch (host)
 		{
+			case ScrollViewer scrollViewer:
+				scrollViewer.SetCurrentValue(ScrollViewer.CanContentScrollProperty, true);
+				scrollViewer.SetCurrentValue(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch);
+				scrollViewer.SetCurrentValue(VerticalContentAlignmentProperty, VerticalAlignment.Stretch);
+				scrollViewer.Content = view;
+				return true;
+
 			case Decorator decorator:
 				decorator.Child = view;
 				return true;
@@ -805,24 +827,47 @@ public abstract class StswInputBoxBase : Control
 
 	private void DetachContentView()
 	{
-		if (_contentHost is null || _contentView is null)
+		if (_contentHost is null)
 		{
+			_contentView?.DetachScrollOwner();
+			_contentViewportSize = default;
 			_isContentViewAttached = false;
 			return;
 		}
 
+		_contentHost.SizeChanged -= OnContentHostSizeChanged;
+
 		switch (_contentHost)
 		{
-			case Decorator decorator when ReferenceEquals(decorator.Child, _contentView):
-				decorator.Child = null;
+			case ScrollViewer scrollViewer when _contentView is not null && ReferenceEquals(scrollViewer.Content, _contentView):
+				scrollViewer.Content = null;
+				_contentView.DetachScrollOwner(scrollViewer);
 				break;
 
-			case ContentControl contentControl when ReferenceEquals(contentControl.Content, _contentView):
+			case Decorator decorator when _contentView is not null && ReferenceEquals(decorator.Child, _contentView):
+				decorator.Child = null;
+				_contentView.DetachScrollOwner();
+				break;
+
+			case ContentControl contentControl when _contentView is not null && ReferenceEquals(contentControl.Content, _contentView):
 				contentControl.Content = null;
+				_contentView.DetachScrollOwner();
 				break;
 		}
 
+		_contentView?.DetachScrollOwner();
+		_contentViewportSize = default;
 		_isContentViewAttached = false;
+		_contentHost = null;
+	}
+
+	private void OnContentHostSizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		if (e.WidthChanged && TextWrapping != TextWrapping.NoWrap)
+			InvalidateMultilineLayout();
+
+		EnsureCaretVisible();
+		InvalidateEditorVisual();
 	}
 
 	protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters)
@@ -837,21 +882,7 @@ public abstract class StswInputBoxBase : Control
 	protected override Size MeasureOverride(Size constraint)
 	{
 		var templateSize = base.MeasureOverride(constraint);
-		var text = string.IsNullOrEmpty(Text) ? Placeholder : Text;
-		var formattedText = CreateFormattedText(string.IsNullOrEmpty(text) ? " " : text, Foreground, isPlaceholder: string.IsNullOrEmpty(Text));
-
-		var width = formattedText.WidthIncludingTrailingWhitespace + BorderThickness.Left + BorderThickness.Right + Padding.Left + Padding.Right + 8;
-		var height = formattedText.Height + BorderThickness.Top + BorderThickness.Bottom + Padding.Top + Padding.Bottom + 6;
-
-		if (double.IsInfinity(constraint.Width))
-			width = Math.Max(120, width);
-		else
-			width = Math.Min(constraint.Width, Math.Max(40, width));
-
-		if (!double.IsInfinity(constraint.Height))
-			height = Math.Min(constraint.Height, height);
-
-		return new Size(Math.Max(templateSize.Width, width), Math.Max(templateSize.Height, height));
+		return MeasureMultilineContent(constraint, templateSize);
 	}
 
 	protected override void OnRender(DrawingContext drawingContext)
@@ -889,6 +920,10 @@ public abstract class StswInputBoxBase : Control
 	protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
 	{
 		base.OnRenderSizeChanged(sizeInfo);
+
+		if (sizeInfo.WidthChanged && TextWrapping != TextWrapping.NoWrap)
+			InvalidateMultilineLayout();
+
 		EnsureCaretVisible();
 		InvalidateEditorVisual();
 	}
@@ -897,7 +932,8 @@ public abstract class StswInputBoxBase : Control
 	{
 		base.OnGotKeyboardFocus(e);
 		ResetCaretBlink();
-		_caretTimer.Start();
+		if (_isCaretBlinkEnabled)
+			_caretTimer.Start();
 		InvalidateEditorVisual();
 	}
 
@@ -905,6 +941,8 @@ public abstract class StswInputBoxBase : Control
 	{
 		base.OnLostKeyboardFocus(e);
 		TryCompleteImeComposition();
+		if (IsImeCompositionActive)
+			CommitImeComposition(_imeCompositionText);
 		CancelImeComposition();
 		CloseUndoUnit();
 		StopSelectionAutoScroll();
@@ -989,28 +1027,67 @@ public abstract class StswInputBoxBase : Control
 		switch (e.Key)
 		{
 			case Key.Left:
-				MoveCaret(GetPreviousCaretIndex(commandModifier), shift);
+				MoveCaret(FlowDirection == FlowDirection.RightToLeft
+					? GetNextCaretIndex(commandModifier)
+					: GetPreviousCaretIndex(commandModifier), shift);
 				e.Handled = true;
 				break;
 
 			case Key.Right:
-				MoveCaret(GetNextCaretIndex(commandModifier), shift);
+				MoveCaret(FlowDirection == FlowDirection.RightToLeft
+					? GetPreviousCaretIndex(commandModifier)
+					: GetNextCaretIndex(commandModifier), shift);
+				e.Handled = true;
+				break;
+
+			case Key.Up:
+				MoveCaretVertically(-1, shift);
+				e.Handled = true;
+				break;
+
+			case Key.Down:
+				MoveCaretVertically(1, shift);
 				e.Handled = true;
 				break;
 
 			case Key.Home:
-				MoveCaret(0, shift);
+				if (commandModifier)
+					MoveCaret(0, shift);
+				else
+					MoveCaretToVisualLineBoundary(end: false, shift);
 				e.Handled = true;
 				break;
 
 			case Key.End:
-				MoveCaret(Text.Length, shift);
+				if (commandModifier)
+					MoveCaret(Text.Length, shift);
+				else
+					MoveCaretToVisualLineBoundary(end: true, shift);
+				e.Handled = true;
+				break;
+
+			case Key.PageUp:
+				MoveCaretByPage(-1, shift);
+				e.Handled = true;
+				break;
+
+			case Key.PageDown:
+				MoveCaretByPage(1, shift);
 				e.Handled = true;
 				break;
 
 			case Key.Return:
-				CloseUndoUnit();
-				OnCommit();
+				if (AcceptsReturn && !IsReadOnly)
+				{
+					CloseUndoUnit();
+					InsertText("\n", TextChangeKind.Enter, allowUndoMerge: false);
+					CloseUndoUnit();
+				}
+				else
+				{
+					CloseUndoUnit();
+					OnCommit();
+				}
 				e.Handled = true;
 				break;
 
@@ -1095,7 +1172,7 @@ public abstract class StswInputBoxBase : Control
 	}
 
 	/// <summary>
-	/// Called when the user presses Enter in the single-line editor.
+	/// Called when the user presses Enter while <see cref="AcceptsReturn"/> is false.
 	/// </summary>
 	protected virtual void OnCommit()
 	{
@@ -1106,11 +1183,11 @@ public abstract class StswInputBoxBase : Control
 	/// </summary>
 	protected virtual string NormalizeInsertedText(string text, bool isPaste)
 	{
-		var normalizedText = NormalizeInputText(
-			text,
-			replaceLineBreaksWithSpaces: isPaste,
-			acceptsTab: AcceptsTab,
-			replaceTabsWithSpaces: isPaste && !AcceptsTab);
+		var normalizedText = NormalizeLineEndings(text ?? string.Empty);
+		if (!AcceptsReturn)
+			normalizedText = isPaste ? normalizedText.Replace('\n', ' ') : normalizedText.Replace("\n", string.Empty);
+		if (!AcceptsTab)
+			normalizedText = isPaste ? normalizedText.Replace('\t', ' ') : normalizedText.Replace("\t", string.Empty);
 
 		return CharacterCasing switch
 		{
@@ -1143,13 +1220,20 @@ public abstract class StswInputBoxBase : Control
 		TryCompleteImeComposition();
 		CancelImeComposition();
 		CloseUndoUnit();
+		_preferredCaretX = double.NaN;
 		Focus();
 
-		var index = GetCaretIndexFromPoint(e.GetPosition(this));
+		var point = e.GetPosition(this);
+		var index = GetCaretIndexFromPoint(point);
 
 		if (e.ClickCount >= 3)
 		{
-			SelectAll();
+			var lineIndex = GetLineIndexFromCharacterIndex(index);
+			var lineStart = GetCharacterIndexFromLineIndex(lineIndex);
+			var length = GetLineLength(lineIndex);
+			if (lineStart + length < Text.Length)
+				length++;
+			Select(lineStart, length);
 			e.Handled = true;
 			return;
 		}
@@ -1157,6 +1241,14 @@ public abstract class StswInputBoxBase : Control
 		if (e.ClickCount == 2)
 		{
 			SelectWordAt(index);
+			e.Handled = true;
+			return;
+		}
+
+		if (IsTextDragDropEnabled && HasSelection && IsPointInsideSelection(point) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+		{
+			BeginTextDrag(point);
+			CaptureMouse();
 			e.Handled = true;
 			return;
 		}
@@ -1184,6 +1276,12 @@ public abstract class StswInputBoxBase : Control
 		if (!IsMouseCaptured || e.LeftButton != MouseButtonState.Pressed)
 			return;
 
+		if (TryStartTextDrag(e.GetPosition(this)))
+		{
+			e.Handled = true;
+			return;
+		}
+
 		_lastSelectionMousePosition = e.GetPosition(this);
 		UpdateSelectionFromMousePosition(_lastSelectionMousePosition);
 		UpdateSelectionAutoScrollState();
@@ -1199,6 +1297,9 @@ public abstract class StswInputBoxBase : Control
 			return;
 
 		StopSelectionAutoScroll();
+		if (_isDragCandidate)
+			SetCaretAndClearSelection(GetCaretIndexFromPoint(e.GetPosition(this)));
+		_isDragCandidate = false;
 
 		if (IsMouseCaptured)
 			ReleaseMouseCapture();
@@ -1296,15 +1397,15 @@ public abstract class StswInputBoxBase : Control
 
 	public void ScrollToHome()
 	{
-		_horizontalOffset = 0;
-		InvalidateEditorVisual();
+		SetHorizontalOffset(0);
+		SetVerticalOffset(0);
 	}
 
 	public void ScrollToEnd()
 	{
-		var textRect = GetTextRect();
-		_horizontalOffset = Math.Max(0, GetTextMetrics().TotalWidth - Math.Max(0, textRect.Width));
-		InvalidateEditorVisual();
+		GetMultilineLayout(GetTextRect());
+		SetHorizontalOffset(ScrollableWidth);
+		SetVerticalOffset(ScrollableHeight);
 	}
 
 	public void Copy()
@@ -1473,6 +1574,7 @@ public abstract class StswInputBoxBase : Control
 	private void MoveCaret(int index, bool extendSelection)
 	{
 		CloseUndoUnit();
+		_preferredCaretX = double.NaN;
 		index = Math.Clamp(index, 0, Text.Length);
 
 		if (extendSelection)
@@ -1672,77 +1774,10 @@ public abstract class StswInputBoxBase : Control
 	}
 
 	private int GetCaretIndexFromPoint(Point point)
-	{
-		var textRect = GetTextRect();
-		var metrics = GetTextMetrics();
-		var textOriginX = GetTextOriginX(textRect, metrics.TotalWidth, allowHorizontalScrolling: true);
-		var x = point.X - textOriginX;
-
-		if (x <= 0 || metrics.Boundaries.Length <= 1)
-			return 0;
-
-		if (x >= metrics.TotalWidth)
-			return Text.Length;
-
-		var low = 1;
-		var high = metrics.Boundaries.Length - 1;
-		while (low <= high)
-		{
-			var middleIndex = low + ((high - low) / 2);
-			var previousWidth = metrics.Positions[middleIndex - 1];
-			var currentWidth = metrics.Positions[middleIndex];
-			var threshold = previousWidth + ((currentWidth - previousWidth) / 2);
-
-			if (x < threshold)
-				high = middleIndex - 1;
-			else
-				low = middleIndex + 1;
-		}
-
-		var boundaryIndex = Math.Clamp(low - 1, 0, metrics.Boundaries.Length - 1);
-		return metrics.Boundaries[boundaryIndex];
-	}
+		=> HitTestTextPosition(point, GetTextRect());
 
 	private void EnsureCaretVisible()
-	{
-		if (ActualWidth <= 0)
-			return;
-
-		var textRect = GetTextRect();
-		if (textRect.Width <= 0)
-			return;
-
-		double totalWidth;
-		double caretX;
-
-		if (IsImeCompositionActive)
-		{
-			var renderedText = GetRenderedText();
-			totalWidth = MeasureSourceTextWidth(renderedText);
-			caretX = MeasureSourceTextWidth(renderedText.Substring(0, GetImeCompositionEndIndex()));
-		}
-		else
-		{
-			var metrics = GetTextMetrics();
-			totalWidth = metrics.TotalWidth;
-			caretX = GetTextPosition(CaretIndex);
-		}
-
-		if (totalWidth <= textRect.Width)
-		{
-			_horizontalOffset = 0;
-			return;
-		}
-
-		var rightEdge = _horizontalOffset + textRect.Width - 2;
-
-		if (caretX < _horizontalOffset)
-			_horizontalOffset = caretX;
-		else if (caretX > rightEdge)
-			_horizontalOffset = caretX - textRect.Width + 2;
-
-		_horizontalOffset = Math.Clamp(_horizontalOffset, 0, Math.Max(0, totalWidth - textRect.Width));
-	}
+		=> EnsureMultilineCaretVisible();
 
 	private void UpdateSelectionFromMousePosition(Point point)
 	{
@@ -1759,8 +1794,8 @@ public abstract class StswInputBoxBase : Control
 		var textRect = GetTextRect();
 		var shouldScroll = IsMouseCaptured
 			&& Mouse.LeftButton == MouseButtonState.Pressed
-			&& GetTextMetrics().TotalWidth > textRect.Width
-			&& (_lastSelectionMousePosition.X < textRect.Left || _lastSelectionMousePosition.X > textRect.Right);
+			&& (_lastSelectionMousePosition.X < textRect.Left || _lastSelectionMousePosition.X > textRect.Right
+				|| _lastSelectionMousePosition.Y < textRect.Top || _lastSelectionMousePosition.Y > textRect.Bottom);
 
 		if (shouldScroll)
 		{
@@ -1782,22 +1817,15 @@ public abstract class StswInputBoxBase : Control
 		}
 
 		var textRect = GetTextRect();
-		var maxOffset = Math.Max(0, GetTextMetrics().TotalWidth - Math.Max(0, textRect.Width));
-		if (maxOffset <= 0)
-		{
-			StopSelectionAutoScroll();
-			return;
-		}
-
 		if (_lastSelectionMousePosition.X < textRect.Left)
-			_horizontalOffset = Math.Max(0, _horizontalOffset - SelectionAutoScrollStep);
+			SetHorizontalOffset(HorizontalOffset - SelectionAutoScrollStep);
 		else if (_lastSelectionMousePosition.X > textRect.Right)
-			_horizontalOffset = Math.Min(maxOffset, _horizontalOffset + SelectionAutoScrollStep);
-		else
-		{
-			StopSelectionAutoScroll();
-			return;
-		}
+			SetHorizontalOffset(HorizontalOffset + SelectionAutoScrollStep);
+
+		if (_lastSelectionMousePosition.Y < textRect.Top)
+			SetVerticalOffset(VerticalOffset - GetLineHeight());
+		else if (_lastSelectionMousePosition.Y > textRect.Bottom)
+			SetVerticalOffset(VerticalOffset + GetLineHeight());
 
 		UpdateSelectionFromMousePosition(_lastSelectionMousePosition);
 		InvalidateEditorVisual();
@@ -1839,6 +1867,7 @@ public abstract class StswInputBoxBase : Control
 
 		_imeCompositionText = normalizedText;
 		SetValue(ImeCompositionTextPropertyKey, normalizedText);
+		InvalidateMultilineLayout();
 
 		ResetCaretBlink();
 		EnsureCaretVisible();
@@ -1890,6 +1919,7 @@ public abstract class StswInputBoxBase : Control
 
 		SetValue(IsImeCompositionActivePropertyKey, false);
 		SetValue(ImeCompositionTextPropertyKey, string.Empty);
+		InvalidateMultilineLayout();
 	}
 
 	private void TryCompleteImeComposition()
@@ -1921,31 +1951,6 @@ public abstract class StswInputBoxBase : Control
 		=> IsImeCompositionActive
 			? _imeCompositionStart + _imeCompositionText.Length
 			: CaretIndex;
-
-	private ImeCompositionLayout? GetImeCompositionLayout(Rect textRect)
-	{
-		if (!IsImeCompositionActive)
-			return null;
-
-		var renderedText = GetRenderedText();
-		var totalWidth = MeasureSourceTextWidth(renderedText);
-		var prefixWidth = MeasureSourceTextWidth(renderedText.Substring(0, _imeCompositionStart));
-		var compositionEndWidth = MeasureSourceTextWidth(renderedText.Substring(0, GetImeCompositionEndIndex()));
-		var textOriginX = GetTextOriginX(textRect, totalWidth, allowHorizontalScrolling: true);
-
-		return new ImeCompositionLayout(
-			textOriginX + prefixWidth,
-			textOriginX + compositionEndWidth);
-	}
-
-	private double MeasureSourceTextWidth(string sourceText)
-	{
-		if (string.IsNullOrEmpty(sourceText))
-			return 0;
-
-		var displayText = GetDisplayText(sourceText) ?? string.Empty;
-		return MeasureDisplayTextWidth(displayText, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-	}
 
 	private static string GetUpdatingCompositionText(TextCompositionEventArgs e)
 	{
@@ -2054,7 +2059,6 @@ public abstract class StswInputBoxBase : Control
 
 		EnsureCaretVisible();
 		ResetCaretBlink();
-		InvalidateMeasure();
 		InvalidateEditorVisual();
 	}
 
@@ -2145,111 +2149,22 @@ public abstract class StswInputBoxBase : Control
 	}
 
 	protected virtual void DrawSelection(DrawingContext drawingContext, Rect textRect)
-	{
-		if (IsImeCompositionActive || !ShouldRenderSelection())
-			return;
-
-		var selectionRect = GetSelectionRect(textRect);
-		if (selectionRect is null)
-			return;
-
-		var brush = IsKeyboardFocusWithin ? SelectionBrush : InactiveSelectionBrush;
-		drawingContext.DrawRectangle(brush, null, selectionRect.Value);
-	}
+		=> DrawMultilineSelection(drawingContext, textRect);
 
 	protected virtual void DrawText(DrawingContext drawingContext, Rect textRect)
-	{
-		var layout = CreateTextLayout(textRect, Foreground ?? Brushes.Black, usePlaceholder: true);
-		if (layout is null)
-			return;
-
-		drawingContext.DrawText(layout.Value.FormattedText, layout.Value.TextPoint);
-	}
+		=> DrawMultilineText(drawingContext, textRect, Foreground ?? Brushes.Black, usePlaceholder: true);
 
 	protected virtual void DrawSelectedText(DrawingContext drawingContext, Rect textRect)
-	{
-		if (IsImeCompositionActive || !ShouldRenderSelection())
-			return;
-
-		var selectionRect = GetSelectionRect(textRect);
-		if (selectionRect is null)
-			return;
-
-		var brush = IsKeyboardFocusWithin
-			? SelectionTextBrush ?? Foreground ?? Brushes.Black
-			: InactiveSelectionTextBrush ?? Foreground ?? Brushes.Black;
-		var layout = CreateTextLayout(textRect, brush, usePlaceholder: false);
-		if (layout is null)
-			return;
-
-		drawingContext.PushClip(new RectangleGeometry(selectionRect.Value));
-		drawingContext.DrawText(layout.Value.FormattedText, layout.Value.TextPoint);
-		drawingContext.Pop();
-	}
+		=> DrawMultilineSelectedText(drawingContext, textRect);
 	private bool ShouldRenderSelection()
 		=> HasSelection && (IsKeyboardFocusWithin || IsInactiveSelectionHighlightEnabled);
 
 
 	protected virtual void DrawImeComposition(DrawingContext drawingContext, Rect textRect)
-	{
-		if (!IsImeCompositionActive || ImeCompositionUnderlineThickness <= 0)
-			return;
-
-		var layout = GetImeCompositionLayout(textRect);
-		if (layout is null)
-			return;
-
-		var lineRect = GetLineRect(textRect);
-		var y = Math.Min(textRect.Bottom - (ImeCompositionUnderlineThickness / 2), lineRect.Bottom - (ImeCompositionUnderlineThickness / 2));
-		var startX = Math.Clamp(layout.Value.CompositionStartX, textRect.Left, textRect.Right);
-		var endX = Math.Clamp(layout.Value.CompositionEndX, textRect.Left, textRect.Right);
-
-		if (endX <= startX)
-			return;
-
-		var brush = ImeCompositionUnderlineBrush ?? CaretBrush ?? Foreground ?? Brushes.Black;
-		var pen = new Pen(brush, ImeCompositionUnderlineThickness);
-		pen.Freeze();
-
-		drawingContext.DrawLine(pen, new Point(startX, y), new Point(endX, y));
-	}
+		=> DrawMultilineImeComposition(drawingContext, textRect);
 
 	protected virtual void DrawCaret(DrawingContext drawingContext, Rect textRect)
-	{
-		if (!IsKeyboardFocused || (!IsImeCompositionActive && HasSelection) || !_isCaretVisible)
-			return;
-
-		var lineRect = GetLineRect(textRect);
-		if (lineRect.Width <= 0 || lineRect.Height <= 0)
-			return;
-
-		double caretX;
-		if (IsImeCompositionActive)
-		{
-			var compositionLayout = GetImeCompositionLayout(textRect);
-			if (compositionLayout is null)
-				return;
-
-			caretX = compositionLayout.Value.CompositionEndX;
-		}
-		else
-		{
-			var metrics = GetTextMetrics();
-			caretX = GetTextOriginX(textRect, metrics.TotalWidth, allowHorizontalScrolling: true) + GetTextPosition(CaretIndex);
-		}
-
-		if (caretX < textRect.Left || caretX > textRect.Right)
-			return;
-
-		var caretHeight = Math.Max(1, Math.Min(lineRect.Height, GetLineHeight()));
-		var caretRect = new Rect(
-			caretX,
-			lineRect.Top + Math.Max(0, (lineRect.Height - caretHeight) / 2),
-			CaretWidth,
-			caretHeight);
-
-		drawingContext.DrawRectangle(CaretBrush ?? Foreground, null, caretRect);
-	}
+		=> DrawMultilineCaret(drawingContext, textRect);
 
 	protected virtual Rect GetTextRect()
 	{
@@ -2286,75 +2201,15 @@ public abstract class StswInputBoxBase : Control
 		return new Rect(textRect.Left, top, textRect.Width, lineHeight);
 	}
 
-	private double GetTextOriginX(Rect textRect, double textWidth, bool allowHorizontalScrolling)
-	{
-		if (allowHorizontalScrolling && (textWidth > textRect.Width || _horizontalOffset > 0))
-			return textRect.Left - _horizontalOffset;
-
-		return HorizontalContentAlignment switch
-		{
-			HorizontalAlignment.Center => textRect.Left + Math.Max(0, (textRect.Width - textWidth) / 2),
-			HorizontalAlignment.Right => textRect.Right - Math.Min(textRect.Width, textWidth),
-			HorizontalAlignment.Stretch => textRect.Left,
-			_ => textRect.Left
-		};
-	}
-
-	private Rect? GetSelectionRect(Rect textRect)
-	{
-		if (!HasSelection)
-			return null;
-
-		var lineRect = GetLineRect(textRect);
-		if (lineRect.Width <= 0 || lineRect.Height <= 0)
-			return null;
-
-		var metrics = GetTextMetrics();
-		var textOriginX = GetTextOriginX(textRect, metrics.TotalWidth, allowHorizontalScrolling: true);
-		var selectionStartX = textOriginX + GetTextPosition(SelectionStart);
-		var selectionEndX = textOriginX + GetTextPosition(SelectionStart + SelectionLength);
-
-		var selectionRect = new Rect(
-			selectionStartX,
-			lineRect.Top,
-			selectionEndX - selectionStartX,
-			lineRect.Height);
-
-		selectionRect.Intersect(textRect);
-		return selectionRect.IsEmpty ? null : selectionRect;
-	}
-
 	private bool IsPointInsideSelection(Point point)
 	{
 		if (!HasSelection)
 			return false;
 
-		var selectionRect = GetSelectionRect(GetTextRect());
-		return selectionRect?.Contains(point) == true;
-	}
-
-	private TextLayout? CreateTextLayout(Rect textRect, Brush brush, bool usePlaceholder)
-	{
-		var text = GetRenderedText();
-		var isPlaceholder = usePlaceholder && !IsImeCompositionActive && string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(Placeholder);
-
-		if (isPlaceholder)
-		{
-			text = Placeholder;
-			brush = PlaceholderBrush ?? brush;
-		}
-
-		if (!usePlaceholder && string.IsNullOrEmpty(text))
-			return null;
-
-		var formattedText = CreateFormattedText(string.IsNullOrEmpty(text) ? " " : text, brush, isPlaceholder);
-		var lineRect = GetLineRect(textRect);
-		var textWidth = formattedText.WidthIncludingTrailingWhitespace;
-		var textPoint = new Point(
-			GetTextOriginX(textRect, textWidth, allowHorizontalScrolling: !isPlaceholder),
-			lineRect.Top + Math.Max(0, (lineRect.Height - formattedText.Height) / 2));
-
-		return new TextLayout(formattedText, textPoint);
+		var textRect = GetTextRect();
+		var layout = GetMultilineLayout(textRect);
+		return GetRangeRectangles(layout, textRect, SelectionStart, SelectionStart + SelectionLength, includeLineBreaks: true)
+			.Any(rect => rect.Contains(point));
 	}
 
 	private double GetLineHeight()
@@ -2403,74 +2258,6 @@ public abstract class StswInputBoxBase : Control
 	protected virtual string GetDisplayPlaceholderText(string text)
 		=> text ?? string.Empty;
 
-	private double GetTextWidth(string text)
-	{
-		if (string.IsNullOrEmpty(text))
-			return 0;
-
-		if (text.Length <= Text.Length && Text.StartsWith(text, StringComparison.Ordinal))
-			return GetTextPosition(text.Length);
-
-		return CreateFormattedText(text, Foreground ?? Brushes.Black, isPlaceholder: false).WidthIncludingTrailingWhitespace;
-	}
-
-	private SingleLineTextMetrics GetTextMetrics()
-	{
-		var sourceText = Text ?? string.Empty;
-		var displayText = GetDisplayText(sourceText) ?? string.Empty;
-		var pixelsPerDip = VisualTreeHelper.GetDpi(this).PixelsPerDip;
-		var cultureName = CultureInfo.CurrentUICulture.Name;
-
-		if (_textMetrics is not null
-			&& _textMetrics.Matches(
-				sourceText,
-				displayText,
-				FontFamily,
-				FontStyle,
-				FontWeight,
-				FontStretch,
-				FontSize,
-				FlowDirection,
-				pixelsPerDip,
-				cultureName))
-		{
-			return _textMetrics;
-		}
-
-		var boundaries = GetTextElementBoundaryMap(sourceText);
-		var positions = new double[boundaries.Length];
-		for (var i = 1; i < boundaries.Length; i++)
-		{
-			var prefix = sourceText.Substring(0, boundaries[i]);
-			var displayPrefix = GetDisplayText(prefix) ?? string.Empty;
-			positions[i] = MeasureDisplayTextWidth(displayPrefix, pixelsPerDip);
-		}
-
-		_textMetrics = new SingleLineTextMetrics(
-			sourceText,
-			displayText,
-			FontFamily,
-			FontStyle,
-			FontWeight,
-			FontStretch,
-			FontSize,
-			FlowDirection,
-			pixelsPerDip,
-			cultureName,
-			boundaries,
-			positions);
-
-		return _textMetrics;
-	}
-
-	private double GetTextPosition(int sourceIndex)
-	{
-		var metrics = GetTextMetrics();
-		var index = SnapToBoundary(metrics.Boundaries, Math.Clamp(sourceIndex, 0, Text.Length), preferNext: false);
-		var position = Array.BinarySearch(metrics.Boundaries, index);
-		return position >= 0 ? metrics.Positions[position] : 0;
-	}
-
 	private double MeasureDisplayTextWidth(string displayText, double pixelsPerDip)
 	{
 		if (string.IsNullOrEmpty(displayText))
@@ -2511,7 +2298,7 @@ public abstract class StswInputBoxBase : Control
 	{
 		_isCaretVisible = true;
 
-		if (IsKeyboardFocused)
+		if (IsKeyboardFocused && _isCaretBlinkEnabled)
 		{
 			_caretTimer.Stop();
 			_caretTimer.Start();
@@ -2535,7 +2322,7 @@ public abstract class StswInputBoxBase : Control
 
 	private int GetPreviousTextElementIndex(int index)
 	{
-		var boundaries = GetTextMetrics().Boundaries;
+		var boundaries = GetCachedTextElementBoundaryMap();
 		index = Math.Clamp(index, 0, Text.Length);
 		var position = Array.BinarySearch(boundaries, index);
 
@@ -2548,7 +2335,7 @@ public abstract class StswInputBoxBase : Control
 
 	private int GetNextTextElementIndex(int index)
 	{
-		var boundaries = GetTextMetrics().Boundaries;
+		var boundaries = GetCachedTextElementBoundaryMap();
 		index = Math.Clamp(index, 0, Text.Length);
 		var position = Array.BinarySearch(boundaries, index);
 
@@ -2557,6 +2344,17 @@ public abstract class StswInputBoxBase : Control
 
 		var insertionIndex = ~position;
 		return insertionIndex < boundaries.Length ? boundaries[insertionIndex] : Text.Length;
+	}
+
+	private int[] GetCachedTextElementBoundaryMap()
+	{
+		if (_cachedTextElementBoundaries is null || _cachedBoundaryText != Text)
+		{
+			_cachedBoundaryText = Text;
+			_cachedTextElementBoundaries = GetTextElementBoundaryMap(Text);
+		}
+
+		return _cachedTextElementBoundaries;
 	}
 
 	private static int[] GetTextElementBoundaryMap(string text)
@@ -2569,19 +2367,6 @@ public abstract class StswInputBoxBase : Control
 		Array.Copy(starts, boundaries, starts.Length);
 		boundaries[^1] = text.Length;
 		return boundaries;
-	}
-
-	private static int SnapToBoundary(int[] boundaries, int index, bool preferNext)
-	{
-		var position = Array.BinarySearch(boundaries, index);
-		if (position >= 0)
-			return boundaries[position];
-
-		var insertionIndex = ~position;
-		if (preferNext && insertionIndex < boundaries.Length)
-			return boundaries[insertionIndex];
-
-		return insertionIndex > 0 ? boundaries[insertionIndex - 1] : 0;
 	}
 
 	private static int[] GetTextElementBoundaries(string text)
@@ -2647,29 +2432,6 @@ public abstract class StswInputBoxBase : Control
 
 		var length = SnapToTextElementBoundary(text, maximumLength, preferNext: false);
 		return length <= 0 ? string.Empty : text.Substring(0, length);
-	}
-
-	private static string NormalizeInputText(string text, bool replaceLineBreaksWithSpaces, bool acceptsTab, bool replaceTabsWithSpaces)
-	{
-		if (string.IsNullOrEmpty(text))
-			return string.Empty;
-
-		var result = replaceLineBreaksWithSpaces
-			? text
-				.Replace("\r\n", " ")
-				.Replace('\r', ' ')
-				.Replace('\n', ' ')
-			: text
-				.Replace("\r\n", string.Empty)
-				.Replace("\r", string.Empty)
-				.Replace("\n", string.Empty);
-
-		if (!acceptsTab)
-			result = replaceTabsWithSpaces
-				? result.Replace('\t', ' ')
-				: result.Replace("\t", string.Empty);
-
-		return result;
 	}
 
 	private static bool TryContainsClipboardText()
@@ -2786,84 +2548,30 @@ public abstract class StswInputBoxBase : Control
 	private void OnRedoCommand(object sender, ExecutedRoutedEventArgs e)
 		=> Redo();
 
-	private sealed class SingleLineTextMetrics
-	{
-		public SingleLineTextMetrics(
-			string sourceText,
-			string displayText,
-			FontFamily fontFamily,
-			FontStyle fontStyle,
-			FontWeight fontWeight,
-			FontStretch fontStretch,
-			double fontSize,
-			FlowDirection flowDirection,
-			double pixelsPerDip,
-			string cultureName,
-			int[] boundaries,
-			double[] positions)
-		{
-			SourceText = sourceText;
-			DisplayText = displayText;
-			FontFamily = fontFamily;
-			FontStyle = fontStyle;
-			FontWeight = fontWeight;
-			FontStretch = fontStretch;
-			FontSize = fontSize;
-			FlowDirection = flowDirection;
-			PixelsPerDip = pixelsPerDip;
-			CultureName = cultureName;
-			Boundaries = boundaries;
-			Positions = positions;
-		}
-
-		public string SourceText { get; }
-		public string DisplayText { get; }
-		public FontFamily FontFamily { get; }
-		public FontStyle FontStyle { get; }
-		public FontWeight FontWeight { get; }
-		public FontStretch FontStretch { get; }
-		public double FontSize { get; }
-		public FlowDirection FlowDirection { get; }
-		public double PixelsPerDip { get; }
-		public string CultureName { get; }
-		public int[] Boundaries { get; }
-		public double[] Positions { get; }
-		public double TotalWidth => Positions.Length == 0 ? 0 : Positions[^1];
-
-		public bool Matches(
-			string sourceText,
-			string displayText,
-			FontFamily fontFamily,
-			FontStyle fontStyle,
-			FontWeight fontWeight,
-			FontStretch fontStretch,
-			double fontSize,
-			FlowDirection flowDirection,
-			double pixelsPerDip,
-			string cultureName)
-			=> SourceText == sourceText
-				&& DisplayText == displayText
-				&& Equals(FontFamily, fontFamily)
-				&& FontStyle == fontStyle
-				&& FontWeight == fontWeight
-				&& FontStretch == fontStretch
-				&& FontSize.Equals(fontSize)
-				&& FlowDirection == flowDirection
-				&& PixelsPerDip.Equals(pixelsPerDip)
-				&& CultureName == cultureName;
-	}
-
-	private sealed class InputBoxView : FrameworkElement
+	private sealed class InputBoxView : FrameworkElement, IScrollInfo
 	{
 		private readonly StswInputBoxBase _owner;
+		private ScrollViewer? _scrollOwner;
 
 		public InputBoxView(StswInputBoxBase owner)
 		{
 			_owner = owner;
+			// The owner/template already participates in WPF's RTL mirroring. Keep the
+			// custom drawing surface LTR so FormattedText is not mirrored a second time.
+			FlowDirection = System.Windows.FlowDirection.LeftToRight;
 			ClipToBounds = true;
 			Focusable = false;
 			IsHitTestVisible = false;
 			SnapsToDevicePixels = true;
+		}
+
+		protected override Size MeasureOverride(Size availableSize)
+			=> _owner.MeasureContentView(availableSize);
+
+		protected override Size ArrangeOverride(Size finalSize)
+		{
+			_owner.ArrangeContentView(finalSize);
+			return finalSize;
 		}
 
 		protected override void OnRender(DrawingContext drawingContext)
@@ -2884,6 +2592,57 @@ public abstract class StswInputBoxBase : Control
 			_owner.RenderEditableContent(drawingContext);
 			drawingContext.Pop();
 		}
+
+		public bool CanHorizontallyScroll { get => _owner.CanHorizontallyScroll; set => _owner.CanHorizontallyScroll = value; }
+		public bool CanVerticallyScroll { get => _owner.CanVerticallyScroll; set => _owner.CanVerticallyScroll = value; }
+		public double ExtentHeight => _owner.ExtentHeight;
+		public double ExtentWidth => _owner.ExtentWidth;
+		public double HorizontalOffset => _owner.HorizontalOffset;
+		public double VerticalOffset => _owner.VerticalOffset;
+		public double ViewportHeight => _owner.ViewportHeight;
+		public double ViewportWidth => _owner.ViewportWidth;
+		public ScrollViewer? ScrollOwner
+		{
+			get => _scrollOwner;
+			set
+			{
+				if (ReferenceEquals(_scrollOwner, value))
+					return;
+
+				_scrollOwner = value;
+				_owner.OnContentScrollOwnerChanged();
+			}
+		}
+		public void LineDown() => _owner.LineDown();
+		public void LineLeft() => _owner.LineLeft();
+		public void LineRight() => _owner.LineRight();
+		public void LineUp() => _owner.LineUp();
+		public Rect MakeVisible(Visual visual, Rect rectangle)
+		{
+			if (!ReferenceEquals(visual, this) && IsAncestorOf(visual))
+				rectangle = visual.TransformToAncestor(this).TransformBounds(rectangle);
+
+			return _owner.MakeContentRectangleVisible(rectangle);
+		}
+		public void MouseWheelDown() => _owner.MouseWheelDown();
+		public void MouseWheelLeft() => _owner.MouseWheelLeft();
+		public void MouseWheelRight() => _owner.MouseWheelRight();
+		public void MouseWheelUp() => _owner.MouseWheelUp();
+		public void PageDown() => _owner.PageDown();
+		public void PageLeft() => _owner.PageLeft();
+		public void PageRight() => _owner.PageRight();
+		public void PageUp() => _owner.PageUp();
+		public void SetHorizontalOffset(double offset) => _owner.SetHorizontalOffset(offset);
+		public void SetVerticalOffset(double offset) => _owner.SetVerticalOffset(offset);
+
+		public void InvalidateScrollInfo()
+			=> _scrollOwner?.InvalidateScrollInfo();
+
+		public void DetachScrollOwner(ScrollViewer? expectedOwner = null)
+		{
+			if (expectedOwner is null || ReferenceEquals(_scrollOwner, expectedOwner))
+				_scrollOwner = null;
+		}
 	}
 
 	private enum TextChangeKind
@@ -2896,7 +2655,9 @@ public abstract class StswInputBoxBase : Control
 		Delete,
 		DeleteSelection,
 		Programmatic,
-		Composition
+		Composition,
+		Enter,
+		DragDrop
 	}
 
 	private enum CharacterKind
@@ -2907,10 +2668,6 @@ public abstract class StswInputBoxBase : Control
 	}
 
 	private readonly record struct TextRange(int Start, int End);
-
-	private readonly record struct TextLayout(FormattedText FormattedText, Point TextPoint);
-
-	private readonly record struct ImeCompositionLayout(double CompositionStartX, double CompositionEndX);
 
 	private readonly record struct TextState(string Text, int CaretIndex, int SelectionStart, int SelectionLength);
 }

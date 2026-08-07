@@ -1,8 +1,9 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 
 namespace TestApp.Wpf;
+
 /// <summary>
-/// Interaction logic for StswInputBoxTestView.xaml
+/// Interaction logic for StswInputBoxTestView.xaml.
 /// </summary>
 public partial class StswInputBoxTestView : UserControl
 {
