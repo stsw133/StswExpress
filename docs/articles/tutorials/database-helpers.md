@@ -348,3 +348,87 @@ catch
 - Use **`TempTableInsert` + `Get`** for larger, structured filters or join-heavy workflows.
 
 If you follow these patterns, your code will stay clear, safe (parameterized), and performant for typical SQL Server operations with `StswExpress.Commons`.
+
+---
+
+## 10. Async helpers and cancellation
+
+The main SQL helpers also have true asynchronous counterparts. They use the asynchronous APIs from `Microsoft.Data.SqlClient` and accept a `CancellationToken` as the last optional argument:
+
+- `BulkInsertAsync`
+- `ExecuteNonQueryAsync`
+- `ExecuteReaderAsync`
+- `ExecuteScalarAsync`
+- `ExecuteStoredProcedureAsync`
+- `GetAsync`
+
+Connection opening is asynchronous as well through `GetOpenedAsync` / `OpenedConnectionAsync`.
+
+### 10.1 Basic async query
+
+```csharp
+using var cts = new CancellationTokenSource();
+
+var users = (await db.GetAsync<UserDto>(
+    @"SELECT Id, Name, IsActive
+      FROM dbo.Users
+      WHERE IsActive = @IsActive",
+    new { IsActive = true },
+    cancellationToken: cts.Token
+)).ToList();
+```
+
+Cancellation is propagated to `SqlConnection.OpenAsync`, `SqlCommand` async execution, `SqlDataReader.ReadAsync`, and `SqlBulkCopy.WriteToServerAsync` where applicable.
+
+### 10.2 `StswCancellableCommand` + SQL
+
+```csharp
+public StswCancellableCommand RefreshCommand { get; }
+
+public MainViewModel()
+{
+    RefreshCommand = new(RefreshAsync);
+}
+
+private async Task RefreshAsync(CancellationToken cancellationToken)
+{
+    var users = await db.GetAsync<UserDto>(
+        "SELECT Id, Name, IsActive FROM dbo.Users",
+        cancellationToken: cancellationToken);
+
+    Users = users.ToList();
+}
+```
+
+When the command is cancelled, the same token reaches the SQL operation instead of only cancelling the outer UI task.
+
+### 10.3 Async non-query
+
+```csharp
+var affected = await db.ExecuteNonQueryAsync(
+    @"UPDATE dbo.Users
+      SET IsActive = @IsActive
+      WHERE Id = @Id",
+    new { IsActive = false, Id = 10 },
+    cancellationToken: cancellationToken);
+```
+
+For a batch of parameter models, the helper uses a transaction created by the helper, just like the synchronous overload. Cancellation before commit leaves that helper-owned transaction uncommitted and it is disposed instead.
+
+### 10.4 Async reader
+
+```csharp
+using var reader = await db.ExecuteReaderAsync(
+    "SELECT Id, Name FROM dbo.Users",
+    cancellationToken: cancellationToken);
+
+while (await reader.ReadAsync(cancellationToken))
+{
+    var id = reader.GetInt32(0);
+    var name = reader.GetString(1);
+}
+```
+
+When no external transaction is supplied, disposing the returned reader closes the helper-created connection.
+
+> Cancellation is cooperative. A cancellation token requests that the SQL operation be abandoned; it is not a guarantee that SQL Server can stop every server-side operation instantaneously. Code should still handle `OperationCanceledException` in the normal .NET way.

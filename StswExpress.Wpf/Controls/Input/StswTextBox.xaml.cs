@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace StswExpress.Wpf;
@@ -17,12 +16,13 @@ namespace StswExpress.Wpf;
 /// </code>
 /// </example>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
+public class StswTextBox : StswInputBoxBase, IStswBoxControl, IStswCornerControl
 {
     static StswTextBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
+
     public StswTextBox()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
@@ -95,19 +95,6 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <inheritdoc/>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswTextBox)
-        );
-
-    /// <inheritdoc/>
     public ObservableCollection<IStswSubControl> SubControls
     {
         get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
@@ -119,15 +106,5 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
             typeof(ObservableCollection<IStswSubControl>),
             typeof(StswTextBox)
         );
-    #endregion
-
-    #region Overrides
-    /// <inheritdoc/>
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            GetBindingExpression(TextProperty)?.UpdateSource();
-    }
     #endregion
 }

@@ -152,7 +152,7 @@ public abstract partial class StswInputBoxBase : Control
 			OnTextPropertyChanged,
 			CoerceText);
 
-		metadata.DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+		metadata.DefaultUpdateSourceTrigger = UpdateSourceTrigger.LostFocus;
 		return metadata;
 	}
 
@@ -1077,18 +1077,19 @@ public abstract partial class StswInputBoxBase : Control
 				break;
 
 			case Key.Return:
+				CloseUndoUnit();
+
 				if (AcceptsReturn && !IsReadOnly)
 				{
-					CloseUndoUnit();
 					InsertText("\n", TextChangeKind.Enter, allowUndoMerge: false);
 					CloseUndoUnit();
+					e.Handled = true;
 				}
-				else
+				else if (!AcceptsReturn && CommitOnEnter && !IsReadOnly)
 				{
-					CloseUndoUnit();
 					OnCommit();
+					e.Handled = true;
 				}
-				e.Handled = true;
 				break;
 
 			case Key.Tab when AcceptsTab && !IsReadOnly:
@@ -1172,10 +1173,16 @@ public abstract partial class StswInputBoxBase : Control
 	}
 
 	/// <summary>
-	/// Called when the user presses Enter while <see cref="AcceptsReturn"/> is false.
+	/// Called when the user presses Enter while <see cref="AcceptsReturn"/> is
+	/// <see langword="false"/> and <see cref="CommitOnEnter"/> is enabled.
 	/// </summary>
+	/// <remarks>
+	/// The default implementation explicitly updates the <see cref="Text"/> binding source.
+	/// Derived controls may override this method to commit their main value property.
+	/// </remarks>
 	protected virtual void OnCommit()
 	{
+		GetBindingExpression(TextProperty)?.UpdateSource();
 	}
 
 	/// <summary>
@@ -1245,7 +1252,7 @@ public abstract partial class StswInputBoxBase : Control
 			return;
 		}
 
-		if (IsTextDragDropEnabled && HasSelection && IsPointInsideSelection(point) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+		if (CanExportSelectedText && IsTextDragDropEnabled && HasSelection && IsPointInsideSelection(point) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
 		{
 			BeginTextDrag(point);
 			CaptureMouse();
@@ -1408,9 +1415,15 @@ public abstract partial class StswInputBoxBase : Control
 		SetVerticalOffset(ScrollableHeight);
 	}
 
+	/// <summary>
+	/// Gets whether the current selection may be exported outside the control through copy, cut, or drag operations.
+	/// Derived controls that display sensitive text can override this member to protect the underlying value.
+	/// </summary>
+	protected virtual bool CanExportSelectedText => true;
+
 	public void Copy()
 	{
-		if (!HasSelection)
+		if (!CanExportSelectedText || !HasSelection)
 			return;
 
 		TrySetClipboardText(SelectedText);
@@ -1418,7 +1431,7 @@ public abstract partial class StswInputBoxBase : Control
 
 	public void Cut()
 	{
-		if (IsReadOnly || !HasSelection)
+		if (!CanExportSelectedText || IsReadOnly || !HasSelection)
 			return;
 
 		TrySetClipboardText(SelectedText);
@@ -2513,10 +2526,10 @@ public abstract partial class StswInputBoxBase : Control
 		};
 
 	private void CanCopyCommand(object sender, CanExecuteRoutedEventArgs e)
-		=> e.CanExecute = HasSelection;
+		=> e.CanExecute = CanExportSelectedText && HasSelection;
 
 	private void CanCutCommand(object sender, CanExecuteRoutedEventArgs e)
-		=> e.CanExecute = HasSelection && !IsReadOnly;
+		=> e.CanExecute = CanExportSelectedText && HasSelection && !IsReadOnly;
 
 	private void CanPasteCommand(object sender, CanExecuteRoutedEventArgs e)
 		=> e.CanExecute = !IsReadOnly && TryContainsClipboardText();
@@ -2593,8 +2606,16 @@ public abstract partial class StswInputBoxBase : Control
 			drawingContext.Pop();
 		}
 
-		public bool CanHorizontallyScroll { get => _owner.CanHorizontallyScroll; set => _owner.CanHorizontallyScroll = value; }
-		public bool CanVerticallyScroll { get => _owner.CanVerticallyScroll; set => _owner.CanVerticallyScroll = value; }
+		public bool CanHorizontallyScroll
+		{
+			get => _owner.CanHorizontallyScroll;
+			set { /* StswInputBoxBase derives scrollability from its ScrollBarVisibility policy. */ }
+		}
+		public bool CanVerticallyScroll
+		{
+			get => _owner.CanVerticallyScroll;
+			set { /* StswScrollView's presenter must not disable the custom editor's IScrollInfo. */ }
+		}
 		public double ExtentHeight => _owner.ExtentHeight;
 		public double ExtentWidth => _owner.ExtentWidth;
 		public double HorizontalOffset => _owner.HorizontalOffset;

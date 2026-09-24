@@ -23,7 +23,10 @@ public partial class App : StswApp
 
         base.OnStartup(e);
 
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));
+		StswApp.Settings.EmojiFontFamily =
+	"seguiemj.ttf#Segoe UI Emoji";
+
+		CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));
 
         /// example for overriding security key:
         //StswSecurity.Key = "myOwnStswHashKey";

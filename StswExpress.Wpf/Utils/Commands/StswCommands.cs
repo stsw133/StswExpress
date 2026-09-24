@@ -61,7 +61,7 @@ public static class StswCommands
         CommandManager.RegisterClassCommandBinding(typeof(StswSelectionBox), new CommandBinding(ClearSelection, ClearSelection_Execute, ClearSelection_CanExecute));
 
         CommandManager.RegisterClassCommandBinding(typeof(ButtonBase), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
-        CommandManager.RegisterClassCommandBinding(typeof(StswPasswordBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
+        CommandManager.RegisterClassCommandBinding(typeof(StswInputBoxBase), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(StswRichBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
         CommandManager.RegisterClassCommandBinding(typeof(TextBox), new CommandBinding(ClearText, ClearText_Execute, ClearText_CanExecute));
 
@@ -164,6 +164,9 @@ public static class StswCommands
             case StswRichBox rb:
                 rb.FormattedText = default;
                 break;
+            case StswInputBoxBase input:
+                input.Clear();
+                break;
             case TextBox tb:
                 tb.Clear();
                 break;
@@ -181,6 +184,7 @@ public static class StswCommands
         {
             StswPasswordBox pwd => !string.IsNullOrEmpty(pwd.Password),
             StswRichBox rb => !string.IsNullOrEmpty(rb.FormattedText),
+            StswInputBoxBase input => !string.IsNullOrEmpty(input.Text),
             TextBox tb => !string.IsNullOrEmpty(tb.Text),
             _ => false,
         };

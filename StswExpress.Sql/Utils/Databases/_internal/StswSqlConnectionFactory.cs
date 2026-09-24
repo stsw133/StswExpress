@@ -23,6 +23,19 @@ internal class StswSqlConnectionFactory : IDisposable
     /// <param name="useTransaction">Indicates whether to start a new transaction if one is not provided.</param>
     /// <param name="disposeConnection">Optional flag indicating whether to dispose the connection when the factory is disposed. Defaults to the global configuration setting.</param>
     public StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran = null, bool useTransaction = true, bool? disposeConnection = null)
+        : this(sqlConn, sqlTran, disposeConnection)
+    {
+        if (_isExternalTransaction)
+            return;
+
+        if (Connection.State != ConnectionState.Open)
+            Connection.Open();
+
+        if (useTransaction)
+            Transaction = Connection.BeginTransaction();
+    }
+
+    private StswSqlConnectionFactory(SqlConnection sqlConn, SqlTransaction? sqlTran, bool? disposeConnection)
     {
         _disposeConnection = disposeConnection ?? StswDatabases.Config.AutoDisposeConnection;
 
@@ -35,10 +48,43 @@ internal class StswSqlConnectionFactory : IDisposable
         else
         {
             Connection = sqlConn;
-            if (Connection.State != ConnectionState.Open)
-                Connection.Open();
+        }
+    }
+
+    /// <summary>
+    /// Asynchronously creates a factory, opening the connection with cancellation support and optionally starting a transaction.
+    /// </summary>
+    public static async Task<StswSqlConnectionFactory> CreateAsync(
+        SqlConnection sqlConn,
+        SqlTransaction? sqlTran = null,
+        bool useTransaction = true,
+        bool? disposeConnection = null,
+        CancellationToken cancellationToken = default)
+    {
+        var factory = new StswSqlConnectionFactory(sqlConn, sqlTran, disposeConnection);
+
+        if (factory._isExternalTransaction)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return factory;
+        }
+
+        try
+        {
+            if (factory.Connection.State != ConnectionState.Open)
+                await factory.Connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (useTransaction)
-                Transaction = Connection.BeginTransaction();
+                factory.Transaction = factory.Connection.BeginTransaction();
+
+            return factory;
+        }
+        catch
+        {
+            factory.Dispose();
+            throw;
         }
     }
 
@@ -48,7 +94,7 @@ internal class StswSqlConnectionFactory : IDisposable
     public void Commit()
     {
         if (!_isExternalTransaction && Transaction != null)
-            Transaction?.Commit();
+            Transaction.Commit();
     }
 
     /// <summary>
@@ -57,18 +103,20 @@ internal class StswSqlConnectionFactory : IDisposable
     public void Rollback()
     {
         if (!_isExternalTransaction && Transaction != null)
-            Transaction?.Rollback();
+            Transaction.Rollback();
     }
 
     /// <summary>
-    /// Disposes the SQL connection and transaction, ensuring that all resources are properly released.
+    /// Disposes resources owned by the factory. External transactions are never disposed by the factory.
     /// </summary>
     public void Dispose()
     {
-        if (_disposeConnection && !_isExternalTransaction)
-        {
-            Transaction?.Dispose();
+        if (_isExternalTransaction)
+            return;
+
+        Transaction?.Dispose();
+
+        if (_disposeConnection)
             Connection.Dispose();
-        }
     }
 }

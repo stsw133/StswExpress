@@ -11,7 +11,7 @@
         <!-- properties -->
 
         <!-- content -->
-        <se:StswEmojiText EmojiText="🇵🇱 Poland ... | ... 😀 🤝 👨‍👩‍👧‍👦 🚀 ✅ ❤️"
+        <se:StswEmojiText EmojiText="🇵🇱 Poland ... | ... 😀 🥰 🤝 🧑🏽‍💻 👨‍👩‍👧‍👦 🚀 ✅ ❤️ ☕ ⚙️"
                           FontSize="20"
                           IsEnabled="{Binding IsEnabled}"
                           TextTrimming="CharacterEllipsis"

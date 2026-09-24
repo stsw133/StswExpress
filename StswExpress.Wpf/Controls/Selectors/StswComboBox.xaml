@@ -173,19 +173,24 @@
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                       Visibility="Collapsed"/>
-                                    <se:StswTextBox x:Name="PART_EditableTextBox"
-                                                    se:StswControl.IsBorderless="True"
-                                                    AllowDrop="True"
-                                                    IsReadOnly="{TemplateBinding IsReadOnly}"
-                                                    Margin="-2 0 0 0"
-                                                    Padding="{TemplateBinding Padding}"
-                                                    Placeholder="{TemplateBinding Placeholder}"
-                                                    Text="{TemplateBinding Text}"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch"
-                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                    Visibility="Collapsed"/>
+                                    <!-- WPF ComboBox requires PART_EditableTextBox to derive from TextBox.
+                                         StswTextBox now derives from StswInputBoxBase, so keep the native
+                                         TextBox only for ComboBox's internal editable template contract. -->
+                                    <TextBox x:Name="PART_EditableTextBox"
+                                             AllowDrop="True"
+                                             Background="{DynamicResource StswBox.Static.Background}"
+                                             BorderThickness="0"
+                                             FocusVisualStyle="{x:Null}"
+                                             Foreground="{TemplateBinding Foreground}"
+                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                             Margin="-2 0 0 0"
+                                             Padding="{TemplateBinding Padding}"
+                                             Text="{TemplateBinding Text}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"
+                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             Visibility="Collapsed"/>
                                 </Grid>
                             </DockPanel>
                         </se:StswToggleButton>

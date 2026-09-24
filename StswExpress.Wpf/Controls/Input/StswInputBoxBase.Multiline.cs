@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -41,6 +41,23 @@ public abstract partial class StswInputBoxBase
 	{
 		get => (bool)GetValue(AcceptsReturnProperty);
 		set => SetValue(AcceptsReturnProperty, value);
+	}
+
+	public static readonly DependencyProperty CommitOnEnterProperty =
+		DependencyProperty.Register(
+			nameof(CommitOnEnter),
+			typeof(bool),
+			typeof(StswInputBoxBase),
+			new FrameworkPropertyMetadata(true));
+
+	/// <summary>
+	/// Gets or sets whether pressing Enter commits the current value when
+	/// <see cref="AcceptsReturn"/> is <see langword="false"/> and the control is editable.
+	/// </summary>
+	public bool CommitOnEnter
+	{
+		get => (bool)GetValue(CommitOnEnterProperty);
+		set => SetValue(CommitOnEnterProperty, value);
 	}
 
 	public static readonly DependencyProperty TextWrappingProperty =
@@ -176,7 +193,7 @@ public abstract partial class StswInputBoxBase
 	public static readonly DependencyProperty HorizontalScrollBarVisibilityProperty =
 		ScrollViewer.HorizontalScrollBarVisibilityProperty.AddOwner(
 			typeof(StswInputBoxBase),
-			new FrameworkPropertyMetadata(ScrollBarVisibility.Hidden));
+			new FrameworkPropertyMetadata(ScrollBarVisibility.Auto));
 
 	/// <summary>Gets or sets the visibility policy for the horizontal scrollbar in <c>PART_ContentHost</c>.</summary>
 	public ScrollBarVisibility HorizontalScrollBarVisibility
@@ -188,7 +205,7 @@ public abstract partial class StswInputBoxBase
 	public static readonly DependencyProperty VerticalScrollBarVisibilityProperty =
 		ScrollViewer.VerticalScrollBarVisibilityProperty.AddOwner(
 			typeof(StswInputBoxBase),
-			new FrameworkPropertyMetadata(ScrollBarVisibility.Hidden));
+			new FrameworkPropertyMetadata(ScrollBarVisibility.Auto));
 
 	/// <summary>Gets or sets the visibility policy for the vertical scrollbar in <c>PART_ContentHost</c>.</summary>
 	public ScrollBarVisibility VerticalScrollBarVisibility
@@ -236,8 +253,12 @@ public abstract partial class StswInputBoxBase
 	private static DependencyPropertyKey RegisterReadOnlyDouble(string name)
 		=> DependencyProperty.RegisterReadOnly(name, typeof(double), typeof(StswInputBoxBase), new FrameworkPropertyMetadata(0d));
 
-	public bool CanHorizontallyScroll { get; set; } = true;
-	public bool CanVerticallyScroll { get; set; } = true;
+	/// <summary>
+	/// Hidden/Auto/Visible scroll bars still allow logical scrolling; only Disabled blocks it.
+	/// Do not let ScrollContentPresenter overwrite this policy through IScrollInfo setters.
+	/// </summary>
+	public bool CanHorizontallyScroll => HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled;
+	public bool CanVerticallyScroll => VerticalScrollBarVisibility != ScrollBarVisibility.Disabled;
 
 	public void LineUp() => SetVerticalOffset(VerticalOffset - GetLineHeight());
 	public void LineDown() => SetVerticalOffset(VerticalOffset + GetLineHeight());
@@ -1338,7 +1359,7 @@ public abstract partial class StswInputBoxBase
 
 	private bool TryStartTextDrag(Point currentPoint)
 	{
-		if (!_isDragCandidate || !IsTextDragDropEnabled || _dragSelectionLength <= 0)
+		if (!_isDragCandidate || !CanExportSelectedText || !IsTextDragDropEnabled || _dragSelectionLength <= 0)
 			return false;
 		if (Math.Abs(currentPoint.X - _dragStartPoint.X) < SystemParameters.MinimumHorizontalDragDistance
 			&& Math.Abs(currentPoint.Y - _dragStartPoint.Y) < SystemParameters.MinimumVerticalDragDistance)

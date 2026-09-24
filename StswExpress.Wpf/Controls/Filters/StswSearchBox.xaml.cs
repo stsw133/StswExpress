@@ -85,11 +85,11 @@ public class StswSearchBox : StswTextBox, IStswCornerControl
 
     #region Overrides
     /// <inheritdoc/>
-    protected override void OnTextChanged(TextChangedEventArgs e)
+    protected override void OnTextChanged(string oldText, string newText)
     {
-        base.OnTextChanged(e);
-        if (FilterText != Text)
-            FilterText = Text;
+        base.OnTextChanged(oldText, newText);
+        if (FilterText != newText)
+            FilterText = newText;
     }
     #endregion
 

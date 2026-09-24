@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace TestApp.Wpf;
@@ -9,6 +9,7 @@ public partial class StswTextBoxContext : ControlsContext
         base.SetDefaults();
 
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        AcceptsReturn = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AcceptsReturn)))?.Value ?? false;
     }
 
     [StswCommand] void Clear() => Text = string.Empty;
@@ -16,6 +17,7 @@ public partial class StswTextBoxContext : ControlsContext
 
     [StswObservableProperty] bool _icon;
     [StswObservableProperty] bool _isReadOnly;
+    [StswObservableProperty] bool _acceptsReturn = false;
     [StswObservableProperty] bool _subControls = false;
     [StswObservableProperty] string _text = string.Empty;
 }

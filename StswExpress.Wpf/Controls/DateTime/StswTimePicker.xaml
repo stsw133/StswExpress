@@ -4,14 +4,13 @@
                     xmlns:se="clr-namespace:StswExpress.Wpf">
 
     <Style TargetType="{x:Type se:StswTimePicker}">
-        <!-- <Setter Property="Format" Value="dd\.hh\:mm\:ss"/> -->
         <Setter Property="IncrementType" Value="Second"/>
-        <!-- <Setter Property="IncrementType" Value="{Binding TimeSpanDefaultIncrementValue, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswEnumToIntConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"/> -->
         <Setter Property="Text" Value="{Binding SelectedTime, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        
+        <Setter Property="PlaceholderBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
@@ -30,13 +29,12 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTimePicker}">
-                    <!-- main -->
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -46,9 +44,14 @@
                         <DockPanel>
                             <!-- icon section -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
-                            <!-- buttons -->
-                            <se:StswDropButton x:Name="OPT_DropButton" DockPanel.Dock="Right"
-                                               Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
+
+                            <!-- drop-down time selector -->
+                            <se:StswDropButton x:Name="OPT_DropButton"
+                                               DockPanel.Dock="Right"
+                                               Focusable="False"
+                                               MaxDropDownHeight="NaN"
+                                               Padding="0"
+                                               Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                se:StswControl.IsBorderless="True"
                                                se:StswDropArrow.Data="{x:Static se:StswIcons.ClockOutline}"
@@ -58,32 +61,43 @@
                                                se:StswPopup.Padding="0">
                                 <StackPanel MaxHeight="400" Orientation="Horizontal">
                                     <!-- hours -->
-                                    <DockPanel Width="100" Visibility="{Binding IsHoursVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
-                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Hours, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                    <DockPanel Width="100"
+                                               Visibility="{Binding IsHoursVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top"
+                                                      Content="{se:StswTranslate StswTimePicker.Hours, Suffix=':'}"
+                                                      HorizontalContentAlignment="Center"/>
                                         <se:StswSegment ItemsSource="{se:StswListFromRange 24}"
                                                         Orientation="Vertical"
                                                         SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
                                                         se:StswControl.IsBorderless="True"/>
                                     </DockPanel>
-                                    <!-- ... -->
+
                                     <se:StswSeparator BorderThickness="1"
                                                       Orientation="Vertical"
                                                       Visibility="{Binding IsHoursVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+
                                     <!-- minutes -->
-                                    <DockPanel Width="100" Visibility="{Binding IsMinutesVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
-                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Minutes, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                    <DockPanel Width="100"
+                                               Visibility="{Binding IsMinutesVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top"
+                                                      Content="{se:StswTranslate StswTimePicker.Minutes, Suffix=':'}"
+                                                      HorizontalContentAlignment="Center"/>
                                         <se:StswSegment ItemsSource="{se:StswListFromRange 60}"
                                                         Orientation="Vertical"
                                                         SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
                                                         se:StswControl.IsBorderless="True"/>
                                     </DockPanel>
-                                    <!-- ... -->
+
                                     <se:StswSeparator BorderThickness="1"
                                                       Orientation="Vertical"
                                                       Visibility="{Binding IsSecondsVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+
                                     <!-- seconds -->
-                                    <DockPanel Width="100" Visibility="{Binding IsSecondsVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
-                                        <se:StswLabel DockPanel.Dock="Top" Content="{se:StswTranslate StswTimePicker.Seconds, Suffix=':'}" HorizontalContentAlignment="Center"/>
+                                    <DockPanel Width="100"
+                                               Visibility="{Binding IsSecondsVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswBoolConverter.Instance}}">
+                                        <se:StswLabel DockPanel.Dock="Top"
+                                                      Content="{se:StswTranslate StswTimePicker.Seconds, Suffix=':'}"
+                                                      HorizontalContentAlignment="Center"/>
                                         <se:StswSegment ItemsSource="{se:StswListFromRange 60}"
                                                         Orientation="Vertical"
                                                         SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
@@ -91,14 +105,17 @@
                                     </DockPanel>
                                 </StackPanel>
                             </se:StswDropButton>
+
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
+
                             <!-- sub controls -->
-                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
+                            <ItemsControl x:Name="OPT_SubControls"
+                                          DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
@@ -107,35 +124,26 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
-                            <!-- error -->
-                            <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
-                            <!-- content -->
-                            <Grid>
-                                <se:StswText x:Name="OPT_Placeholder"
-                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                             IsHitTestVisible="False"
-                                             Margin="{TemplateBinding Padding}"
-                                             Padding="2 0 0 0"
-                                             Text="{TemplateBinding Placeholder}"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="Collapsed"/>
-                                <se:StswScrollView x:Name="PART_ContentHost"
-                                                   DynamicMode="Partial"
-                                                   Focusable="False"
-                                                   HorizontalScrollBarVisibility="Hidden"
-                                                   VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
+
+                            <!-- validation error -->
+                            <se:StswSubError x:Name="OPT_Error"
+                                             DockPanel.Dock="Right"
+                                             Errors="{TemplateBinding Errors}"
+                                             HasError="{TemplateBinding HasError}"/>
+
+                            <!-- custom text editor -->
+                            <se:StswScrollView x:Name="PART_ContentHost"
+                                               CanContentScroll="True"
+                                               DynamicMode="Partial"
+                                               Focusable="False"
+                                               Padding="{TemplateBinding Padding}"
+                                               HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                               VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                               SuppressScrollBarLengthInMeasure="True"/>
                         </DockPanel>
                     </se:StswBorder>
-                    <!-- triggers -->
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
@@ -153,7 +161,7 @@
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
+                            <Setter Property="PlaceholderBrush" Value="Transparent"/>
                         </Trigger>
                         <Trigger Property="HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>
@@ -163,5 +171,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

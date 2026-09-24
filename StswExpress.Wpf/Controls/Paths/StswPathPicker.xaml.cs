@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -13,7 +16,7 @@ namespace StswExpress.Wpf;
 
 /// <summary>
 /// A file and directory path selection control with a built-in file dialog.
-/// Supports file filtering, multi-selection, and displaying file sizes.
+/// Supports file filtering, multi-selection, adjacent-path navigation, validation, and displaying file sizes.
 /// </summary>
 /// <example>
 /// The following example demonstrates how to use the class:
@@ -22,45 +25,68 @@ namespace StswExpress.Wpf;
 /// </code>
 /// </example>
 [ContentProperty(nameof(SelectedPath))]
-public class StswPathPicker : StswBoxBase
+public class StswPathPicker : StswInputBoxBase, IStswBoxControl, IStswCornerControl
 {
     static StswPathPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPathPicker), new FrameworkPropertyMetadata(typeof(StswPathPicker)));
     }
 
+    public StswPathPicker()
+    {
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
+    }
+
     #region Dependency properties
+
+    /// <inheritdoc/>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty =
+        DependencyProperty.Register(nameof(CornerClipping), typeof(bool), typeof(StswPathPicker));
+
+    /// <inheritdoc/>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty =
+        DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(StswPathPicker));
+
+    /// <inheritdoc/>
+    public ReadOnlyObservableCollection<ValidationError> Errors
+    {
+        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+    public static readonly DependencyProperty ErrorsProperty =
+        DependencyProperty.Register(nameof(Errors), typeof(ReadOnlyObservableCollection<ValidationError>), typeof(StswPathPicker));
+
     /// <summary>
-    /// Gets or sets the file icon source for the path picker.
-    /// Represents the icon to display for the selected file or directory.
+    /// Gets the associated icon for the selected file or directory.
     /// </summary>
     public ImageSource? FileIcon
     {
         get => (ImageSource?)GetValue(FileIconProperty);
         private set => SetValue(FileIconProperty, value);
     }
-    public static readonly DependencyProperty FileIconProperty
-        = DependencyProperty.Register(
-            nameof(FileIcon),
-            typeof(ImageSource),
-            typeof(StswPathPicker)
-        );
+    public static readonly DependencyProperty FileIconProperty =
+        DependencyProperty.Register(nameof(FileIcon), typeof(ImageSource), typeof(StswPathPicker));
 
     /// <summary>
-    /// Gets or sets the info about the file's length.
-    /// Displays the size of the selected file, if applicable.
+    /// Gets the formatted size of the selected file, when available.
     /// </summary>
     internal string? FileSize
     {
         get => (string?)GetValue(FileSizeProperty);
         private set => SetValue(FileSizeProperty, value);
     }
-    internal static readonly DependencyProperty FileSizeProperty
-        = DependencyProperty.Register(
-            nameof(FileSize),
-            typeof(string),
-            typeof(StswPathPicker)
-        );
+    internal static readonly DependencyProperty FileSizeProperty =
+        DependencyProperty.Register(nameof(FileSize), typeof(string), typeof(StswPathPicker));
 
     /// <summary>
     /// Gets or sets the file filter used in the file selection dialog.
@@ -71,170 +97,214 @@ public class StswPathPicker : StswBoxBase
         get => (string)GetValue(FilterProperty);
         set => SetValue(FilterProperty, value);
     }
-    public static readonly DependencyProperty FilterProperty
-        = DependencyProperty.Register(
+    public static readonly DependencyProperty FilterProperty =
+        DependencyProperty.Register(
             nameof(Filter),
             typeof(string),
             typeof(StswPathPicker),
-            new PropertyMetadata(default(string), OnFilterChanged)
-        );
+            new PropertyMetadata(default(string), OnFilterChanged));
+
     private static void OnFilterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var stsw = (StswPathPicker)d;
-        if (stsw.SelectionUnit != StswPathType.OpenDirectory)
-            stsw.ListAdjacentPaths();
+        var input = (StswPathPicker)d;
+        if (input.SelectionUnit != StswPathType.OpenDirectory)
+            input.ListAdjacentPaths();
     }
 
+    /// <inheritdoc/>
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public static readonly DependencyProperty HasErrorProperty =
+        DependencyProperty.Register(nameof(HasError), typeof(bool), typeof(StswPathPicker));
+
+    /// <inheritdoc/>
+    public object? Icon
+    {
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty =
+        DependencyProperty.Register(nameof(Icon), typeof(object), typeof(StswPathPicker));
+
     /// <summary>
-    /// Gets or sets whether to show or not the file size.
-    /// If true, the size of the selected file is displayed next to the selected path.
+    /// Gets or sets whether the selected file size is displayed.
     /// </summary>
     public bool IsFileSizeVisible
     {
         get => (bool)GetValue(IsFileSizeVisibleProperty);
         set => SetValue(IsFileSizeVisibleProperty, value);
     }
-    public static readonly DependencyProperty IsFileSizeVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsFileSizeVisible),
-            typeof(bool),
-            typeof(StswPathPicker)
-        );
+    public static readonly DependencyProperty IsFileSizeVisibleProperty =
+        DependencyProperty.Register(nameof(IsFileSizeVisible), typeof(bool), typeof(StswPathPicker));
 
     /// <summary>
-    /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.
-    /// If enabled, users can navigate between directories or files in the current folder using mouse wheel or keyboard keys.
+    /// Gets or sets a value indicating whether mouse-wheel navigation through adjacent paths is enabled.
     /// </summary>
     public bool IsShiftingEnabled
     {
         get => (bool)GetValue(IsShiftingEnabledProperty);
         set => SetValue(IsShiftingEnabledProperty, value);
     }
-    public static readonly DependencyProperty IsShiftingEnabledProperty
-        = DependencyProperty.Register(
+    public static readonly DependencyProperty IsShiftingEnabledProperty =
+        DependencyProperty.Register(
             nameof(IsShiftingEnabled),
             typeof(bool),
             typeof(StswPathPicker),
-            new FrameworkPropertyMetadata(default(bool),
+            new FrameworkPropertyMetadata(
+                default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsShiftingEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
+                OnIsShiftingEnabledChanged,
+                null,
+                false,
+                UpdateSourceTrigger.PropertyChanged));
+
     public static void OnIsShiftingEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var stsw = (StswPathPicker)d;
-        stsw.ListAdjacentPaths();
-    }
+        => ((StswPathPicker)d).ListAdjacentPaths();
 
     /// <summary>
-    /// Gets or sets the multiselect behavior for open file dialog.
-    /// If <see langword="true"/>, multiple files can be selected at once in the file dialog.
+    /// Gets or sets whether the open-file dialog allows selecting multiple files.
     /// </summary>
     public bool Multiselect
     {
         get => (bool)GetValue(MultiselectProperty);
         set => SetValue(MultiselectProperty, value);
     }
-    public static readonly DependencyProperty MultiselectProperty
-        = DependencyProperty.Register(
-            nameof(Multiselect),
-            typeof(bool),
-            typeof(StswPathPicker)
-        );
+    public static readonly DependencyProperty MultiselectProperty =
+        DependencyProperty.Register(nameof(Multiselect), typeof(bool), typeof(StswPathPicker));
 
     /// <summary>
-    /// Gets or sets the currently selected path in the control.
-    /// Represents the file or directory currently selected by the user.
+    /// Gets or sets the currently selected path.
     /// </summary>
     public string? SelectedPath
     {
         get => (string?)GetValue(SelectedPathProperty);
         set => SetValue(SelectedPathProperty, value);
     }
-    public static readonly DependencyProperty SelectedPathProperty
-        = DependencyProperty.Register(
+    public static readonly DependencyProperty SelectedPathProperty =
+        DependencyProperty.Register(
             nameof(SelectedPath),
             typeof(string),
             typeof(StswPathPicker),
-            new FrameworkPropertyMetadata(default(string?),
+            new FrameworkPropertyMetadata(
+                default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedPathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
+                OnSelectedPathChanged,
+                null,
+                false,
+                UpdateSourceTrigger.PropertyChanged));
+
     public static void OnSelectedPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var stsw = (StswPathPicker)d;
+        var input = (StswPathPicker)d;
 
-        stsw.FileSize = File.Exists(stsw.SelectedPath) ? StswFn.FormatByteSize(new FileInfo(stsw.SelectedPath).Length) : null;
-        stsw.FileIcon = StswFnUI.ExtractAssociatedIcon(stsw.SelectedPath)?.ToImageSource();
+        input.FileSize = File.Exists(input.SelectedPath)
+            ? StswFn.FormatByteSize(new FileInfo(input.SelectedPath).Length)
+            : null;
+        input.FileIcon = StswFnUI.ExtractAssociatedIcon(input.SelectedPath)?.ToImageSource();
 
-        // load adjacent paths
-        if (Path.Exists(stsw.SelectedPath) && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
+        if (Path.Exists(input.SelectedPath)
+            && Directory.GetParent(input.SelectedPath!)?.FullName is string parentPath
+            && parentPath != input._parentPath)
         {
-            stsw.parentPath = parentPath;
-            stsw.ListAdjacentPaths();
+            input._parentPath = parentPath;
+            input.ListAdjacentPaths();
         }
     }
-    private string? parentPath;
+
+    private string? _parentPath;
 
     /// <summary>
-    /// Gets or sets the currently selected path in the control.
-    /// Represents the file or directory currently selected by the user.
+    /// Gets or sets all paths selected by a multiselect dialog.
     /// </summary>
     public string[] SelectedPaths
     {
         get => (string[])GetValue(SelectedPathsProperty);
         set => SetValue(SelectedPathsProperty, value);
     }
-    public static readonly DependencyProperty SelectedPathsProperty
-        = DependencyProperty.Register(
+    public static readonly DependencyProperty SelectedPathsProperty =
+        DependencyProperty.Register(
             nameof(SelectedPaths),
             typeof(string[]),
             typeof(StswPathPicker),
-            new PropertyMetadata(Array.Empty<string>())
-        );
+            new PropertyMetadata(Array.Empty<string>()));
 
     /// <summary>
-    /// Gets or sets the type of paths that can be selected (File or Directory).
-    /// This determines whether the control allows selection of files or directories within the dialog.
+    /// Gets or sets the type of path selected by the control.
     /// </summary>
     public StswPathType SelectionUnit
     {
         get => (StswPathType)GetValue(SelectionUnitProperty);
         set => SetValue(SelectionUnitProperty, value);
     }
-    public static readonly DependencyProperty SelectionUnitProperty
-        = DependencyProperty.Register(
+    public static readonly DependencyProperty SelectionUnitProperty =
+        DependencyProperty.Register(
             nameof(SelectionUnit),
             typeof(StswPathType),
             typeof(StswPathPicker),
-            new PropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged)
-        );
+            new PropertyMetadata(default(StswPathType), OnIsShiftingEnabledChanged));
 
     /// <summary>
-    /// Gets or sets the suggested file name for file dialog default file name.
-    /// Provides a default name for files when the save dialog is shown.
+    /// Gets or sets the thickness of separators inside the control.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty =
+        DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswPathPicker),
+            new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsRender));
+
+    /// <inheritdoc/>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty =
+        DependencyProperty.Register(nameof(SubControls), typeof(ObservableCollection<IStswSubControl>), typeof(StswPathPicker));
+
+    /// <summary>
+    /// Gets or sets the suggested file name shown by file dialogs.
     /// </summary>
     public string? SuggestedFilename
     {
         get => (string?)GetValue(SuggestedFilenameProperty);
         set => SetValue(SuggestedFilenameProperty, value);
     }
-    public static readonly DependencyProperty SuggestedFilenameProperty
-        = DependencyProperty.Register(
-            nameof(SuggestedFilename),
-            typeof(string),
-            typeof(StswPathPicker)
-        );
+    public static readonly DependencyProperty SuggestedFilenameProperty =
+        DependencyProperty.Register(nameof(SuggestedFilename), typeof(string), typeof(StswPathPicker));
+
+    /// <summary>
+    /// Internal editing buffer. <see cref="SelectedPath"/> is the public semantic value of the control.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value ?? string.Empty;
+    }
+
     #endregion
 
-    #region Template
+    #region Template and overrides
+
     private ButtonBase? _dialogButton;
 
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
+        DetachTemplateEvents();
         base.OnApplyTemplate();
 
-        DetachTemplateEvents();
         _dialogButton = GetTemplateChild("PART_DialogButton") as ButtonBase;
         AttachTemplateEvents();
 
@@ -242,71 +312,87 @@ public class StswPathPicker : StswBoxBase
         ListAdjacentPaths();
     }
 
-    /// <summary>
-    /// Attaches event handlers to the template parts.
-    /// </summary>
     private void AttachTemplateEvents()
     {
-        if (_dialogButton != null)
+        if (_dialogButton is not null)
             _dialogButton.Click += PART_DialogButton_Click;
     }
 
-    /// <summary>
-    /// Detaches event handlers from the template parts.
-    /// </summary>
     private void DetachTemplateEvents()
     {
-        if (_dialogButton != null)
+        if (_dialogButton is not null)
             _dialogButton.Click -= PART_DialogButton_Click;
+
+        _dialogButton = null;
     }
-    #endregion
 
-    #region Overrides
-    /// <inheritdoc/>
-    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    /// <summary>
+    /// Enter is the explicit path commit path supplied by <see cref="StswInputBoxBase.CommitOnEnter"/>.
+    /// </summary>
+    protected override void OnCommit()
     {
-        base.OnMouseWheel(e);
+        UpdateMainProperty(alwaysUpdate: true);
+    }
 
+    /// <summary>
+    /// Losing focus commits a valid changed path.
+    /// </summary>
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        UpdateMainProperty(alwaysUpdate: false);
+        base.OnLostFocus(e);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
+    {
         if (IsKeyboardFocused && !IsReadOnly && IsShiftingEnabled)
         {
             ShiftBy(e.Delta > 0 ? -1 : 1);
-
             e.Handled = true;
+            return;
         }
+
+        base.OnPreviewMouseWheel(e);
     }
+
     #endregion
 
     #region Logic
+
     /// <summary>
-    /// Attaches a validation rule to the Text property to ensure the path exists based on the selection unit.
+    /// Rebuilds the Text binding with the path validation rule used by the historical control.
+    /// Text remains an editing buffer; updates are explicitly committed by this control.
     /// </summary>
     private void AttachTextValidationRule()
     {
         var current = BindingOperations.GetBinding(this, TextProperty);
 
-        var b = new Binding
+        var binding = new Binding
         {
             Path = current?.Path ?? new PropertyPath(nameof(SelectedPath)),
             Mode = current?.Mode ?? BindingMode.TwoWay,
             RelativeSource = current?.RelativeSource ?? new RelativeSource(RelativeSourceMode.Self),
             TargetNullValue = current?.TargetNullValue ?? string.Empty,
             StringFormat = current?.StringFormat,
+            Converter = current?.Converter,
+            ConverterCulture = current?.ConverterCulture,
+            ConverterParameter = current?.ConverterParameter,
             UpdateSourceTrigger = UpdateSourceTrigger.Explicit
         };
-        b.ValidationRules.Add(new StswPathExistsValidationRule { Host = this });
+        binding.ValidationRules.Add(new StswPathExistsValidationRule { Host = this });
 
-        BindingOperations.SetBinding(this, TextProperty, b);
+        BindingOperations.SetBinding(this, TextProperty, binding);
     }
 
     /// <summary>
     /// Lists adjacent paths based on the current selected path and path type.
-    /// The paths listed depend on whether the selection unit is a directory or a file.
     /// </summary>
     private void ListAdjacentPaths()
     {
-        if (!IsShiftingEnabled || parentPath is null)
+        if (!IsShiftingEnabled || _parentPath is null)
         {
-            adjacentPaths = null;
+            _adjacentPaths = null;
             return;
         }
 
@@ -314,47 +400,48 @@ public class StswPathPicker : StswBoxBase
         {
             if (SelectionUnit == StswPathType.OpenDirectory)
             {
-                adjacentPaths = [.. Directory.GetDirectories(parentPath)];
+                _adjacentPaths = [.. Directory.GetDirectories(_parentPath)];
             }
             else
             {
-                var all = Directory.GetFiles(parentPath);
-                adjacentPaths = [.. all.Where(p => StswPathFilterHelper.IsFileAllowed(p, Filter))];
+                var all = Directory.GetFiles(_parentPath);
+                _adjacentPaths = [.. all.Where(path => StswPathFilterHelper.IsFileAllowed(path, Filter))];
             }
         }
-        catch // e.g. UnauthorizedAccessException, PathTooLongException
+        catch
         {
-            adjacentPaths = null;
+            _adjacentPaths = null;
         }
     }
-    private IList<string>? adjacentPaths;
+
+    private IList<string>? _adjacentPaths;
 
     /// <summary>
     /// Shifts the selected path by a specified step, updating it with an adjacent path.
-    /// This allows for navigating between files or directories in the current folder.
     /// </summary>
-    /// <param name="step">The step value for shifting the path by</param>
     private void ShiftBy(int step)
     {
-        if (!string.IsNullOrEmpty(SelectedPath) && adjacentPaths?.Count > 0)
-        {
-            var currIndex = adjacentPaths.IndexOf(SelectedPath);
+        if (string.IsNullOrEmpty(SelectedPath) || _adjacentPaths?.Count <= 0)
+            return;
 
-            if ((currIndex + step).Between(0, adjacentPaths.Count - 1))
-                SelectedPath = adjacentPaths[adjacentPaths.IndexOf(SelectedPath) + step];
-            else if (currIndex + step < 0)
-                SelectedPath = adjacentPaths[0];
-            else
-                SelectedPath = adjacentPaths[adjacentPaths.Count - 1];
-        }
+        var currentIndex = _adjacentPaths.IndexOf(SelectedPath);
+        var nextIndex = currentIndex + step;
+
+        if (nextIndex.Between(0, _adjacentPaths.Count - 1))
+            SelectedPath = _adjacentPaths[nextIndex];
+        else if (nextIndex < 0)
+            SelectedPath = _adjacentPaths[0];
+        else
+            SelectedPath = _adjacentPaths[^1];
     }
 
-    /// <inheritdoc/>
-    protected override void UpdateMainProperty(bool alwaysUpdate)
+    /// <summary>
+    /// Parses and validates the editing buffer and commits <see cref="SelectedPath"/>.
+    /// </summary>
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
         var isInvalid = false;
         var isPlain = false;
-
         var nextSelectedPath = SelectedPath;
 
         if (string.IsNullOrWhiteSpace(Text))
@@ -376,7 +463,10 @@ public class StswPathPicker : StswBoxBase
                             isPlain = true;
                             nextSelectedPath = normalized;
                         }
-                        else isInvalid = true;
+                        else
+                        {
+                            isInvalid = true;
+                        }
                         break;
 
                     case StswPathType.OpenFile:
@@ -385,22 +475,29 @@ public class StswPathPicker : StswBoxBase
                             isPlain = true;
                             nextSelectedPath = normalized;
                         }
-                        else isInvalid = true;
+                        else
+                        {
+                            isInvalid = true;
+                        }
                         break;
 
                     case StswPathType.SaveFile:
-                        var dir = Path.GetDirectoryName(normalized);
+                        var directory = Path.GetDirectoryName(normalized);
                         var fileName = Path.GetFileName(normalized);
 
-                        var dirOk = !string.IsNullOrEmpty(dir) && Directory.Exists(dir);
-                        var fileNameOk = !string.IsNullOrWhiteSpace(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+                        var directoryOk = !string.IsNullOrEmpty(directory) && Directory.Exists(directory);
+                        var fileNameOk = !string.IsNullOrWhiteSpace(fileName)
+                            && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
 
-                        if (dirOk && fileNameOk)
+                        if (directoryOk && fileNameOk)
                         {
                             isPlain = true;
                             nextSelectedPath = normalized;
                         }
-                        else isInvalid = true;
+                        else
+                        {
+                            isInvalid = true;
+                        }
                         break;
 
                     default:
@@ -414,78 +511,74 @@ public class StswPathPicker : StswBoxBase
             }
         }
 
-        if (!Equals(nextSelectedPath, SelectedPath) || alwaysUpdate)
+        if (Equals(nextSelectedPath, SelectedPath) && !alwaysUpdate)
+            return;
+
+        SelectedPath = nextSelectedPath;
+
+        var valueBinding = GetBindingExpression(SelectedPathProperty);
+        if (!isInvalid && valueBinding?.Status == BindingStatus.Active)
+            valueBinding.UpdateSource();
+
+        if (nextSelectedPath is null)
+            SelectedPaths = [];
+        else if (SelectionUnit != StswPathType.OpenDirectory)
+            SelectedPaths = [nextSelectedPath];
+
+        var textBinding = GetBindingExpression(TextProperty);
+        if (textBinding != null && textBinding.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
         {
-            SelectedPath = nextSelectedPath;
-
-            var valueBE = GetBindingExpression(SelectedPathProperty);
-            if (!isInvalid && valueBE?.Status == BindingStatus.Active)
-                valueBE.UpdateSource();
-
-            if (nextSelectedPath is null)
-                SelectedPaths = [];
-            else if (SelectionUnit != StswPathType.OpenDirectory)
-                SelectedPaths = [nextSelectedPath];
-
-            var textBE = GetBindingExpression(TextProperty);
-            if (textBE != null && textBE.Status is BindingStatus.Active or BindingStatus.UpdateSourceError)
-            {
-                if (string.IsNullOrWhiteSpace(Text) || isPlain)
-                    textBE.UpdateSource();
-                else if (isInvalid && alwaysUpdate)
-                    textBE.UpdateSource();
-            }
+            if (string.IsNullOrWhiteSpace(Text) || isPlain)
+                textBinding.UpdateSource();
+            else if (isInvalid && alwaysUpdate)
+                textBinding.UpdateSource();
         }
     }
 
     /// <summary>
-    /// Handles the Click event for the file dialog button, triggering a file or directory selection dialog.
-    /// Opens either a folder browser dialog or a file dialog depending on the selection unit.
+    /// Opens a directory or file selection dialog according to <see cref="SelectionUnit"/>.
     /// </summary>
-    /// <param name="sender">The sender object triggering the event</param>
-    /// <param name="e">The event arguments</param>
     private void PART_DialogButton_Click(object sender, RoutedEventArgs e)
     {
         if (SelectionUnit == StswPathType.OpenDirectory)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using var folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SelectedPath = dialog.SelectedPath;
-                SelectedPaths = [dialog.SelectedPath];
+                SelectedPath = folderDialog.SelectedPath;
+                SelectedPaths = [folderDialog.SelectedPath];
             }
+            return;
         }
-        else
+
+        using System.Windows.Forms.FileDialog dialog = SelectionUnit switch
         {
-            System.Windows.Forms.FileDialog dialog = SelectionUnit switch
-            {
-                StswPathType.OpenFile => new System.Windows.Forms.OpenFileDialog(),
-                StswPathType.SaveFile => new System.Windows.Forms.SaveFileDialog(),
-                _ => throw new NotImplementedException()
-            };
+            StswPathType.OpenFile => new System.Windows.Forms.OpenFileDialog(),
+            StswPathType.SaveFile => new System.Windows.Forms.SaveFileDialog(),
+            _ => throw new NotImplementedException()
+        };
 
-            // filter
-            try
-            {
-                dialog.Filter = Filter;
-            }
-            catch { }
+        try
+        {
+            dialog.Filter = Filter;
+        }
+        catch
+        {
+            // Preserve historical behaviour: an invalid filter must not prevent opening the dialog.
+        }
 
-            // multiselect
-            if (dialog is System.Windows.Forms.OpenFileDialog openFileDialog)
-                openFileDialog.Multiselect = Multiselect;
+        if (dialog is System.Windows.Forms.OpenFileDialog openFileDialog)
+            openFileDialog.Multiselect = Multiselect;
 
-            // suggested file name
-            if (SuggestedFilename != null)
-                dialog.FileName = SuggestedFilename;
+        if (SuggestedFilename is not null)
+            dialog.FileName = SuggestedFilename;
 
-            // show
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                SelectedPath = dialog.FileName;
-                SelectedPaths = dialog.FileNames;
-            }
+        if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        {
+            SelectedPath = dialog.FileName;
+            SelectedPaths = dialog.FileNames;
         }
     }
+
     #endregion
 }

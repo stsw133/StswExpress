@@ -11,7 +11,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;/// <summary>
+namespace StswExpress.Wpf;
+
+/// <summary>
 /// A multi-selection combo box that allows users to select multiple items from a drop-down list.
 /// Supports item binding, selection tracking, drop-down customization, and error indication.
 /// </summary>
@@ -24,7 +26,7 @@ namespace StswExpress.Wpf;/// <summary>
 /// &lt;se:StswSelectionBox ItemsSource="{Binding Tags}" Placeholder="Select tags"/&gt;
 /// </code>
 /// </example>
-[TemplatePart(Name = FilterPartName, Type = typeof(TextBoxBase))]
+[TemplatePart(Name = FilterPartName, Type = typeof(StswTextBox))]
 [TemplatePart(Name = ListBoxPartName, Type = typeof(ListBox))]
 [TemplatePart(Name = PopupPartName, Type = typeof(Popup))]
 public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
@@ -362,7 +364,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     #endregion
 
     #region Template
-    private TextBoxBase? _filter;
+    private StswTextBox? _filter;
     private ListBox? _listBox;
     private Popup? _popup;
 
@@ -372,7 +374,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         base.OnApplyTemplate();
 
         DetachTemplateEvents();
-        _filter = GetTemplateChild(FilterPartName) as TextBoxBase;
+        _filter = GetTemplateChild(FilterPartName) as StswTextBox;
         _popup = GetTemplateChild(PopupPartName) as Popup;
         _listBox = GetTemplateChild(ListBoxPartName) as ListBox;
         AttachTemplateEvents();

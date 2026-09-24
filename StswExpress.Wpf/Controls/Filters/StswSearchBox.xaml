@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type se:StswSearchBox}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="PlaceholderBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
         <Setter Property="Icon">
             <Setter.Value>
                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Margin="2 0 0 0" Opacity="0.6"/>
@@ -57,32 +58,18 @@
                             <!-- error -->
                             <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
-                            <Grid>
-                                <se:StswText x:Name="OPT_Placeholder"
-                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                             IsHitTestVisible="False"
-                                             Margin="{TemplateBinding Padding}"
-                                             Padding="2 0 0 0"
-                                             Text="{TemplateBinding Placeholder}"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="Collapsed"/>
-                                <se:StswScrollView x:Name="PART_ContentHost"
-                                                   DynamicMode="Partial"
-                                                   Focusable="False"
-                                                   HorizontalScrollBarVisibility="Hidden"
-                                                   VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
+                            <se:StswScrollView x:Name="PART_ContentHost"
+                                               CanContentScroll="True"
+                                               DynamicMode="Partial"
+                                               Focusable="False"
+                                               Padding="{TemplateBinding Padding}"
+                                               HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                               VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                               SuppressScrollBarLengthInMeasure="True"/>
                         </DockPanel>
                     </se:StswBorder>
                     <!-- triggers -->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
@@ -99,7 +86,7 @@
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
+                            <Setter Property="PlaceholderBrush" Value="Transparent"/>
                         </Trigger>
                         <Trigger Property="HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>

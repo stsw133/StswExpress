@@ -9,7 +9,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace StswExpress.Wpf;/// <summary>
+namespace StswExpress.Wpf;
+
+/// <summary>
 /// A combo box control that allows users to select an item from a drop-down list.
 /// Supports filtering, selection binding, and corner customization.
 /// This control allows filtering of items based on user input and supports displaying icons and custom placeholders.
@@ -264,7 +266,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     #endregion
 
     #region Template
-    private TextBoxBase? _filter;
+    private StswTextBox? _filter;
     private Popup? _popup;
 
     /// <inheritdoc/>
@@ -273,7 +275,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         base.OnApplyTemplate();
 
         DetachTemplateEvents();
-        _filter = GetTemplateChild("PART_Filter") as TextBoxBase;
+        _filter = GetTemplateChild("PART_Filter") as StswTextBox;
         _popup = GetTemplateChild("PART_Popup") as Popup;
         AttachTemplateEvents();
     }

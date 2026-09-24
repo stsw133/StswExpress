@@ -19,6 +19,22 @@ public sealed class StswSettingsModel : StswObservableObject
     private bool _animationsEnabled = true;
 
     /// <summary>
+    /// Gets or sets the WPF font-family source used globally by <see cref="StswEmojiText"/> when a control-specific
+    /// <see cref="StswEmojiText.EmojiFontFamily"/> override is not provided.
+    /// </summary>
+    /// <remarks>
+    /// The value may be a regular installed font-family name (for example <c>Segoe UI Emoji</c>) or a physical
+    /// font-file reference in the form <c>font-file.ttf#Family Name</c>. A file-name-only reference is resolved
+    /// against the Windows Fonts directory.
+    /// </remarks>
+    public string EmojiFontFamily
+    {
+        get => _emojiFontFamily;
+        set => SetProperty(ref _emojiFontFamily, string.IsNullOrWhiteSpace(value) ? "seguiemj.ttf#Segoe UI Emoji" : value);
+    }
+    private string _emojiFontFamily = "seguiemj.ttf#Segoe UI Emoji";
+
+    /// <summary>
     /// Gets or sets the preferred application language (e.g. "en").
     /// </summary>
     public string? Language

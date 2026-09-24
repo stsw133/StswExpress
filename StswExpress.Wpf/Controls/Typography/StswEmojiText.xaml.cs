@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Concurrent;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress.Wpf;
 
+/// <summary>
+/// Displays text with vector color emoji rendered from an installed OpenType color font.
+/// </summary>
+/// <remarks>
+/// Emoji are rendered locally from <see cref="EmojiFontFamily"/> when explicitly overridden on the control,
+/// otherwise from <see cref="StswSettingsModel.EmojiFontFamily"/>. No emoji images are downloaded and no disk
+/// cache is used. Unsupported glyph formats fall back to normal text rendering.
+/// </remarks>
 public class StswEmojiText : TextBlock
 {
-    private static readonly string DiskCacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(StswExpress), "EmojiCache");
-    private static readonly ConcurrentDictionary<string, Task<BitmapSource?>> EmojiCache = new();
-    private static readonly HttpClient HttpClient = new();
-    private int _renderVersion;
+    private static readonly Lazy<Typeface> SystemEmojiTypeface = new(CreateSystemEmojiTypeface);
+    private static readonly Lazy<Typeface> RegisteredEmojiTypeface = new(CreateRegisteredEmojiTypeface);
+    private static readonly object EmojiTypefaceCacheLock = new();
+    private static readonly Dictionary<string, Typeface> EmojiTypefaceCache = new(StringComparer.OrdinalIgnoreCase);
 
     static StswEmojiText()
     {
@@ -31,15 +34,20 @@ public class StswEmojiText : TextBlock
         FontWeightProperty.OverrideMetadata(typeof(StswEmojiText), new FrameworkPropertyMetadata(FontWeights.Normal, OnRelevantPropertyChanged));
         ForegroundProperty.OverrideMetadata(typeof(StswEmojiText), new FrameworkPropertyMetadata(Brushes.Black, OnRelevantPropertyChanged));
     }
+
     public StswEmojiText()
     {
-        Loaded += async (_, _) => await RefreshInlinesAsync();
+        Loaded += (_, _) => RefreshInlines();
     }
 
     #region Dependency properties
     /// <summary>
-    /// Gets or sets a multiplier for the size of the emoji images relative to the current font size. The actual size of the emoji images will be calculated as FontSize multiplied by this multiplier. For example, if FontSize is 12 and EmojiImageSizeMultiplier is 1.5, the emoji images will be rendered at a size of 18. This allows you to adjust the size of the emojis independently from the text, ensuring that they are visually balanced and appropriately scaled within the control.
+    /// Gets or sets a multiplier for the rendered emoji size relative to <see cref="TextBlock.FontSize"/>.
     /// </summary>
+    /// <remarks>
+    /// The property keeps its historical name for source compatibility. Emoji are now vector drawings rather
+    /// than bitmap images.
+    /// </remarks>
     public double EmojiImageSizeMultiplier
     {
         get => (double)GetValue(EmojiImageSizeMultiplierProperty);
@@ -50,27 +58,31 @@ public class StswEmojiText : TextBlock
             nameof(EmojiImageSizeMultiplier),
             typeof(double),
             typeof(StswEmojiText),
-            new FrameworkPropertyMetadata(1d, OnRelevantPropertyChanged)
+            new FrameworkPropertyMetadata(1d, OnRelevantPropertyChanged, CoerceEmojiSizeMultiplier)
         );
 
     /// <summary>
-    /// Gets or sets a URL template for loading emoji images. The template should contain a "{0}" placeholder, which will be replaced with the emoji key derived from the text. For example, the default template "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{0}.png" will load emoji images from the Twemoji CDN, where "{0}" is replaced by the hexadecimal code points of the emoji. You can customize this template to use a different source for emoji images if desired.
+    /// Gets or sets a control-specific font used as the source of color emoji glyphs.
     /// </summary>
-    public string EmojiSourceTemplate
+    /// <remarks>
+    /// When this property is not explicitly set (directly or by a style), the control uses
+    /// <see cref="StswSettingsModel.EmojiFontFamily"/>.
+    /// </remarks>
+    public FontFamily EmojiFontFamily
     {
-        get => (string)GetValue(EmojiSourceTemplateProperty);
-        set => SetValue(EmojiSourceTemplateProperty, value);
+        get => (FontFamily)GetValue(EmojiFontFamilyProperty);
+        set => SetValue(EmojiFontFamilyProperty, value);
     }
-    public static readonly DependencyProperty EmojiSourceTemplateProperty
+    public static readonly DependencyProperty EmojiFontFamilyProperty
         = DependencyProperty.Register(
-            nameof(EmojiSourceTemplate),
-            typeof(string),
+            nameof(EmojiFontFamily),
+            typeof(FontFamily),
             typeof(StswEmojiText),
-            new FrameworkPropertyMetadata("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{0}.png", OnRelevantPropertyChanged)
+            new FrameworkPropertyMetadata(new FontFamily("Segoe UI Emoji"), OnRelevantPropertyChanged)
         );
 
     /// <summary>
-    /// Gets or sets the text to display, which may include emojis. The control will attempt to detect emojis in the text and replace them with images based on the provided template.
+    /// Gets or sets the text to display, which may contain emoji sequences.
     /// </summary>
     public string EmojiText
     {
@@ -86,8 +98,27 @@ public class StswEmojiText : TextBlock
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether to preserve the variation selector (U+FE0F) in the emoji key generation. The variation selector is used in Unicode to specify that a character should be displayed as an emoji rather than as text. By default, this property is set to false, which means that the variation selector will be ignored when generating the emoji key. Setting it to true will include the variation selector in the key, which may be necessary for certain emojis that have different appearances based on its presence.
+    /// Legacy property retained for binary/source compatibility. Network emoji sources are no longer used.
     /// </summary>
+    [Obsolete("StswEmojiText now renders emoji locally from EmojiFontFamily. EmojiSourceTemplate is ignored.")]
+    public string EmojiSourceTemplate
+    {
+        get => (string)GetValue(EmojiSourceTemplateProperty);
+        set => SetValue(EmojiSourceTemplateProperty, value);
+    }
+    public static readonly DependencyProperty EmojiSourceTemplateProperty
+        = DependencyProperty.Register(
+            nameof(EmojiSourceTemplate),
+            typeof(string),
+            typeof(StswEmojiText),
+            new FrameworkPropertyMetadata(string.Empty)
+        );
+
+    /// <summary>
+    /// Legacy property retained for binary/source compatibility. Variation selectors are now passed directly to
+    /// WPF's text shaping engine and are no longer used to build image URLs.
+    /// </summary>
+    [Obsolete("Variation selectors are handled by the local font shaping engine. PreserveVariationSelector is ignored.")]
     public bool PreserveVariationSelector
     {
         get => (bool)GetValue(PreserveVariationSelectorProperty);
@@ -98,108 +129,373 @@ public class StswEmojiText : TextBlock
             nameof(PreserveVariationSelector),
             typeof(bool),
             typeof(StswEmojiText),
-            new FrameworkPropertyMetadata(false, OnRelevantPropertyChanged)
+            new FrameworkPropertyMetadata(false)
         );
+
+    private static object CoerceEmojiSizeMultiplier(DependencyObject d, object baseValue)
+    {
+        var value = (double)baseValue;
+        return double.IsNaN(value) || double.IsInfinity(value) || value <= 0d ? 1d : value;
+    }
+
     private static void OnRelevantPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var stsw = (StswEmojiText)d;
-        if (stsw.IsLoaded)
-            _ = stsw.RefreshInlinesAsync();
+        var control = (StswEmojiText)d;
+        if (control.IsLoaded)
+            control.RefreshInlines();
     }
     #endregion
 
     #region Logic
     /// <summary>
-    /// Refreshes the collection of inlines by parsing the current text and replacing emoji sequences with their corresponding inline images asynchronously.
+    /// Rebuilds the inline collection, replacing supported emoji grapheme clusters with local vector drawings.
     /// </summary>
-    /// <remarks>This method updates the inlines in a thread-safe manner by using a versioning system to ensure that only the most recent refresh operation applies its changes to the UI. It first splits the input text into segments, identifies which segments are emojis, and then loads the corresponding images for those emojis asynchronously. Once all images are loaded, it updates the Inlines collection on the UI thread, ensuring that any intermediate changes from older refresh operations are discarded if a newer refresh has been initiated.</remarks>
-    /// <returns>A task that represents the asynchronous refresh operation.</returns>
-    private async Task RefreshInlinesAsync()
+    private void RefreshInlines()
     {
-        var version = Interlocked.Increment(ref _renderVersion);
         var text = EmojiText ?? string.Empty;
-        var emojiSourceTemplate = EmojiSourceTemplate;
-        var preserveVariationSelector = PreserveVariationSelector;
+        Inlines.Clear();
 
         if (string.IsNullOrEmpty(text))
-        {
-            await Dispatcher.InvokeAsync(() => Inlines.Clear());
             return;
-        }
 
-        var preparedSegments = new List<PreparedSegment>();
-        var tasks = new List<Task>();
+        var dpi = VisualTreeHelper.GetDpi(this);
+        var emojiSize = Math.Max(1d, FontSize * EmojiImageSizeMultiplier);
+        var emojiTypeface = ResolveEmojiTypeface();
 
         foreach (string segment in EnumerateTextElements(text))
         {
-            if (!LooksLikeEmoji(segment))
+            if (LooksLikeEmoji(segment) &&
+                TryRenderEmojiWithFallback(
+                    segment,
+                    emojiTypeface,
+                    emojiSize,
+                    dpi.PixelsPerDip,
+                    out DrawingImage? drawing))
             {
-                preparedSegments.Add(new PreparedSegment(segment, false, null));
-                continue;
+                Inlines.Add(CreateEmojiInline(drawing, emojiSize));
             }
-
-            string? emojiKey = BuildEmojiKey(segment, preserveVariationSelector);
-            if (string.IsNullOrWhiteSpace(emojiKey))
+            else
             {
-                preparedSegments.Add(new PreparedSegment(segment, false, null));
-                continue;
+                Inlines.Add(CreateTextRun(segment));
             }
-
-            var prepared = new PreparedSegment(segment, true, null);
-            preparedSegments.Add(prepared);
-            tasks.Add(LoadBitmapIntoSegmentAsync(prepared, emojiSourceTemplate, emojiKey));
         }
-
-        if (tasks.Count > 0)
-            await Task.WhenAll(tasks).ConfigureAwait(false);
-
-        if (version != _renderVersion)
-            return;
-
-        await Dispatcher.InvokeAsync(() =>
-        {
-            if (version != _renderVersion)
-                return;
-
-            Inlines.Clear();
-
-            foreach (PreparedSegment segment in preparedSegments)
-            {
-                if (segment.IsEmoji && segment.Bitmap is not null)
-                    Inlines.Add(CreateEmojiInline(segment.Bitmap));
-                else
-                    Inlines.Add(CreateTextRun(segment.Text));
-            }
-        });
     }
 
     /// <summary>
-    /// Asynchronously loads a bitmap image for the specified emoji and assigns it to the provided segment.
+    /// Attempts to render an emoji using the configured physical typeface and then the original Windows
+    /// Segoe UI Emoji font file. The fallback is resolved by physical font URI, not only by family name.
     /// </summary>
-    /// <remarks>If the emoji image cannot be loaded, the segment's bitmap will be set to <see langword="null"/>.</remarks>
-    /// <param name="segment">The segment to which the loaded bitmap image will be assigned. Cannot be <see langword="null"/>.</param>
-    /// <param name="emojiSourceTemplate">A template string used to locate or generate the source URI for the emoji image. Cannot be <see langword="null"/> or empty.</param>
-    /// <param name="emojiKey">The key identifying the specific emoji to load. Cannot be <see langword="null"/> or empty.</param>
-    /// <returns>A task that represents the asynchronous operation. The task completes when the bitmap has been loaded and assigned to the segment.</returns>
-    private static async Task LoadBitmapIntoSegmentAsync(PreparedSegment segment, string emojiSourceTemplate, string emojiKey)
+    private bool TryRenderEmojiWithFallback(
+        string text,
+        Typeface primaryTypeface,
+        double emojiSize,
+        double pixelsPerDip,
+        out DrawingImage? drawing)
     {
+        Typeface systemTypeface = SystemEmojiTypeface.Value;
+        bool primaryIsSystemTypeface = AreSamePhysicalTypeface(primaryTypeface, systemTypeface);
+
+        // The physical Windows Segoe UI Emoji font does not contain country flags.
+        // If another font is registered under "Segoe UI Emoji", try it first for regional-indicator flags.
+        if (primaryIsSystemTypeface && IsCountryFlag(text))
+        {
+            Typeface registeredTypeface = RegisteredEmojiTypeface.Value;
+            if (!AreSamePhysicalTypeface(systemTypeface, registeredTypeface) &&
+                StswColorEmojiRenderer.TryRender(
+                    text,
+                    registeredTypeface,
+                    emojiSize,
+                    Foreground,
+                    pixelsPerDip,
+                    allowModernColorFallback: true,
+                    out drawing))
+            {
+                return true;
+            }
+        }
+
+        if (StswColorEmojiRenderer.TryRender(
+            text,
+            primaryTypeface,
+            emojiSize,
+            Foreground,
+            pixelsPerDip,
+            allowModernColorFallback: !primaryIsSystemTypeface,
+            out drawing))
+        {
+            return true;
+        }
+
+        if (!primaryIsSystemTypeface &&
+            StswColorEmojiRenderer.TryRender(
+                text,
+                systemTypeface,
+                emojiSize,
+                Foreground,
+                pixelsPerDip,
+                allowModernColorFallback: false,
+                out drawing))
+        {
+            return true;
+        }
+
+        Typeface fallbackTypeface = RegisteredEmojiTypeface.Value;
+        if (!AreSamePhysicalTypeface(primaryTypeface, fallbackTypeface) &&
+            !AreSamePhysicalTypeface(systemTypeface, fallbackTypeface) &&
+            StswColorEmojiRenderer.TryRender(
+                text,
+                fallbackTypeface,
+                emojiSize,
+                Foreground,
+                pixelsPerDip,
+                allowModernColorFallback: true,
+                out drawing))
+        {
+            return true;
+        }
+
+        drawing = null;
+        return false;
+    }
+
+    /// <summary>
+    /// Resolves the effective emoji typeface. Font-file references such as
+    /// <c>seguiemj.ttf#Segoe UI Emoji</c> are resolved by enumerating the physical file's directory and selecting
+    /// the typeface whose <see cref="GlyphTypeface.FontUri"/> points to that exact file. This bypasses installed
+    /// per-user font-family overrides.
+    /// </summary>
+    private Typeface ResolveEmojiTypeface()
+    {
+        var valueSource = DependencyPropertyHelper.GetValueSource(this, EmojiFontFamilyProperty);
+        if (valueSource.BaseValueSource != BaseValueSource.Default)
+        {
+            string localSource = EmojiFontFamily.Source;
+            return ResolveTypefaceSource(localSource);
+        }
+
+        string configuredSource = StswApp.Settings?.EmojiFontFamily ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(configuredSource))
+            configuredSource = "seguiemj.ttf#Segoe UI Emoji";
+
+        return ResolveTypefaceSource(configuredSource);
+    }
+
+    private static Typeface ResolveTypefaceSource(string source)
+    {
+        source = string.IsNullOrWhiteSpace(source)
+            ? "seguiemj.ttf#Segoe UI Emoji"
+            : source.Trim();
+
+        lock (EmojiTypefaceCacheLock)
+        {
+            if (EmojiTypefaceCache.TryGetValue(source, out Typeface? cached))
+                return cached;
+        }
+
+        Typeface resolved;
+        if (TryResolveFontFileReference(source, out string? fontPath, out string? familyName) &&
+            TryCreateTypefaceFromFile(fontPath, familyName, out Typeface? fileTypeface))
+        {
+            resolved = fileTypeface;
+        }
+        else
+        {
+            try
+            {
+                resolved = new Typeface(
+                    new FontFamily(source),
+                    FontStyles.Normal,
+                    FontWeights.Normal,
+                    FontStretches.Normal);
+            }
+            catch (ArgumentException)
+            {
+                resolved = new Typeface(
+                    new FontFamily("Segoe UI Emoji"),
+                    FontStyles.Normal,
+                    FontWeights.Normal,
+                    FontStretches.Normal);
+            }
+        }
+
+        lock (EmojiTypefaceCacheLock)
+            EmojiTypefaceCache[source] = resolved;
+
+        return resolved;
+    }
+
+    private static Typeface CreateSystemEmojiTypeface()
+    {
+        string fontsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+        string fontPath = Path.Combine(fontsDirectory, "seguiemj.ttf");
+
+        if (TryCreateTypefaceFromFile(fontPath, "Segoe UI Emoji", out Typeface? typeface))
+        {
+            return typeface;
+        }
+
+        var fallback = new Typeface(
+            new FontFamily("Segoe UI Emoji"),
+            FontStyles.Normal,
+            FontWeights.Normal,
+            FontStretches.Normal);
+        return fallback;
+    }
+
+    private static Typeface CreateRegisteredEmojiTypeface()
+    {
+        var typeface = new Typeface(
+            new FontFamily("Segoe UI Emoji"),
+            FontStyles.Normal,
+            FontWeights.Normal,
+            FontStretches.Normal);
+        return typeface;
+    }
+
+    private static bool TryResolveFontFileReference(
+        string source,
+        out string fontPath,
+        out string? familyName)
+    {
+        fontPath = string.Empty;
+        familyName = null;
+
+        int separatorIndex = source.LastIndexOf('#');
+        if (separatorIndex <= 0)
+            return false;
+
+        string location = source[..separatorIndex].Trim();
+        familyName = source[(separatorIndex + 1)..].Trim();
+        if (string.IsNullOrWhiteSpace(location))
+            return false;
+
+        string extension;
         try
         {
-            segment.Bitmap = await GetOrDownloadEmojiAsync(emojiSourceTemplate, emojiKey).ConfigureAwait(false);
+            if (Uri.TryCreate(location, UriKind.Absolute, out Uri? uri) && uri.IsFile)
+            {
+                fontPath = uri.LocalPath;
+            }
+            else if (Path.IsPathRooted(location))
+            {
+                fontPath = location;
+            }
+            else
+            {
+                extension = Path.GetExtension(location);
+                if (!IsSupportedFontExtension(extension))
+                    return false;
+
+                string fontsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+                fontPath = Path.Combine(fontsDirectory, location);
+            }
+
+            extension = Path.GetExtension(fontPath);
+            if (!IsSupportedFontExtension(extension))
+                return false;
+
+            fontPath = Path.GetFullPath(fontPath);
+            return File.Exists(fontPath);
         }
         catch
         {
-            segment.Bitmap = null;
+            fontPath = string.Empty;
+            return false;
         }
     }
 
+    private static bool TryCreateTypefaceFromFile(
+        string fontPath,
+        string? requestedFamilyName,
+        out Typeface? typeface)
+    {
+        typeface = null;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(fontPath) || !File.Exists(fontPath))
+                return false;
+
+            string normalizedPath = Path.GetFullPath(fontPath);
+            var fontUri = new Uri(normalizedPath, UriKind.Absolute);
+
+            Typeface? firstPhysicalMatch = null;
+            foreach (Typeface candidate in Fonts.GetTypefaces(fontUri.AbsoluteUri))
+            {
+                if (!candidate.TryGetGlyphTypeface(out GlyphTypeface? glyphTypeface) ||
+                    glyphTypeface.FontUri is null ||
+                    !glyphTypeface.FontUri.IsFile)
+                {
+                    continue;
+                }
+
+                string candidatePath;
+                try
+                {
+                    candidatePath = Path.GetFullPath(glyphTypeface.FontUri.LocalPath);
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (!string.Equals(candidatePath, normalizedPath, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                firstPhysicalMatch ??= candidate;
+
+                if (string.IsNullOrWhiteSpace(requestedFamilyName) ||
+                    TypefaceMatchesFamily(candidate, requestedFamilyName))
+                {
+                    typeface = candidate;
+                    return true;
+                }
+            }
+
+            typeface = firstPhysicalMatch;
+            return typeface is not null;
+        }
+        catch
+        {
+            typeface = null;
+            return false;
+        }
+    }
+
+    private static bool TypefaceMatchesFamily(Typeface typeface, string requestedFamilyName)
+    {
+        if (typeface.FontFamily.FamilyNames.Values.Any(
+            x => string.Equals(x, requestedFamilyName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return true;
+        }
+
+        string source = typeface.FontFamily.Source;
+        int separatorIndex = source.LastIndexOf('#');
+        string familyName = separatorIndex >= 0 ? source[(separatorIndex + 1)..] : source;
+        return string.Equals(familyName, requestedFamilyName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool AreSamePhysicalTypeface(Typeface left, Typeface right)
+    {
+        if (!left.TryGetGlyphTypeface(out GlyphTypeface? leftGlyph) ||
+            !right.TryGetGlyphTypeface(out GlyphTypeface? rightGlyph))
+        {
+            return false;
+        }
+
+        return Equals(leftGlyph.FontUri, rightGlyph.FontUri);
+    }
+
+    private static bool IsSupportedFontExtension(string extension)
+        => extension.Equals(".ttf", StringComparison.OrdinalIgnoreCase) ||
+           extension.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
+           extension.Equals(".ttc", StringComparison.OrdinalIgnoreCase);
+
     /// <summary>
-    /// Creates a new <see cref="Run"/> instance containing the specified text and applies the current font and foreground settings.
+    /// Creates an ordinary text run matching the control's text appearance.
     /// </summary>
-    /// <remarks>The returned <see cref="Run"/> uses the same font family, size, stretch, style, weight, and foreground brush as the <see cref="StswEmojiText"/> control. This ensures that the text segments are visually consistent with the overall styling of the control, while allowing emojis to be rendered as images in line with the text.</remarks>
-    /// <param name="text">The text to display in the created <see cref="Run"/>.</param>
-    /// <returns>A <see cref="Run"/> object initialized with the specified text and the current font and foreground properties.</returns>
-    private Run CreateTextRun(string text) => new Run(text)
+    private Run CreateTextRun(string text) => new(text)
     {
         FontFamily = FontFamily,
         FontSize = FontSize,
@@ -210,16 +506,13 @@ public class StswEmojiText : TextBlock
     };
 
     /// <summary>
-    /// Creates an InlineUIContainer element containing an Image control to display the emoji. The size of the image is determined by multiplying the current font size by the EmojiImageSizeMultiplier property, ensuring that the emoji is appropriately scaled relative to the text. The image is set to stretch uniformly and is aligned to the center of the text baseline for proper vertical alignment. Additionally, bitmap scaling mode is set to HighQuality to ensure that the emoji images are rendered with good visual quality, even when resized.
+    /// Wraps the vector emoji drawing in an inline image so TextBlock keeps its native wrapping/trimming behavior.
     /// </summary>
-    /// <param name="bitmap">The BitmapSource containing the emoji image to be displayed. This bitmap is typically loaded from a cache or downloaded based on the emoji key derived from the text. The method will create an Image control using this bitmap and wrap it in an InlineUIContainer for display within the TextBlock.</param>
-    /// <returns>An InlineUIContainer element that contains an Image control displaying the emoji. This InlineUIContainer can be added to the Inlines collection of the TextBlock to render the emoji in line with the text.</returns>
-    private InlineUIContainer CreateEmojiInline(BitmapSource bitmap)
+    private static InlineUIContainer CreateEmojiInline(DrawingImage drawing, double size)
     {
-        var size = Math.Max(8d, FontSize * EmojiImageSizeMultiplier);
         var image = new Image
         {
-            Source = bitmap,
+            Source = drawing,
             Width = size,
             Height = size,
             Stretch = Stretch.Uniform,
@@ -227,7 +520,6 @@ public class StswEmojiText : TextBlock
             UseLayoutRounding = true,
         };
 
-        RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
         return new InlineUIContainer(image)
         {
             BaselineAlignment = BaselineAlignment.Center,
@@ -235,85 +527,29 @@ public class StswEmojiText : TextBlock
     }
 
     /// <summary>
-    /// Retrieves the emoji image from the cache if it exists; otherwise, it attempts to download the image using the provided source template and emoji key. The method constructs a cache key by combining the emoji source template and the emoji key, then checks if a Task for that key already exists in the cache. If it does, it awaits the existing Task; if not, it creates a new Task to download the emoji and adds it to the cache. If the download is successful, the resulting BitmapSource is returned. If any error occurs during the download or if the source template is invalid, the method returns <see langword="null"/>. This caching mechanism ensures that each unique emoji is downloaded only once, improving performance when rendering multiple instances of the same emoji.
+    /// Performs a cheap pre-filter before invoking the text shaper. Final support is determined by the color font.
     /// </summary>
-    /// <param name="emojiSourceTemplate">A string template for the emoji image source URL, which must contain a "{0}" placeholder that will be replaced with the emoji key. For example, "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{0}.png".</param>
-    /// <param name="emojiKey">The key representing the emoji, typically a string of hexadecimal code points separated by hyphens. This key is used to replace the "{0}" placeholder in the source template to form the complete URI for downloading the emoji image.</param>
-    /// <returns>A Task that represents the asynchronous operation of retrieving the emoji image. The result of the Task is a BitmapSource containing the loaded emoji image if the download and caching were successful; otherwise, it returns <see langword="null"/>.</returns>
-    private static async Task<BitmapSource?> GetOrDownloadEmojiAsync(string emojiSourceTemplate, string emojiKey)
+    private static bool IsCountryFlag(string textElement)
     {
-        if (string.IsNullOrWhiteSpace(emojiSourceTemplate) || !emojiSourceTemplate.Contains("{0}", StringComparison.Ordinal))
-            return null;
+        int regionalIndicators = 0;
 
-        string cacheKey = $"{emojiSourceTemplate}|{emojiKey}";
-        Task<BitmapSource?> task = EmojiCache.GetOrAdd(cacheKey, _ => DownloadEmojiAsync(emojiSourceTemplate, emojiKey));
-
-        try
+        foreach (int codePoint in EnumerateCodePoints(textElement))
         {
-            return await task.ConfigureAwait(false);
-        }
-        catch
-        {
-            EmojiCache.TryRemove(cacheKey, out _);
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// Downloads the emoji image based on the provided source template and emoji key. The method constructs the URI by replacing the "{0}" placeholder in the template with the emoji key, then attempts to download the image as a byte array. If the download is successful, it creates a BitmapImage from the byte array and returns it. If any error occurs during the download or image creation process, the method returns null, indicating that the emoji could not be loaded. This method is designed to be used in conjunction with caching to avoid redundant downloads of the same emoji.
-    /// </summary>
-    /// <param name="emojiSourceTemplate">A string template for the emoji image source URL, which must contain a "{0}" placeholder that will be replaced with the emoji key. For example, "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{0}.png".</param>
-    /// <param name="emojiKey">The key representing the emoji, typically a string of hexadecimal code points separated by hyphens. This key is used to replace the "{0}" placeholder in the source template to form the complete URI for downloading the emoji image.</param>
-    /// <returns>A Task that represents the asynchronous operation of downloading the emoji image. The result of the Task is a BitmapSource containing the loaded emoji image if the download and image creation were successful; otherwise, it returns <see langword="null"/>.</returns>
-    private static async Task<BitmapSource?> DownloadEmojiAsync(string emojiSourceTemplate, string emojiKey)
-    {
-        try
-        {
-            Directory.CreateDirectory(DiskCacheFolder);
-
-            var filePath = Path.Combine(DiskCacheFolder, emojiKey + ".png");
-            if (File.Exists(filePath))
+            if (codePoint >= 0x1F1E6 && codePoint <= 0x1F1FF)
             {
-                await using var localStream = File.OpenRead(filePath);
-                return LoadBitmap(localStream);
+                regionalIndicators++;
+                continue;
             }
 
-            var uri = string.Format(CultureInfo.InvariantCulture, emojiSourceTemplate, emojiKey);
-            var bytes = await HttpClient.GetByteArrayAsync(uri).ConfigureAwait(false);
-            await File.WriteAllBytesAsync(filePath, bytes).ConfigureAwait(false);
+            if (codePoint == 0xFE0F)
+                continue;
 
-            await using var stream = new MemoryStream(bytes);
-            return LoadBitmap(stream);
+            return false;
         }
-        catch
-        {
-            return null;
-        }
+
+        return regionalIndicators == 2;
     }
 
-    /// <summary>
-    /// Creates a bitmap image from the specified stream, loading the image data into memory and preserving the original pixel format.
-    /// </summary>
-    /// <remarks>The method loads the entire image into memory and freezes the resulting BitmapSource for thread safety. The caller is responsible for disposing the stream after use.</remarks>
-    /// <param name="stream">The stream containing the image data to load. The stream must be readable and positioned at the start of the image data.</param>
-    /// <returns>A frozen BitmapSource representing the loaded image. The returned object is immutable and can be safely shared across threads.</returns>
-    private static BitmapImage LoadBitmap(Stream stream)
-    {
-        var image = new BitmapImage();
-        image.BeginInit();
-        image.CacheOption = BitmapCacheOption.OnLoad;
-        image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-        image.StreamSource = stream;
-        image.EndInit();
-        image.Freeze();
-        return image;
-    }
-
-    /// <summary>
-    /// Determines whether the given text element looks like an emoji. This is done by checking if the text element contains any Unicode code points that are commonly associated with emojis, such as those in the ranges U+1F000 to U+1FAFF, U+2600 to U+27BF, U+2300 to U+23FF, or U+2B00 to U+2BFF. Additionally, it checks for the presence of the zero-width joiner (U+200D) and variation selector (U+FE0F), which are often used in emoji sequences. If any of these code points are found in the text element, it is considered to look like an emoji.
-    /// </summary>
-    /// <param name="textElement">The text element to check, which may consist of one or more Unicode code points. This is typically a string that has been extracted from the input text and is suspected to be an emoji based on its content. The method will analyze the code points in this string to determine if it resembles an emoji.</param>
-    /// <returns><see langword="true"/> if the text element looks like an emoji based on the presence of certain Unicode code points; otherwise, <see langword="false"/>.</returns>
     private static bool LooksLikeEmoji(string textElement)
     {
         if (string.IsNullOrEmpty(textElement))
@@ -321,7 +557,7 @@ public class StswEmojiText : TextBlock
 
         foreach (int codePoint in EnumerateCodePoints(textElement))
         {
-            if (codePoint is 0x200D or 0xFE0F)
+            if (codePoint is 0x200D or 0xFE0F or 0x20E3)
                 return true;
 
             if ((codePoint >= 0x1F000 && codePoint <= 0x1FAFF) ||
@@ -334,52 +570,11 @@ public class StswEmojiText : TextBlock
         return false;
     }
 
-    /// <summary>
-    /// Builds a key for the emoji based on its Unicode code points. The key is generated by enumerating the code points in the text element, optionally skipping the variation selector (U+FE0F) if the preserveVariationSelector parameter is false. The remaining code points are then converted to their hexadecimal representation and concatenated with hyphens to form the final key. This key can be used to look up the corresponding emoji image in a source that uses this naming convention, such as the Twemoji CDN.
-    /// </summary>
-    /// <param name="textElement">The text element representing the emoji, which may consist of one or more Unicode code points. This is typically a string that has been extracted from the input text and is suspected to be an emoji based on its content. The method will process this string to generate a key that can be used to retrieve the appropriate emoji image.</param>
-    /// <param name="preserveVariationSelector">A boolean flag indicating whether to include the variation selector (U+FE0F) in the emoji key generation. If set to false, the variation selector will be ignored, which may be appropriate for certain emojis that do not require it for correct rendering. If set to true, the variation selector will be included in the key, which may be necessary for emojis that have different appearances based on its presence.</param>
-    /// <returns>A string representing the emoji key, which is a concatenation of the hexadecimal code points of the emoji, separated by hyphens. This key can be used to look up the corresponding emoji image in a source that uses this naming convention. If the input text element does not contain any valid code points after processing, the method returns <see langword="null"/>.</returns>
-    private static string? BuildEmojiKey(string textElement, bool preserveVariationSelector)
-    {
-        var codePoints = new List<int>();
-
-        foreach (int cp in EnumerateCodePoints(textElement))
-        {
-            if (!preserveVariationSelector && cp == 0xFE0F)
-                continue;
-
-            codePoints.Add(cp);
-        }
-
-        if (codePoints.Count == 0)
-            return null;
-
-        var sb = new StringBuilder();
-
-        for (var i = 0; i < codePoints.Count; i++)
-        {
-            if (i > 0)
-                sb.Append('-');
-
-            sb.Append(codePoints[i].ToString("x", CultureInfo.InvariantCulture));
-        }
-
-        return sb.ToString();
-    }
-
-    /// <summary>
-    /// Enumerates the Unicode code points contained in the specified string.
-    /// </summary>
-    /// <remarks>The enumeration correctly handles surrogate pairs, ensuring that each Unicode code point is represented as a single integer, even if it is encoded as a surrogate pair in UTF-16. This method is essential for accurately processing text that may contain emojis or other characters outside the Basic Multilingual Plane (BMP).</remarks>
-    /// <param name="value">The string to enumerate code points from. Cannot be <see langword="null"/>.</param>
-    /// <returns>An enumerable collection of integers, where each integer represents a Unicode code point from the input string.</returns>
     private static IEnumerable<int> EnumerateCodePoints(string value)
     {
         for (var i = 0; i < value.Length; i++)
         {
-            var codePoint = char.ConvertToUtf32(value, i);
-
+            int codePoint = char.ConvertToUtf32(value, i);
             if (char.IsHighSurrogate(value[i]))
                 i++;
 
@@ -387,30 +582,11 @@ public class StswEmojiText : TextBlock
         }
     }
 
-    /// <summary>
-    /// Enumerates the text elements of the specified string, returning each as a separate element.
-    /// </summary>
-    /// <remarks>A text element may consist of a single character or a sequence of characters that together form a single visual unit, such as an emoji composed of multiple code points. This method uses the StringInfo.GetTextElementEnumerator to ensure that complex characters are correctly identified and returned as individual elements.</remarks>
-    /// <param name="text">The string to be parsed into text elements. Can be <see langword="null"/> or empty; in such cases, the returned sequence will be empty.</param>
-    /// <returns>An enumerable collection of strings, each representing a text element in the input string. The collection will be empty if the input string is <see langword="null"/> or contains no text elements.</returns>
     private static IEnumerable<string> EnumerateTextElements(string text)
     {
-        var enumerator = StringInfo.GetTextElementEnumerator(text);
+        TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(text);
         while (enumerator.MoveNext())
             yield return enumerator.GetTextElement();
     }
     #endregion
-
-    /// <summary>
-    /// Represents a segment of text that has been prepared for rendering, containing the original text, a flag indicating whether it is an emoji, and an optional bitmap if it is an emoji that has been successfully loaded. This class is used internally to store the results of processing the input text and preparing it for display in the control.
-    /// </summary>
-    /// <param name="text">The original text of the segment, which may be a single character, an emoji, or a sequence of characters. This is the raw text that was extracted from the input string before any processing to determine if it is an emoji.</param>
-    /// <param name="isEmoji">A boolean flag indicating whether this segment is identified as an emoji. This is determined based on the presence of certain Unicode code points that are commonly used in emojis.</param>
-    /// <param name="bitmap">An optional BitmapSource containing the loaded image for the emoji, if applicable. This will be <see langword="null"/> for non-emoji segments or if the emoji image failed to load.</param>
-    private sealed class PreparedSegment(string text, bool isEmoji, BitmapSource? bitmap)
-    {
-        public string Text { get; } = text;
-        public bool IsEmoji { get; } = isEmoji;
-        public BitmapSource? Bitmap { get; set; } = bitmap;
-    }
 }

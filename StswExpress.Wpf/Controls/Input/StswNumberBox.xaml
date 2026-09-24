@@ -3,12 +3,14 @@
                     xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress.Wpf">
 
-    <Style x:Key="StswNumberBoxStyle" TargetType="{x:Type se:StswBoxBase}">
+    <Style x:Key="StswNumberBoxStyle" TargetType="{x:Type se:StswNumberBoxBase}">
+        <!-- Keep Text as the editing buffer and Value as the public/main property, matching the historical commit model. -->
         <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, TargetNullValue='', UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        
+        <Setter Property="PlaceholderBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="6"/>
@@ -18,7 +20,7 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
-        
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -27,13 +29,12 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="se:StswFocusVisual.Assign" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswBoxBase}">
-                    <!-- main -->
+                <ControlTemplate TargetType="{x:Type se:StswNumberBoxBase}">
                     <se:StswBorder x:Name="OPT_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -41,25 +42,35 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
-                            <!-- icon section -->
+                            <!-- icon -->
                             <ContentPresenter ContentSource="Icon" Focusable="False" IsHitTestVisible="False"/>
-                            <!-- buttons -->
+
+                            <!-- increment/decrement buttons -->
                             <UniformGrid DockPanel.Dock="Right" Columns="1" Width="24">
-                                <se:StswRepeatButton x:Name="PART_ButtonUp" Focusable="False" Padding="0" se:StswControl.IsBorderless="True">
+                                <se:StswRepeatButton x:Name="PART_ButtonUp"
+                                                     Focusable="False"
+                                                     Padding="0"
+                                                     se:StswControl.IsBorderless="True">
                                     <se:StswIcon Data="M2,17L12,7L22,17H2Z" Margin="-3" Scale="1"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonDown" Focusable="False" Padding="0" se:StswControl.IsBorderless="True">
+                                <se:StswRepeatButton x:Name="PART_ButtonDown"
+                                                     Focusable="False"
+                                                     Padding="0"
+                                                     se:StswControl.IsBorderless="True">
                                     <se:StswIcon Data="M2,7L12,17L22,7H2Z" Margin="-3" Scale="1"/>
                                 </se:StswRepeatButton>
                             </UniformGrid>
+
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=OPT_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
+
                             <!-- sub controls -->
-                            <ItemsControl x:Name="OPT_SubControls" DockPanel.Dock="Right"
+                            <ItemsControl x:Name="OPT_SubControls"
+                                          DockPanel.Dock="Right"
                                           IsTabStop="False"
                                           ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
@@ -68,35 +79,26 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
-                            <!-- error -->
-                            <se:StswSubError x:Name="OPT_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
-                            <!-- content -->
-                            <Grid>
-                                <se:StswText x:Name="OPT_Placeholder"
-                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                             IsHitTestVisible="False"
-                                             Margin="{TemplateBinding Padding}"
-                                             Padding="2 0 0 0"
-                                             Text="{TemplateBinding Placeholder}"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="Collapsed"/>
-                                <se:StswScrollView x:Name="PART_ContentHost" 
-                                                   DynamicMode="Partial"
-                                                   Focusable="False"
-                                                   HorizontalScrollBarVisibility="Hidden"
-                                                   VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
+
+                            <!-- validation error -->
+                            <se:StswSubError x:Name="OPT_Error"
+                                             DockPanel.Dock="Right"
+                                             Errors="{TemplateBinding Errors}"
+                                             HasError="{TemplateBinding HasError}"/>
+
+                            <!-- custom StswInputBoxBase viewport; placeholder is rendered by the base itself -->
+                            <se:StswScrollView x:Name="PART_ContentHost"
+                                               CanContentScroll="True"
+                                               DynamicMode="Partial"
+                                               Focusable="False"
+                                               Padding="{TemplateBinding Padding}"
+                                               HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                               VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                               SuppressScrollBarLengthInMeasure="True"/>
                         </DockPanel>
                     </se:StswBorder>
-                    <!-- triggers -->
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="OPT_Placeholder"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="OPT_MainBorder"/>
@@ -115,7 +117,7 @@
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="OPT_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="OPT_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="OPT_Placeholder"/>
+                            <Setter Property="PlaceholderBrush" Value="Transparent"/>
                         </Trigger>
                         <Trigger Property="HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="OPT_MainBorder"/>
@@ -128,17 +130,14 @@
 
     <Style TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
     <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
     <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
         <Setter Property="Increment" Value="1"/>
-        <!-- <Setter Property="Increment" Value="{Binding NumberDefaultIncrementValue, Source={x:Static se:StswSettings.Default}}"/> -->
     </Style>
 
 </ResourceDictionary>

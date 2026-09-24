@@ -81,7 +81,6 @@
                 <se:StswNavigationItem Header="StswAdaptiveBox" TargetType="{x:Type local:StswAdaptiveBoxContext}"/>
                 <se:StswNavigationItem Header="StswCalculator" TargetType="{x:Type local:StswCalculatorContext}"/>
                 <se:StswNavigationItem Header="StswDecimalBox" TargetType="{x:Type local:StswDecimalBoxContext}"/>
-				<se:StswNavigationItem Header="StswInputBoxTest" TargetType="{x:Type local:StswInputBoxTestContext}"/>
                 <se:StswNavigationItem Header="StswPasswordBox" TargetType="{x:Type local:StswPasswordBoxContext}"/>
                 <se:StswNavigationItem Header="StswRatingControl" TargetType="{x:Type local:StswRatingControlContext}"/>
                 <se:StswNavigationItem Header="StswRichBox" TargetType="{x:Type local:StswRichBoxContext}"/>
