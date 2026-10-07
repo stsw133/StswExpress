@@ -16,7 +16,5 @@
   items:
     - name: Overview
       href: changelog/index.md
-    - name: 1.0
-      href: changelog/1.0.md
-    - name: Legacy Free (≤ 0.23.1)
-      href: changelog/legacy-free.md
+    - name: Newest
+      href: changelog/0.24.md

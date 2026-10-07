@@ -366,4 +366,5 @@ FodyWeavers.xsd
 # DocFX
 /docs/_site/
 /docs/_api/
-/docs/api/
+/docs/api/core/
+/docs/api/wpf/

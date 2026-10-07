@@ -15,13 +15,13 @@
 • messangers and stores
 • data hashing methods
 • code extensions and helpers</Description>
-	<RepositoryUrl>https://github.com/Karol-Staszewski/StswExpress-docs</RepositoryUrl>
-	<PackageProjectUrl>https://github.com/Karol-Staszewski/StswExpress-docs</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<PackageProjectUrl>https://stsw133.github.io/StswExpress/</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageTags>Utils</PackageTags>
-	<PackageReleaseNotes>For more details, see the changelog: https://github.com/Karol-Staszewski/StswExpress-docs/blob/main/articles/changelog/index.md</PackageReleaseNotes>
+	<PackageReleaseNotes>For more details, see the changelog: https://stsw133.github.io/StswExpress/articles/changelog/</PackageReleaseNotes>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Commons.xml</DocumentationFile>

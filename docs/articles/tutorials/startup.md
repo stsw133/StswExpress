@@ -4,17 +4,13 @@ This tutorial shows how to correctly bootstrap a new WPF application with **Stsw
 
 ## 1) Install required NuGet packages
 
-At minimum, add:
-
-- `StswExpress.Wpf`
-- `StswExpress.Commons`
-
-You can install them with:
+Install the WPF package:
 
 ```bash
 dotnet add package StswExpress.Wpf
-dotnet add package StswExpress.Commons
 ```
+
+`StswExpress.Commons` is referenced by the WPF package and is restored as a dependency.
 
 ---
 
@@ -82,7 +78,7 @@ public partial class App : StswApp
         // StswTranslator.AvailableLanguages = new() { { "en", "English" } };
         // StswTranslator.CurrentLanguage = "en";
         // StswResources.AvailableThemes = ["Light", "Dark"];
-        // StswResources.CurrentTheme = "Light";
+        // StswResources.GetInstance()!.CurrentTheme = "Light";
     }
 
     private async void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

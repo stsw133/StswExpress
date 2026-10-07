@@ -14,12 +14,12 @@
 • stsw func info analyzer
 	</Description>
 	<Copyright>© 2026 Karol Staszewski</Copyright>
-	<PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+	<PackageProjectUrl>https://stsw133.github.io/StswExpress/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
 	<PackageTags>Analyzers; Generators</PackageTags>
-    <PackageReleaseNotes>For more details, see the changelog: https://github.com/stsw133/StswExpress/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>For more details, see the changelog: https://stsw133.github.io/StswExpress/articles/changelog/</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>

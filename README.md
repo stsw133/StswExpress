@@ -57,8 +57,8 @@ Value converters for common scenarios like boolean logic, color manipulation, fo
 Examples: `StswBoolConverter`, `StswColorConverter`, `StswIfElseConverter`.
 
 #### Databases
-Helpers for working with databases, including connection factories, query helpers, and configuration tools.  
-Examples: `StswDatabaseHelper`, `StswSqlConnectionFactory`.
+SQL helpers are distributed in the separate `StswExpress.Sql` package (the current SQL types use the `StswExpress.Commons` namespace).  
+Examples: `StswDatabaseHelper`, `StswDatabaseModel`, `StswDatabases`.
 
 #### Events
 Classes and arguments for handling events, particularly for value change notifications.  
@@ -110,6 +110,6 @@ These tools provide essential building blocks for streamlining WPF application d
 
 ## Get Started
 
-You can find StswExpress on NuGet [here](https://www.nuget.org/packages/StswExpress).
+See the [installation guide](https://stsw133.github.io/StswExpress/articles/installation.html) for the available NuGet packages and target frameworks.
 
-For more details and the full changelog, click [here](https://karol-staszewski.github.io/StswExpress-docs/articles/changelog/index.md).
+For release history, see the [changelog](https://stsw133.github.io/StswExpress/articles/changelog/).

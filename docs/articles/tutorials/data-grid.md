@@ -2,13 +2,9 @@
 
 > This tutorial shows how to properly configure `StswDataGrid`, use `StswDataGridFilterBox` in column headers (preferably with Stsw columns), and add `StswDataGridStatusColumn` based on patterns used in **StswExpress.Wpf** and **TestApp.Wpf**.
 
-## Screenshot placeholder
+## Example
 
-Add your final screenshot here after configuring the grid:
-
-```md
-![Configured StswDataGrid](./path-to-your-screenshot.png)
-```
+![StswDataGrid example](../../screenshots/img03.jpg)
 
 ---
 

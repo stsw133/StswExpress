@@ -1,223 +1,19 @@
 # Identifier-Based Controls in StswExpress (WPF)
 
-> Practical guide for correctly wiring controls that depend on `Identifier`.
+Several StswExpress WPF controls expose an `Identifier` property together with static helper methods. The identifier lets a caller locate a loaded control instance without holding a direct reference to it.
 
-## Screenshot placeholders (add your images here)
-
-### Configured Navigation example
-
-![Configured StswNavigation - add your screenshot path here](./images/stswnavigation-configured.png)
-
-### Configured Dialog host example
-
-![Configured StswContentDialog - add your screenshot path here](./images/stswcontentdialog-configured.png)
-
----
-
-## Why `Identifier` matters
-
-Many StswExpress controls expose an `Identifier` property and static methods like `Show(...)`, `Close(...)`, `Navigate(...)`, or `ShowBalloonTip(...)`. Those static APIs locate the target control instance by matching the `Identifier` value.
-
-If the identifier is missing, wrong, or duplicated, the call may fail (or match the wrong instance).
-
----
+![StswMessageDialog example](../../screenshots/img05.jpg)
 
 ## Core rule
 
-**Treat `Identifier` as a unique routing key for a specific host control instance.**
+Treat `Identifier` as a routing key for a specific loaded host/control instance.
 
 Recommended conventions:
 
-- Use predictable, explicit values (e.g. `"ShellNavigation"`, `"MainDialogHost"`, `"TrayIcon.Main"`).
-- Keep identifiers unique per window/scope.
-- When you have multiple windows of the same type, include context in names:
-  - `"CustomerWindow.Navigation"`
-  - `"AdminWindow.Navigation"`
-- Prefer constants or `nameof(...)`-based patterns in C# to avoid typo bugs.
-
----
-
-## Quick map: controls that use `Identifier`
-
-Main controls from your list:
-
-- `StswContentDialog`
-- `StswMessageDialog`
-- `StswNavigation`
-- `StswTabControl`
-- `StswNotifyIcon`
-
-Other frequently used Identifier-based controls/helpers in the library:
-
-- `StswToaster`
-- `StswFileDialog`
-- internal `StswConfig` helper (used by config presentation patterns)
-
----
-
-## 1) `StswContentDialog` (dialog host)
-
-`StswContentDialog` is usually a host placed in your visual tree, then addressed through static methods:
-
-- `StswContentDialog.Show(content, dialogIdentifier)`
-- `StswContentDialog.Close(dialogIdentifier[, parameter])`
-
-### XAML host
-
-```xml
-<se:StswContentDialog Identifier="MainDialogHost" />
-```
-
-### Show from code-behind / VM service layer
-
-```csharp
-await StswContentDialog.Show(new MyDialogContent(), "MainDialogHost");
-```
-
-### Good practices
-
-- Place the host where it is always available for the scope you need.
-- Use one host per logical area/window unless you explicitly need multiple hosts.
-- If you use multiple hosts, document which workflow uses which identifier.
-
----
-
-## 2) `StswMessageDialog` (message box-like dialog)
-
-`StswMessageDialog` uses the same idea: it resolves where to display by `Identifier`.
-
-### Typical usage
-
-```csharp
-var result = await StswMessageDialog.Show(
-    new StswMessageDialog
-    {
-        Identifier = "MainDialogHost",
-        Title = "Delete item",
-        Message = "Are you sure?"
-    });
-```
-
-### Best practices
-
-- Reuse the same dialog host identifier across your app-level message dialogs.
-- Centralize message-dialog calls in a service to keep identifiers consistent.
-
----
-
-## 3) `StswNavigation` (navigate by identifier)
-
-`StswNavigation` supports static navigation targeting a specific instance by `Identifier`.
-
-### XAML
-
-```xml
-<se:StswNavigation Identifier="ShellNavigation" />
-```
-
-### Code
-
-```csharp
-StswNavigation.Navigate("ShellNavigation", typeof(DashboardView));
-```
-
-### Best practices
-
-- Assign one stable identifier to your shell navigation control.
-- For multi-shell/multi-window apps, namespace identifiers by shell.
-- Keep navigation calls in one place (NavigationService) to avoid scattered string literals.
-
----
-
-## 4) `StswTabControl` (tab operations by identifier)
-
-`StswTabControl` can be targeted via static operations that search by identifier.
-
-### XAML
-
-```xml
-<se:StswTabControl Identifier="MainTabs" />
-```
-
-### Example intent
-
-```csharp
-// Pseudocode-style example: call the static API that targets MainTabs
-// StswTabControl.<Operation>("MainTabs", ...);
-```
-
-### Best practices
-
-- Keep tab-related operations behind an abstraction (e.g., `ITabWorkspaceService`).
-- Use one identifier per tab workspace (main tabs, tool tabs, report tabs, etc.).
-
----
-
-## 5) `StswNotifyIcon` (tray icon instance lookup)
-
-`StswNotifyIcon` also supports identifier-based static operations (e.g., showing notifications on a specific tray icon instance).
-
-### XAML
-
-```xml
-<se:StswNotifyIcon Identifier="TrayIcon.Main" />
-```
-
-### Example
-
-```csharp
-StswNotifyIcon.ShowBalloonTip(
-    "TrayIcon.Main",
-    "Sync complete",
-    "All files are up to date.");
-```
-
-### Best practices
-
-- Always set explicit identifiers if there can be more than one notify icon.
-- Keep tray notification calls centralized.
-
----
-
-## Additional controls worth remembering
-
-## `StswToaster`
-
-If you use multiple toaster regions, give each a unique identifier and target the correct one in static calls.
-
-## `StswFileDialog`
-
-When shown through framework helpers, the identifier determines which host instance is used.
-
----
-
-## Common mistakes and how to avoid them
-
-1. **No `Identifier` set**
-   - Symptom: static call fails to find control instance.
-   - Fix: set identifier in XAML and verify control is loaded.
-
-2. **Duplicate identifiers**
-   - Symptom: ambiguous match / runtime exception.
-   - Fix: enforce unique naming scheme.
-
-3. **Typo in string literal**
-   - Symptom: “not found” despite control existing.
-   - Fix: use constants (`public const string MainDialogHost = ...`).
-
-4. **Wrong scope/window**
-   - Symptom: call hits another window or none.
-   - Fix: include window/module context in identifier names.
-
-5. **Calling too early (before load)**
-   - Symptom: control instance not available yet.
-   - Fix: call after UI initialization, or defer via dispatcher/app lifecycle.
-
----
-
-## Recommended implementation pattern
-
-Create a central static class for identifiers:
+- use explicit values such as `"MainDialogHost"`, `"ShellNavigation"`, or `"TrayIcon.Main"`,
+- keep identifiers unique among loaded instances of the same control type,
+- include window/module context when the application can open multiple similar windows,
+- centralize string constants to avoid typo-related runtime failures.
 
 ```csharp
 public static class UiIdentifiers
@@ -226,37 +22,170 @@ public static class UiIdentifiers
     public const string ShellNavigation = "ShellNavigation";
     public const string MainTabs = "MainTabs";
     public const string MainTrayIcon = "TrayIcon.Main";
+    public const string MainToaster = "MainToaster";
 }
 ```
 
-Then use it consistently:
+## `StswContentDialog`
+
+Place a dialog host in the visual tree:
+
+```xml
+<se:StswContentDialog Identifier="MainDialogHost" />
+```
+
+Then show arbitrary content through that host:
+
+```csharp
+var result = await StswContentDialog.Show(
+    new MyDialogContent(),
+    UiIdentifiers.MainDialogHost);
+```
+
+Close it with an optional result value:
+
+```csharp
+StswContentDialog.Close(UiIdentifiers.MainDialogHost);
+StswContentDialog.Close(UiIdentifiers.MainDialogHost, resultValue);
+```
+
+The host must already be loaded when the static call is made.
+
+## `StswMessageDialog`
+
+`StswMessageDialog.Show` accepts the host identifier directly. You do not create and pass a `StswMessageDialog` instance to the static method.
+
+```csharp
+var result = await StswMessageDialog.Show(
+    message: "Are you sure you want to delete this item?",
+    title: "Delete item",
+    buttons: StswDialogButtons.YesNo,
+    image: StswDialogImage.Warning,
+    identifier: UiIdentifiers.MainDialogHost);
+```
+
+There is also an overload for exceptions:
+
+```csharp
+await StswMessageDialog.Show(
+    exception,
+    "Unhandled exception",
+    UiIdentifiers.MainDialogHost);
+```
+
+## `StswNavigation`
+
+Give the navigation control a stable identifier:
+
+```xml
+<se:StswNavigation Identifier="ShellNavigation" />
+```
+
+The current static navigation API is `SetContent`:
+
+```csharp
+StswNavigation.SetContent(
+    typeof(DashboardView),
+    createNewInstance: false,
+    identifier: UiIdentifiers.ShellNavigation);
+```
+
+The `context` argument can be a `Type`, a registered type name, or an object instance. When `createNewInstance` is `false`, the control can reuse an already cached context for the same key.
+
+## `StswTabControl`
+
+`StswTabControl` exposes a static `Add` helper that locates the target tab control by identifier:
+
+```xml
+<se:StswTabControl Identifier="MainTabs" />
+```
+
+```csharp
+var newTab = StswTabControl.Add(UiIdentifiers.MainTabs);
+```
+
+The returned `StswTabItem` can then be customized by the caller.
+
+![StswTabControl example](../../screenshots/img10.jpg)
+
+## `StswNotifyIcon`
+
+A tray icon can also be located by identifier:
+
+```xml
+<se:StswNotifyIcon Identifier="TrayIcon.Main" />
+```
+
+The static method is `Show`:
+
+```csharp
+using System.Windows.Forms;
+
+StswNotifyIcon.Show(
+    "Sync complete",
+    "All files are up to date.",
+    ToolTipIcon.Info,
+    UiIdentifiers.MainTrayIcon);
+```
+
+## `StswToaster`
+
+When an application has multiple toaster regions, use an identifier to select the target instance:
+
+```xml
+<se:StswToaster Identifier="MainToaster" />
+```
+
+```csharp
+StswToaster.Show(
+    StswDialogImage.Information,
+    "Saved successfully.",
+    identifier: UiIdentifiers.MainToaster);
+```
+
+![StswToaster example](../../screenshots/img14.jpg)
+
+## `StswFileDialog`
+
+`StswFileDialog.Show` also accepts an optional host identifier:
+
+```csharp
+var path = await StswFileDialog.Show(
+    initialPath: @"C:\Data",
+    filter: "Text files|*.txt",
+    identifier: UiIdentifiers.MainDialogHost);
+```
+
+## Common mistakes
+
+1. **No matching loaded instance**  
+   A static call cannot find the requested control if it has not been loaded yet or the identifier does not match.
+
+2. **Duplicate identifiers**  
+   Identifier lookup throws when multiple viable loaded controls match the same identifier. Keep identifiers unique for a given control type and runtime scope.
+
+3. **String typos**  
+   Prefer shared constants rather than repeating identifier literals across the application.
+
+4. **Wrong window/module**  
+   In multi-window applications, names such as `"CustomerWindow.Navigation"` and `"AdminWindow.Navigation"` make the routing target explicit.
+
+## Recommended XAML pattern
+
+Constants can also be used directly in XAML:
 
 ```xml
 <se:StswContentDialog Identifier="{x:Static local:UiIdentifiers.MainDialogHost}" />
 <se:StswNavigation Identifier="{x:Static local:UiIdentifiers.ShellNavigation}" />
 <se:StswTabControl Identifier="{x:Static local:UiIdentifiers.MainTabs}" />
 <se:StswNotifyIcon Identifier="{x:Static local:UiIdentifiers.MainTrayIcon}" />
+<se:StswToaster Identifier="{x:Static local:UiIdentifiers.MainToaster}" />
 ```
 
-```csharp
-await StswContentDialog.Show(new MyDialogContent(), UiIdentifiers.MainDialogHost);
-StswNavigation.Navigate(UiIdentifiers.ShellNavigation, typeof(HomeView));
-```
+## Checklist
 
----
-
-## Minimal checklist
-
-Before shipping, confirm:
-
-- [ ] Every Identifier-based control has an explicit `Identifier`.
-- [ ] Identifiers are unique in the relevant runtime scope.
-- [ ] Calls to static APIs use shared constants (not random literals).
-- [ ] Multi-window scenarios have scoped naming.
-- [ ] The targeted control is loaded before static calls are made.
-
----
-
-## Summary
-
-`Identifier` in StswExpress is your addressing mechanism for UI hosts and services exposed via static APIs. Consistent naming, uniqueness, and centralized usage patterns eliminate most runtime errors and make dialog/navigation workflows predictable.
+- [ ] Identifier-based controls have explicit identifiers where more than one viable instance may exist.
+- [ ] Identifiers are unique for the relevant loaded control type.
+- [ ] Static calls use shared constants.
+- [ ] Multi-window identifiers include enough context to identify the intended target.
+- [ ] The target control is loaded before the static helper is called.

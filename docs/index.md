@@ -1,234 +1,127 @@
 # StswExpress
 
-**StswExpress** is a modular .NET library focused on building modern desktop applications faster — with consistent patterns, reusable components and a growing set of ready-to-use UI controls.
+**StswExpress** is a modular .NET toolkit for desktop application development. It combines reusable core utilities, SQL helpers, a large WPF control library, optional WPF themes, and Roslyn analyzers/source generators.
 
-It is split into independent packages, so you can adopt only what you need.
-
----
+The packages are independent enough to let you install only the parts your application needs.
 
 ## Packages
 
 ### StswExpress.Commons
-Foundation layer with general-purpose utilities used across the ecosystem.
 
-Core utilities and infrastructure layer:
-- MVVM base classes
-- SQL helpers
-- mapping utilities
-- converters, extensions, comparers
-- logging & security helpers
+Shared infrastructure and general-purpose utilities, including:
+
+- observable objects and collections,
+- commands and task helpers,
+- mapping and extension helpers,
+- logging and security utilities,
+- export, HTTP, localization-related support types, and other reusable building blocks.
+
+### StswExpress.Sql
+
+SQL/database helpers built around `Microsoft.Data.SqlClient`, including:
+
+- connection helpers and database models,
+- parameterized query execution,
+- model mapping,
+- scalar/non-query/reader helpers,
+- bulk and temporary-table helpers,
+- synchronous and asynchronous APIs with cancellation support.
 
 ### StswExpress.Wpf
-WPF-focused controls, attached behaviors and UX building blocks.
 
-Extended WPF control ecosystem:
-- advanced DataGrid
-- dialogs, navigation, notifications
-- charts and visualization controls
-- theming & localization
+The main WPF package, containing modern controls and WPF-specific infrastructure such as:
 
-### StswExpress.Avalonia
-Avalonia UI layer aligned with the same architectural concepts.
+- advanced input and selector controls,
+- `StswDataGrid` and filtering helpers,
+- charts and visualization controls,
+- dialogs, navigation, tabs, toasts, and tray notifications,
+- theming, localization, scaling, and custom window support.
 
----
+### StswExpress.Wpf.Themes
 
-## Why StswExpress
+Optional additional themes for `StswExpress.Wpf`.
 
-- **Practical** – built out of real application needs, not “demo” widgets.
-- **Consistent** – naming, behavior and patterns are aligned across packages.
-- **Composable** – adopt Commons only, or add WPF/Avalonia on top.
-- **MVVM-friendly** – designed to work cleanly with typical MVVM flows.
-- **Documented** – API Reference is generated from XML docs, guides explain the rest.
+### StswExpress.Analyzers
+
+Roslyn analyzers and source generators used by StswExpress projects, including generated observable properties and command-related helpers.
 
 ---
 
-# 🔥 Highlights
+## Highlights
 
-## 🧠 SQL Helpers (micro-ORM inspired)
+### Advanced `StswDataGrid`
 
-Powerful query preparation utilities:
+`StswDataGrid` extends the standard WPF grid with custom columns, filter controls, row-state integration, row details, and both collection-view and SQL-oriented filtering workflows.
 
-- `PrepareInsertQuery`
-- `PrepareUpdateQuery`
-- Bulk insert for `IEnumerable`
-- `SqlParameterCollection` helpers
-- Model mapping (`MapTo`)
-- `ToDataTable` and reverse mapping
+![StswDataGrid example](screenshots/img03.jpg)
 
-Designed to reduce boilerplate while keeping full SQL control.
+### Charts and visualization
 
----
+The WPF package includes charting and visualization controls such as `StswColumnChart`, `StswLineChart`, `StswPieChart`, calendars, timelines, progress controls, and more.
 
-## 📊 Advanced StswDataGrid Ecosystem
+![StswPieChart example](screenshots/img01.jpg)
 
-A heavily extended DataGrid with:
+### Barcode and QR support
 
-- custom column types (`Check`, `Combo`, `Date`, `Decimal`, `Path`, `Status`, etc.)
-- built-in filtering system
-- dynamic XAML refresh
-- virtualization improvements
-- tab drag & reordering
-- automatic CollectionView handling
+`StswBarcode` supports common barcode formats including QR codes.
 
-![StswDataGrid](assets/images/datagrid.png)
+![StswBarcode QR example](screenshots/img09.jpg)
 
----
+### Dialogs, tabs, toasts, and navigation
 
-## 📈 Charts & Visualization Controls
+Identifier-based controls make it possible to address loaded UI hosts without tightly coupling the caller to a specific control instance. This pattern is used by controls such as `StswContentDialog`, `StswNavigation`, `StswTabControl`, `StswNotifyIcon`, and `StswToaster`.
 
-Built-in visualization components:
+![StswToaster example](screenshots/img14.jpg)
 
-- `StswColumnChart`
-- `StswPieChart`
-- `StswLineChart`
-- `StswTimeline`
-- `StswRangeCalendar`
-- color pickers
-- numeric controls
-- media player & GIF support
+### Themes and localization
 
-![Charts](assets/images/charts.png)
+StswExpress includes light/dark theme support, runtime theme switching, translation helpers, runtime language switching, and an optional package with additional WPF themes.
 
 ---
 
-## 🔳 QR Codes & Barcodes
+## Getting started
 
-Native support for:
+For a WPF application, start with:
 
-- `StswBarcode`
-- QR code generation
-
-Perfect for ERP, POS, warehouse and document workflows.
-
-![QR & Barcode](assets/images/qr-barcode.png)
-
----
-
-## 🧩 Identifier-Based Control System
-
-Structured control management through identifiers:
-
-- `StswContentDialog`
-- `StswTabControl`
-- `StswNavigation`
-- `StswNotifyIcon`
-- `StswToaster`
-
-Enables loosely coupled UI communication.
-
----
-
-## 🎨 Themes & Localization
-
-Out-of-the-box support for:
-
-- Light theme
-- Dark theme
-- Additional themes
-- Runtime theme switching
-- `StswTranslator`
-- Runtime language switching
-
-![Themes](assets/images/themes.png)
-
----
-
-## 🪟 Custom Window System
-
-`StswWindow` provides:
-
-- fullscreen support
-- dynamic theme switching
-- UI scaling
-- runtime language switching
-- extended window controls
-- layout enhancements
-
-![StswWindow](assets/images/window.png)
-
----
-
-## 🔁 Rich Utility Layer
-
-Includes:
-
-- DataTable → IEnumerable mapping
-- deep object mapping
-- date range utilities
-- math helpers (`Lerp`, `InverseLerp`)
-- logging with archive support
-- encryption & hashing helpers
-- async command generators
-
----
-
-# Getting started
-
-1. **Install** the package you need:
-   - `StswExpress.Commons` for shared helpers
-   - `StswExpress.Wpf` for WPF controls
-   - `StswExpress.Avalonia` for Avalonia layer
-
-2. Continue with:
-- **Guides → Getting started**
-- **Guides → Installation**
-- **API Reference** (auto-generated)
-
----
-
-## Installation (quick)
-
-> Pick the package that matches your project.
-
-**Commons**
-
-dotnet add package StswExpress.Commons
-
-
-**WPF**
-
+```bash
 dotnet add package StswExpress.Wpf
+```
 
+For SQL helpers, install:
 
-**Avalonia**
+```bash
+dotnet add package StswExpress.Sql
+```
 
-dotnet add package StswExpress.Avalonia
+Then continue with:
 
+- [Getting started](articles/getting-started.md)
+- [Installation](articles/installation.md)
+- [Startup tutorial](articles/tutorials/startup.md)
+- [Database helpers tutorial](articles/tutorials/database-helpers.md)
+- [StswDataGrid tutorial](articles/tutorials/data-grid.md)
+- [Identifier-based controls](articles/tutorials/identifier-controls.md)
+- [Changelog](articles/changelog/index.md)
+- [API Reference](api/index.md)
 
----
+## API Reference
 
-## Documentation map
+The API reference is generated automatically by DocFX from the current source projects. It is rebuilt together with the documentation whenever the GitHub Pages workflow runs.
 
-- **Guides**
-  - *Getting started* – quickest path to first use
-  - *Installation* – packages and requirements
-  - *Changelog* – what changed between versions
-- **API Reference**
-  - namespaces, classes, methods, properties (generated)
+## Versioning
 
----
+StswExpress uses semantic versioning-style package versions:
 
-## Versioning & compatibility
+- `MAJOR` for breaking changes,
+- `MINOR` for new backwards-compatible functionality,
+- `PATCH` for fixes.
 
-StswExpress follows **Semantic Versioning**:
-
-- `MAJOR` – breaking changes
-- `MINOR` – new features (backwards compatible)
-- `PATCH` – bug fixes
-
-Pre-releases use suffixes like `-preview.x` or `-rc.x`.
-
----
+See the [changelog](articles/changelog/index.md) for release history.
 
 ## Support and feedback
 
-If something is unclear or you hit a bug:
-- check **Changelog** for recent changes
-- look up the type in **API Reference**
-- report the issue / suggestion in the repository
-
----
+If something is unclear or you find a bug, check the API reference and changelog first, then open an issue in the GitHub repository.
 
 ## License
 
-See the repository license information.
+StswExpress is distributed under the MIT License. See the repository `LICENSE` file for details.

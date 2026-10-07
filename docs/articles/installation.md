@@ -1,95 +1,95 @@
 # Installation
 
-This guide explains how to install and configure StswExpress in your project.
+StswExpress is split into multiple NuGet packages. Install only the packages required by your application.
 
----
+## Target frameworks
 
-## Requirements
+The current projects in the repository target:
 
-- .NET 8.0 or newer
-- For WPF: Windows desktop project targeting `net8.0-windows`
-- For Avalonia: Avalonia project targeting .NET 8
+| Package | Target frameworks |
+| --- | --- |
+| `StswExpress.Commons` | `net8.0`, `netstandard2.0` |
+| `StswExpress.Sql` | `net8.0`, `netstandard2.0` |
+| `StswExpress.Wpf` | `net8.0-windows7.0` |
+| `StswExpress.Wpf.Themes` | `net8.0-windows7.0` |
+| `StswExpress.Analyzers` | `netstandard2.0` analyzer package |
 
----
+For a new WPF application, target .NET 8 for Windows or a compatible newer Windows target framework.
 
-## NuGet Installation
+## Install with the .NET CLI
 
-### Using .NET CLI
+### WPF controls
 
-Install the package that matches your project:
-
-### StswExpress.Commons
-
-
-dotnet add package StswExpress.Commons
-
-
-### StswExpress.Wpf
-
-
+```bash
 dotnet add package StswExpress.Wpf
+```
 
+### Shared utilities only
 
-### StswExpress.Avalonia
+```bash
+dotnet add package StswExpress.Commons
+```
 
+### SQL helpers
 
-dotnet add package StswExpress.Avalonia
+```bash
+dotnet add package StswExpress.Sql
+```
 
+`StswExpress.Sql` references `StswExpress.Commons`.
 
----
+### Additional WPF themes
 
-### Using Visual Studio
+```bash
+dotnet add package StswExpress.Wpf.Themes
+```
 
-1. Right-click your project.
+### Analyzers and source generators
+
+```bash
+dotnet add package StswExpress.Analyzers
+```
+
+`StswExpress.Wpf` already references the analyzer package, so WPF applications normally do not need to add it separately unless they have a specific reason to do so.
+
+## Install with Visual Studio
+
+1. Right-click the project.
 2. Select **Manage NuGet Packages**.
-3. Add the configured StswExpress package source (if using a private feed).
-4. Search for the desired package.
+3. Search for the required StswExpress package.
+4. Select the desired version.
 5. Click **Install**.
 
----
+## WPF namespace
 
-## Private Package Source (Commercial Version)
+After installing `StswExpress.Wpf`, add the assembly-qualified namespace to your XAML root:
 
-If StswExpress is distributed through a private NuGet feed:
+```xml
+xmlns:se="clr-namespace:StswExpress.Wpf;assembly=StswExpress.Wpf"
+```
 
-1. Open **Tools → NuGet Package Manager → Package Sources**
-2. Add a new source:
-   - Name: `StswExpress`
-   - Source: `<YOUR_PRIVATE_FEED_URL>`
-3. Authenticate using your provided credentials or token.
+## Basic C# namespace
 
-After adding the source, install packages as usual.
-
----
-
-## Basic Usage Example
-
-After installation, you can reference StswExpress types directly in your code:
+Many shared types use the `StswExpress.Commons` namespace:
 
 ```csharp
 using StswExpress.Commons;
+```
 
-public class MainViewModel : StswObservableObject
-{
-}
-```
-For WPF:
-```
-xmlns:se="clr-namespace:StswExpress.Wpf"
-```
-Refer to **Getting Started** for a full walkthrough.
+This also applies to the current SQL helper types, even though they are distributed in the separate `StswExpress.Sql` package.
 
----
+## Additional themes
+
+After installing `StswExpress.Wpf.Themes`, register the additional themes during application startup:
+
+```csharp
+using StswExpress.Wpf.Themes;
+
+StswThemeResources.Register();
+```
+
+For the full WPF application setup, see the [Startup tutorial](tutorials/startup.md).
 
 ## Versioning
 
-StswExpress follows Semantic Versioning:
-- `MAJOR` – breaking changes
-- `MINOR` – new features (backwards compatible)
-- `PATCH` – bug fixes
-
-Pre-release versions use suffixes such as:
-- `-preview.x`
-- `-rc.x`
-
-Only active subscribers receive access to new releases.
+The packages use semantic versioning-style versions. Check the [Changelog](changelog/index.md) before upgrading, especially when moving across releases that contain breaking API changes.

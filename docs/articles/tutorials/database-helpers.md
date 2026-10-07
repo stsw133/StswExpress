@@ -1,6 +1,6 @@
-# StswDatabaseHelper SQL Helpers Tutorial (StswExpress.Commons)
+# StswDatabaseHelper SQL Helpers Tutorial (StswExpress.Sql)
 
-This tutorial shows how to **correctly use SQL helpers from `StswDatabaseHelper`** in `StswExpress.Commons`, with practical examples focused on:
+This tutorial shows how to **correctly use SQL helpers from `StswDatabaseHelper`** provided by the `StswExpress.Sql` package, with practical examples focused on:
 
 - `Get`
 - `ExecuteNonQuery`
@@ -13,12 +13,13 @@ The examples target SQL Server (`Microsoft.Data.SqlClient`) and are written in C
 
 ## 1. Prerequisites
 
-Install/use:
+Install the SQL package:
 
-- `StswExpress.Commons`
-- `Microsoft.Data.SqlClient`
+```bash
+dotnet add package StswExpress.Sql
+```
 
-Typical namespace import:
+`StswExpress.Sql` depends on `StswExpress.Commons` and uses `Microsoft.Data.SqlClient`. The SQL types currently live in the `StswExpress.Commons` namespace, so the namespace import is:
 
 ```csharp
 using Microsoft.Data.SqlClient;
@@ -347,7 +348,7 @@ catch
 - Use **`ExecuteScalar<T>`** for one value (count, max, existence flags, computed scalar).
 - Use **`TempTableInsert` + `Get`** for larger, structured filters or join-heavy workflows.
 
-If you follow these patterns, your code will stay clear, safe (parameterized), and performant for typical SQL Server operations with `StswExpress.Commons`.
+If you follow these patterns, your code will stay clear, safe (parameterized), and performant for typical SQL Server operations with `StswExpress.Sql`.
 
 ---
 

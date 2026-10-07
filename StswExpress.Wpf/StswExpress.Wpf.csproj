@@ -13,13 +13,13 @@
 • A variety of modern controls (inspired by WinUI 3) with enhanced styling and functionalities.
 • Utilities such as commands, converters, database tools, extensions, vector geometry icons, logging system, and mail sending.
 • Support for GUI scaling, multiple theme options (including light/dark modes), and app localization for different languages.</Description>
-	<RepositoryUrl>https://github.com/Karol-Staszewski/StswExpress-docs</RepositoryUrl>
-	<PackageProjectUrl>https://github.com/Karol-Staszewski/StswExpress-docs</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+	<PackageProjectUrl>https://stsw133.github.io/StswExpress/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageTags>Controls; Themes; Utils</PackageTags>
-	<PackageReleaseNotes>For more details, see the changelog: https://github.com/Karol-Staszewski/StswExpress-docs/blob/main/articles/changelog/index.md</PackageReleaseNotes>
+	<PackageReleaseNotes>For more details, see the changelog: https://stsw133.github.io/StswExpress/articles/changelog/</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\StswExpress.Wpf.xml</DocumentationFile>

@@ -1,24 +1,64 @@
 {
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
   "metadata": [
     {
       "src": [
         {
-          "src": "_api",
-          "files": [ "StswExpress.*.dll" ],
-          "exclude": [ "*Tests*.dll" ]
+          "src": "..",
+          "files": [
+            "StswExpress.Commons/StswExpress.Commons.csproj",
+            "StswExpress.Sql/StswExpress.Sql.csproj"
+          ]
         }
       ],
-      "dest": "api"
+      "dest": "api/core",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "..",
+          "files": [
+            "StswExpress.Wpf/StswExpress.Wpf.csproj",
+            "StswExpress.Wpf.Themes/StswExpress.Wpf.Themes.csproj"
+          ]
+        }
+      ],
+      "dest": "api/wpf"
     }
   ],
   "build": {
     "content": [
-      { "files": [ "index.md", "toc.yml", "articles/**/*.md", "articles/toc.yml" ] },
-      { "files": [ "api/**.yml" ] }
+      {
+        "files": [ "**/*.{md,yml}" ],
+        "exclude": [ "_site/**", "obj/**" ]
+      }
     ],
     "resource": [
-      { "files": [ "assets/**" ] }
+      { "files": [ "screenshots/**" ] },
+      {
+        "src": "..",
+        "files": [ "logo.png" ],
+        "dest": "images"
+      }
     ],
-    "dest": "_site"
+    "output": "_site",
+    "template": [ "default", "modern" ],
+    "postProcessors": [ "ExtractSearchIndex" ],
+    "globalMetadata": {
+      "_appName": "StswExpress",
+      "_appTitle": "StswExpress Documentation",
+      "_appLogoPath": "images/logo.png",
+      "_appFooter": "StswExpress documentation · MIT License",
+      "_enableSearch": true,
+      "_enableNewTab": true
+    },
+    "sitemap": {
+      "baseUrl": "https://stsw133.github.io/StswExpress",
+      "changefreq": "weekly",
+      "priority": 0.5
+    }
   }
 }
