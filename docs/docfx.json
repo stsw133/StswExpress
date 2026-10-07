@@ -32,31 +32,41 @@
   "build": {
     "content": [
       {
-        "files": [ "**/*.{md,yml}" ],
-        "exclude": [ "_site/**", "obj/**" ]
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**",
+          "obj/**"
+        ]
       }
     ],
     "resource": [
-      { "files": [ "screenshots/**" ] },
       {
-        "src": "..",
-        "files": [ "logo.png" ],
-        "dest": "images"
+        "files": [
+          "screenshots/**",
+          "assets/**"
+        ]
       }
     ],
     "output": "_site",
-    "template": [ "default", "modern" ],
-    "postProcessors": [ "ExtractSearchIndex" ],
+    "template": [
+      "default",
+      "modern"
+    ],
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
     "globalMetadata": {
       "_appName": "StswExpress",
       "_appTitle": "StswExpress Documentation",
-      "_appLogoPath": "images/logo.png",
+      "_appLogoPath": "assets/images/logo-docs.png",
       "_appFooter": "StswExpress documentation · MIT License",
       "_enableSearch": true,
       "_enableNewTab": true
     },
     "sitemap": {
-      "baseUrl": "https://stsw133.github.io/StswExpress",
+      "baseUrl": "https://stsw133.github.io/StswExpress/",
       "changefreq": "weekly",
       "priority": 0.5
     }
